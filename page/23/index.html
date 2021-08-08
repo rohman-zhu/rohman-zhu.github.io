@@ -270,6 +270,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/10/04/Liunx%E7%B3%BB%E7%BB%9F%E9%93%BE%E6%8E%A5%E7%9A%84%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/04/Liunx%E7%B3%BB%E7%BB%9F%E9%93%BE%E6%8E%A5%E7%9A%84%E6%A6%82%E5%BF%B5/" itemprop="url">Liunx系统链接的概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-04T05:58:31+08:00">
+                2017-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在linux系统中，链接可分为两种，一种是硬链接（Hard Link），另一种是软链接或者符号链接（Symbolic Link or Soft link）。<br><br/><br>两种链接都是通过ln命令来创建的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">硬链接</span><br><span class="line">$ ln 源文件 目标文件</span><br><span class="line"></span><br><span class="line">软链接</span><br><span class="line">$ ln -s 源文件 目标文件</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>硬链接用于数据备份，防止数据误删</p>
+</blockquote>
+<p>静态删除数据： 删除链接，但block依然保留，所以文件依然存在。</p>
+<h3 id="硬链接小结"><a href="#硬链接小结" class="headerlink" title="硬链接小结"></a>硬链接小结</h3><ol>
+<li>具有相同inode 节点号的多个文件是互为硬链接文件。</li>
+<li>伤处硬链接文件或者删除源文件任意之一，文件实体并未被删除。</li>
+<li>只有删除了源文件以及所有对应的硬链接文件，文件实体才会被删除。</li>
+<li>当所有的硬链接文件以及源文件被删除后，再存放新的数据会占用这个文件的空间。或者磁盘fsck检查的时候，删除的数据也会被系统回收。</li>
+<li>硬链接文件就是文件的另一个入口。</li>
+<li>可以通过给文件设置硬链接文件，来防止重要文件被误删。</li>
+<li>通过执行命令“ ln 源文件 硬链接文件”，即可创建硬链接。</li>
+<li>硬链接文件可以用rm 命令删除。</li>
+<li>对于静态文件（没有进程正在调用的文件）来讲，当硬链接数为0（i_link),文件就被删除。 i_link的查看方法（ls -l 结果的第三列就是）。</li>
+</ol>
+<h3 id="软链接小结"><a href="#软链接小结" class="headerlink" title="软链接小结"></a>软链接小结</h3><ol>
+<li>软链接类似windows的快捷方式。（可以通过readlink查看其指向）</li>
+<li>软连接类似一个文本文件，里面存放的是源文件的路径，指向源文件实体。</li>
+<li>删除源文件，软链接文件依然存在，但是无法访问指向的源文件路径内容。</li>
+<li>失效的时候一般是白字红底闪烁提示。</li>
+<li>执行命令 “ ln -s 源文件 软链接文件”，即可穿件软链接。</li>
+<li>软链接和源文件不是同类型的文件，也是不同的文件。inode号也不同。</li>
+<li>删除软链接文件可以用 rm 命令。</li>
+</ol>
+<h3 id="软链接-与-硬链接-区别"><a href="#软链接-与-硬链接-区别" class="headerlink" title="软链接 与 硬链接 区别"></a>软链接 与 硬链接 区别</h3><p>在linux 系统中，链接分两种 ： 一种被称为 硬链接（Hard Link） ，另一种被称为符号链接或软链接 （ Symbolic Link）</p>
+<ol>
+<li>默认不带参数情况下，ln命令创建的是硬链接，带 -s 参数的ln命令创建的是软链接。</li>
+<li>硬链接文件与源文件的inode节点号相同，而软链接文件的inode节点号与源文件的不同。</li>
+<li>ln命令不能对目录创建硬链接，但可以创建软链接，对目录的软链接会经常被用到。</li>
+<li>删除软链接文件，对源文件以及硬链接文件无任何影响。</li>
+<li>删除文件的硬链接文件，对源文件以及软链接文件无任何影响。</li>
+<li>删除链接文件的源文件，对硬链接文件无影响，会导致其软链接失效（红底白字闪烁）</li>
+<li>同时删除源文件以及其硬链接文件，整个文件才会被真正删除。</li>
+<li>很多硬件设备中的快照功能，使用的就类似硬链接的原理。<br>9。 软链接可以跨文件系统，硬链接不可以跨文件系统。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/10/04/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2208,164 +2395,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/10/01/%E5%85%B3%E4%BA%8EHEXO%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/01/%E5%85%B3%E4%BA%8EHEXO%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="url">关于HEXO问题的解决方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-01T20:19:40+08:00">
-                2017-10-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="使用-hexo-s-预览页面出现-“extends-partical…”问题"><a href="#使用-hexo-s-预览页面出现-“extends-partical…”问题" class="headerlink" title="使用 hexo -s 预览页面出现 “extends partical…”问题"></a>使用 hexo -s 预览页面出现 “extends partical…”问题</h1><p>更新使用新的主题，打开主界面显示以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">extends partial&#x2F;layout</span><br><span class="line"></span><br><span class="line">block container</span><br><span class="line">    include mixins&#x2F;post</span><br><span class="line">    +posts()</span><br><span class="line"></span><br><span class="line">block pagination</span><br><span class="line">    include mixins&#x2F;paginator</span><br><span class="line">    +home()</span><br><span class="line"></span><br><span class="line">block copyright</span><br><span class="line">    include partial&#x2F;copyright</span><br></pre></td></tr></table></figure>
-
-<p>网络给出的解决方案是这样的，只需要添加依赖即可，亲测有效。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync hexo-generator-archive</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://www.v2ex.com/amp/t/362017" target="_blank" rel="noopener">原文地址</a></p>
-<p>PS : 至于是什么原因目前我还不知道，因为不是这个领域的人员，所以也不太清楚这到底是干什么的，见谅见谅。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2416,7 +2445,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">246</span>
+                  <span class="site-state-item-count">247</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2438,7 +2467,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">87</span>
+                  <span class="site-state-item-count">88</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
