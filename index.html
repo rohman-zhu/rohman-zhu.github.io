@@ -538,7 +538,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/08/08/%E5%AE%9E%E4%BE%8B-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%89%BE%E5%88%B0Datastore%E5%86%85%E7%9A%84%E6%A8%A1%E6%9D%BF/" itemprop="url">实例-如何快速找到Datastore内的模板</a></h1>
+                <a class="post-title-link" href="/2021/08/08/%E5%AE%9E%E4%BE%8B-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%89%BE%E5%88%B0Datastore%E5%86%85%E7%9A%84%E6%A8%A1%E6%9D%BF/" itemprop="url">实例-如何快速找到Datastore内的模板【待补充】</a></h1>
         
 
         <div class="post-meta">
@@ -573,8 +573,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
                   </a>
                 </span>
 
@@ -643,7 +643,20 @@
       
         
           
-            
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>现有环境中有一套vCenter因特殊原因，无法继续使用。现需要重新搭建一台vCenter，将现有的ESXI全迁移至新的vCenter中。由于迁移过程中，未记录原来环境中的模板，导致模板未在新的vCenter中注册。</p>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ol>
+<li>找到这些模板</li>
+<li>将模板注册到vCenter中</li>
+<li>将模板迁移至指定目录</li>
+</ol>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>将虚拟机转换成模板时，将创建 .vmtx 文件。.vmtx 文件将替换虚拟机配置文件（.vmx 文件），所以可以搜索一下vmtx文件，即可以找到所有模板机。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /vmfs/volumes/</span><br><span class="line">find -iname <span class="string">".vmtx"</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-CEFF6D89-8C19-4143-8C26-4B6D6734D2CB.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-CEFF6D89-8C19-4143-8C26-4B6D6734D2CB.html</a></p>
+
           
         
       
@@ -2221,7 +2234,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">91</span>
+                  <span class="site-state-item-count">92</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
