@@ -270,6 +270,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/" itemprop="url">Linux 故障修复集</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-02T11:23:06+08:00">
+                2017-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="修复CentOS-7启动引导"><a href="#修复CentOS-7启动引导" class="headerlink" title="修复CentOS-7启动引导"></a>修复CentOS-7启动引导</h1><h2 id="一、修复MBR："><a href="#一、修复MBR：" class="headerlink" title="一、修复MBR：##"></a>一、修复MBR：##</h2><p>MBR（Master Boot Record主引导记录）：</p>
+<p>硬盘的0柱面、0磁头、1扇区称为主引导扇区。其中446Byte是bootloader，64Byte为Partition table，剩下的2Byte为magic number。</p>
+<p>备份MBR：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D;&#x2F;root&#x2F;mbr.bak count&#x3D;1 bs&#x3D;512</span><br></pre></td></tr></table></figure>
+
+<p>破坏bootloader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;dev&#x2F;sda count&#x3D;1 bs&#x3D;200</span><br></pre></td></tr></table></figure>
+
+<p>这里边block size只要小于等于446即可。</p>
+<p>修复方式：</p>
+<ol>
+<li>借助其他系统挂载磁盘修复。</li>
+</ol>
+<p>修复方式同光盘修复类似，也是使用grub2-install命令。</p>
+<ol start="2">
+<li>借助安装光盘修复。</li>
+</ol>
+<h3 id="插入Linux安装盘"><a href="#插入Linux安装盘" class="headerlink" title="插入Linux安装盘"></a>插入Linux安装盘</h3><ol>
+<li>装入光盘，在光盘引导界面选择troubleshooting：</li>
+<li>选择进入救援模式（Recue a CentOS system )：</li>
+<li>按回车键继续：</li>
+<li>进入磁盘挂载选择模式：磁盘将会被挂载至/mnt/sysimage/下</li>
+</ol>
+<ul>
+<li>continue 以rw方式挂载分区。</li>
+<li>read only 以ro方式挂载分区。</li>
+<li>skip 跳过，将来自己手工挂载磁盘。</li>
+</ul>
+<ol start="5">
+<li>选择continue，稍等片刻，提示已经挂载完成。</li>
+<li>此时进入救援模式的命令行：</li>
+<li>使用grub2-install命令重建bootloader,并且显示无错误后，重启系统。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grub2-install root-directory&#x3D;&#x2F;mnt&#x2F;sysimage &#x2F;dev&#x2F;sda</span><br><span class="line">#sync</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.linuxidc.com/Linux/2015-03/114678.htm" target="_blank" rel="noopener">原文地址</a></p>
+<h1 id="硬件故障"><a href="#硬件故障" class="headerlink" title="硬件故障"></a>硬件故障</h1><p>先查看内核日志文件，检查问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/10/01/Network-setup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2065,192 +2251,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2017/07/04/%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/04/%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" itemprop="url">单片机最小系统</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-04T00:54:38+08:00">
-                2017-07-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MCU/" itemprop="url" rel="index">
-                    <span itemprop="name">MCU</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>老是用开发板写程序,于是就想可不可以自己脱离开发板,自己组建一个单片机电路,然后自己烧写程序.于是在晚上查找资料,发现USB口采用的通讯协议跟单片机的串口通讯协议不同USB的四个引脚分别代表着:VCC , DATA - , DATA + , GND. 而在单片机中 , 用的是TXD与RXD这两个引脚来下载程序,或者传输成数据.因此,想要给单片机下载程序,不能直接通过usb连接,还需要一个转化器或者下载线.</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-组成单片机的最小系统"><a href="#一-组成单片机的最小系统" class="headerlink" title="一. 组成单片机的最小系统"></a>一. 组成单片机的最小系统</h2><p>所谓最小系统无非是需要三个部分:</p>
-<ol>
-<li>复位电路.(可以不添加)</li>
-<li>时序电路.</li>
-<li>电源.</li>
-</ol>
-<ul>
-<li>复位电路是要给单片机进行重置才用到,一般复位引脚是第9引脚(RST/VPD)接高电平即复位.</li>
-<li>时序电路,第18号引脚与第19号引脚(XTAL2 与 XTAL1)之间并一个晶振,再并上两个串联的电容,两个电容之间接地.</li>
-<li>电源引脚第20号引脚是GND,第40号引脚是VCC(呈现对角线分布),通上一个5V的电压.</li>
-</ul>
-<p>(PS: 在第31号引脚上面,也要接上高电平,代表的是使用内部存储器;若接上低电平或者悬空,则表示使用外部存储器)</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>没有钱买学习板也可以自己组建电路,这样下来所需要的成本也仅需30左右,对自己理解电路也会有帮助,但是这相对会耗费点时间,对于新手来说还是难了一些.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2301,7 +2301,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">259</span>
+                  <span class="site-state-item-count">260</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
