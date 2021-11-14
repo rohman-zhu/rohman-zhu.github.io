@@ -270,6 +270,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2018/12/14/%E7%A1%AC%E4%BB%B6%E9%98%B2%E7%81%AB%E5%A2%99%E5%AD%A6%E4%B9%A0-Checkpoint/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/14/%E7%A1%AC%E4%BB%B6%E9%98%B2%E7%81%AB%E5%A2%99%E5%AD%A6%E4%B9%A0-Checkpoint/" itemprop="url">硬件防火墙学习-Checkpoint</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-14T23:43:58+08:00">
+                2018-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近接触到硬件防火墙设备，想初步学习一下。前辈推荐去 checkpoint 官网上面下载试用的 iso 镜像 ， 自己搭建一个虚拟机系统地学习。</p>
+<p>开始做准备工作：</p>
+<ul>
+<li>Checkpoint 官网 ： <a href="https://www.checkpoint.com" target="_blank" rel="noopener">https://www.checkpoint.com</a></li>
+<li>账户注册 ： <a href="https://usercenter.checkpoint.com/usercenter/portal/user/anon/page/createProfile.psml" target="_blank" rel="noopener">https://usercenter.checkpoint.com/usercenter/portal/user/anon/page/createProfile.psml</a>  （这里有一个坑，需要页面显示一个验证窗口，需要勾选“我不是机器人选项”才能通过注册）</li>
+<li>创建 UC Accounts ， 在下载试用品的时候需要注册该账号。</li>
+</ul>
+<h1 id="安装-R80-10"><a href="#安装-R80-10" class="headerlink" title="安装 R80.10"></a>安装 R80.10</h1><p>装载 ISO 镜像 ， 进入虚拟机。</p>
+<p>安装过程跟 Linux Server 安装过程差不多。</p>
+<p>Partition Configuration 分区配置，默认如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">swap</td>
+<td align="center">2GB</td>
+</tr>
+<tr>
+<td align="center">root</td>
+<td align="center">10GB</td>
+</tr>
+<tr>
+<td align="center">Logs</td>
+<td align="center">2GB</td>
+</tr>
+<tr>
+<td align="center">Backup and upgrade</td>
+<td align="center">35GB</td>
+</tr>
+</tbody></table>
+<p>Account Configuration 账号配置 ， 默认的账户名为 “admin” 。</p>
+<p>Management Interface 管理端口设置，我的如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Type</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">IP address</td>
+<td align="center">10.1.1.x</td>
+</tr>
+<tr>
+<td align="center">Netmask</td>
+<td align="center">255.255.255.0</td>
+</tr>
+<tr>
+<td align="center">Default gateway</td>
+<td align="center">10.1.1.x</td>
+</tr>
+</tbody></table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2018/12/10/PUSHING-LOG/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1941,161 +2147,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2018/11/18/%E4%B8%BAGrub%E8%8F%9C%E5%8D%95%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/18/%E4%B8%BAGrub%E8%8F%9C%E5%8D%95%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81/" itemprop="url">为Grub菜单添加密码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-18T19:03:10+08:00">
-                2018-11-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/">BACK</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/17/">NEXT</a>
+    <a class="extend prev" rel="prev" href="/page/15/">BACK</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/17/">NEXT</a>
   </nav>
 
 
@@ -2141,7 +2197,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">270</span>
+                  <span class="site-state-item-count">271</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

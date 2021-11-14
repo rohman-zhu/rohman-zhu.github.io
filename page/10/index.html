@@ -270,6 +270,295 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/03/08/Exchange-CU23%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/08/Exchange-CU23%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97/" itemprop="url">Exchange CU23升级日志</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-08T15:28:40+08:00">
+                2020-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最新的Exchange Server需要安装补丁KB4536988，而这个补丁需要升级至CU23才可安装，然而我们的服务器版本为CU21。因此，服务器需要做一遍升级操作才可安装补丁。</p>
+<p>主要流程：</p>
+<ol>
+<li>安装 dot net 4.7.2</li>
+<li>安装 CU23 </li>
+<li>安装补丁 KB-4536988</li>
+</ol>
+<h1 id="前端服务器升级"><a href="#前端服务器升级" class="headerlink" title="前端服务器升级"></a>前端服务器升级</h1><p>升级步骤：</p>
+<table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\版本号\themes</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\OWA\Auth\logon.aspx</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">验证测试</td>
+<td align="left">见前端测试流程</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>为了避免出错，可以管理员身份运行安装包，可以使用 CMD（以管理员身份运行）。</p>
+</blockquote>
+<p>测试流程：</p>
+<ol>
+<li>修改hosts文件，将邮件服务器域名解析指向目标前端服务器；</li>
+<li>测试 OWA 的邮件收发情况（内网、外网均测试一下）</li>
+<li>新建用户邮件 profile 文件 ，使用新profile文件进行邮件收发测试</li>
+</ol>
+<h1 id="后端服务器升级"><a href="#后端服务器升级" class="headerlink" title="后端服务器升级"></a>后端服务器升级</h1><table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份Web.config文件</td>
+<td align="left">Exchange Server\Bin\EdgeTransport.exe.config</td>
+<td align="center">后端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">将DAG中的邮箱服务器切换到维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">将邮箱服务器退出维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">检查服务</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>进入维护模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 1. 定义本机主机名变量</span><br><span class="line">$Computer &#x3D; $ENV:ComputerName</span><br><span class="line"></span><br><span class="line"># 2. 排空邮箱服务器上的所有传送队列的活动邮件，同时传输这些邮件到另外一台服务器上。</span><br><span class="line">Redirect-Message -Server $Computer -Target [DAG的伙伴服务器FQDN名]</span><br><span class="line"></span><br><span class="line"># 3. 传输组件设置维护模式</span><br><span class="line">Set-ServerComponentState $Computer -Component HubTransport -State Draining -Requester Maintenance</span><br><span class="line"></span><br><span class="line"># 4. 重启Exchange传输服务</span><br><span class="line">Restart-Service MSExchangeTransport</span><br><span class="line"></span><br><span class="line"># 5. 暂停此群集节点</span><br><span class="line">Suspend-ClusterNode $Computer</span><br><span class="line"></span><br><span class="line"># 6. 设置迁移活动数据库不能回到当前数据库</span><br><span class="line">Set-MailboxServer $Computer -DatabaseCopyActivationDisabledAndMoveNow $True</span><br><span class="line"></span><br><span class="line"># 7. 设置自动切换数据库策略为阻止</span><br><span class="line">Set-MailboxServer $Computer -DatabaseCopyAutoActivationPolicy Blocked</span><br><span class="line"></span><br><span class="line"># 8. 将服务器设置到维护模式</span><br><span class="line">Set-ServerComponentState $Computer -Component ServerWideOffline -State Inactive -Requester Maintenance</span><br><span class="line"></span><br><span class="line"># 9. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span><br><span class="line">Get-ServerComponentState $Computer | ft Component,State -Autosize</span><br></pre></td></tr></table></figure>
+
+<p>退出维护模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># 1. 定义本机主机名变量</span><br><span class="line">$Computer &#x3D; $ENV:ComputerName</span><br><span class="line"></span><br><span class="line"># 2. 恢复传输组件状态</span><br><span class="line">Set-ServerComponentState $Computer -Component ServerWideOffline -State Active -Requester Maintenance</span><br><span class="line"></span><br><span class="line"># 3. 恢复此群集节点</span><br><span class="line">Resume-ClusterNode $Computer</span><br><span class="line"></span><br><span class="line"># 4. 手动切换数据库状态</span><br><span class="line">Set-MailboxServer $Computer -DatabaseCopyActivationDisabledAndMoveNow $False</span><br><span class="line"></span><br><span class="line"># 5. 设置自动切换数据库策略为不受限制</span><br><span class="line">Set-MailboxServer $Computer -DatabaseCopyAutoActivationPolicy Unrestricted</span><br><span class="line"></span><br><span class="line"># 6. 传输服务器设置维护状态</span><br><span class="line">Set-ServerComponentState $Computer -Component HubTransport -State Active -Requester Maintenance</span><br><span class="line"></span><br><span class="line"># 7. 重启Exchange传输服务</span><br><span class="line">Restart-Service MSExchangeTransport</span><br><span class="line"></span><br><span class="line"># 8. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span><br><span class="line">Get-ServerComponentState $Computer | ft Component,State -Autosize</span><br></pre></td></tr></table></figure>
+
+<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>一、 IIS导致的故障</p>
+<p>解决方法：</p>
+<ol>
+<li>verify you have several gigs free disk space on C drive of the server being upgraded</li>
+<li>Stop the IISADMIN service and World Wide Web Services</li>
+<li>Make sure the account your using to run the installer is member of schema admins, domain admins and exchange organization management</li>
+<li>Run the upgrade again, but this time, right click the install file and click ‘run as administrator’</li>
+</ol>
+<p>参考：<a href="https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/" target="_blank" rel="noopener">https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/</a></p>
+<p>二、 安装CU23出现错误 “ Setup can’t continue with the upgrade because the monad(7688) …mscorsvw (14664) has open files. Close the process, and then restart Setup. For more information, visit: <a href="http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx" target="_blank" rel="noopener">http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx</a> ”</p>
+<ul>
+<li><p>关于 mscorsvw（14664） 是一个 .net 相关的进程，可能net4.7.2没有安装成功。</p>
+</li>
+<li><p>参考：<a href="https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue" target="_blank" rel="noopener">https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue</a></p>
+</li>
+<li><p>关于monad（7688）是一个powershell的进程，但这是跟NetBackup备份服务相关的进程冲突导致的，需要关闭相关服务。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/03/07/%E6%9F%A5%E8%AF%A2%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84dotNet%E7%89%88%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1652,161 +1941,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/02/05/Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%B1%E5%9F%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/05/Windows%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%84%B1%E5%9F%9F/" itemprop="url">Windows服务器脱域</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-05T11:39:45+08:00">
-                2020-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/">BACK</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><a class="extend next" rel="next" href="/page/11/">NEXT</a>
+    <a class="extend prev" rel="prev" href="/page/9/">BACK</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/11/">NEXT</a>
   </nav>
 
 
@@ -1852,7 +1991,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">270</span>
+                  <span class="site-state-item-count">271</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
