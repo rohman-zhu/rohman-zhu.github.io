@@ -270,6 +270,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/01/05/Linux%E7%9A%84CPU%E4%B8%8EMemory%E7%83%AD%E6%B7%BB%E5%8A%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/05/Linux%E7%9A%84CPU%E4%B8%8EMemory%E7%83%AD%E6%B7%BB%E5%8A%A0/" itemprop="url">Linux的CPU与Memory热添加</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T17:06:35+08:00">
+                2020-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在 vSphere 底层为虚拟机热添加CPU和内存后，一般操作系统都需要重启后才能识别。但是目前常用的Linux操作系统其实已经支持热添加的方式，需要到Linux中修改一下即可。</p>
+<h2 id="发现CPU"><a href="#发现CPU" class="headerlink" title="发现CPU"></a>发现CPU</h2><p>将cpu文件夹中的online文件状态由0改为1即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#如已添加cpu4</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /sys/devices/system/cpu/cpu4/online</span><br></pre></td></tr></table></figure>
+
+<h2 id="发现Memory"><a href="#发现Memory" class="headerlink" title="发现Memory"></a>发现Memory</h2><p>Discover Memory script:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> RAM <span class="keyword">in</span> $(grep line /sys/devices/system/memory/*/state)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"> <span class="built_in">echo</span> <span class="string">"Found ram: <span class="variable">$&#123;RAM&#125;</span>.. ."</span></span><br><span class="line"> <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$&#123;RAM&#125;</span>"</span> == *<span class="string">":offline"</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Bringing online"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$RAM</span> | sed <span class="string">"s/:offline$//"</span> | sed <span class="string">"s/^/echo online&gt;/"</span> | <span class="built_in">source</span> /dev/stdin</span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Already online"</span></span><br><span class="line"> <span class="keyword">fi</span></span><br><span class="line"> <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>CPU  hotplug in the kernel : <a href="https://www.kernel.org/doc/html/v4.11/core-api/cpu_hotplug.html" target="_blank" rel="noopener">https://www.kernel.org/doc/html/v4.11/core-api/cpu_hotplug.html</a><br>修改脚本 ： <a href="https://juejin.im/entry/5ab374adf265da2380598d3c" target="_blank" rel="noopener">https://juejin.im/entry/5ab374adf265da2380598d3c</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/01/05/Linux%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97%E6%8F%90%E7%A4%BAumount/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2296,198 +2476,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2019/12/14/Ubuntu-Q-A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/Ubuntu-Q-A/" itemprop="url">Ubuntu--Q&A</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-14T23:44:08+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常见问题记录"><a href="#常见问题记录" class="headerlink" title="常见问题记录"></a>常见问题记录</h1><h2 id="Could-not-get-lock-var-lib-dpkg-lock-fronted-open"><a href="#Could-not-get-lock-var-lib-dpkg-lock-fronted-open" class="headerlink" title="Could not get lock /var/lib/dpkg/lock-fronted-open"></a>Could not get lock /var/lib/dpkg/lock-fronted-open</h2><p>故障描述：使用apt-get的时候出现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E: Could not get lock &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend - open (11: Resource temporarily unavialable)</span><br><span class="line">E: Unable to acquire the dpkg fronted lock (&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend), is another process using it?</span><br></pre></td></tr></table></figure>
-
-<p>原因分析：其他进程正在运行，导致资源被锁不可用；而资源被锁的原因可能是上次运行安装或者更新时没有正常完成，所以才会有报错。<br>解决方法：</p>
-<p>方法一：根据报错信息删除对应文件即可。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm /var/lib/dpkg/lock-frontend</span><br></pre></td></tr></table></figure>
-
-<p>方法二：结束apt-get进程</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep apt-get </span><br><span class="line"><span class="built_in">kill</span> -s 9 [PID]</span><br></pre></td></tr></table></figure>
-
-<h2 id="ssh-比较慢"><a href="#ssh-比较慢" class="headerlink" title="ssh 比较慢"></a>ssh 比较慢</h2><p>一般是ssh开启了 DNS 反向查询，将该属性值设置为no ，并重启sshd服务即可。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># UseDNS yes</span></span><br><span class="line">UseDNS no</span><br><span class="line"></span><br><span class="line">/etc/init.d/sshd restart</span><br></pre></td></tr></table></figure>
-
-<h2 id="ext3、ext4-有5-的空间损耗？"><a href="#ext3、ext4-有5-的空间损耗？" class="headerlink" title="ext3、ext4 有5%的空间损耗？"></a>ext3、ext4 有5%的空间损耗？</h2><p>在 mkfs.ext4 格式化时， 会出现“ xxx blocks(5.00%) reserved for the super user “ 提示。</p>
-<p>从ext2文件系统开始，格式化的时候默认都会保留一定空间给特定用户写入。避免磁盘写满时，而无法使用操作系统。</p>
-<blockquote>
-<p>默默吐槽，Google搜出来的东西跟百度搜出来的东西就是不一样，Google详细很多。</p>
-</blockquote>
-<p>参考问题：<a href="https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why</a></p>
-<p>参考资料：<a href="http://man7.org/linux/man-pages/man5/ext4.5.html" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man5/ext4.5.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2538,7 +2526,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">278</span>
+                  <span class="site-state-item-count">279</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
