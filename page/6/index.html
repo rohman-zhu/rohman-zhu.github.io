@@ -270,6 +270,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2021/02/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BE%A4%E8%BE%89NAS%E7%9A%84iSCSI-LUN%E6%95%85%E9%9A%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BE%A4%E8%BE%89NAS%E7%9A%84iSCSI-LUN%E6%95%85%E9%9A%9C/" itemprop="url">记一次群辉NAS的iSCSI LUN故障</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-09T23:14:40+08:00">
+                2021-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/default/" itemprop="url" rel="index">
+                    <span itemprop="name">default</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>服务端通过iscsi协议挂在一个群辉设备的iSCSI卷。并把这个盘作为共享文件，客户端通过Samba协议连接到服务器，并将文件传输落盘至这个iSCSI卷。</p>
+<h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
+<li>客户端传输速度变慢，多数时候为0kb/s;</li>
+<li>当有传输任务发起时，客户端打开映射盘时会出现无响应的情况；</li>
+<li>传输任务容易中断。</li>
+</ol>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
+<li>网络原因1：客户端到服务端的网络链路。</li>
+<li>网络原因2：服务器端到存储设备的网络链路。</li>
+<li>服务器原因1：服务器存在异常进程或者服务。</li>
+<li>服务器原因2：服务器负责较高。</li>
+<li>存储服务器原因1：设备存在故障，如故障硬盘、阵列降级。</li>
+<li>存储服务器原因2：所在的iSCSI LUN存在异常。 </li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2021/02/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%95%85%E9%9A%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2037,185 +2223,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/12/26/Ubuntu-20-04%E5%85%B3%E4%BA%8EMysql%E5%90%AF%E5%8A%A8%E6%8F%90%E7%A4%BAlibssl-so-1-1%E9%94%99%E8%AF%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/26/Ubuntu-20-04%E5%85%B3%E4%BA%8EMysql%E5%90%AF%E5%8A%A8%E6%8F%90%E7%A4%BAlibssl-so-1-1%E9%94%99%E8%AF%AF/" itemprop="url">Ubuntu 20.04关于Mysql启动提示libssl.so.1.1错误</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-26T00:57:26+08:00">
-                2020-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>启动MySQL时，提示：</p>
-<p>“mysqld:error while loading shared libraries:libssl.so.1.1 : cannont open shared object file:Permission denied”</p>
-<p>用ldd /usr/sbin/mysqld 时，发现该命令会有指向的库。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">libssl.so.1.1 --&gt; /usr/lib/libssl.so.1.1</span><br><span class="line">libcrypto.so.1.1 --&gt; /usr/lib/libcrypto.so.1.1</span><br><span class="line"></span><br><span class="line"><span class="comment">#上述两个库均为软连接，其文件放在</span></span><br><span class="line"></span><br><span class="line">/usr/lib/libssl.so.1.1  =&gt; /usr/<span class="built_in">local</span>/openssl/lib/libssl.so.1.1</span><br><span class="line">/usr/lib/libcrypto.so.1.1  =&gt; /usr/<span class="built_in">local</span>/openssl/lib/libcrypto.so.1.1</span><br></pre></td></tr></table></figure>
-
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>未知</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>找到这两个文件，直接将文件放在 /usr/lib下。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2266,7 +2273,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">282</span>
+                  <span class="site-state-item-count">283</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2277,7 +2284,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2288,7 +2295,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">108</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
