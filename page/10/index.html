@@ -270,6 +270,209 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/06/07/CentOS%E7%BB%91%E5%AE%9ABond/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R0hman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/07/CentOS%E7%BB%91%E5%AE%9ABond/" itemprop="url">CentOS7绑定Bond</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-07T13:04:56+08:00">
+                2020-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/CentOS/" itemprop="url" rel="index">
+                    <span itemprop="name">CentOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h1><ol>
+<li>sudo 或者 root 权限下操作。</li>
+<li>关闭NetworkManager （systemctl disable NetworkManager)</li>
+<li>配置DNS（/etc/resolv.conf)</li>
+<li>加载bonding模块（modprobe bonding）</li>
+<li>设置网卡配置文件。</li>
+</ol>
+<h2 id="创建bond0网卡配置文件"><a href="#创建bond0网卡配置文件" class="headerlink" title="创建bond0网卡配置文件"></a>创建bond0网卡配置文件</h2><p>vim /etc/sysconfig/network-scripts/ifcfg-bond0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DEVICE&#x3D;bond0</span><br><span class="line">Type&#x3D;Bond</span><br><span class="line">NAME&#x3D;bond0</span><br><span class="line">BONDING_ASTER&#x3D;yes</span><br><span class="line">BOOTPROTO&#x3D;none</span><br><span class="line">ONBOOT&#x3D;yes</span><br><span class="line">IPADDR&#x3D;192.168.1.1</span><br><span class="line">PREFIX&#x3D;24</span><br><span class="line">GATEWAY&#x3D;192.168.1.254</span><br><span class="line">NM_CONTROLLED&#x3D;no</span><br><span class="line">BONDING_OPTS&#x3D;&quot;mode&#x3D;4 miimon&#x3D;100 lacp_rate&#x3D;1&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改salve物理网卡的配置文件"><a href="#更改salve物理网卡的配置文件" class="headerlink" title="更改salve物理网卡的配置文件"></a>更改salve物理网卡的配置文件</h2><p>例如 网卡 eno1 ， eno2 做成bond 。</p>
+<p>vim  /etc/sysconfig/network-scripts/ifcfg-eno1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DEVICE&#x3D;eno1</span><br><span class="line">TYPE&#x3D;Ethernet</span><br><span class="line">BOOTPROTO&#x3D;none</span><br><span class="line">ONBOOT&#x3D;yes</span><br><span class="line">NM_CONTROLLED&#x3D;no</span><br><span class="line">IPV6INIT&#x3D;no</span><br><span class="line">MASTER&#x3D;bond0</span><br><span class="line">SLAVE&#x3D;yes</span><br></pre></td></tr></table></figure>
+
+<p>vim /etc/sysconfig/network-scripts/ifcfg-eno2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DEVICE&#x3D;eno2</span><br><span class="line">TYPE&#x3D;Ethernet</span><br><span class="line">BOOTPROTO&#x3D;none</span><br><span class="line">ONBOOT&#x3D;yes</span><br><span class="line">NM_CONTROLLED&#x3D;no</span><br><span class="line">IPV6INIT&#x3D;no</span><br><span class="line">MASTER&#x3D;bond0</span><br><span class="line">SLAVE&#x3D;yes</span><br></pre></td></tr></table></figure>
+
+<p>修改完后重启。</p>
+<h2 id="检测bond的状态"><a href="#检测bond的状态" class="headerlink" title="检测bond的状态"></a>检测bond的状态</h2><p>cat /proc/net/bonding/bond0</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.snel.com/support/setup-lacp-bonding-interface-centos-7/" target="_blank" rel="noopener">https://www.snel.com/support/setup-lacp-bonding-interface-centos-7/</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/06/01/Ubuntu18-04%E7%BB%91%E5%AE%9Abond/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2039,189 +2242,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2020/05/21/Linux%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="R0hman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/21/Linux%E8%84%9A%E6%9C%AC%E8%BF%90%E8%A1%8C%E9%94%99%E8%AF%AF/" itemprop="url">Linux脚本运行错误</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-21T00:00:50+08:00">
-                2020-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>运行脚本出现：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syntax error: unexpected end of file或syntax error near unexpected token `<span class="keyword">fi</span><span class="string">'</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
-<li>脚本格式为dos，而Linux只能执行格式为unix的脚本。</li>
-<li>因为在dos/window下按一次回车键实际上输入的是“回车（CR)”和“换行（LF）”，而Linux/unix下按一次回车键只输入“换行（LF）”，所以修改的sh文件在每行都会多了一个CR，所以Linux下运行时就会报错找不到命令。</li>
-</ol>
-<p>查看方式：</p>
-<p>在vim中打开脚本，输入： set ff ，回车可以看到脚本为dos格式。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>在vim中打开脚本，输入： set ff=unix 或者 set fileformat=unix ,即可。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://blog.csdn.net/u012453843/article/details/69803244" target="_blank" rel="noopener">https://blog.csdn.net/u012453843/article/details/69803244</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2272,7 +2292,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">289</span>
+                  <span class="site-state-item-count">290</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
