@@ -82,7 +82,7 @@
 <meta name="description" content="前言如今的网络应用早已从 CPU 密集型转向了 I&#x2F;O 密集型，网络服务器大多是基于 C-S 模型，也即 客户端 - 服务端 模型，客户端需要和服务端进行大量的网络通信，这也决定了现代网络应用的性能瓶颈：I&#x2F;O。 传统的 Linux 操作系统的标准 I&#x2F;O 接口是基于数据拷贝操作的，即 I&#x2F;O 操作会导致数据在操作系统内核地址空间的缓冲区和用户进程地址空间定义的缓冲区之间进行传输。设置缓冲区最大的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux IO原理和Zero-Copy技术总结-Todo">
-<meta property="og:url" content="http://github.com/r0manj/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:url" content="http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Rohman の 实验室">
 <meta property="og:description" content="前言如今的网络应用早已从 CPU 密集型转向了 I&#x2F;O 密集型，网络服务器大多是基于 C-S 模型，也即 客户端 - 服务端 模型，客户端需要和服务端进行大量的网络通信，这也决定了现代网络应用的性能瓶颈：I&#x2F;O。 传统的 Linux 操作系统的标准 I&#x2F;O 接口是基于数据拷贝操作的，即 I&#x2F;O 操作会导致数据在操作系统内核地址空间的缓冲区和用户进程地址空间定义的缓冲区之间进行传输。设置缓冲区最大的">
 <meta property="og:locale" content="zh_CN">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://github.com/r0manj/2021/11/14/Linux-IO原理和Zero-Copy技术总结/"/>
+  <link rel="canonical" href="http://github.com/rohman-zhu/2021/11/14/Linux-IO原理和Zero-Copy技术总结/"/>
 
 
 
@@ -274,7 +274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/r0manj/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
