@@ -87,7 +87,7 @@
 <meta property="og:description" content="需求需要更新RDSH的Horizon View Agent 至最新版本。  Target VMware Horizon View Agent： 7.13.1  条件准备 OS ： Windows Server 2012R2； 网络：到客户端的TCP-5985防火墙需要开通； 客户端：需要开启WinRM功能，指令 Enable-PSRemoting； 安装包准备：将Horizon View Agen">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-08T09:04:29.000Z">
-<meta property="article:modified_time" content="2022-05-08T09:06:39.586Z">
+<meta property="article:modified_time" content="2022-05-09T15:21:23.075Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="脚本">
 <meta name="twitter:card" content="summary">
@@ -450,7 +450,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$targetHostsFile&#x3D;$args[0];</span><br><span class="line">$scriptFile&#x3D;$args[1];</span><br><span class="line"></span><br><span class="line">Get-Content $targetHostsFile | ForEach-Object &#123;</span><br><span class="line">  Invoke-Command -ComputerName $_ -Filepath $scriptFile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="删除VMware-Horizon-View-Agent脚本–UninstallHorizonViewAgent-ps1"><a href="#删除VMware-Horizon-View-Agent脚本–UninstallHorizonViewAgent-ps1" class="headerlink" title="删除VMware Horizon View Agent脚本–UninstallHorizonViewAgent.ps1"></a>删除VMware Horizon View Agent脚本–UninstallHorizonViewAgent.ps1</h3><p>卸载完成后，会自动重启服务器；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-Package -Name &quot;VMware Horizon View&quot; | Uninstall-Package;</span><br><span class="line">Shutdown -r -t 300;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Get-Package -Name &quot;VMware Horizon Agent&quot; | Uninstall-Package;</span><br><span class="line">Shutdown -r -t 300;</span><br></pre></td></tr></table></figure>
 
 <h3 id="安装VMwareHorizon-View-Agent脚本–InstallHorizonViewAgent-ps1"><a href="#安装VMwareHorizon-View-Agent脚本–InstallHorizonViewAgent-ps1" class="headerlink" title="安装VMwareHorizon View Agent脚本–InstallHorizonViewAgent.ps1"></a>安装VMwareHorizon View Agent脚本–InstallHorizonViewAgent.ps1</h3><p>利用的是安装包可以用msi静默安装的指令；<br>这里的安装包放在客户端的C:\1-InstallPackage\agent.exe;<br>安装结束后，可以自动触发服务器重启；</p>
 <blockquote>
@@ -498,8 +498,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2022/05/05/%E5%9F%BA%E4%BA%8EPowershell%E8%BF%9C%E7%A8%8B%E6%9B%B4%E6%96%B0Windows%E8%A1%A5%E4%B8%81/" rel="next" title="基于Powershell远程更新Windows补丁">
-                <i class="fa fa-chevron-left"></i> 基于Powershell远程更新Windows补丁
+              <a href="/2022/05/05/%E5%9F%BA%E4%BA%8EPSWindowsUpdate%E8%BF%9C%E7%A8%8B%E6%9B%B4%E6%96%B0Windows%E8%A1%A5%E4%B8%81/" rel="next" title="基于PSWindowsUpdate远程更新Windows补丁">
+                <i class="fa fa-chevron-left"></i> 基于PSWindowsUpdate远程更新Windows补丁
               </a>
             
           </div>
