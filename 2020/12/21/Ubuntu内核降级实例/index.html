@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Linux降级内核检测当前内核版本1uname –r  安装目标内核包123456789# 更新aptapt-get update# 检测已安装的内核包dpkg –-list | grep 4.15.0-119# 目标版本是4.15.0-29-generic# 主要安装 linux-image-xxxxxx# 主要安装 linux-headers-xxxxxxapt install linux-i">
+<meta name="description" content="Linux降级内核检测当前内核版本1uname –r  安装目标内核包12345678910111213# 更新aptapt-get update# 检测已安装的内核包dpkg –-list | grep 4.15.0-119# 目标版本是4.15.0-29-generic# 主要安装 linux-image-xxxxxx# 主要安装 linux-headers-xxxxxx# linux-ima">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu内核降级实例">
 <meta property="og:url" content="http://github.com/rohman-zhu/2020/12/21/Ubuntu%E5%86%85%E6%A0%B8%E9%99%8D%E7%BA%A7%E5%AE%9E%E4%BE%8B/index.html">
 <meta property="og:site_name" content="Rohman の 实验室">
-<meta property="og:description" content="Linux降级内核检测当前内核版本1uname –r  安装目标内核包123456789# 更新aptapt-get update# 检测已安装的内核包dpkg –-list | grep 4.15.0-119# 目标版本是4.15.0-29-generic# 主要安装 linux-image-xxxxxx# 主要安装 linux-headers-xxxxxxapt install linux-i">
+<meta property="og:description" content="Linux降级内核检测当前内核版本1uname –r  安装目标内核包12345678910111213# 更新aptapt-get update# 检测已安装的内核包dpkg –-list | grep 4.15.0-119# 目标版本是4.15.0-29-generic# 主要安装 linux-image-xxxxxx# 主要安装 linux-headers-xxxxxx# linux-ima">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-21T15:28:22.000Z">
-<meta property="article:modified_time" content="2020-12-21T15:30:36.177Z">
+<meta property="article:modified_time" content="2022-05-22T08:42:23.689Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="内核">
 <meta name="twitter:card" content="summary">
@@ -396,12 +396,17 @@
       
         <h1 id="Linux降级内核"><a href="#Linux降级内核" class="headerlink" title="Linux降级内核"></a>Linux降级内核</h1><h2 id="检测当前内核版本"><a href="#检测当前内核版本" class="headerlink" title="检测当前内核版本"></a>检测当前内核版本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname –r</span><br></pre></td></tr></table></figure>
 
-<h2 id="安装目标内核包"><a href="#安装目标内核包" class="headerlink" title="安装目标内核包"></a>安装目标内核包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新apt</span></span><br><span class="line">apt-get update</span><br><span class="line"><span class="comment"># 检测已安装的内核包</span></span><br><span class="line">dpkg –-list | grep 4.15.0-119</span><br><span class="line"></span><br><span class="line"><span class="comment"># 目标版本是4.15.0-29-generic</span></span><br><span class="line"><span class="comment"># 主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="comment"># 主要安装 linux-headers-xxxxxx</span></span><br><span class="line">apt install linux-image-4.15.0-29-generic  linux-headers-4.15.0-29 linux-headers-4.15.0-29-generic -y</span><br></pre></td></tr></table></figure>
+<h2 id="安装目标内核包"><a href="#安装目标内核包" class="headerlink" title="安装目标内核包"></a>安装目标内核包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新apt</span></span><br><span class="line">apt-get update</span><br><span class="line"><span class="comment"># 检测已安装的内核包</span></span><br><span class="line">dpkg –-list | grep 4.15.0-119</span><br><span class="line"></span><br><span class="line"><span class="comment"># 目标版本是4.15.0-29-generic</span></span><br><span class="line"><span class="comment"># 主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="comment"># 主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="comment"># linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="comment"># linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="comment"># linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。</span></span><br><span class="line"></span><br><span class="line">apt install linux-image-4.15.0-29-generic  linux-headers-4.15.0-29 linux-headers-4.15.0-29-generic -y</span><br></pre></td></tr></table></figure>
+
+
 
 <h2 id="删除旧版内核"><a href="#删除旧版内核" class="headerlink" title="删除旧版内核"></a>删除旧版内核</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#旧版本内核为4.4.0-137 、 4.15.0-119</span></span><br><span class="line">apt remove *image-4.4.0-137*</span><br><span class="line">apt remove *headers-4.4.0-137*</span><br><span class="line"></span><br><span class="line">apt remove *4.15.0-119*</span><br></pre></td></tr></table></figure>
 
 <h2 id="更新grub"><a href="#更新grub" class="headerlink" title="更新grub"></a>更新grub</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-grub</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>内核删除后一定要检查grub.cfg文件；<br>被删除的内核不能为当前正在加载的内核；<br>删除内核前，不能锁定内核；</p>
+</blockquote>
 <h2 id="防止用户自行升级内核"><a href="#防止用户自行升级内核" class="headerlink" title="防止用户自行升级内核"></a>防止用户自行升级内核</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-mark hold linux-image-generic</span><br><span class="line">apt-mark hold linux-headers-generic</span><br></pre></td></tr></table></figure>
 
 <p>如果要升级内核，再执行</p>
