@@ -270,6 +270,384 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/%E6%B5%85%E8%B0%8851%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%B2%E5%8F%A3%E9%80%9A%E8%AE%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/01/%E6%B5%85%E8%B0%8851%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%B2%E5%8F%A3%E9%80%9A%E8%AE%AF/" itemprop="url">浅谈51单片机串口通讯</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-01T00:04:31+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MCU/" itemprop="url" rel="index">
+                    <span itemprop="name">MCU</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在做一个单片机通过蓝牙与安卓通讯的案例,这里的案例就需要单片机部分就需要用到串口通讯部分,因此在这里进行记录.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>关键字:</p>
+<ul>
+<li>RXD(ReceiveData)–P3^0</li>
+<li>TXD(TransmitData)–P3^1</li>
+<li>波特率</li>
+<li>串口中断</li>
+<li>SBUF<h2 id="一-了解几个概念"><a href="#一-了解几个概念" class="headerlink" title="一.了解几个概念"></a>一.了解几个概念</h2><h3 id="波特率"><a href="#波特率" class="headerlink" title="波特率:"></a>波特率:</h3>简单的讲,就是单片机发送的数据的速度,单位是 <em>位/秒</em> ,一般我们都用9600(8的倍数).在单片机中的通讯,波特率一定要设置好,这样才能跟其他设备进行通讯,可以说波特率就是实现双方通讯的保证.<h3 id="SBUF"><a href="#SBUF" class="headerlink" title="SBUF :###"></a>SBUF :###</h3>这个是一个缓存寄存器,无论是发送还是接收都在同一个寄存器里面.<h3 id="串口中断"><a href="#串口中断" class="headerlink" title="串口中断:"></a>串口中断:</h3>当单片机接收到信息的时候,就会执行接收中断,并把接收中断允许RI设置为1,代表接收完成,而所有接收过来的数据都会被保存SBUF里面.因此在接收完成后,需要通过软件的方式将RI设置为1;<h3 id="TXD-RXD"><a href="#TXD-RXD" class="headerlink" title="TXD/RXD:"></a>TXD/RXD:</h3>这里就没有什么好讲的,RXD代表单片机的接收端,TXD代表单片机的发送端.</li>
+</ul>
+<p>一般的与外界设备的连接都是相反的;<br>|单片机|外界设备|<br>|:–:|:–|<br>|TXD|RXD|<br>|RXD|TXD|<br>当然,也有例外的时候,这里就不举例了.</p>
+<h2 id="二-程序部分"><a href="#二-程序部分" class="headerlink" title="二.程序部分"></a>二.程序部分</h2><p>这里可以用一个叫 “单片机精灵” 的软件来协助生成代码.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;reg51.h&gt;</span><br><span class="line"></span><br><span class="line">void InitUART(void)</span><br><span class="line">&#123;</span><br><span class="line">    TMOD &#x3D; 0x20;</span><br><span class="line">    SCON &#x3D; 0x50;</span><br><span class="line">    &#x2F;&#x2F;设置定时器的工作方式</span><br><span class="line"></span><br><span class="line">    TH1 &#x3D; 0xFD;</span><br><span class="line">    TL1 &#x3D; TH1;</span><br><span class="line">    &#x2F;&#x2F;设置定时器的值</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    PCON &#x3D; 0x00; &#x2F;&#x2F; 波特率不加倍</span><br><span class="line"></span><br><span class="line">    EA &#x3D; 1; &#x2F;&#x2F; 打开总中断</span><br><span class="line">    ES &#x3D; 1; &#x2F;&#x2F; 打开中断标志位</span><br><span class="line">    TR1 &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SendOneByte(unsigned char c)</span><br><span class="line">&#123;</span><br><span class="line">    SBUF &#x3D; c;</span><br><span class="line">    while(!TI);</span><br><span class="line">    TI &#x3D; 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitUART();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void UARTInterrupt(void) interrupt 4</span><br><span class="line">&#123;</span><br><span class="line">    if(RI)</span><br><span class="line">    &#123;</span><br><span class="line">        RI &#x3D; 0;</span><br><span class="line">        &#x2F;&#x2F;add your code here!</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">        TI &#x3D; 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>总之要实现串口通讯,就必须设置好波特率,然后开启相应的中断就好了.<br>数据的读与写都是通过字节流的型式传送的.这个没有什么好说的.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/" itemprop="url">浅谈三极管</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-01T00:04:04+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E5%AD%90/" itemprop="url" rel="index">
+                    <span itemprop="name">电子</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在电路中都能经常用三极管,三级管的作用有很多,可以当成一个开关或者放大器.但三级管也比较难以理解,因为这个小元器件上面有太多的概念,如PNP,NPN,包和电压,截至电压……我一看到这些就头大,可能是因为自己不愿意去多学吧,或者自己不愿意话太多的时间去动脑,因此我一直都没有学会怎么去应用三极管.可是,天无绝人之路,今天我就看到一个视屏讲解三极管,讲的内容非常少,但却很有用,在这里做一下总结,方便以后查看.</p>
+<h1 id="一-三极管的三个脚"><a href="#一-三极管的三个脚" class="headerlink" title="一 . 三极管的三个脚"></a>一 . 三极管的三个脚</h1><ul>
+<li>E 极: 表示发射极(Emitter),如果 <em>向外</em> 就是PNP型三极管,反之则是NPN型三极管. 这个方向也代表了电势降落的方向.</li>
+<li>B 极 : 表示基极(Basc),我们在这里不用想太多,就把这里当成开关或者阀门就好,</li>
+<li>C 极: 表示集电极(Collector).</li>
+</ul>
+<h1 id="二-用三极管来当开关"><a href="#二-用三极管来当开关" class="headerlink" title="二. 用三极管来当开关"></a>二. 用三极管来当开关</h1><blockquote>
+<p>三极管是常开状态 的开关</p>
+</blockquote>
+<p>我们就把三极管当成开关就好了,而这个开关的触发条件是这样的:</p>
+<ul>
+<li>NPN型三极管中 : 当B极是低电平的电压时,三极管处于开路(E与C之间);当B极是高电平时,三极管处于通路(E与C之间).</li>
+<li>PNP型三极管中 : 当B极是低电平的电压时,三极管处于通路(E与C之间);当B极是高电平时,三极管处于开路(E与C之间).</li>
+</ul>
+<p><img src="https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=3420af8568d0f703f2bf9d8e69933a58/f2deb48f8c5494ee4e2cf68b27f5e0fe99257e12.jpg" alt="两种型号"></p>
+<h1 id="三-三极管的三种封装型式"><a href="#三-三极管的三种封装型式" class="headerlink" title="三. 三极管的三种封装型式"></a>三. 三极管的三种封装型式</h1><ul>
+<li>SOT-23 , 这是一种贴片式的三极管,单独一脚的是发射机(E),左下角的一脚为基极(B),右下角是集电极(C)<br><img src="" alt="SOT-23"></li>
+<li>TO-92 ,这种是一种直插式的三极管,平面的一边对着自己,从做左到右依次是,E,B,C.<br><img src="" alt="TO-92"></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/30/%E5%9C%A8MAC%E7%9A%84VirtualBox%E4%B8%AD%E7%BC%96%E5%86%99%E5%8D%95%E7%89%87%E6%9C%BA%E7%A8%8B%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2384,7 +2762,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">296</span>
+                  <span class="site-state-item-count">298</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2406,7 +2784,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">114</span>
+                  <span class="site-state-item-count">116</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
