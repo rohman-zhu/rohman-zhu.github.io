@@ -2094,8 +2094,10 @@
             <h1 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h1><p>可以通过指令下发指令去安装补丁，类似于Linux的Ansible。（当然也有用Ansible去控制Windows Server）</p>
 <h1 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h1><p>网络层</p>
 <ul>
-<li>TCP-5985</li>
-<li>TCP-135</li>
+<li>TCP-5985 （WINRM的HTTP监听端口）</li>
+<li>TCP-135 (Invoke-WUJob使用)</li>
+<li>TCP-RPC动态端口(Invoke-WUJob使用)</li>
+<li>TCP-RPC终结点映射器(Invoke-WUJob使用)</li>
 </ul>
 <p>应用层</p>
 <ul>
@@ -2125,7 +2127,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command -ComputerName [客户端主机名] -ScriptBlock &#123;Install-WindowsUpdate -Acceptall -Install -AutoReboot&#125;</span><br></pre></td></tr></table></figure>
 
 <p>以上执行完毕后，会扫描到补丁，并且状态为Accept，但后面就会提示访问拒绝。</p>
-
+<p>远程调用补丁安装，应该使用Invoke-WUJob指令，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WUJob -ComputerName $serverName -Script &#123;Install-WindowsUpdate -Acceptall -Install -AutoReboot|Out-File C:\1-InstallPackage\PSWindowsUpdate.log&#125; -RunNow</span><br></pre></td></tr></table></figure>
           
         
       
