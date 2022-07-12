@@ -270,6 +270,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/05/%E5%A4%9A%E8%B0%90%E9%9C%87%E8%8D%A1%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/05/%E5%A4%9A%E8%B0%90%E9%9C%87%E8%8D%A1%E5%99%A8/" itemprop="url">多谐震荡器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-05T23:48:26+08:00">
+                2017-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E5%AD%90/" itemprop="url" rel="index">
+                    <span itemprop="name">电子</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前对手电筒的电路有点感兴趣,为什么一个按钮会有三种状态的灯光状态,于是今天先学习一种状态 – 频闪模式.这个电路主要是用两个NPN型三极管加上两个电解电容组成的.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-为什么会两个三极管间断开关呢"><a href="#一-为什么会两个三极管间断开关呢" class="headerlink" title="一.为什么会两个三极管间断开关呢?"></a>一.为什么会两个三极管间断开关呢?</h2><p><img src="http://img0.imgtn.bdimg.com/it/u=1623282880,3585205188&fm=26&gp=0.jpg" alt="电路图"><br>由于电子元件的差异性,我们假设三极管A先导通,那么与三极管A串连的电解电容也会处于充电状态,而三极管B的基极真是与这个电解电容相连,此时基极的电压基本为0,因此三极管B会处于断开状态.</p>
+<p>当电容A充满后,此时电容A就为断路状态,三极管B的基极则会分到高电平,那么三极管B就会导通,同时,电容B也会处于充电状态,这就会导致三极管A的基极为低电平,那么就会导致三极管A处于断路,因此与三极管A串联的LED灯则会灭.</p>
+<p>如此反复,这个震荡电路就构成了…</p>
+<h2 id="二-为什么电解电容处于充电状态就会导致三极管B的基极电压为0"><a href="#二-为什么电解电容处于充电状态就会导致三极管B的基极电压为0" class="headerlink" title="二.为什么电解电容处于充电状态就会导致三极管B的基极电压为0?"></a>二.为什么电解电容处于充电状态就会导致三极管B的基极电压为0?</h2><p>在这里要说明一下,无论是哪种电容,其内部构造本身就是通路状态,电容从无电状态到有电状态的这个充电过程,就是一个通路,因此这个电容才会有通路的特性,这样也就导致了另外一端的三极管B的基极为0电压状态.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个电路的关键在于了解三极管的特性,两个三极管的通与断关键在于基极的电压,基极为高电平,则导通;那么第二个关键点在于对电容充放电的理解,当电容在充电时,相当电容被短接了,则与电容并联的三极管的基极相当于没有电流通过,这也就导致了这个三极管为断路的状态了.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/05/%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D%E6%A8%A1%E5%9D%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2589,205 +2767,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/HEXO%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2017-06-10)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/11/HEXO%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2017-06-10)/" itemprop="url">HEXO博客搭建学习笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-11T15:14:37+08:00">
-                2017-06-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GIT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
-                    <span itemprop="name">GIT学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="关于主题的文件"><a href="#关于主题的文件" class="headerlink" title="关于主题的文件"></a>关于主题的文件</h1><blockquote>
-<p>如果要修改到头像,一般到主题文件夹内的 _config.yml 里面修改 “avatar” 选项即可.</p>
-</blockquote>
-<h2 id="头像文件在自己的本地问价目录下-如在-source-images-下的-avatar-png"><a href="#头像文件在自己的本地问价目录下-如在-source-images-下的-avatar-png" class="headerlink" title="头像文件在自己的本地问价目录下,如在 source/images/ 下的 avatar.png"></a>头像文件在自己的本地问价目录下,如在 source/images/ 下的 avatar.png</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">avatar : &#x2F;images&#x2F;avatar.png</span><br></pre></td></tr></table></figure>
-
-<p>也就是说在写路径的时候,默认的根目录是在” /source/ “ 下的.</p>
-<h2 id="头像来源于网上的话-直接写url就可以了"><a href="#头像来源于网上的话-直接写url就可以了" class="headerlink" title="头像来源于网上的话,直接写url就可以了"></a>头像来源于网上的话,直接写url就可以了</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;7xrz9n.com1.z0.glb.clouddn.com&#x2F;logo.png</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">## 更改字体颜色</span><br><span class="line">用 color 属性,而不用 font-color 属性</span><br><span class="line"></span><br><span class="line">## 给字体增加阴影</span><br><span class="line">这个是属于CSS3 的部分</span><br><span class="line"> ![字体阴影](http:&#x2F;&#x2F;www.divcss5.com&#x2F;edu&#x2F;data&#x2F;attachment&#x2F;forum&#x2F;201405&#x2F;04&#x2F;214934sw99b5fm2iglfjje.png)</span><br><span class="line"></span><br><span class="line"> ## 如何通 CSS与CSS3 做出字体发光的效果</span><br><span class="line"> </span><br><span class="line"> &gt;字体采用深色(亮色),背景采用同一个色系的浅色(暗一些)组合起来即可.</span><br><span class="line"></span><br><span class="line"> 如 : 字体颜色用 #00FF00;背景用 #98FB98 的阴影</span><br><span class="line"></span><br><span class="line"> 点击进入:&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;tool.cc&#x2F;color&#x2F;&quot;&gt;网页调色板&lt;&#x2F;a&gt;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"> ## 如何让鼠标移到字体上,有效果变化?</span><br><span class="line"> &gt;这里就用到标签选择器 hover ,这个属性可以对标签进行个性化设置.</span><br></pre></td></tr></table></figure>
- <style>
-    div_title:hover
-    {
-        color : #00ff7f;
-        text-shadow: 0px 0px 25px rgb(152, 251, 152);
-
-    }
- </style>
-
-
-<body>
-<div_title>Test</div_title>
-</body>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 添加网易云播放器</span><br><span class="line"></span><br><span class="line">从网易云的生成外链播放器里面获取到播放器代码</span><br></pre></td></tr></table></figure>
-  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=736223406&auto=1&height=90"></iframe>
-```
-
-<p>注意:</p>
-<p>在src这里,缺少https:,请自行添加上,否则无法显示播放器.</p>
-<h1 id="关于浮动"><a href="#关于浮动" class="headerlink" title="关于浮动"></a>关于浮动</h1><p><a href="http://www.w3school.com.cn/css/css_positioning_floating.asp" target="_blank" rel="noopener"> 点击查看浮动的相关内容 </a></p>
-<h1 id="如何向右展开"><a href="#如何向右展开" class="headerlink" title="如何向右展开?"></a>如何向右展开?</h1>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2838,7 +2817,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">301</span>
+                  <span class="site-state-item-count">302</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2849,7 +2828,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
