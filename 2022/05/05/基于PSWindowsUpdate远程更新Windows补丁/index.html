@@ -87,7 +87,7 @@
 <meta property="og:description" content="实现效果可以通过指令下发指令去安装补丁，类似于Linux的Ansible。（当然也有用Ansible去控制Windows Server） 前置条件网络层  TCP-5985 （WINRM的HTTP监听端口） TCP-135 (Invoke-WUJob使用) TCP-RPC动态端口(Invoke-WUJob使用) TCP-RPC终结点映射器(Invoke-WUJob使用)  应用层  安装 PSWi">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-05T15:00:53.000Z">
-<meta property="article:modified_time" content="2022-07-10T04:29:41.671Z">
+<meta property="article:modified_time" content="2022-08-28T15:57:33.826Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="脚本">
 <meta name="twitter:card" content="summary">
@@ -426,6 +426,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set-Item &quot;...\RunOnce\&quot; xxxx</span><br><span class="line"></span><br><span class="line"># 脚本内容</span><br><span class="line">Install-WindowsUpdate -AcceptAll -Install -AutoReboot</span><br></pre></td></tr></table></figure>
 
 <p>在添加完注册表后，重启服务器后并不会自动执行脚本，需要用户再一次登录进Windows时才会触发，等安装结束后，RunOnce中的注册表项会被自动删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 检查是否安装目标补丁</span><br><span class="line">Get-HotFix | Where-Object &#123;$_.HotFixID&#x3D;&quot;&quot; &#125; | Select-Object -Property HotFixID;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Invoke-Command-与-Install-WindowsUpdate-指令结合"><a href="#Invoke-Command-与-Install-WindowsUpdate-指令结合" class="headerlink" title="Invoke-Command 与 Install-WindowsUpdate 指令结合"></a>Invoke-Command 与 Install-WindowsUpdate 指令结合</h2><p>Server端发起指令。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command -ComputerName [客户端主机名] -ScriptBlock &#123;Install-WindowsUpdate -Acceptall -Install -AutoReboot&#125;</span><br></pre></td></tr></table></figure>
 
