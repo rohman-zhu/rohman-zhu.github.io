@@ -1666,6 +1666,12 @@
 <blockquote>
 <p>查看对应的注册表项 <a href="https://admx.help" target="_blank" rel="noopener">https://admx.help</a></p>
 </blockquote>
+<h2 id="设置网卡"><a href="#设置网卡" class="headerlink" title="设置网卡"></a>设置网卡</h2><p>静态IP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 修改IP</span><br><span class="line">netsh interface ipv4 address [网卡名] static [IP] [NETMASK] [Gateway]</span><br><span class="line"># 修改DNS</span><br><span class="line"># 主DNS</span><br><span class="line">netsh interface ipv4 dns [网卡名] static [DNS] primary</span><br><span class="line"># 副DNS</span><br><span class="line">netsh interface ipv4 add dns [网卡名] [DNS]</span><br></pre></td></tr></table></figure>
+
+<p>DHCP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh interface ipv4 set address [网卡名] dhcp</span><br><span class="line">netsh interface ipv4 set dns [网卡名] dhcp</span><br></pre></td></tr></table></figure>
+
 <h2 id="在文本后面追加内容"><a href="#在文本后面追加内容" class="headerlink" title="在文本后面追加内容"></a>在文本后面追加内容</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-Content [FilePath] [Content]</span><br></pre></td></tr></table></figure>
 
 <h2 id="禁用本地账户"><a href="#禁用本地账户" class="headerlink" title="禁用本地账户"></a>禁用本地账户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Disable-LocalUser -Name [UserName]</span><br></pre></td></tr></table></figure>
