@@ -1929,7 +1929,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/07/ZABBIX%E5%AE%9E%E6%88%98/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1948,7 +1948,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/07/ZABBIX%E5%AE%9E%E6%88%98/" itemprop="url">zabbix实战</a></h1>
+                <a class="post-title-link" href="/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">ZABBIX学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -1960,8 +1960,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-07T09:34:36+08:00">
-                2018-01-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-09T15:40:17+08:00">
+                2017-12-09
               </time>
             
 
@@ -2031,185 +2031,180 @@
       
         
           
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本次使用的电脑是上初中时,在淘宝买的二手电脑(NEC VY20M/W-5),当时只是买来打打dota,配置如下表:</p>
-<table>
-<thead>
-<tr>
-<th align="center">组件</th>
-<th align="center">型号</th>
-<th align="center">价格</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">CPU</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">内存</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">显卡</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">主板</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">硬盘</td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<p>如今这台电脑的性能已经过于老旧了,因此想把它做成Linux服务器,平时做做文件存储之类的工作,或者家庭点播平台之类的活(这些后续再说…).</p>
-<p>目前这条电脑没有发现损坏的地方(扬声器和显示屏完好无损).</p>
-<p>下面是这台电脑的应用程序清单:</p>
-<table>
-<thead>
-<tr>
-<th align="center">软件类型</th>
-<th align="center">名称</th>
-<th align="center">版本号</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">操作系统</td>
-<td align="center">Linux_Centos</td>
-<td align="center">centos7</td>
-</tr>
-<tr>
-<td align="center">数据库</td>
-<td align="center">MySQL</td>
-<td align="center">mysql-5.5.58</td>
-</tr>
-<tr>
-<td align="center">Web应用</td>
-<td align="center">Nginx</td>
-<td align="center">nginx-1.</td>
-</tr>
-<tr>
-<td align="center">监控服务端</td>
-<td align="center">Zabbix</td>
-<td align="center">zabbix-3.4.5</td>
-</tr>
-<tr>
-<td align="center">PHP</td>
-<td align="center">PHP</td>
-<td align="center">php-5.5.38</td>
-</tr>
-</tbody></table>
-<p>软件下载地址:</p>
+            <h1 id="监控-ZABBIX"><a href="#监控-ZABBIX" class="headerlink" title="监控-ZABBIX"></a>监控-ZABBIX</h1><p>监控类别:</p>
 <ul>
-<li>Nginx : <a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">http://nginx.org/en/download.html</a></li>
-<li>Mysql : <a href="https://downloads.mysql.com/archives/community/" target="_blank" rel="noopener">https://downloads.mysql.com/archives/community/</a></li>
-<li>Zabbix : <a href="https://www.zabbix.com/download" target="_blank" rel="noopener">https://www.zabbix.com/download</a></li>
-<li>PHP : <a href="http://php.net/releases/" target="_blank" rel="noopener">http://php.net/releases/</a></li>
+<li>业务监控 (流量分析,开源的Piwik;)</li>
+<li>网络监控 (开源的Smokeping)</li>
+<li>应用监控</li>
+<li>单机监控</li>
 </ul>
-<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><h3 id="安装系统-略"><a href="#安装系统-略" class="headerlink" title="安装系统.(略)"></a>安装系统.(略)</h3><h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 网络 #</span></span><br><span class="line"><span class="comment"># 添加IP到局域网内 #</span></span><br><span class="line"><span class="comment"># ifconfig enp2s0 192.168.1.89 netmask 255.255.255.0 gateway</span></span><br><span class="line"><span class="comment"># 添加默认网关 #</span></span><br><span class="line"><span class="comment"># echo "GATEWAY=192.168.1.1" &gt;&gt; /etc/sysconfig/network</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭Selinux #</span></span><br><span class="line"><span class="comment"># sed -i "s#enforcing#disabled#g" /etc/selinux/config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭防火墙 #</span></span><br><span class="line"><span class="comment"># systemctl stop firewalld.server</span></span><br><span class="line"><span class="comment"># systemctl disable firewalld.server</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 合上笔记本后不休眠 #</span></span><br><span class="line"><span class="comment"># 方法一 : 追加</span></span><br><span class="line"><span class="comment"># echo 'HandleLidSwitch=ignore' &gt;&gt; /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 方法二 : 替换</span></span><br><span class="line"><span class="comment"># sed -i 's##\HandleLidSwitch=hibernate#HandleLidSwitch=ignore#g' /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 生效</span></span><br><span class="line"><span class="comment"># systemctl restart systemd-logind</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置国内源 #</span></span><br><span class="line"><span class="comment"># cd /etc/yum.repos.d/</span></span><br><span class="line"><span class="comment"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>添加网卡的时候出现’不允许的操作’,需要提升权限操作.</p>
-</blockquote>
-<h4 id="etc-systemd-logind-conf"><a href="#etc-systemd-logind-conf" class="headerlink" title="/etc/systemd/logind.conf"></a>/etc/systemd/logind.conf</h4><ul>
-<li>HandlePowerKey：按下电源键后的动作</li>
-<li>HandleSleepKey：按下挂起键后的动作</li>
-<li>HandleHibernateKey: 按下休眠键后的动作</li>
-<li>HandleLidSwitch：合上笔记本盖后待机</li>
-</ul>
-<p>值:</p>
-<ul>
-<li>ignore（什么都不做）</li>
-<li>poweroff（关机）</li>
-<li>reboot（重新启动）</li>
-<li>halt（关机，和poweroff有什么区别，需要手动断开电源？）</li>
-<li>suspend（待机挂起）</li>
-<li>hibernate（休眠）</li>
-</ul>
-<h3 id="安装Nginx-1-6"><a href="#安装Nginx-1-6" class="headerlink" title="安装Nginx-1.6"></a>安装Nginx-1.6</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装nginx #</span></span><br><span class="line"><span class="comment"># 解压 &amp;&amp; 安装 (略)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示没有PCRE库 #</span></span><br><span class="line"><span class="comment"># yum install pcre pcre-devel -y</span></span><br></pre></td></tr></table></figure>
-
-<p>这里也有一个坑要注意一下:</p>
-<p>本部电脑连接了两个网卡,一个连接局域网的网卡enp2s0,另一个是通过手机分享出来的网卡.</p>
-<ul>
-<li>局域网 IP:192.168.1.89 Gateway:192.168.1.1</li>
-<li>广域网 IP:192.168.42.xx Gateway:192.168.42.129</li>
-</ul>
-<p>解决方法是通过路由表设置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># route add default gw 192.168.42.129</span></span><br><span class="line"><span class="comment"># route add -net 192.168.1.0/24 gw 192.168.1.1 enp2s0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Mysql数据库"><a href="#安装Mysql数据库" class="headerlink" title="安装Mysql数据库"></a>安装Mysql数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压源码复制到/usr/local/ #</span></span><br><span class="line"><span class="comment"># 运行安装脚本 ./support_files/mysql_install --user=mysql --datadir=/usr/local/mysql/data/mysql</span></span><br><span class="line"><span class="comment"># 添加命令到profile #</span></span><br><span class="line"><span class="comment"># 复制启动脚本到/etc/init.d #</span></span><br></pre></td></tr></table></figure>
-
-<p>遇坑:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#39;&#x2F;var&#x2F;log&#x2F;mariadb&#x2F;mariadb.log&#39;, however file don&#39;t exists. Create writable for user &#39;mysql&#39;.</span><br><span class="line"> ERROR! The server quit without updating PID file (&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
-
-<p> 手动创建日志文件,并更改所有组.</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#39;&#x2F;var&#x2F;log&#x2F;mariadb&#x2F;mariadb.log&#39;, however file don&#39;t exists. Create writable for user &#39;mysql&#39;.</span><br><span class="line">ERROR! The server quit without updating PID file (&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
-
-<p> 可能存在僵尸线程,关闭掉即可.</p>
-<h3 id="安装PHP-5-5-58"><a href="#安装PHP-5-5-58" class="headerlink" title="安装PHP-5.5.58"></a>安装PHP-5.5.58</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ./configure --prefix=/usr/local/php-5.5.38 --with-config-file-path=/usr/local/php-5.5.38/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"><span class="comment"># 在php主目录下</span></span><br><span class="line"><span class="comment"># cp php.ini-production   /application/php/lib/php.ini</span></span><br><span class="line"><span class="comment">#在软件目录下的etc文件夹内</span></span><br><span class="line"><span class="comment"># cp php-fpm.conf.default  ./php-fpm.conf</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>遇坑:80端口拒绝访问,这个是防火墙问题,在centos7,防火墙是firewall</p>
-</li>
-<li><p>gd 负责画图的库</p>
-</li>
-</ul>
-<h3 id="安装ZABBIX-3-4-5"><a href="#安装ZABBIX-3-4-5" class="headerlink" title="安装ZABBIX-3.4.5"></a>安装ZABBIX-3.4.5</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压安装 #</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/usr/local/zabbix-3.4.5/ --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-lixbml2</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加用户 #</span></span><br><span class="line"><span class="comment"># useradd zabbix</span></span><br></pre></td></tr></table></figure>
-
-<p>初始化数据库</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql -uroot -p</span></span><br><span class="line">mysql&gt;create database zabbix default charset utf8;</span><br><span class="line">mysql&gt;create user zabbix@<span class="string">'localhost'</span> identified by <span class="string">'503428761'</span>;</span><br><span class="line">mysql&gt;grant all on zabbix.* to zabbix@<span class="string">'localhost'</span>;</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line">mysql&gt;quit;</span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/schema.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/images.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/myslq/data.sql</span></span><br></pre></td></tr></table></figure>
-
-<p>配置Zabbix_server</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成配置文件 #</span></span><br><span class="line"><span class="comment"># mkdir /etc/zabbix</span></span><br><span class="line"><span class="comment"># cp ./config/zabbix_server.conf /etc/zabbix</span></span><br><span class="line"><span class="comment"># vim /etc/zabbix/zabbix_server.conf</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=zabbix</span><br><span class="line">DBPassword=503428761</span><br><span class="line">DBPort=3306</span><br></pre></td></tr></table></figure>
-
-<p>在Nignx中添加前段文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir /usr/local/nginx/html/monitor.r0hman.com/zabbix -p</span></span><br><span class="line"><span class="comment"># cp -rp ./frontends/php/* /usr/local/nginx/html/monitor.r0hman.com/zabbix</span></span><br><span class="line"><span class="comment"># chown -R nginx:nginx /usr/local/nginx/html/monitor.r0hman.com/</span></span><br></pre></td></tr></table></figure>
-
-<p>在Nignx文件中添加节点</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name monitor.r0hman.com;</span><br><span class="line">    access_log logs/monitor.r0hman.com;</span><br><span class="line">    index index.html index.php;</span><br><span class="line">    root html/monitor.r0hman.com;</span><br><span class="line"></span><br><span class="line">    location \</span><br><span class="line">    &#123;</span><br><span class="line">       try_files <span class="variable">$uri</span> /index.php?<span class="variable">$args</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~*.\.(php|php5)$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改PHP的配置文件</p>
-<p>在浏览器中打开 monitor.r0hman.com,按照流程逐渐输入即可.如果遇到什么问题,则去查看日志,任何问题的解决方案都是在日志上面的.</p>
-<p>遇坑:</p>
-<ol>
-<li>到最后一步,可能会遇到无法生存配置文件,这个是因为php没有写入权限.原因是因为php-fpm的写入用户是nobody,而/monitor.rohman.com/站点下的目录文件下的conf文件夹是有写入权限限制的.</li>
-<li>20170109目前出现了一个坑,更改了nginx和php的用户(从nobody变为nginx),zabbix的安装界面就不能继续了…这个是php-fpm的用户组出问题了,默认为nobody没有问题</li>
-<li>php中提示UTC 与 其他时区冲突,修改php的配置文件即可</li>
-<li>zabbix中提示”server is not running”,这个是网站的php配置出现问题,修改一下servername和地址即可.</li>
+<h2 id="监控的细节"><a href="#监控的细节" class="headerlink" title="监控的细节"></a>监控的细节</h2><ol>
+<li>确定业务类型</li>
+<li>熟悉监控指标</li>
+<li>确定性能基准线</li>
+<li>使用工具-获取工具-设置阀值-触发报警-报警通知-通知升级</li>
 </ol>
-<h3 id="监视第一台客户端"><a href="#监视第一台客户端" class="headerlink" title="监视第一台客户端"></a>监视第一台客户端</h3><p>客户端地址:192.168.1.88</p>
-<p>服务端地址:192.168.1.89</p>
-<p>网址:monitor.rohman.com/zabbix</p>
-<p>客户端需要安装 <em>zabbix_agentd</em>,并且配置 zabbix_agentd.conf 文件.</p>
-<blockquote>
-<p>注意 : zabbix_agentd.conf文件的路径是这样的 /zabbix-3.4.5/etc/zabbix_agentd.conf,然而在启动zabbix_agentd的时候,如果没有制定配置文件,则zabbix会选用 /usr/local/etc/zabbix_agentd.conf的配置文件.</p>
-</blockquote>
-<p>在 zabbix_agentd.conf 中要修改的几个地方 :</p>
-<ul>
-<li>Hostname , 这个属性跟server端网页配置主机的hostname相对应.(见图一)</li>
-<li>Server , 这个填写的地址即是server端的地址.</li>
-<li>ServerActive , 这个也是填写server端的地址.</li>
+<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><ul>
+<li>用户态</li>
+<li>内核态</li>
 </ul>
-<p><img src="http://www.ttlsa.com/wp-content/uploads/2014/04/zabbix-monitor-server-01.jpg" alt="图一"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># Server 与 ServerActive 的区别 #</span><br><span class="line"></span><br><span class="line">### Option: Server</span><br><span class="line">#       List of comma delimited IP addresses, optionally in CIDR notation, or hostnames of Zabbix servers.</span><br><span class="line">#       Incoming connections will be accepted only from the hosts listed here.</span><br><span class="line">#       If IPv6 support is enabled then &#39;127.0.0.1&#39;, &#39;::127.0.0.1&#39;, &#39;::ffff:127.0.0.1&#39; are treated equally and &#39;::&#x2F;0&#39; will allow any IPv4 or IPv6 address.</span><br><span class="line">#       &#39;0.0.0.0&#x2F;0&#39; can be used to allow any IPv4 address.</span><br><span class="line">#       Example: Server&#x3D;127.0.0.1,192.168.1.0&#x2F;24,::1,2001:db8::&#x2F;32,zabbix.domain</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># Server&#x3D;</span><br><span class="line"></span><br><span class="line">### Option: ServerActive</span><br><span class="line">#       List of comma delimited IP:port (or hostname:port) pairs of Zabbix servers for active checks.</span><br><span class="line">#       If port is not specified, default port is used.</span><br><span class="line">#       IPv6 addresses must be enclosed in square brackets if port for that host is specified.</span><br><span class="line">#       If port is not specified, square brackets for IPv6 addresses are optional.</span><br><span class="line">#       If this parameter is not specified, active checks are disabled.</span><br><span class="line">#       Example: ServerActive&#x3D;127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># ServerActive&#x3D;</span><br></pre></td></tr></table></figure>
+<p>CPU Utilization - 如果一个CPU被充分使用,利用率分类之间均衡的比例:</p>
+<ul>
+<li>65%-70% User Time</li>
+<li>30% -35% System Time</li>
+<li>0% - 5% Idle(闲置的) Time</li>
+</ul>
+<blockquote>
+<p>什么是Buffer?什么是Cache?</p>
+</blockquote>
+<h2 id="什么是ZABBIX"><a href="#什么是ZABBIX" class="headerlink" title="什么是ZABBIX"></a>什么是ZABBIX</h2><p>Zabbix是一个企业级的、开源的、分布式的监控套件<br>Zabbix可以监控网络和服务的监控状况. Zabbix利用灵活的告警机制，允许用户对事件发送基于Email的告警. 这样可以保证快速的对问题作出相应. Zabbix可以利用存储数据提供杰出的报告及图形化方式. 这一特性将帮助用户完成容量规划.</p>
+<h3 id="进程介绍"><a href="#进程介绍" class="headerlink" title="进程介绍"></a>进程介绍</h3><ul>
+<li>ZABBIX_agentd :客户端守护进程，此进程收集客户端数据，例如cpu负载、内存、硬盘使用情况等</li>
+<li>zabbix_get : zabbix工具，单独使用的命令，通常在server或者proxy端执行获取远程客户端信息的命令。通常用户排错。例如在server端获取不到客户端的内存数据，我们可以使用zabbix_get获取客户端的内容的方式来做故障排查。</li>
+<li>zabbix_sender : zabbix工具，用于发送数据给server或者proxy，通常用于耗时比较长的检查。很多检查非常耗时间，导致zabbix超时。于是我们在脚本执行完毕之后，使用sender主动提交数据。</li>
+<li>zabbix服务端守护进程。zabbix\agentd、zabbix_get、zabbix_sender、zabbix_proxy、zabbix_java_gateway的数据最终都是提交到server</li>
+<li>zabbix_proxy : zabbix代理守护进程。功能类似server，唯一不同的是它只是一个中转站，它需要把收集到的数据提交/被提交到server里。为什么要用代理？代理是做什么的？卖个关子，请继续关注运维生存时间zabbix教程系列。</li>
+<li>zabbix_java_gateway : zabbix2.0之后引入的一个功能。顾名思义：Java网关，类似agentd，但是只用于Java方面。需要特别注意的是，它只能主动去获取数据，而不能被动获取数据。它的数据最终会给到server或者proxy。</li>
+</ul>
+<h3 id="软硬件需求"><a href="#软硬件需求" class="headerlink" title="软硬件需求"></a>软硬件需求</h3><p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-hard-require.jpg" alt="硬件需求表"></p>
+<p>支持的操作系统:</p>
+<ul>
+<li>Linux</li>
+<li>IBM AIX</li>
+<li>FreeBSD</li>
+<li>NetBSD</li>
+<li>OpenBSD</li>
+<li>HP-UX</li>
+<li>Mac OS X</li>
+<li>Solaris</li>
+<li>Windows: 2000, Server 2003, XP, Vista, Server 2008, 7, 8, Server 2012 (只能跑Zabbix agent)</li>
+</ul>
+<blockquote>
+<p>window只能跑客户端</p>
+</blockquote>
+<p>软件需求:</p>
+<ol>
+<li>数据库:<ol>
+<li>MySQL:5.0.3+,推荐使用InnoDB引擎</li>
+<li>Oracle:10G+</li>
+<li>Postgresql:8.1+</li>
+<li>SQLite:3.3.5+</li>
+<li>IBM DB2:9.7+</li>
+</ol>
+</li>
+<li>Web:<ol>
+<li>Apache:1.3.12+</li>
+<li>PHP:5.3.0+</li>
+<li>PHP 拓展:<ol>
+<li>gd</li>
+<li>bcmath</li>
+<li>ctype</li>
+<li>libXML     2.6.15或以上</li>
+<li>xmlreader</li>
+<li>xmlwriter</li>
+<li>session</li>
+<li>sockets</li>
+<li>mbstring</li>
+<li>gettext</li>
+<li>ibm_db2（可选）</li>
+<li>mysqli（推荐）</li>
+<li>oci8（可选）</li>
+<li>pgsql（可选）</li>
+<li>sqlite3    （可选）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>服务器:<ol>
+<li>OpenIPMI：IPMI硬件监控</li>
+<li>libssh2：版本1.0以上，监控ssh服务</li>
+<li>fping：icmp监控项</li>
+<li>libcurl：监控web项.</li>
+<li>libiksemel：支持jabber报警</li>
+<li>net-snmp：增加SNMP支持</li>
+</ol>
+</li>
+<li>JAVA网关:<ol>
+<li>logback-core-0.9.27.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ，0.9.27, 1.0.13, and 1.1.1已测试</li>
+<li>logback-classic-0.9.27.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ， 0.9.27, 1.0.13, and 1.1.1.已测试</li>
+<li>slf4j-api-1.6.1.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ，1.6.1, 1.6.6, and 1.7.6.已测试</li>
+<li>android-json-4.3_r3.1.jar <code>https://android.googlesource.com/platform/libcore/+/master/json ，2.3.3\_r1.1 and 4.3\_r3.1已测试</code></li>
+</ol>
+</li>
+<li>时间同步:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate -u 195.13.1.153</span><br></pre></td></tr></table></figure>
 
-<p>通过以上两段话的对比,可以得知,Server设置完,只是被动接受目标server的请求,而 ServerActive 则设置的是主动模式.</p>
+<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>安装ZABBIX需要在LNMP或者LAMP环境下.</p>
+<h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">tar xvf MySQL.tar</span><br><span class="line"><span class="comment"># 将目录移到/Application或者/usr/local/下</span></span><br><span class="line">mv MySQL /usr/<span class="built_in">local</span>/MySQL</span><br><span class="line"><span class="comment"># 执行安装脚本</span></span><br><span class="line">/usr/<span class="built_in">local</span>/MySQL/bin/mysql_install_db</span><br><span class="line"><span class="comment"># 添加命令到环境中</span></span><br><span class="line">vim /etc/profile</span><br><span class="line"><span class="comment">#-------------------</span></span><br><span class="line">PATH=<span class="string">"usr/local/MySQL/bin:<span class="variable">$PATH</span>"</span></span><br><span class="line"><span class="comment">#--------------------</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 将服务添加至/init.d/中</span></span><br><span class="line">cp /usr/<span class="built_in">local</span>/mysql/support-files/mysql.server /etc/init.d/</span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">/etc/init.d/mysql.server start</span><br><span class="line"><span class="comment"># 检查是否启动了</span></span><br><span class="line">lsof -i:3306</span><br></pre></td></tr></table></figure>
+
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>php具体安装方法参考上面的链接，不过如下模块要特别留意加上</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bcmath        --<span class="built_in">enable</span>-bcmath</span><br><span class="line">mbstring    --<span class="built_in">enable</span>-mbstring</span><br><span class="line">sockets        --<span class="built_in">enable</span>-sockets</span><br><span class="line">gd            --with-gd</span><br><span class="line">libxml        --with-libxml-dir=/usr/<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+
+<p>php.ini配置文件需要修改,否则不能安装ZABBIX</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">max_execution_time = 300</span><br><span class="line">memory_limit = 128M</span><br><span class="line">post_max_size = 16M</span><br><span class="line">upload_max_filesize = 2M</span><br><span class="line">max_input_time = 300</span><br><span class="line">date.timezone PRC</span><br></pre></td></tr></table></figure>
+
+<p>安装 php</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php-5.5.38 --with-config-file-path=/usr/local/php-5.5.38/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装ZABBIX"><a href="#安装ZABBIX" class="headerlink" title="安装ZABBIX"></a>安装ZABBIX</h3><p>zabbix官网下载页:<br><code>https://www.zabbix.com/download</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum install net-snmp-devel libxml2-devel libcurl-devel</span><br><span class="line">tar -xzvf zabbix-2.2.2.tar.gz</span><br><span class="line">cd zabbix-2.2.2</span><br><span class="line">./configure --prefix=/usr/local/zabbix-2.2.2/ --enable-server \</span><br><span class="line">--enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy<br>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+<p>在zabbix server一般充当两个角色：server、angent，所以上面的配置参数也同时加上了–enable-agent。<br>请安装好MySQL，snmp，curl开发库</p>
 </blockquote>
-<p>主动模式的流程:</p>
+<p>如果出现 not found mysqlclient library,解决方法是安装 mysql-devel</p>
+<h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><p>为了安全考虑,zabbix只使用普通用户使用运行.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd zabbix</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h3><p>zabbix server与proxy需要数据库，angent不需要。<br>尤其要注意的是proxy只需要导入一个sql文件，而server一共要导入3个sql文件。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> zabbix <span class="keyword">default</span> <span class="keyword">charset</span> utf8;</span><br></pre></td></tr></table></figure>
+
+<p>导入相关sql语句,再zabbix源安装包下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot zabbix &lt; /data/zabbix-2.2.20/database/mysql/schema.sql</span><br><span class="line"><span class="meta">#</span><span class="bash">初始化sever</span></span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/images.sql</span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/data.sql</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置zabbix-Server"><a href="#配置zabbix-Server" class="headerlink" title="配置zabbix_Server"></a>配置zabbix_Server</h3><p>配置文件再zabbix的源文件下,叫做zabbix_server.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/zabbix</span><br><span class="line">cp config/zabbix_server.conf /etc/zabbix/</span><br><span class="line">vim /etc/zabbix/zabbix_server.conf</span><br><span class="line"><span class="comment">#---zabbix_server.conf---#</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=root</span><br><span class="line">DBPassword=ttlsapwd</span><br><span class="line">DBPort=3306</span><br><span class="line"><span class="comment">#---zabbix_server.conf---#</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>TODO:20171225:今天就先学到这里,配置完zabbix_server端,晚安啦.</p>
+</blockquote>
+<h4 id="配置Zabbix-Server的前端界面"><a href="#配置Zabbix-Server的前端界面" class="headerlink" title="配置Zabbix_Server的前端界面"></a>配置Zabbix_Server的前端界面</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建根目录</span></span><br><span class="line">mkdir /dat/logs/nginx</span><br><span class="line">mkdir /data/site/monitor.ttlsa.com/zabbix</span><br><span class="line">cp -rp zabbix-2.2.2/frontends/php/* /data/site/monitor.ttlsa.com/zabbix</span><br></pre></td></tr></table></figure>
+
+<h4 id="在nginx中配置节点"><a href="#在nginx中配置节点" class="headerlink" title="在nginx中配置节点"></a>在nginx中配置节点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name monitor.ttlsa.com;</span><br><span class="line">    access_log &#x2F;data&#x2F;logs&#x2F;nginx&#x2F;monitor.ttlsa.com.access.log;</span><br><span class="line">    index index.html index.php;</span><br><span class="line">    root &#x2F;data&#x2F;site&#x2F;monitor.ttlsa.com;</span><br><span class="line">    location &#x2F;</span><br><span class="line">    &#123;</span><br><span class="line">        try_files $uri &#x2F;index.php?$args;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~*.\.(php|php5)$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置完后,重启一下nginx.</p>
+<h4 id="在浏览器中输入monitor-ttlsa-com-zabbix"><a href="#在浏览器中输入monitor-ttlsa-com-zabbix" class="headerlink" title="在浏览器中输入monitor.ttlsa.com/zabbix"></a>在浏览器中输入monitor.ttlsa.com/zabbix</h4><p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-1.jpg" alt="界面一"><br><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-2-check.jpg" alt="php环境检查"><br><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-3-mysql.jpg" alt="MySQL配置"></p>
+<p>省略两个图</p>
+<p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-6-Finnish.jpg" alt="最终界面"></p>
+<p>总结一下这个步骤踩到的坑:</p>
+<ol>
+<li>PHP环境检查的时候发现没有gd-jpeg-support和gd-freetype-support的支持,这个是需要在编译安装php的时候做好的.(TODO : 有没有方法是在php-fpm都安装完后,补安装呢? 找到一种解决方法,缺什么安装什么…<a href="http://blog.csdn.net/wudixingyunxingxing/article/details/56561620" target="_blank" rel="noopener">http://blog.csdn.net/wudixingyunxingxing/article/details/56561620</a>)</li>
+<li>Mysql配置的时候,有可能连接不上数据库,是因为数据的账号默认是本地连接,因此在数据库中创建的账户需要添加主机地址,例如root@’%’</li>
+<li>最后一步,可能提示配置文件无法生成,那是因为php没有写入的权限,可以手动复制过去.(不算错误的错误…)</li>
+</ol>
+<p>初始账号:<br>Admin-zabbix</p>
+<h4 id="配置监控主机"><a href="#配置监控主机" class="headerlink" title="配置监控主机"></a>配置监控主机</h4><p>Configure - Hosts - Create host</p>
+<p>要填写的信息:</p>
 <ul>
-<li>设置ServerActive=ServerIP</li>
-<li>Agent向Server建立一个TCP连接</li>
-<li>Agent请求需要检测的数据列表</li>
-<li>Server响应Agent，发送一个Items列表</li>
-<li>Agent允许响应</li>
-<li>TCP连接完成本次会话关闭</li>
-<li>Agent开始周期性地收集数据</li>
+<li>Host name</li>
+<li>Agent interfaces</li>
 </ul>
+<p>Template:</p>
+<p>select - Template OS Linux - Select - ADD</p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>客户端配置就简单很多了</p>
+<p>编译安装 zabbix-2.2.2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --<span class="built_in">enable</span>-agent</span><br><span class="line">vi /usr/<span class="built_in">local</span>/zabbix-2.2.2/etc/</span><br><span class="line">/usr/<span class="built_in">local</span>/zabbix-2.2.2/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure>
+
+<p>这个是zabbix_agentd相关说明:<a href="http://www.ttlsa.com/zabbix/zabbix-command-zabbix_agentd/" target="_blank" rel="noopener">http://www.ttlsa.com/zabbix/zabbix-command-zabbix_agentd/</a><br>以及这一篇文章:<br><a href="http://blog.51cto.com/pynliu/1569596" target="_blank" rel="noopener">http://blog.51cto.com/pynliu/1569596</a></p>
+<blockquote>
+<p>今天完成了zabbix的初步配置(服务端与客户端),明天把nec的电脑装成linux做服务器,并配置为LNMP和zabbix服务端.(2018-1-6)</p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
+<li><code>http://www.ttlsa.com/zabbix/introduction-zabbix-the-first-section-of-chapter/</code></li>
+<li><code>http://www.ttlsa.com/zabbix/zabbix-features-section-2-of-chapter/</code></li>
+<li><code>http://www.ttlsa.com/zabbix/zabbix-section-3-of-chapter-1/</code></li>
+</ol>
 
           
         
@@ -2295,7 +2290,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">318</span>
+                  <span class="site-state-item-count">317</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
