@@ -270,6 +270,463 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/20/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/20/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B/" itemprop="url">Python学习笔记(四)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-20T09:12:19+08:00">
+                2017-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Python-学习笔记-四"><a href="#Python-学习笔记-四" class="headerlink" title="Python 学习笔记 四"></a>Python 学习笔记 四</h1><h2 id="错误-调试"><a href="#错误-调试" class="headerlink" title="错误/调试"></a>错误/调试</h2><p>在操作系统提供的调用中，返回错误码非常常见。比如打开文件的函数open()，成功时返回文件描述符（就是一个整数），出错时返回-1。</p>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(<span class="string">'try...'</span>)</span><br><span class="line"><span class="keyword">except</span> Error <span class="keyword">as</span> e:</span><br><span class="line">    print(<span class="string">'except'</span>,e)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">'finally...'</span>)</span><br><span class="line">print(<span class="string">'End'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于没有错误发生，所以except语句块不会被执行，但是finally如果有，则一定会被执行（可以没有finally语句）。</p>
+</blockquote>
+<p>Python的错误其实也是class，所有的错误类型都继承自 <em>BaseException</em> ，所以在使用except时需要注意的是，它不但捕获该类型的错误，还把其子类也“一网打尽”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    pass</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(Exception e)</span><br><span class="line">&#123;</span><br><span class="line">    System.out.println(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。</p>
+<p>Python内置的logging模块可以非常容易地记录错误信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    logging.exception(e)</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p>断言:</p>
+<p>凡是用print()来辅助查看的地方，都可以用断言（assert）来替代：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(s)</span>:</span></span><br><span class="line">    n = int(s</span><br><span class="line">    <span class="keyword">assert</span> n != <span class="number">0</span> , <span class="string">'n is zero'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>/n</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    foo(<span class="string">'0'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>assert的意思是，表达式n != 0应该是True，否则，根据程序运行的逻辑，后面的代码肯定会出错。</p>
+<p>如果断言失败，assert语句本身就会抛出AssertionError</p>
+<h2 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h2><p>IO编程中，Stream（流）是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动。Input Stream就是数据从外面（磁盘、网络）流进内存，Output Stream就是数据从内存流到外面去。对于浏览网页来说，浏览器和新浪服务器之间至少需要建立两根水管，才可以既能发数据，又能收数据。</p>
+<h3 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h3><p>以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'/Users/michel/test.text'</span>,<span class="string">'r'</span>)</span><br><span class="line"><span class="comment">#读取成功,调用read()方法就可以一次读完全部能容</span></span><br><span class="line">f.read()</span><br><span class="line"><span class="comment">#最后有一步是关闭文件,释放资源</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p>标示符’r’表示读，这样，我们就成功地打开了一个文件。</p>
+<ul>
+<li><p>调用read()会一次性读取文件的全部内容，如果文件有10G，内存就爆了，所以，要保险起见，可以反复调用read(size)方法，每次最多读取size个字节的内容。</p>
+</li>
+<li><p>调用readline()可以每次读取一行内容，调用readlines()一次读取所有内容并按行返回list.</p>
+</li>
+</ul>
+<p>设置字符编码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'/Users/michael/gbk.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'gbk'</span>)</span><br><span class="line">f.read()</span><br></pre></td></tr></table></figure>
+
+<p>写文件:</p>
+<p>写文件和读文件是一样的，唯一区别是调用open()函数时，传入标识符’w’或者’wb’表示写文本文件或写二进制文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>f = open(<span class="string">'/Users/michael/test.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.write(<span class="string">'Hello, world!'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.close()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当我们写文件时，操作系统往往不会立刻把数据写入磁盘，而是放到内存缓存起来，空闲的时候再慢慢写入。只有调用close()方法时，操作系统才保证把没有写入的数据全部写入磁盘。忘记调用close()的后果是数据可能只写了一部分到磁盘，剩下的丢失了。</p>
+</blockquote>
+<h3 id="StringIO-amp-ByteIO"><a href="#StringIO-amp-ByteIO" class="headerlink" title="StringIO &amp; ByteIO"></a>StringIO &amp; ByteIO</h3><p>这个不是对文件操作,而是对内存中的流来操作</p>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。</p>
+<p>有些进程还不止同时干一件事，比如Word，它可以同时进行打字、拼写检查、打印等事情。在一个进程内部，要同时干多件事，就需要同时运行多个“子任务”，我们把进程内的这些“子任务”称为线程（Thread）。</p>
+<h3 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h3><p>Unix/Linux操作系统提供了一个fork()系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
+<p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Process (%s) start ...'</span> % os.getpid())</span><br><span class="line"><span class="comment"># Only works on Unix/Linux/Mac</span></span><br><span class="line">pid = os.fork()</span><br><span class="line"><span class="keyword">if</span> pid == <span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'child,parentpid is (%s)'</span> % os.getppid)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'Parent'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>小结:</p>
+<ul>
+<li>Unix/Linux下,可以用fork()调用实现多进程</li>
+<li>要实现跨平台,可以使用multiprocessing</li>
+<li>进程间通信是通过Queue,pipes实现的</li>
+</ul>
+<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，threading是高级模块，对_thread进行了封装。绝大多数情况下，我们只需要使用threading这个高级模块。</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><ul>
+<li>用\d可以匹配一个数字</li>
+<li>\w可以匹配一个字母或数字</li>
+<li>.可以匹配任意字符</li>
+<li>用*表示任意个字符（包括0个）</li>
+<li>用+表示至少一个字符</li>
+<li>用?表示0个或1个字符</li>
+<li>用{n}表示n个字符</li>
+<li>用{n,m}表示n-m个字符</li>
+<li>要做更精确地匹配，可以用[]表示范围</li>
+<li>^表示行的开头，^\d表示必须以数字开头</li>
+<li>$表示行的结束，\d$表示必须以数字结束。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匹配010 - 12345</span></span><br><span class="line">正则表达式: \d&#123;<span class="number">3</span>&#125;\-\d&#123;<span class="number">5</span>&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/" itemprop="url">Python学习笔记(三)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-19T19:26:26+08:00">
+                2017-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Python学习笔记-三"><a href="#Python学习笔记-三" class="headerlink" title="Python学习笔记 三"></a>Python学习笔记 三</h1><p>为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在Python中，一个.py文件就称之为一个模块（Module）。</p>
+<h2 id="模块-module"><a href="#模块-module" class="headerlink" title="模块 module"></a>模块 module</h2><blockquote>
+<p>类似C语言中的include 或者 java中的import</p>
+</blockquote>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用。在Python中，是通过_前缀来实现的。</p>
+<blockquote>
+<p>private 在 python中用_代替</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_private_1</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello, %s'</span> % name</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_private_2</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hi, %s'</span> % name</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greeting</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(name) &gt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> _private_1(name)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> _private_2(name)</span><br></pre></td></tr></table></figure>
+
+<p>在模块里公开greeting()函数，而把内部逻辑用private函数隐藏起来了，这样，调用greeting()函数不用关心内部的private函数细节，这也是一种非常有用的代码封装和抽象的方法，即：</p>
+<p>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public。</p>
+<h2 id="安装第三方模块"><a href="#安装第三方模块" class="headerlink" title="安装第三方模块"></a>安装第三方模块</h2><p>在命令提示窗口下运行’pip’命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 第三方库都会在Python官方的pypi.python.org网站注册，要安装一个第三方库，必须先知道该库的名称，可以在官网或者pypi上搜索，比如Pillow的名称叫Pillow，因此，安装Pillow的命令就是：</span><br><span class="line"># pip install Pillow</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装常用模块"><a href="#安装常用模块" class="headerlink" title="安装常用模块"></a>安装常用模块</h3><p>在使用Python时，我们经常需要用到很多第三方库，例如，上面提到的Pillow，以及MySQL驱动程序，Web框架Flask，科学计算Numpy等。用pip一个一个安装费时费力，还需要考虑兼容性。我们推荐直接使用Anaconda，这是一个基于Python的数据处理和科学计算平台，它已经内置了许多非常有用的第三方库，我们装上Anaconda，就相当于把数十个第三方模块自动安装好了，非常简单易用。</p>
+<p>下载地址:<code>https://www.anaconda.com/download/#macos</code></p>
+<p>默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">import</span> sys</span><br><span class="line">&gt;&gt;&gt;sys.path</span><br><span class="line">&gt;&gt;&gt;添加路径</span><br><span class="line">&gt;&gt;&gt;sys.path.append(<span class="string">'new path'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>另外一种添加路径的方式:设置环境变量PYTHONPATH，该环境变量的内容会被自动添加到模块搜索路径中。设置方式与设置Path环境变量类似。注意只需要添加你自己的搜索路径，Python自己本身的搜索路径不受影响。</p>
+</blockquote>
+<h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象的设计思想是从自然界中来的，因为在自然界中，类（Class）和实例（Instance）的概念是很自然的。Class是一种抽象概念，比如我们定义的Class——Student，是指学生这个概念，而实例（Instance）则是一个个具体的Student，比如，Bart Simpson和Lisa Simpson是两个具体的Student。</p>
+<p>所以，面向对象的设计思想是抽象出Class，根据Class创建Instance。</p>
+<p>面向对象的抽象程度又比函数要高，因为一个Class既包含数据，又包含操作数据的方法。</p>
+<h3 id="类与实例"><a href="#类与实例" class="headerlink" title="类与实例"></a>类与实例</h3><p><em>class</em> 后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init___</span><span class="params">(self,name,score)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">    self.score = score</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意:特殊方法“__init__”前后分别有两个下划线！！！<br>注意: __init__ 方法的第一个参数永远是self，表示创建的实例本身，因此，在__init__方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身。</p>
+</blockquote>
+<p>有了__init__方法，在创建实例的时候，就不能传入空的参数了，必须传入与__init__方法匹配的参数，但self不需要传，Python解释器自己会把实例变量传进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">'Bart Simpason'</span>,<span class="number">58</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</p>
+</blockquote>
+<h3 id="访问限制"><a href="#访问限制" class="headerlink" title="访问限制"></a>访问限制</h3><p>如果要让内部属性不被外部访问，可以把属性的名称前加上两个下划线__，在Python中，实例的变量名如果以__开头，就变成了一个私有变量（private），只有内部可以访问，外部不能访问，所以，我们把Student类改一改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init___</span><span class="params">(self,name,score)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">        self.__score = score</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">print_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s:%s'</span> % (self.__name,self.__score))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>变量名类似__xxx__的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量</p>
+</blockquote>
+<p>双下划线不代表private</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">有些时候，你会看到以一个下划线开头的实例变量名，比如_name，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。</span><br><span class="line"></span><br><span class="line">双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，仍然可以通过_Student__name来访问__name变量</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:写一个student类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,general)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">        self.__general = general</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_general</span><span class="params">(general)</span>:</span></span><br><span class="line">        self.__general = general</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_general</span><span class="params">(general)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__general</span><br></pre></td></tr></table></figure>
+
+<h3 id="继承和多态"><a href="#继承和多态" class="headerlink" title="继承和多态"></a>继承和多态</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span><span class="params">(Object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(self)</span>:</span></span><br><span class="line">       print(<span class="string">"I am running"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#此时Dog类有父类Animal的方法,可以实例化并调用父类的方法</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于静态语言（例如Java）来说，如果需要传入Animal类型，则传入的对象必须是Animal类型或者它的子类，否则，将无法调用run()方法。</p>
+</blockquote>
+<p>对于Python这样的动态语言来说，则不一定需要传入Animal类型。我们只需要保证传入的对象有一个run()方法就可以了.</p>
+<blockquote>
+<p>这就是动态语言的“鸭子类型”，它并不要求严格的继承体系，一个对象只要“看起来像鸭子，走起路来像鸭子”，那它就可以被看做是鸭子。</p>
+</blockquote>
+<h3 id="获取对象信息"><a href="#获取对象信息" class="headerlink" title="获取对象信息"></a>获取对象信息</h3><h4 id="使用type"><a href="#使用type" class="headerlink" title="使用type()"></a>使用type()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;type(<span class="number">123</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">int</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用isinstance"><a href="#使用isinstance" class="headerlink" title="使用isinstance()"></a>使用isinstance()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a = Animal()</span><br><span class="line">&gt;&gt;&gt;dog = Dog()</span><br><span class="line">&gt;&gt;&gt;isinstance(a,Animal)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line">&gt;&gt;&gt;isinstance(dog,Animal)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用dir"><a href="#使用dir" class="headerlink" title="使用dir()"></a>使用dir()</h4><p>如果要获得一个对象的所有属性和方法，可以使用dir()函数，它返回一个包含字符串的list</p>
+<p>仅仅把属性和方法列出来是不够的，配合getattr()、setattr()以及hasattr()，我们可以直接操作一个对象的状态：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">MyObject</span><span class="params">(object)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>        self.x = <span class="number">9</span></span><br><span class="line"><span class="meta">... </span>    <span class="function"><span class="keyword">def</span> <span class="title">power</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> self.x * self.x</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj = MyObject()</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hasattr(obj, <span class="string">'x'</span>) <span class="comment"># 有属性'x'吗？</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj.x</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hasattr(obj, <span class="string">'y'</span>) <span class="comment"># 有属性'y'吗？</span></span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>setattr(obj, <span class="string">'y'</span>, <span class="number">19</span>) <span class="comment"># 设置一个属性'y'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hasattr(obj, <span class="string">'y'</span>) <span class="comment"># 有属性'y'吗？</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>getattr(obj, <span class="string">'y'</span>) <span class="comment"># 获取属性'y'</span></span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj.y <span class="comment"># 获取属性'y'</span></span><br><span class="line"><span class="number">19</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习 : 为了统计学生人数，可以给Student类增加一个类属性，每创建一个实例，该属性自动增加;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Count</span><span class="params">(object)</span>:</span></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Count)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        Count.count += <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_Count</span><span class="params">()</span>:</span></span><br><span class="line">        print(Count.count)</span><br><span class="line">        <span class="keyword">return</span> Count.count</span><br></pre></td></tr></table></figure>
+
+<h2 id="面向对象高级编程"><a href="#面向对象高级编程" class="headerlink" title="面向对象高级编程"></a>面向对象高级编程</h2><p>python允许动态为实例添加属性和方法…</p>
+<h3 id="使用-slots"><a href="#使用-slots" class="headerlink" title="使用 __slots__"></a>使用 __slots__</h3><p>动态添加属性和方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 给实例添加属性</span></span><br><span class="line">s = Student()</span><br><span class="line">s.name = <span class="string">'Micheal'</span></span><br><span class="line">print(s.name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定方法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_age</span><span class="params">(self,age)</span>:</span></span><br><span class="line">    self.age = age</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> MethodType</span><br><span class="line">s.set_age = MethodType(set_age,s)</span><br><span class="line">s.set_age(<span class="number">25</span>)</span><br><span class="line">print(s.age)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>给一个实例绑定的方法，对另一个实例是不起作用的</p>
+</blockquote>
+<p>要给所有实例都绑定方法,可以用class绑定方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_score</span><span class="params">(self,score)</span>:</span></span><br><span class="line">    self.score = score</span><br><span class="line">Student.set_score = set_score</span><br></pre></td></tr></table></figure>
+
+<p>既然可以动态添加实例的属性,就可以限制添加属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    __slots__ = (<span class="string">'name'</span>,<span class="string">'age'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在Student类只允许设置name和age</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-property"><a href="#使用-property" class="headerlink" title="使用@property"></a>使用@property</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span><span class="params">(object)</span>:</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">width</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.width</span><br><span class="line"><span class="meta">    @width.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">width</span><span class="params">(self,vale)</span>:</span></span><br><span class="line">        self.width = value</span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">height</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.heigth</span><br><span class="line"><span class="meta">    @height.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">height</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        self.height = value</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>property要比setter先设置,否则会出现无法识别相关属性<br>NameError: name ‘xxx’ is not defined</p>
+</blockquote>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Farther</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monther</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span><span class="params">(Farther,Monther)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/18/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2150,458 +2607,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/27/Web%E6%9C%8D%E5%8A%A1%E5%99%A8-Apache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/Web%E6%9C%8D%E5%8A%A1%E5%99%A8-Apache/" itemprop="url">Web_Apache</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-27T14:48:28+08:00">
-                2017-10-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h1><h2 id="0-下载地址"><a href="#0-下载地址" class="headerlink" title="0.下载地址"></a>0.下载地址</h2><p>httpd-2.4.28.tar.gz:</p>
-<p><code>http://mirror.bit.edu.cn/apache/httpd/httpd-2.4.28.tar.gz</code></p>
-<p>apr-util-1.6.1:</p>
-<p><code>http://mirror.bit.edu.cn/apache/apr/apr-util-1.6.1.tar.gz</code></p>
-<p>apr-1.6.3:</p>
-<p><code>http://mirror.bit.edu.cn/apache/apr/apr-1.6.3.tar.gz</code></p>
-<p>开始安装前,把必要的编译库安装上:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall Development tools Compatibility libraries Chinese Support [zh] -y</span><br></pre></td></tr></table></figure>
-
-<p>需要的依赖文件:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install pcre-devel openssl openssl-devel -y</span><br></pre></td></tr></table></figure>
-
-<p>编译安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/httpd-2.x.x \</span><br><span class="line">--sysconfdir=/etc/httpd \</span><br><span class="line">--with-apr=/usr/local/apr \</span><br><span class="line">--with-apr-util=/usr/local/apr-util \</span><br><span class="line"><span class="meta">#</span><span class="bash">允许压缩,提升效率</span></span><br><span class="line">--enable-deflate \</span><br><span class="line"><span class="meta">#</span><span class="bash">浏览器打开页面后有缓存</span></span><br><span class="line">--enable-expires \</span><br><span class="line">--enbale-headers \</span><br><span class="line"><span class="meta">#</span><span class="bash">激活大部分模块</span></span><br><span class="line">--enable-modules=most \</span><br><span class="line">--enable-so \</span><br><span class="line"><span class="meta">#</span><span class="bash">worker模式</span></span><br><span class="line">--with-mpm=worker \</span><br><span class="line">--enable-rewrite</span><br></pre></td></tr></table></figure>
-
-<p>编辑/conf下的httpd.conf</p>
-<ul>
-<li>网页首页与目录权限设定（DocumentRoot 与 Directory）</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#添加虚拟主机</span><br><span class="line">Include conf/extra/httpd-vhosts.conf</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> "路径"&gt;</span></span><br><span class="line">    Options -Indexes +FollowSymLinks</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br><span class="line"></span><br><span class="line">#添加两行</span><br><span class="line">AddType application/x-httpd-php .php .phtmls</span><br><span class="line">AddType application/x-httpd-php-source .php5</span><br></pre></td></tr></table></figure>
-<h2 id="httpd-conf-配置文件"><a href="#httpd-conf-配置文件" class="headerlink" title="httpd.conf 配置文件"></a>httpd.conf 配置文件</h2><p>一般在 /etc/httpd/httpd.conf</p>
-<h3 id="Diretory-节点"><a href="#Diretory-节点" class="headerlink" title="Diretory 节点"></a>Diretory 节点</h3><p>Options 可选参数:</p>
-<ul>
-<li>Indexes：如果在此目录下找不到 index.html 时， 就顯示整個目錄下的檔案名稱，至於『首頁檔案檔名』則與 DirectoryIndex 設定值有關。</li>
-<li>FollowSymLinks：這是 Follow Symbolic Links 的縮寫， 字面意義是讓連結檔可以生效的意思。我們知道首頁目錄在 /var/www/html，既然是 WWW 的根目錄，理論上就像被 chroot 一般！ 一般來說被 chroot 的程式將無法離開其目錄，也就是說預設的情況下，你在 /var/www/html 底下的連結檔只要連結到非此目錄的其他地方，則該連結檔預設是失效的。 但使用此設定即可讓連結檔有效的離開本目錄。</li>
-<li>ExecCGI：讓此目錄具有執行 CGI 程式的權限，非常重要！舉例來說，之前熱門的OpenWebMail 使用了很多的 perl 的程式，你要讓 OpenWebMail 可以執行，就得要在該程式所在目錄擁有 ExecCGI 的權限才行喔！但請注意，不要讓所有目錄均可使用 ExecCGI ！</li>
-<li>Includes：讓一些 Server-Side Include 程式可以運作。建議可以加上去！</li>
-<li>MultiViews：這玩意兒有點像是多國語言的支援，與語系資料 (LanguagePriority) 有關。最常見在錯誤訊息的回報內容，在同一部主機中，可以依據用戶端的語系而給予不同的語言顯示呢！ 預設在錯誤回報訊息當中存在，你可以檢查一下/var/www/error/ 目錄下的資料喔！</li>
-</ul>
-<p>AllowOverride:</p>
-<p>表示是否允許額外設定檔 .htaccess 的某些參數覆寫？我們可以在 httpd.conf 內設定好所有的權限，不過如此一來若使用者自己的個人網頁想要修改權限時將會對管理員造成困擾。因此 Apache 預設可以讓使用者以目錄底下的 .htaccess 檔案內覆寫 <Directory> 內的某些功能參數。</p>
-<ul>
-<li>ALL：全部的權限均可被覆寫；</li>
-<li>AuthConfig：僅有網頁認證 (帳號密碼) 可覆寫；</li>
-<li>Indexes：僅允許 Indexes 方面的覆寫；</li>
-<li>Limits：允許使用者利用 Allow, Deny 與 Order 管理可瀏覽的權限；</li>
-<li>None：不可覆寫，亦即讓 .htaccess 檔案失效！ </li>
-</ul>
-<p>Order:</p>
-<p>決定此目錄是否可被 apache 的 PID 所瀏覽的權限設定啦！能否被瀏覽主要有兩種判定的方式：</p>
-<ul>
-<li>deny,allow：以 deny 優先處理，但沒有寫入規則的則預設為 allow 喔。</li>
-<li>allow,deny：以 allow 為優先處理，但沒有寫入規則的則預設為 deny 喔。 所以在預設的環境中，因為是 allow,deny 所以預設為 deny (不可瀏覽)，不過在下一行有個</li>
-<li>Allow from all，allow 優先處理，因此全部 (all) 用戶端皆可瀏覽啦！</li>
-</ul>
-<h2 id="1-重要目录以及文件"><a href="#1-重要目录以及文件" class="headerlink" title="1.重要目录以及文件"></a>1.重要目录以及文件</h2><h3 id="htdocs-目录下面"><a href="#htdocs-目录下面" class="headerlink" title="htdocs 目录下面"></a>htdocs 目录下面</h3><p>这是编译安装默认的站点目录.</p>
-<h3 id="logs-目录下面"><a href="#logs-目录下面" class="headerlink" title="logs 目录下面"></a>logs 目录下面</h3><ul>
-<li>access_log - 这是apache的默认访问日志,使用tail-faccess.og可以实时观看网站用户的访问情况.</li>
-<li>error_log - 这是apache的错误日志文件,如果apache出现启动故障等问题,一定要看这个错误日志.</li>
-<li>httpd.pid - http的pid文件,http进程启动后,会把所有进程的ID号写到此文件.</li>
-</ul>
-<h3 id="modules-目录"><a href="#modules-目录" class="headerlink" title="modules 目录"></a>modules 目录</h3><p>apache的模块目录,比如 php等.</p>
-<h3 id="bin-目录下面"><a href="#bin-目录下面" class="headerlink" title="bin 目录下面"></a>bin 目录下面</h3><ul>
-<li>ab - Apache HTTP服务器性能测试工具,简单/易用.同类软件还有jmeter,loadrunner,webbench等.</li>
-<li>apachectl - 这是apache的启动命令,apachectl是一个脚本.</li>
-<li>apxs - Apache HTTP服务器编译和安装拓展模块的工具,在进行DSO方式编译模块时会用到,–with-apxs2=/application/apache/bin/apxs</li>
-<li>htcaheclean - 这是清理磁盘缓冲区的命令,需要在编译时指定相关参数才可以使用.</li>
-<li>htpasswd - 建立和更新基本认证文件,如:配置nagios等监控服务时会用到.</li>
-<li>httpd - Apache的控制命令程序,apachectl执行时会调用httpd</li>
-<li>rotatelogs - apache自带的日志轮询命令.</li>
-</ul>
-<h3 id="conf-目录下面"><a href="#conf-目录下面" class="headerlink" title="conf 目录下面"></a>conf 目录下面</h3><ul>
-<li>extra - 这是额外的apache配置文件的陆慕,这个目录里面的文件会经常访问,如:httpd-vhosts.conf默认就在这个目录.</li>
-<li>httpd.conf - apache的主配置文件,这个文件也会经常访问修改,其中每一行的参数作用都应该弄清除明白</li>
-</ul>
-<h4 id="进入主配置文件http-conf"><a href="#进入主配置文件http-conf" class="headerlink" title="进入主配置文件http.conf"></a>进入主配置文件http.conf</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ServerRoot //根目录</span><br><span class="line">Listen //端口</span><br><span class="line">User</span><br><span class="line">Group</span><br><span class="line">ServerAdmin you@example.com</span><br><span class="line">DocumentRoot //站点根目录</span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> /&gt;</span> //禁止任何人访问根目录</span><br><span class="line">    Options FollowSymLinks</span><br><span class="line">    AllowOverride None</span><br><span class="line">    Order dely,allow</span><br><span class="line">    Deny from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br><span class="line"></span><br><span class="line">//创建了新的站点目录</span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> "/<span class="attr">application</span>/<span class="attr">apache</span>/<span class="attr">htdocs</span>"&gt;</span></span><br><span class="line">    Options Indexes FollowSymLinks //Indexes这个参数非常危险,会展现目录结构;优化是删除或者添加-Indexes;</span><br><span class="line">    AllowOverride None</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>检查语法 : /bin/apachectl -graceful</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/26/Linux%E4%B9%8B%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/26/Linux%E4%B9%8B%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" itemprop="url">Linux之负载均衡</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-26T22:56:01+08:00">
-                2017-10-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Linux之负载均衡"><a href="#Linux之负载均衡" class="headerlink" title="Linux之负载均衡"></a>Linux之负载均衡</h1><h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><p>集群通信系统是一种用于集团调度指挥通信的移动通信系统，主要应用在专业移动通信领域。该系统具有的可用信道可为系统的全体用户共用，具有自动选择信道功能，它是共享资源、分担费用、共用信道设备及服务的多用途、高效能的无线调度通信系统。</p>
-<ul>
-<li>特点: 高性能</li>
-</ul>
-<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>负载均衡，英文名称为Load Balance，其意思就是分摊到多个操作单元上进行执行，例如Web服务器、FTP服务器、企业关键应用服务器和其它关键任务服务器等，从而共同完成工作任务。</p>
-<h2 id="方向代理"><a href="#方向代理" class="headerlink" title="方向代理"></a>方向代理</h2><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p>
-<h2 id="用Nginx-来做负载均衡"><a href="#用Nginx-来做负载均衡" class="headerlink" title="用Nginx 来做负载均衡"></a>用Nginx 来做负载均衡</h2><p>Nginx可以做反向代理.</p>
-<h2 id="语法说明"><a href="#语法说明" class="headerlink" title="语法说明"></a>语法说明</h2><ol>
-<li>upstream 模块应放于nginx.conf配置的http{}标签内.</li>
-<li>upstream模块默认算法是wrr(权重轮询 weighted round-robin)</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Server 10.0.10.8:80</td>
-<td align="center">负载均衡后面的RS配置,可以是IP或域名,端口不写,默认是80;高并发场景IP要换成域名,通过DNS做负载均衡.</td>
-</tr>
-<tr>
-<td align="center">weight</td>
-<td align="center">权重,默认是1,权重越大接受的请求越多</td>
-</tr>
-<tr>
-<td align="center">max_fails=2</td>
-<td align="center">最大尝试失败的次数,默认是1,-标识禁止失败尝试.一般建议2-3次</td>
-</tr>
-<tr>
-<td align="center">backup</td>
-<td align="center">热备配置(RSYNC节点的高可用)</td>
-</tr>
-<tr>
-<td align="center">fail_timeout=20s</td>
-<td align="center">失败超时时间,默认是10s</td>
-</tr>
-<tr>
-<td align="center">down</td>
-<td align="center">标志服务器不可用</td>
-</tr>
-</tbody></table>
-<h2 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h2><ol>
-<li>静态调度: rr ,ip_hash , wrr</li>
-<li>动态调度: least_conn , fair</li>
-</ol>
-<h3 id="一致性缓存"><a href="#一致性缓存" class="headerlink" title="一致性缓存"></a>一致性缓存</h3><p>由于url_hash在处理宕机或者新增的机器会对缓存压力比较大.</p>
-<p>因此一致性hash可以减少宕机情况对整个服务器缓存动荡.</p>
-<h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Nginx:</span><br><span class="line"></span><br><span class="line"># .&#x2F;configure --prefix&#x3D;&#x2F;application&#x2F;nginx --user&#x3D;nginx --group&#x3D;nginx --with-http_ssl_module --with-http_stub_status_module</span><br><span class="line"></span><br><span class="line"># 配置均衡器</span><br><span class="line"># 需要的模块 : upstream ,http_proxy</span><br><span class="line"></span><br><span class="line"># vim lb.conf</span><br><span class="line">#--------------</span><br><span class="line"></span><br><span class="line"># 定义节点与调度算法</span><br><span class="line">upstream backend &#123;</span><br><span class="line">    server backend1.example.com weight&#x3D;5;</span><br><span class="line">    server backend2.example.com:800;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#http_proxy负责转发与算法</span><br><span class="line">#默认轮询算法(静态算法)</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;backend;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>proxy_pass 模块用于转发用户的请求</p>
-</blockquote>
-<h3 id="2-运行流程"><a href="#2-运行流程" class="headerlink" title="2. 运行流程"></a>2. 运行流程</h3><p>Web服务器:</p>
-<ol>
-<li>172.16.177.137</li>
-<li>172.16.177.138</li>
-</ol>
-<p>LB 服务器 :</p>
-<p>172.16.177.139</p>
-<p>目标域名:</p>
-<ol>
-<li>172.16.177.137 blog.test.org bbs.test.org</li>
-<li>172.16.177.138 blog.test.org bbs.test.org</li>
-<li>172.16.177.139 blog.test.org bbs.test.org</li>
-</ol>
-<p>在客户机上面添加LB服务器的解析</p>
-<blockquote>
-<p>echo “ 172.16.177.139 blog.test.org bbs.test.org” &gt;&gt; /etc/hosts</p>
-</blockquote>
-<p>客户端–访问blog域名–LB服务器解析–proxy_pass–Web服务器</p>
-<h3 id="3-用户请求细节"><a href="#3-用户请求细节" class="headerlink" title="3.用户请求细节"></a>3.用户请求细节</h3><blockquote>
-<p>[请求代理主机访问多虚拟主机]用户向代理服务器发送请求(包含请求头),再有代理服务器向后请求(会丢失请求头).</p>
-</blockquote>
-<p>proxy_set_header Host $host</p>
-<h3 id="4-动静分离"><a href="#4-动静分离" class="headerlink" title="4. 动静分离"></a>4. 动静分离</h3><ul>
-<li>当用户请求<a href="http://www.test.com/upload/xx地址实现由upload上传服务器处理请求" target="_blank" rel="noopener">www.test.com/upload/xx地址实现由upload上传服务器处理请求</a>.</li>
-<li>当用户请求<a href="http://www.test.com/static/xx地址实现由静态服务器池处理请求" target="_blank" rel="noopener">www.test.com/static/xx地址实现由静态服务器池处理请求</a>.</li>
-<li>除此之外,对于其他访问请求,全都由默认的动态服务器池处理请求.</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">upstream static_pools&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upstream upload_pools&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">upstream default_pools&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;default_pools;</span><br><span class="line">    &#125;</span><br><span class="line">    location &#x2F;static&#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;static_pools;</span><br><span class="line">    &#125;</span><br><span class="line">    location &#x2F;upload&#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;upload_pools;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-根据不同客户端返回响应内容"><a href="#5-根据不同客户端返回响应内容" class="headerlink" title="5.根据不同客户端返回响应内容"></a>5.根据不同客户端返回响应内容</h3><p>http_user_agent</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if($http_user_agent ~* &quot;MSIE&quot;)</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;...;</span><br><span class="line">&#125;</span><br><span class="line">if($http_user_agent ~* &quot;Chrome&quot;)</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;...;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2652,7 +2657,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">317</span>
+                  <span class="site-state-item-count">319</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2674,7 +2679,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">123</span>
+                  <span class="site-state-item-count">124</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
