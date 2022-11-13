@@ -324,8 +324,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -394,7 +394,29 @@
       
         
           
-            
+            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>一台Ubuntu 14.04 服务器的Zabbix-Agent故障，在log日志中看到异常，重启Zabbix-Agent也无效；于是决定重启服务器OS，但是服务器发起重启后，竟然无法启动操作系统了。</p>
+<ul>
+<li>服务器常规启动，加载完grub菜单后就黑屏；但是服务器可以ping通；</li>
+<li>服务器选择高级选项，选择常规内核，会出现Loading initial ramdisk… ，然后卡住；但是服务器可以ping通；</li>
+<li>服务器选择高级选项，选择常规内核（恢复模式），会出现”Staring NETBIOS name server [OK]”，然后卡住；但是服务器可以ping通；</li>
+</ul>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
+<li>Linux OS的自启服务导致启动进程卡住；</li>
+<li>fstab有异常参数，导致加载异常；</li>
+</ol>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>两种原因均需要进入单用户模式修改配置，按照常规的方法应该是无法进入单用户模式的，修改完毕后就黑屏；<br>我是修改恢复模式的加载项，即选择高级菜单，恢复模式，按e进入编辑；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">把ro recovery删除，换成熟悉的 rw init&#x3D;&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">按 Ctrl + x 启动；</span><br></pre></td></tr></table></figure>
+
+<h2 id="原因1"><a href="#原因1" class="headerlink" title="原因1"></a>原因1</h2><p>如果是因为服务卡住，可以进入 /etc/init/ 目录下，将对应的服务配置先重命名；</p>
+<p>如：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /etc/init/samba-ad-dc.conf /etc/init/samba-ad-dc.conf-bak</span><br></pre></td></tr></table></figure>
+
+<p>可惜本次故障不是这个原因导致的，接着排查。</p>
+<h2 id="原因2"><a href="#原因2" class="headerlink" title="原因2"></a>原因2</h2><p>怀疑是fstab有些异常参数导致的故障，检查fstab关于根目录的描述是这样的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 故障现场的是这样的：</span></span><br><span class="line">[设备] / ext4 errors=remount-ro,usrquota,grpquota 0 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 我一般的设置是这样的：</span></span><br><span class="line">[设备]  / ext4 defaults 0 1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关于 errors=remount-ro</span></span><br><span class="line">常规设置有三个参数</span><br><span class="line">errors=&#123;<span class="built_in">continue</span>|remount-ro|panic&#125;</span><br><span class="line"></span><br><span class="line">这个是在挂载遇到错误时有三种处理方式：</span><br><span class="line">1. 忽略错误，继续挂载；</span><br><span class="line">2. 重新挂载，改为只读模式；</span><br><span class="line">3. 取消挂载，报系统错误，即panic态；</span><br></pre></td></tr></table></figure>
+
           
         
       
