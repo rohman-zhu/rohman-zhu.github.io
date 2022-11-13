@@ -270,6 +270,509 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/16/Linux%E4%B8%8B%E6%8C%82%E8%BD%BDnas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/16/Linux%E4%B8%8B%E6%8C%82%E8%BD%BDnas/" itemprop="url">Linux下挂载nas</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T00:23:14+08:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul>
+<li>NAS服务器 ： 10.10.1.1</li>
+<li>NAS文件路径： volume/ftp</li>
+<li>Linux主机 ： 10.10.2.1</li>
+<li>Linux版本 ： Ubuntu 14.04 LTS</li>
+<li>Linux内核 ： 3.13.0-24-generic</li>
+<li>登录用户 user:user</li>
+</ul>
+<p>需要创建一个Linux服务器用于备份，因此挂载一个3T空间的NAS服务器文件目录,并开启 ftp 服务。</p>
+<h1 id="实现记录"><a href="#实现记录" class="headerlink" title="实现记录"></a>实现记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> apt-get install nfs-common -y</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo mkdir /mnt/nas</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo chown user:root /mnt/nas</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> mount -t nfs 10.10.1.1:/volume/ftp /mnt/nas</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> df -h</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vim /etc/fstab</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/fstab:static file system information.</span></span><br><span class="line">10.10.1.1:/volume/ftp /mnt/nas nfs defaults 0 0</span><br><span class="line">:wq</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> apt-get install openssh-server openssh-client -y</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ps -e | grep ssh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> netstat -ano | grep 22</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vim /etc/ssh/sshd_config</span></span><br><span class="line"></span><br><span class="line">Subsystem sftp internal-sftp</span><br><span class="line">Match Group sftp</span><br><span class="line">    ChrootDirectory /mnt/nas/</span><br><span class="line">    ForceCommand internal-sftp</span><br><span class="line">    AllowTcpForwarding no</span><br><span class="line">:wq</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> service ssh restart</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/init.d/ssd restart</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ps -e | grep ssd</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> netstat -ano | grep ssh</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> groupadd sftp</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> useradd -g sftp -s /bin/<span class="literal">false</span> mysftp</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chown root:sftp /mnt/nas</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chmod 755 /mnt/nas</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="命令笔记"><a href="#命令笔记" class="headerlink" title="命令笔记"></a>命令笔记</h1><ul>
+<li>df -h：查看磁盘占用情况</li>
+<li>df -T：查看所有磁盘的文件系统类型(type)</li>
+<li>fdisk -l：查看所有被系统识别的磁盘</li>
+<li>mount -t type device dir：挂载device到dir</li>
+<li>ChrootDirectory设置的目录/sftp/sftpuser1的所有者必须是root,并且该目录的上级目录/sftp的所有者也必须是root. </li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>/bin/false 和 /sbin/nologin 的区别在哪里？</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/11/VDI-Ubuntu%E6%97%A0%E6%B3%95%E5%88%87%E6%8D%A2%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/VDI-Ubuntu%E6%97%A0%E6%B3%95%E5%88%87%E6%8D%A2%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%95%8C%E9%9D%A2/" itemprop="url">VDI-Ubuntu无法切换命令行界面</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T23:52:06+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/11/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85VmwareWorkstation%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/11/Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85VmwareWorkstation%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/" itemprop="url">Ubuntu下安装VmwareWorkstation无法启动</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-11T23:19:47+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h1><ul>
+<li>Ubuntu 14.04.3 Kylin</li>
+<li>3.3.56-genric 的内核</li>
+<li>gcc版本</li>
+<li>Vmware Workstation 11\14\15 (都试过安装)</li>
+</ul>
+<h1 id="Vmware-安装步骤"><a href="#Vmware-安装步骤" class="headerlink" title="Vmware 安装步骤"></a>Vmware 安装步骤</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 下载VM安装文件到当前目录，vmware...bundle</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加可执行权限</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chmod +x ./vmware...bundle</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo ./vmware...bundle</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 接着图形界面安装即可</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><h2 id="version11"><a href="#version11" class="headerlink" title="version11"></a>version11</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开软件会提示两个内核模块没有加载成功 ： vmmon 、 vmnet</p>
+</li>
+</ul>
+<h2 id="version12"><a href="#version12" class="headerlink" title="version12"></a>version12</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘/dev/vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h2 id="version14"><a href="#version14" class="headerlink" title="version14"></a>version14</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘/dev/vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h2 id="version15"><a href="#version15" class="headerlink" title="version15"></a>version15</h2><ul>
+<li><p>控制台无错误信息。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘/dev/vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h1 id="网络上的解决方案"><a href="#网络上的解决方案" class="headerlink" title="网络上的解决方案"></a>网络上的解决方案</h1><h2 id="手动复制-vmmon-ko"><a href="#手动复制-vmmon-ko" class="headerlink" title="手动复制 vmmon.ko"></a>手动复制 vmmon.ko</h2><h2 id="安装必须的gtk内核"><a href="#安装必须的gtk内核" class="headerlink" title="安装必须的gtk内核"></a>安装必须的gtk内核</h2><h2 id="修改vmware补丁的配置文件（未尝试）"><a href="#修改vmware补丁的配置文件（未尝试）" class="headerlink" title="修改vmware补丁的配置文件（未尝试）"></a>修改vmware补丁的配置文件（未尝试）</h2><h2 id="执行vmware提供的命令生产vmmon"><a href="#执行vmware提供的命令生产vmmon" class="headerlink" title="执行vmware提供的命令生产vmmon"></a>执行vmware提供的命令生产vmmon</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/07/15/%E5%88%9D%E5%A7%8BLDAP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1661,562 +2164,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/02/14/UEFI%E4%B8%8EGUID%E4%B8%8B%E7%9A%84%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/14/UEFI%E4%B8%8EGUID%E4%B8%8B%E7%9A%84%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC/" itemprop="url">UEFI与GUID下的双系统引导</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-14T23:10:20+08:00">
-                2018-02-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="UEFI与GUID下的双系统引导"><a href="#UEFI与GUID下的双系统引导" class="headerlink" title="UEFI与GUID下的双系统引导"></a>UEFI与GUID下的双系统引导</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经好多个星期没有写博文了,今天借着在公司实习过程中学习到的新技能,在这里秀一波. 事情是这样的,现在很多人都会去装双系统(Linux+Windows居多),如果采用Legacy的启动方式,则不适用于本教材,对于这种启动方式,自然有相对应的引导方法,下次再记录.本文记录的是UEFI+GUID模式的引导.</p>
-<h2 id="设置BIOS与转换硬盘分区表为GUID"><a href="#设置BIOS与转换硬盘分区表为GUID" class="headerlink" title="设置BIOS与转换硬盘分区表为GUID"></a>设置BIOS与转换硬盘分区表为GUID</h2><p>首先是要对BIOS进行设置,在BIOS启动引导项内,选择”UEFI”模式.</p>
-<p>如果硬盘分区列表不是GUID(GPT),则需要将硬盘的分区列表整体转化为GUID,这个需要在PE内,使用Diskgenius这个软件来实现,转换前,需要把所有数据做好备份,因为需要删除整个分区列表,这个是没办法的事情.</p>
-<h2 id="硬盘空间安排"><a href="#硬盘空间安排" class="headerlink" title="硬盘空间安排"></a>硬盘空间安排</h2><ul>
-<li>100 G 作为windows10 的系统盘(包含ESP和MSR)</li>
-<li>100 G 作为Linux的系统盘</li>
-<li>300 G 作为数据盘</li>
-</ul>
-<h2 id="安装Windows10系统"><a href="#安装Windows10系统" class="headerlink" title="安装Windows10系统"></a>安装Windows10系统</h2><p>自行分配好硬盘空间,安装windows10的时候,会自动划分ESP分区(必要)和MSR(非必要),安装就没有什么好说的了.</p>
-<h2 id="安装Linux系统"><a href="#安装Linux系统" class="headerlink" title="安装Linux系统"></a>安装Linux系统</h2><p>在100G的空间内,做一下安排:</p>
-<ul>
-<li>200MB 的 /boot 节点</li>
-<li>两倍于物理内存的 swap 分区</li>
-<li>剩余空间分配给 / 节点</li>
-</ul>
-<h2 id="制作引导"><a href="#制作引导" class="headerlink" title="制作引导"></a>制作引导</h2><p>本文使用的是rEFInd 这个开源的软件(官网:<a href="http://www.rodsbooks.com/refind/" target="_blank" rel="noopener">http://www.rodsbooks.com/refind/</a>).</p>
-<p><img src="http://www.rodsbooks.com/refind/refind.png" alt="引导界面效果如下"></p>
-<p>下载地址:<a href="http://www.rodsbooks.com/refind/getting.html" target="_blank" rel="noopener">http://www.rodsbooks.com/refind/getting.html</a></p>
-<p>目前我只试验过在Linux下执行安装脚本后,直接运行即可.</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>写到文章最后个人感觉难点在于 UEFI+GPT 这种方式的理解上面 , 另一方面 , 如果之前使用的是MBR,并且存放着大量的资料(几百个G的资料 - - ),这时候就要迁移资料再转变分区列表格式 . 另外 rEFInd 这个开源的引导软件,真的可以做到傻瓜式操作…在Linux下直接运行安装脚本即可,其实后续还有很多可玩的地方,比如…自定义界面??(这个后面再试试)现在是大年三十的凌晨啦,那么先晚安啦~</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/21/%E5%BE%85%E8%A1%A5%E5%85%85-LVS%E9%9B%86%E7%BE%A4%E4%BB%A5%E5%8F%8Akeepalive%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%9E%E6%88%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/21/%E5%BE%85%E8%A1%A5%E5%85%85-LVS%E9%9B%86%E7%BE%A4%E4%BB%A5%E5%8F%8Akeepalive%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%9E%E6%88%98/" itemprop="url">LVS集群以及keepalive高可用实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T19:31:08+08:00">
-                2018-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="负载均衡LVS-Keepalive"><a href="#负载均衡LVS-Keepalive" class="headerlink" title="负载均衡LVS,Keepalive#"></a>负载均衡LVS,Keepalive#</h1><h2 id="APR-Address-Resolution-Protocol-地址解析协议"><a href="#APR-Address-Resolution-Protocol-地址解析协议" class="headerlink" title="APR (Address Resolution Protocol) 地址解析协议"></a>APR (Address Resolution Protocol) 地址解析协议</h2><blockquote>
-<p>通过IP地址,获取主机的MAC地址</p>
-</blockquote>
-<p>查看ARP:</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Windows &amp;&amp; Linux</span><br><span class="line">arp -a</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>有arp缓存表可以加速ARP的解析速度.</li>
-<li>给恶意黑客带来攻击服务器主机的风险(ARP欺骗)</li>
-</ol>
-<blockquote>
-<p>ARP属于三层协议</p>
-</blockquote>
-<h3 id="ARP欺骗原理"><a href="#ARP欺骗原理" class="headerlink" title="ARP欺骗原理"></a>ARP欺骗原理</h3><p>ARP攻击就是通过伪造IP地址和MAC地址对(IP-MAC),实现ARP欺骗.</p>
-<p>解决方法 : </p>
-<ul>
-<li>记录正确网关地址</li>
-</ul>
-<h3 id="高可用服务器对-切换时ARP缓存问题"><a href="#高可用服务器对-切换时ARP缓存问题" class="headerlink" title="高可用服务器对 切换时ARP缓存问题"></a>高可用服务器对 切换时ARP缓存问题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/sbin/arping -I eth0 -c 3 -s 10.0.-.162 10.0.0.253</span><br><span class="line">/sbin/arping -U -I eth0 10.0.0.162</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器等设备迁移时-要考虑ARP缓存的问题"><a href="#路由器等设备迁移时-要考虑ARP缓存的问题" class="headerlink" title="路由器等设备迁移时,要考虑ARP缓存的问题"></a>路由器等设备迁移时,要考虑ARP缓存的问题</h3><p>同上一个问题.</p>
-<h2 id="LVS-Linux-Virtual-Server"><a href="#LVS-Linux-Virtual-Server" class="headerlink" title="LVS (Linux Virtual Server)"></a>LVS (Linux Virtual Server)</h2><p>负载均衡主要功能</p>
-<ol>
-<li>减少用户等待相应时间,系统处理能力得到大幅度提高.</li>
-<li>单个负载的运算分担到多台节点设备上做并行处理.</li>
-<li>7*24的服务保证</li>
-</ol>
-<p>LVS:</p>
-<ol>
-<li>实现调度的工具IPVS</li>
-<li>管理工具 IPVSADM</li>
-<li>keepalived 实现管理及高可用 </li>
-</ol>
-<p>术语:</p>
-<table>
-<thead>
-<tr>
-<th align="center">名称</th>
-<th align="center">缩写</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">虚拟IP地址</td>
-<td align="center">VIP</td>
-<td align="center">VIP为Director用于向客户端计算机提供服务的IP地址</td>
-</tr>
-<tr>
-<td align="center">真实IP地址</td>
-<td align="center">RIP</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">客户端主机IP</td>
-<td align="center">CIP</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">Director的IP地址</td>
-<td align="center">DIP</td>
-<td align="center">用于连接内外网络的IP 地址,物理网卡上的IP 地址.</td>
-</tr>
-</tbody></table>
-<h3 id="四种工作模式"><a href="#四种工作模式" class="headerlink" title="四种工作模式"></a>四种工作模式</h3><h4 id="DR模式-Director-Router"><a href="#DR模式-Director-Router" class="headerlink" title="DR模式(Director Router)"></a>DR模式(Director Router)</h4><p>通过改写请求报文的目标MAC地址,通过LVS发送给服务器,服务器将结果返回给客户端.</p>
-<blockquote>
-<p>请求过程: CIP -&gt; VIP -&gt; 更改 VIP:MAC -&gt; VIP:RMAC(真实服务器的MAC) -&gt; CIP -&gt; VIP -&gt; L0绑定VIP,并且抑制ARP</p>
-</blockquote>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/20/LNMP%E4%B9%8BPHP%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/20/LNMP%E4%B9%8BPHP%E4%BC%98%E5%8C%96/" itemprop="url">LNMP之PHP优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T18:56:49+08:00">
-                2018-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PHP优化–-拓展安装方式"><a href="#PHP优化–-拓展安装方式" class="headerlink" title="PHP优化– 拓展安装方式"></a>PHP优化– 拓展安装方式</h1><h2 id="PHP缓存加速器介绍"><a href="#PHP缓存加速器介绍" class="headerlink" title="PHP缓存加速器介绍"></a>PHP缓存加速器介绍</h2><h3 id="操作码与缓存"><a href="#操作码与缓存" class="headerlink" title="操作码与缓存"></a>操作码与缓存</h3><p>客户端请求一个PHP程序,服务器的PHP引擎会解析该PHP程序,并将其编译为特定的操作码文件(OperateCode).</p>
-<p>默认情况,opcode执行完后会被丢弃.而,Opcode cache的原理就是将这个编译后的操作码保存下来,放入共享内存里,以便下次调用.</p>
-<h3 id="PHP缓存软件"><a href="#PHP缓存软件" class="headerlink" title="PHP缓存软件"></a>PHP缓存软件</h3><ul>
-<li>xcache</li>
-<li>eaccelerator</li>
-<li>APC(Alternative PHP Cache)</li>
-<li>ZendOpcache</li>
-</ul>
-<h2 id="使用Xcache"><a href="#使用Xcache" class="headerlink" title="使用Xcache"></a>使用Xcache</h2><p>安装前需要执行以下操作:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解决相关的Warning出现</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export LC_ALL=C'</span> &gt;&gt; /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装perl-devel,如果不装,那么在安装图形转换的软件可能会出现错误</span></span><br><span class="line">yum install perl-devel -y</span><br></pre></td></tr></table></figure>
-
-<p>视频采用的是3.2.x,安装过程是:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line">tar xf xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> xcache-3.2.0</span><br><span class="line">/application/php/bin/phpize</span><br><span class="line">./configure --<span class="built_in">enable</span>-xcache --with-php-config=/application/php/bin/php-config</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-
-<h2 id="memcache"><a href="#memcache" class="headerlink" title="memcache"></a>memcache</h2><h2 id="ImageMagick软件"><a href="#ImageMagick软件" class="headerlink" title="ImageMagick软件"></a>ImageMagick软件</h2><h2 id="imagick-php-拓展插件"><a href="#imagick-php-拓展插件" class="headerlink" title="imagick php 拓展插件"></a>imagick php 拓展插件</h2><h2 id="PHP配置"><a href="#PHP配置" class="headerlink" title="PHP配置"></a>PHP配置</h2><p>路径是 /application/PHP/lib/php.ini</p>
-<p>结尾添加:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extension_dir &#x3D; &quot;拓展插件的路径&quot;</span><br><span class="line">extension &#x3D; xx1.so</span><br><span class="line">extension &#x3D; xx2.so</span><br></pre></td></tr></table></figure>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章内容主要是讲PHP的插件安装,安装一些功能性插件与优化插件,对于功能性插件如果不知道是否要使用,最好直接安装上,优化插件选择其中一个即可(如 Xcache ). </p>
-<p><a href="http://www.tudou.com/programs/view/Ef8GkNnfm2w/" target="_blank" rel="noopener">http://www.tudou.com/programs/view/Ef8GkNnfm2w/</a> 这个是PHP加速器压力测试过程讲解,视频是否还在?</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2267,7 +2214,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">321</span>
+                  <span class="site-state-item-count">324</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
