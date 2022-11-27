@@ -270,6 +270,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/05/Linux-%E6%8C%82%E8%BD%BD%E4%B8%8E%E5%8D%B8%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/05/Linux-%E6%8C%82%E8%BD%BD%E4%B8%8E%E5%8D%B8%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" itemprop="url">Linux 挂载与卸载文件系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-05T13:24:51+08:00">
+                2017-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Linux挂载与卸载文件系统"><a href="#Linux挂载与卸载文件系统" class="headerlink" title="Linux挂载与卸载文件系统"></a>Linux挂载与卸载文件系统</h1><h2 id="练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上"><a href="#练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上" class="headerlink" title="练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上"></a>练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上</h2><ol>
+<li>查询这个硬盘的信息。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ blkid</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;dev&#x2F;sda1: UUID&#x3D;&quot;2A98DE1F98DDE979&quot; TYPE&#x3D;&quot;ntfs&quot; </span><br><span class="line">&#x2F;dev&#x2F;sda2: UUID&#x3D;&quot;000A8A2B00090684&quot; TYPE&#x3D;&quot;ntfs&quot; </span><br><span class="line">&#x2F;dev&#x2F;sda3: UUID&#x3D;&quot;a19323f9-0867-4328-9ec5-6075bf75fe5e&quot; TYPE&#x3D;&quot;xfs&quot; </span><br><span class="line">&#x2F;dev&#x2F;sda5: UUID&#x3D;&quot;zDW5vb-IDea-s8rS-Wo5k-mWMf-eou2-MWtxXc&quot; TYPE&#x3D;&quot;LVM2_member&quot; </span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;cl-root: UUID&#x3D;&quot;a9d6aab6-0568-4b3b-b11e-278ec4f9795d&quot; TYPE&#x3D;&quot;xfs&quot; </span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;cl-swap: UUID&#x3D;&quot;344d22fa-7e77-4168-a1a7-0abb8614f637&quot; TYPE&#x3D;&quot;swap&quot; </span><br><span class="line">&#x2F;dev&#x2F;mapper&#x2F;cl-home: UUID&#x3D;&quot;db643711-334f-47ab-b5e7-4729f5edb435&quot; TYPE&#x3D;&quot;xfs&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>在Linux上创建一个文件夹，作为挂载点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir testDev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据 UUID 将文件系统挂载到 Linux 的 testDev 下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mount UUID&#x3D;&quot;000A8A2B00090684&quot; testDev&#x2F;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载在 Linux 上面的文件系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ umount testDev&#x2F;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/05/windows%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2124,192 +2289,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/" itemprop="url">Linux 故障修复集</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-02T11:23:06+08:00">
-                2017-10-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="修复CentOS-7启动引导"><a href="#修复CentOS-7启动引导" class="headerlink" title="修复CentOS-7启动引导"></a>修复CentOS-7启动引导</h1><h2 id="一、修复MBR："><a href="#一、修复MBR：" class="headerlink" title="一、修复MBR：##"></a>一、修复MBR：##</h2><p>MBR（Master Boot Record主引导记录）：</p>
-<p>硬盘的0柱面、0磁头、1扇区称为主引导扇区。其中446Byte是bootloader，64Byte为Partition table，剩下的2Byte为magic number。</p>
-<p>备份MBR：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D;&#x2F;root&#x2F;mbr.bak count&#x3D;1 bs&#x3D;512</span><br></pre></td></tr></table></figure>
-
-<p>破坏bootloader：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;dev&#x2F;sda count&#x3D;1 bs&#x3D;200</span><br></pre></td></tr></table></figure>
-
-<p>这里边block size只要小于等于446即可。</p>
-<p>修复方式：</p>
-<ol>
-<li>借助其他系统挂载磁盘修复。</li>
-</ol>
-<p>修复方式同光盘修复类似，也是使用grub2-install命令。</p>
-<ol start="2">
-<li>借助安装光盘修复。</li>
-</ol>
-<h3 id="插入Linux安装盘"><a href="#插入Linux安装盘" class="headerlink" title="插入Linux安装盘"></a>插入Linux安装盘</h3><ol>
-<li>装入光盘，在光盘引导界面选择troubleshooting：</li>
-<li>选择进入救援模式（Recue a CentOS system )：</li>
-<li>按回车键继续：</li>
-<li>进入磁盘挂载选择模式：磁盘将会被挂载至/mnt/sysimage/下</li>
-</ol>
-<ul>
-<li>continue 以rw方式挂载分区。</li>
-<li>read only 以ro方式挂载分区。</li>
-<li>skip 跳过，将来自己手工挂载磁盘。</li>
-</ul>
-<ol start="5">
-<li>选择continue，稍等片刻，提示已经挂载完成。</li>
-<li>此时进入救援模式的命令行：</li>
-<li>使用grub2-install命令重建bootloader,并且显示无错误后，重启系统。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grub2-install root-directory&#x3D;&#x2F;mnt&#x2F;sysimage &#x2F;dev&#x2F;sda</span><br><span class="line">#sync</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
-<p><a href="http://www.linuxidc.com/Linux/2015-03/114678.htm" target="_blank" rel="noopener">原文地址</a></p>
-<h1 id="硬件故障"><a href="#硬件故障" class="headerlink" title="硬件故障"></a>硬件故障</h1><p>先查看内核日志文件，检查问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2360,7 +2339,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">329</span>
+                  <span class="site-state-item-count">330</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
