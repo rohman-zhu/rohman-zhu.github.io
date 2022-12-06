@@ -1975,6 +1975,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -2045,7 +2067,7 @@
 <li>安装新版内核</li>
 <li>更新 grub </li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 4.4.0-137-generic 内核</span></span><br><span class="line">apt install linux-image-4.4.0-137-generic  linux-headers-4.4.0-137 linux-headers-4.15.0-29-generic -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新 grub</span></span><br><span class="line">update-grub</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启即可</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。一般有些服务器的驱动需要额外安装，此包最好也安装一下</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 4.4.0-137-generic 内核</span></span><br><span class="line">apt install linux-image-4.4.0-137-generic  linux-headers-4.4.0-137 linux-headers-4.15.0-29-generic linux-image-extra-4.4.0-137 -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新 grub</span></span><br><span class="line">update-grub</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启即可</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
 
 <h1 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><ul>
 <li>OS ： Ubuntu 16.04.5-LTS</li>
