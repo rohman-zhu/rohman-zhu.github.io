@@ -87,7 +87,7 @@
 <meta property="og:description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录XX月XX日">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-27T07:02:01.000Z">
-<meta property="article:modified_time" content="2022-12-27T08:17:03.012Z">
+<meta property="article:modified_time" content="2022-12-27T08:36:54.304Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="监控">
 <meta name="twitter:card" content="summary">
@@ -408,7 +408,7 @@
 </ul>
 <p>描述：远程会有卡顿感。如果远程到目标端是多层RDP嵌套，则会更加卡顿。</p>
 <h1 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h1><h2 id="用户侧"><a href="#用户侧" class="headerlink" title="用户侧"></a>用户侧</h2><p>要对用户做分类，根据用户实际业务场景对CPU使用情况由高到低分为重型用户、轻型用户、常规用户。</p>
-<p>重型用户要归到高配的RDSH，避免其工作影响其他轻型用户、常规用户使用；</p>
+<p>重型用户在申请使用的环节就要识别出来，并把重型用户要归到高配的RDSH，避免其工作影响其他轻型用户、常规用户使用；</p>
 <h2 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h2><ol>
 <li>优化监控项；</li>
 <li>优化部署流程；</li>
@@ -452,6 +452,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/12/27/vSAN%E5%86%99%E5%85%A5%E5%B8%A6%E5%AE%BD%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/" rel="prev" title="vSAN写入带宽实测记录">
+                vSAN写入带宽实测记录 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -528,7 +532,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">335</span>
+                  <span class="site-state-item-count">336</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
