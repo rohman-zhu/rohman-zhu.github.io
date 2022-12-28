@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录XX月XX日">
+<meta name="description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录资源机RDS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="远程桌面RDP负载记录">
 <meta property="og:url" content="http://github.com/rohman-zhu/2022/12/27/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2RDP%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Rohman の 实验室">
-<meta property="og:description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录XX月XX日">
+<meta property="og:description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录资源机RDS">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-27T07:02:01.000Z">
-<meta property="article:modified_time" content="2022-12-27T08:36:54.304Z">
+<meta property="article:modified_time" content="2022-12-28T10:49:10.270Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="监控">
 <meta name="twitter:card" content="summary">
@@ -400,18 +400,45 @@
 <li>与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高；</li>
 <li>跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；</li>
 </ul>
-<h1 id="业务负载记录"><a href="#业务负载记录" class="headerlink" title="业务负载记录"></a>业务负载记录</h1><p>XX月XX日 15:04 </p>
+<h1 id="业务负载记录"><a href="#业务负载记录" class="headerlink" title="业务负载记录"></a>业务负载记录</h1><h2 id="资源机RDSH记录"><a href="#资源机RDSH记录" class="headerlink" title="资源机RDSH记录"></a>资源机RDSH记录</h2><p>XX月XX日 15:04 </p>
 <ul>
 <li>用户数：22</li>
 <li>CPU负载：90%</li>
 <li>RAM负载：50%</li>
 </ul>
 <p>描述：远程会有卡顿感。如果远程到目标端是多层RDP嵌套，则会更加卡顿。</p>
+<h2 id="安全服务器记录"><a href="#安全服务器记录" class="headerlink" title="安全服务器记录"></a>安全服务器记录</h2><p>安全服务器配置4C8G；</p>
+<p>XX月XX日 16:03</p>
+<p>新增加RDSH后，卡顿感明显；检查链路上的前端节点。</p>
+<ul>
+<li>用户总数：220</li>
+<li>CPU负载：100%</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：80Mbps；</li>
+</ul>
+<blockquote>
+<p>描述：用户数量达到 200 左右时， 安全服务器节点的CPU应该扩容至8C。</p>
+</blockquote>
+<p>xx月xx日 16:36</p>
+<p>安全服务器配置为8C16G；</p>
+<ul>
+<li>用户总数：241</li>
+<li>CPU负载：</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：</li>
+</ul>
 <h1 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h1><h2 id="用户侧"><a href="#用户侧" class="headerlink" title="用户侧"></a>用户侧</h2><p>要对用户做分类，根据用户实际业务场景对CPU使用情况由高到低分为重型用户、轻型用户、常规用户。</p>
 <p>重型用户在申请使用的环节就要识别出来，并把重型用户要归到高配的RDSH，避免其工作影响其他轻型用户、常规用户使用；</p>
 <h2 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h2><ol>
 <li>优化监控项；</li>
 <li>优化部署流程；</li>
+</ol>
+<h3 id="优化监控项"><a href="#优化监控项" class="headerlink" title="优化监控项"></a>优化监控项</h3><p>主要的问题：</p>
+<ol>
+<li>未能及时识别到告警的节点在链路中承担的角色，例如：告警信息只有IP信息，不清楚其为重要的安全服务器角色。</li>
+<li>告警等级不准确，例如：该为2级告警的信息被定义为3级告警。</li>
+<li>监控信息查看不方便，没有做信息聚合，例如：需要查看CPU使用率与用户数结合。</li>
+<li>没有办法及时评估整体负载情况。</li>
 </ol>
 
       
@@ -587,7 +614,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#业务描述"><span class="nav-number">1.</span> <span class="nav-text">业务描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#业务负载记录"><span class="nav-number">2.</span> <span class="nav-text">业务负载记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改进措施"><span class="nav-number">3.</span> <span class="nav-text">改进措施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户侧"><span class="nav-number">3.1.</span> <span class="nav-text">用户侧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源侧"><span class="nav-number">3.2.</span> <span class="nav-text">资源侧</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#业务描述"><span class="nav-number">1.</span> <span class="nav-text">业务描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#业务负载记录"><span class="nav-number">2.</span> <span class="nav-text">业务负载记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#资源机RDSH记录"><span class="nav-number">2.1.</span> <span class="nav-text">资源机RDSH记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全服务器记录"><span class="nav-number">2.2.</span> <span class="nav-text">安全服务器记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#改进措施"><span class="nav-number">3.</span> <span class="nav-text">改进措施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户侧"><span class="nav-number">3.1.</span> <span class="nav-text">用户侧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源侧"><span class="nav-number">3.2.</span> <span class="nav-text">资源侧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化监控项"><span class="nav-number">3.2.1.</span> <span class="nav-text">优化监控项</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
