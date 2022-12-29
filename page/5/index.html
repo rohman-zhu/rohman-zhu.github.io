@@ -270,6 +270,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/22/esxcli-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/05/22/esxcli-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E8%AE%B0%E5%BD%95/" itemprop="url">esxcli 常用指令记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-22T16:24:15+08:00">
+                2022-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="网络测试"><a href="#网络测试" class="headerlink" title="网络测试"></a>网络测试</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示所有网卡 </span></span><br><span class="line">esxcli network nic list</span><br><span class="line"><span class="comment"># 关闭网卡 </span></span><br><span class="line">esxcli network nic down -n vmnic[X]</span><br><span class="line"><span class="comment"># 开启网卡 </span></span><br><span class="line">esxcli network nic up -n vmnic[X]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 https://kb.vmware.com/s/article/2006074</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用vmkernel网卡去ping </span></span><br><span class="line">vmkping -I  vmk0 [Target IP]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用巨帧</span></span><br><span class="line">vmkping -d -s 8972 x.x.x.x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 ： https://kb.vmware.com/s/article/1003728?lang=zh_cn</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="负载查看"><a href="#负载查看" class="headerlink" title="负载查看"></a>负载查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">esxtop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用视图</span></span><br><span class="line">u=Disk Device</span><br><span class="line">d=Disk Adapter</span><br><span class="line">x=vSAN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他视图</span></span><br><span class="line">c=CPU</span><br><span class="line">m=Memory</span><br><span class="line">n=Network</span><br><span class="line">p=Power Management</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装补丁"><a href="#安装补丁" class="headerlink" title="安装补丁"></a>安装补丁</h1><p>esxcli software vib update -d /vmfs/xxxxxxxx.zip</p>
+<h1 id="设置标准交换机模式"><a href="#设置标准交换机模式" class="headerlink" title="设置标准交换机模式"></a>设置标准交换机模式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">esxcli network vswitch standard policy failover <span class="built_in">set</span> -l [Policy] -v [vSwitch] -a vmnic[X],vmnic[X]</span><br><span class="line">esxcli network vswitch standard portgroup policy failover -<span class="built_in">set</span> -p <span class="string">"Management Network"</span> -l [Policy] -a vmnic[X],vmnic[X]</span><br></pre></td></tr></table></figure>
+
+<p>[Policy]有以下4种：</p>
+<p>explicit – according to the list<br>portid – based on the originating virtual port<br>mac – on source MAC-hash<br>iphash – based on IP-hash</p>
+<h1 id="版本查看"><a href="#版本查看" class="headerlink" title="版本查看"></a>版本查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmware -v</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Ubuntu2004%E4%B8%8B%E7%9A%84kdump%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2277,181 +2470,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/01/21/%E5%BC%80%E6%9C%BA%E8%BF%9B%E5%85%A5Grub%E8%8F%9C%E5%8D%95%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/01/21/%E5%BC%80%E6%9C%BA%E8%BF%9B%E5%85%A5Grub%E8%8F%9C%E5%8D%95%E8%AE%B0%E5%BD%95/" itemprop="url">开机进入Grub菜单记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-21T23:11:01+08:00">
-                2022-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%89%A9%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">物理服务器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>有一台Linux服务器忘记密码了，需要进入单用户模式下修改密码。</p>
-<h1 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h1><p>在BIOS转操作系统的时候：</p>
-<p>方法1：按shift键<br>方法2：按ESC键（一次）<br>方法3：在Loading 系统的时候，发送Ctrl + Alt + del触发重启。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2502,7 +2520,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">336</span>
+                  <span class="site-state-item-count">337</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
