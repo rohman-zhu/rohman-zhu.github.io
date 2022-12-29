@@ -87,7 +87,7 @@
 <meta property="og:description" content="常用脚本与指令合集特殊字符转意需要使用单引号转意 &#96; 获取系统启动时间1(Get-Process wininit).StartTime  Invoke-Command 传递参数Invoke-Command指令，需要带上-ArgumentList 传递参数代码块使用Param()捕获参数 1Invoke-Command xxxxxxx -ArgumentList 参数1 -ScripBlock &amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-09T16:15:36.000Z">
-<meta property="article:modified_time" content="2022-12-27T07:47:47.323Z">
+<meta property="article:modified_time" content="2022-12-29T15:39:10.791Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="脚本">
 <meta name="twitter:card" content="summary">
@@ -488,6 +488,9 @@
 <td align="center"></td>
 </tr>
 </tbody></table>
+<blockquote>
+<p>注意，所有字符串都能 match 空值 $null</p>
+</blockquote>
 <h2 id="检查目标补丁是否安装"><a href="#检查目标补丁是否安装" class="headerlink" title="检查目标补丁是否安装"></a>检查目标补丁是否安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#目标补丁KB号</span><br><span class="line">TargetHotFixIDArray&#x3D;&quot;&quot;,&quot;&quot;</span><br><span class="line"></span><br><span class="line">for ( $i ; $i -lt $TargetHotFixIDArray.length ; $i++ )&#123;</span><br><span class="line">  $isInstalled&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID&#x3D;$TargetHotFixIDArray[$i]&#125; ;</span><br><span class="line">  if ($isInstalled -eq $null)&#123;</span><br><span class="line">    &quot;$TargetHotFixIDArray[$i] don&#39;t installed.&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 

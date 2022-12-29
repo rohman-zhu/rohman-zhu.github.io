@@ -888,6 +888,9 @@
 <td align="center"></td>
 </tr>
 </tbody></table>
+<blockquote>
+<p>注意，所有字符串都能 match 空值 $null</p>
+</blockquote>
 <h2 id="检查目标补丁是否安装"><a href="#检查目标补丁是否安装" class="headerlink" title="检查目标补丁是否安装"></a>检查目标补丁是否安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#目标补丁KB号</span><br><span class="line">TargetHotFixIDArray&#x3D;&quot;&quot;,&quot;&quot;</span><br><span class="line"></span><br><span class="line">for ( $i ; $i -lt $TargetHotFixIDArray.length ; $i++ )&#123;</span><br><span class="line">  $isInstalled&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID&#x3D;$TargetHotFixIDArray[$i]&#125; ;</span><br><span class="line">  if ($isInstalled -eq $null)&#123;</span><br><span class="line">    &quot;$TargetHotFixIDArray[$i] don&#39;t installed.&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
