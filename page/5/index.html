@@ -1380,6 +1380,7 @@
 <p>explicit – according to the list<br>portid – based on the originating virtual port<br>mac – on source MAC-hash<br>iphash – based on IP-hash</p>
 <h1 id="版本查看"><a href="#版本查看" class="headerlink" title="版本查看"></a>版本查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmware -v</span><br></pre></td></tr></table></figure>
 
+<h1 id="存储连接状态"><a href="#存储连接状态" class="headerlink" title="存储连接状态"></a>存储连接状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">esxcli storage core device list -d=device_ID 命令。</span><br><span class="line"></span><br><span class="line">on- 设备已连接。</span><br><span class="line">dead- 设备已进入 APD 状态。APD 定时器已启动。</span><br><span class="line">dead timeout- APD 超时已过期。</span><br><span class="line">not connected- 设备处于 PDL 状态。</span><br></pre></td></tr></table></figure>
           
         
       
