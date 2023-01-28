@@ -270,6 +270,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/05/Linux%E6%9D%83%E9%99%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/05/Linux%E6%9D%83%E9%99%90/" itemprop="url">Linux权限</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-05T21:27:23+08:00">
+                2017-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>文件和目录都设置有权限的概念，可以通过 ls -l 查看 ， 权限分为三种类型，分别是：</p>
+<ul>
+<li>用户权限</li>
+<li>组权限</li>
+<li>其他用户权限</li>
+</ul>
+<h3 id="umask的作用"><a href="#umask的作用" class="headerlink" title="umask的作用"></a>umask的作用</h3><p>可以理解成屏蔽权限的命令，可以通过 umask 查看被屏蔽的权限是什么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">设置umask为051</span><br><span class="line">$ umask 051</span><br></pre></td></tr></table></figure>
+
+<p>看后三位即可，由前到后分别是 用户权限，组权限，其他用户权限。</p>
+<p>默认创建的目录，权限是755 ； 文件的权限是 644 。而计算公式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">默认文件的全部权限位666</span><br><span class="line">umask权限             -</span><br><span class="line">如果umask上面的数字为基数 +1</span><br><span class="line">--------------------------</span><br><span class="line">最终结果为文件创建后的权限</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">$ touch test</span><br><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">6   6   6</span><br><span class="line">0   2   2       -</span><br><span class="line">------------------</span><br><span class="line">6   4   4</span><br><span class="line"></span><br><span class="line">改变umask</span><br><span class="line">$ umask 032</span><br><span class="line">$ touch test2</span><br><span class="line"></span><br><span class="line">6   6   6  </span><br><span class="line">0   3   2       -</span><br><span class="line">    1           +</span><br><span class="line">-----------------</span><br><span class="line">6   4   4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>想用永久设置umask生效，则将umask设置到 profiles 文件里面。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/05/Linux%E5%BC%80%E5%85%B3%E6%9C%BA%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2059,212 +2225,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/03/LINUX%E7%9B%AE%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/03/LINUX%E7%9B%AE%E5%BD%95/" itemprop="url">LINUX目录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-03T11:31:55+08:00">
-                2017-10-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常规目录"><a href="#常规目录" class="headerlink" title="常规目录"></a>常规目录</h1><ul>
-<li>/usr/local/</li>
-</ul>
-<p>用户安装的软件都会放在这里，相当于Windows系统的软件默认安装路径(c:\program file)</p>
-<ul>
-<li>/usr/src/</li>
-</ul>
-<p>内核源码存放目录</p>
-<ul>
-<li>/var/</li>
-</ul>
-<p>存放可变数据的路径</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log 日志文件</span><br><span class="line">&#x2F;var&#x2F;secure</span><br><span class="line">&#x2F;var&#x2F;messages</span><br><span class="line">&#x2F;var&#x2F;spool&#x2F;cron&#x2F;root &lt; &#x3D;&#x3D; 定时任务所在的路径</span><br><span class="line"></span><br><span class="line">$ 查看定时任务：</span><br><span class="line">$ crontab -l</span><br><span class="line">$ cat &#x2F;var&#x2F;spool&#x2F;cron&#x2F;root</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>/proc/</li>
-</ul>
-<p>显示主机信息的虚拟路径</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;meninfo 内存信息</span><br><span class="line"></span><br><span class="line">&#x2F;proc&#x2F;cupinfo CPU信息</span><br><span class="line"></span><br><span class="line">&#x2F;proc&#x2F;interrupt CPU中断信息</span><br><span class="line"></span><br><span class="line">&#x2F;proc&#x2F;loadavg 负载</span><br><span class="line"></span><br><span class="line">&#x2F;proc&#x2F;mounts 设备挂载信息</span><br></pre></td></tr></table></figure>
-
-<p>内核优化也会将结果写进proc里面去</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ 修改操作</span><br><span class="line"></span><br><span class="line">$ vim &#x2F;etc&#x2F;sysct1.conf</span><br><span class="line"></span><br><span class="line">$ cat&#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;tcp_tw_reuse</span><br></pre></td></tr></table></figure>
-
-<p>对本路径里面的文件进行修改并不会永久生效，当机器重启后，所有修改都会丢失。</p>
-<h1 id="其他重要目录"><a href="#其他重要目录" class="headerlink" title="其他重要目录"></a>其他重要目录</h1><ul>
-<li>/etc/inittab</li>
-</ul>
-<p>设置系统启动时，init进程将把系统设置成什么样的运行级别，以及加载相关级别对应启动文件</p>
-<ul>
-<li>/etc/profile.d</li>
-</ul>
-<p>登录后执行的脚本所在地</p>
-<ul>
-<li>/etc/motd</li>
-</ul>
-<p>登录后显示的字符串</p>
-<ul>
-<li>/etc/xxxx-release</li>
-</ul>
-<p>系统版本，红帽的为 redhat-release , Cent的为centos-release</p>
-<ul>
-<li>/etc/passwd</li>
-</ul>
-<p>账号信息文件</p>
-<ul>
-<li>/etc/shadow</li>
-</ul>
-<p>密码信息文件</p>
-<ul>
-<li>/etc/gshadow</li>
-</ul>
-<p>组密码信息文件</p>
-<ul>
-<li>/etc/sudoers</li>
-</ul>
-<p>可以执行使用sudo命令的配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ visudo &lt; &#x3D;&#x3D; 编辑文件，添加用户权限</span><br><span class="line">$ visudo -c &lt; &#x3D;&#x3D; 检查语法文件</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2315,7 +2275,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">343</span>
+                  <span class="site-state-item-count">344</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
