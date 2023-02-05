@@ -270,6 +270,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" itemprop="url">VMware PowerCLI 常用指令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-29T23:32:27+08:00">
+                2022-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="获取虚拟机配置信息"><a href="#获取虚拟机配置信息" class="headerlink" title="获取虚拟机配置信息"></a>获取虚拟机配置信息</h1><p>CPU、Memory、制备空间、使用空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$VM&#x3D;Get-VM -Name &quot;虚拟机名&quot;</span><br><span class="line"># CPU核数，单位Core</span><br><span class="line">$cpu&#x3D;$VM.NumCPU;</span><br><span class="line"># 内存数，单位GB</span><br><span class="line">$ramGB&#x3D;$VM.MemoryGB;</span><br><span class="line"># 制备空间，单位GB</span><br><span class="line">$provisionedSpaceGB&#x3D;$VM.ProvisionedSpaceGB;</span><br><span class="line"># 使用空间，单位GB</span><br><span class="line">$usedSpaceGB&#x3D;$VM.UsedSpaceGB;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置虚拟机备注信息"><a href="#设置虚拟机备注信息" class="headerlink" title="设置虚拟机备注信息"></a>设置虚拟机备注信息</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 保留之前的备注信息</span><br><span class="line">$VM&#x3D;Get-VM -Name &quot;虚拟机名&quot;;</span><br><span class="line">$preNotes&#x3D;$VM.notes;</span><br><span class="line">Set-VM -VM $VM -Notes &quot;$preNotes+[新的备注信息]&quot; -confirm:$FALSE;</span><br></pre></td></tr></table></figure>
+
+<h1 id="热关闭虚拟机"><a href="#热关闭虚拟机" class="headerlink" title="热关闭虚拟机"></a>热关闭虚拟机</h1><blockquote>
+<p>VMware Tools要是可用情况下</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-VM -Name &quot;虚拟机名&quot; | Stop-GuestVM -Confirm:$FALSE;</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改虚拟机名"><a href="#修改虚拟机名" class="headerlink" title="修改虚拟机名"></a>修改虚拟机名</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-VM -VM $VM -Name &quot;新虚拟机名&quot;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/12/27/vSAN%E5%86%99%E5%85%A5%E5%B8%A6%E5%AE%BD%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2167,181 +2360,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/11/24/VMware%E7%9B%B8%E5%85%B3%E4%B8%9A%E5%8A%A1%E6%89%80%E9%9C%80%E7%AB%AF%E5%8F%A3%E6%9F%A5%E8%AF%A2%E5%9C%B0%E5%9D%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/11/24/VMware%E7%9B%B8%E5%85%B3%E4%B8%9A%E5%8A%A1%E6%89%80%E9%9C%80%E7%AB%AF%E5%8F%A3%E6%9F%A5%E8%AF%A2%E5%9C%B0%E5%9D%80/" itemprop="url">VMware相关业务所需端口查询地址</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-11-24T00:35:03+08:00">
-                2022-11-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常用VMware相关的业务系统防火墙端口查询"><a href="#常用VMware相关的业务系统防火墙端口查询" class="headerlink" title="常用VMware相关的业务系统防火墙端口查询"></a>常用VMware相关的业务系统防火墙端口查询</h1><p>在线地址 ： <a href="https://ports.esp.vmware.com/" target="_blank" rel="noopener">https://ports.esp.vmware.com/</a></p>
-<p>可以下载端口地址表；</p>
-<p>Horizon ：<a href="https://ports.esp.vmware.com/home/Horizon" target="_blank" rel="noopener">https://ports.esp.vmware.com/home/Horizon</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2392,7 +2410,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">346</span>
+                  <span class="site-state-item-count">347</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
