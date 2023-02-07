@@ -79,13 +79,15 @@
 
 
 
+<meta name="description" content="背景精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。 测试步骤 部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】 向数据盘写入非零数据，写入大于等于80G的数据；  场景1 OS精简制备 100G ，虚拟机初始占用空间为20G，OS内使用量也为20G； OS内的使用量为100G">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VSPHERE精简制备回收测试">
+<meta property="og:title" content="VSPHERE精简制备回收测试【待补充】">
 <meta property="og:url" content="http://github.com/rohman-zhu/2023/02/05/VSPHERE%E7%B2%BE%E7%AE%80%E5%88%B6%E5%A4%87%E5%9B%9E%E6%94%B6%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="Rohman の 实验室">
+<meta property="og:description" content="背景精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。 测试步骤 部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】 向数据盘写入非零数据，写入大于等于80G的数据；  场景1 OS精简制备 100G ，虚拟机初始占用空间为20G，OS内使用量也为20G； OS内的使用量为100G">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-05T15:07:48.000Z">
-<meta property="article:modified_time" content="2023-02-05T15:07:48.416Z">
+<meta property="article:modified_time" content="2023-02-07T15:48:54.929Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="default">
 <meta name="twitter:card" content="summary">
@@ -124,7 +126,7 @@
 
 
 
-  <title>VSPHERE精简制备回收测试 | Rohman の 实验室</title>
+  <title>VSPHERE精简制备回收测试【待补充】 | Rohman の 实验室</title>
   
 
 
@@ -289,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">VSPHERE精简制备回收测试</h1>
+          <h1 class="post-title" itemprop="name headline">VSPHERE精简制备回收测试【待补充】</h1>
         
 
         <div class="post-meta">
@@ -324,8 +326,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
                   </a>
                 </span>
 
@@ -392,7 +405,32 @@
       
 
       
-        
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。</p>
+<h1 id="测试步骤"><a href="#测试步骤" class="headerlink" title="测试步骤"></a>测试步骤</h1><ol>
+<li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 /data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>向数据盘写入非零数据，写入大于等于80G的数据；</li>
+</ol>
+<h2 id="场景1"><a href="#场景1" class="headerlink" title="场景1"></a>场景1</h2><ol>
+<li>OS精简制备 100G ，虚拟机初始占用空间为20G，OS内使用量也为20G；</li>
+<li>OS内的使用量为100G，虚拟机占用空间为100G；</li>
+<li>OS内的使用量降为20G，虚拟机占用空间为100G；</li>
+</ol>
+<h1 id="方案简述"><a href="#方案简述" class="headerlink" title="方案简述"></a>方案简述</h1><h2 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h2><ol>
+<li>OS内对未使用的空间写零；</li>
+<li>虚拟化层回收目标空间；【vmfstool \ Storage vMotion】</li>
+</ol>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h2 id="方案1-1"><a href="#方案1-1" class="headerlink" title="方案1"></a>方案1</h2><ul>
+<li>OS：CentOS 7</li>
+<li>文件系统：xfs</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 确认目标空间有可用空间</span></span><br><span class="line">df -TH</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入zero,写入10G数据</span></span><br><span class="line">dd <span class="keyword">if</span>=/dev/zero of=/data/<span class="built_in">test</span> bs=1G count=10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除目标文件</span></span><br><span class="line">rm -f /data/<span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>将目标虚拟机做Storage vMotion ， 转为 厚置备快速置零 模式；<br>再次将目标虚拟机做 Storage vMotion ， 转为 精简制备 模式；</p>
+<p>成功回收空间的虚拟机测试有：</p>
+<ul>
+<li>CentOS7+XFS</li>
+</ul>
+
       
     </div>
     
@@ -482,8 +520,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -543,6 +590,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试步骤"><span class="nav-number">2.</span> <span class="nav-text">测试步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#场景1"><span class="nav-number">2.1.</span> <span class="nav-text">场景1</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案简述"><span class="nav-number">3.</span> <span class="nav-text">方案简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案1"><span class="nav-number">3.1.</span> <span class="nav-text">方案1</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案1-1"><span class="nav-number">4.1.</span> <span class="nav-text">方案1</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
