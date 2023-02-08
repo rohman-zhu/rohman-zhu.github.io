@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2023/02/05/VSPHERE%E7%B2%BE%E7%AE%80%E5%88%B6%E5%A4%87%E5%9B%9E%E6%94%B6%E6%B5%8B%E8%AF%95/" itemprop="url">VSPHERE精简制备回收测试【待补充】</a></h1>
+                <a class="post-title-link" href="/2023/02/05/VSPHERE%E7%B2%BE%E7%AE%80%E5%88%B6%E5%A4%87%E5%9B%9E%E6%94%B6%E6%B5%8B%E8%AF%95/" itemprop="url">VSPHERE精简制备回收测试</a></h1>
         
 
         <div class="post-meta">
@@ -441,6 +441,12 @@
 <td align="center">无条件测试</td>
 <td align="center">无条件测试</td>
 </tr>
+<tr>
+<td align="center">Windows Server 2012R2 + NTFS</td>
+<td align="center">√</td>
+<td align="center">无条件测试</td>
+<td align="center">无条件测试</td>
+</tr>
 </tbody></table>
 <blockquote>
 <p>Windows Server 2019 虚拟机底层空间会自动回收；无法做其他测试复核；</p>
@@ -450,6 +456,9 @@
 
 <p>Linux重复写入常规数据</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># data.tar = 1G </span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Create DATA to /data/normaltest."</span></span><br><span class="line">df -Th</span><br><span class="line"><span class="keyword">for</span>((i=0;i&lt;80;i++0))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  cp data.tar /data/normaltest/data.tar.<span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Create DATA to /data/normaltest/ completed."</span></span><br><span class="line">df -Th</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Delete DATA to /data/normaltest ."</span></span><br><span class="line">rm -rf /data/normaltst/*</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+<p>ESXi Shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标vmdk 路径假设为 /vmfs/volume/xxxx/xxxx.vmdk</span></span><br><span class="line">du -sh ./*</span><br><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br><span class="line">du -sh ./*</span><br></pre></td></tr></table></figure>
           
         
       

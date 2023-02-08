@@ -87,7 +87,7 @@
 <meta property="og:description" content="网络测试12345678910111213141516# 显示所有网卡 esxcli network nic list# 关闭网卡 esxcli network nic down -n vmnic[X]# 开启网卡 esxcli network nic up -n vmnic[X]# 参考 https:&#x2F;&#x2F;kb.vmware.com&#x2F;s&#x2F;article&#x2F;2006074# 使用vmkernel网卡去">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-22T08:24:15.000Z">
-<meta property="article:modified_time" content="2023-01-28T15:47:48.317Z">
+<meta property="article:modified_time" content="2023-02-08T15:32:51.767Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta name="twitter:card" content="summary">
@@ -417,6 +417,11 @@
 <h1 id="版本查看"><a href="#版本查看" class="headerlink" title="版本查看"></a>版本查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmware -v</span><br></pre></td></tr></table></figure>
 
 <h1 id="存储连接状态"><a href="#存储连接状态" class="headerlink" title="存储连接状态"></a>存储连接状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">esxcli storage core device list -d=device_ID 命令。</span><br><span class="line"></span><br><span class="line">on- 设备已连接。</span><br><span class="line">dead- 设备已进入 APD 状态。APD 定时器已启动。</span><br><span class="line">dead timeout- APD 超时已过期。</span><br><span class="line">not connected- 设备处于 PDL 状态。</span><br></pre></td></tr></table></figure>
+
+<h1 id="回收精简制备vmdk的空间"><a href="#回收精简制备vmdk的空间" class="headerlink" title="回收精简制备vmdk的空间"></a>回收精简制备vmdk的空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></p>
+
       
     </div>
     
@@ -590,7 +595,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络测试"><span class="nav-number">1.</span> <span class="nav-text">网络测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载查看"><span class="nav-number">2.</span> <span class="nav-text">负载查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装补丁"><span class="nav-number">3.</span> <span class="nav-text">安装补丁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置标准交换机模式"><span class="nav-number">4.</span> <span class="nav-text">设置标准交换机模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本查看"><span class="nav-number">5.</span> <span class="nav-text">版本查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储连接状态"><span class="nav-number">6.</span> <span class="nav-text">存储连接状态</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络测试"><span class="nav-number">1.</span> <span class="nav-text">网络测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载查看"><span class="nav-number">2.</span> <span class="nav-text">负载查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装补丁"><span class="nav-number">3.</span> <span class="nav-text">安装补丁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置标准交换机模式"><span class="nav-number">4.</span> <span class="nav-text">设置标准交换机模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本查看"><span class="nav-number">5.</span> <span class="nav-text">版本查看</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#存储连接状态"><span class="nav-number">6.</span> <span class="nav-text">存储连接状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回收精简制备vmdk的空间"><span class="nav-number">7.</span> <span class="nav-text">回收精简制备vmdk的空间</span></a></li></ol></div>
             
 
           </div>
