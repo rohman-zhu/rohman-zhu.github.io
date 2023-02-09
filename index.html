@@ -596,7 +596,7 @@
 <li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 /data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
 <li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
 <li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
-<li>想数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
 <li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
 <li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
 </ol>
@@ -647,13 +647,21 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标vmdk 路径假设为 /vmfs/volume/xxxx/xxxx.vmdk</span></span><br><span class="line">du -sh ./*</span><br><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br><span class="line">du -sh ./*</span><br></pre></td></tr></table></figure>
 
 <h1 id="背景2"><a href="#背景2" class="headerlink" title="背景2"></a>背景2</h1><p>在底层做vmdk置零块移除的时候，为了避免数据丢失，需要做一下快照；因此需要测试，在有快照的情况下，是否可以做置零块移除？</p>
-<h1 id="测试步骤-1"><a href="#测试步骤-1" class="headerlink" title="测试步骤"></a>测试步骤</h1><ol>
+<h1 id="测试步骤-1"><a href="#测试步骤-1" class="headerlink" title="测试步骤"></a>测试步骤</h1><h2 id="测试1"><a href="#测试1" class="headerlink" title="测试1"></a>测试1</h2><ol>
 <li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 /data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>虚拟机拍摄内存快照；</li>
 <li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
-<li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
-<li>想数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
-<li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
 <li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
+<li>删除虚拟机快照；【记录vmdk占用情况】</li>
+</ol>
+<h2 id="测试2"><a href="#测试2" class="headerlink" title="测试2"></a>测试2</h2><ol>
+<li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 /data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>虚拟机拍摄硬盘快照；</li>
+<li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
+<li>删除虚拟机快照；【记录vmdk占用情况】</li>
 </ol>
 
           
