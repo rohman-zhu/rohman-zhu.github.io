@@ -270,6 +270,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/09/14/Linux-GPU%E5%8D%A1%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/09/14/Linux-GPU%E5%8D%A1%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86/" itemprop="url">Linux-GPU卡故障处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-09-14T00:18:39+08:00">
+                2022-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>GPU机器学习的服务器经常容易出现显卡故障，需要更换。<br>本文将记录定位目标GPU卡的过程。</p>
+<h1 id="故障现象记录"><a href="#故障现象记录" class="headerlink" title="故障现象记录"></a>故障现象记录</h1><p>使用 nvidia-smi 会提示 ： Unable to determine the device handle for GPU XXXX:XX:XX.X GPU is lost . Reboot the system to recover this GPU.<br>使用 gpustat 会提示 :  Error on querying NVIDIA devices.<br>使用 lspci -vvs [故障GPU卡的总线地址] 会提示  Unknow header type 7f.</p>
+<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果nvidia-smi指令还可以用的情况下，但不提示某一张卡失效</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nvidia-smi查看是哪一张卡缺失；例如原来是8张卡，现在只显示7张卡；</span></span><br><span class="line">nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># lspci  | grep -i nvidia 结合nvidia-smi结果查看是哪一个bus地址丢失；</span></span><br><span class="line">lspci | grep -i nvidia</span><br><span class="line"></span><br><span class="line"><span class="comment"># dmidecode -t slot 查看目标bus地址的物理位置，一般会显示CPU【X】 Slot【X】</span></span><br><span class="line">dmidecode -t slot</span><br></pre></td></tr></table></figure>
+
+<p>番外</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看pci插槽的速率</span><br><span class="line"></span><br><span class="line">lspci -vvvs [总线地址]</span><br><span class="line">lspci -vvvs [总线地址] | grep -i lnksta</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/09/13/Linux-%E9%9D%9ELVM%E6%89%A9%E5%AE%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1969,214 +2148,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/22/esxcli-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/05/22/esxcli-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E8%AE%B0%E5%BD%95/" itemprop="url">esxcli 常用指令记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-22T16:24:15+08:00">
-                2022-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="网络测试"><a href="#网络测试" class="headerlink" title="网络测试"></a>网络测试</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示所有网卡 </span></span><br><span class="line">esxcli network nic list</span><br><span class="line"><span class="comment"># 关闭网卡 </span></span><br><span class="line">esxcli network nic down -n vmnic[X]</span><br><span class="line"><span class="comment"># 开启网卡 </span></span><br><span class="line">esxcli network nic up -n vmnic[X]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 https://kb.vmware.com/s/article/2006074</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用vmkernel网卡去ping </span></span><br><span class="line">vmkping -I  vmk0 [Target IP]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用巨帧</span></span><br><span class="line">vmkping -d -s 8972 x.x.x.x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 ： https://kb.vmware.com/s/article/1003728?lang=zh_cn</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="负载查看"><a href="#负载查看" class="headerlink" title="负载查看"></a>负载查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">esxtop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用视图</span></span><br><span class="line">u=Disk Device</span><br><span class="line">d=Disk Adapter</span><br><span class="line">x=vSAN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他视图</span></span><br><span class="line">c=CPU</span><br><span class="line">m=Memory</span><br><span class="line">n=Network</span><br><span class="line">p=Power Management</span><br></pre></td></tr></table></figure>
-
-<h1 id="安装补丁"><a href="#安装补丁" class="headerlink" title="安装补丁"></a>安装补丁</h1><p>esxcli software vib update -d /vmfs/xxxxxxxx.zip</p>
-<h1 id="设置标准交换机模式"><a href="#设置标准交换机模式" class="headerlink" title="设置标准交换机模式"></a>设置标准交换机模式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">esxcli network vswitch standard policy failover <span class="built_in">set</span> -l [Policy] -v [vSwitch] -a vmnic[X],vmnic[X]</span><br><span class="line">esxcli network vswitch standard portgroup policy failover -<span class="built_in">set</span> -p <span class="string">"Management Network"</span> -l [Policy] -a vmnic[X],vmnic[X]</span><br></pre></td></tr></table></figure>
-
-<p>[Policy]有以下4种：</p>
-<p>explicit – according to the list<br>portid – based on the originating virtual port<br>mac – on source MAC-hash<br>iphash – based on IP-hash</p>
-<h1 id="版本查看"><a href="#版本查看" class="headerlink" title="版本查看"></a>版本查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmware -v</span><br></pre></td></tr></table></figure>
-
-<h1 id="存储连接状态"><a href="#存储连接状态" class="headerlink" title="存储连接状态"></a>存储连接状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">esxcli storage core device list -d=device_ID 命令。</span><br><span class="line"></span><br><span class="line">on- 设备已连接。</span><br><span class="line">dead- 设备已进入 APD 状态。APD 定时器已启动。</span><br><span class="line">dead timeout- APD 超时已过期。</span><br><span class="line">not connected- 设备处于 PDL 状态。</span><br></pre></td></tr></table></figure>
-
-<h1 id="回收精简制备vmdk的空间"><a href="#回收精简制备vmdk的空间" class="headerlink" title="回收精简制备vmdk的空间"></a>回收精简制备vmdk的空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br><span class="line"><span class="comment"># -K|--punchzero  该选项会对所有清零块取消分配，只留下那些先前分配且包含有效数据的块。生成的虚拟磁盘为精简格式的虚拟磁盘。</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="虚拟机相关操作"><a href="#虚拟机相关操作" class="headerlink" title="虚拟机相关操作"></a>虚拟机相关操作</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看虚拟机信息 </span></span><br><span class="line">esxcli vm process list</span><br><span class="line">vim-cmd vmsvc/getallvms</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结束虚拟机进程</span></span><br><span class="line">esxcli vm process <span class="built_in">kill</span> --<span class="built_in">type</span>[soft,hard,force] --world-id=[WorldNumber]</span><br><span class="line"><span class="comment"># 关闭虚拟机操作系统=soft</span></span><br><span class="line">vim-cmd vmsvc/power.shudown [WorldNumber]</span><br><span class="line"><span class="comment"># 强制关闭虚拟机=hard</span></span><br><span class="line">vim-cmd vmsvc/power.off [WorldNumber]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否有相关任务</span></span><br><span class="line">vim-cmd vmsvc/get.tasklist [WorldNumber]</span><br></pre></td></tr></table></figure>
-
-<h1 id="检查目标文件系统Inode情况"><a href="#检查目标文件系统Inode情况" class="headerlink" title="检查目标文件系统Inode情况"></a>检查目标文件系统Inode情况</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> -f /</span><br></pre></td></tr></table></figure>
-
-<h1 id="进入维护模式"><a href="#进入维护模式" class="headerlink" title="进入维护模式"></a>进入维护模式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli system maintenanceMode Set --enabled [yes/no]</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li>存储相关：<a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></li>
-<li>关闭虚拟机电源： <a href="https://kb.vmware.com/s/article/1004340?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1004340?lang=zh_CN</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2227,7 +2198,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">356</span>
+                  <span class="site-state-item-count">357</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
