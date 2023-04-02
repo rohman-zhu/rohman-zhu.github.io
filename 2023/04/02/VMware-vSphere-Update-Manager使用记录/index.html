@@ -87,7 +87,7 @@
 <meta property="og:description" content="背景ESXi 经常需要更新补丁，常规做法是将补丁包上传到目标存储存储卷里面，然后在目标ESXi内执行升级指令，并重启ESXi； 常用指令： 1esxcli software vib update -d &#x2F;vmfs&#x2F;xxxxxxxx.zip 什么是Lifecycle Manager生命周期管理是指安装软件、通过更新和升级维护软件，以及取消配置软件的过程。在维护 vSphere 环境（特别是维护集群和">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-02T09:01:14.000Z">
-<meta property="article:modified_time" content="2023-04-02T09:26:56.471Z">
+<meta property="article:modified_time" content="2023-04-02T09:55:21.685Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="default">
 <meta name="twitter:card" content="summary">
@@ -454,6 +454,23 @@
 <li>更新后的修补程序版本：7.0 U1 a、7.0 U1 sa、7.0 b、7.0 sb</li>
 </ul>
 <p>基础映像托管在 VMware 联机库中并可供使用。此外，还可以从 my.vmware.com 下载包含 ESXi 版本的 ESXi 安装程序 ISO 文件和脱机包（ZIP 文件）。</p>
+<h3 id="映像一般有什么？"><a href="#映像一般有什么？" class="headerlink" title="映像一般有什么？"></a>映像一般有什么？</h3><p>vSphere Lifecycle Manager 映像可以包含以下四个元素：</p>
+<p>ESXi 基础映像： </p>
+<ul>
+<li>基础映像包含 VMware ESXi Server 的映像，以及引导服务器所需的驱动程序和适配器等附加组件。基础映像是 vSphere Lifecycle Manager 映像中的唯一必需元素。所有其他元素是可选元素。</li>
+</ul>
+<p>供应商加载项：</p>
+<ul>
+<li>供应商加载项是 OEM 创建和分发的软件组件集合。供应商加载项可以包含驱动程序、修补程序和解决方案。</li>
+</ul>
+<p>固件和驱动程序加载项：</p>
+<ul>
+<li>固件和驱动程序加载项是一种特殊类型的供应商加载项，旨在帮助执行固件更新过程。固件和驱动程序加载项包含特定服务器类型的固件和相应驱动程序。要将固件和驱动程序加载项添加到映像中，您必须安装相应集群中的主机所对应的硬件供应商提供的硬件支持管理器插件。</li>
+</ul>
+<p>独立组件：</p>
+<ul>
+<li>组件是映像中的最小离散单元。添加到映像中的独立组件包含第三方软件，例如，驱动程序或适配器。</li>
+</ul>
 <h2 id="网络需求"><a href="#网络需求" class="headerlink" title="网络需求"></a>网络需求</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SRC: ESXi</span><br><span class="line">DST: vCenter </span><br><span class="line">TCP: 9084</span><br></pre></td></tr></table></figure>
 
 <p>如果vCenter使用的是FQDN，则ESXi需要配置 DNS ；</p>
@@ -631,7 +648,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Lifecycle-Manager"><span class="nav-number">2.</span> <span class="nav-text">什么是Lifecycle Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用说明"><span class="nav-number">3.</span> <span class="nav-text">使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关术语"><span class="nav-number">3.1.</span> <span class="nav-text">相关术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础映像（镜像）"><span class="nav-number">3.2.</span> <span class="nav-text">基础映像（镜像）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络需求"><span class="nav-number">3.3.</span> <span class="nav-text">网络需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Lifecycle-Manager"><span class="nav-number">2.</span> <span class="nav-text">什么是Lifecycle Manager</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用说明"><span class="nav-number">3.</span> <span class="nav-text">使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关术语"><span class="nav-number">3.1.</span> <span class="nav-text">相关术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础映像（镜像）"><span class="nav-number">3.2.</span> <span class="nav-text">基础映像（镜像）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#映像一般有什么？"><span class="nav-number">3.2.1.</span> <span class="nav-text">映像一般有什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络需求"><span class="nav-number">3.3.</span> <span class="nav-text">网络需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>

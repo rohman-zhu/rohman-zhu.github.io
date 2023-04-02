@@ -454,6 +454,23 @@
 <li>更新后的修补程序版本：7.0 U1 a、7.0 U1 sa、7.0 b、7.0 sb</li>
 </ul>
 <p>基础映像托管在 VMware 联机库中并可供使用。此外，还可以从 my.vmware.com 下载包含 ESXi 版本的 ESXi 安装程序 ISO 文件和脱机包（ZIP 文件）。</p>
+<h3 id="映像一般有什么？"><a href="#映像一般有什么？" class="headerlink" title="映像一般有什么？"></a>映像一般有什么？</h3><p>vSphere Lifecycle Manager 映像可以包含以下四个元素：</p>
+<p>ESXi 基础映像： </p>
+<ul>
+<li>基础映像包含 VMware ESXi Server 的映像，以及引导服务器所需的驱动程序和适配器等附加组件。基础映像是 vSphere Lifecycle Manager 映像中的唯一必需元素。所有其他元素是可选元素。</li>
+</ul>
+<p>供应商加载项：</p>
+<ul>
+<li>供应商加载项是 OEM 创建和分发的软件组件集合。供应商加载项可以包含驱动程序、修补程序和解决方案。</li>
+</ul>
+<p>固件和驱动程序加载项：</p>
+<ul>
+<li>固件和驱动程序加载项是一种特殊类型的供应商加载项，旨在帮助执行固件更新过程。固件和驱动程序加载项包含特定服务器类型的固件和相应驱动程序。要将固件和驱动程序加载项添加到映像中，您必须安装相应集群中的主机所对应的硬件供应商提供的硬件支持管理器插件。</li>
+</ul>
+<p>独立组件：</p>
+<ul>
+<li>组件是映像中的最小离散单元。添加到映像中的独立组件包含第三方软件，例如，驱动程序或适配器。</li>
+</ul>
 <h2 id="网络需求"><a href="#网络需求" class="headerlink" title="网络需求"></a>网络需求</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SRC: ESXi</span><br><span class="line">DST: vCenter </span><br><span class="line">TCP: 9084</span><br></pre></td></tr></table></figure>
 
 <p>如果vCenter使用的是FQDN，则ESXi需要配置 DNS ；</p>
