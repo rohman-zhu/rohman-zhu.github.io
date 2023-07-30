@@ -270,6 +270,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/14/Ubuntu-Q-A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rohman の 实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/14/Ubuntu-Q-A/" itemprop="url">Ubuntu--Q&A</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-14T23:44:08+08:00">
+                2019-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="常见问题记录"><a href="#常见问题记录" class="headerlink" title="常见问题记录"></a>常见问题记录</h1><h2 id="Could-not-get-lock-var-lib-dpkg-lock-fronted-open"><a href="#Could-not-get-lock-var-lib-dpkg-lock-fronted-open" class="headerlink" title="Could not get lock /var/lib/dpkg/lock-fronted-open"></a>Could not get lock /var/lib/dpkg/lock-fronted-open</h2><p>故障描述：使用apt-get的时候出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E: Could not get lock &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend - open (11: Resource temporarily unavialable)</span><br><span class="line">E: Unable to acquire the dpkg fronted lock (&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend), is another process using it?</span><br></pre></td></tr></table></figure>
+
+<p>原因分析：其他进程正在运行，导致资源被锁不可用；而资源被锁的原因可能是上次运行安装或者更新时没有正常完成，所以才会有报错。<br>解决方法：</p>
+<p>方法一：根据报错信息删除对应文件即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm /var/lib/dpkg/lock-frontend</span><br></pre></td></tr></table></figure>
+
+<p>方法二：结束apt-get进程</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep apt-get </span><br><span class="line"><span class="built_in">kill</span> -s 9 [PID]</span><br></pre></td></tr></table></figure>
+
+<h2 id="ssh-比较慢"><a href="#ssh-比较慢" class="headerlink" title="ssh 比较慢"></a>ssh 比较慢</h2><p>一般是ssh开启了 DNS 反向查询，将该属性值设置为no ，并重启sshd服务即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># UseDNS yes</span></span><br><span class="line">UseDNS no</span><br><span class="line"></span><br><span class="line">/etc/init.d/sshd restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="ext3、ext4-有5-的空间损耗？"><a href="#ext3、ext4-有5-的空间损耗？" class="headerlink" title="ext3、ext4 有5%的空间损耗？"></a>ext3、ext4 有5%的空间损耗？</h2><p>在 mkfs.ext4 格式化时， 会出现“ xxx blocks(5.00%) reserved for the super user “ 提示。</p>
+<p>从ext2文件系统开始，格式化的时候默认都会保留一定空间给特定用户写入。避免磁盘写满时，而无法使用操作系统。</p>
+<blockquote>
+<p>默默吐槽，Google搜出来的东西跟百度搜出来的东西就是不一样，Google详细很多。</p>
+</blockquote>
+<p>参考问题：<a href="https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why</a></p>
+<p>参考资料：<a href="http://man7.org/linux/man-pages/man5/ext4.5.html" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man5/ext4.5.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/11/28/%E5%8F%98%E6%9B%B4%E8%BF%87%E7%A8%8B%E7%9A%84%E6%84%8F%E8%AF%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1737,181 +1929,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/01/06/GNS3%E5%AE%89%E8%A3%85ASA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rohman の 实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/06/GNS3%E5%AE%89%E8%A3%85ASA/" itemprop="url">GNS3安装ASA</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-06T16:13:37+08:00">
-                2019-01-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在MacOS上面安装GNS3 。</p>
-<ul>
-<li>GNS-2.1.11 ： <a href="https://gns3.com/software/download" target="_blank" rel="noopener">https://gns3.com/software/download</a></li>
-<li>GNS3-VM-2.1.11 : <a href="https://gns3.com/software/download-vm" target="_blank" rel="noopener">https://gns3.com/software/download-vm</a></li>
-<li>ASA-9.gns3a : <a href="https://gns3.com/marketplace/appliance/cisco-asav" target="_blank" rel="noopener">https://gns3.com/marketplace/appliance/cisco-asav</a></li>
-<li>asav992.qcow2 : <a href="http://down.51cto.com/data/2444351" target="_blank" rel="noopener">http://down.51cto.com/data/2444351</a></li>
-</ul>
-<p>MAC 上面安装GNS3 比较简单，直接拖入 Application 即可。<br>开启GNS3时，也需要开启 GNS3 的虚拟机 ， 并且将GNS3的服务器地址跟 GNS3 VM的IP地址设置在同一个网段即可。</p>
-<h1 id="GNS3-导入ASA"><a href="#GNS3-导入ASA" class="headerlink" title="GNS3 导入ASA"></a>GNS3 导入ASA</h1><p>在左上角的【文件】选项卡中，有一个【Import Applicance】，选择刚下载的cisco-asav.gns3a 。</p>
-<p>接下来需要找到对应的镜像 ， 选中 ASAv 9.9.2 点【import】（一般系统会自动检测，如果电脑存在该镜像，则会显示 Found）</p>
-<p>后面的选项都默认即可。</p>
-<h1 id="通过VNC打开ASA"><a href="#通过VNC打开ASA" class="headerlink" title="通过VNC打开ASA"></a>通过VNC打开ASA</h1><p>如果在GNS3中右键 ASA ，点击【Console】 ，则会自动调用系统的屏幕共享应用。我这边没有成功过，还是用第三方的 “VNC Viewer” ， 连接提示的IP地址，密码默认为空即可。</p>
-<p>这个是MACOS默认调用的屏幕共享程序，不知道是怎么回事。。。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">osascript -e 'set posix_path to do shell script "echo \"$PATH\""' -e 'tell application "Terminal"' -e 'activate' -e 'do script "echo -n -e \"\\033]0;%d\\007\"; clear; PATH=" &amp; quoted form of posix_path &amp; " telnet %h %p ; exit"' -e 'end tell'</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>VNC-IP:192.168.1.56::5900</li>
-<li>密码为空</li>
-</ul>
-<h1 id="将连接方式改为telnet方式"><a href="#将连接方式改为telnet方式" class="headerlink" title="将连接方式改为telnet方式"></a>将连接方式改为telnet方式</h1><p>先通过VNC的方式连接ASA</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">ciscoasa#</span><span class="bash">conf t</span></span><br><span class="line"><span class="meta">ciscoasa(config)#</span><span class="bash"> <span class="built_in">cd</span> coredumpinfo</span></span><br><span class="line"><span class="meta">ciscoasa(config)#</span><span class="bash"> copy coredump.cfg disk0:/use_ttyS0</span></span><br></pre></td></tr></table></figure>
-<h1 id="修改ASA的设备名称与登录密码"><a href="#修改ASA的设备名称与登录密码" class="headerlink" title="修改ASA的设备名称与登录密码"></a>修改ASA的设备名称与登录密码</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">进入特权模式</span></span><br><span class="line">enable</span><br><span class="line"><span class="meta">#</span><span class="bash">进入配置文件</span></span><br><span class="line">configure terminal</span><br><span class="line"><span class="meta">#</span><span class="bash">修改设备名</span></span><br><span class="line">hostname asa-01</span><br><span class="line"><span class="meta">#</span><span class="bash">修改登录密码</span></span><br><span class="line">passwd test123</span><br><span class="line"><span class="meta">#</span><span class="bash">修改特权用户的密码</span></span><br><span class="line">enable passwd test123</span><br><span class="line"><span class="meta">#</span><span class="bash">保存配置</span></span><br><span class="line">write</span><br></pre></td></tr></table></figure>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>让ASA的连接方式从VNC改为Telnet ： <a href="https://gns3.com/qa/how-to-configure-any-asav-qcow2-" target="_blank" rel="noopener">https://gns3.com/qa/how-to-configure-any-asav-qcow2-</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1962,7 +1979,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">368</span>
+                  <span class="site-state-item-count">369</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
