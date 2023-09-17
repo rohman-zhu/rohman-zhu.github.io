@@ -1151,7 +1151,9 @@
 <p>番外–新增硬盘识别：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /sys/class/scsi_host/ | <span class="keyword">while</span> <span class="built_in">read</span> host ; <span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">'- - -'</span> &gt; /sys/class/scsi_host/<span class="variable">$host</span>/scan ; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="分区扩容"><a href="#分区扩容" class="headerlink" title="分区扩容"></a>分区扩容</h2><p>若出现ERROR: GPT PMBR SIZE MISMATCH，则需要修复一下；</p>
+<h2 id="分区扩容–方法一"><a href="#分区扩容–方法一" class="headerlink" title="分区扩容–方法一"></a>分区扩容–方法一</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 末尾分区扩容</span></span><br><span class="line">growpart  [目标磁盘]  [分区号]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="分区扩容–方法二【此方法有风险】"><a href="#分区扩容–方法二【此方法有风险】" class="headerlink" title="分区扩容–方法二【此方法有风险】"></a>分区扩容–方法二【此方法有风险】</h2><p>若出现ERROR: GPT PMBR SIZE MISMATCH，则需要修复一下；</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parted -l</span><br><span class="line">fix</span><br></pre></td></tr></table></figure>
 
 <p>本质上就是修改分区的结束位置<br>因此整个动作分为，删除目标分区、新建目标分区、保持起始位置不变、修改结束位置。</p>
