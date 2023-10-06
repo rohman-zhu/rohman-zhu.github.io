@@ -1204,9 +1204,16 @@
 
 <h1 id="VSAN磁盘组操作"><a href="#VSAN磁盘组操作" class="headerlink" title="VSAN磁盘组操作"></a>VSAN磁盘组操作</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除</span></span><br><span class="line">esxcli vsan storage remove -u [磁盘组UUID]</span><br><span class="line">esxcli vsan storage remove -s [缓存层 SSD NAAID]</span><br><span class="line">esxcli vsan storage remove -d [容量层 NNID]</span><br></pre></td></tr></table></figure>
 
+<h1 id="退出VSAN集群"><a href="#退出VSAN集群" class="headerlink" title="退出VSAN集群"></a>退出VSAN集群</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">esxcli vsan cluster get</span><br><span class="line">esxcli vsan cluster leave</span><br></pre></td></tr></table></figure>
+
+<p>VSAN相关指令：<a href="https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vsan-monitoring.doc/GUID-7799D2D7-2513-4372-92EA-4A1FB510E012.html" target="_blank" rel="noopener">https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vsan-monitoring.doc/GUID-7799D2D7-2513-4372-92EA-4A1FB510E012.html</a></p>
 <h1 id="输出日志"><a href="#输出日志" class="headerlink" title="输出日志"></a>输出日志</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-support -w [指定路径]</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://kb.vmware.com/s/article/1010705?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1010705?lang=zh_CN</a></p>
+<h1 id="重启管理程序"><a href="#重启管理程序" class="headerlink" title="重启管理程序"></a>重启管理程序</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/hostd restart</span><br><span class="line">/etc/init.d/vpxa restart</span><br></pre></td></tr></table></figure>
+<p>Restarting the Management agents in ESXi (1003490):<a href="https://kb.vmware.com/s/article/1003490" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1003490</a></p>
+<h1 id="扩容空间"><a href="#扩容空间" class="headerlink" title="扩容空间"></a>扩容空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpxd_servicecfg storage lvm autogrow</span><br></pre></td></tr></table></figure>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>存储相关：<a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></li>
 <li>关闭虚拟机电源： <a href="https://kb.vmware.com/s/article/1004340?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1004340?lang=zh_CN</a></li>
