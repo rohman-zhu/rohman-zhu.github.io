@@ -1594,6 +1594,14 @@
 <p>Restarting the Management agents in ESXi (1003490):<a href="https://kb.vmware.com/s/article/1003490" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1003490</a></p>
 <h1 id="扩容空间"><a href="#扩容空间" class="headerlink" title="扩容空间"></a>扩容空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpxd_servicecfg storage lvm autogrow</span><br></pre></td></tr></table></figure>
 
+<h1 id="获取Dump日志"><a href="#获取Dump日志" class="headerlink" title="获取Dump日志"></a>获取Dump日志</h1><p>一般情况下，ESXi紫屏后会产生DUMP日志，一般放置在 /var/core 目录下，</p>
+<p>获取dump日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一般在/root/ , /var/core/目录中都能找到zdump文件</span></span><br><span class="line"><span class="comment"># 将zdump文件转为日志文件</span></span><br><span class="line">esxcfg-dumppart -L [vmkernel-zdump-filename]</span><br></pre></td></tr></table></figure>
+
+<p>参考： <a href="https://kb.vmware.com/s/article/1006796?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1006796?lang=zh_CN</a></p>
+<h1 id="配置-zdump-文件"><a href="#配置-zdump-文件" class="headerlink" title="配置 zdump 文件"></a>配置 zdump 文件</h1><p>参考：<a href="https://kb.vmware.com/s/article/2081902" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2081902</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取当前配置</span></span><br><span class="line">esxcli system coredump file get</span><br></pre></td></tr></table></figure>
+
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>存储相关：<a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></li>
 <li>关闭虚拟机电源： <a href="https://kb.vmware.com/s/article/1004340?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1004340?lang=zh_CN</a></li>
