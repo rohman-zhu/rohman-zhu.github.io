@@ -590,7 +590,7 @@
 <p>Chrome版本信息：117.0.5938.150</p>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>服务器端的TLS使用了SHA1加密，导致浏览器判定为异常；</p>
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="短期方案"><a href="#短期方案" class="headerlink" title="短期方案"></a>短期方案</h2><p>调整Chrome的配置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在浏览器地址栏中输入</span></span><br><span class="line">chrome://flags/<span class="comment">#use-sha1-server-handshakes</span></span><br><span class="line"><span class="comment"># 将 Allow SHA-1 server signatures in TLS 挑战为 Allow</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在浏览器地址栏中输入</span></span><br><span class="line">chrome://flags/<span class="comment">#use-sha1-server-handshakes</span></span><br><span class="line"><span class="comment"># 将 Allow SHA-1 server signatures in TLS 调整为 Allow</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="长期方案【待补充】"><a href="#长期方案【待补充】" class="headerlink" title="长期方案【待补充】"></a>长期方案【待补充】</h2><p>需要升级openssl</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 版本查看</span></span><br><span class="line">openssl version</span><br></pre></td></tr></table></figure>
