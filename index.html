@@ -399,11 +399,11 @@
 <p>客户端节点提示，无可用显示协议或者 Internal Server Error；<br>UAG与RDSH服务器网络链路正常，TCP-22443端口是联通的；</p>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>RDSH服务器上面的22443端口不是VMware View Agent进程监听的，而是其他应用程序在监听，导致客户端无法使用 Blast 协议安装；</p>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>检测端口监听的进程：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -a:--all，显示所有链接和监听端口</span></span><br><span class="line"><span class="comment"># -b:显示包含于创建每个连接或监听端口的可执行组件。在某些情况下已知可执行组件拥有多个独立组件，并且在这些情况下包含于创建连接或监听端口的组件序列被显示。这种情况下，可执行组件名在底部的 [] 中，顶部是其调用的组件，等等，直到 TCP/IP 部分。注意此选项可能需要很长时间，如果没有足够权限可能失败。</span></span><br><span class="line">netstat -ab | findstr 22443;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># -a:--all，显示所有链接和监听端口</span><br><span class="line"># -b:显示包含于创建每个连接或监听端口的可执行组件。在某些情况下已知可执行组件拥有多个独立组件，并且在这些情况下包含于创建连接或监听端口的组件序列被显示。这种情况下，可执行组件名在底部的 [] 中，顶部是其调用的组件，等等，直到 TCP&#x2F;IP 部分。注意此选项可能需要很长时间，如果没有足够权限可能失败。</span><br><span class="line">netstat -ab | findstr 22443;</span><br></pre></td></tr></table></figure>
 
 <p>检测 WINRM 监听端口并修改：</p>
 <p>观察到 WINRM 的端口被改为 22443 ，导致BLAST协议的进程无法使用此端口；</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查端口</span></span><br><span class="line">winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改端口</span></span><br><span class="line"><span class="built_in">set</span>-item wsman:\localhost\listener\listener*\port -value 8080</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 检查端口</span><br><span class="line">winrm enumerate winrm&#x2F;config&#x2F;listener</span><br><span class="line"></span><br><span class="line"># 修改端口</span><br><span class="line">set-item wsman:\localhost\listener\listener*\port -value 8080</span><br></pre></td></tr></table></figure>
           
         
       
