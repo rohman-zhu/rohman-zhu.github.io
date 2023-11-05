@@ -1543,6 +1543,8 @@
 <h1 id="查看目标文件系统"><a href="#查看目标文件系统" class="headerlink" title="查看目标文件系统"></a>查看目标文件系统</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> -f [目标文件]</span><br></pre></td></tr></table></figure>
 
 <h1 id="设置IP"><a href="#设置IP" class="headerlink" title="设置IP"></a>设置IP</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip addr add [IP/掩码长度] dev [网卡]</span><br><span class="line">ip route add default via [网关]</span><br></pre></td></tr></table></figure>
+
+<h1 id="检查端口监听情况"><a href="#检查端口监听情况" class="headerlink" title="检查端口监听情况"></a>检查端口监听情况</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 监听网卡</span></span><br><span class="line">tcpdump -i [网卡名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听指定主机</span></span><br><span class="line">tcpdump -i [网卡名] host [主机IP]</span><br></pre></td></tr></table></figure>
           
         
       
