@@ -270,6 +270,197 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/" itemprop="url">浅谈三极管</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-01T00:04:04+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%94%B5%E5%AD%90/" itemprop="url" rel="index">
+                    <span itemprop="name">电子</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在电路中都能经常用三极管,三级管的作用有很多,可以当成一个开关或者放大器.但三级管也比较难以理解,因为这个小元器件上面有太多的概念,如PNP,NPN,包和电压,截至电压……我一看到这些就头大,可能是因为自己不愿意去多学吧,或者自己不愿意话太多的时间去动脑,因此我一直都没有学会怎么去应用三极管.可是,天无绝人之路,今天我就看到一个视屏讲解三极管,讲的内容非常少,但却很有用,在这里做一下总结,方便以后查看.</p>
+<h1 id="一-三极管的三个脚"><a href="#一-三极管的三个脚" class="headerlink" title="一 . 三极管的三个脚"></a>一 . 三极管的三个脚</h1><ul>
+<li>E 极: 表示发射极(Emitter),如果 <em>向外</em> 就是PNP型三极管,反之则是NPN型三极管. 这个方向也代表了电势降落的方向.</li>
+<li>B 极 : 表示基极(Basc),我们在这里不用想太多,就把这里当成开关或者阀门就好,</li>
+<li>C 极: 表示集电极(Collector).</li>
+</ul>
+<h1 id="二-用三极管来当开关"><a href="#二-用三极管来当开关" class="headerlink" title="二. 用三极管来当开关"></a>二. 用三极管来当开关</h1><blockquote>
+<p>三极管是常开状态 的开关</p>
+</blockquote>
+<p>我们就把三极管当成开关就好了,而这个开关的触发条件是这样的:</p>
+<ul>
+<li>NPN型三极管中 : 当B极是低电平的电压时,三极管处于开路(E与C之间);当B极是高电平时,三极管处于通路(E与C之间).</li>
+<li>PNP型三极管中 : 当B极是低电平的电压时,三极管处于通路(E与C之间);当B极是高电平时,三极管处于开路(E与C之间).</li>
+</ul>
+<p><img src="https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=3420af8568d0f703f2bf9d8e69933a58/f2deb48f8c5494ee4e2cf68b27f5e0fe99257e12.jpg" alt="两种型号"></p>
+<h1 id="三-三极管的三种封装型式"><a href="#三-三极管的三种封装型式" class="headerlink" title="三. 三极管的三种封装型式"></a>三. 三极管的三种封装型式</h1><ul>
+<li>SOT-23 , 这是一种贴片式的三极管,单独一脚的是发射机(E),左下角的一脚为基极(B),右下角是集电极(C)<br><img src="" alt="SOT-23"></li>
+<li>TO-92 ,这种是一种直插式的三极管,平面的一边对着自己,从做左到右依次是,E,B,C.<br><img src="" alt="TO-92"></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/30/%E5%9C%A8MAC%E7%9A%84VirtualBox%E4%B8%AD%E7%BC%96%E5%86%99%E5%8D%95%E7%89%87%E6%9C%BA%E7%A8%8B%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2384,7 +2575,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">376</span>
+                  <span class="site-state-item-count">377</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2395,7 +2586,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
