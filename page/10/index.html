@@ -270,6 +270,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/03/05/%E6%9C%BA%E6%88%BF%E5%81%9C%E7%94%B5-vSAN%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E5%A4%84%E7%90%86%E6%83%B3%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/03/05/%E6%9C%BA%E6%88%BF%E5%81%9C%E7%94%B5-vSAN%E9%9B%86%E7%BE%A4%E7%9B%B8%E5%85%B3%E5%A4%84%E7%90%86%E6%83%B3%E6%B3%95/" itemprop="url">机房停电-vSAN集群相关处理想法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-03-05T20:31:49+08:00">
+                2022-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index">
+                    <span itemprop="name">杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>异地的机房停电，无法远程处理服务器、交换机设备问题。现场有IT人员，但是无PC可以操作，并且无相关经验。</p>
+<h1 id="一些想法"><a href="#一些想法" class="headerlink" title="一些想法"></a>一些想法</h1><p>若当地IT人员无处理经验，则需要远程指导现场人员处理。<br>从处理方式上面，最好还是从GUI界面操作，其次的方法才是从 ESXi Shell进入。<br>从运维方式上面，除了增加远端跳板机，还需要增加本地跳板机。</p>
+<p>以上两个方法存在的问题：</p>
+<ul>
+<li>均需要交付给当地人员管理员账户。【此处存在信安问题，一定要走报备】</li>
+<li>GUI界面需要接入现场的业务交换机。【此处存在信安问题，并且交换机端需要提前配置】</li>
+</ul>
+<h2 id="GUI界面操作方式"><a href="#GUI界面操作方式" class="headerlink" title="GUI界面操作方式"></a>GUI界面操作方式</h2><ol>
+<li>笔记本接入业务交换机，并配置与vCenter同网段的IP。</li>
+<li>进入vCenter，关闭所有虚拟机（除了vCenter）后，将vSAN节点的ESXi进入维护模式。（选择“不迁移数据”）</li>
+<li>所有vSAN节点进入维护模式后，再其关机。</li>
+<li>最后进入带有vCenter的ESXi，关闭vCenter，再将ESXi进入维护模式后关机。 </li>
+<li>关机后的服务器，需要将电源移除。</li>
+</ol>
+<p>注： 本次场景中vCenter是VCSA。</p>
+<h2 id="CLI界面操作方式"><a href="#CLI界面操作方式" class="headerlink" title="CLI界面操作方式"></a>CLI界面操作方式</h2><ol>
+<li>给物理服务器接入显示器，进入ESXi Shell 。</li>
+<li>指令关闭虚拟机，确保所有vSAN节点上的虚拟机关机后，再进入维护模式。</li>
+<li>所有节点进入维护模式后，再关机。</li>
+<li>关机后的服务器，需要将电源移除。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/01/21/%E5%BC%80%E6%9C%BA%E8%BF%9B%E5%85%A5Grub%E8%8F%9C%E5%8D%95%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1998,188 +2191,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/30/Windows%E6%9F%A5%E6%89%BE%E8%B4%A6%E6%88%B7%E8%A2%AB%E7%A6%81%E7%94%A8%E7%9A%84%E8%84%9A%E6%9C%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/11/30/Windows%E6%9F%A5%E6%89%BE%E8%B4%A6%E6%88%B7%E8%A2%AB%E7%A6%81%E7%94%A8%E7%9A%84%E8%84%9A%E6%9C%AC/" itemprop="url">Windows查找账户被禁用的脚本</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-30T02:28:40+08:00">
-                2021-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows Server</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>收集一个目录下所有文件夹名，收集这些以AD命名的文件夹名，确认这些用户是否被禁用了。</p>
-<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><p>收集账户名</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-ChildItem D:\ | select name &gt;&gt; Account.list</span><br></pre></td></tr></table></figure>
-
-<p>处理账户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Get-Content D:\Account.list | ForEach-Object &#123;</span><br><span class="line"></span><br><span class="line">  echo $_ &gt; accountInfo.temp</span><br><span class="line">  net user $_ &#x2F;domain | findstr &quot;Account&quot; | findstr &quot;No&quot; &gt;&gt; acountInfo.temp</span><br><span class="line"></span><br><span class="line">  if( $(Get-Content accountInfo.temp).Length -eq 2)</span><br><span class="line">  &#123;</span><br><span class="line">    # Work Here!</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：如果powershell的出来的是乱码，则需要将页面编码改成UTF-8，临时生效的指令为 chcp 65001 。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2230,7 +2241,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">377</span>
+                  <span class="site-state-item-count">378</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2241,7 +2252,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2252,7 +2263,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-count">131</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
