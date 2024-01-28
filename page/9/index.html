@@ -830,6 +830,9 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取当前配置</span></span><br><span class="line">esxcli system coredump file get</span><br></pre></td></tr></table></figure>
 <h1 id="查询文件锁定"><a href="#查询文件锁定" class="headerlink" title="查询文件锁定"></a>查询文件锁定</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmfsfilelockinfo -p [路径]</span><br></pre></td></tr></table></figure>
 
+<h1 id="VCSA指令-查看证书"><a href="#VCSA指令-查看证书" class="headerlink" title="VCSA指令-查看证书"></a>VCSA指令-查看证书</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> store <span class="keyword">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">"[*] Store :"</span> <span class="variable">$store</span>; /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store <span class="variable">$store</span> --text | grep -ie <span class="string">"Alias"</span> -ie <span class="string">"Not After"</span>;<span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
+
+<p>参考： <a href="https://kb.vmware.com/s/article/82332" target="_blank" rel="noopener">https://kb.vmware.com/s/article/82332</a></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li>存储相关：<a href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></li>
 <li>关闭虚拟机电源： <a href="https://kb.vmware.com/s/article/1004340?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1004340?lang=zh_CN</a></li>
@@ -1385,6 +1388,8 @@
 <p>注意：如果注册表路径带有空格，则需要将整个路径用” “</p>
 </blockquote>
 <h2 id="设置注册表值"><a href="#设置注册表值" class="headerlink" title="设置注册表值"></a>设置注册表值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path HKLM:\路径 -Name [ItemName] -value [具体的值]</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除剪贴板"><a href="#清除剪贴板" class="headerlink" title="清除剪贴板"></a>清除剪贴板</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cmd</span>.exe /c "<span class="built_in">echo</span> off | clip"</span><br></pre></td></tr></table></figure>
 
 <h2 id="检查Windows是否需要因为补丁重启"><a href="#检查Windows是否需要因为补丁重启" class="headerlink" title="检查Windows是否需要因为补丁重启"></a>检查Windows是否需要因为补丁重启</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#The RebootPending value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing</span><br><span class="line">#The RebootRequired value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update</span><br><span class="line">#The PendingFileRenameOperations value at</span><br><span class="line">#HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager</span><br></pre></td></tr></table></figure>
 
@@ -2676,7 +2681,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
