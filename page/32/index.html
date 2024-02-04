@@ -270,6 +270,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/20/LNMP%E4%B9%8BPHP%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/20/LNMP%E4%B9%8BPHP%E4%BC%98%E5%8C%96/" itemprop="url">LNMP之PHP优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T18:56:49+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PHP优化–-拓展安装方式"><a href="#PHP优化–-拓展安装方式" class="headerlink" title="PHP优化– 拓展安装方式"></a>PHP优化– 拓展安装方式</h1><h2 id="PHP缓存加速器介绍"><a href="#PHP缓存加速器介绍" class="headerlink" title="PHP缓存加速器介绍"></a>PHP缓存加速器介绍</h2><h3 id="操作码与缓存"><a href="#操作码与缓存" class="headerlink" title="操作码与缓存"></a>操作码与缓存</h3><p>客户端请求一个PHP程序,服务器的PHP引擎会解析该PHP程序,并将其编译为特定的操作码文件(OperateCode).</p>
+<p>默认情况,opcode执行完后会被丢弃.而,Opcode cache的原理就是将这个编译后的操作码保存下来,放入共享内存里,以便下次调用.</p>
+<h3 id="PHP缓存软件"><a href="#PHP缓存软件" class="headerlink" title="PHP缓存软件"></a>PHP缓存软件</h3><ul>
+<li>xcache</li>
+<li>eaccelerator</li>
+<li>APC(Alternative PHP Cache)</li>
+<li>ZendOpcache</li>
+</ul>
+<h2 id="使用Xcache"><a href="#使用Xcache" class="headerlink" title="使用Xcache"></a>使用Xcache</h2><p>安装前需要执行以下操作:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解决相关的Warning出现</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export LC_ALL=C'</span> &gt;&gt; /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装perl-devel,如果不装,那么在安装图形转换的软件可能会出现错误</span></span><br><span class="line">yum install perl-devel -y</span><br></pre></td></tr></table></figure>
+
+<p>视频采用的是3.2.x,安装过程是:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line">tar xf xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> xcache-3.2.0</span><br><span class="line">/application/php/bin/phpize</span><br><span class="line">./configure --<span class="built_in">enable</span>-xcache --with-php-config=/application/php/bin/php-config</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="memcache"><a href="#memcache" class="headerlink" title="memcache"></a>memcache</h2><h2 id="ImageMagick软件"><a href="#ImageMagick软件" class="headerlink" title="ImageMagick软件"></a>ImageMagick软件</h2><h2 id="imagick-php-拓展插件"><a href="#imagick-php-拓展插件" class="headerlink" title="imagick php 拓展插件"></a>imagick php 拓展插件</h2><h2 id="PHP配置"><a href="#PHP配置" class="headerlink" title="PHP配置"></a>PHP配置</h2><p>路径是 /application/PHP/lib/php.ini</p>
+<p>结尾添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extension_dir &#x3D; &quot;拓展插件的路径&quot;</span><br><span class="line">extension &#x3D; xx1.so</span><br><span class="line">extension &#x3D; xx2.so</span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章内容主要是讲PHP的插件安装,安装一些功能性插件与优化插件,对于功能性插件如果不知道是否要使用,最好直接安装上,优化插件选择其中一个即可(如 Xcache ). </p>
+<p><a href="http://www.tudou.com/programs/view/Ef8GkNnfm2w/" target="_blank" rel="noopener">http://www.tudou.com/programs/view/Ef8GkNnfm2w/</a> 这个是PHP加速器压力测试过程讲解,视频是否还在?</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/14/%E4%B8%AA%E4%BA%BA%E5%8A%9E%E5%85%AC%E7%BD%91%E7%BB%9C%E6%90%AD%E5%BB%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2298,239 +2467,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/24/NOSQL%E4%B9%8BMemcached%E7%BC%93%E5%AD%98%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/24/NOSQL%E4%B9%8BMemcached%E7%BC%93%E5%AD%98%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/" itemprop="url">NOSQL之Memcached缓存服务实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T14:16:13+08:00">
-                2017-11-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h1><p>Memcached 是 开源的,支持高性能,高并发的分布式内存缓存系统.有 <em>服务端</em> 与 <em>客户端</em> .</p>
-<p>作用:</p>
-<p>通过自身内存中缓存关系型数据库的查询结果,减少数据库自身被访问的次数,以提高动态web应用的速度,提高网站架构的并发能力和可拓展性.</p>
-<p>类似的软件:</p>
-<ul>
-<li>Memcached (纯内存型)</li>
-<li>Redis/Memcachedb (可持久存储,即可以使用内存,也可以使用磁盘存储)</li>
-<li>Squid/Nginx (内存或内存加磁盘缓存)</li>
-</ul>
-<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
-<li>协议简单</li>
-<li>支持 epoll/kqueue异步I/O模型,使用libevent作为事件处理通知机制.</li>
-<li>key/value键值数据类型</li>
-<li>全内存缓存,效率高</li>
-</ol>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动Memcached</span></span><br><span class="line"><span class="comment"># memcached -m 16m -p 11211 -d -u root -c 8192</span></span><br><span class="line"><span class="comment"># -m指定缓存大小,-p指定端口 -d指定为daemon运行 , -c 指定并发数(默认1024)</span></span><br></pre></td></tr></table></figure>
-
-<p>memcached相关语法:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;command&gt; &lt;key&gt; &lt;flags&gt; &lt;exptime&gt; &lt;bytes&gt; \r\n</span></span><br><span class="line"><span class="comment"># &lt;datablock&gt;\r\n</span></span><br><span class="line"><span class="comment"># &lt;status&gt;\r\n</span></span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th align="center">相关参数</th>
-<th align="center">意思</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">command</td>
-<td align="center">set无论如何都要进行写入数据,会覆盖老数据;add 只有对应数据不存在时才会添加数据;replace只有数据存在时进行替换数据;append往后追加数据 : append &lt;key&gt; datablock&lt;status&gt;?;prepend 往前追加:prepend &lt;key&gt; datablock&lt;status&gt;;cas按版本号更改</td>
-</tr>
-<tr>
-<td align="center">key</td>
-<td align="center">普通字符串,要求小于250个字符,不包含空格和控制字符</td>
-</tr>
-<tr>
-<td align="center">flags</td>
-<td align="center">客户端用来表示数据格式的数值,如json,xml,压缩等</td>
-</tr>
-<tr>
-<td align="center">exptime</td>
-<td align="center">存活时间为s,0为永远,小于30天,60*60*24*30为秒数,大于30天为unixtime</td>
-</tr>
-<tr>
-<td align="center">bytes</td>
-<td align="center">byte字节数,不包含\r\n,根据长度截取 存/取 的字符串,可以是0,即为存空串</td>
-</tr>
-<tr>
-<td align="center">datablock</td>
-<td align="center">文本行,以\r\n结尾,可以包含\r或者\n</td>
-</tr>
-<tr>
-<td align="center">status</td>
-<td align="center">STORED / NOT_STORED / EXISTS / NOT_FOUND / ERROR / CLIENT_ERROR / SERVER_ERROR 服务端会关闭连接以修复</td>
-</tr>
-</tbody></table>
-<h2 id="PHP环境下安装memcache客户端"><a href="#PHP环境下安装memcache客户端" class="headerlink" title="PHP环境下安装memcache客户端"></a>PHP环境下安装memcache客户端</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PHP的插件要执行phpize</span></span><br><span class="line"><span class="comment"># /aaplication/php/bin/phpize</span></span><br><span class="line"><span class="comment"># cd memcahe-2.2.7</span></span><br><span class="line"><span class="comment"># ./configure --enable-memcache --with-php-config=/application/php/bin/php-config</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
-
-<p>相关文章 : <code>http://www.jb51.net/article/70158.htm</code></p>
-<h2 id="Memcache内存管理机制"><a href="#Memcache内存管理机制" class="headerlink" title="Memcache内存管理机制"></a>Memcache内存管理机制</h2><h3 id="Malloc内存管理机制"><a href="#Malloc内存管理机制" class="headerlink" title="Malloc内存管理机制"></a>Malloc内存管理机制</h3><p>Memory Allocation , 动态内存分配 , 使用场景一般在于无法知道内存具体位置的时候,却想要班定真正的内存空间.</p>
-<p>通过动态内存分配后,对使用完的内存用free回收.</p>
-<blockquote>
-<p>容易产生内存碎片并降低操作系统对内存的管理效率.加重操作系统内存管理器的负担,甚至,会导致操作系统比memcached进程本身还慢.</p>
-</blockquote>
-<h3 id="Slab内存管理机制"><a href="#Slab内存管理机制" class="headerlink" title="Slab内存管理机制"></a>Slab内存管理机制</h3><p>Slab Allocation</p>
-<ol>
-<li>提前将内存分配为1MB的若干个slab,再针对slab进行小对箱填充chunk,避免大量重复的初始化和清理,减轻了内存管理组的负担.(chunk类似block用于存放数据)</li>
-</ol>
-<p>slab尾部剩余空间:</p>
-<p>如果不足一个chunk,则会浪费内存空间.</p>
-<blockquote>
-<p>规划slab大小 = chunk大小 * n整数</p>
-</blockquote>
-<h2 id="memcache-对-对象检测机制"><a href="#memcache-对-对象检测机制" class="headerlink" title="memcache 对 对象检测机制"></a>memcache 对 对象检测机制</h2><ol>
-<li>不主动检测item对象是否过期,而是在get时才会检查item对象是否过期以及是否应该删除.</li>
-<li>当删除item对象时,一般不释放内存空间,而是作为标记删除,将指针放入slot回收插槽,下次分配的时候直接使用.</li>
-<li>当内存空间满的时候,才会根据LRU算法把最近最少使用的item对象删除.</li>
-<li>数据存入可以设定过期时间,但数据过期后不会立即删除,而是在get时才会检查item对象是否过期以及是否应该删除.</li>
-<li>如果不希望系统使用LRU算法清除数据,可以使用-M参数.</li>
-</ol>
-<blockquote>
-<p>Least Recently Used的缩写，即最近最久未使用，常用于页面置换算法，是为虚拟页式存储管理服务的。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2581,7 +2517,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">381</span>
+                  <span class="site-state-item-count">382</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
