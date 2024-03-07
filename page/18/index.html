@@ -270,6 +270,227 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/12/17/Linux%E7%9A%84Swap%E3%80%81Cache%E3%80%81Buffer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/12/17/Linux%E7%9A%84Swap%E3%80%81Cache%E3%80%81Buffer/" itemprop="url">Linux的Swap、Cache、Buffer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-12-17T23:33:16+08:00">
+                2020-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="通过-free-查看Linux的内存"><a href="#通过-free-查看Linux的内存" class="headerlink" title="通过 free 查看Linux的内存"></a>通过 free 查看Linux的内存</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># total 总内存大小</span></span><br><span class="line"><span class="comment"># used 已使用的内存大小（这里包含 cached 、 buffers 、 shared 部分）</span></span><br><span class="line"><span class="comment"># free ： 空闲的内存大小。</span></span><br><span class="line"><span class="comment"># shared： 进程间共享的存储（一般不会使用，可以忽略）</span></span><br><span class="line"><span class="comment"># buffers： 内存中写完的东西缓存起来，这样快速响应请求，后面数据再定期刷到磁盘上。</span></span><br><span class="line"><span class="comment"># cached：内存中读完缓存起来内容占的大小。（这部分是为了下次查询时能快速返回）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -/+ buffers/cache 看做两部分：</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -buffers/cache：正在使用的内存大小（注意不是used部分，因为buffers和cached并不是正在使用的，组织和人民需要是它们是可以释放的），其值=used-buffers-cached。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#+buffers/cache：可用的内存大小（同理也不是free表示的部分），其值=free+buffers+cached。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Swap：硬盘上交换分区的使用大小。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设计的目的就是当上面提到的+buffers/cache表示的可用内存都已使用完，新的读写请求过来后，会把内存中的部分数据写入磁盘，从而把磁盘的部分空间当做虚拟内存来使用。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="关于Buffer和Cache"><a href="#关于Buffer和Cache" class="headerlink" title="关于Buffer和Cache"></a>关于Buffer和Cache</h1><p>数据处理流程</p>
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">CPU</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">Cache 高速缓存</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">内存</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">Buffer I/O缓存</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">硬盘</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Cache（缓存），为了调高CPU和内存之间数据交换而设计.</li>
+<li>Buffer（缓冲）为了提高内存和硬盘（或其他I/O设备的数据交换而设计）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache主要是针对读操作设计的，不过Cache概念可能容易混淆，我理解为CPU本身就有Cache，包括一级缓存、二级缓存、三级缓存，我们知道CPU所有的指令操作对接的都是内存，而CPU的处理能力远高于内存速度，所以为了不让CPU资源闲置，Intel等公司在CPU内部集成了一些Cache，但毕竟不能放太多电路在里面，所以这部分Cache并不是很大，主要是用来存放一些常用的指令和常用数据，真正大部分Cache的数据应该是占用内存的空间来缓存请求过的数据，即上面的Cached部分（这部分纯属个人理解，正确与否有待考证）。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Buffer主要是针对写操作设计的，更细的说是针对内存和硬盘之间的写操作来设计的，目的是将写的操作集中起来进行，减少磁盘碎片和硬盘反复寻址过程，提高性能。</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="在Linux中频繁存取文件，物理内存很快用光，而cached一直在增长。"><a href="#在Linux中频繁存取文件，物理内存很快用光，而cached一直在增长。" class="headerlink" title="在Linux中频繁存取文件，物理内存很快用光，而cached一直在增长。"></a>在Linux中频繁存取文件，物理内存很快用光，而cached一直在增长。</h2><p>Linux会对每次请求过的数据缓存在cache里，好处就是CPU的处理速度远远高于内存，所以在CPU和内存通讯的时候可以快速从cache中命中结果返回。</p>
+<h2 id="Swap被占用。"><a href="#Swap被占用。" class="headerlink" title="Swap被占用。"></a>Swap被占用。</h2><p>内存可能不够了，才会占Swap，所以Swap可以作为服务器监控的一项指标，引起注意。</p>
+<h1 id="手动清理Swap和buffers-cache"><a href="#手动清理Swap和buffers-cache" class="headerlink" title="手动清理Swap和buffers/cache"></a>手动清理Swap和buffers/cache</h1><h2 id="清理swap"><a href="#清理swap" class="headerlink" title="清理swap"></a>清理swap</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">swapoff -a &amp;&amp; swapon -a</span><br><span class="line"></span><br><span class="line"><span class="comment">#如果已经使用了Swap，且当前清空下+buffers/cache还有空间，在执行  swapoff -a操作时，会触发把Swap中的内容交换到内存中，数据不会丢失。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此操作相当于 swap空间 “重启”。</p>
+</blockquote>
+<h2 id="清理buffers-、-cache"><a href="#清理buffers-、-cache" class="headerlink" title="清理buffers 、 cache"></a>清理buffers 、 cache</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sync 目的是将缓存的内容写回到硬盘中</span></span><br><span class="line">sync</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改drop_caches的值为3，默认为0，改为3系统会清理缓存的内容。</span></span><br><span class="line"><span class="built_in">echo</span> 3 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line"><span class="comment">#sleep 2让上述指令执行完毕</span></span><br><span class="line">sleep 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改为默认值</span></span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/vm/drop_caches</span><br></pre></td></tr></table></figure>
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/12/09/Linux%E7%9A%84openssl%E5%8D%87%E7%BA%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2011,194 +2232,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/11/29/%E8%AE%B0%E4%B8%80%E6%AC%A1Datastore%E9%AB%98%E5%BB%B6%E8%BF%9F%E6%95%85%E9%9A%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/11/29/%E8%AE%B0%E4%B8%80%E6%AC%A1Datastore%E9%AB%98%E5%BB%B6%E8%BF%9F%E6%95%85%E9%9A%9C/" itemprop="url">记一次Datastore高延迟故障</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-11-29T23:28:57+08:00">
-                2020-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>虚拟机上面看到iowait与磁盘利用率达到100%以上，延迟非常高。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>底层datastore负载过高。</p>
-<p>进入看到虚拟机的虚拟磁盘的读取延迟非常高。大于20ms</p>
-<p>一般情况下，10ms以内的延迟是能接受的。而DB的延迟大于20ms，则会出现告警。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>将虚拟机迁移至空闲的datastore或者ssd 存储。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2249,7 +2282,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">383</span>
+                  <span class="site-state-item-count">384</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2271,7 +2304,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">131</span>
+                  <span class="site-state-item-count">132</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
