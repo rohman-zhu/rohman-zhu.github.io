@@ -270,6 +270,170 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/16/%5B%E5%BE%85%E5%AE%8C%E5%96%84%5D-LVM%E6%89%A9%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/16/%5B%E5%BE%85%E5%AE%8C%E5%96%84%5D-LVM%E6%89%A9%E5%AE%B9/" itemprop="url">LVM扩容</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-16T23:50:12+08:00">
+                2018-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul>
+<li>Linux-14.04-3.3.0.24-generic</li>
+<li>硬盘50G空间，sda</li>
+<li>采用LVM分区方式</li>
+<li>现需要加多一块硬盘，同样也是50G，sdb</li>
+</ul>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> df -T</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pvdisplay</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vgdisplay</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> lvdisplay</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 增加一块磁盘 sdb ，利用fdisk创建一个名为sdb1的扩展分区，占sdb全部空间。</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> fdisk /dev/sdb</span></span><br><span class="line"><span class="meta">#</span><span class="bash">---</span></span><br><span class="line"></span><br><span class="line">Command(m for help):n</span><br><span class="line">Partition type:</span><br><span class="line">    p primary(0 primary, 0 extended, 4 free)</span><br><span class="line">    e extended</span><br><span class="line">Select(default p):p</span><br><span class="line">Partition number(1-4,default 1):1</span><br><span class="line">First sector(2048-xxxxx,default xxxxx):</span><br><span class="line">Using default value xxxxx</span><br><span class="line">Last sector,+sectors or +size...:</span><br><span class="line">Using default value xxxxxx</span><br><span class="line"></span><br><span class="line">Command(m for help):t</span><br><span class="line">Selected partition 1</span><br><span class="line">Hex code(type L to list codes):8e</span><br><span class="line">Changed system type of partition 1 to 8e(Linux LVM)</span><br><span class="line"></span><br><span class="line">Command(m for help):w</span><br><span class="line">The partition table has been altered!</span><br><span class="line"></span><br><span class="line">Calling ioctl() to re-read partition table.</span><br><span class="line">Syncing disks.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 利用pvcreate 在分区sdb1上创建名为sdb1的PV：</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pvcreate /dev/sdb1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 把刚创建好的sdb1 PV加到 VG中</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vgextend ubuntu-vg /dev/sdb1</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> vgdisplay</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 拓展 /dev/ubuntu-vg/root LV</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> lvextend -L+50G /dev/ubuntu-vg/root</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新文件系统</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> resize2fs /dev/mapper/ubuntu--vg-root</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h1><p>三个概念：</p>
+<ul>
+<li>Physical Volume（PV）</li>
+<li>Volume Group（VG）</li>
+<li>Logical Volume（LV）</li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/16/Linux%E4%B8%8B%E6%8C%82%E8%BD%BDnas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2001,169 +2165,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/02/15/%E8%AE%A9%E5%AD%98%E6%94%BE%E7%9D%80PE%E7%B3%BB%E7%BB%9F%E7%9A%84U%E7%9B%98%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%AD%98%E5%82%A8%E5%A4%A7%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/15/%E8%AE%A9%E5%AD%98%E6%94%BE%E7%9D%80PE%E7%B3%BB%E7%BB%9F%E7%9A%84U%E7%9B%98%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%AD%98%E5%82%A8%E5%A4%A7%E6%96%87%E4%BB%B6/" itemprop="url">让存放着PE系统的U盘也可以存储大文件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-15T00:06:12+08:00">
-                2018-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="U盘设置-Exfat-NTFS-FAT32-PE-OS-Install"><a href="#U盘设置-Exfat-NTFS-FAT32-PE-OS-Install" class="headerlink" title="U盘设置 Exfat / NTFS + FAT32( PE + OS_Install)"></a>U盘设置 Exfat / NTFS + FAT32( PE + OS_Install)</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>手上有太多U盘了,现在容量基本都是16G,但是我身为一个IT人士(修电脑的),随身肯定会带着各种系统的启动盘或者PE系统.然而在这么一个过程中,如果做成PE系统,目前我所测试的软件PE制作工具(大白菜,老毛桃,微PE等),把U盘制作为启动盘都会将U盘转化为FAT32的格式,在这种格式下,单个文件不能超过4G.因此,本文主要是让U盘既能正常存储文件,也能作为启动盘.</p>
-<blockquote>
-<p>FAT32分区内无法存放大于4GB的单个文件，且性能不佳，易产生磁盘碎片。</p>
-</blockquote>
-<h2 id="制作启动盘"><a href="#制作启动盘" class="headerlink" title="制作启动盘"></a>制作启动盘</h2><p>先是将ISO文件写入U盘中,例如 Windows10.iso 写入U盘 , 然后用 Diskgenius 将U盘备份到镜像文件,默认后缀名字是pmf . </p>
-<h2 id="Diskgenius重新给U盘分区"><a href="#Diskgenius重新给U盘分区" class="headerlink" title="Diskgenius重新给U盘分区"></a>Diskgenius重新给U盘分区</h2><ul>
-<li>Diskgenius删除整个U盘分区. </li>
-<li>先建立第一个分区(ExFat或NTFS),再建立第二个分区(略大于一个启动盘镜像文件即可,FAT32)</li>
-<li>用 Diskgenius 将先前备份的pmf文件恢复到U盘的第二个分区.</li>
-</ul>
-<h2 id="Ubuntu中使用ExFat"><a href="#Ubuntu中使用ExFat" class="headerlink" title="Ubuntu中使用ExFat"></a>Ubuntu中使用ExFat</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install exfat-fuse exfat-utils</span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过这种方法就可以让U盘做出更大的作用了,既能存储大文件,又能快速检测电脑.是不是很实在呢? 新年快乐啦~</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2214,7 +2215,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">384</span>
+                  <span class="site-state-item-count">385</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
