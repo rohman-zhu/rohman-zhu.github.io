@@ -270,6 +270,480 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/11/09/%E5%B8%B8%E7%94%A8Python%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/11/09/%E5%B8%B8%E7%94%A8Python%E8%84%9A%E6%9C%AC/" itemprop="url">常用Python脚本</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-11-09T00:07:43+08:00">
+                2023-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (判断语句):</span><br><span class="line">    执行条件</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>没有{}，没有; ，注意缩进格式，注意: 。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">含义</th>
+<th align="center">符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">大于</td>
+<td align="center">&gt;</td>
+</tr>
+<tr>
+<td align="center">小于</td>
+<td align="center">&lt;</td>
+</tr>
+<tr>
+<td align="center">大于等于</td>
+<td align="center">&gt;=</td>
+</tr>
+<tr>
+<td align="center">小于等于</td>
+<td align="center">&lt;=</td>
+</tr>
+<tr>
+<td align="center">赋值</td>
+<td align="center">=</td>
+</tr>
+<tr>
+<td align="center">相等</td>
+<td align="center">==</td>
+</tr>
+<tr>
+<td align="center">不等</td>
+<td align="center">!=</td>
+</tr>
+<tr>
+<td align="center">相等(对象)</td>
+<td align="center">is</td>
+</tr>
+<tr>
+<td align="center">不等(对象)</td>
+<td align="center">is not</td>
+</tr>
+<tr>
+<td align="center">逻辑非</td>
+<td align="center">not</td>
+</tr>
+<tr>
+<td align="center">逻辑与</td>
+<td align="center">and</td>
+</tr>
+<tr>
+<td align="center">逻辑或</td>
+<td align="center">or</td>
+</tr>
+<tr>
+<td align="center">位运算 或</td>
+<td align="center">|</td>
+</tr>
+<tr>
+<td align="center">位运算 异或</td>
+<td align="center">^</td>
+</tr>
+<tr>
+<td align="center">位运算 与</td>
+<td align="center">&amp;</td>
+</tr>
+</tbody></table>
+<h1 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> 函数名<span class="params">(形参)</span>:</span></span><br><span class="line">    函数体</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数</span></span><br><span class="line">函数名(实参)</span><br></pre></td></tr></table></figure>
+
+<h1 id="逐行读取文本"><a href="#逐行读取文本" class="headerlink" title="逐行读取文本"></a>逐行读取文本</h1><blockquote>
+<p>节省内存,但会比较慢</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FILE = Open(<span class="string">'文件绝对路径‘)</span></span><br><span class="line"><span class="string">LINE = FILE.readline()</span></span><br><span class="line"><span class="string">while LINE:</span></span><br><span class="line"><span class="string">    print(LINE)</span></span><br><span class="line"><span class="string">    LINE = FILE.readline()</span></span><br><span class="line"><span class="string">FILE.close()</span></span><br></pre></td></tr></table></figure>
+
+<p>参考 ： <a href="https://www.cnblogs.com/Kingfan1993/p/9570079.html" target="_blank" rel="noopener">https://www.cnblogs.com/Kingfan1993/p/9570079.html</a></p>
+<h1 id="字符串分割"><a href="#字符串分割" class="headerlink" title="字符串分割"></a>字符串分割</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string=<span class="string">"world;world2;word"</span></span><br><span class="line">stringSet=string.split(<span class="string">";"</span>)</span><br><span class="line">stringSet[<span class="number">0</span>]</span><br><span class="line">stringSet[<span class="number">1</span>]</span><br><span class="line">stringSet[<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="字符型与整型转化"><a href="#字符型与整型转化" class="headerlink" title="字符型与整型转化"></a>字符型与整型转化</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">num_str=<span class="string">"123"</span></span><br><span class="line">num_int=int(num_str)</span><br><span class="line"></span><br><span class="line">num_str=str(num_int)</span><br></pre></td></tr></table></figure>
+
+<h1 id="时延函数"><a href="#时延函数" class="headerlink" title="时延函数"></a>时延函数</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.sleep(秒)</span><br></pre></td></tr></table></figure>
+
+<h1 id="其他规则"><a href="#其他规则" class="headerlink" title="其他规则"></a>其他规则</h1><ol>
+<li>Python严格区分大小写</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/11/06/vCenter%E4%B8%AD%E8%BF%81%E7%A7%BB%E6%8C%89%E9%92%AE%E6%98%AF%E7%81%B0%E8%89%B2%E7%8A%B6%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/11/06/vCenter%E4%B8%AD%E8%BF%81%E7%A7%BB%E6%8C%89%E9%92%AE%E6%98%AF%E7%81%B0%E8%89%B2%E7%8A%B6%E6%80%81/" itemprop="url">vCenter中迁移按钮是灰色状态</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-11-06T23:56:57+08:00">
+                2023-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%85%E9%9A%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">故障</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%85%E9%9A%9C/KB/" itemprop="url" rel="index">
+                    <span itemprop="name">KB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>虚拟机在vCenter中无法做vMotion，迁移按钮是灰色状态；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>虚拟机因为备份而被锁定，导致无法执行迁移操作；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>需要进入vCenter的PG数据库，将对应条目删除；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 执行前，先对vCenter进行快照备份！！！！</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录 VCSA 的SSH Shell；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭vpxd服务</span></span><br><span class="line">service-control --stop vmware-vpxd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录 PG 数据库</span></span><br><span class="line">/opt/vmware/vpostgres/current/bin/psql -d VCDB -U postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询目标虚拟机的VM-ID</span></span><br><span class="line"><span class="comment"># 语句：select * from VPX_VM WHERE FILE_NAME LIKE '%Virtual_Machine_Name%';</span></span><br><span class="line"><span class="comment"># 比如</span></span><br><span class="line">select * from VPX_VM WHERE FILE_NAME LIKE <span class="string">'%[rohmanvm]%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取到虚拟机的ID</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取虚拟机执行的条目</span></span><br><span class="line">select * from VPX_DISABLED_METHODS WHERE ENTITY_MO_ID_VAL = <span class="string">'vm-[ID编码]'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除编码</span></span><br><span class="line">delete from VPX_DISABLED_METHODS WHERE ENTITY_MO_ID_VAL = <span class="string">'vm-[ID编码]'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动vCenter服务</span></span><br><span class="line">service-control --start vmware-vpxd</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://kb.vmware.com/s/article/1029926?lang=zh_CN" target="_blank" rel="noopener">https://kb.vmware.com/s/article/1029926?lang=zh_CN</a></p>
+<p><a href="https://kb.vmware.com/s/article/2044369" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2044369</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/11/05/UAG%E6%B2%A1%E6%9C%89%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE9443%E7%AE%A1%E7%90%86%E7%AB%AF%E5%8F%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1778,481 +2252,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/vCenter%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/07/30/vCenter%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/" itemprop="url">vCenter磁盘空间扩容</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-07-30T17:31:46+08:00">
-                2023-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ol>
-<li>vCenter告警：Log Disk Exhaustion on vCenter；</li>
-<li>进入vCenter的5480端口界面，看到磁盘空间耗尽；</li>
-</ol>
-<h1 id="故障分析"><a href="#故障分析" class="headerlink" title="故障分析"></a>故障分析</h1><ol>
-<li>log增长，导致空间占满。</li>
-</ol>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="短期："><a href="#短期：" class="headerlink" title="短期："></a>短期：</h2><p>找到目标硬盘，执行扩容：</p>
-<ol>
-<li>虚拟化层，扩容目标硬盘；</li>
-<li>OS层，扩容目标空间；</li>
-</ol>
-<p>执行指令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpxd_servicecfg storage lvm autogrow</span><br></pre></td></tr></table></figure>
-
-<h2 id="长期："><a href="#长期：" class="headerlink" title="长期："></a>长期：</h2><ol>
-<li>设置日志保存周期；</li>
-<li>设置VCSA空间告警；</li>
-</ol>
-<h1 id="其他补充"><a href="#其他补充" class="headerlink" title="其他补充"></a>其他补充</h1><table>
-<thead>
-<tr>
-<th align="left">磁盘(VMDK)</th>
-<th align="left">默认大小（微型，具有默认存储大小）</th>
-<th align="left">挂载点</th>
-<th align="left">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">VMDK1</td>
-<td align="left">12 GB</td>
-<td align="left">/(10 GB), /boot (132 MB), SWAP (1 GB)</td>
-<td align="left">存储内核映像和引导加载程序配置的目录。</td>
-</tr>
-<tr>
-<td align="left">VMDK2</td>
-<td align="left">1.8 GB</td>
-<td align="left">/tmp</td>
-<td align="left">用于存储 vCenter Server 中的服务生成或使用的临时文件的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK3</td>
-<td align="left">25 GB</td>
-<td align="left">SWAP</td>
-<td align="left">系统内存不足时用于交换到磁盘的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK4</td>
-<td align="left">25 GB</td>
-<td align="left">/storage/core</td>
-<td align="left">用于存储 vCenter Server 中 VPXD  进程的核心转储文件的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK5</td>
-<td align="left">10 GB</td>
-<td align="left">/storage/log</td>
-<td align="left">vCenter Server 和 Platform Services Controller 存储环境的所有日志的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK6</td>
-<td align="left">10 GB</td>
-<td align="left">/storage/db</td>
-<td align="left">VMware Postgres 数据库存储位置</td>
-</tr>
-<tr>
-<td align="left">VMDK7</td>
-<td align="left">5 GB</td>
-<td align="left">/storage/dblog</td>
-<td align="left">VMware Postgres 数据库日志记录位置</td>
-</tr>
-<tr>
-<td align="left">VMDK8</td>
-<td align="left">10 GB</td>
-<td align="left">/storage/seat</td>
-<td align="left">VMware Postgres 的统计信息、事件、警报和任务 (SEAT) 目录</td>
-</tr>
-<tr>
-<td align="left">VMDK9</td>
-<td align="left">1 GB</td>
-<td align="left">/storage/netdump</td>
-<td align="left">VMware Netdump Collector 存储库，用于存储 ESXi 转储</td>
-</tr>
-<tr>
-<td align="left">VMDK10</td>
-<td align="left">10 GB</td>
-<td align="left">/storage/autodeploy</td>
-<td align="left">VMware Auto Deploy 存储库，存储用于 ESXi 主机无状态引导的</td>
-</tr>
-<tr>
-<td align="left">VMDK11</td>
-<td align="left">10 GB</td>
-<td align="left">/storage/imagebuilder</td>
-<td align="left">VMware Image Builder 存储库，用于存储 vSphere 映像配置文件、软件库和 VIB 软件包，例如驱动程序 VIB 和更新 VIB。</td>
-</tr>
-<tr>
-<td align="left">VMDK12</td>
-<td align="left">100 GB</td>
-<td align="left">/storage/updatemgr</td>
-<td align="left">VMware Update Manager 存储库，用于存储虚拟机和 ESXi 主机的修补程序和更新</td>
-</tr>
-<tr>
-<td align="left">VMDK13</td>
-<td align="left">50 GB</td>
-<td align="left">/storage/archive</td>
-<td align="left">VMware Postgres 数据库的预写日志记录 (WAL) 位置</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.dinghui.org/increasing-the-disk-space-for-the-vcenter-server-appliance.html" target="_blank" rel="noopener">https://www.dinghui.org/increasing-the-disk-space-for-the-vcenter-server-appliance.html</a><br>Troubleshooting vCenter Appliance /storage/log directory is 80% or more full (83070): <a href="https://kb.vmware.com/s/article/83070?lang=zh_cn" target="_blank" rel="noopener">https://kb.vmware.com/s/article/83070?lang=zh_cn</a><br>vCenter Server Appliance disk space is full (76563)<br>:<a href="https://kb.vmware.com/s/article/76563" target="_blank" rel="noopener">https://kb.vmware.com/s/article/76563</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/Citrix-%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E4%BF%A1%E6%81%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/07/30/Citrix-%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E4%BF%A1%E6%81%AF/" itemprop="url">Citrix 合作伙伴信息</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-07-30T17:23:44+08:00">
-                2023-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Citrix/" itemprop="url" rel="index">
-                    <span itemprop="name">Citrix</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Citrix-代理商资质信息"><a href="#Citrix-代理商资质信息" class="headerlink" title="Citrix 代理商资质信息"></a>Citrix 代理商资质信息</h1><p>目前有4中资质,资质从低到高分别是：</p>
-<ol>
-<li>Silver Solution Advisor</li>
-<li>Gold Solution Advisor</li>
-<li>Platinum Solution Advisor</li>
-<li>Platinum Plus Solution Advisor</li>
-</ol>
-<blockquote>
-<p>信息截止至：2023年</p>
-</blockquote>
-<h1 id="可以在Citrix官网查询"><a href="#可以在Citrix官网查询" class="headerlink" title="可以在Citrix官网查询"></a>可以在Citrix官网查询</h1><p><a href="https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM" target="_blank" rel="noopener">https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM</a></p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM" target="_blank" rel="noopener">https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM</a><br><a href="https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM" target="_blank" rel="noopener">https://www.citrix.com/buy/partnerlocator/results.html?partnertypes=CSN&amp;levels=PLATINUM</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2303,7 +2302,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">386</span>
+                  <span class="site-state-item-count">388</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2314,7 +2313,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -2325,7 +2324,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">133</span>
+                  <span class="site-state-item-count">134</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
