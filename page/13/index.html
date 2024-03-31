@@ -270,6 +270,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/21/%E6%97%A0%E6%B3%95%E4%B8%BA%E4%B8%BB%E6%9C%BA%E5%88%86%E9%85%8D%E8%AE%B8%E5%8F%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/11/21/%E6%97%A0%E6%B3%95%E4%B8%BA%E4%B8%BB%E6%9C%BA%E5%88%86%E9%85%8D%E8%AE%B8%E5%8F%AF/" itemprop="url">无法为主机分配许可</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-21T22:54:51+08:00">
+                2021-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>测试环境中有4台物理服务器组成vSAN，使用的ESXi 6.7 的版本。操作系统安装完后，需要安装ESXi的补丁。每一台服务器安装完补丁重启后，无法再添加回vCenter中。</p>
+<h1 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h1><h2 id="【未解决】疑似测试许可未有vmotion功能"><a href="#【未解决】疑似测试许可未有vmotion功能" class="headerlink" title="【未解决】疑似测试许可未有vmotion功能"></a>【未解决】疑似测试许可未有vmotion功能</h2><p>在关闭ESXi主机的 vmKernel网络中的vmotion功能后，还是无法加入vCenter中。</p>
+<p><a href="https://community.spiceworks.com/topic/2223291-can-t-add-hosts-to-vcenter-essentials-license-not-available" target="_blank" rel="noopener">https://community.spiceworks.com/topic/2223291-can-t-add-hosts-to-vcenter-essentials-license-not-available</a></p>
+<h2 id="【未解决】主机与vCenter有时间偏差"><a href="#【未解决】主机与vCenter有时间偏差" class="headerlink" title="【未解决】主机与vCenter有时间偏差"></a>【未解决】主机与vCenter有时间偏差</h2><p>vCenter与ESXi均为配置时间服务器，怀疑是时间偏差导致，无法添加。在配置NTP服务后，依旧无法添加ESXi至VCSA。</p>
+<p><a href="https://community.spiceworks.com/topic/2223291-can-t-add-hosts-to-vcenter-essentials-license-not-available" target="_blank" rel="noopener">https://community.spiceworks.com/topic/2223291-can-t-add-hosts-to-vcenter-essentials-license-not-available</a></p>
+<h2 id="【未解决】版本不兼容"><a href="#【未解决】版本不兼容" class="headerlink" title="【未解决】版本不兼容"></a>【未解决】版本不兼容</h2><p>核对 ESXi 与 vCenter 的版本，发现并无差异。</p>
+<p>vCenter的小版本号对应关系：<a href="https://www.virten.net/vmware/vcenter-release-and-build-number-history/" target="_blank" rel="noopener">https://www.virten.net/vmware/vcenter-release-and-build-number-history/</a></p>
+<p>VMware 产品兼容性查询：<a href="https://kb.vmware.com/s/article/70785?lang=zh_cn" target="_blank" rel="noopener">https://kb.vmware.com/s/article/70785?lang=zh_cn</a></p>
+<h2 id="【正解】重启VCSA"><a href="#【正解】重启VCSA" class="headerlink" title="【正解】重启VCSA"></a>【正解】重启VCSA</h2><p>VCSA重启后，ESXi就能添加至vCenter中了。果然重启治百病。。。</p>
+<h1 id="其他参考"><a href="#其他参考" class="headerlink" title="其他参考"></a>其他参考</h1><p>HCL数据库更新方法：<a href="https://www.cnblogs.com/sunpear/p/6131696.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunpear/p/6131696.html</a><br>固件升级：<a href="https://blog.csdn.net/TN947/article/details/90348579" target="_blank" rel="noopener">https://blog.csdn.net/TN947/article/details/90348579</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/21/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84vSphere%E8%AE%B8%E5%8F%AF%E6%94%B6%E9%9B%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2101,181 +2294,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/07/%E8%AE%B0%E4%B8%80%E6%AC%A1License%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%85%E9%9A%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/11/07/%E8%AE%B0%E4%B8%80%E6%AC%A1License%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%85%E9%9A%9C/" itemprop="url">记一次License服务器故障</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-07T23:16:22+08:00">
-                2021-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows Server</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>一个授权服务器需要加载dat文件来开启服务，然而dat文件算出的机器码值不一致。</p>
-<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>跟虚拟机的CPU、网卡Mac地址有关。</p>
-<p>判断MAC地址是否有变化，可以通过检查虚拟机日志查看。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2326,7 +2344,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">393</span>
+                  <span class="site-state-item-count">394</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

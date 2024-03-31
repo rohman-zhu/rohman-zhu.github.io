@@ -270,6 +270,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/01/Powershell%E5%AE%9E%E4%BE%8B-%E8%BF%9C%E7%A8%8B%E5%AE%89%E8%A3%85%E8%A1%A5%E4%B8%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/04/01/Powershell%E5%AE%9E%E4%BE%8B-%E8%BF%9C%E7%A8%8B%E5%AE%89%E8%A3%85%E8%A1%A5%E4%B8%81/" itemprop="url">Powershell实例-远程安装补丁</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-04-01T00:49:57+08:00">
+                2024-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><ol>
+<li>给远端的服务器安装补丁；</li>
+<li>检查是否需要重启；</li>
+</ol>
+<h1 id="实例脚本"><a href="#实例脚本" class="headerlink" title="实例脚本"></a>实例脚本</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"># Date:2024-03-31</span><br><span class="line"># Version : v2</span><br><span class="line"></span><br><span class="line"># Global Veriable</span><br><span class="line">$WINRM_PORT&#x3D;5985;</span><br><span class="line"># Target Windows Update  inneed;</span><br><span class="line">$TARGET_WUKB_ARRARY&#x3D;&quot;KB5035849&quot;,&quot;KB5035849&quot;;</span><br><span class="line">$TARGETSERVER_List&#x3D;$args[0];</span><br><span class="line">if($null -eq $PSCREDENTIAL)&#123;$PSCREDENTIAL&#x3D;Get-Credential;&#125;</span><br><span class="line"></span><br><span class="line"># Log</span><br><span class="line">Function Get-Log&#123;</span><br><span class="line">    param($TYPE,$CONTENT);</span><br><span class="line">    $TIMESPAN1&#x3D;Get-Date -Format &quot;yyyy-MM-dd&quot;;</span><br><span class="line">    $TIMESPAN2&#x3D;Get-Date -Format &quot;HH:mm:ss&quot;;</span><br><span class="line">    Write-Host &quot;[$TIMESPAN1][$TIMESPAN2][$TYPE]$CONTENT;&quot;;</span><br><span class="line">    Add-Content &quot;$TYPE.log&quot; &quot;[$TIMESPAN1][$TIMESPAN2][$TYPE]$CONTENT;&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Check windows updates is installed</span><br><span class="line">Function Check-WindowsUpdate&#123;</span><br><span class="line">    param($TARGET_WUKB_ARRARY,$PSSESSION);</span><br><span class="line"></span><br><span class="line">    # </span><br><span class="line">    $WU_CHECK_BLOCK&#x3D;&#123;</span><br><span class="line">        param($TARGET_WUKB);</span><br><span class="line">        $INSTALL_FLAG&#x3D;$TRUE;</span><br><span class="line">        $INSTALL_KB_CHECK&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID -match $TARGET_WUKB&#125;;</span><br><span class="line">        if($null -eq $INSTALL_KB_CHECK)&#123;</span><br><span class="line">            $INSTALL_FLAG&#x3D;$FALSE;</span><br><span class="line">        &#125;</span><br><span class="line">        return $INSTALL_FLAG;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for($i &#x3D; 0 ;$i -lt $TARGET_WUKB_ARRARY.Length;$i++)&#123;</span><br><span class="line">        $WU_PRE_CHECK_FLAG&#x3D;Invoke-Command -Session $PSSESSION -ArgumentList $TARGET_WUKB_ARRARY[$i] -ScriptBlock $WU_CHECK_BLOCK;</span><br><span class="line">        if(!$WU_PRE_CHECK_FLAG)&#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &lt;#注意 ArgumentList 无法传递数组；2024-03-31，废案；</span><br><span class="line">    $WU_CHECK&#x3D;&#123;</span><br><span class="line">        param($TARGET_WUKB_ARRARY);</span><br><span class="line">        $INSTALL_FLAG&#x3D;$FALSE;</span><br><span class="line">        for($i &#x3D; 0; $i -lt $TARGET_WUKB_ARRARY.Length;$i++)&#123;</span><br><span class="line">            $ISINSTALLED&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID -match $TARGET_WUKB_ARRARY[$i]&#125;;</span><br><span class="line">            if($null -eq $ISINSTALLED)&#123;</span><br><span class="line">                $INSTALL_FLAG&#x3D;$TRUE;</span><br><span class="line">                Write-Host &quot;$(hostname) need install $($TARGET_WUKB_ARRARY[$i]);&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return $INSTALL_FLAG;</span><br><span class="line">    &#125;    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $READY_FLAG&#x3D;Invoke-Command -Session $PSSESSION -ScriptBlock $WU_CHECK -ArgumentList $TARGET_WUKB_ARRARY;</span><br><span class="line">    #&gt;</span><br><span class="line"></span><br><span class="line">    if(!$WU_PRE_CHECK_FLAG)&#123;</span><br><span class="line">        Get-Log &quot;INFO&quot; &quot;$($PSSESSION.ComputerName) need to install windows update &quot;</span><br><span class="line">        Invoke-WuJob -ComputerName $PSSESSION.ComputerName -Script &#123;Install-WindowsUpdate -AcceptAll -IgnoreReboot | Out-File C:\InstallWindows.log&#125; -RunNow -Confirm:$FALSE -ErrorAction Ignore;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        Get-Log &quot;INSTALL-WU&quot; &quot;$($PSSESSION.ComputerName) don&#39;t need to intall $TARGET_WUKB_ARRARY&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Check target windows server;</span><br><span class="line">Function Check-RebootStatus&#123;</span><br><span class="line">    param($PSSESSION);</span><br><span class="line"></span><br><span class="line">    $CHECK_REBOOT_BLOCK&#x3D;&#123;</span><br><span class="line">        #$ISNEED_REBOOT&#x3D;$FALSE;</span><br><span class="line">        $ISNEED_REBOOT&#x3D;Get-Item -Path &quot;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot;;</span><br><span class="line">        if($null -eq $ISNEED_REBOOT)&#123;</span><br><span class="line">            return $FALSE;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return $TRUE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $REBOOT_FLAG&#x3D;Invoke-Command -Session $PSSESSION -ScriptBlock $CHECK_REBOOT_BLOCK;</span><br><span class="line"></span><br><span class="line">    if($REBOOT_FLAG)&#123;</span><br><span class="line">        Get-Log &quot;INFO&quot; &quot;$($PSSESSION.ComputerName) need to reboot&quot;;</span><br><span class="line">        Get-Log &quot;REBOOT&quot; &quot;$($PSSESSION.ComputerName)&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Start check target server;</span><br><span class="line">Function Start-CheckTargetServer&#123;</span><br><span class="line">    param($TARGETSERVER_LIST_FILE);</span><br><span class="line"></span><br><span class="line">    Get-Content $TARGETSERVER_LIST_FILE | ForEach-Object&#123;</span><br><span class="line">        $SERVERNAME&#x3D;$_.Trim();</span><br><span class="line">        Get-Log &quot;INFO&quot; &quot;Start connect to $SERVERNAME &quot;;</span><br><span class="line">        $SESSION&#x3D;New-PSSession -ComputerName $SERVERNAME -Port $WINRM_PORT -Credential $PSCREDENTIAL;</span><br><span class="line"></span><br><span class="line">        Check-WindowsUpdate $TARGET_WUKB_ARRARY $SESSION;</span><br><span class="line">        Check-RebootStatus $SESSION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Start-CheckTargetServer $TARGETSERVER_List;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>Invoke-Command 传参：<a href="https://www.cnblogs.com/talentzemin/p/16976197.html" target="_blank" rel="noopener">https://www.cnblogs.com/talentzemin/p/16976197.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/31/Powershell%E8%84%9A%E6%9C%AC%E5%AE%9E%E4%BE%8B-%E6%A3%80%E6%9F%A5%E5%9F%9F%E8%B4%A6%E6%88%B7%E7%8A%B6%E6%80%81%E5%B9%B6%E5%88%A0%E9%99%A4%E7%A6%81%E7%94%A8%E8%B4%A6%E6%88%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2156,234 +2335,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/07/VMware-Horizon-View-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/03/07/VMware-Horizon-View-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" itemprop="url">VMware Horizon View-常见问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-07T12:47:06+08:00">
-                2024-03-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index">
-                    <span itemprop="name">Horizon View</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Server类故障"><a href="#Server类故障" class="headerlink" title="Server类故障"></a>Server类故障</h1><h2 id="目标VDI提示被禁用，无法通过客户端重置桌面"><a href="#目标VDI提示被禁用，无法通过客户端重置桌面" class="headerlink" title="目标VDI提示被禁用，无法通过客户端重置桌面"></a>目标VDI提示被禁用，无法通过客户端重置桌面</h2><h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><ol>
-<li>Connection Server 托管的vCenter服务异常；</li>
-<li>目标VDI对应的虚拟机不存在；</li>
-</ol>
-<h1 id="Agent类故障"><a href="#Agent类故障" class="headerlink" title="Agent类故障"></a>Agent类故障</h1><h2 id="目标VDI在Connection-Server中提示“无法访问代理”"><a href="#目标VDI在Connection-Server中提示“无法访问代理”" class="headerlink" title="目标VDI在Connection Server中提示“无法访问代理”"></a>目标VDI在Connection Server中提示“无法访问代理”</h2><h3 id="原因分析-1"><a href="#原因分析-1" class="headerlink" title="原因分析"></a>原因分析</h3><ol>
-<li>VDI内的网络异常，到Connection Server的必要端口没有放行；</li>
-<li>VDI内的Agent进程异常，客户端内的VMware Horizon View Agent没有正常运行，其中的关联服务没有启动；</li>
-<li>VDI内没有办法正常解析Connection Server的域名，导致无法与对端建立连接；【DNS解析异常】</li>
-<li>Connection Server与VDI的通讯密钥需要更新；</li>
-</ol>
-<p>原因1，必要端口：</p>
-<table>
-<thead>
-<tr>
-<th align="center">SRC</th>
-<th align="center">DST</th>
-<th align="center">TCP-Port</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Agent</td>
-<td align="center">CS</td>
-<td align="center">4001</td>
-<td align="left">Java Message Service communication , JMS</td>
-</tr>
-<tr>
-<td align="center">Agent</td>
-<td align="center">CS</td>
-<td align="center">4002</td>
-<td align="left">Java Message Service communication , Java Message Service (JMS) when using enhanced security (default).</td>
-</tr>
-<tr>
-<td align="center">Agent</td>
-<td align="center">CS</td>
-<td align="center">389</td>
-<td align="left">Only required when doing an unmanaged agent registration, for example, RDSH agent install without linked-clone or instant-clone component.</td>
-</tr>
-</tbody></table>
-<p>参考： <a href="https://ports.esp.vmware.com/home/Horizon" target="_blank" rel="noopener">https://ports.esp.vmware.com/home/Horizon</a></p>
-<p>可以在操作系统中执行相关指令确认：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows , run powershell as administrator</span></span><br><span class="line">netstat -ano | findstr [Target TCP port]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux , run command as sudo permission</span></span><br><span class="line">netstat -ano | gre [Target TCP port]</span><br></pre></td></tr></table></figure>
-
-<p>原因2，关联服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows , run powerhsell as administrator</span></span><br><span class="line">netstat -ano | findstr vmware</span><br><span class="line"></span><br><span class="line"><span class="comment"># [TODO] Should have :</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux , run command as sudo permission</span></span><br><span class="line">ps -aux | grep vmware</span><br><span class="line"></span><br><span class="line"><span class="comment"># Should have : </span></span><br><span class="line"><span class="comment"># viewagent/jre/bin/java </span></span><br><span class="line"><span class="comment"># viewagent/bin/GetMachineId.sh </span></span><br><span class="line"><span class="comment"># viewagent/DekstopDaemon/desktopDaemon</span></span><br><span class="line"><span class="comment"># viewagent/VMwareBlastServer/BlastServer</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2434,7 +2385,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">393</span>
+                  <span class="site-state-item-count">394</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

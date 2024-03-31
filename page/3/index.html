@@ -270,6 +270,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/11/05/VMware-Horizon-%E6%8F%90%E7%A4%BA%E6%B2%A1%E6%9C%89%E5%8F%AF%E7%94%A8%E7%9A%84%E6%98%BE%E7%A4%BA%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/11/05/VMware-Horizon-%E6%8F%90%E7%A4%BA%E6%B2%A1%E6%9C%89%E5%8F%AF%E7%94%A8%E7%9A%84%E6%98%BE%E7%A4%BA%E5%8D%8F%E8%AE%AE/" itemprop="url">VMware Horizon 提示没有可用的显示协议</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-11-05T16:38:08+08:00">
+                2023-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%85%E9%9A%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">故障</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>关键节点：UAG、连接服务器、RDSH服务器；</p>
+<p>显示协议：Blast；</p>
+<p>客户端节点提示，无可用显示协议或者 Internal Server Error；<br>UAG与RDSH服务器网络链路正常，TCP-22443端口是联通的；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>RDSH服务器上面的22443端口不是VMware View Agent进程监听的，而是其他应用程序在监听，导致客户端无法使用 Blast 协议安装；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>检测端口监听的进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># -a:--all，显示所有链接和监听端口</span><br><span class="line"># -b:显示包含于创建每个连接或监听端口的可执行组件。在某些情况下已知可执行组件拥有多个独立组件，并且在这些情况下包含于创建连接或监听端口的组件序列被显示。这种情况下，可执行组件名在底部的 [] 中，顶部是其调用的组件，等等，直到 TCP&#x2F;IP 部分。注意此选项可能需要很长时间，如果没有足够权限可能失败。</span><br><span class="line">netstat -ab | findstr 22443;</span><br></pre></td></tr></table></figure>
+
+<p>检测 WINRM 监听端口并修改：</p>
+<p>观察到 WINRM 的端口被改为 22443 ，导致BLAST协议的进程无法使用此端口；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 检查端口</span><br><span class="line">winrm enumerate winrm&#x2F;config&#x2F;listener</span><br><span class="line"></span><br><span class="line"># 修改端口</span><br><span class="line">set-item wsman:\localhost\listener\listener*\port -value 8080</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/10/15/%E6%95%85%E9%9A%9C%E8%AE%B0%E5%BD%95-ESXi-Umap%E7%B4%AB%E5%B1%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2152,221 +2333,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" itemprop="url">VMware Horizon-连接服务器常规配置注意事项</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-07-30T15:33:11+08:00">
-                2023-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index">
-                    <span itemprop="name">Horizon View</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="配置文件-locked-properties-–-检查源-checkOrigin"><a href="#配置文件-locked-properties-–-检查源-checkOrigin" class="headerlink" title="配置文件 locked.properties – 检查源 checkOrigin"></a>配置文件 locked.properties – 检查源 checkOrigin</h1><p>问题：连接服务器管理后台会提示“Failed to connect to the Connection Server”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkOrigin &#x3D; false</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://kb.vmware.com/s/article/2144768?lang=zh_cn" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2144768?lang=zh_cn</a></p>
-<h1 id="配置文件-locked-properties-–-CORS（Cross-Origin-Resource-Sharing）-，enableCORS"><a href="#配置文件-locked-properties-–-CORS（Cross-Origin-Resource-Sharing）-，enableCORS" class="headerlink" title="配置文件 locked.properties – CORS（Cross-Origin Resource Sharing） ，enableCORS"></a>配置文件 locked.properties – CORS（Cross-Origin Resource Sharing） ，enableCORS</h1><p>问题：Horizon 8 后，CORS（Cross-Origin Resource Sharing）默认是开启的；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enableCORS &#x3D; false</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://kb.vmware.com/s/article/2144768" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2144768</a><br><a href="https://kb.vmware.com/s/article/85801" target="_blank" rel="noopener">https://kb.vmware.com/s/article/85801</a></p>
-<h1 id="添加UAG服务器步骤简写"><a href="#添加UAG服务器步骤简写" class="headerlink" title="添加UAG服务器步骤简写"></a>添加UAG服务器步骤简写</h1><ol>
-<li>虚拟机化层，部署UAG镜像；</li>
-<li>应用层，配置UAG，即进入UAG管理界面 <a href="https://UAG-IP:9443" target="_blank" rel="noopener">https://UAG-IP:9443</a> ；</li>
-</ol>
-<ul>
-<li>配置连接服务器地址</li>
-<li>导入证书</li>
-</ul>
-<ol start="3">
-<li>应用层，配置Connection Server，即进入Connection Server管理界面 <a href="https://ConnectionServer-IP/admin" target="_blank" rel="noopener">https://ConnectionServer-IP/admin</a> ；</li>
-</ol>
-<ul>
-<li>连接服务器不使用安全网关</li>
-<li>添加UAG服务器</li>
-</ul>
-<h1 id="安全服务器-连接服务器配置证书步骤"><a href="#安全服务器-连接服务器配置证书步骤" class="headerlink" title="安全服务器/连接服务器配置证书步骤"></a>安全服务器/连接服务器配置证书步骤</h1><ol>
-<li>生成pkg证书文件；</li>
-<li>导入安全服务器服务器；</li>
-<li>修改目标证书别名为vdm；</li>
-</ol>
-<h1 id="UAG服务器证书配置步骤"><a href="#UAG服务器证书配置步骤" class="headerlink" title="UAG服务器证书配置步骤"></a>UAG服务器证书配置步骤</h1><ol>
-<li>生成pkg证书文件；</li>
-<li>导入UAG服务器；</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2417,7 +2383,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">393</span>
+                  <span class="site-state-item-count">394</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
