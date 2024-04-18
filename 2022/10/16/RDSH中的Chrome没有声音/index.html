@@ -87,7 +87,7 @@
 <meta property="og:description" content="故障描述RDSH中的Chrome打开任何音频类的页面，均无声音；而使用RDSH中的其他浏览器打开同样的页面却有声音； 原因分析谷歌浏览器新特性”Sandbox”，此功能特性不兼容 Horizon View RDSH 会话； 解决方法禁用Chrome浏览器中的沙盒音频； 使用powershell下发指令，新建注册表值： 123New-Item -Path HKLM:\Software\Policie">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-16T15:54:02.000Z">
-<meta property="article:modified_time" content="2022-10-16T16:08:39.032Z">
+<meta property="article:modified_time" content="2024-04-18T11:52:31.474Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="故障">
 <meta name="twitter:card" content="summary">
@@ -409,7 +409,7 @@
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>谷歌浏览器新特性”Sandbox”，此功能特性不兼容 Horizon View RDSH 会话；</p>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>禁用Chrome浏览器中的沙盒音频；</p>
 <p>使用powershell下发指令，新建注册表值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">New-Item -Path HKLM:\Software\Policies\Google</span><br><span class="line">New-Item -Path HKLM:\Software\Policies\Google\Chrome</span><br><span class="line">New-ItemPropety -Path HKLM:\Software\Policies\Google\Chrome -Name AudioSandboxEnabled -Value 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">New-Item -Path HKLM:\Software\Policies\Google</span><br><span class="line">New-Item -Path HKLM:\Software\Policies\Google\Chrome</span><br><span class="line">New-ItemProperty -Path HKLM:\Software\Policies\Google\Chrome -Name AudioSandboxEnabled -Value 0;</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://kb.vmware.com/s/article/78264" target="_blank" rel="noopener">https://kb.vmware.com/s/article/78264</a></p>
 
