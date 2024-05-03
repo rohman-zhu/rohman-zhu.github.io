@@ -270,6 +270,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/05/03/Windows-Server-%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/05/03/Windows-Server-%E5%88%9B%E5%BB%BA%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/" itemprop="url">Windows Server 创建计划任务</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-05-03T16:08:26+08:00">
+                2024-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>任务1：创建自动化任务，到指定时间自动运行脚本；<br>任务2：通过远程下发指令，时间自动化创建自动任务；</p>
+<h1 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h1><h2 id="任务1操作实例-CLI操作界面"><a href="#任务1操作实例-CLI操作界面" class="headerlink" title="任务1操作实例-CLI操作界面"></a>任务1操作实例-CLI操作界面</h2><p>参考：</p>
+<ol>
+<li><a href="https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 叫什么：一个名为 TEST 的自动任务</span><br><span class="line">$TASKNAME&#x3D;&quot;TEST&quot;;</span><br><span class="line"></span><br><span class="line"># 干什么：并执行 test.ps1 脚本</span><br><span class="line">$TESTSCRIPT&#x3D;&quot;C:\test.ps1&quot;;</span><br><span class="line">$ACTION&#x3D;New-ScheduledTaskAction -Execute &quot;Powershell&quot; -Argument $TESTCRIPT;</span><br><span class="line"></span><br><span class="line"># 什么时候做：在每周三，晚上7:30执行；</span><br><span class="line">$JOBTRIGGER&#x3D;New-JobTrigger -Weekly -At &quot;9:00 PM&quot; -DaysOfWeek Wednesday -WeeksInterval 1;</span><br><span class="line"></span><br><span class="line"># 谁：拥有最高权限</span><br><span class="line"># 有啥注意事项：无论有没有用户登录，都执行</span><br><span class="line">$PRINCIPAL&#x3D;New-ScheduledTaskPrincipal -UserId [USER] -LogonType S4U</span><br><span class="line"></span><br><span class="line"># 创建任务信息</span><br><span class="line">$SCHEDULEDTASKOBJECT&#x3D;New-ScheduledTask -Action $ACTION -Trigger $JOBTRIGGER -Principal $PRINCIPAL</span><br><span class="line"># 注册任务</span><br><span class="line">Register-ScheduledTask -TaskName $TASKNAME -InputObject [SchedledTaskObjectName];</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="任务1操作实例-GUI操作界面"><a href="#任务1操作实例-GUI操作界面" class="headerlink" title="任务1操作实例-GUI操作界面"></a>任务1操作实例-GUI操作界面</h2><p>参考：<a href="https://www.cnblogs.com/lishidefengchen/p/4381565.html" target="_blank" rel="noopener">https://www.cnblogs.com/lishidefengchen/p/4381565.html</a></p>
+<p>环境说明:</p>
+<ol>
+<li>Powershell 目录：C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe;</li>
+<li>脚本位置：C:\test.ps1;</li>
+</ol>
+<h3 id="运行“任务计划程序”"><a href="#运行“任务计划程序”" class="headerlink" title="运行“任务计划程序”"></a>运行“任务计划程序”</h3><ol>
+<li>windows + R;</li>
+<li>输入 taskschd.msc;</li>
+</ol>
+<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><p>常规页面：</p>
+<ol>
+<li>填写任务名称；</li>
+<li>勾选“不敢用户是否登录都要运行”</li>
+<li>勾选“使用最高权限运行”；【如果有涉及提权操作，则需要勾选】</li>
+<li>配置选择为对应的OS版本；</li>
+</ol>
+<p>触发器页面：</p>
+<ol>
+<li>新建；</li>
+<li>设置自动执行的频率与时间；</li>
+</ol>
+<p>操作页面：</p>
+<ol>
+<li>操作，选择“启动程序”；</li>
+<li>程序或脚本，输入“powershell”或者Powershell的绝对路径“C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe”；</li>
+<li>添加参数（可选）,输入脚本的绝对路径，用英文状态的双引号包裹；</li>
+</ol>
+<p>点击确定；</p>
+<h3 id="如何DEBUG"><a href="#如何DEBUG" class="headerlink" title="如何DEBUG"></a>如何DEBUG</h3><p>有可能任务运行会失败或者未按预期执行，可以选中任务，点击运行后，可以在“历史History”标签页中看到执行情况。<br>不过此时获取的信息还是比较有限，所以可以在脚本中增加 Start-Transcript 与 Stop-Transcript 指令，检查执行情况。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/23/Windows-Server-%E9%80%9A%E8%BF%87NTDLL%E8%AE%BE%E7%BD%AE%E6%B3%A8%E5%86%8C%E8%A1%A8%E6%9D%83%E9%99%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2106,182 +2317,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/17/Excel-%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/03/17/Excel-%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F/" itemprop="url">Excel-常用公示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-17T17:48:49+08:00">
-                2024-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="比较两个日期间隔多少小时"><a href="#比较两个日期间隔多少小时" class="headerlink" title="比较两个日期间隔多少小时"></a>比较两个日期间隔多少小时</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cell 1 &#x3D; 2024-03-17 17:50</span><br><span class="line">cell 2 &#x3D; 2024-03-28 20:00</span><br><span class="line"></span><br><span class="line">间隔天 &#x3D; (cell2 - cell1) </span><br><span class="line">间隔小时 &#x3D; (cell2 - cell1) * 24</span><br></pre></td></tr></table></figure>
-
-<h1 id="比较两个日期间隔天、月、年"><a href="#比较两个日期间隔天、月、年" class="headerlink" title="比较两个日期间隔天、月、年"></a>比较两个日期间隔天、月、年</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cell 1 &#x3D; 2024-03-17 17:50</span><br><span class="line">cell 2 &#x3D; 2024-03-28 20:00</span><br><span class="line">天&#x3D;datedif(cell1,cell2,&quot;d&quot;)</span><br><span class="line">月&#x3D;datedif(cell1,cell2,&quot;m&quot;)</span><br><span class="line">天&#x3D;datedif(cell1,cell2,&quot;d&quot;)</span><br></pre></td></tr></table></figure>
-
-<h1 id="保留小数位"><a href="#保留小数位" class="headerlink" title="保留小数位"></a>保留小数位</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">round(number,num_digits)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2332,7 +2367,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">398</span>
+                  <span class="site-state-item-count">399</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

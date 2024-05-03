@@ -270,6 +270,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/05/Linux%E5%86%85%E6%A0%B8%E5%90%AF%E5%8A%A8%E9%A1%BA%E5%BA%8F%E4%BF%AE%E6%94%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/04/05/Linux%E5%86%85%E6%A0%B8%E5%90%AF%E5%8A%A8%E9%A1%BA%E5%BA%8F%E4%BF%AE%E6%94%B9/" itemprop="url">Linux内核启动顺序修改</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-05T15:13:07+08:00">
+                2023-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>OS经常会安装新版本内核，而OS对内核版本有强关联，需要指定特定版本内核启动才可以。</p>
+<h1 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h1><p>总的来说有两种方式：</p>
+<ol>
+<li>修改grub菜单，指定特定版本内核；</li>
+<li>删除非必要内核，关闭内核自动更新；</li>
+</ol>
+<h2 id="修改Grub菜单"><a href="#修改Grub菜单" class="headerlink" title="修改Grub菜单"></a>修改Grub菜单</h2><h3 id="CentOS-6"><a href="#CentOS-6" class="headerlink" title="CentOS 6"></a>CentOS 6</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/grub.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在grub.conf文件中决定开机使用哪个内核版本做启动的参数是default，默认值为0，代表从最新的内核启动。</span></span><br><span class="line"><span class="comment"># 代表启动的内核版本从上往下依次是0、1、2等。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CentOS-7"><a href="#CentOS-7" class="headerlink" title="CentOS 7"></a>CentOS 7</h3><p>使用grub2作为引导程序；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、执行如下命令，查看系统内部有多少个内核。</span></span><br><span class="line">cat /boot/grub2/grub.cfg | grep menuentry</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、参考如下命令，配置从默认内核启动。内核名称根据系统内部查到的实际名称来替换。</span></span><br><span class="line">grub2-set-default <span class="string">'CentOS Linux (3.10.0-123.9.3.el7.x86_64) 7 (Core)'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3、执行如下命令，确认配置成功。</span></span><br><span class="line">grub2-editenv list</span><br></pre></td></tr></table></figure>
+
+<h3 id="CentOS-8"><a href="#CentOS-8" class="headerlink" title="CentOS 8"></a>CentOS 8</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、执行下述命令查看默认内核</span></span><br><span class="line">grubby --default-kernel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行下述命令查看所有内核</span></span><br><span class="line">grubby --info=ALL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、设置需要设置的启动的默认的内核</span></span><br><span class="line">rubby --<span class="built_in">set</span>-default /boot/vmlinuz-4.18.0-80.11.2.el8_0.x86_64</span><br></pre></td></tr></table></figure>
+
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、 查看当前内核的启动顺序</span></span><br><span class="line">cat /boot/grub/grub.cfg |grep menuentry</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、修改grub文件</span></span><br><span class="line"><span class="comment"># 假设要修改为3.13.0-166内核启动, 修改文件/etc/default/grub</span></span><br><span class="line"></span><br><span class="line">vim /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=0 修改为</span><br><span class="line">GRUB_DEFAULT=“Advanced options <span class="keyword">for</span> Ubuntu&gt;Ubuntu, with Linux 3.13.0-166-generic”</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新修改后的grub后执行下</span></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://blog.51cto.com/u_14757092/2631074" target="_blank" rel="noopener">https://blog.51cto.com/u_14757092/2631074</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/02/VMware-vSphere-Update-Manager%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1972,208 +2160,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/02/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAESXi%E5%A4%9A%E8%B7%AF%E5%BE%84%E7%AD%96%E7%95%A5%E5%AF%BC%E8%87%B4%E7%9A%84%E6%95%85%E9%9A%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/02/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAESXi%E5%A4%9A%E8%B7%AF%E5%BE%84%E7%AD%96%E7%95%A5%E5%AF%BC%E8%87%B4%E7%9A%84%E6%95%85%E9%9A%9C/" itemprop="url">记录一个ESXi多路径策略导致的故障【待补充】</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-02-13T00:28:45+08:00">
-                2023-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ol>
-<li>有一台虚拟机A，底层 SSD SAN 存储；业务类型是写入延迟(≥ 38 ms)，但是存储延迟却还好,存储上的虚拟机并未发现异常；</li>
-<li>虚拟机中使用iostat -x 1 ，看到有部分磁盘的写延迟比较高、也有部分读延迟；</li>
-<li>ESXi中使用esxtop ， 切换到HBA卡视角，看到只有一张HBA卡有流量，预期中另外一张卡应该要有流量，结果却没有流量；</li>
-</ol>
-<h1 id="原因描述"><a href="#原因描述" class="headerlink" title="原因描述"></a>原因描述</h1><p>ESXi的存储路径没有选择循环，导致流量只过一张HBA卡，端口拥塞了。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">固定 :主机使用指定首选路径（如果已配置）。否则，它将选择在系统引导时间发现的第一个工作路径。如果希望主机使用特定首选路径，请手动指定该路径。“固定”是大多数主动-主动存储设备的默认策略。</span><br><span class="line"></span><br><span class="line">最近使用：主机选择它最近使用的路径。当路径不可用时，主机会选择一个替代路径。当该路径再次可用时，主机不会恢复到原始路径。没有 MRU 策略的首选路径设置。MRU 是大多数主动-被动存储设备的默认策略。</span><br><span class="line"></span><br><span class="line">循环：当连接到主动-被动阵列时，主机使用自动路径选择算法轮流选择所有活动路径；或者，当连接到主动-主动阵列时，主机使用该算法轮流选择所有可用路径。RR 是许多阵列的默认方式，可以与主动-主动阵列和主动-被动阵列配合使用，以便在不同 LUN 的路径之间实现负载平衡。</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果主机使用默认首选路径，但该路径的状态变为不活动，则系统会选择一个新路径作为首选路径。但是，如果您明确指定该首选路径，则即使该路径不可访问，它仍会保持为首选路径。</p>
-</blockquote>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>找到存储路径，并将策略改为循环。</p>
-<p>排查思路：</p>
-<ol>
-<li>检查OS内延迟的磁盘分布情况；</li>
-<li>检查HBA卡的流量情况；</li>
-<li>检查底层存储卷情况；</li>
-</ol>
-<h2 id="【待补充】POWERCLI指令"><a href="#【待补充】POWERCLI指令" class="headerlink" title="【待补充】POWERCLI指令"></a>【待补充】POWERCLI指令</h2><h1 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h1><p>设置路径选择策略：  <a href="https://docs.vmware.com/cn/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-37F97D1C-4E4F-460B-ACF9-04D1347959CC.html" target="_blank" rel="noopener">https://docs.vmware.com/cn/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-37F97D1C-4E4F-460B-ACF9-04D1347959CC.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2224,7 +2210,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">398</span>
+                  <span class="site-state-item-count">399</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
