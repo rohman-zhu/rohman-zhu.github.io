@@ -270,6 +270,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/05/04/HPE-SAN%E5%AD%98%E5%82%A8%E7%83%AD%E5%A4%87%E7%9B%98%E6%AF%94%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/05/04/HPE-SAN%E5%AD%98%E5%82%A8%E7%83%AD%E5%A4%87%E7%9B%98%E6%AF%94%E4%BE%8B/" itemprop="url">HPE-SAN存储热备盘比例</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-05-04T23:39:36+08:00">
+                2024-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器与存储</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">存储</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">SAN存储</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>做SAN存储扩容时，需要供应商做扩容方案。对应的硬件所堆积出来的硬件可用容量到底怎么计算的？这里面有几个问题：</p>
+<ol>
+<li>裸容量是多少？</li>
+<li>可用容量是多少？</li>
+<li>热备盘比例是多少？</li>
+</ol>
+<h1 id="可查资料"><a href="#可查资料" class="headerlink" title="可查资料"></a>可查资料</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Spare rate</span><br><span class="line">A key parameter in the spare policy is the spare rate. The spare rate is a target amount of space to set aside for sparing expressed relative to the number of disks of a given type in the system. A spare rate of 24, for example, sets target spare space equal to the size of one drive for every 24 drives in the array.</span><br><span class="line">The spare rate is defined based on the hardware configuration in the array as follows:</span><br><span class="line">• Spare rate &#x3D; 40 if there are any magazines present in the array (e.g., 10,000)</span><br><span class="line">• Spare rate &#x3D; 24 for all others such as 7400&#x2F;7400c, 7450&#x2F;7450c, etc.</span><br><span class="line"></span><br><span class="line">Sparing algorithms defined</span><br><span class="line">The spare option is set for the entire array and applied to each disk type (SSD, FC, NL) in the following way.</span><br><span class="line">• Default: Roughly 2.5 percent with minimums</span><br><span class="line">Small configurations (e.g., 7000’s with less than 48 disks, 10000’s with less than 80 disks) have a spare space target equal to the size of two of the largest drives of the type being spared.</span><br><span class="line">• Minimal: Roughly 2.5 percent without minimums</span><br><span class="line">Minimal is the same as default except for small configurations. When the configuration is small, minimal will only set aside spare space equal to one of the largest drives (compared to two for default) of the type being sized.</span><br><span class="line">• Maximal: One disk’s worth in every cage</span><br><span class="line">Spare space is calculated as the space of the largest drive of the drive type being sized for each disk cage.</span><br><span class="line">• Custom: Implemented manually by the administrator using the createspare, showspare, and removespare commands.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>默认比例为 2.5%；最大比例为 12%；</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333" target="_blank" rel="noopener">https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/05/03/HPE-SAN%E5%AD%98%E5%82%A8%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2178,193 +2384,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/19/vRops%E6%8C%87%E6%A0%87-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/03/19/vRops%E6%8C%87%E6%A0%87-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%B7/" itemprop="url">vRops指标-数据存储卷</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-19T23:14:41+08:00">
-                2024-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><p>数据存储卷：设备：所有实例的汇总：</p>
-<ol>
-<li>物理设备延迟(ms)</li>
-<li>总延迟(ms)</li>
-<li>内核延迟(ms)</li>
-</ol>
-<h1 id="数据存储卷的仪表盘"><a href="#数据存储卷的仪表盘" class="headerlink" title="数据存储卷的仪表盘"></a>数据存储卷的仪表盘</h1><p>仪表板–主页–性能–数据存储性能</p>
-<blockquote>
-<p>可以查看各个存储卷的性能以及虚拟机性能详情。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><a class="extend next" rel="next" href="/page/2/">NEXT</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/2/">NEXT</a>
   </nav>
 
 
@@ -2410,7 +2434,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">400</span>
+                  <span class="site-state-item-count">401</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
