@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="故障描述 OS内无法执行reboot指令，无法发起重启； ps 指令可以看到很多以前的进程； top指令看到 5分钟的 平均负载 超过 100 ， 而系统配置的CPU只有 32； 应用的进程无法正常关闭或开启；  原因分析当前原因还未分析出来，系统的message log已被清空；但从故障现象来看，至少可以肯定，OS的负载不正常，5分钟的平均负载超过100 ，已经超过32Core配置，为配置的3倍">
+<meta name="description" content="故障描述虚拟机A：32C512GB；虚拟机B：32CC512GB； 虚拟机A与虚拟机B为集群，双A架构，每一个虚拟机配置两张网卡，一张为业务网络，第二张为存储网络；虚拟机A、虚拟机B此前通过NFS协议挂载一个存储设备C（存储设备C的NFS协议连接是通过第二张网卡访问的），后使用NFS协议挂载另外一个存储设备D（走的是业务网络）；从这个时间点开始，服务器可能就开始出现问题了：  问题1 ： 经过更换">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记录一次虚拟机故障-高系统CPU负载引发的问题">
+<meta property="og:title" content="【待补充完善】记录一次虚拟机故障-高系统CPU负载引发的问题">
 <meta property="og:url" content="http://github.com/rohman-zhu/2024/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%95%85%E9%9A%9C-%E9%AB%98%E7%B3%BB%E7%BB%9FCPU%E8%B4%9F%E8%BD%BD%E5%BC%95%E5%8F%91%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="故障描述 OS内无法执行reboot指令，无法发起重启； ps 指令可以看到很多以前的进程； top指令看到 5分钟的 平均负载 超过 100 ， 而系统配置的CPU只有 32； 应用的进程无法正常关闭或开启；  原因分析当前原因还未分析出来，系统的message log已被清空；但从故障现象来看，至少可以肯定，OS的负载不正常，5分钟的平均负载超过100 ，已经超过32Core配置，为配置的3倍">
+<meta property="og:description" content="故障描述虚拟机A：32C512GB；虚拟机B：32CC512GB； 虚拟机A与虚拟机B为集群，双A架构，每一个虚拟机配置两张网卡，一张为业务网络，第二张为存储网络；虚拟机A、虚拟机B此前通过NFS协议挂载一个存储设备C（存储设备C的NFS协议连接是通过第二张网卡访问的），后使用NFS协议挂载另外一个存储设备D（走的是业务网络）；从这个时间点开始，服务器可能就开始出现问题了：  问题1 ： 经过更换">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-05-21T16:24:17.000Z">
-<meta property="article:modified_time" content="2024-05-21T16:39:17.150Z">
+<meta property="article:modified_time" content="2024-05-23T17:21:07.041Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="故障">
 <meta name="twitter:card" content="summary">
@@ -126,7 +126,7 @@
 
 
 
-  <title>记录一次虚拟机故障-高系统CPU负载引发的问题 | 诺曼实验室</title>
+  <title>【待补充完善】记录一次虚拟机故障-高系统CPU负载引发的问题 | 诺曼实验室</title>
   
 
 
@@ -291,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记录一次虚拟机故障-高系统CPU负载引发的问题</h1>
+          <h1 class="post-title" itemprop="name headline">【待补充完善】记录一次虚拟机故障-高系统CPU负载引发的问题</h1>
         
 
         <div class="post-meta">
@@ -394,12 +394,18 @@
       
 
       
-        <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ol>
-<li>OS内无法执行reboot指令，无法发起重启；</li>
-<li>ps 指令可以看到很多以前的进程；</li>
-<li>top指令看到 5分钟的 平均负载 超过 100 ， 而系统配置的CPU只有 32；</li>
-<li>应用的进程无法正常关闭或开启；</li>
-</ol>
+        <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>虚拟机A：32C512GB；<br>虚拟机B：32CC512GB；</p>
+<p>虚拟机A与虚拟机B为集群，双A架构，每一个虚拟机配置两张网卡，一张为业务网络，第二张为存储网络；虚拟机A、虚拟机B此前通过NFS协议挂载一个存储设备C（存储设备C的NFS协议连接是通过第二张网卡访问的），后使用NFS协议挂载另外一个存储设备D（走的是业务网络）；从这个时间点开始，服务器可能就开始出现问题了：</p>
+<ul>
+<li>问题1 ： 经过更换挂载存储设备后，服务器会产生大量Log写进Messages，导致磁盘空间暴涨；</li>
+<li>问题2 ： 经过2周后，开始做第二张存储网络断开操作；从这个时间点开始，虚拟机A、虚拟机B的 CPU Load开始上升；</li>
+<li>问题3 ： 出现问题时，无法执行reboot指令，重启会终端；</li>
+<li>问题4 ： 会经常出现CPU load上升，业务开始出现异常；</li>
+<li>问题5 ： 高负载情况下，无法正常结束应用进程，使用kill -s 9 [PID] 均无法关闭；</li>
+<li>问题6 ： 使用重启指令，可以在虚拟机的控制台看到 BUG ： Bad page stae in process swapper pfn :bb4e2;</li>
+<li>问题7 ： 重启后，RAM负载接近100%，use态的内存使用量很高；</li>
+<li>问题8 ： 虚拟机内的主要应用结束后，内存使用率依旧无法降低；</li>
+</ul>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>当前原因还未分析出来，系统的message log已被清空；但从故障现象来看，至少可以肯定，OS的负载不正常，5分钟的平均负载超过100 ，已经超过32Core配置，为配置的3倍，则说明系统中有很多进程在等待CPU资源。<br>虚拟机有两张网卡，其中第一张网卡是用于业务访问，即业务网络；其中第二张网卡是用于访问NAS资源，即存储网络，虚拟机此前使用NFS挂载一个NAS资源，2周前做了变更，更改为另外一个NAS资源，而这个NAS使用的是业务网络；在故障时间点附近，将存储网络断开，预期内不应该有影响，但在操作的时间点附近又出现了业务异常。</p>
 <p>已排查或已确认的资源点：</p>
 <ol>
@@ -411,6 +417,11 @@
 <li>对于业务方无法确认的业务，比如NAS取消挂载或者无法确定为什么中断NAS连接后，旧NAS还会有连接的问题，这种属于业务侧无法澄清的问题，应属于业务风险；因此在做变更的时候，不应该将所有节点做变更，应该逐个节点操作，等确认没有问题后，再做第二个节点；【时间间隔应该长一些】</li>
 <li>做完存储网络断链后，业务侧没有全面检查，应该做一下更细致的检查；</li>
 <li>没有日志分析的过程，系统的messages日志已无法做分析，应该保留最近2天的日志量，至少可以用作分析；</li>
+<li>出现故障，优先看看内存负载情况；重启服务器后，内存应该会释放；主要应用关闭后，内存应该会释放；</li>
+</ol>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>虚拟机需要执行关机；</li>
+<li>关机后，从虚拟化层启动虚拟机；</li>
 </ol>
 
       
@@ -582,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#故障描述"><span class="nav-number">1.</span> <span class="nav-text">故障描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原因分析"><span class="nav-number">2.</span> <span class="nav-text">原因分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#经验教训"><span class="nav-number">2.1.</span> <span class="nav-text">经验教训</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#故障描述"><span class="nav-number">1.</span> <span class="nav-text">故障描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原因分析"><span class="nav-number">2.</span> <span class="nav-text">原因分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#经验教训"><span class="nav-number">2.1.</span> <span class="nav-text">经验教训</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方法"><span class="nav-number">3.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
             
 
           </div>
