@@ -409,15 +409,14 @@
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>虚拟机处于备份状态中，无法进行vMotion。或者备份已经结束了，但虚拟机的状态未自动恢复正常。<br>在虚拟机备份完成后，没有移除 vCenter Server 数据库 vpx_disabled_methods 表中的条目时，可能会出现此问题。</p>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
 <li>确定目标虚拟机的ID，vm-xxxxx;</li>
-<li>WEB 浏览器打开这个地址，https://<ExamplevCenterFQDNorIP>/mob/?moid=AuthorizationManager&amp;method=enableMethods</li>
+<li>WEB 浏览器打开这个地址:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># &lt;ExamplevCenterFQDNorIP&gt; 替换 为 VCSA 地址；</span><br><span class="line">https:&#x2F;&#x2F;&lt;ExamplevCenterFQDNorIP&gt;&#x2F;mob&#x2F;?moid&#x3D;AuthorizationManager&amp;method&#x3D;enableMethods</span><br></pre></td></tr></table></figure></li>
 <li>使用 SSO 账户登录；</li>
 <li>在 entity 的 VALUE 框中，将 MOID 替换为 虚拟机的ID；</li>
-<li>在 method 的 VALUE框中，填入 <method> RelocateVM_Task </method> ；</li>
+<li>在 method 的 VALUE框中；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">填入 &lt;method&gt; RelocateVM_Task &lt;&#x2F;method&gt; ；</span><br></pre></td></tr></table></figure></li>
 <li>点击调用方法 Invoke Method;</li>
 <li>刷新浏览器，重新执行虚拟机vMotion；</li>
 </ol>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html" target="_blank" rel="noopener">https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html</a></p>
-<p><a href="https://blog.csdn.net/avenjan/article/details/135113397" target="_blank" rel="noopener">https://blog.csdn.net/avenjan/article/details/135113397</a></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://knowledge.broadcom.com/external/article?legacyId=1029926" target="_blank" rel="noopener">https://knowledge.broadcom.com/external/article?legacyId=1029926</a><br><a href="https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html" target="_blank" rel="noopener">https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html</a><br><a href="https://blog.csdn.net/avenjan/article/details/135113397" target="_blank" rel="noopener">https://blog.csdn.net/avenjan/article/details/135113397</a></p>
 
           
         
