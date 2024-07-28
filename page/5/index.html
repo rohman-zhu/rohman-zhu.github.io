@@ -270,6 +270,379 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/11/05/VMware-Horizon-%E6%8F%90%E7%A4%BA%E6%B2%A1%E6%9C%89%E5%8F%AF%E7%94%A8%E7%9A%84%E6%98%BE%E7%A4%BA%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/11/05/VMware-Horizon-%E6%8F%90%E7%A4%BA%E6%B2%A1%E6%9C%89%E5%8F%AF%E7%94%A8%E7%9A%84%E6%98%BE%E7%A4%BA%E5%8D%8F%E8%AE%AE/" itemprop="url">VMware Horizon 提示没有可用的显示协议</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-11-05T16:38:08+08:00">
+                2023-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%85%E9%9A%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">故障</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>关键节点：UAG、连接服务器、RDSH服务器；</p>
+<p>显示协议：Blast；</p>
+<p>客户端节点提示，无可用显示协议或者 Internal Server Error；<br>UAG与RDSH服务器网络链路正常，TCP-22443端口是联通的；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>RDSH服务器上面的22443端口不是VMware View Agent进程监听的，而是其他应用程序在监听，导致客户端无法使用 Blast 协议安装；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>检测端口监听的进程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># -a:--all，显示所有链接和监听端口</span><br><span class="line"># -b:显示包含于创建每个连接或监听端口的可执行组件。在某些情况下已知可执行组件拥有多个独立组件，并且在这些情况下包含于创建连接或监听端口的组件序列被显示。这种情况下，可执行组件名在底部的 [] 中，顶部是其调用的组件，等等，直到 TCP&#x2F;IP 部分。注意此选项可能需要很长时间，如果没有足够权限可能失败。</span><br><span class="line">netstat -ab | findstr 22443;</span><br></pre></td></tr></table></figure>
+
+<p>检测 WINRM 监听端口并修改：</p>
+<p>观察到 WINRM 的端口被改为 22443 ，导致BLAST协议的进程无法使用此端口；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 检查端口</span><br><span class="line">winrm enumerate winrm&#x2F;config&#x2F;listener</span><br><span class="line"></span><br><span class="line"># 修改端口</span><br><span class="line">set-item wsman:\localhost\listener\listener*\port -value 8080</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/10/15/%E6%95%85%E9%9A%9C%E8%AE%B0%E5%BD%95-ESXi-Umap%E7%B4%AB%E5%B1%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2023/10/15/%E6%95%85%E9%9A%9C%E8%AE%B0%E5%BD%95-ESXi-Umap%E7%B4%AB%E5%B1%8F/" itemprop="url">故障记录-ESXi-Umap紫屏</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-10-15T20:14:57+08:00">
+                2023-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>多个ESXi 在未知的情况下，发生资屏，上面的虚拟机发生HA重启；<br>紫屏记录为 “PF Exception 14 in world xxxx ： Unmap Helper IP 0xXXXXXX addr 0x0”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PCPU 0:xxxx</span><br><span class="line">PCPU 64:xxxxx</span><br><span class="line">PCPU 128 :xxxx</span><br><span class="line">Code start : xxx应该是ESXi运行时间</span><br><span class="line">0xXXXXXXX:Res5MemUnlockTxnRCL ist@esx#nover</span><br><span class="line">0xXXXXXXX:J3_DeleteTransacton@esx#nover</span><br><span class="line">0xXXXXXXX:J3_AbortTransaction@esx#nover</span><br><span class="line">0xXXXXXXX:UnmapLockCommon@esx#nover</span><br><span class="line">0xXXXXXXX:UnmapAsyncClusterProcessing@esx#nover</span><br><span class="line">0xXXXXXXX:HelperQueueFunc@vmkernel#nover</span><br><span class="line">0xXXXXXXX:CpuSched_StartWorld@vmernel</span><br></pre></td></tr></table></figure>
+
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>底层有一个存储卷有异常，原本工目标Datastore开启了精简置备、去重压缩功能，Datastore上面的虚拟机任何数据变化，则会触发底层Datastore空间回收；<br>现在因为这个卷异常，上面的虚拟机的数据变化，则会触发空间回收，因为空间回收异常，导致ESXi直接紫屏；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>关闭ESXi 的空间回收功能；【并不能解决问题,底层空间回收依旧会触发紫屏】</li>
+<li>将目标卷上面的虚拟机迁移走。【注意，这个卷上面的操作，都有可能导致ESXi紫屏】</li>
+<li>将目标卷卸载并删除；</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/10/08/CHROME-TLS-SHA1%E6%9B%B4%E6%96%B0%E5%8F%91%E5%B8%83%E5%AF%BC%E8%87%B4%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEUAG/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1960,409 +2333,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" itemprop="url">VMware Horizon-连接服务器常规配置注意事项</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-07-30T15:33:11+08:00">
-                2023-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index">
-                    <span itemprop="name">Horizon View</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="配置文件-locked-properties-–-检查源-checkOrigin"><a href="#配置文件-locked-properties-–-检查源-checkOrigin" class="headerlink" title="配置文件 locked.properties – 检查源 checkOrigin"></a>配置文件 locked.properties – 检查源 checkOrigin</h1><p>问题：连接服务器管理后台会提示“Failed to connect to the Connection Server”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkOrigin &#x3D; false</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://kb.vmware.com/s/article/2144768?lang=zh_cn" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2144768?lang=zh_cn</a></p>
-<h1 id="配置文件-locked-properties-–-CORS（Cross-Origin-Resource-Sharing）-，enableCORS"><a href="#配置文件-locked-properties-–-CORS（Cross-Origin-Resource-Sharing）-，enableCORS" class="headerlink" title="配置文件 locked.properties – CORS（Cross-Origin Resource Sharing） ，enableCORS"></a>配置文件 locked.properties – CORS（Cross-Origin Resource Sharing） ，enableCORS</h1><p>问题：Horizon 8 后，CORS（Cross-Origin Resource Sharing）默认是开启的；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enableCORS &#x3D; false</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://kb.vmware.com/s/article/2144768" target="_blank" rel="noopener">https://kb.vmware.com/s/article/2144768</a><br><a href="https://kb.vmware.com/s/article/85801" target="_blank" rel="noopener">https://kb.vmware.com/s/article/85801</a></p>
-<h1 id="添加UAG服务器步骤简写"><a href="#添加UAG服务器步骤简写" class="headerlink" title="添加UAG服务器步骤简写"></a>添加UAG服务器步骤简写</h1><ol>
-<li>虚拟机化层，部署UAG镜像；</li>
-<li>应用层，配置UAG，即进入UAG管理界面 <a href="https://UAG-IP:9443" target="_blank" rel="noopener">https://UAG-IP:9443</a> ；</li>
-</ol>
-<ul>
-<li>配置连接服务器地址</li>
-<li>导入证书</li>
-</ul>
-<ol start="3">
-<li>应用层，配置Connection Server，即进入Connection Server管理界面 <a href="https://ConnectionServer-IP/admin" target="_blank" rel="noopener">https://ConnectionServer-IP/admin</a> ；</li>
-</ol>
-<ul>
-<li>连接服务器不使用安全网关</li>
-<li>添加UAG服务器</li>
-</ul>
-<h1 id="安全服务器-连接服务器配置证书步骤"><a href="#安全服务器-连接服务器配置证书步骤" class="headerlink" title="安全服务器/连接服务器配置证书步骤"></a>安全服务器/连接服务器配置证书步骤</h1><ol>
-<li>生成pkg证书文件；</li>
-<li>导入安全服务器服务器；</li>
-<li>修改目标证书别名为vdm；</li>
-</ol>
-<h1 id="UAG服务器证书配置步骤"><a href="#UAG服务器证书配置步骤" class="headerlink" title="UAG服务器证书配置步骤"></a>UAG服务器证书配置步骤</h1><ol>
-<li>生成pkg证书文件；</li>
-<li>导入UAG服务器；</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/30/CentOS%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2023/04/30/CentOS%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/" itemprop="url">CentOS图形化远程桌面方案-XRDP-GNOME</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-04-30T17:27:10+08:00">
-                2023-04-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/CentOS/" itemprop="url" rel="index">
-                    <span itemprop="name">CentOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>CentOS 常规远程的方法是 CLI 方式，但是也有GUI界面的需求；</p>
-<h1 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装GUI桌面</span></span><br><span class="line"><span class="comment"># groupinstall 是会安装关联目标软件的包；</span></span><br><span class="line"><span class="comment"># install 仅安装目标软件；</span></span><br><span class="line">yum groupinstall <span class="string">"GNOME Desktop"</span></span><br><span class="line"><span class="comment"># 初始化Desktop</span></span><br><span class="line">startx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装xrdp</span></span><br><span class="line"><span class="comment"># 需要先配置epel包；</span></span><br><span class="line">yum install epel* -y</span><br><span class="line">yum install xrdp</span><br></pre></td></tr></table></figure>
-
-<p>客户端远程方式：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mstsc 到目标服务器</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2413,7 +2383,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">412</span>
+                  <span class="site-state-item-count">414</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2424,7 +2394,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
