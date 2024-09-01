@@ -270,6 +270,388 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/12/09/Nagios%E6%8A%A5%E8%AD%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/09/Nagios%E6%8A%A5%E8%AD%A6/" itemprop="url">Nagios报警</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-09T14:57:14+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nagios监控报警"><a href="#Nagios监控报警" class="headerlink" title="Nagios监控报警"></a>Nagios监控报警</h1><p>报警的常用方式有这几种,邮件, <em>http短信网关</em> ,短信猫,电话语音报警,MSN,QQ,微信等.</p>
+<h2 id="短信报警实战配置"><a href="#短信报警实战配置" class="headerlink" title="短信报警实战配置"></a>短信报警实战配置</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 第一步添加联系人</span></span><br><span class="line">vi contact.cfg</span><br><span class="line"></span><br><span class="line">define contact&#123;</span><br><span class="line">    use generic</span><br><span class="line">    contact_name Rohman</span><br><span class="line">    email xx@126.com</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#==</span></span><br><span class="line"></span><br><span class="line">define contactgroup&#123;</span><br><span class="line">    contact_groupname admins</span><br><span class="line">    <span class="built_in">alias</span> centos_admins</span><br><span class="line">    members Rohman,Jack,John...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二步在command添加命令</span></span><br><span class="line"></span><br><span class="line">vi commands.cfg</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">    command_name notify-host-by-email</span><br><span class="line">    command_line xxxxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三步在联系人里面添加pager即电话</span></span><br><span class="line">define contact&#123;</span><br><span class="line">    use generic</span><br><span class="line">    contact_name Rohman</span><br><span class="line">    email xx@126.com</span><br><span class="line">    pager 18267232322</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第四步在调整联系人模板,联系人里面添加 host_notification_commands 命令</span></span><br><span class="line">define contact&#123;</span><br><span class="line">    ...</span><br><span class="line">    host_notification_commands notify-host-by-email</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第五步在hosts.cfg,service.cfg添加联系人组或者联系人</span></span><br><span class="line">define host&#123;</span><br><span class="line">    contact_groups xx</span><br><span class="line">    user xxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第六步开发报警脚本</span></span><br><span class="line"></span><br><span class="line">略</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第七步把脚本添加到command</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>短信网关要钱的 -.-</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/12/02/%E7%9B%91%E6%8E%A7Nagios%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/02/%E7%9B%91%E6%8E%A7Nagios%E9%83%A8%E7%BD%B2/" itemprop="url">监控Nagios部署</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-02T16:42:52+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nagios部署实战"><a href="#Nagios部署实战" class="headerlink" title="Nagios部署实战"></a>Nagios部署实战</h1><p>最近看了4,5天的nagios教程,翻阅了很多资料,尝试着去部署一遍,每次都在用rrdtool和pnp4nagios呈现图表界面出错(“Please check the documentation for information about the following error.”),今天完完整整按照一篇文章来搭建Nagios监控,结果成功了,这里写一下笔记总结.</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li>力荐 <code>https://www.cnblogs.com/5201351/p/4328393.html</code></li>
+<li>参考 <code>https://www.cnblogs.com/Leo_wl/p/6338041.html</code></li>
+<li>参考 <code>https://www.ibm.com/developerworks/cn/linux/1309_luojun_nagios/</code></li>
+</ul>
+<h2 id="开始实战"><a href="#开始实战" class="headerlink" title="开始实战"></a>开始实战</h2><h3 id="软件版本以及下载地址"><a href="#软件版本以及下载地址" class="headerlink" title="软件版本以及下载地址"></a>软件版本以及下载地址</h3><ul>
+<li>Nagios 3.5.1</li>
+<li>rrdtool 1.3.8</li>
+<li>pnp4nagios 0.6.21</li>
+</ul>
+<p>下载地址:</p>
+<ul>
+<li>Nagios : <code>https://www.nagios.org/downloads/nagios-core/thanks/?skip=1&amp;t=1511299844</code></li>
+<li>Nagios-plugins : <code>https://www.nagios.org/downloads/nagios-plugins/</code></li>
+<li>rrdtool :  <code>https://oss.oetiker.ch/rrdtool/pub/?M=D</code></li>
+<li>pnp4nagios : <code>https://sourceforge.net/p/pnp4nagios/code/ci/0.6.21/tarball</code></li>
+</ul>
+<h3 id="安装Nagios"><a href="#安装Nagios" class="headerlink" title="安装Nagios"></a>安装Nagios</h3><p>先安装依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc make -y</span><br><span class="line"><span class="comment">#glibc是GNU发布的libc库，即c运行库。glibc是linux系统中最底层的api，几乎其它任何运行库都会依赖于glibc。glibc除了封装linux操作系统所提供的系统服务外，它本身也提供了许多其它一些必要功能服务的实现。</span></span><br><span class="line">yum install glibc glibc-common -y</span><br><span class="line">yum install httpd php -y</span><br><span class="line"><span class="comment">#GD库是php处理图形的扩展库，GD库提供了一系列用来处理图片的API，使用GD库可以处理图片，或者生成图片，也可以给图片加水印。</span></span><br><span class="line">yum install gd gd-devel -y</span><br></pre></td></tr></table></figure>
+
+<p>添加nagios用户,nagcmd组,将nagios和apache用户加进nagcmd组中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd nagios</span><br><span class="line">groupadd nagcmd</span><br><span class="line">usermod -a -G nagcmd nagios</span><br><span class="line">usermod -a -G nagcmd apache</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-a Add the user to the supplementary group(s). Use only with the -G option.</p>
+</blockquote>
+<p>源码安装nagios</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nagios-3.5.1</span><br><span class="line">./configure --with-command-group=nagcmd</span><br><span class="line"><span class="comment">#编译所有源码</span></span><br><span class="line">make all</span><br><span class="line"><span class="comment">#安装主程序,CGIs,网页文件,会生成bin,libexec,sbin,share,var目录</span></span><br><span class="line">make install</span><br><span class="line"><span class="comment">#安装etc配置目录</span></span><br><span class="line">make install-config</span><br><span class="line"><span class="comment">#安装nagios启动脚本</span></span><br><span class="line">make install-init</span><br><span class="line"><span class="comment">#为nagios网站添加安装httpd配置文件</span></span><br><span class="line">make install-webconf</span><br><span class="line"><span class="comment">#外部命令访问nagios 配置文件的权限,为./var/rw设置为0775,改所有组为nagcmd</span></span><br><span class="line">make install-commandmode</span><br></pre></td></tr></table></figure>
+
+<p>Nagios插件包:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-nagios-user=nagios --with-nagios-group=nagcmd</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<p>为 <em>nagios</em> 网站设置密码:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /usr/<span class="built_in">local</span>/nagios/etc/htpasswd.users nagiosadmin</span><br><span class="line">New password:</span><br><span class="line">Re-type new password:</span><br><span class="line">Adding password <span class="keyword">for</span> user nagiosadmin</span><br></pre></td></tr></table></figure>
+
+<p>到这里为止,第一部安装,到此为止.</p>
+<h3 id="RRDTOOL-PNP4Nagios"><a href="#RRDTOOL-PNP4Nagios" class="headerlink" title="RRDTOOL + PNP4Nagios"></a>RRDTOOL + PNP4Nagios</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install perl rrdtool php-gd perl-Time-HiRes rrdtool-perl -y</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/pnp4nagios --with-rrdtool=/usr/bin/rrdtool --with-nagios-user=nagios --with-nagios-group=nagios</span><br><span class="line">make all</span><br><span class="line">make fullinstall</span><br></pre></td></tr></table></figure>
+
+<p>配置pnp4nagios软件,需要修改pnp4nagios/etc目录,以及pages , check_commands目录下的所有文件后缀.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/pnp4nagios/etc</span><br><span class="line">mv misccommands.cfg-sample misccommands.cfg</span><br><span class="line">mv nagios.cfg-sample nagios.cfg</span><br><span class="line">mv rra.cfg-sample rra.cfg</span><br><span class="line">mv pages/web_traffic.cfg-sample pages/web_traffic.cfg</span><br><span class="line"><span class="built_in">cd</span> check_commands/</span><br><span class="line">mv check_all_local_disks.cfg-sample check_all_local_disks.cfg</span><br><span class="line">mv check_nrpe.cfg-sample check_nrpe.cfg</span><br><span class="line">mv check_nwstat.cfg-sample check_nwstat.cfg</span><br></pre></td></tr></table></figure>
+
+<p>启动npcd服务:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/npcd restart</span><br><span class="line"><span class="comment">#启动httpd</span></span><br><span class="line">/etc/init.d/httpd restart</span><br></pre></td></tr></table></figure>
+
+<p>检测是否成功配置:</p>
+<p>浏览器输入网址: <code>http://&lt;Nagios地址&gt;/nagios</code></p>
+<p>如果显示成功,则根据页面底部提示把install.php文件改名或者移除.</p>
+<h3 id="nagios与pnp4nagios结合"><a href="#nagios与pnp4nagios结合" class="headerlink" title="nagios与pnp4nagios结合"></a>nagios与pnp4nagios结合</h3><p>在 /usr/local/nagios/etc/objects/commands.cfg 修改 process-host-perfdata 和 process-service-perfdata</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">        command_name    process-host-perfdata</span><br><span class="line">        command_line    /usr/bin/perl /usr/<span class="built_in">local</span>/pnp4nagios/libexec/process_perfdata.pl -d HOSTPERFDATA</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">        command_name    process-service-perfdata</span><br><span class="line">        command_line    /usr/bin/perl /usr/<span class="built_in">local</span>/pnp4nagios/libexec/process_perfdata.pl</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义模板,编辑/usr/local/nagios/etc/objects/templates.cfg,加入如下内容:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">define host &#123;</span><br><span class="line">        name       hosts-pnp</span><br><span class="line">        register      0</span><br><span class="line">        action_url    /pnp4nagios/index.php/graph?host=<span class="variable">$HOSTNAME</span>$&amp;srv=_HOST_</span><br><span class="line">        process_perf_data               1</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">define service &#123;</span><br><span class="line">        name       srv-pnp</span><br><span class="line">        register      0</span><br><span class="line">        action_url  /pnp4nagios/index.php/graph?host=<span class="variable">$HOSTNAME</span>$&amp;srv=<span class="variable">$SERVICEDESC</span>$</span><br><span class="line">        process_perf_data               1</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改nagios配置文件/usr/local/nagios/etc/nagios.cfg</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process_performance_data=1                          //默认为0</span><br><span class="line">host_perfdata_command=process-host-perfdata         //默认前面有注释符<span class="comment">#</span></span><br><span class="line">service_perfdata_command=process-service-perfdata   //默认前面有注释符<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>对需要图标显示的服务站点,添加 srv-pnp 模板</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define service&#123;    <span class="comment"># 添加监控sda1磁盘</span></span><br><span class="line">        use     srv-service</span><br><span class="line">        host_name       192.168.0.28</span><br><span class="line">        service_description     check_disk_hda1</span><br><span class="line">        check_command           check_nrpe!check_hda1</span><br><span class="line">        max_check_attempts 5</span><br><span class="line">        normal_check_interval 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端操作"><a href="#客户端操作" class="headerlink" title="客户端操作"></a>客户端操作</h3><p>由于客户端是被监视的,所以只需要安装 <em>nrpe</em> 和 <em>nagios-plugins</em> 这个软件就好了.同时修改一下nrpe的配置文件,添加允许的服务器监控.</p>
+<blockquote>
+<p>Yum安装的话,要添加epel拓展源</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release -y</span><br><span class="line">yum install nrpe -y</span><br><span class="line">yum install nagios-plugins-all -y</span><br><span class="line"></span><br><span class="line">vi /etc/nagios/nrpe.cfg</span><br><span class="line">---</span><br><span class="line">allowhosts=x.x.x.x</span><br><span class="line">dont_blame_nrpe=1</span><br><span class="line">---</span><br><span class="line">/etc/init.d/nrpe start</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>以上操作都是对版本有要求的,可能在nagios4.3.4里面的图形显示会出些问题,一直无法生产画面,网络上面的解决方案都是说使用bulk的模式就不会有问题了,可是一直都没有解决.(待解决吧).</p>
+<p>另外再写一下几个关键的配置:</p>
+<ol>
+<li>安装Nagios的时候,有make install-webconfig,这个可以配置apache的节点,省去自己配置的麻烦.</li>
+<li>Nagios的权限问题,这个是要通过htpasswd来生产用户与密码,然后再修改httpd的配置文件,将认证文件导向htpasswd.users.</li>
+<li>监控任何一台机器,先要定义host节点(主机名字,主机地址),再定义监控的服务(PING…)</li>
+</ol>
+<blockquote>
+<p>听师兄说这个用的很少了,所以这个章节作为了解,以后有需求或者再查阅相关文档就好了.</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/25/Linux%E4%B9%8B%E7%9B%91%E6%8E%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2024,651 +2406,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/17/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/17/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">Python学习笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-17T22:59:55+08:00">
-                2017-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Python学习-–-基础学习"><a href="#Python学习-–-基础学习" class="headerlink" title="Python学习 – 基础学习"></a>Python学习 – 基础学习</h1><p>官方介绍略,这里只说python的缺点:</p>
-<ol>
-<li>运行速度慢，和C程序相比非常慢，因为Python是解释型语言，你的代码在执行时会一行一行地翻译成CPU能理解的机器码，这个翻译过程非常耗时，所以很慢。而C程序是运行前直接编译成CPU能执行的机器码，所以非常快。</li>
-<li>代码不能加密。如果要发布你的Python程序，实际上就是发布源代码，这一点跟C语言不同，C语言不用发布源代码，只需要把编译后的机器码（也就是你在Windows上常见的xxx.exe文件）发布出去。要从机器码反推出C代码是不可能的，所以，凡是编译型的语言，都没有这个问题，而解释型的语言，则必须把源码发布出去。</li>
-</ol>
-<h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><p>这里有三种平台的安装文件:</p>
-<ol>
-<li>Mac : <code>https://www.python.org/ftp/python/3.6.3/python-3.6.3-macosx10.6.pkg</code></li>
-<li>Linux 略</li>
-<li>Windows 下载对应的exe安装文件即可</li>
-</ol>
-<p>检测是否安装成功:</p>
-<ul>
-<li>在Windows上运行Python时，请先启动命令行，然后运行python。</li>
-<li>在Mac和Linux上运行Python时，请打开终端，然后运行python3。</li>
-</ul>
-<h2 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h2><p>当我们编写Python代码时，我们得到的是一个包含Python代码的以.py为扩展名的文本文件。要运行代码，就需要Python解释器去执行.py文件。<br>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
-<ol>
-<li>CPython – 官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行python就是启动CPython解释器。</li>
-<li>IPython – 基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。</li>
-<li>PyPy – 另一个Python解释器，它的目标是执行速度。PyPy采用JIT技术，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</li>
-<li>Jython – Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</li>
-<li>IronPython – IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</li>
-</ol>
-<h2 id="开始编写python程序"><a href="#开始编写python程序" class="headerlink" title="开始编写python程序"></a>开始编写python程序</h2><h3 id="1-进入编辑界面-–-第一个程序"><a href="#1-进入编辑界面-–-第一个程序" class="headerlink" title="1.进入编辑界面 – 第一个程序"></a>1.进入编辑界面 – 第一个程序</h3><p>打开命令行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># python</span><br><span class="line"></span><br><span class="line">Python 2.7.10 (default, Feb  7 2017, 00:08:15)</span><br><span class="line">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.34)] on darwin</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt;exit()</span><br></pre></td></tr></table></figure>
-
-<p>在Python交互模式下输入exit()并回车，就退出了Python交互模式，并回到命令行模式;</p>
-<p>如果要让Python打印出指定的文字，可以用print()函数，然后把希望打印的文字用单引号或者双引号括起来，但不能混用单引号和双引号：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;print(<span class="string">'hello world'</span>)</span><br><span class="line">&gt;&gt;&gt;print(<span class="string">"hello world"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>执行一个.py文件只能在命令行模式执行。</p>
-<p>小结:</p>
-<ul>
-<li>在Python交互式模式下，可以直接输入代码，然后执行，并立刻得到结果。</li>
-<li>在命令行模式下，可以直接运行.py文件。</li>
-</ul>
-<h4 id="1-1-输入"><a href="#1-1-输入" class="headerlink" title="1.1 输入"></a>1.1 输入</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;name = input()</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-Python基础部分"><a href="#2-Python基础部分" class="headerlink" title="2.Python基础部分"></a>2.Python基础部分</h3><p>Python是一种计算机编程语言。计算机编程语言和我们日常使用的自然语言有所不同，最大的区别就是，自然语言在不同的语境下有不同的理解，而计算机要根据编程语言执行任务，就必须保证编程语言写出的程序决 <em>不能有歧义</em> ，所以，任何一种编程语言都有自己的一套语法，编译器或者解释器就是负责把符合语法的程序代码转换成CPU能够执行的机器码，然后执行。Python也不例外。</p>
-<p>以#开头的语句是注释，注释是给人看的，可以是任意内容，解释器会忽略掉注释。其他每一行都是一个语句，当语句以冒号:结尾时，缩进的语句视为代码块。</p>
-<blockquote>
-<p>缩进有利有弊。好处是强迫你写出格式化的代码，但没有规定缩进是几个空格还是Tab。按照约定俗成的管理，应该始终坚持使用 <em>4个空格</em> 的缩进。</p>
-</blockquote>
-<h4 id="2-1-数据类型和变量"><a href="#2-1-数据类型和变量" class="headerlink" title="2.1 数据类型和变量"></a>2.1 数据类型和变量</h4><h5 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h5><ul>
-<li>Python可以处理任意大小的整数，当然包括负整数，在程序中的表示方法和数学上的写法一模一样，例如：1，100，-8080，0，等等。</li>
-<li>计算机由于使用二进制，所以，有时候用十六进制表示整数比较方便，十六进制用0x前缀和0-9，a-f表示，例如：0xff00，0xa5b4c3d2，等等。</li>
-</ul>
-<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><p>浮点数也就是小数，之所以称为浮点数，是因为按照科学记数法表示时，一个浮点数的小数点位置是可变的，比如，1.23x109和12.3x108是完全相等的。浮点数可以用数学写法，如1.23，3.14，-9.01，等等。但是对于很大或很小的浮点数，就必须用科学计数法表示，把10用e替代，1.23x109就是1.23e9，或者12.3e8，0.000012可以写成1.2e-5，等等。</p>
-<p>整数和浮点数在计算机内部存储的方式是不同的，整数运算永远是精确的（除法难道也是精确的？是的！），而浮点数运算则可能会有四舍五入的误差。</p>
-<h5 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h5><p>字符串是以单引号’或双引号”括起来的任意文本，比如’abc’，”xyz”等等。请注意，’’或””本身只是一种表示方式，不是字符串的一部分，因此，字符串’abc’只有a，b，c这3个字符。如果’本身也是一个字符，那就可以用””括起来，比如”I’m OK”包含的字符是I，’，m，空格，O，K这6个字符。</p>
-<ul>
-<li><p>转义字符\可以转义很多字符，比如\n表示换行，\t表示制表符，字符\本身也要转义，所以\表示的字符就是\，可以在Python的交互式命令行用print()打印字符串看看：</p>
-</li>
-<li><p>如果字符串里面有很多字符都需要转义，就需要加很多\，为了简化，Python还允许用r’’表示’’内部的字符串默认不转义，可以自己试试：</p>
-</li>
-</ul>
-<h5 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h5><p>布尔值和布尔代数的表示完全一致，一个布尔值只有True、False两种值，要么是True，要么是False，在Python中，可以直接用True、False表示布尔值（请注意大小写）.</p>
-<p>布尔值可以用and、or和not运算。</p>
-<ul>
-<li>and运算是与运算，只有所有都为True，and运算结果才是True：</li>
-<li>or运算是或运算，只要其中有一个为True，or运算结果就是True：</li>
-<li>not运算是非运算，它是一个单目运算符，把True变成False，False变成True：</li>
-</ul>
-<h5 id="空值"><a href="#空值" class="headerlink" title="空值"></a>空值</h5><p>空值是Python里一个特殊的值，用None表示。None不能理解为0，因为0是有意义的，而None是一个特殊的空值。</p>
-<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><p>变量的概念基本上和初中代数的方程变量是一致的，只是在计算机程序中，变量不仅可以是数字，还可以是任意数据类型。</p>
-<blockquote>
-<p>变量在程序中就是用一个变量名表示了，变量名必须是大小写英文、数字和_的组合，且不能用数字开头</p>
-</blockquote>
-<p>python可以不指定变量类型</p>
-<blockquote>
-<p>这种变量本身类型不固定的语言称之为动态语言，与之对应的是静态语言。静态语言在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。例如Java是静态语言.</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a=<span class="string">'zrj'</span> <span class="comment">#解释器创建了字符串'zrj'和变量a，并把a指向'zrj'：</span></span><br><span class="line">&gt;&gt;&gt;b=a <span class="comment">#解释器创建了变量b，并把b指向a指向的字符串'zrj'：</span></span><br><span class="line">&gt;&gt;&gt;a=<span class="string">'genius'</span> <span class="comment">#解释器创建了字符串'genius'，并把a的指向改为'genius'，但b并没有更改</span></span><br><span class="line">&gt;&gt;&gt;print(b)</span><br><span class="line">zrj</span><br></pre></td></tr></table></figure>
-
-<h5 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h5><p>在Python中，通常用全部大写的变量名表示常量: PI=3.1414926</p>
-<h5 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h5><p>字符串也是一种数据类型,但字符串比较特殊的是还有一个编码问题.</p>
-<p>用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：</p>
-<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387245992536e2ba28125cf04f5c8985dbc94a02245e000/0" alt="Unicode编码"></p>
-<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387245979827634fd6204f9346a1ae6358d9ed051666000/0" alt="浏览网页的时候，服务器会把动态生成的Unicode内容转换为UTF-8再传输到浏览器"></p>
-<p>看到很多网页的源码上会有类似 &lt;meta charset=”UTF-8” /&gt; 的信息，表示该网页正是用的UTF-8编码。</p>
-<p>在最新的Python 3版本中，字符串是以Unicode编码的，也就是说，Python的字符串支持多语言，例如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;print(<span class="string">'包含中文的str'</span>)</span><br><span class="line">包含中文的str</span><br><span class="line">&gt;&gt;&gt;ord(<span class="string">'A'</span>) <span class="comment"># ord 函数获取字符的整数表示</span></span><br><span class="line"><span class="number">65</span></span><br><span class="line">&gt;&gt;&gt;char(<span class="number">65</span>) <span class="comment"># chr函数把编码转换为对应的字符</span></span><br><span class="line"><span class="string">'A'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>由于Python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。</p>
-<p>Python对bytes类型的数据用带b前缀的单引号或双引号表示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;x =<span class="string">b'ABC'</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">'ABC'</span>.encode(<span class="string">'ascii'</span>) <span class="comment">#以Unicode表示的str通过encode()方法可以编码为指定的bytes</span></span><br><span class="line"><span class="string">b'ABC'</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">b'ABC'</span>.decode(<span class="string">'ascii'</span>) <span class="comment">#从网络或磁盘上读取了字节流，那么读到的数据就是bytes。要把bytes变为str，就需要用decode()方法;</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">b'ABC'</span>.decode(<span class="string">'utf-8'</span>,errors=<span class="string">'ignore'</span>) <span class="comment"># 如果bytes中只有一小部分无效的字节，可以传入errors='ignore'忽略错误的字节</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>纯英文的str可以用ASCII编码为bytes，内容是一样的，含有中文的str可以用UTF-8编码为bytes。含有中文的str无法用ASCII编码，因为中文编码的范围超过了ASCII编码的范围，Python会报</p>
-</blockquote>
-<p>计算string包含多少字符,可以用len()函数(类似java的String.length()函数)</p>
-<p>len()函数计算的是 <em>str的字符数</em> ，如果换成bytes，len()函数就计算字节数;</p>
-<blockquote>
-<p>如果Python源码中包含中文字符,那么在保存源码文件的时候,用UTF-8编码保存.</p>
-</blockquote>
-<p>格式化:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">'Hi, %s, you have $%d.'</span> % (<span class="string">'Michael'</span>, <span class="number">1000000</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这个类似C语言中的print语句,例如 : n=100 ,print(“I have %d $”,n);</p>
-<blockquote>
-<p>%运算符就是用来格式化字符串的。在字符串内部，%s表示用字符串替换，%d表示用整数替换，有几个%?占位符，后面就跟几个变量或者值，顺序要对应好。如果只有一个%?，括号可以省略。</p>
-</blockquote>
-<p>常见的占位符:</p>
-<table>
-<thead>
-<tr>
-<th align="center">占位符</th>
-<th align="center">替换内容</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">%d</td>
-<td align="center">整数</td>
-</tr>
-<tr>
-<td align="center">%f</td>
-<td align="center">浮点数</td>
-</tr>
-<tr>
-<td align="center">%s</td>
-<td align="center">字符串</td>
-</tr>
-<tr>
-<td align="center">%x</td>
-<td align="center">十六进制整数</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>有些时候，字符串里面的%是一个普通字符怎么办？这个时候就需要转义，用%%来表示一个%</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">'This is %d %%" % 60</span></span><br><span class="line"><span class="string">This is 60 %</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="list-和-tuple"><a href="#list-和-tuple" class="headerlink" title="list 和 tuple"></a>list 和 tuple</h4><p>Java中有list集合,python也有,python不需要new一个list集合,直接定义即可.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;classmates = [<span class="string">"Zrj"</span>,<span class="string">"Roman"</span>,<span class="string">"Cheryl"</span>]</span><br><span class="line">&gt;&gt;&gt;classmates</span><br><span class="line">[<span class="string">"Zrj"</span>,<span class="string">"Roman"</span>,<span class="string">"Cheryl"</span>]</span><br><span class="line">&gt;&gt;&gt;len(classmates) <span class="comment"># 显示list集合元素个数</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line">&gt;&gt;&gt;classmates[<span class="number">0</span>] <span class="comment">#根据索引来获取元素,</span></span><br></pre></td></tr></table></figure>
-
-<p>遍历list集合也不需要写个for循环,直接显示</p>
-<p>显示list的元素个数,用len()函数 ,</p>
-<p>一个list的元素可以是另一个list</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;p=[<span class="string">'asp'</span>,<span class="string">'php'</span>]</span><br><span class="line">&gt;&gt;&gt;a=[<span class="string">'python'</span>,p,<span class="string">'scheme'</span>]</span><br><span class="line">&gt;&gt;&gt;len(a)</span><br><span class="line"><span class="number">3</span></span><br><span class="line">&gt;&gt;&gt;a</span><br><span class="line">[<span class="string">'python'</span>,[<span class="string">'asp'</span>,<span class="string">'php'</span>],<span class="string">'scheme'</span>]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>另一种有序列表叫元组,tuple . tuple和list非常类似，但是tuple一旦初始化就不能修改，比如同样是列出同学的名字</p>
-<p>定义tuple:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;classmates=(<span class="string">'Zrj'</span>,<span class="string">'Romen'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment">#classmates这个tuple不能变了，它也没有append()，insert()这样的方法。其他获取元素的方法和list是一样的，你可以正常地使用classmates[0]，classmates[-1]，但不能赋值成另外的元素。</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple。</p>
-</blockquote>
-<p>Python在显示只有1个元素的tuple时，也会加一个逗号,，以免你误解成数学计算意义上的括号.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;t = (<span class="number">1</span>)</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment">#定义的不是tuple，是1这个数！这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义，因此，Python规定，这种情况下，按小括号进行计算，计算结果自然是1。</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;t=(<span class="number">1</span>,)</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line">(<span class="number">1</span>,)</span><br></pre></td></tr></table></figure>
-
-<h5 id="可变的tuple"><a href="#可变的tuple" class="headerlink" title="可变的tuple"></a>可变的tuple</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;t=(<span class="number">1</span>,<span class="number">2</span>,[<span class="string">'A'</span>,<span class="string">'B'</span>])</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line">(<span class="number">1</span>,<span class="number">2</span>,[<span class="string">'A'</span>,<span class="string">'B'</span>])</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387269705541ad608276b6f7426ca59b8c2b19947243000/0" alt=";定义的三个变量"></p>
-<p>表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。</p>
-<blockquote>
-<p>tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向’a’，就不能改成指向’b’，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！</p>
-</blockquote>
-<h4 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt;= <span class="number">20</span>:</span><br><span class="line">    print(<span class="string">'Your age is'</span>,age)</span><br><span class="line">    print(<span class="string">'adult'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'Your age is'</span>,age)</span><br></pre></td></tr></table></figure>
-
-<p>如果if语句判断是True，就把缩进的两行print语句执行了,也可以给if添加一个else语句，意思是，如果if判断是False，不要执行if的内容，去把else执行了</p>
-<blockquote>
-<p>注意冒号’:’不要遗漏,同时每一个语句后面都不用加分号’;’</p>
-</blockquote>
-<p>多分支用elif</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt;= <span class="number">20</span>:</span><br><span class="line">    print(<span class="string">'Your age is'</span>,age)</span><br><span class="line">    print(<span class="string">'adult'</span>)</span><br><span class="line"><span class="keyword">elif</span> age &gt;= <span class="number">80</span>:</span><br><span class="line">    print(<span class="string">'You are a old man'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'Your age is'</span>,age)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>if语句执行有个特点，它是从上往下判断，如果在某个判断上是True，把该判断对应的语句执行后，就忽略掉剩下的elif和else.</p>
-</blockquote>
-<p>if语句可以简写:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#只要x是非零数值、非空字符串、非空list等，就判断为True，否则为False。</span></span><br><span class="line"><span class="keyword">if</span> x:</span><br><span class="line">    print(<span class="string">'True'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>输入函数input返回的是string类型,如果需要对string类型进行转义则需要int()函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = input(<span class="string">'your age is'</span>)</span><br><span class="line">age = int(i)</span><br><span class="line"><span class="keyword">if</span> age &lt; <span class="number">18</span>:</span><br><span class="line">    print(<span class="string">'young man!'</span>)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>int()函数发现一个字符串并不是合法的数字时就会报错，程序就退出了. 跟java的valueof()一样有检查检查功能.</p>
-</blockquote>
-<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><h5 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h5><p>这的语法跟shell的语法类似</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">names=[<span class="string">'Zrj'</span>,<span class="string">'Roman'</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-
-<p>做一个累加的程序:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sum = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]:</span><br><span class="line">    sum = sum + x</span><br><span class="line">print(sum)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是1到100累加,在shell中是&#123;1..100&#125;,在python中可以用range(n)函数,这个是从0到n的整数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">101</span>):</span><br><span class="line">    sum += x</span><br><span class="line">print(sum)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>一样的,不要忘记冒号’:’</p>
-</blockquote>
-<h5 id="while-循环"><a href="#while-循环" class="headerlink" title="while 循环"></a>while 循环</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sum = <span class="number">0</span></span><br><span class="line">n = <span class="number">99</span></span><br><span class="line"><span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">    sum = sum + n</span><br><span class="line">    n = n - <span class="number">2</span></span><br><span class="line">print(sum)</span><br></pre></td></tr></table></figure>
-
-<h5 id="break-Continue"><a href="#break-Continue" class="headerlink" title="break , Continue"></a>break , Continue</h5><ul>
-<li>在循环中，break语句可以提前退出循环</li>
-<li>在循环过程中，也可以通过continue语句，跳过当前的这次循环，直接开始下一次循环</li>
-</ul>
-<h4 id="dict-amp-set"><a href="#dict-amp-set" class="headerlink" title="dict &amp; set"></a>dict &amp; set</h4><h5 id="dict"><a href="#dict" class="headerlink" title="dict"></a>dict</h5><p>Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。</p>
-<blockquote>
-<p>这类似java中的map</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;d = &#123;<span class="string">'Zrj'</span>:<span class="number">92</span>,<span class="string">'Roman'</span>:<span class="number">99</span>&#125;</span><br><span class="line">&gt;&gt;&gt;d[<span class="string">'Zrj'</span>]</span><br><span class="line"><span class="number">92</span></span><br><span class="line">&gt;&gt;&gt;d[<span class="string">'Zrj'</span>]=<span class="number">95</span> <span class="comment">#修改,由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉：</span></span><br><span class="line">&gt;&gt;&gt;d[<span class="string">'Zrj'</span>]</span><br><span class="line"><span class="number">95</span></span><br></pre></td></tr></table></figure>
-
-<p>判断dict是否有这个key,有两种方法:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">'Zrx'</span> <span class="keyword">in</span> d</span><br><span class="line"><span class="literal">False</span></span><br><span class="line">&gt;&gt;&gt;d.get(<span class="string">'Zrx'</span>)</span><br><span class="line">&gt;&gt;&gt;d.get(<span class="string">'Zrx'</span>,<span class="string">'False'</span>)</span><br><span class="line"><span class="string">'False'</span></span><br></pre></td></tr></table></figure>
-
-<p>删除一个key-value,可以用pop(key)的方法:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;d.pop(<span class="string">'Roman'</span>)</span><br><span class="line"><span class="number">99</span></span><br></pre></td></tr></table></figure>
-
-<p>dict与list的特点对比:</p>
-<table>
-<thead>
-<tr>
-<th align="center">dict</th>
-<th align="center">list</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">查找和插入速度极快,不会随着key的增减而变慢</td>
-<td align="center">查找和插入的空间随着元素的增加而增加</td>
-</tr>
-<tr>
-<td align="center">需要占用大量的内存,内存浪费</td>
-<td align="center">占用空间小,浪费的内存很少</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>dict是用空间来换取时间的一种方法。</p>
-</blockquote>
-<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="comment">#创建一个set , 需要提供一个list作为输入集合</span></span><br><span class="line">&gt;&gt;&gt;s =set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#重复元素将被自动过滤掉</span></span><br><span class="line">&gt;&gt;&gt;s=set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br><span class="line">&gt;&gt;&gt;通过add()方法将元素添加到set中</span><br><span class="line">&gt;&gt;&gt;s.add(<span class="number">5</span>)</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line">&gt;&gt;&gt;通过remove(key)方法可以删除元素</span><br><span class="line">&gt;&gt;&gt;s.remove(<span class="number">4</span>)</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>&#125;</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作</span></span><br><span class="line">&gt;&gt;&gt;s1= set([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s2= set([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">&gt;&gt;&gt;s1 &amp; s2</span><br><span class="line">&#123;<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">&gt;&gt;&gt;s1 | s2</span><br><span class="line">&gt;&gt;&gt;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
-<li>求绝对值 abs()</li>
-<li>最大值 max()</li>
-<li>类型转换 int() , float() , str() , bool()</li>
-</ul>
-<p>函数名其实就是指向一个函数对象的引用，完全可以把函数名赋给一个变量，相当于给这个函数起了一个“别名”:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a=abs</span><br><span class="line">&gt;&gt;&gt;a(<span class="number">-1</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>请使用迭代查找一个list中最小和最大值，并返回一个tuple：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Find the max and min number and return a tuple</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment">#Max</span></span><br><span class="line">    a = <span class="number">0</span></span><br><span class="line">    <span class="comment">#Min</span></span><br><span class="line">    b = <span class="number">99</span></span><br><span class="line">    <span class="keyword">for</span> i ,value <span class="keyword">in</span> enumerate([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]):</span><br><span class="line">        <span class="keyword">if</span> a &lt; value :</span><br><span class="line">            a = value</span><br><span class="line">        <span class="keyword">if</span> b &gt; value :</span><br><span class="line">            b = value</span><br><span class="line">    print(a,b)ww</span><br><span class="line">    <span class="keyword">return</span> d = (a,b)</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>定义一个函数要使用def语句,一次写出 函数名 , 括号 , 括号中的参数 , 冒号 ; 然后，在缩进块中编写函数体，函数的返回值用return语句返回。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> -x</span><br><span class="line"></span><br><span class="line"><span class="comment">#对参数类型做检查，只允许整数和浮点数类型的参数。数据类型检查可以用内置函数isinstance()</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(x)</span>:</span></span><br><span class="line">   <span class="keyword">if</span> <span class="keyword">not</span> isinstance(x,(int,float)):</span><br><span class="line">       <span class="keyword">raise</span> TypeError(<span class="string">'Bad operand type'</span>)</span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> -x</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>把my_abs()的函数定义保存为abstest.py文件了，那么，可以在该文件的当前目录下启动Python解释器，用from abstest import my_abs来导入my_abs()函数，注意abstest是文件名（不含.py扩展名）：</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">from</span> abstest <span class="keyword">import</span> my_abs</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_abs(<span class="number">-8</span>)</span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>如果想定义一个什么事也不做的空函数，可以用pass语句;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nop</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#pass语句什么都不做，那有什么用？实际上pass可以用来作为占位符，比如现在还没想好怎么写函数的代码，就可以先放一个pass，让代码能运行起来。</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>测试:写一个一元二次方程的求解程序</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a,b,c)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> b*b - <span class="number">4</span>*a*c &lt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"Illegal args"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    print(<span class="string">"x1="</span> , (-b + math.sqrt(b*b - <span class="number">4</span>*a*c))/(<span class="number">2</span>*a))</span><br><span class="line">    print(<span class="string">"x2="</span> , (-b - math.sqrt(b*b - <span class="number">4</span>*a*c))/(<span class="number">2</span>*a))</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>Python的函数定义非常简单，但灵活度却非常大。除了正常定义的必选参数外，还可以使用默认参数、可变参数和关键字参数，使得函数定义出来的接口，不但能处理复杂的参数，还可以简化调用者的代码。</p>
-<blockquote>
-<p>函数的参数跟C语言差不多,都有形参与实参的说法</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#给参数一个默认值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(x,y=<span class="number">2</span>)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>需要注意:</p>
-<ol>
-<li>是必选参数在前，默认参数在后，否则Python的解释器会报错.(会产生歧义,fun(x,y=2,z),用户调用fun(1,3)则会报错)</li>
-<li>当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可以作为默认参数。</li>
-</ol>
-<blockquote>
-<p>如果默认参数是一个list,记得要给list加上一个END,list.append(‘END’)</p>
-</blockquote>
-<hr>
-<p>可变参数:</p>
-<p>当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可以作为默认参数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># a*a + b*b + c*c +...</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(*numbers)</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        sum = sum + n*n</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果没有* 每次调用则需要传入一个list或者tuple</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>了解python的基础变量 , 集合 , 数组 , 函数的定义 , 在python中用缩进的规则来区分代码块,并且不要遗忘冒号 :</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/16/Keepalived%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/16/Keepalived%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/" itemprop="url">Keepalived高可用集群</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-16T18:17:11+08:00">
-                2017-11-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Keepalive"><a href="#Keepalive" class="headerlink" title="Keepalive"></a>Keepalive</h1><p>起初是为LVS设计的,专门用来监控LVS集群系统中各个服务节点的状态,后来又加入了VRRP的功能(Virtual Router Redundancy Protocol 虚拟路由器冗余协议),因此配合除了LVS服务外,也可以作为其他服务(nginx,haproxy)的高可用软件.</p>
-<blockquote>
-<p>VRRP出现是为了解决静态路由出现的单点故障问题.</p>
-</blockquote>
-<p>主要两大用户:healthcheck , failover</p>
-<h2 id="VRRP"><a href="#VRRP" class="headerlink" title="VRRP"></a>VRRP</h2><p>Virtual Router Redundacy Protocol,解决静态路由器的单点故障,VRRP时通过一种竞选协议机制来将故障路由器的任务给某台VRRP.</p>
-<ul>
-<li>VRRP是通过IP多播的方式实现通信</li>
-<li>主发包,备接包,当备接不到主发的包的时候,就启动接管程序接管主的资源.</li>
-</ul>
-<h2 id="failover"><a href="#failover" class="headerlink" title="failover"></a>failover</h2><p>实现LB Master主机和 Backup 主机之间故障转移何自动切换.(这里针对有两个负载均衡)</p>
-<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h2><ol>
-<li>keepalived.conf里面配置就可以实现LVS.</li>
-<li>keepalive可以对LVS下面的集群节点做监控检查.</li>
-</ol>
-<p>负载均衡定期检查RSYNC的可用性决定是否给其分发请求.</p>
-<h2 id="keepalived-故障切换转移原理"><a href="#keepalived-故障切换转移原理" class="headerlink" title="keepalived 故障切换转移原理"></a>keepalived 故障切换转移原理</h2><ol>
-<li>在keepalived directors正常工作时,主Director节点会不断向被节点广播心跳消息,告诉备节点设备–主节点设备正常.</li>
-<li>当主节点发生故障时,备节点就无法检测到主节点的心跳,今儿调用自身的接管程序,接管主节点的IP资源与服务.</li>
-<li>当主节点恢复时,备节点会释放主节点故障时自身接管的IP资源与服务,恢复到原来的自身备用角色.</li>
-</ol>
-<h2 id="配置keepalive"><a href="#配置keepalive" class="headerlink" title="配置keepalive"></a>配置keepalive</h2><p>官网 <code>http:\\www.keepalived.org</code></p>
-<p>这里用的是 1.2.16 的版本.</p>
-<p>相关的配置可以用man keepalived.conf查看,这里只列出80%</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ln -s /user/src/kernel/2.6 /usr/src/linux</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 到keepalive的文件包里面</span></span><br><span class="line"><span class="comment"># ./configure</span></span><br><span class="line"><span class="comment"># 出现以下相关内容即可</span></span><br><span class="line">Use IPVS Framework  : Yes</span><br><span class="line">IPVS sync daemon support: Yes</span><br><span class="line">Use VRRP Framework : Yes</span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 规范启动</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/rc.d/init.d/keepalived /etc/init.d/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置启动脚本参数</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/sysconfig/keepalived /etc/sysconfig/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建默认的keepalived配置文件路径</span></span><br><span class="line"><span class="comment"># mkdir /etc/keepalived</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/keepalived/keepalived.conf /etc/keepalived</span></span><br></pre></td></tr></table></figure>
-
-<p>keepalived的配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">!Configuration File for keepalived</span><br><span class="line"></span><br><span class="line">!全局变量</span><br><span class="line">!Comments start with ’#’ or ’!’ to the end of the line and can start anywhere in a line.</span><br><span class="line">!contains subblocks of Global definitions, Static routes, and Static rules</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        !管理员邮箱</span><br><span class="line">        admin@example.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from admin@example.com</span><br><span class="line">    !邮箱服务器的地址设置</span><br><span class="line">    smtp_server xx.xx.xx.xx</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line"></span><br><span class="line">    !string,identifying the machine,(do not have to be hostname,default:localhostname)</span><br><span class="line">    router_id LVS_DEVEL</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Static routes&#x2F;address&#x2F;rules</span><br><span class="line">!Keepalived can configure static addresses, routes, and rules. These addresses are NOT moved by vrrpd, they stay on the machine.  If you already  have  IPs and routes on your machines and your machines can ping each other, you don’t need this section.</span><br><span class="line"></span><br><span class="line">static_ipaddress&#123;</span><br><span class="line">    192.168.1.2&#x2F;24 dev eth0 scope global</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_routes&#123;</span><br><span class="line">    192.168.1.1&#x2F;24 via 192.168.1.100</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_rules&#123;</span><br><span class="line">    from 192.168.1.1&#x2F;24 table 1</span><br><span class="line">    to 192.168.1.1&#x2F;24 table 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Adds a scritpt to be executed periodically.Its exit code will be recorded for all VRRP instances which are monitoring it with non-zero weight.</span><br><span class="line">vrrp_script &lt;SCRIPT_NAME&gt;&#123;</span><br><span class="line">    !path of the script to execute</span><br><span class="line">    script &lt;STRING&gt;|&lt;QUOTED-STRING&gt;</span><br><span class="line">    !seconds between script invocations,default 1 second</span><br><span class="line">    interval &lt;INTEGER&gt;</span><br><span class="line">    !seconds after which script is considered to have failed</span><br><span class="line">    timeout &lt;INTEGER&gt;</span><br><span class="line">    !adjust priority by this weight,default 2</span><br><span class="line">    weight &lt;INTEGER : -254..254&gt;</span><br><span class="line">    !required number of successes for OK transition</span><br><span class="line">    rise &lt;INTERGER&gt;</span><br><span class="line">    !required number of successes for KO transition</span><br><span class="line">    fall &lt;INTEGER&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!describes the movable IP for each instance of a group in vrrp_sync_group.</span><br><span class="line">!Here are describes two IPs(on inside_network an on_outside_network)on machine &quot;my_hostname&quot;,!which belog to the group VG_1 and which will trasition together on any state change.</span><br><span class="line"></span><br><span class="line">vrrp_instance inside_network&#123;</span><br><span class="line">    !Initial state,MASTER | BACKUP</span><br><span class="line">    !As soon as the other machine(s) come up,</span><br><span class="line">    !an election will be held and the machine</span><br><span class="line">    !With the highest priority will become MASTER</span><br><span class="line">    !So the entry here do not matter a whole lot</span><br><span class="line">    state MASTER</span><br><span class="line"></span><br><span class="line">    !Interface for inside_network,bound by vrrp</span><br><span class="line">    interface eth0</span><br><span class="line"></span><br><span class="line">    !Use VRRP Virtual MAC.</span><br><span class="line">    use_vmac [&lt;VMAC_INTERFACE&gt;]</span><br><span class="line"></span><br><span class="line">    !Send&#x2F;Recv VRRP messages from base interface instea dof</span><br><span class="line">    vmac_xmit_base</span><br><span class="line"></span><br><span class="line">    !force instance to use IPv6(when mixed IPv4 and IPv6 config)</span><br><span class="line">    native_ipv6</span><br><span class="line"></span><br><span class="line">    !Ignore VRRP interface faults(default unset)</span><br><span class="line">    dont_track_primary</span><br><span class="line"></span><br><span class="line">    ! optional,monitor these as well</span><br><span class="line">    ! go to FAULT state if any of these go down</span><br><span class="line">    track_interface&#123;</span><br><span class="line">        eth0</span><br><span class="line">        eth1</span><br><span class="line">        eth2 weight &lt;-254..254&gt;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ! add a tracking script to the interface (&lt;SCRIPT_NAME&gt;is the name of the vrrp_script entry)</span><br><span class="line">    track_script&#123;</span><br><span class="line">        &lt;SCRIPT_NAME&gt;</span><br><span class="line">        &lt;SCRIPT_NAME&gt; weight &lt;-254..254&gt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    !Default IP for binding vrrpd is the primary IP on interface.If you want to hid the location of vrrpd, use this IP as src_addr for multicast or unicast vrrp packets.(Since it is multicast,vrrpd will get the reply packet no matter what src_addr is used).</span><br><span class="line">    !Optional</span><br><span class="line">    mcast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    unicast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    ! VRRP version to run on interface</span><br><span class="line">    version&lt;2 or 3&gt;</span><br><span class="line"></span><br><span class="line">    !addresses add|del on change to MASTER , to BACKUP.With the same entries on other machines, the opposite transition will be occurring.</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        &lt;IPADDR&gt;&#x2F;&lt;MASK&gt; brd &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPE&gt; label &lt;LABEL&gt;</span><br><span class="line">        192.168.200.17&#x2F;24 dev eth1</span><br><span class="line">        192.168.200.18&#x2F;24 dev eth2 label eth2:1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Note: authentication was removed from the VRRPv2 specification by RFC3768 in 2004.</span><br><span class="line">    #    Use of this option is non-compliant and can cause problems; avoid using if possible,</span><br><span class="line">    #   except when using unicast, where it can be helpful.</span><br><span class="line">    authentication &#123;</span><br><span class="line">        # Authentication block</span><br><span class="line">        # PASS||AH</span><br><span class="line">        # PASS - Simple password (suggested)</span><br><span class="line">        # AH - IPSEC (not recommended))</span><br><span class="line">        auth_type PASS</span><br><span class="line">        # Password for accessing vrrpd.</span><br><span class="line">        # should be the same on all machines.</span><br><span class="line">        # Only the first eight (8) characters are used.</span><br><span class="line">        auth_pass 1234</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>主要配置:</p>
-<ul>
-<li>从文档中可以看到,我们需要配置主要有全局参数(global_defs),email &amp; router_id</li>
-<li>如果有需要定时执行的脚本,则配置vrrp_script 块, script位置,interval,weight</li>
-<li>配置主机标签vrrp_instance ,里面设置state,网卡接口,主机ip,virtual_id,优先级priorioty,adver_int,authentication,为主机虚拟ip,检测脚本</li>
-<li>用上一个步骤里面的虚拟IP配置虚拟服务器</li>
-</ul>
-<p>主:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id MASTER_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.150</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>被:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id BACKUP_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.151</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>主备的配置文件需要注意:</p>
-<ol>
-<li>在vrrp_instance节点中,主备的实例名字可以不一样,但virtual_router_id必须一样.</li>
-<li>virtual_router_id的作用是区分不同的vrrp组,因此在同一网段内,不同的vrrp组不能重复id.</li>
-<li>一个 virtual_server节点中配置多个 real_server,需要注意 TCP_CHECK与’{‘ 之间的空格,如果没有空格,则从上往下数第二个real_server会识别不到.</li>
-<li>VIP可以和主机真实IP地址不在同一个网段,但必须在环境中搭建VPN.</li>
-</ol>
-<p>启动服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># keeplived需要通过ip地址添加来启动服务</span><br><span class="line"># ip addr add 10.0.0.18&#x2F;24 dev eth0</span><br><span class="line"># &#x2F;etc&#x2F;init.d&#x2F;keepalived start</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>对外提供服务的是VIP(virtual ip)</p>
-</blockquote>
-<h2 id="场景应用"><a href="#场景应用" class="headerlink" title="场景应用"></a>场景应用</h2><p>假设我们的集群架构中,有两台机器是作为LB存在,分别是LB1(主),LB2(备) ; 两台 LB 通过 <em>keepalive</em> 建立关系 , 当一台 <em>LB_挂了,立即启用 _备用LB</em> .</p>
-<p>我用的 <em>load Balance</em> 软件是 Nginx , 所谓宕机就是 <em>Nginx</em> 和 <em>keepalive</em> 这两个服务停止了,然而当 <em>Nginx</em> 停止服务的时候 ,keepalive 是不能识别到的(Keepalive不会关闭,不会让 <em>备用LB</em> 接管 <em>主LB</em> 接受到的请求)</p>
-<p>因此,我们要写一个监控Nginx状态的脚本</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Monitoring Nginx status</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$(ps -ef|grep "nginx : master process"|grep -v grep)</span>"</span>==<span class="string">""</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    sleep 5</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$(ps -ef|grep "nginx : master process"|grep -v grep)</span>"</span>==<span class="string">""</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">    killall keepalived</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>升级版:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /etc/keepaalived/check_nginx.sh</span></span><br><span class="line">Count1=<span class="string">"netstat -antp |grep -v grep|grep nginx|wc -l"</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$Count1</span> -eq 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    sleep 2</span><br><span class="line">    Count2=<span class="string">"netstat -antp|grep -v grep|grep nginx|wc -l"</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$Count2</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        /etc/init.d/keepalived stop</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>这个脚本可以放到 <em>keepalived.conf</em> 里面 <em>vrrp_script</em> 节点中,这里可以每隔相应的时间执行一次脚本.</p>
-<p>在工作时,keepalived根据用户设定的策略判断服务器上的程序是否正常运行,如果故障则将这台服务器从热备组移出.</p>
-<p>在实例中重要参数: nopreempt , 当主LB挂了,备LB接管,主恢复,不自动接管</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2719,7 +2456,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">414</span>
+                  <span class="site-state-item-count">416</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

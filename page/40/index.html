@@ -270,6 +270,386 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/04/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/04/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" itemprop="url">Linux文件系统</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-04T04:19:07+08:00">
+                2017-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lhi</span><br><span class="line"></span><br><span class="line">2834587 -rw-r--r--    1 r0man  staff   1.7K 10  1 20:03 _config.yml</span><br><span class="line">7364288 -rw-r--r--    1 r0man  staff   174B 10  4 04:19 db.json</span><br><span class="line">2823389 drwxr-xr-x  436 r0man  staff    14K 10  1 20:00 node_modules</span><br><span class="line">7372948 -rw-r--r--    1 r0man  staff   631B 10  1 20:00 package.json</span><br></pre></td></tr></table></figure>
+
+<h3 id="第一列"><a href="#第一列" class="headerlink" title="第一列"></a>第一列</h3><blockquote>
+<p>-i 表示显示INODE</p>
+</blockquote>
+<p>inode(index node)为索引节点。它是文件或者目录，在c磁盘里的唯一标识，linux读取文件首先要读取到这个索引节点。</p>
+<h3 id="第二列"><a href="#第二列" class="headerlink" title="第二列"></a>第二列</h3><p>第一个字符表示文件类型，普通文件为 ‘-‘ ， 目录为’d’ 。</p>
+<p>后面九个字符代表文件权限 ， （r（read） w（write） x（执行） -）</p>
+<p>第11个字符’.’ ,是跟seLinux相关的 ， 当seLinux开启的时候才会出现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ 查看selinux的状态</span><br><span class="line">$ getenforce</span><br></pre></td></tr></table></figure>
+
+<h3 id="第三列"><a href="#第三列" class="headerlink" title="第三列"></a>第三列</h3><p>文件的硬链接数；硬链接是文件一个入口，就像硬盘挂载上，可以访问。</p>
+<h3 id="第四列"><a href="#第四列" class="headerlink" title="第四列"></a>第四列</h3><p>属主或用户 （Usr）<br><br/><br>对应权限位第2到第4为 用户权限位。</p>
+<h3 id="第五列"><a href="#第五列" class="headerlink" title="第五列"></a>第五列</h3><p>文件对应的属组或用户组。（Group）<br><br/><br>对应权限位第5到第7为 属组权限位。</p>
+<h3 id="第六列"><a href="#第六列" class="headerlink" title="第六列"></a>第六列</h3><p>表示文件或者目录的大小</p>
+<h3 id="第-七-，八，九-列"><a href="#第-七-，八，九-列" class="headerlink" title="第 七 ，八，九 列"></a>第 七 ，八，九 列</h3><p>表示文件被改动的时间</p>
+<h3 id="第十列"><a href="#第十列" class="headerlink" title="第十列"></a>第十列</h3><p>表示文件或者目录的名字</p>
+<h2 id="文件的INODE标识"><a href="#文件的INODE标识" class="headerlink" title="文件的INODE标识"></a>文件的INODE标识</h2><p>磁盘被格式化后，会被分成两个部分，分别是Inode 与 Block 。<br><br/></p>
+<p>Inode存放的是文件的属性信息，还有指向功能，唯独不包含文件名字；Block是用于存放数据的。<br><br/></p>
+<p>Block的大小一般有1k，2k，4k几种，其中引导分区为1k，其他普通分区4k。</p>
+<ul>
+<li>一个文件可能占用多个block，每读取一个block就会消耗一次磁盘I/O。</li>
+<li>如果要提升IO性能，那么尽可能一次性读取尽量多的数据。</li>
+<li>block的色织也是在格式化分区的时候，mkfs.ext4 -b 2048 -l 256 /dev/sdb</li>
+</ul>
+<br/>
+
+<p>Inode是一串数字，不同的文件对应的inode在文件系统中是唯一的。<br><br/></p>
+<p>查看Inode大小</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ dumpe2fs &#x2F;dev&#x2F;sda3 | grep -i &quot;Inode size&quot;</span><br><span class="line"></span><br><span class="line">Inode       256</span><br></pre></td></tr></table></figure>
+<p>通过该命令查找这，默认单位是字节。</p>
+<blockquote>
+<p>-i 表示忽略匹配样式中的字符大小写。</p>
+</blockquote>
+<blockquote>
+<p>dumpe2fs 用于查看格式化后的磁盘信息的。</p>
+</blockquote>
+<br/>
+也可以通过df命令来查看挂载的磁盘inode情况。
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ df -i</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>df命令用于显示磁盘分区上的可使用的磁盘空间。默认显示单位为KB。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等信息。</p>
+</blockquote>
+<h2 id="Linux-文件类型"><a href="#Linux-文件类型" class="headerlink" title="Linux 文件类型"></a>Linux 文件类型</h2><ol>
+<li>纯文本（ASCII）：文件内容可以直接读取到数据。</li>
+<li>二进制文件（binary），linux可执行文件（命令）就属于这种格式。</li>
+<li>数据格式的文件（data），有些程序在运行的过程会读取某些特定格式的文件。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ 查看文件类型</span><br><span class="line">$ file &#x2F;etc&#x2F;hosts</span><br></pre></td></tr></table></figure>
+
+<p>-type指令参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-type c</span><br><span class="line">    File is of type c :</span><br><span class="line">    b block(buffered) special 块设备</span><br><span class="line">    c character (unbuffered ) special 字符设备</span><br><span class="line">    d directory 目录</span><br><span class="line">    p name pipe (FIFO) </span><br><span class="line">    f regular file (-) 普通文件</span><br><span class="line">    l symbolic link 符号链接</span><br><span class="line">    s 套接字</span><br></pre></td></tr></table></figure>
+
+<h2 id="各类时间戳"><a href="#各类时间戳" class="headerlink" title="各类时间戳"></a>各类时间戳</h2><ul>
+<li>Access ： 访问时间 -atime</li>
+<li>Modify ： 修改时间 ， 内容发生变化 -mtime</li>
+<li>Change ： 变化时间 ， 包含Modify ， 权限、属主 、 用户组 find</li>
+</ul>
+<blockquote>
+<p>ls -l –time-style=long-iso 显示的是修改时间</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/03/yum-%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/03/yum-%E5%91%BD%E4%BB%A4/" itemprop="url">yum_命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-03T11:49:29+08:00">
+                2017-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="yum-linux里包管理"><a href="#yum-linux里包管理" class="headerlink" title="yum linux里包管理"></a>yum linux里包管理</h1><p><em>yum</em> 帮助解决以来问题</p>
+<ul>
+<li><p>下载 <em>tree</em> 包，然后调用 <em>rpm</em> 命令安装tree包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install tree(包名) -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看包组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum grouplist</span><br><span class="line">$ yum groupinstall &#39;grouplist&#39;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum search &#39;关键字&#39;</span><br><span class="line">$ yum search all</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove tree -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>升级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum update -y</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/03/LINUX%E7%9B%AE%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1986,444 +2366,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/22/%E5%95%86%E5%9F%8E%E6%A0%B7%E4%BE%8B-%E5%BA%95%E9%83%A8%E8%8F%9C%E5%8D%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/22/%E5%95%86%E5%9F%8E%E6%A0%B7%E4%BE%8B-%E5%BA%95%E9%83%A8%E8%8F%9C%E5%8D%95/" itemprop="url">商城样例--底部菜单</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-22T16:05:56+08:00">
-                2017-07-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>接下俩一周将开启学习一个安卓商城样例的开发,今天的内容是一个底部的菜单–FragmentTabHost + Fragment</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>使用这个控件,先要在布局文件中创建这个控件,这个控件是v4包的,所以在布局文件中有以下部分</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/fg_container"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"4"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v4.app.FragmentTabHost</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@android:id/tabhost"</span></span></span><br><span class="line"><span class="tag">        &gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@android:id/tabcontent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">            &gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v4.app.FragmentTabHost</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>说明一下,FragmentTabHost这一部分是菜单底部的一个指示器,而上一级的FrameLayout这里作为我们呈现内容的容器,每一个菜单对应的内容将在这里展示.</p>
-<p>接下来,就是我们的代码部分,在代码中,我们需要做的就是fragmentTabHost.setup(Context context,Fragmentmanager fragmentmanager,int containerId);</p>
-<p>这里的containerId即是我们刚才说的容器ID,就是上面的FrameLayout.</p>
-<p>做完这些还不够,我们还要向指示器(fragmentTabHost)里面添加不同的菜单,以及每一个菜单对应的内容展示.所以有了以下的代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TabHost.TabSpec tabSpec = fragmentTabHost.newTabSpec(String TAG); <span class="comment">//这里是这个菜单的标签</span></span><br><span class="line">tabSpec.setIndicator(View view); <span class="comment">//这里是这个菜单的样式,可以自定义</span></span><br><span class="line">fragmentTabHost.addTab(tabSpec,tab.getFragment(),<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个控件还是比较简单的,但是为什么在FragmentTabHost这个布局控件里面要求TabWidget这个控件,为什么这里的id要是android:id/…的型式?</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/12/%E5%AE%BF%E8%88%8D%E4%B9%A6%E6%A1%8C%E7%85%A7%E6%98%8E%E7%B3%BB%E7%BB%9F%E6%94%B9%E9%80%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/12/%E5%AE%BF%E8%88%8D%E4%B9%A6%E6%A1%8C%E7%85%A7%E6%98%8E%E7%B3%BB%E7%BB%9F%E6%94%B9%E9%80%A0/" itemprop="url">宿舍书桌照明系统改造</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-12T12:02:20+08:00">
-                2017-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MCU/" itemprop="url" rel="index">
-                    <span itemprop="name">MCU</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章标题略显夸张,其实没有没有改造什么照明电路,只是用单片机区控制几个LED灯珠与台灯的开关,再给单片机添加一个单片机蓝牙通讯模块,这样就可以实现用手机蓝牙控制灯的开关.</p>
-<ul>
-<li>这里的蓝牙通讯其实不难,在单片机端,要弄明白串口通信就好了.</li>
-<li>在安卓端里面,是通过SOCKET与固定UUID与单片机连接.</li>
-</ul>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>分两部分来写正文,分别是单片机端 和 安卓端</p>
-<h2 id="一-单片机端"><a href="#一-单片机端" class="headerlink" title="一. 单片机端"></a>一. 单片机端</h2><p>我用的蓝牙模块是HC-06(在淘宝均价在17块左右),这个蓝牙模块在百度上有很多指令集.</p>
-<p>来自百度文库的资料:</p>
-<hr>
-<h2 id="第一步-给蓝牙上电"><a href="#第一步-给蓝牙上电" class="headerlink" title="第一步 给蓝牙上电"></a>第一步 给蓝牙上电</h2><p>给hc-06上电之后，hc-06的指示灯会一直闪一直闪，这个时候就标志着进入AT模式了</p>
-<h2 id="第二部-蓝牙配对"><a href="#第二部-蓝牙配对" class="headerlink" title="第二部 蓝牙配对"></a>第二部 蓝牙配对</h2><p>我只用了电脑和单片机之间传输数据，所以只讲电脑这一块儿。首先你得电脑得有蓝牙（没有就去买）。然后打开电脑蓝牙-&gt;添加设备。这个时候电脑就会自动搜索蓝牙设备，蓝牙设备收到后配对就好。一般hc-06的名称就是hc-06了，配对密码是1234。</p>
-<h2 id="第三步-有线串口连接"><a href="#第三步-有线串口连接" class="headerlink" title="第三步 有线串口连接"></a>第三步 有线串口连接</h2><p>买一根串口线，串口转usb也成，将单片机和电脑连接起来，假设使用的是stm32f103的USART1。</p>
-<h2 id="第四步-蓝牙引脚连接"><a href="#第四步-蓝牙引脚连接" class="headerlink" title="第四步 蓝牙引脚连接"></a>第四步 蓝牙引脚连接</h2><p>Stm32f103的USART1的A9、A10引脚分别是Tx和Rx脚。此时将hc-06的Rx连接A9，Tx连接A10。</p>
-<h2 id="第五步-打开串口调试助手"><a href="#第五步-打开串口调试助手" class="headerlink" title="第五步    打开串口调试助手"></a>第五步    打开串口调试助手</h2><p>找到有线串口线对应的端口，将波特率设置为与hc-06波特率一致（首次修改为9600），8位数据位，1位结束位，无校验。然后打开串口。</p>
-<h2 id="第六步-输入指令"><a href="#第六步-输入指令" class="headerlink" title="第六步 输入指令"></a>第六步 输入指令</h2><p>首先输入AT（无空格回车），然后串口助手会返回OK，修改波特率时输入AT+BAUDx（x为波特率编号），串口助手会返回OKnnnn（nnnn是你的波特率）。注意，在这之后你若还有其他要修改的，必须先关掉串口助手，然后修改端口波特率为你刚刚设置的波特率，然后再打开串口继续操作。</p>
-<p>另给检测蓝牙模块是否正常的方法：</p>
-<ol>
-<li>给蓝牙模块供电</li>
-<li>蓝牙配对</li>
-<li>打开串口助手，设置波特率9600，数据位8位，结束位1位，校验位无</li>
-<li>将蓝牙的TXD和RXD短接</li>
-<li>随意发送一个数据，串口助手将回显同样的数据</li>
-</ol>
-<p>再附指令表：</p>
-<ol>
-<li>测试通信<br>发送：AK<br>返回：OK</li>
-<li>修改波特率额</li>
-</ol>
-<p>发送：AK+BAUD8<br>返回：OK115200</p>
-<p>波特率标号对应表：</p>
-<ul>
-<li>1———1200 </li>
-<li>2———2400 </li>
-<li>3———4800 </li>
-<li>4———9600(默认)</li>
-<li>5———19200 </li>
-<li>6———38400 </li>
-<li>7———57600 </li>
-<li>8———115200 </li>
-<li>9———230400 </li>
-<li>A———460800 </li>
-<li>B———921600 </li>
-<li>C———1382400</li>
-</ul>
-<ol start="3">
-<li>改蓝牙名称</li>
-</ol>
-<ul>
-<li>发送：AT+NAMEname</li>
-<li>返回：OKname</li>
-</ul>
-<ol start="4">
-<li>改配对密码</li>
-</ol>
-<ul>
-<li>发送：AT+PINxxx</li>
-<li>返回：OKsetpin</li>
-</ul>
-<hr>
-<p>在单片机里面无非就是设置串口通信的函数会比较难,计时器方面会比较难,但是用 “单片机精灵”生成就好了,串口通信的函数就会自动生成.</p>
-<p>另一方面,要注意main函数如果没有设置死循环,那么将会从头到尾不断循环.</p>
-<p><a href = "https://github.com/R0manJ/iDesk/blob/master/智能桌面单片机程序.c">详细代码看Github–iDesk–智能桌面单片机程序.c</a></p>
-<h2 id="二-安卓端"><a href="#二-安卓端" class="headerlink" title="二. 安卓端"></a>二. 安卓端</h2><p>在安卓端无非是使用蓝牙跟单片机的蓝牙通讯,那么就要用到Socket连接,再通过输入输出流操作数据传送.</p>
-<p>需要注意的是Socket的连接是阻塞操作,因此要通过子线程来操作.</p>
-<p>因为要实现的是蓝牙的串口通信,所以UUID是固定的(“00001101-0000-1000-8000-00805F9B34FB”)</p>
-<p>蓝牙操作的流程大概是这样:</p>
-<p>BluetoothAdapter -&gt; BluetoothDevice -&gt; BluetoothSocket -&gt;connect -&gt;getInputStream &amp;&amp; getOutputStream</p>
-<p>其中涉及到单片机传回的数据要处理并显示到界面上,那么就通过安卓的Handler消息处理机制来跟新UI.</p>
-<p><a href ="https://github.com/R0manJ/iDesk/tree/master/app/src/main/java/com/rjstudio/idesk">详细代码看GitHub项目</a></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个小样例做完后还留下一些小问题:<br></p>
-<ul>
-<li>在安卓中:</li>
-</ul>
-<ol>
-<li>在activity结束后,线程是如何关闭的? 我获取的Socket资源与inputstream,outputStream 怎么在线程结束后关闭?</li>
-<li>还没有做数据回传操作,如何通过广播开启蓝牙给单片机发送指令?</li>
-</ol>
-<ul>
-<li>在单片机中:</li>
-</ul>
-<ol>
-<li>单片机的功率是多少?</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2474,7 +2416,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">414</span>
+                  <span class="site-state-item-count">416</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
