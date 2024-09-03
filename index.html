@@ -270,6 +270,199 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/09/04/ESXi-Large-Scale-workloads-with-intensive-IO-patterns-might-require-queue-depths-significantly-greater-than-paravirtual-SCSI-default-values/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/04/ESXi-Large-Scale-workloads-with-intensive-IO-patterns-might-require-queue-depths-significantly-greater-than-paravirtual-SCSI-default-values/" itemprop="url">ESXi_Large-Scale workloads with intensive IO patterns might require queue depths significantly greater than paravirtual SCSI default values</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-04T00:26:21+08:00">
+                2024-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h1><p>部分虚拟机业务对存储的IO有着极高的需求，在硬件条件有限的情况下，可以优化一下虚拟化层的配置。</p>
+<h1 id="操作过程"><a href="#操作过程" class="headerlink" title="操作过程"></a>操作过程</h1><h2 id="虚拟化层的修改"><a href="#虚拟化层的修改" class="headerlink" title="虚拟化层的修改"></a>虚拟化层的修改</h2><p>核心就是修改 HBA 设备的队列深度</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先确认当前使用的哪种类型的HBA</span></span><br><span class="line"><span class="comment">## Qlogic HBA卡 类查询</span></span><br><span class="line">esxcli system module list | grep qla</span><br><span class="line"><span class="comment">##  Emulex HBA卡 类查询</span></span><br><span class="line">esxcli system module list | grep lpfc</span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt; 看上述指令哪一个指令有结果显示</span></span><br><span class="line"><span class="comment"># 修改 Qlogic 类HBA卡</span></span><br><span class="line">esxcli system module parameters <span class="built_in">set</span> -p ql2xmaxqdepth=128 -m [根据上述指令查询的设备]</span><br><span class="line"><span class="comment"># 修改 Emulex 类HBA卡</span></span><br><span class="line">esxcli system module parameters <span class="built_in">set</span> -p lpfc0_lun_queue_depth=128 -m [根据上述指令查询的设备]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整完毕后，需要重启 ESXi</span></span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启后使用指令查询</span></span><br><span class="line">esxcli system module parameters list -m [根据上述指令查询的设备]</span><br></pre></td></tr></table></figure>
+
+<h2 id="虚拟机设置修改"><a href="#虚拟机设置修改" class="headerlink" title="虚拟机设置修改"></a>虚拟机设置修改</h2><p>将磁盘改为 PVSCSI 类型。</p>
+<h2 id="虚拟机OS修改"><a href="#虚拟机OS修改" class="headerlink" title="虚拟机OS修改"></a>虚拟机OS修改</h2><h3 id="Linux-类修改"><a href="#Linux-类修改" class="headerlink" title="Linux 类修改"></a>Linux 类修改</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 内核加载</span></span><br><span class="line">vim /etc/modprobe.d/pvscsi</span><br><span class="line"><span class="comment"># 添加以下内容，并保存</span></span><br><span class="line">options vmw_pvscsi cmd_per_lun=254 ring_pages=32</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改启动文件 /etc/grub.conf 或 /boot/grub/grub.cfg</span></span><br><span class="line"><span class="comment"># 添加</span></span><br><span class="line">vmw_pvscsi.cmd_per_lun=254</span><br><span class="line">vmw_pvscsi.ring_pages=32</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务器</span></span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启后确认信息</span></span><br><span class="line">cat /sys/module/vmw_pvscsi/parameters/cmd_per_lun</span><br><span class="line">cat /sys/module/vmw_pvscsi/parameters/ring_pages</span><br></pre></td></tr></table></figure>
+
+<h3 id="Windows-类修改"><a href="#Windows-类修改" class="headerlink" title="Windows 类修改"></a>Windows 类修改</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 添加注册表项</span><br><span class="line">REG ADD HKLM\SYSTEM\CurrentControlSet\services\pvscsi\Parameters\Device /v DriverParameter /t REG_SZ /d "RequestRingPages=<span class="number">32</span>,MaxQueueDepth=<span class="number">254</span>"</span><br><span class="line"></span><br><span class="line"># 修改完毕后，重启服务器</span><br><span class="line">shutdown /r /t <span class="number">1</span></span><br><span class="line"></span><br><span class="line"># 确认是否生成注册表</span><br><span class="line"># HKLM\ SYSTEM\CurrentControlSet\services\pvscsi\Parameters\Device.</span><br><span class="line"># 确认两个值是否为RequestRingPages=<span class="number">32</span>, MaxQueueDepth=<span class="number">254</span>.</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://knowledge.broadcom.com/external/article/343323/largescale-workloads-with-intensive-io-p.html" target="_blank" rel="noopener">https://knowledge.broadcom.com/external/article/343323/largescale-workloads-with-intensive-io-p.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/09/01/Virtualbox-error-with-linux-Kernal-upgrade/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2068,206 +2261,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/06/12/%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E7%9A%84CrystalDiskMark%E6%B5%8B%E8%AF%95%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/06/12/%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E7%9A%84CrystalDiskMark%E6%B5%8B%E8%AF%95%E8%AE%B0%E5%BD%95/" itemprop="url">虚拟化环境不同存储类型的CrystalDiskMark测试记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-06-12T14:51:44+08:00">
-                2024-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器与存储</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">存储</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="测试环境描述"><a href="#测试环境描述" class="headerlink" title="测试环境描述"></a>测试环境描述</h1><p>硬件环境：</p>
-<ul>
-<li>底层存储类型：</li>
-</ul>
-<ol>
-<li>SSD SAN</li>
-<li>SSD DAS,RAID 1</li>
-<li>NVMe SSD,PM9A1</li>
-</ol>
-<p>虚拟化层环境：<br>vSphere:6.7</p>
-<p>测试机环境：</p>
-<ul>
-<li>OS：Windows Server 2019</li>
-<li>配置：2C4G</li>
-<li>测试软件：CrystalDiskMark</li>
-</ul>
-<h1 id="测试记录"><a href="#测试记录" class="headerlink" title="测试记录"></a>测试记录</h1><p>8G数据量，测试5次</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2318,7 +2311,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">416</span>
+                  <span class="site-state-item-count">417</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
