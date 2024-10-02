@@ -270,6 +270,245 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/02/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E4%B8%8B%E8%BD%BD%E5%99%A8-%E6%B5%81%E5%AA%92%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/02/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E4%B8%8B%E8%BD%BD%E5%99%A8-%E6%B5%81%E5%AA%92%E4%BD%93/" itemprop="url">黑群晖折腾记录_下载器_流媒体</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-02T16:01:59+08:00">
+                2024-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器与存储</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">存储</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/NAS%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">NAS存储</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今年生日狮子送我一个黑群晖设备(她还不知道NAS是什么，但一查小红书看到是中年男人三宝，头牌就是Synology群晖，她差点就奔着群晖买，赶紧被我叫停了，那么贵的东西；我点名要买黑群晖，在此谢谢狮子！)；拿到设备后，在对NAS做一些简单的测试，我梳理了一下需求，主要分为：</p>
+<ol>
+<li>数据备份：存储遵循3+2+1原则，即3份数据副本，2份在本地（分不同存储设备），1份在云上；</li>
+<li>下载器: 充当下载器，可以使用迅雷、百度云，主要的需求来自这两个下载器，未来可能还会有其他的下载器的需求；</li>
+<li>私人影院: 家里有投影、IPad、还有一些手机终端，想看存储中的影片，排除传统的SAMBA协议去读取远端磁盘中的文件，想搭建一个流服务器，并实现刮片；</li>
+</ol>
+<p>基于上述三个需求，我会记录我在折腾过程中的一些思考与实操过程；</p>
+<h1 id="实操记录"><a href="#实操记录" class="headerlink" title="实操记录"></a>实操记录</h1><h2 id="需求一，数据备份【待更新】"><a href="#需求一，数据备份【待更新】" class="headerlink" title="需求一，数据备份【待更新】"></a>需求一，数据备份【待更新】</h2><p>老实讲，我对黑群晖还是有一点抵触，因为我不确定这个东西是否有后门，我不太确认里面是否有其他进程在窃取内网中的数据，目前我所采取的策略是对这个设备目前是0信任。</p>
+<blockquote>
+<p>举证原则，谁质疑谁举证？怎么证明黑群晖是不安全的？</p>
+</blockquote>
+<p>还有一个问题，如果系统崩溃了，上面的数据怎么恢复？我还没有实操恢复操作系统的过程。</p>
+<h2 id="需求二，下载器"><a href="#需求二，下载器" class="headerlink" title="需求二，下载器"></a>需求二，下载器</h2><h3 id="百度云"><a href="#百度云" class="headerlink" title="百度云"></a>百度云</h3><p>我尝试过在DSM的套件中心，直接搜索“百度网盘”、“百度网盘 DSM7.2”下载安装，这两个看起来还是Docker的形式运行，安装完成后；通过NAS端口转发，跳转到百度云的扫码登录界面。</p>
+<p>当我完成安装后，界面成功跳转到百度云的登录界面时，扫码登录一直失败，会提示“登录失败，每个群晖账号在同一群晖设备只能绑定一个百度网盘账号”。无论怎么操作都是这个提示，我估计是因为黑群晖安装的方式，原群晖SN与MAC地址已经有百度网盘登录，我无法再此使用此方式登录。</p>
+<p>于是方案上面转到了下面两种，分别是使用 DSM 原生的云同步工具”Cloud Sync” ，或者 第三方 Docker 封装方案（来自 johnshine-baidunetdisk-crossover-vnc-1）;</p>
+<h4 id="Cloud-Sync"><a href="#Cloud-Sync" class="headerlink" title="Cloud Sync"></a>Cloud Sync</h4><ol>
+<li>套件中心搜索 “Cloud Sync”,安装此套件；</li>
+<li>打开此套件，点击添加，选择百度云;</li>
+<li>授权DSM访问百度云；</li>
+<li>本地路径、远程路径需要选择正确；【远程路径我觉得应该指定某一个路径，而不是拖库下来】</li>
+<li>同步方向，我这里选择单向传输，只选择”仅下载远程更改”；</li>
+<li>启用一致性检查；</li>
+</ol>
+<p>设置完毕后，百度云上面的东西如果需要传输到本地，则在百度云中，将文件放入指定的目录中，内网的NAS会自动去同步文件，将文件拉取到本地。</p>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限，而且我百度云也有会员，速率上面我觉得还可以。</p>
+</blockquote>
+<blockquote>
+<p>这里的玩法还可以改一下，方向改为上传，则可以将加密数据定期上传至百度云。</p>
+</blockquote>
+<h4 id="第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1"><a href="#第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1" class="headerlink" title="第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1"></a>第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1</h4><ol>
+<li>需要安装Docker管理器，套件中心搜索”Container Manager”;【DSM6 以前好像是叫Docker】</li>
+<li>进入”Container Manager”的注册表，搜索baidunetdisk；【2024-07，国内Docker已经被封禁了，已经没有办法通过此方式搜索，唉~一声长叹】</li>
+<li>下载离线版本的Docker镜像，</li>
+<li>进入”Container Mangaer”中，进入”映像”，依次点击 操作/导入/从文件添加/从本地设备 ，导入刚才下载好的离线镜像；</li>
+<li>镜像导入进入后，在”Container Mangaer”中，进入”容器”，点击新增；</li>
+<li>映像选择刚刚的镜像”Johnshine/baidunetdisk-crossover-vnc”,勾选 “启动自动重新启动”，点击下一步；</li>
+<li>端口设置中，本地端口的映射需要填写，可以自定义填写，我这里就默认填写为 5901,6080；</li>
+<li>存储空间设置，需要添加一个文件夹，用于映射NAS本地路径与Docker中的文件路径，主要是给百度网盘下载文件存储用的，需要创建一个映射关系；</li>
+<li>Docker创建完后，打开浏览器，直接访问 NAS_IP:6080 , 登录进去访问即可；</li>
+</ol>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限。</p>
+</blockquote>
+<p>这里有一个安全问题，只要登录后，同网段访问此百度网盘路径，无论什么客户端均能访问，这个非常危险。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/09/22/%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7HCIBench/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2429,201 +2668,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/07/21/VCSA%E4%B8%AD%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E6%8C%89%E9%92%AE%E6%98%AF%E7%81%B0%E8%89%B2%E7%9A%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/07/21/VCSA%E4%B8%AD%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%81%E7%A7%BB%E6%8C%89%E9%92%AE%E6%98%AF%E7%81%B0%E8%89%B2%E7%9A%84/" itemprop="url">VCSA中虚拟机迁移按钮是灰色的</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-21T22:31:59+08:00">
-                2024-07-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>在VCSA中，选中目标虚拟机做迁移动作时，虚拟机的Migrate选项是灰色的，不可点击的。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>虚拟机处于备份状态中，无法进行vMotion。或者备份已经结束了，但虚拟机的状态未自动恢复正常。<br>在虚拟机备份完成后，没有移除 vCenter Server 数据库 vpx_disabled_methods 表中的条目时，可能会出现此问题。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li>确定目标虚拟机的ID，vm-xxxxx;</li>
-<li>WEB 浏览器打开这个地址:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># &lt;ExamplevCenterFQDNorIP&gt; 替换 为 VCSA 地址；</span><br><span class="line">https:&#x2F;&#x2F;&lt;ExamplevCenterFQDNorIP&gt;&#x2F;mob&#x2F;?moid&#x3D;AuthorizationManager&amp;method&#x3D;enableMethods</span><br></pre></td></tr></table></figure></li>
-<li>使用 SSO 账户登录；</li>
-<li>在 entity 的 VALUE 框中，将 MOID 替换为 虚拟机的ID；</li>
-<li>在 method 的 VALUE框中；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">填入 &lt;method&gt; RelocateVM_Task &lt;&#x2F;method&gt; ；</span><br></pre></td></tr></table></figure></li>
-<li>点击调用方法 Invoke Method;</li>
-<li>刷新浏览器，重新执行虚拟机vMotion；</li>
-</ol>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="https://knowledge.broadcom.com/external/article?legacyId=1029926" target="_blank" rel="noopener">https://knowledge.broadcom.com/external/article?legacyId=1029926</a><br><a href="https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html" target="_blank" rel="noopener">https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html</a><br><a href="https://blog.csdn.net/avenjan/article/details/135113397" target="_blank" rel="noopener">https://blog.csdn.net/avenjan/article/details/135113397</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2674,7 +2718,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">421</span>
+                  <span class="site-state-item-count">422</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2696,7 +2740,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">139</span>
+                  <span class="site-state-item-count">140</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
