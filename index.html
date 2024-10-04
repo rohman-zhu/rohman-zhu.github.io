@@ -270,6 +270,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/04/Bash-Shell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/04/Bash-Shell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/" itemprop="url">Bash-Shell常用脚本汇总</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-04T17:54:27+08:00">
+                2024-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index">
+                    <span itemprop="name">脚本</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="迁移文件"><a href="#迁移文件" class="headerlink" title="迁移文件"></a>迁移文件</h2><h3 id="递归查询与将文件迁移到上级目录"><a href="#递归查询与将文件迁移到上级目录" class="headerlink" title="递归查询与将文件迁移到上级目录"></a>递归查询与将文件迁移到上级目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Version:v1</span></span><br><span class="line"><span class="comment"># Date:2024-10-04</span></span><br><span class="line"><span class="comment"># Description: 遍历目标目录下的文件；</span></span><br><span class="line"></span><br><span class="line">target_diectoryName=<span class="variable">$1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> check-<span class="function"><span class="title">targetfoler</span></span>()&#123;</span><br><span class="line">    <span class="comment"># local 定义为局部变量，避免在递归过程中值在传递过程中，发生变更</span></span><br><span class="line">    <span class="built_in">local</span> target_folder=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">local</span> dir_depth=<span class="variable">$2</span></span><br><span class="line">    <span class="built_in">local</span> is_move=<span class="variable">$3</span> <span class="comment"># 1 表示迁移；0 表示不迁移；</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current parent folder is "</span><span class="variable">$target_folder</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current depth is "</span><span class="variable">$dir_depth</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current is_move flag is "</span><span class="variable">$is_move</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> `ls <span class="variable">$target_folder</span>`</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> [ -d <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为目录</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span><span class="string">" is a directory,continue to check"</span></span><br><span class="line">                </span><br><span class="line">                check-targetfoler <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> $((<span class="variable">$dir_depth</span> +1 )) 1</span><br><span class="line">            <span class="keyword">elif</span> [ -f <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为文件</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span><span class="string">" is a file"</span> </span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        <span class="keyword">done</span>   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> move-<span class="function"><span class="title">filetoparentfolder</span></span>()&#123;</span><br><span class="line">    <span class="comment"># local 定义为局部变量，避免在递归过程中值在传递过程中，发生变更</span></span><br><span class="line">    <span class="built_in">local</span> target_folder=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">local</span> dir_depth=<span class="variable">$2</span></span><br><span class="line">    <span class="built_in">local</span> is_move=<span class="variable">$3</span> <span class="comment"># 1 表示迁移；0 表示不迁移；</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current parent folder is "</span><span class="variable">$target_folder</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current depth is "</span><span class="variable">$dir_depth</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Current is_move flag is "</span><span class="variable">$is_move</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> `ls <span class="variable">$target_folder</span>`</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> [ -d <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为目录</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span><span class="string">" is a directory,continue to check"</span></span><br><span class="line">                </span><br><span class="line">                check-targetfoler <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> $((<span class="variable">$dir_depth</span> +1 )) 1</span><br><span class="line">            <span class="keyword">elif</span> [ -f <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为文件</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span><span class="string">" is a file"</span> </span><br><span class="line">                <span class="keyword">if</span> [ <span class="variable">$is_move</span> == 1 ]</span><br><span class="line">                <span class="keyword">then</span></span><br><span class="line">                    <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">"/"</span><span class="variable">$file</span><span class="string">" need to move"</span></span><br><span class="line">                    <span class="comment"># 获取上级目录的信息</span></span><br><span class="line">                    <span class="built_in">local</span> parent_folder=awk -F/ <span class="string">'&#123;print $1&#125;'</span></span><br><span class="line">                    mv <span class="variable">$target_foler</span><span class="string">"/"</span><span class="variable">$file</span> <span class="variable">$parent_folder</span><span class="string">"/"</span></span><br><span class="line">                <span class="keyword">fi</span></span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        <span class="keyword">done</span>   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 脚本的第一个参数为0 ， 这个跟Shell脚本有差异，Bash Shell脚本是 $1;Windows Shell 脚本是$args[0];</span></span><br><span class="line">move-filetoparentfolder <span class="variable">$target_diectoryName</span> 0 0</span><br></pre></td></tr></table></figure>
+
+<p>注意点：</p>
+<ol>
+<li>函数内的参数，要增加local变量，使参数变为局部变量，而不是全局变量；否则递归会失效；</li>
+<li>字符串切割，用awk -F指令，F后面要接切割字符，输出的时候是以1开始； awk -F/ ‘{print $1}’;</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/02/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E4%B8%8B%E8%BD%BD%E5%99%A8-%E6%B5%81%E5%AA%92%E4%BD%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -461,6 +651,68 @@
 <p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限。</p>
 </blockquote>
 <p>这里有一个安全问题，只要登录后，同网段访问此百度网盘路径，无论什么客户端均能访问，这个非常危险。</p>
+<p>这里需要添加一个VNC密码，环境变量为 vnc_password ，值就设置为密码。</p>
+<blockquote>
+<p>vnc_password 参数，参考 :<a href="https://www.modb.pro/db/127326" target="_blank" rel="noopener">https://www.modb.pro/db/127326</a></p>
+</blockquote>
+<h2 id="需求三，流服务器"><a href="#需求三，流服务器" class="headerlink" title="需求三，流服务器"></a>需求三，流服务器</h2><h3 id="Jellyfin"><a href="#Jellyfin" class="headerlink" title="Jellyfin"></a>Jellyfin</h3><p>可以直接在套件中心搜索，Jellyfin 点击安装；</p>
+<h4 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h4><ol>
+<li>权限，Jellyfin 仅需要只读权限即可；</li>
+<li>刮削插件如果没有就绪，可以先不要开启，否则会影响扫描；</li>
+</ol>
+<h5 id="套件中心部署"><a href="#套件中心部署" class="headerlink" title="套件中心部署"></a>套件中心部署</h5><p>直接在DSM的套件中心搜索，Jellyfin默认安装即可；</p>
+<p>安装完毕后在浏览器中输入 [IP]:8096 ，进入初始化界面；</p>
+<h5 id="Docker方式部署-Jellyfin"><a href="#Docker方式部署-Jellyfin" class="headerlink" title="Docker方式部署 Jellyfin"></a>Docker方式部署 Jellyfin</h5><p>好像有一个比较出名的镜像，是 nyanmisaka/jellyfin ，是一个大佬封装的docker镜像，里面集成了驱动；不过我本次还是先用官方镜像部署吧；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">docker pull dockerproxy.cn/jellyfin/jellyfin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin -p 8096:8096 \</span><br><span class="line">-v /home/rohman/docker/jellyfin/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin/media:/media \</span><br><span class="line">--device=/dev/dri:/dev/dri \</span><br><span class="line">dockerproxy.cn/jellyfin/jellyfin:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin-n -p 8097:8096 \</span><br><span class="line">--net=host \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/media:/media \</span><br><span class="line">dockerproxy.cn/nyanmisaka/jellyfin:latest</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>media 目录，仅需要只读权限即可；</p>
+</blockquote>
+<h6 id="设置刮片源解析"><a href="#设置刮片源解析" class="headerlink" title="设置刮片源解析"></a>设置刮片源解析</h6><p>数据源 api.themoviedb.org<br>数据源 api.thetvdb.org<br>图片源 image.tmdb.org<br>图片源 image.thetvdb.org</p>
+<p>使用 <a href="https://www.itdog.cn/ping" target="_blank" rel="noopener">https://www.itdog.cn/ping</a> ,检测这四个域名可用的解析地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 更新时间 2024-10-04</span><br><span class="line"></span><br><span class="line"># api.themoviedb.org 解析地址为</span><br><span class="line">3.167.212.66 api.themoviedb.org</span><br><span class="line">18.172.31.15 api.themoviedb.org</span><br><span class="line"></span><br><span class="line"># api.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line"></span><br><span class="line"># image.tmdb.org 解析地址为</span><br><span class="line">143.244.50.89 image.tmdb.org </span><br><span class="line">143.244.50.83 image.tmdb.org </span><br><span class="line"></span><br><span class="line"># image.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 image.thetvdb.org</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置媒体库"><a href="#设置媒体库" class="headerlink" title="设置媒体库"></a>设置媒体库</h5><p>关于电影，选择类型要选择“电影”；</p>
+<p>关于电视剧，选择类型要选择“节目”；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 目录结构为</span><br><span class="line">tvshows&#x2F;</span><br><span class="line">├── 苍兰诀.2022</span><br><span class="line">│   ├── backdrop.jpg</span><br><span class="line">│   ├── folder.jpg</span><br><span class="line">│   ├── logo.png</span><br><span class="line">│   ├── Season.1</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.nfo</span><br><span class="line">│   │   ├── folder.jpg</span><br><span class="line">│   │   ├── metadata</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E01.jpg</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E02.jpg</span><br><span class="line">│   │   │   └── 苍兰诀.2022.S01E03.jpg</span><br><span class="line">│   │   └── season.nfo</span><br><span class="line">│   └── tvshow.nfo</span><br></pre></td></tr></table></figure>
+
+<h4 id="MetaTube-部署"><a href="#MetaTube-部署" class="headerlink" title="MetaTube 部署"></a>MetaTube 部署</h4><p>MetaTube 本质上一个爬虫软件，可以集成到Jellyfin里面，为影片抓取文本与海报信息；</p>
+<blockquote>
+<p>参考: <a href="https://metatube-community.github.io/README_ZH/" target="_blank" rel="noopener">https://metatube-community.github.io/README_ZH/</a></p>
+</blockquote>
+<p>本次采用Docker安装，Docker在国内已经很难打开了，需要使用代理：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 亲测可用 ，https://dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 使用方式一，在拉取时，增加字段dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 如 docker pull whyour/qinglong:latest 变更为 docker pull dockerproxy.cn/whyour/qinglong:latest</span></span><br><span class="line"><span class="comment"># 方式二，未实测</span></span><br><span class="line"><span class="comment"># 修改文件 /etc/docker/daemon.json（如果不存在则创建）</span></span><br><span class="line"><span class="comment"># 修改此文件，添加 ：&#123;"registry-mirrors": ["https://dockerproxy.cn"]&#125;</span></span><br><span class="line"><span class="comment"># sudo systemctl daemon-reload #重载systemd管理守护进程配置文件</span></span><br><span class="line"><span class="comment"># sudo systemctl restart docker #重启 Docker 服务</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站二：https://www.rainbond.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站三：https://docker.udayun.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站四：https://docker.211678.top/</span></span><br></pre></td></tr></table></figure>
+
+<p>部署MetaTube插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取MetaTube的Docker镜像</span></span><br><span class="line">docker pull dockerproxy.cn/metatube/metatube-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Docker</span></span><br><span class="line"><span class="comment"># 内存模式</span></span><br><span class="line">docker run -d -p 8080:8080 --name metatube metatube/metatube-server:latest</span><br><span class="line"><span class="comment"># 数据库模式</span></span><br><span class="line">docker run -d -p 8080:8080 -v <span class="variable">$PWD</span>/config:/config --name metatube metatube/metatube-server:latest -dsn /config/metatube.db --TOKEN [Token]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署完成后，端口映射为8080，仅需要使用服务器地址+端口即可验证是否成功部署</span></span><br><span class="line">curl [IP]:8080</span><br><span class="line"><span class="comment"># 返回以下值，代表部署成功</span></span><br><span class="line"><span class="comment"># &#123;"data":&#123;"app":"metatube","version":"v1.2.7-43f17e0"&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要更新MetaTube时,需要将Docker关闭，移除后重新部署；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop metatube</span><br><span class="line">docker rm metatube</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加中文字幕"><a href="#添加中文字幕" class="headerlink" title="添加中文字幕"></a>添加中文字幕</h5><p>参考：<a href="https://metatube-community.github.io/wiki/chinese-subtitle/" target="_blank" rel="noopener">https://metatube-community.github.io/wiki/chinese-subtitle/</a></p>
+<p>MetaTube 插件对于以下几种情况，会自动为影片添加中文字幕标签：</p>
+<p>视频以-C或-ch后缀结尾，例如某堂下载的中字资源，视频目录下存在.chi，.chs，.cht，.zh，.zh-cn等结尾的字幕文件；</p>
+<blockquote>
+<p>这是影片文件的命名规范之一。</p>
+</blockquote>
+<h5 id="查看数据源"><a href="#查看数据源" class="headerlink" title="查看数据源"></a>查看数据源</h5><blockquote>
+<p>参考：<a href="https://metatube-community.github.io/wiki/metadata-providers/" target="_blank" rel="noopener">https://metatube-community.github.io/wiki/metadata-providers/</a></p>
+</blockquote>
+<p>可以在 /v1/providers 的 API endpoint 下查看所有后端开启的刮削源。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"data"</span>: &#123;</span><br><span class="line">    <span class="string">"actor_providers"</span>: &#123;</span><br><span class="line">      <span class="string">"AV-LEAGUE"</span>: <span class="string">"https://www.av-league.com/"</span>,</span><br><span class="line">      <span class="string">"Gfriends"</span>: <span class="string">"https://github.com/gfriends/gfriends"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"movie_providers"</span>: &#123;</span><br><span class="line">      <span class="string">"10musume"</span>: <span class="string">"https://www.10musume.com/"</span>,</span><br><span class="line">      <span class="string">"1Pondo"</span>: <span class="string">"https://www.1pondo.tv/"</span>,</span><br><span class="line">      <span class="string">"AIRAV"</span>: <span class="string">"https://www.airav.wiki/"</span>,</span><br><span class="line">      <span class="string">"ARZON"</span>: <span class="string">"https://www.arzon.jp/"</span>,</span><br><span class="line">      <span class="string">"AVBASE"</span>: <span class="string">"https://www.avbase.net/"</span>,</span><br><span class="line">      <span class="string">"AVE"</span>: <span class="string">"https://www.aventertainments.com/"</span>,</span><br><span class="line">      <span class="string">"C0930"</span>: <span class="string">"https://www.c0930.com/"</span>,</span><br><span class="line">      <span class="string">"Caribbeancom"</span>: <span class="string">"https://www.caribbeancom.com/"</span>,</span><br><span class="line">      <span class="string">"CaribbeancomPR"</span>: <span class="string">"https://www.caribbeancompr.com/"</span>,</span><br><span class="line">      <span class="string">"DAHLIA"</span>: <span class="string">"https://dahlia-av.jp/"</span>,</span><br><span class="line">      <span class="string">"DUGA"</span>: <span class="string">"https://duga.jp/"</span>,</span><br><span class="line">      <span class="string">"FALENO"</span>: <span class="string">"https://faleno.jp/top/"</span>,</span><br><span class="line">      <span class="string">"FANZA"</span>: <span class="string">"https://www.dmm.co.jp/"</span>,</span><br><span class="line">      <span class="string">"FC2"</span>: <span class="string">"https://adult.contents.fc2.com/"</span>,</span><br><span class="line">      <span class="string">"Gcolle"</span>: <span class="string">"https://gcolle.net/"</span>,</span><br><span class="line">      <span class="string">"Getchu"</span>: <span class="string">"https://dl.getchu.com/"</span>,</span><br><span class="line">      <span class="string">"H0930"</span>: <span class="string">"https://www.h0930.com/"</span>,</span><br><span class="line">      <span class="string">"H4610"</span>: <span class="string">"https://www.h4610.com/"</span>,</span><br><span class="line">      <span class="string">"HEYZO"</span>: <span class="string">"https://www.heyzo.com/"</span>,</span><br><span class="line">      <span class="string">"HeyDouga"</span>: <span class="string">"https://www.heydouga.com/"</span>,</span><br><span class="line">      <span class="string">"JAV321"</span>: <span class="string">"https://www.jav321.com/"</span>,</span><br><span class="line">      <span class="string">"JavBus"</span>: <span class="string">"https://www.javbus.com/"</span>,</span><br><span class="line">      <span class="string">"KIN8"</span>: <span class="string">"https://www.kin8tengoku.com/"</span>,</span><br><span class="line">      <span class="string">"MGS"</span>: <span class="string">"https://www.mgstage.com/"</span>,</span><br><span class="line">      <span class="string">"MURAMURA"</span>: <span class="string">"https://www.muramura.tv/"</span>,</span><br><span class="line">      <span class="string">"MYWIFE"</span>: <span class="string">"https://mywife.cc/"</span>,</span><br><span class="line">      <span class="string">"PACOPACOMAMA"</span>: <span class="string">"https://www.pacopacomama.com/"</span>,</span><br><span class="line">      <span class="string">"Pcolle"</span>: <span class="string">"https://www.pcolle.com/"</span>,</span><br><span class="line">      <span class="string">"SOD"</span>: <span class="string">"https://ec.sod.co.jp/prime/"</span>,</span><br><span class="line">      <span class="string">"TOKYO-HOT"</span>: <span class="string">"https://my.tokyo-hot.com/"</span>,</span><br><span class="line">      <span class="string">"XXX-AV"</span>: <span class="string">"https://www.xxx-av.com/"</span>,</span><br><span class="line">      <span class="string">"fc2hub"</span>: <span class="string">"https://javten.com/"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="调整刮削源优先级"><a href="#调整刮削源优先级" class="headerlink" title="调整刮削源优先级"></a>调整刮削源优先级</h6><p>现在通过设置环境变量即可手动修改 MetaTube Server 的刮削源优先级。</p>
+<p>例如：</p>
+<ul>
+<li>将AVBASE的优先级设置为 1000：export MT_MOVIE_PROVIDER_PRIORITY_AVBASE=1000</li>
+<li>将GFriends的优先级设置为 99：export MT_ACTOR_PROVIDER_PRIORITY_GFRIENDS=99</li>
+<li>将ARZON从刮削源中移除（设置为 0）：export MT_MOVIE_PROVIDER_PRIORITY_ARZON=0</li>
+</ul>
+<blockquote>
+<p>注意：刮削源名称以及默认优先级请参考 provider 目录下的具体刮削源中的 Name 和 Priority 字段。 优先级通常应当设置在 1000 ± 10 范围以保证最佳刮削排序质量。</p>
+</blockquote>
+<h5 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h5><p>影片名主要格式为 [字母]-[番号] ， 可以不区分大小写，但要区分下划线-与_ ,这里使用的是-；</p>
+<p>如果要添加中文字符，则需要加 -C;</p>
 
           
         
@@ -2405,269 +2657,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/07/28/Powershell-NTFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%AE%BE%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A4%B9ACL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/07/28/Powershell-NTFS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%8B%E8%AE%BE%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A4%B9ACL/" itemprop="url">Powershell-NTFS文件系统下设置文件夹ACL</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-28T16:22:05+08:00">
-                2024-07-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows Server</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>通过脚本，设置C盘根目录下除了用户文件，其他文件夹禁止用户写入数据；</p>
-<h1 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h1><p>对C盘根目录设置 ACL，主要有以下三点：</p>
-<ol>
-<li>仅对 C 盘 此目录；</li>
-<li>设置用户范围为 BUILTIN\Users；</li>
-<li>设置 拒绝写入；</li>
-</ol>
-<h1 id="目录权限拟定方案"><a href="#目录权限拟定方案" class="headerlink" title="目录权限拟定方案"></a>目录权限拟定方案</h1><table>
-<thead>
-<tr>
-<th align="left">目录</th>
-<th align="left">范围</th>
-<th align="center">权限</th>
-<th align="left">动作</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">C:</td>
-<td align="left">folder</td>
-<td align="center">Write</td>
-<td align="left">Deny</td>
-</tr>
-<tr>
-<td align="left">Custom Folder</td>
-<td align="left">folder,sub folder,file</td>
-<td align="center">FullControl</td>
-<td align="left">Deny</td>
-</tr>
-<tr>
-<td align="left">PerfLogs</td>
-<td align="left">DEFAULT</td>
-<td align="center">DEFAULT</td>
-<td align="left">DEFAULT</td>
-</tr>
-<tr>
-<td align="left">Program Files</td>
-<td align="left">DEFAULT</td>
-<td align="center">DEFAULT</td>
-<td align="left">DEFAULT</td>
-</tr>
-<tr>
-<td align="left">Program Files(x86)</td>
-<td align="left">DEFAULT</td>
-<td align="center">DEFAULT</td>
-<td align="left">DEFAULT</td>
-</tr>
-<tr>
-<td align="left">Users</td>
-<td align="left">DEFAULT</td>
-<td align="center">DEFAULT</td>
-<td align="left">DEFAULT</td>
-</tr>
-<tr>
-<td align="left">Windows</td>
-<td align="left">DEFAULT</td>
-<td align="center">DEFAULT</td>
-<td align="left">DEFAULT</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>获取隐藏目录，Get-ChildItem [path] -Force</p>
-</blockquote>
-<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h1><h2 id="v1"><a href="#v1" class="headerlink" title="v1"></a>v1</h2><p>对指定目录设置禁止写入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;#Golbal Constant #&gt;</span><br><span class="line">$ACL_BASE_PERMISSION_FULLCONTROL&#x3D;&quot;FullControl&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_WRITE&#x3D;&quot;Write&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_READ&#x3D;&quot;Read&quot;;</span><br><span class="line"></span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_ALLOW&#x3D;&quot;Allow&quot;;</span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_DENY&#x3D;&quot;Deny&quot;;</span><br><span class="line"></span><br><span class="line"># 备注：可以让C盘拒绝写入</span><br><span class="line">Function Set-TargetFolderToDenyWrite()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_WRITE,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_WRITE -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 备注：非系统目录，则可以设置完全拒绝</span><br><span class="line">Function Set-TargetFolderToDenyFC()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Remote Desktop Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_FULLCONTROL -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意：上述动作仅对路径中的绝对目录生效，子目录是不生效的；</p>
-</blockquote>
-<h2 id="v2"><a href="#v2" class="headerlink" title="v2"></a>v2</h2><p>对指定目录设置禁止写入，并启用继承；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;#Golbal Constant #&gt;</span><br><span class="line">$ACL_BASE_PERMISSION_FULLCONTROL&#x3D;&quot;FullControl&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_WRITE&#x3D;&quot;Write&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_READ&#x3D;&quot;Read&quot;;</span><br><span class="line"></span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_ALLOW&#x3D;&quot;Allow&quot;;</span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_DENY&#x3D;&quot;Deny&quot;;</span><br><span class="line"></span><br><span class="line"># 备注：可以让C盘拒绝写入</span><br><span class="line">Function Set-TargetFolderToDenyWrite()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_WRITE,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_WRITE -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 备注：非系统目录，则可以设置完全拒绝</span><br><span class="line">Function Set-TargetFolderToDenyFC()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Remote Desktop Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line"></span><br><span class="line">    #$NewAcl.SetAccessRuleProtection($isProtected, $preserveInheritance)</span><br><span class="line">    # $isProtected &#x3D; $TRUE,表示禁用继承；</span><br><span class="line">    # $preserveInheritance &#x3D; $TRUE,表示继承的权限保存；</span><br><span class="line">    # 第一个参数负责阻止从父文件夹继承，$FALSE为继承父目录权限;</span><br><span class="line">    # 第二个参数用于删除当前继承的权限，$TRUE为不删除当前继承的权限;    </span><br><span class="line">    #$CURRENT_ACL.SetAccessRuleProtection($FALSE,$TRUE);</span><br><span class="line"></span><br><span class="line">    # 第一个参数负责阻止从父文件夹继承，$TRUE为不继承父目录全新；</span><br><span class="line">    # 第二个参数用于删除当前继承的权限，$FALSE为删除当前继承的权限;</span><br><span class="line">    #$CURRENT_ACL.SetAccessRuleProtection($TRUE,$FALSE);</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_FULLCONTROL -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这个版本仅设置的是目标目录，作用范围仅是“此目录”；</p>
-</blockquote>
-<h2 id="v3"><a href="#v3" class="headerlink" title="v3"></a>v3</h2><p>要对 “此文件夹、子文件夹、文件”设置权限。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&lt;#Golbal Constant #&gt;</span><br><span class="line">$ACL_BASE_PERMISSION_FULLCONTROL&#x3D;&quot;FullControl&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_WRITE&#x3D;&quot;Write&quot;;</span><br><span class="line">$ACL_BASE_PERMISSION_READ&#x3D;&quot;Read&quot;;</span><br><span class="line"></span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_ALLOW&#x3D;&quot;Allow&quot;;</span><br><span class="line">$ACL_ACCESS_CONTROL_TYPE_DENY&#x3D;&quot;Deny&quot;;</span><br><span class="line"></span><br><span class="line"># 备注：可以让C盘拒绝写入</span><br><span class="line">Function Set-TargetFolderToDenyWrite()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_WRITE,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_WRITE -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 备注：非系统目录，则可以设置完全拒绝</span><br><span class="line"># 范围：目标目录，“此目录”</span><br><span class="line">Function Set-TargetFolderToDenyFC()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Remote Desktop Users&quot;;</span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_FULLCONTROL -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 备注：非系统目录，则可以设置完全拒绝</span><br><span class="line"># 范围：此目录，子目录，文件</span><br><span class="line">Function Set-TargetFolderALLToDenyFC()&#123;</span><br><span class="line">    param($TARGET_FOLDER);</span><br><span class="line">    $IS_DENY_USER_ACL&#x3D;$FALSE;</span><br><span class="line"></span><br><span class="line">    $TARGET_USER&#x3D;&quot;Remote Desktop Users&quot;;</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [System.Security.AccessControl.InheritanceFlags]::ObjectInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::None</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL $TARGET_FOLDER;</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line">    $CURRENT_ACL.SetAccessRule($ACCESS_RULE);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL | Set-ACL -Path $TARGET_FOLDER;</span><br><span class="line"></span><br><span class="line">    $CURRENT_ACL&#x3D;Get-ACL -Path $TARGET_FOLDER;</span><br><span class="line">    $CHECK_STATUS&#x3D;$CURRENT_ACL.Access | Where-Object &#123;$_.FileSystemRights -eq $ACL_BASE_PERMISSION_FULLCONTROL -and $_.AccessControlType -eq $ACL_ACCESS_CONTROL_TYPE_DENY -and $_.IdentityReference -match &quot;BUILTIN\\$TARGET_USER&quot;&#125;;</span><br><span class="line"></span><br><span class="line">    if($null -ne $CHECK_STATUS)&#123;</span><br><span class="line">        $IS_DENY_USER_ACL&#x3D;$TRUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $IS_DENY_USER_ACL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.51cto.com/ganzy/6926601" target="_blank" rel="noopener">https://blog.51cto.com/ganzy/6926601</a><br><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-acl?view=powershell-7.4" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-acl?view=powershell-7.4</a></p>
-<h2 id="来自-https-www-codenong-com-3282656"><a href="#来自-https-www-codenong-com-3282656" class="headerlink" title="来自 https://www.codenong.com/3282656/"></a>来自 <a href="https://www.codenong.com/3282656/" target="_blank" rel="noopener">https://www.codenong.com/3282656/</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># 关于NTFS各个目录范围设置列举：</span><br><span class="line"></span><br><span class="line">    ╔═════════════╦═════════════╦═══════════════════════════════╦════════════════════════╦══════════════════╦═══════════════════════╦═════════════╦═════════════╗</span><br><span class="line">    ║             ║ folder only ║ folder, sub-folders and files ║ folder and sub-folders ║ folder and files ║ sub-folders and files ║ sub-folders ║    files    ║</span><br><span class="line">    ╠═════════════╬═════════════╬═══════════════════════════════╬════════════════════════╬══════════════════╬═══════════════════════╬═════════════╬═════════════╣</span><br><span class="line">    ║ Propagation ║ none        ║ none                          ║ none                   ║ none             ║ InheritOnly           ║ InheritOnly ║ InheritOnly ║</span><br><span class="line">    ║ Inheritance ║ none        ║ Container|Object              ║ Container              ║ Object           ║ Container|Object      ║ Container   ║ Object      ║</span><br><span class="line">    ╚═════════════╩═════════════╩═══════════════════════════════╩════════════════════════╩══════════════════╩═══════════════════════╩═════════════╩═════════════╝</span><br><span class="line"></span><br><span class="line"># folder only</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::None</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::None</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># folder, sub-folders and files</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [System.Security.AccessControl.InheritanceFlags]::ObjectInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::None</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># folder and sub-folders </span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ContainerInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::None</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># folder and files</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ObjectInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::None</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># sub-folders and files</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [System.Security.AccessControl.InheritanceFlags]::ObjectInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::InheritOnly</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># sub-folders</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ContainerInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::InheritOnly</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br><span class="line"></span><br><span class="line"># files</span><br><span class="line">    $INHERITANCE_FLAG &#x3D; [System.Security.AccessControl.InheritanceFlags]::ObjectInherit</span><br><span class="line">    $PROPAGATION_FLAG &#x3D; [System.Security.AccessControl.PropagationFlags]::InheritOnly</span><br><span class="line">    $ACCESS_RULE&#x3D;New-Object System.Security.AccessControl.FileSystemAccessRule($TARGET_USER,$ACL_BASE_PERMISSION_FULLCONTROL,$INHERITANCE_FLAG,$PROPAGATION_FLAG,$ACL_ACCESS_CONTROL_TYPE_DENY);</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2718,7 +2707,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">422</span>
+                  <span class="site-state-item-count">423</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
