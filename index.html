@@ -270,6 +270,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/05/Docker%E5%AE%9E%E4%BE%8B-ncmdump%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/05/Docker%E5%AE%9E%E4%BE%8B-ncmdump%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%E9%83%A8%E7%BD%B2/" itemprop="url">Docker实例-ncmdump转换工具部署</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-05T21:40:40+08:00">
+                2024-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求背景描述"><a href="#需求背景描述" class="headerlink" title="需求背景描述"></a>需求背景描述</h1><p>网易云音乐是ncm格式的，目前Github上面有开源的项目，可以转换ncm文件为mp3格式，项目地址 <a href="https://github.com/taurusxin/ncmdump">https://github.com/taurusxin/ncmdump</a></p>
+<p>编译出一个ncmdump文件，是一个可执行文件，指令为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ncmdump -v</span><br><span class="line"></span><br><span class="line">ncmdump -d source_dir</span><br><span class="line"></span><br><span class="line">ncmdump -d source_dir -r</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理单个或多个文件并输出到指定目录</span></span><br><span class="line">ncmdump 1.ncm 2.ncm -o output_dir</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理文件夹下的所有以 ncm 为扩展名并输出到指定目录，不包含子文件夹</span></span><br><span class="line">ncmdump -d source_dir -o output_dir</span><br><span class="line"></span><br><span class="line"><span class="comment"># 递归处理文件夹并输出到指定目录，并保留目录结构</span></span><br><span class="line">ncmdump -d source_dir -o output_dir -r</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译ncmdump文件"><a href="#编译ncmdump文件" class="headerlink" title="编译ncmdump文件"></a>编译ncmdump文件</h2><p>需要有git指令与编译环境所需的环境，指令为 git ， cmake</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆仓库</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/taurusxin/ncmdump.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新子模块</span></span><br><span class="line"><span class="built_in">cd</span> ncmdump</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line"></span><br><span class="line"><span class="comment"># CMake编译</span></span><br><span class="line"><span class="comment"># Linux / macOS</span></span><br><span class="line">cmake -DCMAKE_BUILD_TYPE=Release -B build</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows MinGW / Linux / macOS</span></span><br><span class="line">cmake --build build -j 8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译完后会产生ncmdump</span></span><br><span class="line"><span class="comment"># 可以拷贝到 /bin 目录下面</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="转成Docker形式"><a href="#转成Docker形式" class="headerlink" title="转成Docker形式"></a>转成Docker形式</h2><p>因为 ncmdump 是需要一个OS环境处理的，想到可以弄成Docker，分为两个路径 ，分别是原文件的 orgin_file ， 转化后的文件 convert_file 文件夹；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取 ubuntu 20.04 的镜像</span></span><br><span class="line">docker pull dockerproxy.cn/ubuntu:20.04</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 ubuntu 20.04 的容器</span></span><br><span class="line">docker run -it --name ncmdump dockerproxy.cn/ubuntu:20.04</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 ncmdump 放入容器</span></span><br><span class="line">docker cp ./ncmdump ncmdump:/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接 docker</span></span><br><span class="line">docker <span class="built_in">exec</span> -it ncmdump /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment">## 进入docker</span></span><br><span class="line"><span class="comment"># 赋予ncmdump执行权限</span></span><br><span class="line">chmod +x /bin/ncmdump</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装cron自动执行脚本</span></span><br><span class="line">apt-get update</span><br><span class="line">apt-get install cron</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑自动执行的脚本</span></span><br><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+
+<p>将ncm的文件放入 orgin_file ， 转化后的文件即可放置到 convert_file ；</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/04/Bash-Shell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -688,7 +871,6 @@
 
 <p>需要更新MetaTube时,需要将Docker关闭，移除后重新部署；</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop metatube</span><br><span class="line">docker rm metatube</span><br></pre></td></tr></table></figure>
-
 <h5 id="添加中文字幕"><a href="#添加中文字幕" class="headerlink" title="添加中文字幕"></a>添加中文字幕</h5><p>参考：<a href="https://metatube-community.github.io/wiki/chinese-subtitle/" target="_blank" rel="noopener">https://metatube-community.github.io/wiki/chinese-subtitle/</a></p>
 <p>MetaTube 插件对于以下几种情况，会自动为影片添加中文字幕标签：</p>
 <p>视频以-C或-ch后缀结尾，例如某堂下载的中字资源，视频目录下存在.chi，.chs，.cht，.zh，.zh-cn等结尾的字幕文件；</p>
@@ -713,6 +895,14 @@
 </blockquote>
 <h5 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h5><p>影片名主要格式为 [字母]-[番号] ， 可以不区分大小写，但要区分下划线-与_ ,这里使用的是-；</p>
 <p>如果要添加中文字符，则需要加 -C;</p>
+<h4 id="Jellyfin-中安装MetaTube插件"><a href="#Jellyfin-中安装MetaTube插件" class="headerlink" title="Jellyfin 中安装MetaTube插件"></a>Jellyfin 中安装MetaTube插件</h4><ol>
+<li>进入 Jellyfin 控制台 &gt; 插件 &gt; 存储库，点击添加</li>
+<li>输入存储库名称：MetaTube</li>
+<li>输入存储库URL：<a href="https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json" target="_blank" rel="noopener">https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json</a></li>
+<li>在插件目录下找到 MetaTube，点击安装</li>
+<li>重启Jellyfin</li>
+<li>适用于中国大陆的存储库URL：<a href="https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json（可能有缓存）" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json（可能有缓存）</a></li>
+</ol>
 
           
         
@@ -2470,193 +2660,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/07/28/Powershell-%E8%AE%BE%E7%BD%AE%E7%BB%88%E7%AB%AF%E9%A2%9C%E8%89%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/07/28/Powershell-%E8%AE%BE%E7%BD%AE%E7%BB%88%E7%AB%AF%E9%A2%9C%E8%89%B2/" itemprop="url">Powershell-设置终端颜色</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-28T16:27:25+08:00">
-                2024-07-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows Server</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows-Server/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>Powershell默认背景是黑色的，需要调整</p>
-<h1 id="设置过程"><a href="#设置过程" class="headerlink" title="设置过程"></a>设置过程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 查看当前配色方案</span><br><span class="line">Get-PSReadLineOption</span><br><span class="line"></span><br><span class="line"># 设置具体</span><br><span class="line">Set-PSReadLineOption -Colors @&#123;&quot;String&quot;&#x3D;&quot;yellow&quot;&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://learn.microsoft.com/zh-cn/powershell/module/PSReadline/Set-PSReadlineOption?view=powershell-7.4" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/powershell/module/PSReadline/Set-PSReadlineOption?view=powershell-7.4</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2707,7 +2710,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">423</span>
+                  <span class="site-state-item-count">424</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

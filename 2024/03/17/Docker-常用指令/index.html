@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="查看版本1docker version  获取镜像1docker pull [image name]  运行容器12345678docker run --name [docker name] -d -p [host port]:[dokcer port] [image name]docker run  -td --name [docker name] -d -p [host port]:[dokc">
+<meta name="description" content="查看版本1docker version  获取镜像1234docker pull [image name]# 增加代理docker pull dockerproxy.cn&#x2F;[image name]:[version]  运行容器12345678docker run --name [docker name] -d -p [host port]:[dokcer port] [image name]do">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker-常用指令">
 <meta property="og:url" content="http://github.com/rohman-zhu/2024/03/17/Docker-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="查看版本1docker version  获取镜像1docker pull [image name]  运行容器12345678docker run --name [docker name] -d -p [host port]:[dokcer port] [image name]docker run  -td --name [docker name] -d -p [host port]:[dokc">
+<meta property="og:description" content="查看版本1docker version  获取镜像1234docker pull [image name]# 增加代理docker pull dockerproxy.cn&#x2F;[image name]:[version]  运行容器12345678docker run --name [docker name] -d -p [host port]:[dokcer port] [image name]do">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-17T06:41:00.000Z">
-<meta property="article:modified_time" content="2024-03-24T08:15:20.831Z">
+<meta property="article:modified_time" content="2024-10-05T14:00:23.592Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta name="twitter:card" content="summary">
@@ -396,7 +396,7 @@
       
         <h1 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker version</span><br></pre></td></tr></table></figure>
 
-<h1 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull [image name]</span><br></pre></td></tr></table></figure>
+<h1 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull [image name]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加代理</span></span><br><span class="line">docker pull dockerproxy.cn/[image name]:[version]</span><br></pre></td></tr></table></figure>
 
 <h1 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run --name [docker name] -d -p [host port]:[dokcer port] [image name]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run  -td --name [docker name] -d -p [host port]:[dokcer port] [image name]</span><br><span class="line"><span class="comment"># -t表示为容器分配伪终端</span></span><br><span class="line"><span class="comment"># -d表示让容器在后台运行</span></span><br><span class="line"><span class="comment"># 如果只是用-t选项，不使用-d选项，为容器分配的伪终端会直接占用host的命令行，所以，-t选项配合-d选项，让容器在后台运行，可以避免容器一直占用host的命令行窗口，并持续运行容器。</span></span><br><span class="line"><span class="comment"># 如果只使用-d选项，不使用-t选项，会无法正常运行容器，原因是pid为1的主进程结束时，容器也会自动停止，具体情况是这样的，这些操作系统类的基础镜像默认运行的程序通常都是shell，比如bash，也就是说，bash是容器中的主进程，pid是1，如果不使用-t选项为bash分配伪终端，单独执行bash命令后，bash进程就直接结束了（没有绑定任何终端，相当于执行bash命令后一闪而过，没有任何输入输出，直接结束进程）</span></span><br></pre></td></tr></table></figure>
 
@@ -412,7 +412,7 @@
 
 <h1 id="查看docker对象的详细信息"><a href="#查看docker对象的详细信息" class="headerlink" title="查看docker对象的详细信息"></a>查看docker对象的详细信息</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect [docker name]</span><br></pre></td></tr></table></figure>
 
-<h1 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先停止运行的容器才能删除目标容器</span></span><br><span class="line">docker rm [docker name]</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<h1 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先停止运行的容器才能删除目标容器</span></span><br><span class="line">docker rm [docker name]</span><br><span class="line">docker ps</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
 
 <h1 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi [image name]</span><br></pre></td></tr></table></figure>
       
@@ -533,7 +533,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">423</span>
+                  <span class="site-state-item-count">424</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
