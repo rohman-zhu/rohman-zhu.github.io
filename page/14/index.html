@@ -270,6 +270,467 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/10/Powershell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/05/10/Powershell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/" itemprop="url">Powershell常用脚本汇总</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-10T00:15:36+08:00">
+                2022-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="常用脚本与指令合集"><a href="#常用脚本与指令合集" class="headerlink" title="常用脚本与指令合集"></a>常用脚本与指令合集</h1><h2 id="导出csv"><a href="#导出csv" class="headerlink" title="导出csv"></a>导出csv</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Export-Csv [目标文件名] </span><br><span class="line">Export-Csv [目标文件名] -Delimiter &quot;分隔符&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="特殊字符转意"><a href="#特殊字符转意" class="headerlink" title="特殊字符转意"></a>特殊字符转意</h2><p>需要使用单引号转意 `</p>
+<h2 id="获取系统启动时间"><a href="#获取系统启动时间" class="headerlink" title="获取系统启动时间"></a>获取系统启动时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Get-Process wininit).StartTime</span><br></pre></td></tr></table></figure>
+
+<h2 id="Invoke-Command-传递参数"><a href="#Invoke-Command-传递参数" class="headerlink" title="Invoke-Command 传递参数"></a>Invoke-Command 传递参数</h2><p>Invoke-Command指令，需要带上-ArgumentList 传递参数<br>代码块使用Param()捕获参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command xxxxxxx -ArgumentList 参数1 -ScriptBlock &#123;Param($捕获参数1) ; xxx使用 $捕获参数1 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递多个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command -ArgumentList [$参数1],[$参数2],[$参数3] -ScriptBlock &#123;Param($参数1,$参数2,$参数3)&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取当前时间"><a href="#获取当前时间" class="headerlink" title="获取当前时间"></a>获取当前时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Date -Format &quot;[yyyy-MM-dd][hh:mm]&quot;</span><br></pre></td></tr></table></figure>
+
+<p>常用于打印Log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function GetLog($logLevel,$logInfo)&#123;</span><br><span class="line">  &quot;$(Get-Date -Format &quot;[yyyy-MM-dd][hh:mm]&quot;)[$logLevel],[$logInfo]&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="While-语句"><a href="#While-语句" class="headerlink" title="While 语句"></a>While 语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">while (&lt;condition&gt;)&#123;&lt;statement list&gt;&#125;</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line"></span><br><span class="line">while($val -ne 3)</span><br><span class="line">&#123;</span><br><span class="line">    $val++</span><br><span class="line">    Write-Host $val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Switch-语句"><a href="#Switch-语句" class="headerlink" title="Switch 语句"></a>Switch 语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Switch (&lt;test-expression&gt;)</span><br><span class="line">&#123;</span><br><span class="line">    &lt;result1-to-be-matched&gt; &#123;&lt;action&gt;&#125;;</span><br><span class="line">    &lt;result2-to-be-matched&gt; &#123;&lt;action&gt;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">## Examples:</span><br><span class="line">switch (3)</span><br><span class="line">&#123;</span><br><span class="line">    1 &#123;&quot;It is one.&quot;&#125;</span><br><span class="line">    2 &#123;&quot;It is two.&quot;&#125;</span><br><span class="line">    3 &#123;&quot;It is three.&quot;&#125;</span><br><span class="line">    4 &#123;&quot;It is four.&quot;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="字符转十进制数字"><a href="#字符转十进制数字" class="headerlink" title="字符转十进制数字"></a>字符转十进制数字</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$targetNumber&#x3D;[convert]::ToInt32($targetString,10)</span><br></pre></td></tr></table></figure>
+
+<h2 id="切割字符串"><a href="#切割字符串" class="headerlink" title="切割字符串"></a>切割字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$stringArray&#x3D;$targetString -Split &quot;[切割字符]&quot;</span><br></pre></td></tr></table></figure>
+
+<p>一般配合.Trim()方法，来去除空格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$noSpaceKey&#x3D;$targetString.Trim()</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取变量的类型"><a href="#获取变量的类型" class="headerlink" title="获取变量的类型"></a>获取变量的类型</h2><p>一般用于识别当前参数的类型；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$targetArgs.GetType()</span><br></pre></td></tr></table></figure>
+
+<h2 id="拷贝文件到远端的方法"><a href="#拷贝文件到远端的方法" class="headerlink" title="拷贝文件到远端的方法"></a>拷贝文件到远端的方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$remoteSession&#x3D;New-PSSession -ComputerName $targetServerHostName</span><br><span class="line">Copy-Item [Local Target File] -Destination [Remote Target File Path] -ToSession $remoteSession</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ToSession参数需要PS 5.1以上版本才可以使用。</p>
+</blockquote>
+<h2 id="拷贝文件夹"><a href="#拷贝文件夹" class="headerlink" title="拷贝文件夹"></a>拷贝文件夹</h2><p>需要加参数-Recurse</p>
+<blockquote>
+<p>最简单的复制一个文件到另一个文件夹内，如果目标文件夹不存在会自动创建。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Copy-Item &quot;E:\PowerShell\form\*&quot; -Destination &quot;E:\PowerShell\to\&quot; -Recurse</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看Powershell版本"><a href="#查看Powershell版本" class="headerlink" title="查看Powershell版本"></a>查看Powershell版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PSVersionTable | Findstr PSVersion</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取当前登录的用户数"><a href="#获取当前登录的用户数" class="headerlink" title="获取当前登录的用户数"></a>获取当前登录的用户数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$userTempInfo1&#x3D;query user | Measure-Object | Findstr Count;</span><br><span class="line">$userTempInfo2&#x3D;$userTempInfo1 -Split &quot;:&quot;;</span><br><span class="line">$userTempInfo3&#x3D;$userTempInfo2[1].Trim();</span><br><span class="line">$userTempAmount&#x3D;[Convert]::ToInt32($userTempInfo3,10);</span><br><span class="line">$userAmount&#x3D;$userTempAmount-1;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当服务器未有用户会话时，query user指令会返回“无用户登录”。</p>
+</blockquote>
+<h2 id="条件语句比较"><a href="#条件语句比较" class="headerlink" title="条件语句比较"></a>条件语句比较</h2><p>数字比较</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">说明</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-gt</td>
+<td align="center">大于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-ge</td>
+<td align="center">大于等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-lt</td>
+<td align="center">小于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-le</td>
+<td align="center">小于等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-eq</td>
+<td align="center">等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-ne</td>
+<td align="center">不等于</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>字符串比较</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">说明</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-like</td>
+<td align="center">字符串匹配通配符模式</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-match</td>
+<td align="center">字符串匹配正则表达式模式</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意，所有字符串都能 match 空值 $null</p>
+</blockquote>
+<h2 id="检查目标补丁是否安装"><a href="#检查目标补丁是否安装" class="headerlink" title="检查目标补丁是否安装"></a>检查目标补丁是否安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#目标补丁KB号</span><br><span class="line">TargetHotFixIDArray&#x3D;&quot;&quot;,&quot;&quot;</span><br><span class="line"></span><br><span class="line">for ( $i&#x3D;0 ; $i -lt $TargetHotFixIDArray.length ; $i++ )&#123;</span><br><span class="line">  $isInstalled&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID&#x3D;$TargetHotFixIDArray[$i]&#125; ;</span><br><span class="line">  if ($isInstalled -eq $null)&#123;</span><br><span class="line">    &quot;$TargetHotFixIDArray[$i] don&#39;t installed.&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="设置注册表"><a href="#设置注册表" class="headerlink" title="设置注册表"></a>设置注册表</h2><p>注意：如果设置本地组策略或者有域策略的覆盖策略情况下，注册表写入的值会被覆盖。可以使用 rsop.msc 查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#主要使用的指令</span><br><span class="line">Set-ItemProperty -Path &#39;HKCU:\xxx\&#39; -Name [xxx] -Value [xxx]</span><br><span class="line">New-ItemProperty -Path &#39;HKLM:\xxx\&#39; -Name [xxx] -Value [xxx]</span><br><span class="line">Get-ItemProperty -Path &#39;HKCU:\xxx\&#39; -Name [xxxx]</span><br><span class="line">Get-ChildItem -Path &#39;HKLM:\xxx\&#39;</span><br><span class="line"></span><br><span class="line"># 隐藏所有盘符</span><br><span class="line">Set-ItemProperty -Path &#39;HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer&#39; -Name NoDrives -Value 61708863</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 除了设置常规的注册表项 （admx.help 获取） ，还可以关注WOW6432node注册表项</span><br><span class="line"># 参照</span><br><span class="line">When the 32-bit app performs a registry query on HKEY_LOCAL_MACHINE\SOFTWARE\&lt;company&gt;\&lt;product&gt;, Windows automatically redirects the query to HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\&lt;company&gt;\&lt;product&gt;</span><br><span class="line"></span><br><span class="line">There’s no need to take into account Wow6432 during the development of a 32-bit application. The management of Wow6432 is totally transparent for the developer. Kombustor, for example, modifies Afterburner registry entry:</span><br><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\MSI\Afterburner. During the dev of Kombustor, I never made a reference to Wow6432.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看对应的注册表项 <a href="https://admx.help" target="_blank" rel="noopener">https://admx.help</a></p>
+</blockquote>
+<h2 id="设置网卡"><a href="#设置网卡" class="headerlink" title="设置网卡"></a>设置网卡</h2><p>静态IP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 修改IP</span><br><span class="line">netsh interface ipv4 address [网卡名] static [IP] [NETMASK] [Gateway]</span><br><span class="line"># 修改DNS</span><br><span class="line"># 主DNS</span><br><span class="line">netsh interface ipv4 dns [网卡名] static [DNS] primary</span><br><span class="line"># 副DNS</span><br><span class="line">netsh interface ipv4 add dns [网卡名] [DNS]</span><br></pre></td></tr></table></figure>
+
+<p>DHCP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh interface ipv4 set address [网卡名] dhcp</span><br><span class="line">netsh interface ipv4 set dns [网卡名] dhcp</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置DNS"><a href="#设置DNS" class="headerlink" title="设置DNS"></a>设置DNS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$NICNAMESET&#x3D;Get-NetAdapter -Physical;</span><br><span class="line"></span><br><span class="line">$NICNAMESET&#x3D;Get-NetAdapter -Physical;</span><br><span class="line">$PRIMARYDNS&#x3D;&quot;8.8.8.8&quot;;</span><br><span class="line">$SECONDDNS&#x3D;&quot;8.8.4.4&quot;;</span><br><span class="line"></span><br><span class="line">if($NICNAMESET.Name.GetType().BaseType.Name -match &quot;Object&quot;)&#123;</span><br><span class="line">    # 单网卡设置DNS；</span><br><span class="line">    $NICNAME&#x3D;$NICNAMESET.Name;</span><br><span class="line"></span><br><span class="line">    Set-DnsClientServerAddress -InterfaceAlias $NICNAME -ServerAddresses $PRIMARYDNS,$SECONDDNS;</span><br><span class="line"></span><br><span class="line">&#125;elseif ($NICNAMESET.Name.GetType().BaseType.Name -match &quot;Array&quot;) &#123;</span><br><span class="line">    # 多网卡设置DNS</span><br><span class="line">    for($i&#x3D;0;$i -lt $NICNAMESET.Length;$i++)&#123;</span><br><span class="line">        $NICNAME&#x3D;$NICNAMESET.Name[$i];</span><br><span class="line">        Set-DnsClientServerAddress -InterfaceAlias $NICNAME -ServerAddresses $PRIMARYDNS,$SECONDDNS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="切割IP信息"><a href="#切割IP信息" class="headerlink" title="切割IP信息"></a>切割IP信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#获取IP信息</span><br><span class="line">$IPInfo&#x3D;$($(ipconfig | findstr &quot;IPv4&quot;) -Split &quot;[:]&quot;)[1].Trim();</span><br></pre></td></tr></table></figure>
+
+<h3 id="切割IP信息-基于IP做主机名修改"><a href="#切割IP信息-基于IP做主机名修改" class="headerlink" title="切割IP信息-基于IP做主机名修改"></a>切割IP信息-基于IP做主机名修改</h3><p>格式为：主机名[IP第四位的序号]</p>
+<p>如：</p>
+<ul>
+<li>主机名001</li>
+<li>主机名010</li>
+<li>主机名111</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$baseHostname&#x3D;&quot;【设置的主机名基本格式】&quot;;</span><br><span class="line">$IPInfo&#x3D;$($(ipconfig | findstr &quot;IPv4&quot;) -Split &quot;[:]&quot;)[1].Trim();</span><br><span class="line">$index&#x3D;$($IPInfo -Split &quot;[.]&quot;)[3].Trim();</span><br><span class="line"></span><br><span class="line">#将字符型转为整型 </span><br><span class="line">$flag&#x3D;[convert]::ToInt32($index,10);</span><br><span class="line">if($($flag -ge 1) -and $($flag -le 9) )&#123;</span><br><span class="line">  # 在 001 与 009 区间</span><br><span class="line">  $newHostname&#x3D;$baseHostname + &quot;00&quot; + $index;</span><br><span class="line">&#125;elseif($($flag -ge 10) -and $($flag -le 99))&#123;</span><br><span class="line">  # 在 100 与 99 区间</span><br><span class="line">  $newHostname&#x3D;$baseHostname + &quot;0&quot; + $index;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  # 大于100</span><br><span class="line">  $newHostname&#x3D;$baseHostname + $index;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 两种改名方式</span><br><span class="line"># 方式1：非加域</span><br><span class="line">Rename-Computer -NewName $newHostname;</span><br><span class="line"></span><br><span class="line"># 方式2：加域</span><br><span class="line">Add-Computer -DomainName &quot;【目标域名】&quot; -Credential &quot;加域用的账户&quot; -NewName $newHostname;</span><br></pre></td></tr></table></figure>
+<h2 id="检查端口占用进程"><a href="#检查端口占用进程" class="headerlink" title="检查端口占用进程"></a>检查端口占用进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ab</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务器安装角色"><a href="#服务器安装角色" class="headerlink" title="服务器安装角色"></a>服务器安装角色</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 获取安装的功能</span><br><span class="line">Get-WindowsFeature -ComputerName [主机名]</span><br><span class="line"></span><br><span class="line"># 安装功能</span><br><span class="line">Install-WindowsFeature -Name [功能名]</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Remote-Desktop-Host-Session"><a href="#安装Remote-Desktop-Host-Session" class="headerlink" title="安装Remote Desktop Host Session"></a>安装Remote Desktop Host Session</h3><p>远程桌面会话主机： RDS-RD-Server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 自动重启需要加参数 -Restart</span><br><span class="line">Install-WindowsFeature -Name &quot;RDS-RD-Server&quot; -Restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="加域"><a href="#加域" class="headerlink" title="加域"></a>加域</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$Cred&#x3D;Get-Credential</span><br><span class="line"></span><br><span class="line">Add-Computer -DomainName $Domain -Credential $Cred -NewName $NewComputerName</span><br></pre></td></tr></table></figure>
+
+<h2 id="在文本后面追加内容"><a href="#在文本后面追加内容" class="headerlink" title="在文本后面追加内容"></a>在文本后面追加内容</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-Content [FilePath] [Content]</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用本地账户"><a href="#禁用本地账户" class="headerlink" title="禁用本地账户"></a>禁用本地账户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Disable-LocalUser -Name [UserName]</span><br></pre></td></tr></table></figure>
+
+<h2 id="为本地用户组增加用户"><a href="#为本地用户组增加用户" class="headerlink" title="为本地用户组增加用户"></a>为本地用户组增加用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-LocalGroupMember -Name &quot;组名&quot;  -Member &quot;用户&quot;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.\脚本.ps1  [参数1文件]</span><br><span class="line"><span class="variable">$FILE</span>=<span class="variable">$args</span>[0];</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数1文件名获取 </span></span><br><span class="line"><span class="variable">$FILE</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动服务与设置服务"><a href="#启动服务与设置服务" class="headerlink" title="启动服务与设置服务"></a>启动服务与设置服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Start-Service &quot;Zabbix Agent&quot;</span><br><span class="line">Set-Service &quot;Zabbix Agent&quot; -StartupType Automatic</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for($i &#x3D; 0 ; $i -le 10 ; $i++ )</span><br><span class="line">&#123;</span><br><span class="line">  echo $i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试端口是否连通"><a href="#测试端口是否连通" class="headerlink" title="测试端口是否连通"></a>测试端口是否连通</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$TCP&#x3D;New-Object Net.Sockets.TcpClient</span><br><span class="line">$TCP.Connect(&quot;192.168.1.1&quot;,80)</span><br><span class="line">$TCP.Close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除用户配置文件"><a href="#删除用户配置文件" class="headerlink" title="删除用户配置文件"></a>删除用户配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#requires -RunAsAdministrator</span><br><span class="line"></span><br><span class="line">$domain &#x3D; &#39;ccie&#39;</span><br><span class="line">$username &#x3D; &#39;user01&#39;</span><br><span class="line"></span><br><span class="line"># get user SID</span><br><span class="line">$sid &#x3D; (New-Object Security.Principal.NTAccount($domain, $username)).Translate([Security.Principal.SecurityIdentifier]).Value</span><br><span class="line"></span><br><span class="line">Get-WmiObject -ClassName Win32_UserProfile -Filter &quot;SID&#x3D;&#39;$sid&#39;&quot; |</span><br><span class="line">  ForEach-Object &#123;</span><br><span class="line">    $_.Delete()</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除用户配置文件改进版本"><a href="#删除用户配置文件改进版本" class="headerlink" title="删除用户配置文件改进版本"></a>删除用户配置文件改进版本</h3><p>场景：读取本地RDSH内的所有已登录的用户AD，并识别出已经停用的AD，对状态为“已停用”的AD账户配置删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#requires -RunAsAdministrator</span><br><span class="line"></span><br><span class="line"># 初始信息，需要输入AD域名</span><br><span class="line">$domain &#x3D; &#39;ccie&#39;</span><br><span class="line"></span><br><span class="line"># 用户目录位置</span><br><span class="line">$fpath&#x3D;&quot;C:\Users&quot;</span><br><span class="line">$childPath&#x3D;Get-ChildItem -Path $fpath</span><br><span class="line"></span><br><span class="line">foreach($tempPath in $childPath )&#123;</span><br><span class="line">  $userName&#x3D;$tempPath.Name.Trim()</span><br><span class="line">  $userInfo&#x3D;net user $userName &#x2F;domain</span><br><span class="line"></span><br><span class="line">  if($userInfo[7] -match &quot;Yes&quot;)&#123;</span><br><span class="line">    #&quot;$userName is ACTIVE.&quot;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    &quot;$userName is INACTIVE.Deleting...&quot;</span><br><span class="line"></span><br><span class="line">    # get user SID</span><br><span class="line">    $sid &#x3D; (New-Object Security.Principal.NTAccount($domain, $username)).Translate([Security.Principal.SecurityIdentifier]).Value</span><br><span class="line"></span><br><span class="line">    Get-WmiObject -ClassName Win32_UserProfile -Filter &quot;SID&#x3D;&#39;$sid&#39;&quot; | ForEach-Object &#123;</span><br><span class="line">      $_.Delete()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看WINRM监听端口"><a href="#查看WINRM监听端口" class="headerlink" title="查看WINRM监听端口"></a>查看WINRM监听端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winrm enumerate winrm&#x2F;config&#x2F;listener</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改WINRM监听端口"><a href="#更改WINRM监听端口" class="headerlink" title="更改WINRM监听端口"></a>更改WINRM监听端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-item wsman:\localhost\listener\listener*\port 5895</span><br></pre></td></tr></table></figure>
+
+<h2 id="逐行读取"><a href="#逐行读取" class="headerlink" title="逐行读取"></a>逐行读取</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Get-Content [FILEPATH] | ForEach-Object &#123;</span><br><span class="line">  #line &#x3D; $_</span><br><span class="line">  $_</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">New-Timespan [更早的时间]  [更晚的时间]</span><br><span class="line"></span><br><span class="line">New-Timespan $(Get-Date) $(Get-Date &quot;target date&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取注册表值"><a href="#获取注册表值" class="headerlink" title="获取注册表值"></a>获取注册表值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-ItemPropertyValue -Path HKLM:\xxxxx\xxxx -Name [ItemName]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：如果注册表路径带有空格，则需要将整个路径用” “</p>
+</blockquote>
+<h2 id="设置注册表值"><a href="#设置注册表值" class="headerlink" title="设置注册表值"></a>设置注册表值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path HKLM:\路径 -Name [ItemName] -value [具体的值]</span><br></pre></td></tr></table></figure>
+
+<h2 id="非Powershell–Chrome忽略证书"><a href="#非Powershell–Chrome忽略证书" class="headerlink" title="非Powershell–Chrome忽略证书"></a>非Powershell–Chrome忽略证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 增加参数</span><br><span class="line">–ignore-certificate-errors</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除剪贴板"><a href="#清除剪贴板" class="headerlink" title="清除剪贴板"></a>清除剪贴板</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cmd</span>.exe /c "<span class="built_in">echo</span> off | clip"</span><br></pre></td></tr></table></figure>
+
+<h2 id="检查Windows是否需要因为补丁重启"><a href="#检查Windows是否需要因为补丁重启" class="headerlink" title="检查Windows是否需要因为补丁重启"></a>检查Windows是否需要因为补丁重启</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#The RebootPending value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing</span><br><span class="line">#The RebootRequired value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update</span><br><span class="line">#The PendingFileRenameOperations value at</span><br><span class="line">#HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">isRebootRequired&#x3D;Get-Item -Path &quot;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot;</span><br><span class="line"></span><br><span class="line">if($isRebootRequired -eq $null)&#123;</span><br><span class="line">  &quot;Current server don&#39;t need Reboot.&quot;</span><br><span class="line">&#125;</span><br><span class="line">else&#123;</span><br><span class="line">  &quot;Current server need Reboot.&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="静默安装Chrome"><a href="#静默安装Chrome" class="headerlink" title="静默安装Chrome"></a>静默安装Chrome</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 会话需要保持几分钟，用于Chrome完成安装；</span><br><span class="line">Chrome-xxxxx.msi  &#x2F;passive &#x2F;norestart; Start-Sleep -Seconds 200;</span><br></pre></td></tr></table></figure>
+
+<p>Chrome 下载地址</p>
+<p>x64位下载地址</p>
+<p><a href="http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win64&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win64&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1</a></p>
+<p>x86位下载地址<br><a href="http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1</a></p>
+<h2 id="静默安装火狐浏览器"><a href="#静默安装火狐浏览器" class="headerlink" title="静默安装火狐浏览器"></a>静默安装火狐浏览器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Firefox-xxxxx.msi  &#x2F;passive &#x2F;norestart; Start-Sleep -Seconds 200;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Chrome浏览器制定用户数据目录"><a href="#Chrome浏览器制定用户数据目录" class="headerlink" title="Chrome浏览器制定用户数据目录"></a>Chrome浏览器制定用户数据目录</h2><p>增加参数–user-data-dir=”xxxx%username%\ChromeData”</p>
+<h2 id="离线安装cab文件"><a href="#离线安装cab文件" class="headerlink" title="离线安装cab文件"></a>离线安装cab文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dism.exe  &#x2F;online &#x2F;add-package &#x2F;packagepath:&quot;路径&quot;  &#x2F;Quiet</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>会自动重启 /Quiet</li>
+<li>不用自动重启 /Norestart</li>
+</ul>
+<h1 id="设置防火墙策略"><a href="#设置防火墙策略" class="headerlink" title="设置防火墙策略"></a>设置防火墙策略</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启用策略</span><br><span class="line">Get-NetFirewallRule -Name [防火墙策略名] | Set-NetFirewallRule -Enabled;</span><br><span class="line"># 设置目标策略的作用域,&#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br><span class="line">Get-NetfirewallRule -Name [防火墙策略名] | Get-NetFirewallAddressFilter | Set-NetFirewallAddressFilter -RemoteAddress &#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="常用防火墙策略名称"><a href="#常用防火墙策略名称" class="headerlink" title="常用防火墙策略名称"></a>常用防火墙策略名称</h1><table>
+<thead>
+<tr>
+<th align="center">策略显示名(Display)</th>
+<th align="center">策略名(Name)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Windows 远程管理(HTTP-In)</td>
+<td align="center">WINRM-HTTP-IN-TCP</td>
+</tr>
+<tr>
+<td align="center">Windows 远程管理(HTTP-In)</td>
+<td align="center">WINRM-HTTP-IN-TCP-PUBLIC</td>
+</tr>
+<tr>
+<td align="center">远程计划任务管理(RPC)</td>
+<td align="center">RemoteTask-In-TCP</td>
+</tr>
+<tr>
+<td align="center">远程计划任务管理(RPC-EPMAP)</td>
+<td align="center">RemoteTask-RPCSS-In-TCP</td>
+</tr>
+</tbody></table>
+<h1 id="系统延迟"><a href="#系统延迟" class="headerlink" title="系统延迟"></a>系统延迟</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Start-Sleep -Seconds [单位为秒];</span><br></pre></td></tr></table></figure>
+
+<h1 id="发送邮件通知"><a href="#发送邮件通知" class="headerlink" title="发送邮件通知"></a>发送邮件通知</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Send-MailMessage -From [发件人] -To [收件人] -Cc [抄送人] -Subject [邮件主题] -Body [邮件内容] -Credential [邮箱服务器认证账户] -SmtpServer [目标邮箱服务器地址]</span><br><span class="line"></span><br><span class="line">$mailbody&#x3D;@&quot;</span><br><span class="line">......邮件内容</span><br><span class="line">&quot;@</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>中文邮件要注意编码，指令末尾需要加上 -Encoding ([System.Text.Encoding]::UTF8)</p>
+</blockquote>
+<h1 id="模板–逐行读取文件"><a href="#模板–逐行读取文件" class="headerlink" title="模板–逐行读取文件"></a>模板–逐行读取文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Description:</span><br><span class="line"># Version:</span><br><span class="line"># Date:</span><br><span class="line"># Author:</span><br><span class="line"></span><br><span class="line"># 输入文件</span><br><span class="line">$file&#x3D;$args[0];</span><br><span class="line">$index&#x3D;0;</span><br><span class="line"></span><br><span class="line">if($file -match &quot;.\\&quot;)&#123;</span><br><span class="line">  # 如果输入的参数是文件，则逐行读取</span><br><span class="line">  Get-Content $file | ForEach-Object &#123;</span><br><span class="line">  $target&#x3D;$_.Trim();</span><br><span class="line">  &quot;[$index][$target]&quot;</span><br><span class="line"></span><br><span class="line">  # TODO HERE：</span><br><span class="line"></span><br><span class="line">  $index++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  # 如果是单独一行字符串；</span><br><span class="line">  $target&#x3D;$file.Trim();</span><br><span class="line">  &quot;[$index][$target]&quot;</span><br><span class="line">  # TODO HERE;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置WSUS下载服务器的地址–注册表项"><a href="#设置WSUS下载服务器的地址–注册表项" class="headerlink" title="设置WSUS下载服务器的地址–注册表项"></a>设置WSUS下载服务器的地址–注册表项</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$targetWSUS&#x3D;&quot;&quot;;</span><br><span class="line"></span><br><span class="line">Set-ItemProperty -Path HKLM:Software\Policies\Microsoft\Windows\WindowsUpdate -Name WUServer -Value $targetWSUS;</span><br><span class="line"></span><br><span class="line">Set-ItemProperty -Path HKLM:Software\Policies\Microsoft\Windows\WindowsUpdate -Name WUStatusServer -Value $targetWSUS;</span><br></pre></td></tr></table></figure>
+<h1 id="定义函数与参数"><a href="#定义函数与参数" class="headerlink" title="定义函数与参数"></a>定义函数与参数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function TEST&#123;</span><br><span class="line">  # 参数写法,这里传入的是形参；</span><br><span class="line">  param($参数1,$参数2);</span><br><span class="line"></span><br><span class="line">  # 函数内调用的参数与变更，仅在函数内有效；</span><br><span class="line">  $参数1&#x3D;[New Value];</span><br><span class="line">  $参数2&#x3D;[New Value];</span><br><span class="line"></span><br><span class="line">  return [返回值];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 调用函数</span><br><span class="line"># 参数对应关系 $参数1&#x3D;$传入参数1,$参数2&#x3D;$传入参数2;</span><br><span class="line"># 不抓取返回值的写法</span><br><span class="line">TEST $传入参数1 $传入参数2;</span><br><span class="line"></span><br><span class="line"># 抓取返回值的写法</span><br><span class="line">$GETRETURN&#x3D;TEST $传入参数1 $传入参数2;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除软件包"><a href="#删除软件包" class="headerlink" title="删除软件包"></a>删除软件包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Package | Where-Object &#123;$_.Name -like &quot;包名&quot;&#125; | Uninstall-Package</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置受信任主机列表"><a href="#设置受信任主机列表" class="headerlink" title="设置受信任主机列表"></a>设置受信任主机列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Item WSman:\localhost\Client\TrustedHosts -value [列表]</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出控制台指令日志记录"><a href="#输出控制台指令日志记录" class="headerlink" title="输出控制台指令日志记录"></a>输出控制台指令日志记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Start-Transcript -Path [Log file path];</span><br><span class="line">Stop-Transcript;</span><br></pre></td></tr></table></figure>
+<h2 id="遍历文件夹并传输文件"><a href="#遍历文件夹并传输文件" class="headerlink" title="遍历文件夹并传输文件"></a>遍历文件夹并传输文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># ps1</span><br><span class="line"># Description: 迁移文件至执行脚本所在的目录</span><br><span class="line"># Version:v1</span><br><span class="line"># Date:2024-10-04</span><br><span class="line"></span><br><span class="line"># 脚本的第一个参数为0 ， 这个跟Shell脚本有差异，Bash Shell脚本是 $1;Windows Shell 脚本是$args[0];</span><br><span class="line">$target_directoryName&#x3D;$args[0];</span><br><span class="line"></span><br><span class="line">Function Move-FileToParentDir&#123;</span><br><span class="line">    param($target_DirName,$dir_depth,$is_move);</span><br><span class="line"></span><br><span class="line">    Write-Host &quot;Current parent folder is $target_DirName&quot;;</span><br><span class="line">    Write-Host &quot;Current depth is $dir_depth&quot;;</span><br><span class="line">    Write-Host &quot;Current is_move flag is $is_move&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $target_dirtoryItem&#x3D;get-Item $target_DirName;</span><br><span class="line"></span><br><span class="line">    Get-ChildItem $target_dirtoryItem | Foreach-Object &#123;</span><br><span class="line">        $item_object&#x3D;$_;</span><br><span class="line"></span><br><span class="line">        if($item_object | where-object &#123;$_.mode -match &quot;d&quot;&#125;)&#123;</span><br><span class="line">            # Is directory</span><br><span class="line">            # Powershell允许参数自加，LinuxShell没有此规则，需要$(($目标参数+1))</span><br><span class="line">            Move-FileToParentDir &quot;$target_dirtoryItem\$item_object&quot; $($dir_depth+1) 1;</span><br><span class="line"></span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            Write-Host &quot;$target_DirName\$($item_object.Name) is a file&quot;</span><br><span class="line"></span><br><span class="line">            if($is_move -eq 1)&#123;</span><br><span class="line">                # 这个是执行脚本所在的目录，.\等价于脚本所在的目录，而不是递归到所到的文件层级；</span><br><span class="line">                Write-Host &quot;$($item_object.Name) is a file which under a directory , need to move to parent directory.&quot;</span><br><span class="line">                Write-Host $target_DirName;</span><br><span class="line">                $parent_path&#x3D;Split-Path -Parent $target_DirName;</span><br><span class="line">                move-item &quot;$target_DirName\$($item_object.Name)&quot; $parent_path</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $dir_depth&#x3D;0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Move-FileToParentDir $target_directoryName 0 0;</span><br></pre></td></tr></table></figure>
+
+<p>注意点：</p>
+<ol>
+<li>父目录，需要用Split-Path获取；</li>
+</ol>
+<h2 id="Write-Host-与-Write-Output-区别"><a href="#Write-Host-与-Write-Output-区别" class="headerlink" title="Write-Host 与 Write-Output 区别"></a>Write-Host 与 Write-Output 区别</h2><table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th align="center">说明</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Write-Host</td>
+<td align="center">Write-Host 是直接将信息输出到控制台，而不管信息是什么类型，都会将其转换成字符串，并且不会将输出发送到管道。</td>
+<td align="center">Write-Host “Hello world”</td>
+</tr>
+<tr>
+<td align="center">Write-Output</td>
+<td align="center">Write-Output 则会将输出发送到管道，以便在管道中的其他命令或过程中使用。它可以输出对象或文本，并且它不会将输出直接发送到控制台，除非您将输出发送到控制台。</td>
+<td align="center">Get-ChildItem| Write-Output</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>获取系统启动时间：<a href="https://www.pstips.net/system-running-time.html" target="_blank" rel="noopener">https://www.pstips.net/system-running-time.html</a></li>
+<li>PS中的比较：<a href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_comparison_operators?view=powershell-7.2" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_comparison_operators?view=powershell-7.2</a></li>
+<li>测试端口是否连通： <a href="https://blog.csdn.net/weixin_33737134/article/details/85544432" target="_blank" rel="noopener">https://blog.csdn.net/weixin_33737134/article/details/85544432</a></li>
+<li>删除用户配置文件： <a href="https://blog.vichamp.com/2017/12/27/deleting-user-profiles/" target="_blank" rel="noopener">https://blog.vichamp.com/2017/12/27/deleting-user-profiles/</a></li>
+<li>更改WINRM监听端口： <a href="https://blog.51cto.com/281816327/1394801" target="_blank" rel="noopener">https://blog.51cto.com/281816327/1394801</a></li>
+<li>Chrome 修改用户数据目录：<a href="https://blog.csdn.net/weixin_40364421/article/details/82769021" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40364421/article/details/82769021</a></li>
+<li>获取已安装的补丁： <a href="https://www.winhelponline.com/blog/how-to-check-if-a-windows-update-kb-is-installed/" target="_blank" rel="noopener">https://www.winhelponline.com/blog/how-to-check-if-a-windows-update-kb-is-installed/</a></li>
+<li>检查Windows是否需要因为安装补丁重启：<a href="https://docs.microsoft.com/en-us/answers/questions/675843/from-the-command-line-how-can-i-tell-if-a-reboot-i.html" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/answers/questions/675843/from-the-command-line-how-can-i-tell-if-a-reboot-i.html</a></li>
+<li>Copy-Item 复制文件和文件夹：<a href="https://0x400.net/post/powershell-copy-item.html" target="_blank" rel="noopener">https://0x400.net/post/powershell-copy-item.html</a></li>
+<li>组策略与注册表项查询：<a href="https://admx.help/?Category=Windows_8.1_2012R2&amp;Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL" target="_blank" rel="noopener">https://admx.help/?Category=Windows_8.1_2012R2&amp;Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL</a></li>
+<li>Start-Transcript: <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4</a></li>
+<li>Write-Host与Write-Output区别： <a href="https://juejin.cn/s/powershell%20write-host%20write-output" target="_blank" rel="noopener">https://juejin.cn/s/powershell%20write-host%20write-output</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/08/%E5%9F%BA%E4%BA%8EInvoke-Command%E8%BF%9C%E7%A8%8B%E6%9B%B4%E6%96%B0VMware-Horizon-View-Agent/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2068,182 +2529,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/01/11/Supermicro%E6%9C%8D%E5%8A%A1%E5%99%A8BMC%E8%AE%B8%E5%8F%AF%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2022/01/11/Supermicro%E6%9C%8D%E5%8A%A1%E5%99%A8BMC%E8%AE%B8%E5%8F%AF%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95/" itemprop="url">Supermicro服务器BMC许可获取方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-11T00:01:12+08:00">
-                2022-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器与存储</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="获取方法"><a href="#获取方法" class="headerlink" title="获取方法"></a>获取方法</h1><p>进入任意一台Linux服务器，输入指令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -n <span class="string">'0c-c4-xx-xx-xx-xx'</span> | xxd -r -p | openssl dgst -sha1 -mac HMAC -macopt hexkey:8544E3B47ECA58F9583043F8 | awk <span class="string">'&#123;print $2&#125;'</span> | cut -c 1-24</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.liujason.com/article/1185.html" target="_blank" rel="noopener">https://www.liujason.com/article/1185.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2294,7 +2579,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">424</span>
+                  <span class="site-state-item-count">425</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2316,7 +2601,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">140</span>
+                  <span class="site-state-item-count">142</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
