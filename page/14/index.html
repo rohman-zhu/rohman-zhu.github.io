@@ -1224,6 +1224,7 @@
 <li>不用自动重启 /Norestart</li>
 </ul>
 <h1 id="设置防火墙策略"><a href="#设置防火墙策略" class="headerlink" title="设置防火墙策略"></a>设置防火墙策略</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启用策略</span><br><span class="line">Get-NetFirewallRule -Name [防火墙策略名] | Set-NetFirewallRule -Enabled;</span><br><span class="line"># 设置目标策略的作用域,&#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br><span class="line">Get-NetfirewallRule -Name [防火墙策略名] | Get-NetFirewallAddressFilter | Set-NetFirewallAddressFilter -RemoteAddress &#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="关闭本地防火墙"><a href="#关闭本地防火墙" class="headerlink" title="关闭本地防火墙"></a>关闭本地防火墙</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 关闭</span><br><span class="line">netsh advfirewall set allprofiles state off</span><br><span class="line"># 启动</span><br><span class="line">netsh advfirewall set allprofiles state on</span><br></pre></td></tr></table></figure>
 
 <h1 id="常用防火墙策略名称"><a href="#常用防火墙策略名称" class="headerlink" title="常用防火墙策略名称"></a>常用防火墙策略名称</h1><table>
 <thead>
