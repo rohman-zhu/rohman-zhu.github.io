@@ -645,6 +645,8 @@
 <h1 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 需要先停止运行的容器才能删除目标容器</span></span><br><span class="line">docker rm [docker name]</span><br><span class="line">docker ps</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
 
 <h1 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi [image name]</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改镜像的标签"><a href="#修改镜像的标签" class="headerlink" title="修改镜像的标签"></a>修改镜像的标签</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag [旧镜像名称]:[旧标签] [新镜像标签]:[新标签]</span><br></pre></td></tr></table></figure>
           
         
       
