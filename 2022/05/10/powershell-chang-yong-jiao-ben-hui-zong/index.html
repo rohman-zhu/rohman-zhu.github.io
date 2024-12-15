@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="脚本,常用指令," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="常用脚本与指令合集导出csv12Export-Csv [目标文件名] Export-Csv [目标文件名] -Delimiter &quot;分隔符&quot;  特殊字符转意需要使用单引号转意 &#96; 获取系统启动时间1(Get-Process wininit).StartTime  Invoke-Command 传递参数Invoke-Command指令，需要带上-ArgumentList 传递参数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Powershell常用脚本汇总">
+<meta property="og:url" content="http://github.com/rohman-zhu/2022/05/10/powershell-chang-yong-jiao-ben-hui-zong/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="常用脚本与指令合集导出csv12Export-Csv [目标文件名] Export-Csv [目标文件名] -Delimiter &quot;分隔符&quot;  特殊字符转意需要使用单引号转意 &#96; 获取系统启动时间1(Get-Process wininit).StartTime  Invoke-Command 传递参数Invoke-Command指令，需要带上-ArgumentList 传递参数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-09T16:15:36.000Z">
+<meta property="article:modified_time" content="2024-12-01T09:23:33.989Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="脚本">
+<meta property="article:tag" content="常用指令">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2022/05/10/powershell-chang-yong-jiao-ben-hui-zong/"/>
+
+
+
+
+
+  <title>Powershell常用脚本汇总 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/10/powershell-chang-yong-jiao-ben-hui-zong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Powershell常用脚本汇总</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-10T00:15:36+08:00">
+                2022-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="常用脚本与指令合集"><a href="#常用脚本与指令合集" class="headerlink" title="常用脚本与指令合集"></a>常用脚本与指令合集</h1><h2 id="导出csv"><a href="#导出csv" class="headerlink" title="导出csv"></a>导出csv</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Export-Csv [目标文件名] </span><br><span class="line">Export-Csv [目标文件名] -Delimiter &quot;分隔符&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="特殊字符转意"><a href="#特殊字符转意" class="headerlink" title="特殊字符转意"></a>特殊字符转意</h2><p>需要使用单引号转意 `</p>
+<h2 id="获取系统启动时间"><a href="#获取系统启动时间" class="headerlink" title="获取系统启动时间"></a>获取系统启动时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(Get-Process wininit).StartTime</span><br></pre></td></tr></table></figure>
+
+<h2 id="Invoke-Command-传递参数"><a href="#Invoke-Command-传递参数" class="headerlink" title="Invoke-Command 传递参数"></a>Invoke-Command 传递参数</h2><p>Invoke-Command指令，需要带上-ArgumentList 传递参数<br>代码块使用Param()捕获参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command xxxxxxx -ArgumentList 参数1 -ScriptBlock &#123;Param($捕获参数1) ; xxx使用 $捕获参数1 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>传递多个参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Command -ArgumentList [$参数1],[$参数2],[$参数3] -ScriptBlock &#123;Param($参数1,$参数2,$参数3)&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取当前时间"><a href="#获取当前时间" class="headerlink" title="获取当前时间"></a>获取当前时间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Date -Format &quot;[yyyy-MM-dd][hh:mm]&quot;</span><br></pre></td></tr></table></figure>
+
+<p>常用于打印Log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function GetLog($logLevel,$logInfo)&#123;</span><br><span class="line">  &quot;$(Get-Date -Format &quot;[yyyy-MM-dd][hh:mm]&quot;)[$logLevel],[$logInfo]&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="While-语句"><a href="#While-语句" class="headerlink" title="While 语句"></a>While 语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">while (&lt;condition&gt;)&#123;&lt;statement list&gt;&#125;</span><br><span class="line"></span><br><span class="line">Example:</span><br><span class="line"></span><br><span class="line">while($val -ne 3)</span><br><span class="line">&#123;</span><br><span class="line">    $val++</span><br><span class="line">    Write-Host $val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Switch-语句"><a href="#Switch-语句" class="headerlink" title="Switch 语句"></a>Switch 语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Switch (&lt;test-expression&gt;)</span><br><span class="line">&#123;</span><br><span class="line">    &lt;result1-to-be-matched&gt; &#123;&lt;action&gt;&#125;;</span><br><span class="line">    &lt;result2-to-be-matched&gt; &#123;&lt;action&gt;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">## Examples:</span><br><span class="line">switch (3)</span><br><span class="line">&#123;</span><br><span class="line">    1 &#123;&quot;It is one.&quot;&#125;</span><br><span class="line">    2 &#123;&quot;It is two.&quot;&#125;</span><br><span class="line">    3 &#123;&quot;It is three.&quot;&#125;</span><br><span class="line">    4 &#123;&quot;It is four.&quot;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="字符转十进制数字"><a href="#字符转十进制数字" class="headerlink" title="字符转十进制数字"></a>字符转十进制数字</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$targetNumber&#x3D;[convert]::ToInt32($targetString,10)</span><br></pre></td></tr></table></figure>
+
+<h2 id="切割字符串"><a href="#切割字符串" class="headerlink" title="切割字符串"></a>切割字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$stringArray&#x3D;$targetString -Split &quot;[切割字符]&quot;</span><br></pre></td></tr></table></figure>
+
+<p>一般配合.Trim()方法，来去除空格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$noSpaceKey&#x3D;$targetString.Trim()</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取变量的类型"><a href="#获取变量的类型" class="headerlink" title="获取变量的类型"></a>获取变量的类型</h2><p>一般用于识别当前参数的类型；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$targetArgs.GetType()</span><br></pre></td></tr></table></figure>
+
+<h2 id="拷贝文件到远端的方法"><a href="#拷贝文件到远端的方法" class="headerlink" title="拷贝文件到远端的方法"></a>拷贝文件到远端的方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$remoteSession&#x3D;New-PSSession -ComputerName $targetServerHostName</span><br><span class="line">Copy-Item [Local Target File] -Destination [Remote Target File Path] -ToSession $remoteSession</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ToSession参数需要PS 5.1以上版本才可以使用。</p>
+</blockquote>
+<h2 id="拷贝文件夹"><a href="#拷贝文件夹" class="headerlink" title="拷贝文件夹"></a>拷贝文件夹</h2><p>需要加参数-Recurse</p>
+<blockquote>
+<p>最简单的复制一个文件到另一个文件夹内，如果目标文件夹不存在会自动创建。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Copy-Item &quot;E:\PowerShell\form\*&quot; -Destination &quot;E:\PowerShell\to\&quot; -Recurse</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看Powershell版本"><a href="#查看Powershell版本" class="headerlink" title="查看Powershell版本"></a>查看Powershell版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PSVersionTable | Findstr PSVersion</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取当前登录的用户数"><a href="#获取当前登录的用户数" class="headerlink" title="获取当前登录的用户数"></a>获取当前登录的用户数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$userTempInfo1&#x3D;query user | Measure-Object | Findstr Count;</span><br><span class="line">$userTempInfo2&#x3D;$userTempInfo1 -Split &quot;:&quot;;</span><br><span class="line">$userTempInfo3&#x3D;$userTempInfo2[1].Trim();</span><br><span class="line">$userTempAmount&#x3D;[Convert]::ToInt32($userTempInfo3,10);</span><br><span class="line">$userAmount&#x3D;$userTempAmount-1;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当服务器未有用户会话时，query user指令会返回“无用户登录”。</p>
+</blockquote>
+<h2 id="条件语句比较"><a href="#条件语句比较" class="headerlink" title="条件语句比较"></a>条件语句比较</h2><p>数字比较</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">说明</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-gt</td>
+<td align="center">大于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-ge</td>
+<td align="center">大于等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-lt</td>
+<td align="center">小于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-le</td>
+<td align="center">小于等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-eq</td>
+<td align="center">等于</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-ne</td>
+<td align="center">不等于</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>字符串比较</p>
+<table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="center">说明</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-like</td>
+<td align="center">字符串匹配通配符模式</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">-match</td>
+<td align="center">字符串匹配正则表达式模式</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意，所有字符串都能 match 空值 $null</p>
+</blockquote>
+<h2 id="检查目标补丁是否安装"><a href="#检查目标补丁是否安装" class="headerlink" title="检查目标补丁是否安装"></a>检查目标补丁是否安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#目标补丁KB号</span><br><span class="line">TargetHotFixIDArray&#x3D;&quot;&quot;,&quot;&quot;</span><br><span class="line"></span><br><span class="line">for ( $i&#x3D;0 ; $i -lt $TargetHotFixIDArray.length ; $i++ )&#123;</span><br><span class="line">  $isInstalled&#x3D;Get-HotFix | Where-Object &#123;$_.HotFixID&#x3D;$TargetHotFixIDArray[$i]&#125; ;</span><br><span class="line">  if ($isInstalled -eq $null)&#123;</span><br><span class="line">    &quot;$TargetHotFixIDArray[$i] don&#39;t installed.&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="设置注册表"><a href="#设置注册表" class="headerlink" title="设置注册表"></a>设置注册表</h2><p>注意：如果设置本地组策略或者有域策略的覆盖策略情况下，注册表写入的值会被覆盖。可以使用 rsop.msc 查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#主要使用的指令</span><br><span class="line">Set-ItemProperty -Path &#39;HKCU:\xxx\&#39; -Name [xxx] -Value [xxx]</span><br><span class="line">New-ItemProperty -Path &#39;HKLM:\xxx\&#39; -Name [xxx] -Value [xxx]</span><br><span class="line">Get-ItemProperty -Path &#39;HKCU:\xxx\&#39; -Name [xxxx]</span><br><span class="line">Get-ChildItem -Path &#39;HKLM:\xxx\&#39;</span><br><span class="line"></span><br><span class="line"># 隐藏所有盘符</span><br><span class="line">Set-ItemProperty -Path &#39;HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer&#39; -Name NoDrives -Value 61708863</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 除了设置常规的注册表项 （admx.help 获取） ，还可以关注WOW6432node注册表项</span><br><span class="line"># 参照</span><br><span class="line">When the 32-bit app performs a registry query on HKEY_LOCAL_MACHINE\SOFTWARE\&lt;company&gt;\&lt;product&gt;, Windows automatically redirects the query to HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\&lt;company&gt;\&lt;product&gt;</span><br><span class="line"></span><br><span class="line">There’s no need to take into account Wow6432 during the development of a 32-bit application. The management of Wow6432 is totally transparent for the developer. Kombustor, for example, modifies Afterburner registry entry:</span><br><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\MSI\Afterburner. During the dev of Kombustor, I never made a reference to Wow6432.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看对应的注册表项 <a href="https://admx.help" target="_blank" rel="noopener">https://admx.help</a></p>
+</blockquote>
+<h2 id="设置网卡"><a href="#设置网卡" class="headerlink" title="设置网卡"></a>设置网卡</h2><p>静态IP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 修改IP</span><br><span class="line">netsh interface ipv4 address [网卡名] static [IP] [NETMASK] [Gateway]</span><br><span class="line"># 修改DNS</span><br><span class="line"># 主DNS</span><br><span class="line">netsh interface ipv4 dns [网卡名] static [DNS] primary</span><br><span class="line"># 副DNS</span><br><span class="line">netsh interface ipv4 add dns [网卡名] [DNS]</span><br></pre></td></tr></table></figure>
+
+<p>DHCP设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh interface ipv4 set address [网卡名] dhcp</span><br><span class="line">netsh interface ipv4 set dns [网卡名] dhcp</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置DNS"><a href="#设置DNS" class="headerlink" title="设置DNS"></a>设置DNS</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$NICNAMESET&#x3D;Get-NetAdapter -Physical;</span><br><span class="line"></span><br><span class="line">$NICNAMESET&#x3D;Get-NetAdapter -Physical;</span><br><span class="line">$PRIMARYDNS&#x3D;&quot;8.8.8.8&quot;;</span><br><span class="line">$SECONDDNS&#x3D;&quot;8.8.4.4&quot;;</span><br><span class="line"></span><br><span class="line">if($NICNAMESET.Name.GetType().BaseType.Name -match &quot;Object&quot;)&#123;</span><br><span class="line">    # 单网卡设置DNS；</span><br><span class="line">    $NICNAME&#x3D;$NICNAMESET.Name;</span><br><span class="line"></span><br><span class="line">    Set-DnsClientServerAddress -InterfaceAlias $NICNAME -ServerAddresses $PRIMARYDNS,$SECONDDNS;</span><br><span class="line"></span><br><span class="line">&#125;elseif ($NICNAMESET.Name.GetType().BaseType.Name -match &quot;Array&quot;) &#123;</span><br><span class="line">    # 多网卡设置DNS</span><br><span class="line">    for($i&#x3D;0;$i -lt $NICNAMESET.Length;$i++)&#123;</span><br><span class="line">        $NICNAME&#x3D;$NICNAMESET.Name[$i];</span><br><span class="line">        Set-DnsClientServerAddress -InterfaceAlias $NICNAME -ServerAddresses $PRIMARYDNS,$SECONDDNS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="切割IP信息"><a href="#切割IP信息" class="headerlink" title="切割IP信息"></a>切割IP信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#获取IP信息</span><br><span class="line">$IPInfo&#x3D;$($(ipconfig | findstr &quot;IPv4&quot;) -Split &quot;[:]&quot;)[1].Trim();</span><br></pre></td></tr></table></figure>
+
+<h3 id="切割IP信息-基于IP做主机名修改"><a href="#切割IP信息-基于IP做主机名修改" class="headerlink" title="切割IP信息-基于IP做主机名修改"></a>切割IP信息-基于IP做主机名修改</h3><p>格式为：主机名[IP第四位的序号]</p>
+<p>如：</p>
+<ul>
+<li>主机名001</li>
+<li>主机名010</li>
+<li>主机名111</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$baseHostname&#x3D;&quot;【设置的主机名基本格式】&quot;;</span><br><span class="line">$IPInfo&#x3D;$($(ipconfig | findstr &quot;IPv4&quot;) -Split &quot;[:]&quot;)[1].Trim();</span><br><span class="line">$index&#x3D;$($IPInfo -Split &quot;[.]&quot;)[3].Trim();</span><br><span class="line"></span><br><span class="line">#将字符型转为整型 </span><br><span class="line">$flag&#x3D;[convert]::ToInt32($index,10);</span><br><span class="line">if($($flag -ge 1) -and $($flag -le 9) )&#123;</span><br><span class="line">  # 在 001 与 009 区间</span><br><span class="line">  $newHostname&#x3D;$baseHostname + &quot;00&quot; + $index;</span><br><span class="line">&#125;elseif($($flag -ge 10) -and $($flag -le 99))&#123;</span><br><span class="line">  # 在 100 与 99 区间</span><br><span class="line">  $newHostname&#x3D;$baseHostname + &quot;0&quot; + $index;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  # 大于100</span><br><span class="line">  $newHostname&#x3D;$baseHostname + $index;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 两种改名方式</span><br><span class="line"># 方式1：非加域</span><br><span class="line">Rename-Computer -NewName $newHostname;</span><br><span class="line"></span><br><span class="line"># 方式2：加域</span><br><span class="line">Add-Computer -DomainName &quot;【目标域名】&quot; -Credential &quot;加域用的账户&quot; -NewName $newHostname;</span><br></pre></td></tr></table></figure>
+<h2 id="检查端口占用进程"><a href="#检查端口占用进程" class="headerlink" title="检查端口占用进程"></a>检查端口占用进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ab</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务器安装角色"><a href="#服务器安装角色" class="headerlink" title="服务器安装角色"></a>服务器安装角色</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 获取安装的功能</span><br><span class="line">Get-WindowsFeature -ComputerName [主机名]</span><br><span class="line"></span><br><span class="line"># 安装功能</span><br><span class="line">Install-WindowsFeature -Name [功能名]</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Remote-Desktop-Host-Session"><a href="#安装Remote-Desktop-Host-Session" class="headerlink" title="安装Remote Desktop Host Session"></a>安装Remote Desktop Host Session</h3><p>远程桌面会话主机： RDS-RD-Server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 自动重启需要加参数 -Restart</span><br><span class="line">Install-WindowsFeature -Name &quot;RDS-RD-Server&quot; -Restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="加域"><a href="#加域" class="headerlink" title="加域"></a>加域</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$Cred&#x3D;Get-Credential</span><br><span class="line"></span><br><span class="line">Add-Computer -DomainName $Domain -Credential $Cred -NewName $NewComputerName</span><br></pre></td></tr></table></figure>
+
+<h2 id="在文本后面追加内容"><a href="#在文本后面追加内容" class="headerlink" title="在文本后面追加内容"></a>在文本后面追加内容</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-Content [FilePath] [Content]</span><br></pre></td></tr></table></figure>
+
+<h2 id="禁用本地账户"><a href="#禁用本地账户" class="headerlink" title="禁用本地账户"></a>禁用本地账户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Disable-LocalUser -Name [UserName]</span><br></pre></td></tr></table></figure>
+
+<h2 id="为本地用户组增加用户"><a href="#为本地用户组增加用户" class="headerlink" title="为本地用户组增加用户"></a>为本地用户组增加用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-LocalGroupMember -Name &quot;组名&quot;  -Member &quot;用户&quot;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.\脚本.ps1  [参数1文件]</span><br><span class="line"><span class="variable">$FILE</span>=<span class="variable">$args</span>[0];</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数1文件名获取 </span></span><br><span class="line"><span class="variable">$FILE</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动服务与设置服务"><a href="#启动服务与设置服务" class="headerlink" title="启动服务与设置服务"></a>启动服务与设置服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Start-Service &quot;Zabbix Agent&quot;</span><br><span class="line">Set-Service &quot;Zabbix Agent&quot; -StartupType Automatic</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for($i &#x3D; 0 ; $i -le 10 ; $i++ )</span><br><span class="line">&#123;</span><br><span class="line">  echo $i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试端口是否连通"><a href="#测试端口是否连通" class="headerlink" title="测试端口是否连通"></a>测试端口是否连通</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$TCP&#x3D;New-Object Net.Sockets.TcpClient</span><br><span class="line">$TCP.Connect(&quot;192.168.1.1&quot;,80)</span><br><span class="line">$TCP.Close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除用户配置文件"><a href="#删除用户配置文件" class="headerlink" title="删除用户配置文件"></a>删除用户配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#requires -RunAsAdministrator</span><br><span class="line"></span><br><span class="line">$domain &#x3D; &#39;ccie&#39;</span><br><span class="line">$username &#x3D; &#39;user01&#39;</span><br><span class="line"></span><br><span class="line"># get user SID</span><br><span class="line">$sid &#x3D; (New-Object Security.Principal.NTAccount($domain, $username)).Translate([Security.Principal.SecurityIdentifier]).Value</span><br><span class="line"></span><br><span class="line">Get-WmiObject -ClassName Win32_UserProfile -Filter &quot;SID&#x3D;&#39;$sid&#39;&quot; |</span><br><span class="line">  ForEach-Object &#123;</span><br><span class="line">    $_.Delete()</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除用户配置文件改进版本"><a href="#删除用户配置文件改进版本" class="headerlink" title="删除用户配置文件改进版本"></a>删除用户配置文件改进版本</h3><p>场景：读取本地RDSH内的所有已登录的用户AD，并识别出已经停用的AD，对状态为“已停用”的AD账户配置删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#requires -RunAsAdministrator</span><br><span class="line"></span><br><span class="line"># 初始信息，需要输入AD域名</span><br><span class="line">$domain &#x3D; &#39;ccie&#39;</span><br><span class="line"></span><br><span class="line"># 用户目录位置</span><br><span class="line">$fpath&#x3D;&quot;C:\Users&quot;</span><br><span class="line">$childPath&#x3D;Get-ChildItem -Path $fpath</span><br><span class="line"></span><br><span class="line">foreach($tempPath in $childPath )&#123;</span><br><span class="line">  $userName&#x3D;$tempPath.Name.Trim()</span><br><span class="line">  $userInfo&#x3D;net user $userName &#x2F;domain</span><br><span class="line"></span><br><span class="line">  if($userInfo[7] -match &quot;Yes&quot;)&#123;</span><br><span class="line">    #&quot;$userName is ACTIVE.&quot;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    &quot;$userName is INACTIVE.Deleting...&quot;</span><br><span class="line"></span><br><span class="line">    # get user SID</span><br><span class="line">    $sid &#x3D; (New-Object Security.Principal.NTAccount($domain, $username)).Translate([Security.Principal.SecurityIdentifier]).Value</span><br><span class="line"></span><br><span class="line">    Get-WmiObject -ClassName Win32_UserProfile -Filter &quot;SID&#x3D;&#39;$sid&#39;&quot; | ForEach-Object &#123;</span><br><span class="line">      $_.Delete()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看WINRM监听端口"><a href="#查看WINRM监听端口" class="headerlink" title="查看WINRM监听端口"></a>查看WINRM监听端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winrm enumerate winrm&#x2F;config&#x2F;listener</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改WINRM监听端口"><a href="#更改WINRM监听端口" class="headerlink" title="更改WINRM监听端口"></a>更改WINRM监听端口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set-item wsman:\localhost\listener\listener*\port 5895</span><br></pre></td></tr></table></figure>
+
+<h2 id="逐行读取"><a href="#逐行读取" class="headerlink" title="逐行读取"></a>逐行读取</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Get-Content [FILEPATH] | ForEach-Object &#123;</span><br><span class="line">  #line &#x3D; $_</span><br><span class="line">  $_</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">New-Timespan [更早的时间]  [更晚的时间]</span><br><span class="line"></span><br><span class="line">New-Timespan $(Get-Date) $(Get-Date &quot;target date&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取注册表值"><a href="#获取注册表值" class="headerlink" title="获取注册表值"></a>获取注册表值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-ItemPropertyValue -Path HKLM:\xxxxx\xxxx -Name [ItemName]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：如果注册表路径带有空格，则需要将整个路径用” “</p>
+</blockquote>
+<h2 id="设置注册表值"><a href="#设置注册表值" class="headerlink" title="设置注册表值"></a>设置注册表值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path HKLM:\路径 -Name [ItemName] -value [具体的值]</span><br></pre></td></tr></table></figure>
+
+<h2 id="非Powershell–Chrome忽略证书"><a href="#非Powershell–Chrome忽略证书" class="headerlink" title="非Powershell–Chrome忽略证书"></a>非Powershell–Chrome忽略证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 增加参数</span><br><span class="line">–ignore-certificate-errors</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除剪贴板"><a href="#清除剪贴板" class="headerlink" title="清除剪贴板"></a>清除剪贴板</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cmd</span>.exe /c "<span class="built_in">echo</span> off | clip"</span><br></pre></td></tr></table></figure>
+
+<h2 id="检查Windows是否需要因为补丁重启"><a href="#检查Windows是否需要因为补丁重启" class="headerlink" title="检查Windows是否需要因为补丁重启"></a>检查Windows是否需要因为补丁重启</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#The RebootPending value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing</span><br><span class="line">#The RebootRequired value at</span><br><span class="line">#HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update</span><br><span class="line">#The PendingFileRenameOperations value at</span><br><span class="line">#HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">isRebootRequired&#x3D;Get-Item -Path &quot;HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot;</span><br><span class="line"></span><br><span class="line">if($isRebootRequired -eq $null)&#123;</span><br><span class="line">  &quot;Current server don&#39;t need Reboot.&quot;</span><br><span class="line">&#125;</span><br><span class="line">else&#123;</span><br><span class="line">  &quot;Current server need Reboot.&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="静默安装Chrome"><a href="#静默安装Chrome" class="headerlink" title="静默安装Chrome"></a>静默安装Chrome</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 会话需要保持几分钟，用于Chrome完成安装；</span><br><span class="line">Chrome-xxxxx.msi  &#x2F;passive &#x2F;norestart; Start-Sleep -Seconds 200;</span><br></pre></td></tr></table></figure>
+
+<p>Chrome 下载地址</p>
+<p>x64位下载地址</p>
+<p><a href="http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win64&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win64&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1</a></p>
+<p>x86位下载地址<br><a href="http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/chrome/business/browser/admin/thankyou.html?platform=win&amp;msi=true&amp;installdataindex=defaultbrowser&amp;standalone=1</a></p>
+<h2 id="静默安装火狐浏览器"><a href="#静默安装火狐浏览器" class="headerlink" title="静默安装火狐浏览器"></a>静默安装火狐浏览器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Firefox-xxxxx.msi  &#x2F;passive &#x2F;norestart; Start-Sleep -Seconds 200;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Chrome浏览器制定用户数据目录"><a href="#Chrome浏览器制定用户数据目录" class="headerlink" title="Chrome浏览器制定用户数据目录"></a>Chrome浏览器制定用户数据目录</h2><p>增加参数–user-data-dir=”xxxx%username%\ChromeData”</p>
+<h2 id="离线安装cab文件"><a href="#离线安装cab文件" class="headerlink" title="离线安装cab文件"></a>离线安装cab文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dism.exe  &#x2F;online &#x2F;add-package &#x2F;packagepath:&quot;路径&quot;  &#x2F;Quiet</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>会自动重启 /Quiet</li>
+<li>不用自动重启 /Norestart</li>
+</ul>
+<h1 id="设置防火墙策略"><a href="#设置防火墙策略" class="headerlink" title="设置防火墙策略"></a>设置防火墙策略</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启用策略</span><br><span class="line">Get-NetFirewallRule -Name [防火墙策略名] | Set-NetFirewallRule -Enabled;</span><br><span class="line"># 设置目标策略的作用域,&#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br><span class="line">Get-NetfirewallRule -Name [防火墙策略名] | Get-NetFirewallAddressFilter | Set-NetFirewallAddressFilter -RemoteAddress &#123;IP1&#125;,&#123;IP2&#125;,&#123;IP3&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="关闭本地防火墙"><a href="#关闭本地防火墙" class="headerlink" title="关闭本地防火墙"></a>关闭本地防火墙</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 关闭</span><br><span class="line">netsh advfirewall set allprofiles state off</span><br><span class="line"># 启动</span><br><span class="line">netsh advfirewall set allprofiles state on</span><br></pre></td></tr></table></figure>
+
+<h1 id="常用防火墙策略名称"><a href="#常用防火墙策略名称" class="headerlink" title="常用防火墙策略名称"></a>常用防火墙策略名称</h1><table>
+<thead>
+<tr>
+<th align="center">策略显示名(Display)</th>
+<th align="center">策略名(Name)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Windows 远程管理(HTTP-In)</td>
+<td align="center">WINRM-HTTP-IN-TCP</td>
+</tr>
+<tr>
+<td align="center">Windows 远程管理(HTTP-In)</td>
+<td align="center">WINRM-HTTP-IN-TCP-PUBLIC</td>
+</tr>
+<tr>
+<td align="center">远程计划任务管理(RPC)</td>
+<td align="center">RemoteTask-In-TCP</td>
+</tr>
+<tr>
+<td align="center">远程计划任务管理(RPC-EPMAP)</td>
+<td align="center">RemoteTask-RPCSS-In-TCP</td>
+</tr>
+</tbody></table>
+<h1 id="系统延迟"><a href="#系统延迟" class="headerlink" title="系统延迟"></a>系统延迟</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Start-Sleep -Seconds [单位为秒];</span><br></pre></td></tr></table></figure>
+
+<h1 id="发送邮件通知"><a href="#发送邮件通知" class="headerlink" title="发送邮件通知"></a>发送邮件通知</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Send-MailMessage -From [发件人] -To [收件人] -Cc [抄送人] -Subject [邮件主题] -Body [邮件内容] -Credential [邮箱服务器认证账户] -SmtpServer [目标邮箱服务器地址]</span><br><span class="line"></span><br><span class="line">$mailbody&#x3D;@&quot;</span><br><span class="line">......邮件内容</span><br><span class="line">&quot;@</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>中文邮件要注意编码，指令末尾需要加上 -Encoding ([System.Text.Encoding]::UTF8)</p>
+</blockquote>
+<h1 id="模板–逐行读取文件"><a href="#模板–逐行读取文件" class="headerlink" title="模板–逐行读取文件"></a>模板–逐行读取文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Description:</span><br><span class="line"># Version:</span><br><span class="line"># Date:</span><br><span class="line"># Author:</span><br><span class="line"></span><br><span class="line"># 输入文件</span><br><span class="line">$file&#x3D;$args[0];</span><br><span class="line">$index&#x3D;0;</span><br><span class="line"></span><br><span class="line">if($file -match &quot;.\\&quot;)&#123;</span><br><span class="line">  # 如果输入的参数是文件，则逐行读取</span><br><span class="line">  Get-Content $file | ForEach-Object &#123;</span><br><span class="line">  $target&#x3D;$_.Trim();</span><br><span class="line">  &quot;[$index][$target]&quot;</span><br><span class="line"></span><br><span class="line">  # TODO HERE：</span><br><span class="line"></span><br><span class="line">  $index++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">  # 如果是单独一行字符串；</span><br><span class="line">  $target&#x3D;$file.Trim();</span><br><span class="line">  &quot;[$index][$target]&quot;</span><br><span class="line">  # TODO HERE;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置WSUS下载服务器的地址–注册表项"><a href="#设置WSUS下载服务器的地址–注册表项" class="headerlink" title="设置WSUS下载服务器的地址–注册表项"></a>设置WSUS下载服务器的地址–注册表项</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$targetWSUS&#x3D;&quot;&quot;;</span><br><span class="line"></span><br><span class="line">Set-ItemProperty -Path HKLM:Software\Policies\Microsoft\Windows\WindowsUpdate -Name WUServer -Value $targetWSUS;</span><br><span class="line"></span><br><span class="line">Set-ItemProperty -Path HKLM:Software\Policies\Microsoft\Windows\WindowsUpdate -Name WUStatusServer -Value $targetWSUS;</span><br></pre></td></tr></table></figure>
+<h1 id="定义函数与参数"><a href="#定义函数与参数" class="headerlink" title="定义函数与参数"></a>定义函数与参数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function TEST&#123;</span><br><span class="line">  # 参数写法,这里传入的是形参；</span><br><span class="line">  param($参数1,$参数2);</span><br><span class="line"></span><br><span class="line">  # 函数内调用的参数与变更，仅在函数内有效；</span><br><span class="line">  $参数1&#x3D;[New Value];</span><br><span class="line">  $参数2&#x3D;[New Value];</span><br><span class="line"></span><br><span class="line">  return [返回值];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 调用函数</span><br><span class="line"># 参数对应关系 $参数1&#x3D;$传入参数1,$参数2&#x3D;$传入参数2;</span><br><span class="line"># 不抓取返回值的写法</span><br><span class="line">TEST $传入参数1 $传入参数2;</span><br><span class="line"></span><br><span class="line"># 抓取返回值的写法</span><br><span class="line">$GETRETURN&#x3D;TEST $传入参数1 $传入参数2;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除软件包"><a href="#删除软件包" class="headerlink" title="删除软件包"></a>删除软件包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-Package | Where-Object &#123;$_.Name -like &quot;包名&quot;&#125; | Uninstall-Package</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置受信任主机列表"><a href="#设置受信任主机列表" class="headerlink" title="设置受信任主机列表"></a>设置受信任主机列表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Item WSman:\localhost\Client\TrustedHosts -value [列表]</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出控制台指令日志记录"><a href="#输出控制台指令日志记录" class="headerlink" title="输出控制台指令日志记录"></a>输出控制台指令日志记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Start-Transcript -Path [Log file path];</span><br><span class="line">Stop-Transcript;</span><br></pre></td></tr></table></figure>
+<h2 id="遍历文件夹并传输文件"><a href="#遍历文件夹并传输文件" class="headerlink" title="遍历文件夹并传输文件"></a>遍历文件夹并传输文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># ps1</span><br><span class="line"># Description: 迁移文件至执行脚本所在的目录</span><br><span class="line"># Version:v1</span><br><span class="line"># Date:2024-10-04</span><br><span class="line"></span><br><span class="line"># 脚本的第一个参数为0 ， 这个跟Shell脚本有差异，Bash Shell脚本是 $1;Windows Shell 脚本是$args[0];</span><br><span class="line">$target_directoryName&#x3D;$args[0];</span><br><span class="line"></span><br><span class="line">Function Move-FileToParentDir&#123;</span><br><span class="line">    param($target_DirName,$dir_depth,$is_move);</span><br><span class="line"></span><br><span class="line">    Write-Host &quot;Current parent folder is $target_DirName&quot;;</span><br><span class="line">    Write-Host &quot;Current depth is $dir_depth&quot;;</span><br><span class="line">    Write-Host &quot;Current is_move flag is $is_move&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $target_dirtoryItem&#x3D;get-Item $target_DirName;</span><br><span class="line"></span><br><span class="line">    Get-ChildItem $target_dirtoryItem | Foreach-Object &#123;</span><br><span class="line">        $item_object&#x3D;$_;</span><br><span class="line"></span><br><span class="line">        if($item_object | where-object &#123;$_.mode -match &quot;d&quot;&#125;)&#123;</span><br><span class="line">            # Is directory</span><br><span class="line">            # Powershell允许参数自加，LinuxShell没有此规则，需要$(($目标参数+1))</span><br><span class="line">            Move-FileToParentDir &quot;$target_dirtoryItem\$item_object&quot; $($dir_depth+1) 1;</span><br><span class="line"></span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            Write-Host &quot;$target_DirName\$($item_object.Name) is a file&quot;</span><br><span class="line"></span><br><span class="line">            if($is_move -eq 1)&#123;</span><br><span class="line">                # 这个是执行脚本所在的目录，.\等价于脚本所在的目录，而不是递归到所到的文件层级；</span><br><span class="line">                Write-Host &quot;$($item_object.Name) is a file which under a directory , need to move to parent directory.&quot;</span><br><span class="line">                Write-Host $target_DirName;</span><br><span class="line">                $parent_path&#x3D;Split-Path -Parent $target_DirName;</span><br><span class="line">                move-item &quot;$target_DirName\$($item_object.Name)&quot; $parent_path</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $dir_depth&#x3D;0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Move-FileToParentDir $target_directoryName 0 0;</span><br></pre></td></tr></table></figure>
+
+<p>注意点：</p>
+<ol>
+<li>父目录，需要用Split-Path获取；</li>
+</ol>
+<h2 id="Write-Host-与-Write-Output-区别"><a href="#Write-Host-与-Write-Output-区别" class="headerlink" title="Write-Host 与 Write-Output 区别"></a>Write-Host 与 Write-Output 区别</h2><table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th align="center">说明</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Write-Host</td>
+<td align="center">Write-Host 是直接将信息输出到控制台，而不管信息是什么类型，都会将其转换成字符串，并且不会将输出发送到管道。</td>
+<td align="center">Write-Host “Hello world”</td>
+</tr>
+<tr>
+<td align="center">Write-Output</td>
+<td align="center">Write-Output 则会将输出发送到管道，以便在管道中的其他命令或过程中使用。它可以输出对象或文本，并且它不会将输出直接发送到控制台，除非您将输出发送到控制台。</td>
+<td align="center">Get-ChildItem| Write-Output</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>获取系统启动时间：<a href="https://www.pstips.net/system-running-time.html" target="_blank" rel="noopener">https://www.pstips.net/system-running-time.html</a></li>
+<li>PS中的比较：<a href="https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_comparison_operators?view=powershell-7.2" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/powershell/module/microsoft.powershell.core/about/about_comparison_operators?view=powershell-7.2</a></li>
+<li>测试端口是否连通： <a href="https://blog.csdn.net/weixin_33737134/article/details/85544432" target="_blank" rel="noopener">https://blog.csdn.net/weixin_33737134/article/details/85544432</a></li>
+<li>删除用户配置文件： <a href="https://blog.vichamp.com/2017/12/27/deleting-user-profiles/" target="_blank" rel="noopener">https://blog.vichamp.com/2017/12/27/deleting-user-profiles/</a></li>
+<li>更改WINRM监听端口： <a href="https://blog.51cto.com/281816327/1394801" target="_blank" rel="noopener">https://blog.51cto.com/281816327/1394801</a></li>
+<li>Chrome 修改用户数据目录：<a href="https://blog.csdn.net/weixin_40364421/article/details/82769021" target="_blank" rel="noopener">https://blog.csdn.net/weixin_40364421/article/details/82769021</a></li>
+<li>获取已安装的补丁： <a href="https://www.winhelponline.com/blog/how-to-check-if-a-windows-update-kb-is-installed/" target="_blank" rel="noopener">https://www.winhelponline.com/blog/how-to-check-if-a-windows-update-kb-is-installed/</a></li>
+<li>检查Windows是否需要因为安装补丁重启：<a href="https://docs.microsoft.com/en-us/answers/questions/675843/from-the-command-line-how-can-i-tell-if-a-reboot-i.html" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/answers/questions/675843/from-the-command-line-how-can-i-tell-if-a-reboot-i.html</a></li>
+<li>Copy-Item 复制文件和文件夹：<a href="https://0x400.net/post/powershell-copy-item.html" target="_blank" rel="noopener">https://0x400.net/post/powershell-copy-item.html</a></li>
+<li>组策略与注册表项查询：<a href="https://admx.help/?Category=Windows_8.1_2012R2&amp;Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL" target="_blank" rel="noopener">https://admx.help/?Category=Windows_8.1_2012R2&amp;Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL</a></li>
+<li>Start-Transcript: <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4</a></li>
+<li>Write-Host与Write-Output区别： <a href="https://juejin.cn/s/powershell%20write-host%20write-output" target="_blank" rel="noopener">https://juejin.cn/s/powershell%20write-host%20write-output</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          
+            <a href="/tags/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" rel="tag"># 常用指令</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/05/08/ji-yu-invoke-command-yuan-cheng-geng-xin-vmware-horizon-view-agent/" rel="next" title="基于Invoke-Command远程更新VMware Horizon View Agent">
+                <i class="fa fa-chevron-left"></i> 基于Invoke-Command远程更新VMware Horizon View Agent
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/05/22/ji-lu-yi-ci-ubuntu2004-xia-de-kdump-pei-zhi-yu-ce-shi/" rel="prev" title="记录一次Ubuntu2004下的kdump配置与测试">
+                记录一次Ubuntu2004下的kdump配置与测试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常用脚本与指令合集"><span class="nav-number">1.</span> <span class="nav-text">常用脚本与指令合集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导出csv"><span class="nav-number">1.1.</span> <span class="nav-text">导出csv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊字符转意"><span class="nav-number">1.2.</span> <span class="nav-text">特殊字符转意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取系统启动时间"><span class="nav-number">1.3.</span> <span class="nav-text">获取系统启动时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Invoke-Command-传递参数"><span class="nav-number">1.4.</span> <span class="nav-text">Invoke-Command 传递参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取当前时间"><span class="nav-number">1.5.</span> <span class="nav-text">获取当前时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#While-语句"><span class="nav-number">1.6.</span> <span class="nav-text">While 语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Switch-语句"><span class="nav-number">1.7.</span> <span class="nav-text">Switch 语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符转十进制数字"><span class="nav-number">1.8.</span> <span class="nav-text">字符转十进制数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切割字符串"><span class="nav-number">1.9.</span> <span class="nav-text">切割字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取变量的类型"><span class="nav-number">1.10.</span> <span class="nav-text">获取变量的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝文件到远端的方法"><span class="nav-number">1.11.</span> <span class="nav-text">拷贝文件到远端的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝文件夹"><span class="nav-number">1.12.</span> <span class="nav-text">拷贝文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看Powershell版本"><span class="nav-number">1.13.</span> <span class="nav-text">查看Powershell版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取当前登录的用户数"><span class="nav-number">1.14.</span> <span class="nav-text">获取当前登录的用户数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件语句比较"><span class="nav-number">1.15.</span> <span class="nav-text">条件语句比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查目标补丁是否安装"><span class="nav-number">1.16.</span> <span class="nav-text">检查目标补丁是否安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置注册表"><span class="nav-number">1.17.</span> <span class="nav-text">设置注册表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置网卡"><span class="nav-number">1.18.</span> <span class="nav-text">设置网卡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置DNS"><span class="nav-number">1.18.1.</span> <span class="nav-text">设置DNS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切割IP信息"><span class="nav-number">1.19.</span> <span class="nav-text">切割IP信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#切割IP信息-基于IP做主机名修改"><span class="nav-number">1.19.1.</span> <span class="nav-text">切割IP信息-基于IP做主机名修改</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查端口占用进程"><span class="nav-number">1.20.</span> <span class="nav-text">检查端口占用进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器安装角色"><span class="nav-number">1.21.</span> <span class="nav-text">服务器安装角色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Remote-Desktop-Host-Session"><span class="nav-number">1.21.1.</span> <span class="nav-text">安装Remote Desktop Host Session</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加域"><span class="nav-number">1.22.</span> <span class="nav-text">加域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在文本后面追加内容"><span class="nav-number">1.23.</span> <span class="nav-text">在文本后面追加内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁用本地账户"><span class="nav-number">1.24.</span> <span class="nav-text">禁用本地账户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为本地用户组增加用户"><span class="nav-number">1.25.</span> <span class="nav-text">为本地用户组增加用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">1.26.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务与设置服务"><span class="nav-number">1.27.</span> <span class="nav-text">启动服务与设置服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环语句"><span class="nav-number">1.28.</span> <span class="nav-text">循环语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试端口是否连通"><span class="nav-number">1.29.</span> <span class="nav-text">测试端口是否连通</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户配置文件"><span class="nav-number">1.30.</span> <span class="nav-text">删除用户配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#删除用户配置文件改进版本"><span class="nav-number">1.30.1.</span> <span class="nav-text">删除用户配置文件改进版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看WINRM监听端口"><span class="nav-number">1.31.</span> <span class="nav-text">查看WINRM监听端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改WINRM监听端口"><span class="nav-number">1.32.</span> <span class="nav-text">更改WINRM监听端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逐行读取"><span class="nav-number">1.33.</span> <span class="nav-text">逐行读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间戳"><span class="nav-number">1.34.</span> <span class="nav-text">时间戳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取注册表值"><span class="nav-number">1.35.</span> <span class="nav-text">获取注册表值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置注册表值"><span class="nav-number">1.36.</span> <span class="nav-text">设置注册表值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非Powershell–Chrome忽略证书"><span class="nav-number">1.37.</span> <span class="nav-text">非Powershell–Chrome忽略证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清除剪贴板"><span class="nav-number">1.38.</span> <span class="nav-text">清除剪贴板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查Windows是否需要因为补丁重启"><span class="nav-number">1.39.</span> <span class="nav-text">检查Windows是否需要因为补丁重启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静默安装Chrome"><span class="nav-number">1.40.</span> <span class="nav-text">静默安装Chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静默安装火狐浏览器"><span class="nav-number">1.41.</span> <span class="nav-text">静默安装火狐浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chrome浏览器制定用户数据目录"><span class="nav-number">1.42.</span> <span class="nav-text">Chrome浏览器制定用户数据目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离线安装cab文件"><span class="nav-number">1.43.</span> <span class="nav-text">离线安装cab文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置防火墙策略"><span class="nav-number">2.</span> <span class="nav-text">设置防火墙策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关闭本地防火墙"><span class="nav-number">3.</span> <span class="nav-text">关闭本地防火墙</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用防火墙策略名称"><span class="nav-number">4.</span> <span class="nav-text">常用防火墙策略名称</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统延迟"><span class="nav-number">5.</span> <span class="nav-text">系统延迟</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#发送邮件通知"><span class="nav-number">6.</span> <span class="nav-text">发送邮件通知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模板–逐行读取文件"><span class="nav-number">7.</span> <span class="nav-text">模板–逐行读取文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置WSUS下载服务器的地址–注册表项"><span class="nav-number">8.</span> <span class="nav-text">设置WSUS下载服务器的地址–注册表项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定义函数与参数"><span class="nav-number">9.</span> <span class="nav-text">定义函数与参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#删除软件包"><span class="nav-number">9.1.</span> <span class="nav-text">删除软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置受信任主机列表"><span class="nav-number">9.2.</span> <span class="nav-text">设置受信任主机列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出控制台指令日志记录"><span class="nav-number">9.3.</span> <span class="nav-text">输出控制台指令日志记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历文件夹并传输文件"><span class="nav-number">9.4.</span> <span class="nav-text">遍历文件夹并传输文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Write-Host-与-Write-Output-区别"><span class="nav-number">9.5.</span> <span class="nav-text">Write-Host 与 Write-Output 区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">10.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

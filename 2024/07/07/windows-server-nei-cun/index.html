@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="default," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="任务管理器工作集（内存）一个程序能够直接使用的所有物理内存大小。 专用工作集这个程序独享的物理内存大小。 共享工作集和其他程序共享的内存大小。 提交大小程序申请的内存大小。 页面错误使用虚拟内存读取失败。读取自 pagefile.sys 。 此错误越多，表示虚拟内存读取越频繁，内存运行效率越低。  参考： https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1ii421e7Wd&#x2F;?s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows_Server_内存">
+<meta property="og:url" content="http://github.com/rohman-zhu/2024/07/07/windows-server-nei-cun/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="任务管理器工作集（内存）一个程序能够直接使用的所有物理内存大小。 专用工作集这个程序独享的物理内存大小。 共享工作集和其他程序共享的内存大小。 提交大小程序申请的内存大小。 页面错误使用虚拟内存读取失败。读取自 pagefile.sys 。 此错误越多，表示虚拟内存读取越频繁，内存运行效率越低。  参考： https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1ii421e7Wd&#x2F;?s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb.png?w=601&h=464">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-1.png?w=601&h=548">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-2.png?w=602&h=253">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-3.png?w=293&h=70">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-4.png?w=296&h=229">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-5.png?w=685&h=116">
+<meta property="og:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-6.png?w=597&h=349">
+<meta property="article:published_time" content="2024-07-07T08:35:33.000Z">
+<meta property="article:modified_time" content="2024-07-07T09:13:52.793Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb.png?w=601&h=464">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2024/07/07/windows-server-nei-cun/"/>
+
+
+
+
+
+  <title>Windows_Server_内存 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/07/07/windows-server-nei-cun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Windows_Server_内存</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-07-07T16:35:33+08:00">
+                2024-07-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="任务管理器"><a href="#任务管理器" class="headerlink" title="任务管理器"></a>任务管理器</h1><h2 id="工作集（内存）"><a href="#工作集（内存）" class="headerlink" title="工作集（内存）"></a>工作集（内存）</h2><p>一个程序能够直接使用的所有物理内存大小。</p>
+<h2 id="专用工作集"><a href="#专用工作集" class="headerlink" title="专用工作集"></a>专用工作集</h2><p>这个程序独享的物理内存大小。</p>
+<h2 id="共享工作集"><a href="#共享工作集" class="headerlink" title="共享工作集"></a>共享工作集</h2><p>和其他程序共享的内存大小。</p>
+<h2 id="提交大小"><a href="#提交大小" class="headerlink" title="提交大小"></a>提交大小</h2><p>程序申请的内存大小。</p>
+<h2 id="页面错误"><a href="#页面错误" class="headerlink" title="页面错误"></a>页面错误</h2><p>使用虚拟内存读取失败。读取自 pagefile.sys 。 此错误越多，表示虚拟内存读取越频繁，内存运行效率越低。</p>
+<blockquote>
+<p>参考： <a href="https://www.bilibili.com/video/BV1ii421e7Wd/?spm_id_from=333.1007.tianma.12-3-45.click&amp;vd_source=a011e39eb7bf1b3a9f6ca7ec0db87ccf" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1ii421e7Wd/?spm_id_from=333.1007.tianma.12-3-45.click&amp;vd_source=a011e39eb7bf1b3a9f6ca7ec0db87ccf</a></p>
+</blockquote>
+<h1 id="博文：32MiB-Working-Sets-on-a-64-GiB-machine"><a href="#博文：32MiB-Working-Sets-on-a-64-GiB-machine" class="headerlink" title="博文：32MiB Working Sets on a 64 GiB machine"></a>博文：32MiB Working Sets on a 64 GiB machine</h1><p>大佬博客：<a href="https://randomascii.wordpress.com/2023/10/01/32-mib-working-sets-on-a-64-gib-machine/#more-4032" target="_blank" rel="noopener">https://randomascii.wordpress.com/2023/10/01/32-mib-working-sets-on-a-64-gib-machine/#more-4032</a></p>
+<p>Memory is a relatively scarce resource on many consumer computers, so a feature to limit how much memory a process uses seems like a good idea, and Microsoft did indeed implement such a feature. However:</p>
+<ul>
+<li>They didn’t document this (!)</li>
+<li>Their implementation doesn’t actually save memory</li>
+<li>The implementation can have a prohibitively high CPU cost</li>
+</ul>
+<p>This feature works by limiting the working set of a process – the amount of memory mapped into the address-space of the process – to 32 MiB. Before reading any further take a moment to guess what the maximum slowdown might be from this feature. That is, if a process repeatedly touched more than 32 MiB of memory – let’s say 64 MiB of memory – then how much longer could these memory operations take compared to if the working set was not limited? Take a moment and write down your guess. The answer is later in this post.</p>
+<p>This exploration started when a Chrome user tweeted at me that they kept seeing Chrome’s setup.exe hogging the CPU. Investigating weird Chrome performance problems is literally my job so we started chatting. Eventually they used UIforETW’s circular-buffer recording mode (leave tracing running, save the buffers when the problem happens) to capture an ETW trace. They filed a Chromium bug and shared the trace and I took a look.</p>
+<p>The trace did indeed show lots of CPU time being spent in setup.exe (the sampling rate is 1 kHz so each sample represents approximately 1 ms of CPU time), but there was nothing obviously out of order:</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb.png?w=601&h=464" alt=""></p>
+<p>That is, at a first glance there was nothing obviously out of order, however as soon as I drilled down into the hottest call stack I saw something peculiar:</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-1.png?w=601&h=548" alt=""></p>
+<p>A few hundred samples spent in KiPageFault seemed maybe plausible, but more than 20,000 samples is definitely weird.</p>
+<p>KiPageFault is triggered whenever a process touches memory that is not currently in the working set of the process. The memory faulted in might be a zeroed page (first use of an allocated page), a page from the standby list (pages in memory that contain data), a compressed page, or a page that is backed by a file (a memory mapped file or the page file). Whatever the source, this function adjusts the page tables to make the page visible inside the process, and then restarts the faulting instruction.</p>
+<p>Since KiPageFault is showing up on multiple call stacks (memory can get paged in from almost anywhere, after all) I needed to use a butterfly view to find out the total cost, and get some hints as to why so much time was being spent there. So, I right-clicked on KiPageFault and selected View Callees, By Function. This showed me two very interesting details:</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-2.png?w=602&h=253" alt=""></p>
+<p>The first detail is that of the 46,912 CPU samples taken from this process fully 46,444 of them (99%!) were inside KiPageFault. That is remarkable. In a steady-state process (not allocating excessively) on a system with sufficient memory (this system had 64 GiB of RAM and roughly 47 GiB of that was available) the number of page faults should be close to zero, and this was a long way from that.</p>
+<p>The other detail is that most of the time inside of KiPageFault was spent in MiTrimWorkingSet. This makes sense. But at the same time it is, actually, pretty weird. It looks like every time a page is faulted in to the process the system immediately trims the working set, presumably removing another page from the working set. Doing this is expensive, and increases the odds of future page faults. So, it makes sense in that it explains why the process is spending so much time in KiPageFault, but it is weird because I don’t know why Windows would be doing this.</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-3.png?w=293&h=70" alt=""></p>
+<p>ETW traces contain a wealth of information so I looked at the “Total Commit” table and found that setup.exe only had 47.418 MiB of commit. This measures the total amount of allocated memory in this process, plus a few other types of memory such as stack, and modified global variables. 47.418 MB is a pretty tiny amount and should take less than 10 ms to fault in (see Hidden Costs of Memory Allocation for details), and there were no new allocations during the trace, so the KiPageFault overhead was definitely excessive.</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-4.png?w=296&h=229" alt=""></p>
+<h2 id="Procrastination"><a href="#Procrastination" class="headerlink" title="Procrastination"></a>Procrastination</h2><p>I thought that SetProcessWorkingSetSize might be involved in triggering this behavior, and a coworker suggested SetPriorityClass with PROCESS_MODE_BACKGROUND_BEGIN could be a factor, so I thought about doing some experimentation with these functions. But, the issue was reported on Windows 11 and I assumed that there must be some odd-ball configuration triggering this edge case behavior so I didn’t think my tests would be fruitful so I did nothing for three weeks.</p>
+<p>I finally got back to the bug and decided to start by doing the simplest possible test. I wrote code that allocated 64 MiB of RAM, touched all of it, then used EmptyWorkingSet, SetProcessWorkingSetSize, and SetPriorityClass with PROCESS_MODE_BACKGROUND_BEGIN, then touched the memory again. I used some Sleep(5000) calls and Task Manager to monitor the working set. I was not expecting the simplest possible test to reveal the problem.</p>
+<p>My tests showed that EmptyWorkingSet and SetProcessWorkingSetSize both emptied the working set almost to nothing, but the working set “refilled” when the memory was touched again. So, the documentation for these functions (as crazy and archaic as it sounds) seems to be mostly accurate. And, unless they were called extremely frequently these functions could not cause the problem.</p>
+<p>On the other hand, my tests showed that SetPriorityClass with PROCESS_MODE_BACKGROUND_BEGIN caused the working set to be trimmed to 32 MiB, and kept it there when I touched all the memory again. That is, while touching 64 MiB of memory would normally fault those pages in and push the working set to 64 MiB or higher, instead the working set stayed capped.</p>
+<p>Whoa. That’s crazy. It wasn’t supposed to be that simple. I refined the test code more but it’s still fairly simple. In its final form the code allocates 64 MiB of memory and then repeatedly walks over that memory (writing once to each page) to see how many times it can walk over the memory in a second. Then it does the same thing with the process set to background mode. The difference is dramatic:</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-5.png?w=685&h=116" alt=""></p>
+<p>The performance of scanning the memory in the normal mode is quite consistent, taking about 0.2 ms per scan. Scanning in background mode normally takes about 250 times as long per scan (two hundred and fifty times as long!!!). Sometimes the background-mode scanning goes dramatically slower – up to about 800 times as long per scan, 160 ms for 64 MiB.</p>
+<p>This dramatic increase in CPU time is not a great way to reduce the impact of background processes.</p>
+<h2 id="Limiting-the-Working-Set-Doesn’t-Save-Memory"><a href="#Limiting-the-Working-Set-Doesn’t-Save-Memory" class="headerlink" title="Limiting the Working Set Doesn’t Save Memory!"></a>Limiting the Working Set Doesn’t Save Memory!</h2><p>Okay, so PROCESS_MODE_BACKGROUND_BEGIN makes some operations take more than 250 times as long to run, but at least it saves memory. Right? Right?</p>
+<p>Well, no. Not really. Not in any situation I can imagine.</p>
+<p>Trimming the working set of a process doesn’t actually save memory. It just moves the memory from the working set of the process to the standby list. Then, if the system is under memory pressure the pages in the standby list are eligible to be compressed, or discarded (if unmodified and backed by a file), or written to the page file. But “eligible” is doing a lot of heavy lifting in that sentence. The OS doesn’t immediately do anything with the page, generally speaking. And, if the system has gobs of free and available memory then it may never do anything with the page, making the trimming pointless. The memory isn’t “saved”, it’s just moved from one list to another. It’s the digital equivalent of paper shuffling.</p>
+<p>Another reason this trimming is pointless is because the system already has a (much more efficient) mechanism for managing working sets. Every second the system process wakes up and runs KeBalanceSetManager. Among other things this function calls MiProcessWorkingSets which calls MiTrimOrAgeWorkingSet:</p>
+<p><img src="https://randomascii.wordpress.com/wp-content/uploads/2023/10/image_thumb-6.png?w=597&h=349" alt=""></p>
+<p>All I know about this system is the names of the functions and the frequency of its operation, but I feel pretty confident in speculating about roughly what it’s doing, and it seems like a strictly better solution to the problem. Here’s why MiTrimOrAgeWorkingSet is better than PROCESS_MODE_BACKGROUND_BEGIN:</p>
+<ul>
+<li>Trimming the working set once per second is far more efficient (uses less CPU time) than trimming it after every page fault, and it greatly reduces the odds of trimming a page just before it is needed</li>
+<li>Trimming the working set once per second is just as memory efficient as trimming after every page fault because trimming doesn’t immediately save memory anyway</li>
+<li>Trimming the working set every second can more easily respond to changes in memory pressure, doing nothing when there is lots of free memory, and then aggressively trimming rarely-touched pages from idle processes when conditions change.</li>
+</ul>
+<h2 id="Resolution"><a href="#Resolution" class="headerlink" title="Resolution"></a>Resolution</h2><p>As far as Chrome is concerned the solution to this problem was simple – don’t call this function, and therefore don’t put Chrome’s setup process into this mode. We still run in low-priority mode, but not the problematic “background” mode.</p>
+<p>But this function remains, waiting to snare some future developer. The easiest thing that Microsoft could do would be to change the documentation to acknowledge this behavior. I have in mind a large, red, bold-faced label saying “if your process uses more than 32 MiB of memory then this may make your program run 250 times slower and it won’t really save memory so maybe use THREAD_MODE_BACKGROUND_BEGIN instead.” But fixing the documentation would not be as valuable as fixing the background mode. I have trouble imagining any scenario where capping the working set would be better than the working-set trimming implemented in the system process, so removing this functionality seems like a pure win.</p>
+<p>And fixing the background mode would avoid the need for the ugly large, red, bold-faced warning label.</p>
+<p>Ironically the impetus for using PROCESS_MODE_BACKGROUND_BEGIN in Chrome was a 2012 Chrome bug (predating my time on the team, and I’ve been there a while) complaining that the updater was using too much CPU time.</p>
+<p>This recent issue was reported on Windows 11, but I found a Mozilla bug discussing this flag that linked to a Stack Overflow answer from 2015 that pointed out that PROCESS_MODE_BACKGROUND_BEGIN limited the working set to 32 MiB on Windows 7. This issue has been known for eight years, on many versions of Windows, and it still hasn’t been corrected or even documented. I hope that changes now.</p>
+<h2 id="Addendums"><a href="#Addendums" class="headerlink" title="Addendums"></a>Addendums</h2><p>To clarify, it is the working-set that is trimmed to 32 MiB, not the private working set. So, the 32 MiB number includes code as well as data, for what it’s worth.</p>
+<p>Also, after posting this I was playing around and found that when I reset the process with PROCESS_MODE_BACKGROUND_END this causes the working set to be trimmed. That’s harmless, but weird. Why would taking the process out of background mode cause the working set to be trimmed as if the process had called EmptyWorkingSet?</p>
+<p>A twitter user posted a bit of history and a tool (untested!) to list working-set state for processes on the system.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/default/" rel="tag"># default</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/07/07/esxi-wu-fa-tong-guo-ovf-chuang-jian-xu-ni-ji-ti-shi-zhi-you-guan-li-ci-zhu-ji-de-fu-wu-qi-xx-xx-xx-xx-cai-neng-fang-wen-ci-zhu-ji-de-zi-yuan-she-zhi/" rel="next" title="ESXi-无法通过OVF创建虚拟机-提示只有管理此主机的服务器XX.XX.XX.XX才能访问此主机的资源设置">
+                <i class="fa fa-chevron-left"></i> ESXi-无法通过OVF创建虚拟机-提示只有管理此主机的服务器XX.XX.XX.XX才能访问此主机的资源设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/07/21/ji-lu-yi-ci-vmotion-yi-chang-duo-ge-gu-zhang-die-jia/" rel="prev" title="记录一次vMotion异常-多个故障叠加">
+                记录一次vMotion异常-多个故障叠加 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#任务管理器"><span class="nav-number">1.</span> <span class="nav-text">任务管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作集（内存）"><span class="nav-number">1.1.</span> <span class="nav-text">工作集（内存）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专用工作集"><span class="nav-number">1.2.</span> <span class="nav-text">专用工作集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享工作集"><span class="nav-number">1.3.</span> <span class="nav-text">共享工作集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交大小"><span class="nav-number">1.4.</span> <span class="nav-text">提交大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面错误"><span class="nav-number">1.5.</span> <span class="nav-text">页面错误</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#博文：32MiB-Working-Sets-on-a-64-GiB-machine"><span class="nav-number">2.</span> <span class="nav-text">博文：32MiB Working Sets on a 64 GiB machine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Procrastination"><span class="nav-number">2.1.</span> <span class="nav-text">Procrastination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Limiting-the-Working-Set-Doesn’t-Save-Memory"><span class="nav-number">2.2.</span> <span class="nav-text">Limiting the Working Set Doesn’t Save Memory!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resolution"><span class="nav-number">2.3.</span> <span class="nav-text">Resolution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Addendums"><span class="nav-number">2.4.</span> <span class="nav-text">Addendums</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

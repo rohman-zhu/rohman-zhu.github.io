@@ -239,9 +239,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -270,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/%E6%B5%85%E8%B0%8851%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%B2%E5%8F%A3%E9%80%9A%E8%AE%AF/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/02/an-zhuo-lan-ya-tong-xun/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -289,7 +323,222 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/01/%E6%B5%85%E8%B0%8851%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%B2%E5%8F%A3%E9%80%9A%E8%AE%AF/" itemprop="url">浅谈51单片机串口通讯</a></h1>
+                <a class="post-title-link" href="/2017/07/02/an-zhuo-lan-ya-tong-xun/" itemprop="url">安卓蓝牙通讯</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-02T20:12:54+08:00">
+                2017-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近做到一个案例,想实现的功能是 用手机蓝牙控制 <em>单片机</em> 上面的继电器, 那么在单片机上面需要一个蓝牙模块来与安卓手机上面的蓝牙通讯(这个代码,我会在另外一篇文章里面写).经过查询,发现单片机加装的蓝牙通讯模块,是用字节流的形式来进行数据传输,因此,我先来编写安卓手机上面的蓝牙通讯模块.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-获取蓝牙操作对象"><a href="#一-获取蓝牙操作对象" class="headerlink" title="一.获取蓝牙操作对象"></a>一.获取蓝牙操作对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();</span><br><span class="line"></span><br><span class="line"><span class="comment">//查看本地蓝牙是不是开启状态的</span></span><br><span class="line">blueAdapter.isEnable();</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询蓝牙是不是被发现的状态...这些都是BluetoothAdapter的方法,根据英文提示就好了.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//打开蓝牙设备</span></span><br><span class="line"><span class="comment">//方法一:</span></span><br><span class="line">&#123;</span><br><span class="line">    blueAdapter.Enable();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方法二:</span></span><br><span class="line">&#123;</span><br><span class="line">    Intent intent  = <span class="keyword">new</span> Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);</span><br><span class="line">    startActivity(intent);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//开启蓝牙被发现的状态</span></span><br><span class="line">&#123;</span><br><span class="line">    BluetoothAdapter.startDiscovery();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-获取搜索到的蓝牙设备"><a href="#二-获取搜索到的蓝牙设备" class="headerlink" title="二.获取搜索到的蓝牙设备"></a>二.获取搜索到的蓝牙设备</h2><p>这里的蓝牙设备对象都是BluetoothDevice对象,在BluetoothAdapter中可以获取到这些对象.<br>我要用到的是这个设备的 <em>名字</em> 和 <em>MAC地址</em> .</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    Set&lt;bluetoothDevice&gt; bluetoothDevices = BluetoothAdapter.getBondedDevices();<span class="comment">//这里返回的是一个Set集合</span></span><br><span class="line">    <span class="comment">//这里可以用一个增强for来遍历所有的设备</span></span><br><span class="line">    <span class="keyword">for</span>(BluetoothDevice device : bluetoothDevices)</span><br><span class="line">    &#123;</span><br><span class="line">        String DeviceName = device.getName();</span><br><span class="line">        String DeviceAddress = device.getAddress();</span><br><span class="line">        <span class="comment">//添加到List集合中</span></span><br><span class="line">        <span class="comment">//自定义修改...   </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三-蓝牙通讯"><a href="#三-蓝牙通讯" class="headerlink" title="三.蓝牙通讯"></a>三.蓝牙通讯</h2><p>蓝牙通讯都是通过Socket型式来传送,需要 客户端(C端)与服务器端(S端) 这两端通过流传输.</p>
+<h2 id="四-固定的UUID"><a href="#四-固定的UUID" class="headerlink" title="四.固定的UUID"></a>四.固定的UUID</h2><h3 id="蓝牙串口服务"><a href="#蓝牙串口服务" class="headerlink" title="蓝牙串口服务"></a>蓝牙串口服务</h3><p>SerialPortServiceClass_UUID = ‘{00001101-0000-1000-8000-00805F9B34FB}’<br>LANAccessUsingPPPServiceClass_UUID = ‘{00001102-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="拨号网络服务"><a href="#拨号网络服务" class="headerlink" title="拨号网络服务"></a>拨号网络服务</h3><p>DialupNetworkingServiceClass_UUID = ‘{00001103-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="信息同步服务"><a href="#信息同步服务" class="headerlink" title="信息同步服务"></a>信息同步服务</h3><p>IrMCSyncServiceClass_UUID = ‘{00001104-0000-1000-8000-00805F9B34FB}’<br>SDP_OBEXObjectPushServiceClass_UUID = ‘{00001105-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="文件传输服务"><a href="#文件传输服务" class="headerlink" title="文件传输服务"></a>文件传输服务</h3><p>OBEXFileTransferServiceClass_UUID = ‘{00001106-0000-1000-8000-00805F9B34FB}’<br>IrMCSyncCommandServiceClass_UUID = ‘{00001107-0000-1000-8000-00805F9B34FB}’</p>
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字:"></a>关键字:</h4><ul>
+<li>BluetoothServerSocket</li>
+<li>BluetoothSocket</li>
+<li>InputStream</li>
+<li>OutputStream</li>
+<li>耗时/阻塞</li>
+<li>线程</li>
+<li>Handler</li>
+</ul>
+<p>无论是服务器端,还是客户端,都需相同UUID来创建SOCKET;</p>
+<h3 id="客户端-C端"><a href="#客户端-C端" class="headerlink" title="客户端( C端 )"></a>客户端( C端 )</h3><ul>
+<li><p>通过Socket.connect(),会让Socket连接到服务器端,但这个操作是耗时操作,会阻塞线程,所以这个方法必须放在另外一个线程里面操作.</p>
+</li>
+<li><p>创建客户端Socket需要一个 <em>“目标”</em> BluetoothDevice对象;</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导包略...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientSocket</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BluetoothDevice bluetoothDevice;</span><br><span class="line">    <span class="keyword">private</span> UUID uuid;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> SocketIOOperate socketIOOperate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ClientSocket</span><span class="params">(BluetoothDevice bluetoothDevice, UUID uuid,Handler handler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bluetoothDevice = bluetoothDevice;</span><br><span class="line">        <span class="keyword">this</span>.uuid = uuid;</span><br><span class="line">        <span class="keyword">this</span>.handler = handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ConnectToServer</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);</span><br><span class="line">            bluetoothSocket.connect();</span><br><span class="line">            <span class="comment">//TODO : 这里有两方法 ,先用第IO流操作个类,直接传入一个socket</span></span><br><span class="line">            <span class="comment">// 剩下的事情交给另外一个类来做</span></span><br><span class="line">            <span class="comment">//SocketIOOperate(BluetoothSocket bluetoothSocket,Handler handler)是一个操作流的类,用于处理Socket收发信息;</span></span><br><span class="line">            socketIOOperate = <span class="keyword">new</span> SocketIOOperate(bluetoothSocket,handler);</span><br><span class="line">            socketIOOperate.start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String Content)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        socketIOOperate.sendMessage(Content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关闭Socket</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            socketIOOperate.close();</span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ConnectToServer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务器端-S端"><a href="#服务器端-S端" class="headerlink" title="服务器端( S端 )"></a>服务器端( S端 )</h3><p>在服务器端里面会用到两个对象 ,分别是BluetoothServerSocket , BluetoothSocket; </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerSocket</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BluetoothDevice bluetoothDevice;</span><br><span class="line">    <span class="keyword">private</span> UUID uuid;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> BluetoothServerSocket bluetoothServerSocket;</span><br><span class="line">    <span class="keyword">private</span> BluetoothAdapter bluetoothAdapter;</span><br><span class="line">    <span class="keyword">private</span> SocketIOOperate socketIOOperate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//private UUID uuid = UUID.fromString("8b66eab7-6f0e-42a2-870e-72a8141e308c"); //固定</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ServerSocket</span><span class="params">(BluetoothAdapter bluetoothAdapter,UUID uuid,Handler handler)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bluetoothAdapter = bluetoothAdapter;</span><br><span class="line">        <span class="keyword">this</span>.uuid = uuid;</span><br><span class="line">        <span class="keyword">this</span>.handler = handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AcceptClient</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            bluetoothServerSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(<span class="string">"MyBTServer"</span>,uuid);</span><br><span class="line">            bluetoothSocket = bluetoothServerSocket.accept();</span><br><span class="line">            <span class="comment">//TODO : 这里有两方法 ,先用第IO流操作个类,直接传入一个socket</span></span><br><span class="line">            <span class="comment">// 剩下的事情交给另外一个类来做</span></span><br><span class="line">            socketIOOperate = <span class="keyword">new</span> SocketIOOperate(bluetoothSocket,handler);</span><br><span class="line">            socketIOOperate.start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String Content)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        socketIOOperate.sendMessage(Content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关闭Socket</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            bluetoothServerSocket.close();</span><br><span class="line"></span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AcceptClient();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作线程"><a href="#操作线程" class="headerlink" title="操作线程"></a>操作线程</h3><p>建立了两个Socket,并使其连接,这还不够,因为要让客户端或服务器端接收数据,或者发送数据,因为无论在客户端还是在服务器端,这两个操作都是一样的,因此单独写成一个线程来处理.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SocketIOOperate</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> InputStream inputStream;</span><br><span class="line">    <span class="keyword">private</span> OutputStream outputStream;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//---输入流需要的变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> readIndex;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] buff;</span><br><span class="line">    <span class="keyword">private</span> String receiveContent;</span><br><span class="line">    <span class="keyword">private</span> Message msg;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SocketIOOperate</span><span class="params">(BluetoothSocket bluetoothSocket , Handler handler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bluetoothSocket = bluetoothSocket;</span><br><span class="line">        <span class="keyword">this</span>.handler = handler;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        readIndex = <span class="number">0</span>;</span><br><span class="line">        receiveContent = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            inputStream  = bluetoothSocket.getInputStream();</span><br><span class="line">            outputStream = bluetoothSocket.getOutputStream();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">listenerContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//默认采用UTF-8的编码</span></span><br><span class="line">                readIndex = inputStream.read(buff);</span><br><span class="line">                receiveContent = <span class="keyword">new</span> String(buff,<span class="number">0</span>,readIndex);</span><br><span class="line">                msg = <span class="keyword">new</span> Message();</span><br><span class="line">                msg.obj = receiveContent;</span><br><span class="line">                handler.sendMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getReceiveContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> receiveContent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(String content)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] sendContent = content.getBytes();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            outputStream.write(sendContent);</span><br><span class="line">            outputStream.flush();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        listenerContent();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            inputStream.close();</span><br><span class="line">            outputStream.close();</span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实现蓝牙通讯,额外总共开启了三个线程…这句话不太严谨,是一个作为客户端,要额外再开启两个线程;同理服务器端也需要额外开启两个线程.</p>
+<p>而开启线程的原因无非两个:</p>
+<ol>
+<li>是让耗时(阻塞)放在子线程里面;</li>
+<li>是需要重复执行读取流的操作.</li>
+</ol>
+<p>获取的数据通过Handler类来传输,这就可以实现蓝牙聊天室了.</p>
+<p><a href="https://github.com/R0manJ/BlueToothTestDemo" target="_blank" rel="noopener">项目地址</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/qian-tan-51-dan-pian-ji-chuan-kou-tong-xun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/01/qian-tan-51-dan-pian-ji-chuan-kou-tong-xun/" itemprop="url">浅谈51单片机串口通讯</a></h1>
         
 
         <div class="post-meta">
@@ -457,7 +706,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/01/qian-tan-san-ji-guan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -476,7 +725,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/01/%E6%B5%85%E8%B0%88%E4%B8%89%E6%9E%81%E7%AE%A1/" itemprop="url">浅谈三极管</a></h1>
+                <a class="post-title-link" href="/2017/07/01/qian-tan-san-ji-guan/" itemprop="url">浅谈三极管</a></h1>
         
 
         <div class="post-meta">
@@ -648,7 +897,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/30/%E5%9C%A8MAC%E7%9A%84VirtualBox%E4%B8%AD%E7%BC%96%E5%86%99%E5%8D%95%E7%89%87%E6%9C%BA%E7%A8%8B%E5%BA%8F/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/30/zai-mac-de-virtualbox-zhong-bian-xie-dan-pian-ji-cheng-xu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -667,7 +916,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/30/%E5%9C%A8MAC%E7%9A%84VirtualBox%E4%B8%AD%E7%BC%96%E5%86%99%E5%8D%95%E7%89%87%E6%9C%BA%E7%A8%8B%E5%BA%8F/" itemprop="url">在MAC的VirtualBox中编写单片机程序</a></h1>
+                <a class="post-title-link" href="/2017/06/30/zai-mac-de-virtualbox-zhong-bian-xie-dan-pian-ji-cheng-xu/" itemprop="url">在MAC的VirtualBox中编写单片机程序</a></h1>
         
 
         <div class="post-meta">
@@ -846,7 +1095,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/28/%E6%9C%89%E5%85%B3Fragment%E7%9A%84%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/28/you-guan-fragment-de-xiang-guan-wen-ti/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -865,7 +1114,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/28/%E6%9C%89%E5%85%B3Fragment%E7%9A%84%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/" itemprop="url">有关Fragment的相关问题</a></h1>
+                <a class="post-title-link" href="/2017/06/28/you-guan-fragment-de-xiang-guan-wen-ti/" itemprop="url">有关Fragment的相关问题</a></h1>
         
 
         <div class="post-meta">
@@ -1138,7 +1387,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/19/%E5%AE%89%E5%8D%93%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/19/an-zhuo-zi-ding-yi-kong-jian-xue-xi-bi-ji/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1157,7 +1406,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/19/%E5%AE%89%E5%8D%93%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">安卓自定义控件学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/19/an-zhuo-zi-ding-yi-kong-jian-xue-xi-bi-ji/" itemprop="url">安卓自定义控件学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -1500,7 +1749,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/GIT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/git-xue-xi-bi-ji/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1519,7 +1768,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/11/GIT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">GIT学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/11/git-xue-xi-bi-ji/" itemprop="url">GIT学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -2009,7 +2258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/HEXO%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2017-06-10)/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/hexo-bo-ke-da-jian-xue-xi-bi-ji-2017-06-10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -2028,7 +2277,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/11/HEXO%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2017-06-10)/" itemprop="url">HEXO博客搭建学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/11/hexo-bo-ke-da-jian-xue-xi-bi-ji-2017-06-10/" itemprop="url">HEXO博客搭建学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -2155,12 +2404,16 @@
 </body>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 添加网易云播放器</span><br><span class="line"></span><br><span class="line">从网易云的生成外链播放器里面获取到播放器代码</span><br></pre></td></tr></table></figure>
   <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=736223406&auto=1&height=90"></iframe>
-```
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">注意:</span><br><span class="line"></span><br><span class="line">在src这里,缺少https:,请自行添加上,否则无法显示播放器.</span><br><span class="line"></span><br><span class="line"># 关于浮动</span><br><span class="line"></span><br><span class="line">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;www.w3school.com.cn&#x2F;css&#x2F;css_positioning_floating.asp&quot;&gt; 点击查看浮动的相关内容 &lt;&#x2F;a&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 插件</span><br><span class="line"></span><br><span class="line">参考：https:&#x2F;&#x2F;www.zdynb.cn&#x2F;2019&#x2F;hexo-bi-bei-cha-jian.html</span><br><span class="line"></span><br><span class="line">## 如何将文章链接中中文转成英文</span><br><span class="line"></span><br><span class="line">需要安装 hexo-permalink-pinyin 插件</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;sh</span><br><span class="line"># 安装插件</span><br><span class="line">npm i hexo-permalink-pinyin --save</span><br><span class="line"></span><br><span class="line"># 根目录的 _config.yml 文件配置以下内容</span><br><span class="line">permalink_pinyin:</span><br><span class="line">  enable: true</span><br><span class="line">  separator: &#39;-&#39; # default: &#39;-&#39;</span><br></pre></td></tr></table></figure>
 
-<p>注意:</p>
-<p>在src这里,缺少https:,请自行添加上,否则无法显示播放器.</p>
-<h1 id="关于浮动"><a href="#关于浮动" class="headerlink" title="关于浮动"></a>关于浮动</h1><p><a href="http://www.w3school.com.cn/css/css_positioning_floating.asp" target="_blank" rel="noopener"> 点击查看浮动的相关内容 </a></p>
-<h1 id="如何向右展开"><a href="#如何向右展开" class="headerlink" title="如何向右展开?"></a>如何向右展开?</h1>
+<h2 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h2><p>需要安装 hexo-prism-plugin 插件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-rism-plugin --save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根目录的 _config.yml 文件配置以下内容</span></span><br><span class="line">prism_plugin:</span><br><span class="line">  mode: <span class="string">'preprocess'</span>    <span class="comment"># realtime/preprocess</span></span><br><span class="line">  theme: <span class="string">'tomorrow'</span>     <span class="comment">#主题选项</span></span><br><span class="line">  line_number: <span class="literal">false</span>    <span class="comment"># default false</span></span><br><span class="line">  custom_css:</span><br></pre></td></tr></table></figure>
+
+<h2 id="搜索插件"><a href="#搜索插件" class="headerlink" title="搜索插件"></a>搜索插件</h2><p>需安装 hexo-generator-searchdb 插件</p>
+<p>参考：<a href="https://cloudolife.cn/2022/04/02/Site/Hexo/Plugins/hexo-generator-searchdb-and-NexT-enable-local-search-on-Hexo/" target="_blank" rel="noopener">https://cloudolife.cn/2022/04/02/Site/Hexo/Plugins/hexo-generator-searchdb-and-NexT-enable-local-search-on-Hexo/</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-generator-searchdb --save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根目录的 _config.yml 文件配置以下内容</span></span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  content: <span class="literal">true</span></span><br><span class="line">  format: html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在主题里面的 _config.yml 文件配置以下内容</span></span><br><span class="line"><span class="comment"># Local search</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/next-theme/hexo-generator-searchdb</span></span><br><span class="line">local_search:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  <span class="comment"># 如果是 auto，则输入触发搜索。</span></span><br><span class="line">  <span class="comment"># 如果是 manual，按回车键或搜索按钮触发搜索。</span></span><br><span class="line">  trigger: auto</span><br><span class="line">  <span class="comment"># 显示每篇文章的前 n 个结果，通过设置为 -1 显示所有结果</span></span><br><span class="line">  top_n_per_article: 1</span><br><span class="line">  <span class="comment"># 将 html 字符串转义为可读字符串。</span></span><br><span class="line">  unescape: <span class="literal">false</span></span><br><span class="line">  <span class="comment"># 在页面加载时预加载搜索数据。</span></span><br><span class="line">  preload: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+
           
         
       
@@ -2208,7 +2461,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/SQL%E5%A4%8D%E4%B9%A0%20%EF%BC%882017-06-07%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/06/11/sql-fu-xi-2017-06-07/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -2227,7 +2480,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/11/SQL%E5%A4%8D%E4%B9%A0%20%EF%BC%882017-06-07%EF%BC%89/" itemprop="url">SQL复习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/11/sql-fu-xi-2017-06-07/" itemprop="url">SQL复习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -2762,7 +3015,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">428</span>
+                  <span class="site-state-item-count">429</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2996,6 +3249,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

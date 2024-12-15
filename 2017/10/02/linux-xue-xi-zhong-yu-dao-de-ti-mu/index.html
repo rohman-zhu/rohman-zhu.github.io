@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="企业面试题 或者 课程练习题目如何查询 file.txt 文件 第20行到第30行的内容查询一个xx.txt 20 - 30 行的内容  M1:  1# head -30 xx.txt | tail -11   M2：  1# sed -n &#39;20,30p&#39; xx.txt  如何过滤出已知目录（&#x2F;home&#x2F;)，子目录下所有的一级目录M1: 1# ls -l | grep &amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习中遇到的题目">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/02/linux-xue-xi-zhong-yu-dao-de-ti-mu/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="企业面试题 或者 课程练习题目如何查询 file.txt 文件 第20行到第30行的内容查询一个xx.txt 20 - 30 行的内容  M1:  1# head -30 xx.txt | tail -11   M2：  1# sed -n &#39;20,30p&#39; xx.txt  如何过滤出已知目录（&#x2F;home&#x2F;)，子目录下所有的一级目录M1: 1# ls -l | grep &amp;quot">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-02T13:28:20.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.759Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/10/02/linux-xue-xi-zhong-yu-dao-de-ti-mu/"/>
+
+
+
+
+
+  <title>Linux学习中遇到的题目 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/02/linux-xue-xi-zhong-yu-dao-de-ti-mu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux学习中遇到的题目</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-02T21:28:20+08:00">
+                2017-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="企业面试题-或者-课程练习题目"><a href="#企业面试题-或者-课程练习题目" class="headerlink" title="企业面试题 或者 课程练习题目"></a>企业面试题 或者 课程练习题目</h1><h2 id="如何查询-file-txt-文件-第20行到第30行的内容"><a href="#如何查询-file-txt-文件-第20行到第30行的内容" class="headerlink" title="如何查询 file.txt 文件 第20行到第30行的内容"></a>如何查询 file.txt 文件 第20行到第30行的内容</h2><p>查询一个xx.txt 20 - 30 行的内容</p>
+<ul>
+<li>M1:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># head -30 xx.txt | tail -11</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>M2：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># sed -n &#39;20,30p&#39; xx.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何过滤出已知目录（-home-，子目录下所有的一级目录"><a href="#如何过滤出已知目录（-home-，子目录下所有的一级目录" class="headerlink" title="如何过滤出已知目录（/home/)，子目录下所有的一级目录"></a>如何过滤出已知目录（/home/)，子目录下所有的一级目录</h2><p><em>M1:</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -l | grep &quot;^d&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-正则表达式"><a href="#【知识点】-正则表达式" class="headerlink" title="【知识点】 正则表达式"></a>【知识点】 正则表达式</h3><p>一些特殊的符号表示一些特殊的作用和功能</p>
+<table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">.</td>
+<td align="center">单个任意的字符</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">重复前面任意0个或多个字符</td>
+</tr>
+<tr>
+<td align="center">^x</td>
+<td align="center">表示以x开头</td>
+</tr>
+<tr>
+<td align="center">$x</td>
+<td align="center">表示以x结尾</td>
+</tr>
+</tbody></table>
+<p><em>M2:</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | grep &#x2F;</span><br><span class="line"># ls -lF | grep &quot;&#x2F;$&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-ls-F-指令"><a href="#【知识点】-ls-F-指令" class="headerlink" title="【知识点】 ls -F 指令"></a>【知识点】 ls -F 指令</h3><blockquote>
+<p>在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“/”表示目录，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符；</p>
+</blockquote>
+<p><em>M2.1 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lp | grep &#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-ls-p-指令"><a href="#【知识点】-ls-p-指令" class="headerlink" title="【知识点】 ls -p 指令"></a>【知识点】 ls -p 指令</h3><blockquote>
+<p>-p 指令表示给目录文件加上 ‘/‘</p>
+</blockquote>
+<p><em>M3 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># find .&#x2F; -type d maxdepth 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】find的两个参数"><a href="#【知识点】find的两个参数" class="headerlink" title="【知识点】find的两个参数"></a>【知识点】find的两个参数</h3><blockquote>
+<p>-maxdepth&lt;目录层级&gt;：设置最大目录层级；</p>
+</blockquote>
+<p><em>M4 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tree -Ld 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-tree的参数"><a href="#【知识点】-tree的参数" class="headerlink" title="【知识点】 tree的参数"></a>【知识点】 tree的参数</h3><p>tree指令是用于显示目录树结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#安装</span><br><span class="line"># rpm -qa tree</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-L 表示层数<br>-d b表示目录</p>
+</blockquote>
+<p><em>M5 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | awl &#39;&#x2F;^d&#x2F;&#39;</span><br></pre></td></tr></table></figure>
+
+<p><em>M6 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | sed -n &#39;&#x2F;^d&#x2F;p&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何切换会上一个路径"><a href="#如何切换会上一个路径" class="headerlink" title="如何切换会上一个路径"></a>如何切换会上一个路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd &#x2F;temp</span><br><span class="line"># cd -</span><br></pre></td></tr></table></figure>
+
+<p>因为在环境变量中（‘env’）会存放着这个就路径的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OLDPWD&#x3D;&#x2F;tmp</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何快速查找并显示到当前页面"><a href="#如何快速查找并显示到当前页面" class="headerlink" title="如何快速查找并显示到当前页面"></a>如何快速查找并显示到当前页面</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lrt</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-ls-的参数"><a href="#【知识点】-ls-的参数" class="headerlink" title="【知识点】 ls 的参数"></a>【知识点】 ls 的参数</h3><ul>
+<li>-r : 以文件名反序排列并输出目录内容列表；</li>
+<li>-t : 以文件修改时间排序。</li>
+<li>–color=auto ,让查看的文件类型以不同的颜色显示。</li>
+</ul>
+<h3 id="如何将查找内容显示行号"><a href="#如何将查找内容显示行号" class="headerlink" title="如何将查找内容显示行号"></a>如何将查找内容显示行号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#过滤内容</span><br><span class="line"># grep -n xxx.txt</span><br><span class="line"></span><br><span class="line">cat内容</span><br><span class="line"># cat -n xxx.txt</span><br><span class="line"></span><br><span class="line"># nl xxx.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何对不同开机启动级别设置自启服务？"><a href="#如何对不同开机启动级别设置自启服务？" class="headerlink" title="如何对不同开机启动级别设置自启服务？"></a>如何对不同开机启动级别设置自启服务？</h2><p>用 chkconfig 命令 以sshd为例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --level 35 sshd on</span><br><span class="line"></span><br><span class="line"># chkconfig --list sshd</span><br></pre></td></tr></table></figure>
+
+<h3 id="【知识点】-chkconfig-指令"><a href="#【知识点】-chkconfig-指令" class="headerlink" title="【知识点】 chkconfig 指令"></a>【知识点】 chkconfig 指令</h3><p>chkconfig管理脚本的要求。</p>
+<ol>
+<li>需要通过 /etc/init.d/xxxx restart 格式正常重启服务。</li>
+<li>脚本开头需要如下两行。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig: 35 56 24</span><br><span class="line"># description : xxx linux test.</span><br></pre></td></tr></table></figure>
+
+<h2 id="解释一下Linux的1-6开机级别"><a href="#解释一下Linux的1-6开机级别" class="headerlink" title="解释一下Linux的1-6开机级别"></a>解释一下Linux的1-6开机级别</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0. 关机模式</span><br><span class="line">1. 单用户</span><br><span class="line">2. 无NFS的多用户模式</span><br><span class="line">3. 文本模式（完整的多用户模式）</span><br><span class="line">4. 未使用</span><br><span class="line">5. 图形模式</span><br><span class="line">6. 重启模式</span><br></pre></td></tr></table></figure>
+
+<h2 id="etc-目录为linux系统的默认的配置文件及服务启动命令的目录-，需要进行打包"><a href="#etc-目录为linux系统的默认的配置文件及服务启动命令的目录-，需要进行打包" class="headerlink" title="/etc 目录为linux系统的默认的配置文件及服务启动命令的目录 ，需要进行打包"></a>/etc 目录为linux系统的默认的配置文件及服务启动命令的目录 ，需要进行打包</h2><p>tar zcvf 路径【筐】 目标【苹果】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar zcvf etc.gz &#x2F;etc</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于tar指令的参数"><a href="#关于tar指令的参数" class="headerlink" title="关于tar指令的参数"></a>关于tar指令的参数</h3><ul>
+<li>-c或–create：建立新的备份文件；</li>
+<li>-z或–gzip或–ungzip：通过gzip指令处理备份文件；</li>
+<li>-v或–verbose：显示指令执行过程；</li>
+<li>-f&lt;备份文件&gt;或–file=&lt;备份文件&gt;：指定备份文件；</li>
+<li>-t或–list：列出备份文件的内容；</li>
+<li>-X,  –exclude-from  FILE ;</li>
+<li>-x或–extract或–get：从备份文件中还原文件；</li>
+</ul>
+<h2 id="etc目录为linux系统的默认的配置文件及服务启动命令的目录-，现需要进行打包（排除server目录）"><a href="#etc目录为linux系统的默认的配置文件及服务启动命令的目录-，现需要进行打包（排除server目录）" class="headerlink" title="/etc目录为linux系统的默认的配置文件及服务启动命令的目录 ，现需要进行打包（排除server目录）##"></a>/etc目录为linux系统的默认的配置文件及服务启动命令的目录 ，现需要进行打包（排除server目录）##</h2><p><em>M1 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar zcvf etc.gz --exclude&#x3D;&quot;etc&#x2F;server&quot; &#x2F;etc</span><br></pre></td></tr></table></figure>
+
+<p><em>M2 :</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># touch exclude.list</span><br><span class="line"># echo &#x2F;etc&#x2F;server &gt;&gt; exclude.list</span><br><span class="line"># tar zcvfX etc.gz exclude.list &#x2F;etc</span><br></pre></td></tr></table></figure>
+
+<h2 id="解压etc-gz-文件"><a href="#解压etc-gz-文件" class="headerlink" title="解压etc.gz 文件"></a>解压etc.gz 文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar xf etc.gz &#x2F;home</span><br></pre></td></tr></table></figure>
+
+<h2 id="取xxx-txt内容中的第3，第6列"><a href="#取xxx-txt内容中的第3，第6列" class="headerlink" title="取xxx.txt内容中的第3，第6列"></a>取xxx.txt内容中的第3，第6列</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># awk &#39;&#123;print $3 &quot; &quot;$6&#125;&#39; xxx.txt</span><br><span class="line"></span><br><span class="line"># cut -d&quot; &quot; -f3,6 xxx.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>cut 是简单的取列的命令， -d指定分隔符，-f数字，取第几列的内容。</p>
+</blockquote>
+<h2 id="如果向磁盘写入数据提示如下错误-：-No-space-left-on-device，通过-df-h查看磁盘空间发现没满，请问可能是什么原因？"><a href="#如果向磁盘写入数据提示如下错误-：-No-space-left-on-device，通过-df-h查看磁盘空间发现没满，请问可能是什么原因？" class="headerlink" title="如果向磁盘写入数据提示如下错误 ： No space left on device，通过 df -h查看磁盘空间发现没满，请问可能是什么原因？"></a>如果向磁盘写入数据提示如下错误 ： No space left on device，通过 df -h查看磁盘空间发现没满，请问可能是什么原因？</h2><p>可能是inode数量被消耗尽了。</p>
+</br>
+
+<p>用 df -i 查看是否消耗尽了inode数量。</p>
+</br>
+
+<p>企业工作中邮件临时队列/bar/spool/clientmquene这里很容易被大量小文件占满，导致”No space left on device”的错误。 clientmquene 目录只有安装了 sendmail服务，才会有。</p>
+<blockquote>
+<p>centOS5.8默认就会安装sendmail，centOS6.6默认就没有安装sendmail.</p>
+</blockquote>
+<h2 id="一个100M（100-000-K）-的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个"><a href="#一个100M（100-000-K）-的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个" class="headerlink" title="一个100M（100 000 K） 的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个"></a>一个100M（100 000 K） 的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个</h2><ol>
+<li>默认风趣常规情况下，对大文件来讲inode是足够的。而block数量消耗的会更快，BLOCK为4k的情况，1M的文件不会有磁盘浪费情况，所以文件数量大概为 100 / 1 = 100 个。</li>
+<li>对于小文件 0.1 k ，inode 会消耗的更快。默认分区的时候block数量是大于inode数量的。</li>
+</ol>
+<p>【知识点】</p>
+<ul>
+<li>该题目是考察文件系统inode 和 block 的知识。</li>
+<li>Inode 是存放文件属性信息的 （也包含指向文件实体的指针），默认大小是128byte（c58），256（c64）。</li>
+<li>block 是存放文件实际内容的，默认大小 1K（boot）或者 4K（非系统分区默认给4K）。</li>
+<li>默认较大分区常规企业真实场景情况下，inode数量是足够的，而block数量晓得会更快。</li>
+</ul>
+<h2 id="为什么查询到目录至少有两个硬链接"><a href="#为什么查询到目录至少有两个硬链接" class="headerlink" title="为什么查询到目录至少有两个硬链接"></a>为什么查询到目录至少有两个硬链接</h2><p>因为每一目录都有 ./ 自身一个链接，../上级目录的链接。</p>
+<h2 id="为了防止木马入侵，文件和目录什么权限，安全临界点？"><a href="#为了防止木马入侵，文件和目录什么权限，安全临界点？" class="headerlink" title="为了防止木马入侵，文件和目录什么权限，安全临界点？"></a>为了防止木马入侵，文件和目录什么权限，安全临界点？</h2><blockquote>
+<p>思路 ： 要将文件或者目录 设置为 不能写与删。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录 755 root root</span><br><span class="line"></span><br><span class="line">文件 644 root root</span><br></pre></td></tr></table></figure>
+
+<h2 id="项目-：-服务器用户权限管理改造方案与实施项目"><a href="#项目-：-服务器用户权限管理改造方案与实施项目" class="headerlink" title="项目 ： 服务器用户权限管理改造方案与实施项目"></a>项目 ： 服务器用户权限管理改造方案与实施项目</h2><h2 id="授权oldboy目录以及其子目录755的权限，请给出命令。"><a href="#授权oldboy目录以及其子目录755的权限，请给出命令。" class="headerlink" title="授权oldboy目录以及其子目录755的权限，请给出命令。"></a>授权oldboy目录以及其子目录755的权限，请给出命令。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chmod -R 755 oldboy</span><br></pre></td></tr></table></figure>
+
+<h2 id="将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令"><a href="#将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令" class="headerlink" title="将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令"></a>将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chown -R oldboy.root oldboy</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加一个用户oldboy-，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录"><a href="#添加一个用户oldboy-，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录" class="headerlink" title="添加一个用户oldboy ，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录"></a>添加一个用户oldboy ，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># groupadd -g 801 sa</span><br><span class="line"># useradd -u 808 -M -s &#x2F;sbin&#x2F;nologin -g sa oldboy</span><br></pre></td></tr></table></figure>
+
+<h2 id="vim-命令编辑器快捷键复习"><a href="#vim-命令编辑器快捷键复习" class="headerlink" title="vim 命令编辑器快捷键复习"></a>vim 命令编辑器快捷键复习</h2><p>vim分为两种模式： 命令模式 与 编辑模式</p>
+<blockquote>
+<p>命令模式</p>
+</blockquote>
+<ul>
+<li>保存 ， Esc + wq + enter</li>
+<li>退出 ， Esc + q + enter</li>
+<li>光标强制移到文件的最后一行，shift + g</li>
+<li>光标移到开头 ， g + g</li>
+<li>将光标移到本行的开头 ， ^ , 0</li>
+<li>将光标移到本行的结尾 ， $</li>
+<li>删除一行 ， d + d</li>
+<li>回撤操作 ， u</li>
+<li>向下搜索 ， / + 搜索内容</li>
+<li>向上搜索 ， ？ + 搜索内容</li>
+<li>对搜索内容向下查找 ， n</li>
+<li>对搜索内容向上查找 ， N</li>
+<li>把A替换成B ， : + % + s + / + A + / + B + / + g</li>
+</ul>
+<h2 id="Cache-与-Buffer-的区别"><a href="#Cache-与-Buffer-的区别" class="headerlink" title="Cache 与 Buffer 的区别"></a>Cache 与 Buffer 的区别</h2><ol>
+<li>Cache：缓存区，是高速缓存，是位于CPU和主内存之间的容量较小但速度很快的存储器，因为CPU的速度远远高于主内存的速度，CPU从内存中读取数据需等待很长的时间，而  Cache保存着CPU刚用过的数据或循环使用的部分数据，这时从Cache中读取数据会更快，减少了CPU等待的时间，提高了系统的性能。</li>
+</ol>
+<blockquote>
+<p>Cache并不是缓存文件的，而是缓存块的(块是I/O读写最小的单元)；Cache一般会用在I/O请求上，如果多个进程要访问某个文件，可以把此文件读入Cache中，这样下一个进程获取CPU控制权并访问此文件直接从Cache读取，提高系统性能。</p>
+</blockquote>
+<ol>
+<li>Buffer：缓冲区，用于存储速度不同步的设备或优先级不同的设备之间传输数据；通过buffer可以减少进程间通信需要等待的时间，当存储速度快的设备与存储速度慢的设备进行通信时，存储慢的数据先把数据存放到buffer，达到一定程度存储快的设备再读取buffer的数据，在此期间存储快的设备CPU可以干其他的事情。</li>
+</ol>
+<blockquote>
+<p>Buffer：一般是用在写入磁盘的，例如：某个进程要求多个字段被读入，当所有要求的字段被读入之前已经读入的字段会先放到buffer中。</p>
+</blockquote>
+<h2 id="如何恢复MBR记录"><a href="#如何恢复MBR记录" class="headerlink" title="如何恢复MBR记录"></a>如何恢复MBR记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#复制#1扇区的引导文件</span><br><span class="line"># dd if&#x3D;&#x2F;dev&#x2F;sda of&#x3D;mbr.bin bs&#x3D;512 count&#x3D;1</span><br><span class="line"></span><br><span class="line">恢复#1扇区的引导文件</span><br><span class="line"># dd if&#x3D;mbr.bin of&#x3D;&#x2F;dev&#x2F;sda bs&#x3D;512 count&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘分区的重点"><a href="#磁盘分区的重点" class="headerlink" title="磁盘分区的重点"></a>磁盘分区的重点</h2><ol>
+<li>磁盘分区的实质就是针对0磁头0磁道1扇区的前446字节后面接下来的64bytes的分区表进行设置，即主要是划分起始以及结束磁头号，及扇区号和柱面号。</li>
+<li>分区工具有fdisk（适合小于2T的磁盘分区），parted（适合大于2T的磁盘分区，可以对小于2T的磁盘分区），fdisk首选，只有大于2T时采取选parted。</li>
+</ol>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="SAS-SATA-硬盘文件系统选择"><a href="#SAS-SATA-硬盘文件系统选择" class="headerlink" title="SAS/SATA 硬盘文件系统选择"></a>SAS/SATA 硬盘文件系统选择</h3><ol>
+<li>reiserfs 大量小文件业务首选（100K以内）</li>
+<li>xfs 门户的数据库MySQL业务。</li>
+<li>ext4 视频下载，流媒体，数据库，小文件业务，可以作为默认。</li>
+<li>ext2 没有日志，用于CDN网络加速服务的。</li>
+</ol>
+<blockquote>
+<p>xfs,reiserfs 需要单独安装。默认不支持，大量服务器使用多文件系统维护可能不方便。<br>大并发并不是过多的做磁盘系统的优化，而是在架构前端增加缓存，存储数据库的前段增加缓存。</p>
+</blockquote>
+<h2 id="SSH服务无法连接"><a href="#SSH服务无法连接" class="headerlink" title="SSH服务无法连接"></a>SSH服务无法连接</h2><p>故障原因：</p>
+<ul>
+<li>有可能是网卡ip地址与端口号设置错误</li>
+<li>sshd 服务没开启</li>
+<li>是否允许用户密码登陆</li>
+<li>是否被防火墙拦截</li>
+</ul>
+<h3 id="关于IP设置，有两种方法"><a href="#关于IP设置，有两种方法" class="headerlink" title="关于IP设置，有两种方法"></a>关于IP设置，有两种方法</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>直接修改 /etc/sysconfig/network-script/ifcfg-ethX 文件</p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>用命令 ifconfig 指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig 网卡名字 IP地址</span><br><span class="line"># ifconfig eth1 x.x.x.x</span><br></pre></td></tr></table></figure>
+
+<h2 id="公司所采用的系统是什么版本的"><a href="#公司所采用的系统是什么版本的" class="headerlink" title="公司所采用的系统是什么版本的"></a>公司所采用的系统是什么版本的</h2><p>通过两个指令查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cat &#x2F;etc&#x2F;redhat-release</span><br><span class="line"># uname -r</span><br></pre></td></tr></table></figure>
+
+<p>答案是： 采用的是CentOS6.9，x86_64位系统。</p>
+<h2 id="处理以下文件内容-将域名取出并根据域名进行计数排序处理"><a href="#处理以下文件内容-将域名取出并根据域名进行计数排序处理" class="headerlink" title="处理以下文件内容,将域名取出并根据域名进行计数排序处理"></a>处理以下文件内容,将域名取出并根据域名进行计数排序处理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># text.txt</span><br><span class="line">http:&#x2F;&#x2F;www.baidu.org&#x2F;index.html</span><br><span class="line">http:&#x2F;&#x2F;www.baidu.org&#x2F;1.html</span><br><span class="line">http:&#x2F;&#x2F;post.baidu.org&#x2F;index.html</span><br><span class="line">http:&#x2F;&#x2F;mp3.baidu.org&#x2F;index.hml</span><br><span class="line">http:&#x2F;&#x2F;www.baidu.org&#x2F;3.html</span><br><span class="line">http:&#x2F;&#x2F;post.baidu.org&#x2F;2.html</span><br></pre></td></tr></table></figure>
+
+<p>思路:除去重复+计数重复,运用sort指令,加上uniq -c指令来计数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># awk -F &#x2F; &#39;&#123;print $3&#125;&#39; |sort | uniq -c</span><br></pre></td></tr></table></figure>
+
+<p>方法二:</p>
+<p>用cut指令来切割</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cut -d &#x2F; -f3 test.txt|sort|upiq -c</span><br></pre></td></tr></table></figure>
+
+<p>方法三:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># awk -F &quot;&#x2F;&quot; &#39;&#123;S[#3]&#x3D;S[$3]+1&#125;END&#123; for(k in S)&#125; print k,S[K]&#125;&#39; test.txt</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/02/ci-pan-gua-zai/" rel="next" title="磁盘挂载">
+                <i class="fa fa-chevron-left"></i> 磁盘挂载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/03/centos-5-qi-dong-liu-cheng/" rel="prev" title="CentOS_5_启动流程">
+                CentOS_5_启动流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#企业面试题-或者-课程练习题目"><span class="nav-number">1.</span> <span class="nav-text">企业面试题 或者 课程练习题目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查询-file-txt-文件-第20行到第30行的内容"><span class="nav-number">1.1.</span> <span class="nav-text">如何查询 file.txt 文件 第20行到第30行的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何过滤出已知目录（-home-，子目录下所有的一级目录"><span class="nav-number">1.2.</span> <span class="nav-text">如何过滤出已知目录（&#x2F;home&#x2F;)，子目录下所有的一级目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-正则表达式"><span class="nav-number">1.2.1.</span> <span class="nav-text">【知识点】 正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-ls-F-指令"><span class="nav-number">1.2.2.</span> <span class="nav-text">【知识点】 ls -F 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-ls-p-指令"><span class="nav-number">1.2.3.</span> <span class="nav-text">【知识点】 ls -p 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】find的两个参数"><span class="nav-number">1.2.4.</span> <span class="nav-text">【知识点】find的两个参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-tree的参数"><span class="nav-number">1.2.5.</span> <span class="nav-text">【知识点】 tree的参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何切换会上一个路径"><span class="nav-number">1.3.</span> <span class="nav-text">如何切换会上一个路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何快速查找并显示到当前页面"><span class="nav-number">1.4.</span> <span class="nav-text">如何快速查找并显示到当前页面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-ls-的参数"><span class="nav-number">1.4.1.</span> <span class="nav-text">【知识点】 ls 的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何将查找内容显示行号"><span class="nav-number">1.4.2.</span> <span class="nav-text">如何将查找内容显示行号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何对不同开机启动级别设置自启服务？"><span class="nav-number">1.5.</span> <span class="nav-text">如何对不同开机启动级别设置自启服务？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#【知识点】-chkconfig-指令"><span class="nav-number">1.5.1.</span> <span class="nav-text">【知识点】 chkconfig 指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解释一下Linux的1-6开机级别"><span class="nav-number">1.6.</span> <span class="nav-text">解释一下Linux的1-6开机级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etc-目录为linux系统的默认的配置文件及服务启动命令的目录-，需要进行打包"><span class="nav-number">1.7.</span> <span class="nav-text">&#x2F;etc 目录为linux系统的默认的配置文件及服务启动命令的目录 ，需要进行打包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于tar指令的参数"><span class="nav-number">1.7.1.</span> <span class="nav-text">关于tar指令的参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#etc目录为linux系统的默认的配置文件及服务启动命令的目录-，现需要进行打包（排除server目录）"><span class="nav-number">1.8.</span> <span class="nav-text">&#x2F;etc目录为linux系统的默认的配置文件及服务启动命令的目录 ，现需要进行打包（排除server目录）##</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压etc-gz-文件"><span class="nav-number">1.9.</span> <span class="nav-text">解压etc.gz 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取xxx-txt内容中的第3，第6列"><span class="nav-number">1.10.</span> <span class="nav-text">取xxx.txt内容中的第3，第6列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果向磁盘写入数据提示如下错误-：-No-space-left-on-device，通过-df-h查看磁盘空间发现没满，请问可能是什么原因？"><span class="nav-number">1.11.</span> <span class="nav-text">如果向磁盘写入数据提示如下错误 ： No space left on device，通过 df -h查看磁盘空间发现没满，请问可能是什么原因？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个100M（100-000-K）-的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个"><span class="nav-number">1.12.</span> <span class="nav-text">一个100M（100 000 K） 的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么查询到目录至少有两个硬链接"><span class="nav-number">1.13.</span> <span class="nav-text">为什么查询到目录至少有两个硬链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为了防止木马入侵，文件和目录什么权限，安全临界点？"><span class="nav-number">1.14.</span> <span class="nav-text">为了防止木马入侵，文件和目录什么权限，安全临界点？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目-：-服务器用户权限管理改造方案与实施项目"><span class="nav-number">1.15.</span> <span class="nav-text">项目 ： 服务器用户权限管理改造方案与实施项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权oldboy目录以及其子目录755的权限，请给出命令。"><span class="nav-number">1.16.</span> <span class="nav-text">授权oldboy目录以及其子目录755的权限，请给出命令。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令"><span class="nav-number">1.17.</span> <span class="nav-text">将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加一个用户oldboy-，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录"><span class="nav-number">1.18.</span> <span class="nav-text">添加一个用户oldboy ，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim-命令编辑器快捷键复习"><span class="nav-number">1.19.</span> <span class="nav-text">vim 命令编辑器快捷键复习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-与-Buffer-的区别"><span class="nav-number">1.20.</span> <span class="nav-text">Cache 与 Buffer 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何恢复MBR记录"><span class="nav-number">1.21.</span> <span class="nav-text">如何恢复MBR记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘分区的重点"><span class="nav-number">1.22.</span> <span class="nav-text">磁盘分区的重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统"><span class="nav-number">1.23.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SAS-SATA-硬盘文件系统选择"><span class="nav-number">1.23.1.</span> <span class="nav-text">SAS&#x2F;SATA 硬盘文件系统选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH服务无法连接"><span class="nav-number">1.24.</span> <span class="nav-text">SSH服务无法连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于IP设置，有两种方法"><span class="nav-number">1.24.1.</span> <span class="nav-text">关于IP设置，有两种方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法一"><span class="nav-number">1.24.1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法二"><span class="nav-number">1.24.1.2.</span> <span class="nav-text">方法二</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公司所采用的系统是什么版本的"><span class="nav-number">1.25.</span> <span class="nav-text">公司所采用的系统是什么版本的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理以下文件内容-将域名取出并根据域名进行计数排序处理"><span class="nav-number">1.26.</span> <span class="nav-text">处理以下文件内容,将域名取出并根据域名进行计数排序处理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

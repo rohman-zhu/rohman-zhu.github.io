@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="VPN," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需求1–需求说明通过云服务器、VPN 隧道将内网的服务器打通，实现互联。 拓扑： 内网服务器 &lt;–VPN IPSec–&gt; 云服务器 安装WireGuard12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455# Ubuntu\Debian$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPN配置-WireGuard配置实例">
+<meta property="og:url" content="http://github.com/rohman-zhu/2024/03/22/vpn-pei-zhi-wireguard-pei-zhi-shi-li/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="需求1–需求说明通过云服务器、VPN 隧道将内网的服务器打通，实现互联。 拓扑： 内网服务器 &lt;–VPN IPSec–&gt; 云服务器 安装WireGuard12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455# Ubuntu\Debian$">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-22T15:16:31.000Z">
+<meta property="article:modified_time" content="2024-03-24T15:35:46.996Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="VPN">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2024/03/22/vpn-pei-zhi-wireguard-pei-zhi-shi-li/"/>
+
+
+
+
+
+  <title>VPN配置-WireGuard配置实例 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/22/vpn-pei-zhi-wireguard-pei-zhi-shi-li/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VPN配置-WireGuard配置实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-22T23:16:31+08:00">
+                2024-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="需求1–需求说明"><a href="#需求1–需求说明" class="headerlink" title="需求1–需求说明"></a>需求1–需求说明</h1><p>通过云服务器、VPN 隧道将内网的服务器打通，实现互联。</p>
+<p>拓扑： 内网服务器 &lt;–VPN IPSec–&gt; 云服务器</p>
+<h2 id="安装WireGuard"><a href="#安装WireGuard" class="headerlink" title="安装WireGuard"></a>安装WireGuard</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ubuntu\Debian</span></span><br><span class="line">$ sudo apt install wireguard</span><br><span class="line"></span><br><span class="line"><span class="comment"># RedHat 8</span></span><br><span class="line"><span class="comment">## Method 1</span></span><br><span class="line">sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm https://www.elrepo.org/elrepo-release-8.el8.elrepo.noarch.rpm</span><br><span class="line">sudo yum install kmod-wireguard wireguard-tools</span><br><span class="line"></span><br><span class="line"><span class="comment">## Method 2</span></span><br><span class="line">sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm</span><br><span class="line">sudo subscription-manager repos --<span class="built_in">enable</span> codeready-builder-for-rhel-8-$(arch)-rpms</span><br><span class="line">sudo yum copr <span class="built_in">enable</span> jdoss/wireguard</span><br><span class="line">sudo yum install wireguard-dkms wireguard-tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS8</span></span><br><span class="line"><span class="comment">## Method 1</span></span><br><span class="line">$ sudo yum install yum-utils epel-release</span><br><span class="line">$ sudo yum-config-manager --<span class="built_in">setopt</span>=centosplus.includepkgs=<span class="string">"kernel-plus, kernel-plus-*"</span> --<span class="built_in">setopt</span>=centosplus.enabled=1 --save</span><br><span class="line">$ sudo sed -e <span class="string">'s/^DEFAULTKERNEL=kernel-core$/DEFAULTKERNEL=kernel-plus-core/'</span> -i /etc/sysconfig/kernel</span><br><span class="line">$ sudo yum install kernel-plus wireguard-tools</span><br><span class="line">$ sudo reboot</span><br><span class="line"></span><br><span class="line"><span class="comment">## Method 2</span></span><br><span class="line">$ sudo yum-config-manager --<span class="built_in">setopt</span>=centosplus.includepkgs=<span class="string">"kernel-plus, kernel-plus-*"</span> --<span class="built_in">setopt</span>=centosplus.enabled=1 --save</span><br><span class="line">$ sudo sed -e <span class="string">'s/^DEFAULTKERNEL=kernel-core$/DEFAULTKERNEL=kernel-plus-core/'</span> -i /etc/sysconfig/kernel</span><br><span class="line"></span><br><span class="line"><span class="comment">## Method 3</span></span><br><span class="line">$ sudo yum install epel-release</span><br><span class="line">$ sudo yum config-manager --<span class="built_in">set</span>-enabled PowerTools</span><br><span class="line">$ sudo yum copr <span class="built_in">enable</span> jdoss/wireguard</span><br><span class="line">$ sudo yum install wireguard-dkms wireguard-tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># CentOS7</span></span><br><span class="line"><span class="comment">## Method 1</span></span><br><span class="line">$ sudo yum install yum-utils epel-release</span><br><span class="line">$ sudo yum-config-manager --<span class="built_in">setopt</span>=centosplus.includepkgs=kernel-plus --enablerepo=centosplus --save</span><br><span class="line">$ sudo sed -e <span class="string">'s/^DEFAULTKERNEL=kernel$/DEFAULTKERNEL=kernel-plus/'</span> -i /etc/sysconfig/kernel</span><br><span class="line">$ sudo yum install kernel-plus wireguard-tools</span><br><span class="line">$ sudo reboot</span><br><span class="line"></span><br><span class="line"><span class="comment">## Method 2</span></span><br><span class="line">$ sudo yum install epel-release elrepo-release</span><br><span class="line">$ sudo yum install yum-plugin-elrepo</span><br><span class="line">$ sudo yum install kmod-wireguard wireguard-tools</span><br><span class="line"></span><br><span class="line"><span class="comment">## Method 3</span></span><br><span class="line">$ sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</span><br><span class="line">$ sudo curl -o /etc/yum.repos.d/jdoss-wireguard-epel-7.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo</span><br><span class="line">$ sudo yum install wireguard-dkms wireguard-tools</span><br><span class="line"></span><br><span class="line"><span class="comment"># MacOS</span></span><br><span class="line"><span class="comment">## Method 1</span></span><br><span class="line"> brew install wireguard-tools</span><br><span class="line"><span class="comment">## Method 2</span></span><br><span class="line">$ port install wireguard-tools</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="服务器节点说明"><a href="#服务器节点说明" class="headerlink" title="服务器节点说明"></a>服务器节点说明</h3><table>
+<thead>
+<tr>
+<th align="center">角色</th>
+<th align="center">公网IP</th>
+<th align="center">VPN IP</th>
+<th align="center">内网IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">公网服务器</td>
+<td align="center">1.1.1.1</td>
+<td align="center">192.168.1.1</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">内网服务器节点1</td>
+<td align="center">-</td>
+<td align="center">192.168.1.11</td>
+<td align="center">192.168.2.11</td>
+</tr>
+<tr>
+<td align="center">内网服务器节点2</td>
+<td align="center">-</td>
+<td align="center">192.168.1.12</td>
+<td align="center">192.168.2.12</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>WireGuard TCP 端口 65535</p>
+</blockquote>
+<h3 id="服务器节点安装与配置"><a href="#服务器节点安装与配置" class="headerlink" title="服务器节点安装与配置"></a>服务器节点安装与配置</h3><h4 id="生成密钥对"><a href="#生成密钥对" class="headerlink" title="生成密钥对"></a>生成密钥对</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成私钥</span></span><br><span class="line">wg genkey &gt; priv_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公钥</span></span><br><span class="line">wg pubkey &lt; priv_key &gt; pub_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会生成两个文件 priv_key , pub_key</span></span><br></pre></td></tr></table></figure>
+
+<p>WireGuard 的服务端与客户端是对等的。生成密钥的步骤适用于服务端，也适用于客户端。</p>
+<h4 id="配置-WireGuard-的配置文件"><a href="#配置-WireGuard-的配置文件" class="headerlink" title="配置 WireGuard 的配置文件"></a>配置 WireGuard 的配置文件</h4><p>WireGuard 的配置文件一般情况下放在 /etc/wireguard 中，且为了安全考虑，需要将这个目录的所有者设置为 root，权限设置为 700。<br>一般情况下，配置文件可依次命名为 wgX.conf，其中 X 为任意的编号，wgX 最终也是创建出来的网络接口的名称。<br>此处，在服务端与客户端中，都将命名为 wg0.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本端的配置， Interface 属性</span></span><br><span class="line">[Interface]</span><br><span class="line"><span class="comment"># 本端的VPN内网IP地址</span></span><br><span class="line">Address = 192.168.1.1/32</span><br><span class="line"><span class="comment"># 作为服务端开放的端口</span></span><br><span class="line"><span class="comment"># 为UDP端口</span></span><br><span class="line">ListenPort = 65535</span><br><span class="line"><span class="comment"># 放置刚才生成的私钥，即priv_key内容</span></span><br><span class="line">PrivateKey = Server private key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对端的配置，Peer 属性</span></span><br><span class="line">[Peer]</span><br><span class="line"><span class="comment"># 对端的公钥，即对端生成的pub_key内容</span></span><br><span class="line">PublicKey = Client public key</span><br><span class="line"><span class="comment"># 允许对端访问过来的IP列表；</span></span><br><span class="line"><span class="comment"># 会自动添加至路由策略表；</span></span><br><span class="line">AllowedIPs = IP Range</span><br></pre></td></tr></table></figure>
+
+<p>配置完毕后，启动WireGuard服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg-quick up wg0</span><br></pre></td></tr></table></figure>
+
+<p>开启内核IP包转发</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/sysctl.conf， </span></span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 将 net.ipv4.ip_forward = 0 中的 0 改为 1。</span></span><br><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line"><span class="comment"># sysctl -p 使其生效。</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端节点安装与配置"><a href="#客户端节点安装与配置" class="headerlink" title="客户端节点安装与配置"></a>客户端节点安装与配置</h3><h4 id="生成密钥对-1"><a href="#生成密钥对-1" class="headerlink" title="生成密钥对"></a>生成密钥对</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成私钥</span></span><br><span class="line">wg genkey &gt; priv_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公钥</span></span><br><span class="line">wg pubkey &lt; priv_key &gt; pub_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会生成两个文件 priv_key , pub_key</span></span><br></pre></td></tr></table></figure>
+
+<p>WireGuard 的服务端与客户端是对等的。生成密钥的步骤适用于服务端，也适用于客户端。</p>
+<h4 id="配置-WireGuard-的配置文件-1"><a href="#配置-WireGuard-的配置文件-1" class="headerlink" title="配置 WireGuard 的配置文件"></a>配置 WireGuard 的配置文件</h4><p>客户端与服务端不同的地方在于：</p>
+<ul>
+<li>Interface 配置中没有 ListenPort</li>
+<li>Peer 即为服务端，与服务端不同的地方在于多了一个 Endpoint</li>
+</ul>
+<p>一般情况下，只有主动发起连接的端需要在 Peer 中指定 Endpoint，此处为服务器的公网 IP 和监听的端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本端配置 ，Interface属性</span></span><br><span class="line">[Interface]</span><br><span class="line"><span class="comment"># 本端的 私钥；</span></span><br><span class="line">PrivateKey = Client private key</span><br><span class="line"><span class="comment"># 配置本端的内网IP；</span></span><br><span class="line">Address = 192.168.1.2/32</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对端，即服务器端，Peer属性</span></span><br><span class="line">[Peer]</span><br><span class="line"><span class="comment"># 服务端的公钥；</span></span><br><span class="line">PublicKey = Server public key</span><br><span class="line"><span class="comment"># 允许对端的IP流量</span></span><br><span class="line">AllowedIPs = IP Range</span><br><span class="line"><span class="comment"># 服务端的IP与端口；</span></span><br><span class="line">Endpoint = 1.1.1.1:28385</span><br><span class="line"><span class="comment"># 每10秒发送keepalive心跳；</span></span><br><span class="line">PersistentKeepalive = 10</span><br></pre></td></tr></table></figure>
+
+<p>配置完毕后，启动WireGuard服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg-quick up wg0</span><br></pre></td></tr></table></figure>
+
+<h1 id="需求2–需求说明"><a href="#需求2–需求说明" class="headerlink" title="需求2–需求说明"></a>需求2–需求说明</h1><p>通过云服务器、VPN 隧道将内网DMZ区的服务器打通，通过DMZ服务器转发流量包至内网，实现互联。</p>
+<p>拓扑： 内网服务器&lt;–双网卡–&gt;内网DMZ服务器 &lt;–VPN IPSec–&gt; 云服务器</p>
+<h2 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h2><h3 id="服务器节点说明-1"><a href="#服务器节点说明-1" class="headerlink" title="服务器节点说明"></a>服务器节点说明</h3><table>
+<thead>
+<tr>
+<th align="center">角色</th>
+<th align="center">公网IP</th>
+<th align="center">VPN IP</th>
+<th align="center">内网IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">公网服务器</td>
+<td align="center">1.1.1.1</td>
+<td align="center">192.168.1.1</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">内网DMZ服务器节点1</td>
+<td align="center">-</td>
+<td align="center">192.168.1.11</td>
+<td align="center">192.168.2.11</td>
+</tr>
+<tr>
+<td align="center">内网服务器节点2</td>
+<td align="center">-</td>
+<td align="center">192.168.1.12</td>
+<td align="center">192.168.2.12</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>WireGuard TCP 端口 65535</p>
+</blockquote>
+<blockquote>
+<p>公网服务器：因为作为VPN服务端，需开启流量转发，且需配置防火墙转发策略（集群内的节点若无通讯需求，可不用配置）；<br>内网DMZ服务器节点1：双网卡，因承担流量转发的角色，需要开启流量转发，且需要配置 SNAT 策略；</p>
+</blockquote>
+<h3 id="服务器节点安装与配置-1"><a href="#服务器节点安装与配置-1" class="headerlink" title="服务器节点安装与配置"></a>服务器节点安装与配置</h3><h4 id="生成密钥对-2"><a href="#生成密钥对-2" class="headerlink" title="生成密钥对"></a>生成密钥对</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成私钥</span></span><br><span class="line">wg genkey &gt; priv_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公钥</span></span><br><span class="line">wg pubkey &lt; priv_key &gt; pub_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会生成两个文件 priv_key , pub_key</span></span><br></pre></td></tr></table></figure>
+
+<p>WireGuard 的服务端与客户端是对等的。生成密钥的步骤适用于服务端，也适用于客户端。</p>
+<h4 id="配置-WireGuard-的配置文件-2"><a href="#配置-WireGuard-的配置文件-2" class="headerlink" title="配置 WireGuard 的配置文件"></a>配置 WireGuard 的配置文件</h4><p>WireGuard 的配置文件一般情况下放在 /etc/wireguard 中，且为了安全考虑，需要将这个目录的所有者设置为 root，权限设置为 700。<br>一般情况下，配置文件可依次命名为 wgX.conf，其中 X 为任意的编号，wgX 最终也是创建出来的网络接口的名称。<br>此处，在服务端与客户端中，都将命名为 wg0.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本端的配置， Interface 属性</span></span><br><span class="line">[Interface]</span><br><span class="line"><span class="comment"># 本端的VPN内网IP地址</span></span><br><span class="line">Address = 192.168.1.1/32</span><br><span class="line"><span class="comment"># 作为服务端开放的端口</span></span><br><span class="line"><span class="comment"># 为UDP端口</span></span><br><span class="line">ListenPort = 65535</span><br><span class="line"><span class="comment"># 放置刚才生成的私钥，即priv_key内容</span></span><br><span class="line">PrivateKey = Server private key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对端的配置，Peer 属性</span></span><br><span class="line">[Peer]</span><br><span class="line"><span class="comment"># 对端的公钥，即对端生成的pub_key内容</span></span><br><span class="line">PublicKey = Client public key</span><br><span class="line"><span class="comment"># 允许对端访问过来的IP列表；</span></span><br><span class="line"><span class="comment"># 会自动添加至路由策略表；</span></span><br><span class="line">AllowedIPs = IP Range</span><br></pre></td></tr></table></figure>
+
+<p>需要补充端口转发流量，以及iptable进行放行；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 放行wg0端口的VPN网段</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT </span><br><span class="line"><span class="comment"># 放行 VPN 转发到内网的流量</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.2.0/24 -j ACCEPT </span><br><span class="line"><span class="comment"># 放行内网 转发到 VPN 的流量</span></span><br><span class="line">iptables -I FORWARD -s 192.168.2.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>所以最终配置文件应该为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本端的配置， Interface 属性</span></span><br><span class="line">[Interface]</span><br><span class="line"><span class="comment"># 本端的VPN内网IP地址</span></span><br><span class="line">Address = 192.168.1.1/32</span><br><span class="line"><span class="comment"># 作为服务端开放的端口</span></span><br><span class="line"><span class="comment"># 为UDP端口</span></span><br><span class="line">ListenPort = 65535</span><br><span class="line"><span class="comment"># 放置刚才生成的私钥，即priv_key内容</span></span><br><span class="line">PrivateKey = Server private key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 防火墙策略</span></span><br><span class="line">PostUp = iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT</span><br><span class="line">PostUp = iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.2.0/24 -j ACCEPT</span><br><span class="line">PostUP = iptables -I FORWARD -s 192.168.2.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT</span><br><span class="line"></span><br><span class="line">PostDown = iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT</span><br><span class="line">PostDown = iptables -I FORWARD -s 192.168.1.0/24 -i wg0 -d 192.168.2.0/24 -j ACCEPT</span><br><span class="line">PostDown = iptables -I FORWARD -s 192.168.2.0/24 -i wg0 -d 192.168.1.0/24 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对端的配置，Peer 属性</span></span><br><span class="line">[Peer]</span><br><span class="line"><span class="comment"># 对端的公钥，即对端生成的pub_key内容</span></span><br><span class="line">PublicKey = Client public key</span><br><span class="line"><span class="comment"># 允许对端访问过来的IP列表；</span></span><br><span class="line">AllowedIPs = IP Range</span><br></pre></td></tr></table></figure>
+
+<p>配置完毕后，启动WireGuard服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg-quick up wg0</span><br></pre></td></tr></table></figure>
+
+<p>开启内核IP包转发</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/sysctl.conf， </span></span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 将 net.ipv4.ip_forward = 0 中的 0 改为 1。</span></span><br><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line"><span class="comment"># sysctl -p 使其生效。</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端节点安装与配置-1"><a href="#客户端节点安装与配置-1" class="headerlink" title="客户端节点安装与配置"></a>客户端节点安装与配置</h3><h4 id="生成密钥对-3"><a href="#生成密钥对-3" class="headerlink" title="生成密钥对"></a>生成密钥对</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成私钥</span></span><br><span class="line">wg genkey &gt; priv_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公钥</span></span><br><span class="line">wg pubkey &lt; priv_key &gt; pub_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 会生成两个文件 priv_key , pub_key</span></span><br></pre></td></tr></table></figure>
+
+<p>WireGuard 的服务端与客户端是对等的。生成密钥的步骤适用于服务端，也适用于客户端。</p>
+<h4 id="配置-WireGuard-的配置文件-3"><a href="#配置-WireGuard-的配置文件-3" class="headerlink" title="配置 WireGuard 的配置文件"></a>配置 WireGuard 的配置文件</h4><p>客户端与服务端不同的地方在于：</p>
+<ul>
+<li>Interface 配置中没有 ListenPort</li>
+<li>Peer 即为服务端，与服务端不同的地方在于多了一个 Endpoint</li>
+</ul>
+<p>一般情况下，只有主动发起连接的端需要在 Peer 中指定 Endpoint，此处为服务器的公网 IP 和监听的端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本端配置 ，Interface属性</span></span><br><span class="line">[Interface]</span><br><span class="line"><span class="comment"># 本端的 私钥；</span></span><br><span class="line">PrivateKey = Client private key</span><br><span class="line"><span class="comment"># 配置本端的内网IP；</span></span><br><span class="line">Address = 192.168.1.2/32</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 iptables 作为 SNAT</span></span><br><span class="line"><span class="comment"># --to-source 的IP作为内网中的IP地址；</span></span><br><span class="line">PostUp = iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -j SNAT --to-source 192.168.2.11</span><br><span class="line">PostUp = iptables -t nat -D POSTROUTING -s 192.168.1.0/24 -j SNAT --to-source 192.168.2.11</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对端，即服务器端，Peer属性</span></span><br><span class="line">[Peer]</span><br><span class="line"><span class="comment"># 服务端的公钥；</span></span><br><span class="line">PublicKey = Server public key</span><br><span class="line"><span class="comment"># 允许对端的IP流量</span></span><br><span class="line">AllowedIPs = IP Range</span><br><span class="line"><span class="comment"># 服务端的IP与端口；</span></span><br><span class="line">Endpoint = 1.1.1.1:28385</span><br><span class="line"><span class="comment"># 每10秒发送keepalive心跳；</span></span><br><span class="line">PersistentKeepalive = 10</span><br></pre></td></tr></table></figure>
+
+<p>配置完毕后，启动WireGuard服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg-quick up wg0</span><br></pre></td></tr></table></figure>
+
+<p>开启内核IP包转发</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/sysctl.conf， </span></span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 将 net.ipv4.ip_forward = 0 中的 0 改为 1。</span></span><br><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line"><span class="comment"># sysctl -p 使其生效。</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h1 id="WireGuard-的缺陷"><a href="#WireGuard-的缺陷" class="headerlink" title="WireGuard 的缺陷"></a>WireGuard 的缺陷</h1><p><a href="https://www.cnblogs.com/ryanyangcs/p/14339053.html" target="_blank" rel="noopener">https://www.cnblogs.com/ryanyangcs/p/14339053.html</a></p>
+<h2 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h2><p>作为终端用户，其实无需考虑协议的复杂度。</p>
+<p>如果复杂度真的影响很大，我们肯定早就摆脱 SIP、 H.323 和 FTP 等不能很好地应对NAT的协议了，然而并没有。讲道理，IPsec 比 WireGuard 更复杂是有原因的：它能做的事情太多了。<br>比如，使用用户名/密码或带有 EAP 的 SIM 卡进行用户认证；也可以扩展新的加密方式。</p>
+<p>而 WireGuard 呢？这些功能都没有。这就意味着当某一天它的固定的那些加密方式被破解或削弱了之后，就彻底崩盘了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WireGuard 在加密方式上比较偏执，故意砍掉了加密协议的敏捷性，不支持扩展加密协议，因为这么做会大大降低软件的复杂度。如果底层的加密协议出现了漏洞，只能更新所有端点来修复漏洞。</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新密钥"><a href="#更新密钥" class="headerlink" title="更新密钥"></a>更新密钥</h2><p>当 WireGuard 密钥更新后，每一个客户端需要更新配置文件中的 服务端的公钥；</p>
+<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><p>WireGuard 使用以下加密技术来保障数据的安全：</p>
+<ul>
+<li>使用 ChaCha20 进行对称加密，使用 Poly1305 进行数据验证。</li>
+<li>利用 Curve25519 进行密钥交换。</li>
+<li>使用 BLAKE2 作为哈希函数。</li>
+<li>使用 HKDF 进行解密。</li>
+</ul>
+<p>而 IPSec 和 OpenVPN 使用的都是标准的 ChaCha20-Poly1305 加密算法。</p>
+<p>BLAKE2算法是 BLAKE 算法的升级版，而 BLAKE 是 SHA-3 的入围者，与 SHA-2 非常相似，所以没有获奖。如果哪天 SHA-2 被破解了，BLAKE 也很有可能被破解。</p>
+<p>IPSec 和 OpenVPN 使用的加密方式和 WireGuard 是类似的，比如对称加密使用的是标准的 ChaCha20-Poly1305 算法。唯一没有用到的就是 BLAKE2，因为它目前没有列入标准。即使不用 BLAKE2，也没什么大不了的，因为 VPN 是使用 HMACs 来保障数据的完整性，即使使用 MD5 也仍然没问题。</p>
+<p>我的结论是：实际上所有的 VPN 都可以使用相同的加密技术，WireGuard 在加密或数据完整性方面并没有比其他的 VPN 更安全或更不安全。</p>
+<p>然而白皮书上说了，加密不是重点，速度才是。</p>
+<h1 id="故障处理"><a href="#故障处理" class="headerlink" title="故障处理"></a>故障处理</h1><h2 id="AllowedIPs-进行ACL-设置"><a href="#AllowedIPs-进行ACL-设置" class="headerlink" title="AllowedIPs 进行ACL 设置"></a>AllowedIPs 进行ACL 设置</h2><p>AllowedIPs控制了哪些流量允许使用该vpn，未匹配的流量会直连。个人翻墙时会使用全局VPN，但服务器之间连接时，基本不会把wiregaurd当做全局VPN使用。设置这里就非常方便。</p>
+<p>AllowedIPs = 0.0.0.0/0,::/0 表示所有ipv4及ipv6的流量都要走vpn，适合个人用户。<br>AllowedIPs = 10.10.0.0/24,192.168.1.0/24 表示只有目的IP是这两个网段时走wireguard,其余流量走服务器默认的路由。</p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><p>wireguard的客户端都会有连接的日志，查看wireguard服务器端日志只能通过查看内核日志的方方式，内核要支持Dynamic Debugging,正常情况下需编译内核开启CONFIG_DYNAMIC_DEBUG，有些发型版已经默认开启。可以执行以下命令进行查看：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mount | grep debug</span><br><span class="line">debugfs on /sys/kernel/debug <span class="built_in">type</span> debugfs (rw,relatime)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置开启调试日志</span></span><br><span class="line">modprobe wireguard </span><br><span class="line"><span class="built_in">echo</span> module wireguard +p &gt; /sys/kernel/debug/dynamic_debug/control</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line"> dmesg -wH</span><br><span class="line"> journalctl -kf</span><br></pre></td></tr></table></figure>
+
+<h2 id="报错1-linux做为客户端时启动wireguard报错：-RTNETLINK-answers-Operation-not-supported"><a href="#报错1-linux做为客户端时启动wireguard报错：-RTNETLINK-answers-Operation-not-supported" class="headerlink" title="报错1: linux做为客户端时启动wireguard报错： RTNETLINK answers: Operation not supported"></a>报错1: linux做为客户端时启动wireguard报错： RTNETLINK answers: Operation not supported</h2><p>该报错需重启服务器或客户端</p>
+<h2 id="报错2-vpn服务器ping客户端时报错：-ping-sendmsg-Required-key-not-available"><a href="#报错2-vpn服务器ping客户端时报错：-ping-sendmsg-Required-key-not-available" class="headerlink" title="报错2: vpn服务器ping客户端时报错： ping: sendmsg: Required key not available"></a>报错2: vpn服务器ping客户端时报错： ping: sendmsg: Required key not available</h2><p>该错最有可能是服务器端的peer部分AllowedIPs配置不对，网上一些教程使用SaveConfig=true，该配置是在关闭或重启wireguard时才添加配置，导致如果客户端连接后如果服务器端未重启，就会出现该错误，不建议使用saveConfig=true。</p>
+<h2 id="报错3-服务器端ping客户端时提示：-ping-sendmsg-Destination-address-required"><a href="#报错3-服务器端ping客户端时提示：-ping-sendmsg-Destination-address-required" class="headerlink" title="报错3: 服务器端ping客户端时提示： ping: sendmsg: Destination address required"></a>报错3: 服务器端ping客户端时提示： ping: sendmsg: Destination address required</h2><p>一般是服务器端更改配置后，客户端未重新连接，客户端重新连接即可</p>
+<h2 id="报错4-启动wireguard时报错：-Error-Unknown-device-type-Unable-to-access-interface-Protocol-not-supported-或执行-modprobe-wireguard-命令报错：-modprobe-FATAL-Module-wireguard-not-found-in-directory"><a href="#报错4-启动wireguard时报错：-Error-Unknown-device-type-Unable-to-access-interface-Protocol-not-supported-或执行-modprobe-wireguard-命令报错：-modprobe-FATAL-Module-wireguard-not-found-in-directory" class="headerlink" title="报错4: 启动wireguard时报错： Error: Unknown device type. Unable to access interface: Protocol not supported 或执行 modprobe wireguard 命令报错： modprobe: FATAL: Module wireguard not found in directory"></a>报错4: 启动wireguard时报错： Error: Unknown device type. Unable to access interface: Protocol not supported 或执行 modprobe wireguard 命令报错： modprobe: FATAL: Module wireguard not found in directory</h2><p>这个错误通常是因为升级内核导致的，wireguard的内核模块安装在旧版内核上，新内核没有wireguard模块，解决方法是卸载旧版内核、旧版kernel-header、旧版kernel-devel等,重新安装wireguard即可。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>WireGuard 安装说明： <a href="https://www.wireguard.com/install/" target="_blank" rel="noopener">https://www.wireguard.com/install/</a><br>使用 WireGuard 无缝接入内网: <a href="https://devld.me/2020/07/27/wireguard-setup/" target="_blank" rel="noopener">https://devld.me/2020/07/27/wireguard-setup/</a><br><a href="https://blog.d0zingcat.dev/p/vpn-connect-work-home/" target="_blank" rel="noopener">https://blog.d0zingcat.dev/p/vpn-connect-work-home/</a><br><a href="https://opswill.com/articles/wireguard-howtos.html" target="_blank" rel="noopener">https://opswill.com/articles/wireguard-howtos.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/VPN/" rel="tag"># VPN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/03/19/vrops-zhi-biao-shu-ju-cun-chu-juan/" rel="next" title="vRops指标-数据存储卷">
+                <i class="fa fa-chevron-left"></i> vRops指标-数据存储卷
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/03/31/powershell-jiao-ben-shi-li-jian-cha-yu-zhang-hu-zhuang-tai-bing-shan-chu-jin-yong-zhang-hu/" rel="prev" title="Powershell脚本实例-检查域账户状态并删除禁用账户">
+                Powershell脚本实例-检查域账户状态并删除禁用账户 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求1–需求说明"><span class="nav-number">1.</span> <span class="nav-text">需求1–需求说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装WireGuard"><span class="nav-number">1.1.</span> <span class="nav-text">安装WireGuard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器节点说明"><span class="nav-number">1.2.1.</span> <span class="nav-text">服务器节点说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器节点安装与配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">服务器节点安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成密钥对"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">生成密钥对</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-WireGuard-的配置文件"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">配置 WireGuard 的配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端节点安装与配置"><span class="nav-number">1.2.3.</span> <span class="nav-text">客户端节点安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成密钥对-1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">生成密钥对</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-WireGuard-的配置文件-1"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">配置 WireGuard 的配置文件</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需求2–需求说明"><span class="nav-number">2.</span> <span class="nav-text">需求2–需求说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例-1"><span class="nav-number">2.1.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器节点说明-1"><span class="nav-number">2.1.1.</span> <span class="nav-text">服务器节点说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器节点安装与配置-1"><span class="nav-number">2.1.2.</span> <span class="nav-text">服务器节点安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成密钥对-2"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">生成密钥对</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-WireGuard-的配置文件-2"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">配置 WireGuard 的配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端节点安装与配置-1"><span class="nav-number">2.1.3.</span> <span class="nav-text">客户端节点安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成密钥对-3"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">生成密钥对</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-WireGuard-的配置文件-3"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">配置 WireGuard 的配置文件</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WireGuard-的缺陷"><span class="nav-number">3.</span> <span class="nav-text">WireGuard 的缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复杂度"><span class="nav-number">3.1.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新密钥"><span class="nav-number">3.2.</span> <span class="nav-text">更新密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密方式"><span class="nav-number">3.3.</span> <span class="nav-text">加密方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#故障处理"><span class="nav-number">4.</span> <span class="nav-text">故障处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AllowedIPs-进行ACL-设置"><span class="nav-number">4.1.</span> <span class="nav-text">AllowedIPs 进行ACL 设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">4.2.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报错1-linux做为客户端时启动wireguard报错：-RTNETLINK-answers-Operation-not-supported"><span class="nav-number">4.3.</span> <span class="nav-text">报错1: linux做为客户端时启动wireguard报错： RTNETLINK answers: Operation not supported</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报错2-vpn服务器ping客户端时报错：-ping-sendmsg-Required-key-not-available"><span class="nav-number">4.4.</span> <span class="nav-text">报错2: vpn服务器ping客户端时报错： ping: sendmsg: Required key not available</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报错3-服务器端ping客户端时提示：-ping-sendmsg-Destination-address-required"><span class="nav-number">4.5.</span> <span class="nav-text">报错3: 服务器端ping客户端时提示： ping: sendmsg: Destination address required</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报错4-启动wireguard时报错：-Error-Unknown-device-type-Unable-to-access-interface-Protocol-not-supported-或执行-modprobe-wireguard-命令报错：-modprobe-FATAL-Module-wireguard-not-found-in-directory"><span class="nav-number">4.6.</span> <span class="nav-text">报错4: 启动wireguard时报错： Error: Unknown device type. Unable to access interface: Protocol not supported 或执行 modprobe wireguard 命令报错： modprobe: FATAL: Module wireguard not found in directory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

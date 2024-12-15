@@ -239,9 +239,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -270,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/23/Windows-Server-%E9%80%9A%E8%BF%87NTDLL%E8%AE%BE%E7%BD%AE%E6%B3%A8%E5%86%8C%E8%A1%A8%E6%9D%83%E9%99%90/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/05/03/windows-server-chuang-jian-ji-hua-ren-wu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -289,7 +323,229 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/04/23/Windows-Server-%E9%80%9A%E8%BF%87NTDLL%E8%AE%BE%E7%BD%AE%E6%B3%A8%E5%86%8C%E8%A1%A8%E6%9D%83%E9%99%90/" itemprop="url">待补充-Windows Server 通过NTDLL设置注册表权限</a></h1>
+                <a class="post-title-link" href="/2024/05/03/windows-server-chuang-jian-ji-hua-ren-wu/" itemprop="url">Windows Server 创建计划任务</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-05-03T16:08:26+08:00">
+                2024-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows-Server/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows Server</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>任务1：创建自动化任务，到指定时间自动运行脚本；<br>任务2：通过远程下发指令，时间自动化创建自动任务；</p>
+<h1 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h1><h2 id="任务1操作实例-CLI操作界面"><a href="#任务1操作实例-CLI操作界面" class="headerlink" title="任务1操作实例-CLI操作界面"></a>任务1操作实例-CLI操作界面</h2><p>参考：</p>
+<ol>
+<li><a href="https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1" target="_blank" rel="noopener">https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 叫什么：一个名为 TEST 的自动任务</span><br><span class="line">$TASKNAME&#x3D;&quot;TEST&quot;;</span><br><span class="line"></span><br><span class="line"># 干什么：并执行 test.ps1 脚本</span><br><span class="line">$TESTSCRIPT&#x3D;&quot;C:\test.ps1&quot;;</span><br><span class="line">$ACTION&#x3D;New-ScheduledTaskAction -Execute &quot;Powershell&quot; -Argument $TESTCRIPT;</span><br><span class="line"></span><br><span class="line"># 什么时候做：在每周三，晚上7:30执行；</span><br><span class="line">$JOBTRIGGER&#x3D;New-JobTrigger -Weekly -At &quot;9:00 PM&quot; -DaysOfWeek Wednesday -WeeksInterval 1;</span><br><span class="line"></span><br><span class="line"># 谁：拥有最高权限</span><br><span class="line"># 有啥注意事项：无论有没有用户登录，都执行</span><br><span class="line">$PRINCIPAL&#x3D;New-ScheduledTaskPrincipal -UserId [USER] -LogonType S4U</span><br><span class="line"></span><br><span class="line"># 创建任务信息</span><br><span class="line">$SCHEDULEDTASKOBJECT&#x3D;New-ScheduledTask -Action $ACTION -Trigger $JOBTRIGGER -Principal $PRINCIPAL</span><br><span class="line"># 注册任务</span><br><span class="line">Register-ScheduledTask -TaskName $TASKNAME -InputObject [SchedledTaskObjectName];</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="任务1操作实例-GUI操作界面"><a href="#任务1操作实例-GUI操作界面" class="headerlink" title="任务1操作实例-GUI操作界面"></a>任务1操作实例-GUI操作界面</h2><p>参考：<a href="https://www.cnblogs.com/lishidefengchen/p/4381565.html" target="_blank" rel="noopener">https://www.cnblogs.com/lishidefengchen/p/4381565.html</a></p>
+<p>环境说明:</p>
+<ol>
+<li>Powershell 目录：C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe;</li>
+<li>脚本位置：C:\test.ps1;</li>
+</ol>
+<h3 id="运行“任务计划程序”"><a href="#运行“任务计划程序”" class="headerlink" title="运行“任务计划程序”"></a>运行“任务计划程序”</h3><ol>
+<li>windows + R;</li>
+<li>输入 taskschd.msc;</li>
+</ol>
+<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><p>常规页面：</p>
+<ol>
+<li>填写任务名称；</li>
+<li>勾选“不敢用户是否登录都要运行”</li>
+<li>勾选“使用最高权限运行”；【如果有涉及提权操作，则需要勾选】</li>
+<li>配置选择为对应的OS版本；</li>
+</ol>
+<p>触发器页面：</p>
+<ol>
+<li>新建；</li>
+<li>设置自动执行的频率与时间；</li>
+</ol>
+<p>操作页面：</p>
+<ol>
+<li>操作，选择“启动程序”；</li>
+<li>程序或脚本，输入“powershell”或者Powershell的绝对路径“C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe”；</li>
+<li>添加参数（可选）,输入脚本的绝对路径，用英文状态的双引号包裹；</li>
+</ol>
+<p>点击确定；</p>
+<h3 id="如何DEBUG"><a href="#如何DEBUG" class="headerlink" title="如何DEBUG"></a>如何DEBUG</h3><p>有可能任务运行会失败或者未按预期执行，可以选中任务，点击运行后，可以在“历史History”标签页中看到执行情况。<br>不过此时获取的信息还是比较有限，所以可以在脚本中增加 Start-Transcript 与 Stop-Transcript 指令，检查执行情况。</p>
+<h1 id="TASK-LOGON-TYPE-类型"><a href="#TASK-LOGON-TYPE-类型" class="headerlink" title="TASK_LOGON_TYPE 类型"></a>TASK_LOGON_TYPE 类型</h1><p>参考: <a href="https://learn.microsoft.com/en-us/windows/win32/api/taskschd/ne-taskschd-task_logon_type" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/windows/win32/api/taskschd/ne-taskschd-task_logon_type</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef enum _TASK_LOGON_TYPE &#123;</span><br><span class="line">  TASK_LOGON_NONE &#x3D; 0,</span><br><span class="line">  TASK_LOGON_PASSWORD &#x3D; 1,</span><br><span class="line">  TASK_LOGON_S4U &#x3D; 2,</span><br><span class="line">  TASK_LOGON_INTERACTIVE_TOKEN &#x3D; 3,</span><br><span class="line">  TASK_LOGON_GROUP &#x3D; 4,</span><br><span class="line">  TASK_LOGON_SERVICE_ACCOUNT &#x3D; 5,</span><br><span class="line">  TASK_LOGON_INTERACTIVE_TOKEN_OR_PASSWORD &#x3D; 6</span><br><span class="line">&#125; TASK_LOGON_TYPE;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">TASK_LOGON_NONE</span><br><span class="line">Value: 0</span><br><span class="line">The logon method is not specified. Used for non-NT credentials.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_PASSWORD</span><br><span class="line">Value: 1</span><br><span class="line">Use a password for logging on the user. The password must be supplied at registration time.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_S4U</span><br><span class="line">Value: 2</span><br><span class="line">The service will log the user on using Service For User (S4U), and the task will run in a non-interactive desktop. When an S4U logon is used, no password is stored by the system and there is no access to either the network or to encrypted files.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_INTERACTIVE_TOKEN</span><br><span class="line">Value: 3</span><br><span class="line">User must already be logged on. The task will be run only in an existing interactive session.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_GROUP</span><br><span class="line">Value: 4</span><br><span class="line">Group activation. The groupId field specifies the group.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_SERVICE_ACCOUNT</span><br><span class="line">Value: 5</span><br><span class="line">Indicates that a Local System, Local Service, or Network Service account is being used as a security context to run the task.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_INTERACTIVE_TOKEN_OR_PASSWORD</span><br><span class="line">Value: 6</span><br><span class="line">Not in use; currently identical to TASK_LOGON_PASSWORD.</span><br><span class="line"></span><br><span class="line">Windows 10, version 1511, Windows 10, version 1507, Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows Vista and Windows Server 2008:  First use the interactive token. If the user is not logged on (no interactive token is available), then the password is used. The password must be specified when a task is registered. This flag is not recommended for new tasks because it is less reliable than TASK_LOGON_PASSWORD.</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/23/windows-server-tong-guo-ntdll-she-zhi-zhu-ce-biao-quan-xian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/04/23/windows-server-tong-guo-ntdll-she-zhi-zhu-ce-biao-quan-xian/" itemprop="url">待补充-Windows Server 通过NTDLL设置注册表权限</a></h1>
         
 
         <div class="post-meta">
@@ -443,7 +699,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/22/Windows-Server-%E5%AE%89%E8%A3%85%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E5%8C%85/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/22/windows-server-an-zhuang-qi-ta-yu-yan-bao/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -462,7 +718,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/04/22/Windows-Server-%E5%AE%89%E8%A3%85%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E5%8C%85/" itemprop="url">Windows Server  安装其他语言包</a></h1>
+                <a class="post-title-link" href="/2024/04/22/windows-server-an-zhuang-qi-ta-yu-yan-bao/" itemprop="url">Windows Server  安装其他语言包</a></h1>
         
 
         <div class="post-meta">
@@ -621,7 +877,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/18/Windows-Server-RDSH%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B8%85%E5%8D%95/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/18/windows-server-rdsh-chu-shi-hua-qing-dan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -640,7 +896,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/04/18/Windows-Server-RDSH%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B8%85%E5%8D%95/" itemprop="url">Windows-Server-RDSH初始化清单</a></h1>
+                <a class="post-title-link" href="/2024/04/18/windows-server-rdsh-chu-shi-hua-qing-dan/" itemprop="url">Windows-Server-RDSH初始化清单</a></h1>
         
 
         <div class="post-meta">
@@ -872,7 +1128,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/01/Horizon-599%E6%95%85%E9%9A%9C/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/01/horizon-599-gu-zhang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -891,7 +1147,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/04/01/Horizon-599%E6%95%85%E9%9A%9C/" itemprop="url">Horizon-599故障</a></h1>
+                <a class="post-title-link" href="/2024/04/01/horizon-599-gu-zhang/" itemprop="url">Horizon-599故障</a></h1>
         
 
         <div class="post-meta">
@@ -1062,7 +1318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/01/Powershell%E5%AE%9E%E4%BE%8B-%E8%BF%9C%E7%A8%8B%E5%AE%89%E8%A3%85%E8%A1%A5%E4%B8%81/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/04/01/powershell-shi-li-yuan-cheng-an-zhuang-bu-ding/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1081,7 +1337,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/04/01/Powershell%E5%AE%9E%E4%BE%8B-%E8%BF%9C%E7%A8%8B%E5%AE%89%E8%A3%85%E8%A1%A5%E4%B8%81/" itemprop="url">Powershell实例-远程安装补丁</a></h1>
+                <a class="post-title-link" href="/2024/04/01/powershell-shi-li-yuan-cheng-an-zhuang-bu-ding/" itemprop="url">Powershell实例-远程安装补丁</a></h1>
         
 
         <div class="post-meta">
@@ -1241,7 +1497,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/31/Powershell%E8%84%9A%E6%9C%AC%E5%AE%9E%E4%BE%8B-%E6%A3%80%E6%9F%A5%E5%9F%9F%E8%B4%A6%E6%88%B7%E7%8A%B6%E6%80%81%E5%B9%B6%E5%88%A0%E9%99%A4%E7%A6%81%E7%94%A8%E8%B4%A6%E6%88%B7/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/31/powershell-jiao-ben-shi-li-jian-cha-yu-zhang-hu-zhuang-tai-bing-shan-chu-jin-yong-zhang-hu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1260,7 +1516,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/03/31/Powershell%E8%84%9A%E6%9C%AC%E5%AE%9E%E4%BE%8B-%E6%A3%80%E6%9F%A5%E5%9F%9F%E8%B4%A6%E6%88%B7%E7%8A%B6%E6%80%81%E5%B9%B6%E5%88%A0%E9%99%A4%E7%A6%81%E7%94%A8%E8%B4%A6%E6%88%B7/" itemprop="url">Powershell脚本实例-检查域账户状态并删除禁用账户</a></h1>
+                <a class="post-title-link" href="/2024/03/31/powershell-jiao-ben-shi-li-jian-cha-yu-zhang-hu-zhuang-tai-bing-shan-chu-jin-yong-zhang-hu/" itemprop="url">Powershell脚本实例-检查域账户状态并删除禁用账户</a></h1>
         
 
         <div class="post-meta">
@@ -1426,7 +1682,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/22/VPN%E9%85%8D%E7%BD%AE-WireGuard%E9%85%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/22/vpn-pei-zhi-wireguard-pei-zhi-shi-li/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1445,7 +1701,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/03/22/VPN%E9%85%8D%E7%BD%AE-WireGuard%E9%85%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B/" itemprop="url">VPN配置-WireGuard配置实例</a></h1>
+                <a class="post-title-link" href="/2024/03/22/vpn-pei-zhi-wireguard-pei-zhi-shi-li/" itemprop="url">VPN配置-WireGuard配置实例</a></h1>
         
 
         <div class="post-meta">
@@ -1759,7 +2015,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/19/vRops%E6%8C%87%E6%A0%87-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%B7/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/19/vrops-zhi-biao-shu-ju-cun-chu-juan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1778,7 +2034,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/03/19/vRops%E6%8C%87%E6%A0%87-%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%8D%B7/" itemprop="url">vRops指标-数据存储卷</a></h1>
+                <a class="post-title-link" href="/2024/03/19/vrops-zhi-biao-shu-ju-cun-chu-juan/" itemprop="url">vRops指标-数据存储卷</a></h1>
         
 
         <div class="post-meta">
@@ -1941,7 +2197,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1SAN%E5%AD%98%E5%82%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E9%87%8D%E5%90%AF%E6%95%85%E9%9A%9C-VMware%E5%B1%82%E5%BD%B1%E5%93%8D/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/19/ji-lu-yi-ci-san-cun-chu-kong-zhi-qi-chong-qi-gu-zhang-vmware-ceng-ying-xiang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1960,7 +2216,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2024/03/19/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1SAN%E5%AD%98%E5%82%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E9%87%8D%E5%90%AF%E6%95%85%E9%9A%9C-VMware%E5%B1%82%E5%BD%B1%E5%93%8D/" itemprop="url">记录一次SAN存储控制器重启故障-VMware层影响</a></h1>
+                <a class="post-title-link" href="/2024/03/19/ji-lu-yi-ci-san-cun-chu-kong-zhi-qi-chong-qi-gu-zhang-vmware-ceng-ying-xiang/" itemprop="url">记录一次SAN存储控制器重启故障-VMware层影响</a></h1>
         
 
         <div class="post-meta">
@@ -2106,182 +2362,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/17/Excel-%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/03/17/Excel-%E5%B8%B8%E7%94%A8%E5%85%AC%E5%BC%8F/" itemprop="url">Excel-常用公示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-17T17:48:49+08:00">
-                2024-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/default/" itemprop="url" rel="index">
-                    <span itemprop="name">default</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="比较两个日期间隔多少小时"><a href="#比较两个日期间隔多少小时" class="headerlink" title="比较两个日期间隔多少小时"></a>比较两个日期间隔多少小时</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cell 1 &#x3D; 2024-03-17 17:50</span><br><span class="line">cell 2 &#x3D; 2024-03-28 20:00</span><br><span class="line"></span><br><span class="line">间隔天 &#x3D; (cell2 - cell1) </span><br><span class="line">间隔小时 &#x3D; (cell2 - cell1) * 24</span><br></pre></td></tr></table></figure>
-
-<h1 id="比较两个日期间隔天、月、年"><a href="#比较两个日期间隔天、月、年" class="headerlink" title="比较两个日期间隔天、月、年"></a>比较两个日期间隔天、月、年</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cell 1 &#x3D; 2024-03-17 17:50</span><br><span class="line">cell 2 &#x3D; 2024-03-28 20:00</span><br><span class="line">天&#x3D;datedif(cell1,cell2,&quot;d&quot;)</span><br><span class="line">月&#x3D;datedif(cell1,cell2,&quot;m&quot;)</span><br><span class="line">天&#x3D;datedif(cell1,cell2,&quot;d&quot;)</span><br></pre></td></tr></table></figure>
-
-<h1 id="保留小数位"><a href="#保留小数位" class="headerlink" title="保留小数位"></a>保留小数位</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">round(number,num_digits)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2332,7 +2412,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">428</span>
+                  <span class="site-state-item-count">429</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2566,6 +2646,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

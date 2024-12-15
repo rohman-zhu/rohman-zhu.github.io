@@ -239,9 +239,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -270,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/05/Linux%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97%E6%8F%90%E7%A4%BAumount/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/05/linux-de-cpu-yu-memory-re-tian-jia/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -289,7 +323,187 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/05/Linux%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97%E6%8F%90%E7%A4%BAumount/" itemprop="url">Linux系统日志提示umount</a></h1>
+                <a class="post-title-link" href="/2020/01/05/linux-de-cpu-yu-memory-re-tian-jia/" itemprop="url">Linux的CPU与Memory热添加</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T17:06:35+08:00">
+                2020-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在 vSphere 底层为虚拟机热添加CPU和内存后，一般操作系统都需要重启后才能识别。但是目前常用的Linux操作系统其实已经支持热添加的方式，需要到Linux中修改一下即可。</p>
+<h2 id="发现CPU"><a href="#发现CPU" class="headerlink" title="发现CPU"></a>发现CPU</h2><p>将cpu文件夹中的online文件状态由0改为1即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#如已添加cpu4</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /sys/devices/system/cpu/cpu4/online</span><br></pre></td></tr></table></figure>
+
+<h2 id="发现Memory"><a href="#发现Memory" class="headerlink" title="发现Memory"></a>发现Memory</h2><p>Discover Memory script:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> RAM <span class="keyword">in</span> $(grep line /sys/devices/system/memory/*/state)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"> <span class="built_in">echo</span> <span class="string">"Found ram: <span class="variable">$&#123;RAM&#125;</span>.. ."</span></span><br><span class="line"> <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$&#123;RAM&#125;</span>"</span> == *<span class="string">":offline"</span> ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Bringing online"</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="variable">$RAM</span> | sed <span class="string">"s/:offline$//"</span> | sed <span class="string">"s/^/echo online&gt;/"</span> | <span class="built_in">source</span> /dev/stdin</span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Already online"</span></span><br><span class="line"> <span class="keyword">fi</span></span><br><span class="line"> <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>CPU  hotplug in the kernel : <a href="https://www.kernel.org/doc/html/v4.11/core-api/cpu_hotplug.html" target="_blank" rel="noopener">https://www.kernel.org/doc/html/v4.11/core-api/cpu_hotplug.html</a><br>修改脚本 ： <a href="https://juejin.im/entry/5ab374adf265da2380598d3c" target="_blank" rel="noopener">https://juejin.im/entry/5ab374adf265da2380598d3c</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/05/linux-xi-tong-ri-zhi-ti-shi-umount/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/05/linux-xi-tong-ri-zhi-ti-shi-umount/" itemprop="url">Linux系统日志提示umount</a></h1>
         
 
         <div class="post-meta">
@@ -423,7 +637,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/05/Synology-Snapshot-Relication/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/05/synology-snapshot-relication/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -442,7 +656,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/05/Synology-Snapshot-Relication/" itemprop="url">Synology-Snapshot Relication</a></h1>
+                <a class="post-title-link" href="/2020/01/05/synology-snapshot-relication/" itemprop="url">Synology-Snapshot Relication</a></h1>
         
 
         <div class="post-meta">
@@ -959,7 +1173,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/04/Shell%E8%84%9A%E6%9C%AC%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E6%9C%AC/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2020/01/04/shell-jiao-ben-zhu-xing-du-qu-wen-ben/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -978,7 +1192,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/04/Shell%E8%84%9A%E6%9C%AC%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E6%9C%AC/" itemprop="url">Shell脚本逐行读取文本</a></h1>
+                <a class="post-title-link" href="/2020/01/04/shell-jiao-ben-zhu-xing-du-qu-wen-ben/" itemprop="url">Shell脚本逐行读取文本</a></h1>
         
 
         <div class="post-meta">
@@ -1120,7 +1334,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/28/Synology%E7%A3%81%E7%9B%98%E7%9B%98%E4%BD%8D/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/28/synology-ci-pan-pan-wei/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1139,7 +1353,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/28/Synology%E7%A3%81%E7%9B%98%E7%9B%98%E4%BD%8D/" itemprop="url">Synology磁盘盘位</a></h1>
+                <a class="post-title-link" href="/2019/12/28/synology-ci-pan-pan-wei/" itemprop="url">Synology磁盘盘位</a></h1>
         
 
         <div class="post-meta">
@@ -1316,7 +1530,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/24/Synology%E7%9B%91%E6%8E%A7%E7%A9%BA%E9%97%B4%E9%85%8D%E9%A2%9D%E6%96%B9%E6%A1%88/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/24/synology-jian-kong-kong-jian-pei-e-fang-an/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1335,7 +1549,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/24/Synology%E7%9B%91%E6%8E%A7%E7%A9%BA%E9%97%B4%E9%85%8D%E9%A2%9D%E6%96%B9%E6%A1%88/" itemprop="url">Synology监控空间配额方案</a></h1>
+                <a class="post-title-link" href="/2019/12/24/synology-jian-kong-kong-jian-pei-e-fang-an/" itemprop="url">Synology监控空间配额方案</a></h1>
         
 
         <div class="post-meta">
@@ -1531,7 +1745,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/19/Windows%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9D%91/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/19/windows-wen-jian-fu-zhi-de-keng/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1550,7 +1764,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/19/Windows%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9D%91/" itemprop="url">Windows文件复制的坑</a></h1>
+                <a class="post-title-link" href="/2019/12/19/windows-wen-jian-fu-zhi-de-keng/" itemprop="url">Windows文件复制的坑</a></h1>
         
 
         <div class="post-meta">
@@ -1710,7 +1924,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/17/2019%E5%B9%B412%E6%9C%88%E4%BB%BB%E5%8A%A1%E6%B8%85%E5%8D%95/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/17/2019-nian-12-yue-ren-wu-qing-dan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1729,7 +1943,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/17/2019%E5%B9%B412%E6%9C%88%E4%BB%BB%E5%8A%A1%E6%B8%85%E5%8D%95/" itemprop="url">2019年12月任务清单</a></h1>
+                <a class="post-title-link" href="/2019/12/17/2019-nian-12-yue-ren-wu-qing-dan/" itemprop="url">2019年12月任务清单</a></h1>
         
 
         <div class="post-meta">
@@ -1883,7 +2097,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/15/%E5%BA%93%E5%AD%98%E5%B1%9E%E6%80%A7SKU%E4%B8%8ESPU/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/15/ku-cun-shu-xing-sku-yu-spu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -1902,7 +2116,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/15/%E5%BA%93%E5%AD%98%E5%B1%9E%E6%80%A7SKU%E4%B8%8ESPU/" itemprop="url">库存属性SKU与SPU</a></h1>
+                <a class="post-title-link" href="/2019/12/15/ku-cun-shu-xing-sku-yu-spu/" itemprop="url">库存属性SKU与SPU</a></h1>
         
 
         <div class="post-meta">
@@ -2060,7 +2274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/15/CPU%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/15/cpu-ming-ming-gui-ze/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rohman.Zhu">
@@ -2079,7 +2293,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/15/CPU%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99/" itemprop="url">CPU命名规则</a></h1>
+                <a class="post-title-link" href="/2019/12/15/cpu-ming-ming-gui-ze/" itemprop="url">CPU命名规则</a></h1>
         
 
         <div class="post-meta">
@@ -2296,198 +2510,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2019/12/14/Ubuntu-Q-A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rohman.Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/Ubuntu-Q-A/" itemprop="url">Ubuntu--Q&A</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-14T23:44:08+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="常见问题记录"><a href="#常见问题记录" class="headerlink" title="常见问题记录"></a>常见问题记录</h1><h2 id="Could-not-get-lock-var-lib-dpkg-lock-fronted-open"><a href="#Could-not-get-lock-var-lib-dpkg-lock-fronted-open" class="headerlink" title="Could not get lock /var/lib/dpkg/lock-fronted-open"></a>Could not get lock /var/lib/dpkg/lock-fronted-open</h2><p>故障描述：使用apt-get的时候出现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E: Could not get lock &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend - open (11: Resource temporarily unavialable)</span><br><span class="line">E: Unable to acquire the dpkg fronted lock (&#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend), is another process using it?</span><br></pre></td></tr></table></figure>
-
-<p>原因分析：其他进程正在运行，导致资源被锁不可用；而资源被锁的原因可能是上次运行安装或者更新时没有正常完成，所以才会有报错。<br>解决方法：</p>
-<p>方法一：根据报错信息删除对应文件即可。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm /var/lib/dpkg/lock-frontend</span><br></pre></td></tr></table></figure>
-
-<p>方法二：结束apt-get进程</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep apt-get </span><br><span class="line"><span class="built_in">kill</span> -s 9 [PID]</span><br></pre></td></tr></table></figure>
-
-<h2 id="ssh-比较慢"><a href="#ssh-比较慢" class="headerlink" title="ssh 比较慢"></a>ssh 比较慢</h2><p>一般是ssh开启了 DNS 反向查询，将该属性值设置为no ，并重启sshd服务即可。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># UseDNS yes</span></span><br><span class="line">UseDNS no</span><br><span class="line"></span><br><span class="line">/etc/init.d/sshd restart</span><br></pre></td></tr></table></figure>
-
-<h2 id="ext3、ext4-有5-的空间损耗？"><a href="#ext3、ext4-有5-的空间损耗？" class="headerlink" title="ext3、ext4 有5%的空间损耗？"></a>ext3、ext4 有5%的空间损耗？</h2><p>在 mkfs.ext4 格式化时， 会出现“ xxx blocks(5.00%) reserved for the super user “ 提示。</p>
-<p>从ext2文件系统开始，格式化的时候默认都会保留一定空间给特定用户写入。避免磁盘写满时，而无法使用操作系统。</p>
-<blockquote>
-<p>默默吐槽，Google搜出来的东西跟百度搜出来的东西就是不一样，Google详细很多。</p>
-</blockquote>
-<p>参考问题：<a href="https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why" target="_blank" rel="noopener">https://unix.stackexchange.com/questions/7950/reserved-space-for-root-on-a-filesystem-why</a></p>
-<p>参考资料：<a href="http://man7.org/linux/man-pages/man5/ext4.5.html" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man5/ext4.5.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2538,7 +2560,7 @@
               
                 <a href="/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">428</span>
+                  <span class="site-state-item-count">429</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -2772,6 +2794,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

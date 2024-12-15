@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="监控-ZABBIX监控类别:  业务监控 (流量分析,开源的Piwik;) 网络监控 (开源的Smokeping) 应用监控 单机监控  监控的细节 确定业务类型 熟悉监控指标 确定性能基准线 使用工具-获取工具-设置阀值-触发报警-报警通知-通知升级  CPU 用户态 内核态  CPU Utilization - 如果一个CPU被充分使用,利用率分类之间均衡的比例:  65%-70% User">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZABBIX学习笔记">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/12/09/zabbix-xue-xi-bi-ji/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="监控-ZABBIX监控类别:  业务监控 (流量分析,开源的Piwik;) 网络监控 (开源的Smokeping) 应用监控 单机监控  监控的细节 确定业务类型 熟悉监控指标 确定性能基准线 使用工具-获取工具-设置阀值-触发报警-报警通知-通知升级  CPU 用户态 内核态  CPU Utilization - 如果一个CPU被充分使用,利用率分类之间均衡的比例:  65%-70% User">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-hard-require.jpg">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-1.jpg">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-2-check.jpg">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-3-mysql.jpg">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-6-Finnish.jpg">
+<meta property="article:published_time" content="2017-12-09T07:40:17.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.765Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-hard-require.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/12/09/zabbix-xue-xi-bi-ji/"/>
+
+
+
+
+
+  <title>ZABBIX学习笔记 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/12/09/zabbix-xue-xi-bi-ji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ZABBIX学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-09T15:40:17+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="监控-ZABBIX"><a href="#监控-ZABBIX" class="headerlink" title="监控-ZABBIX"></a>监控-ZABBIX</h1><p>监控类别:</p>
+<ul>
+<li>业务监控 (流量分析,开源的Piwik;)</li>
+<li>网络监控 (开源的Smokeping)</li>
+<li>应用监控</li>
+<li>单机监控</li>
+</ul>
+<h2 id="监控的细节"><a href="#监控的细节" class="headerlink" title="监控的细节"></a>监控的细节</h2><ol>
+<li>确定业务类型</li>
+<li>熟悉监控指标</li>
+<li>确定性能基准线</li>
+<li>使用工具-获取工具-设置阀值-触发报警-报警通知-通知升级</li>
+</ol>
+<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><ul>
+<li>用户态</li>
+<li>内核态</li>
+</ul>
+<p>CPU Utilization - 如果一个CPU被充分使用,利用率分类之间均衡的比例:</p>
+<ul>
+<li>65%-70% User Time</li>
+<li>30% -35% System Time</li>
+<li>0% - 5% Idle(闲置的) Time</li>
+</ul>
+<blockquote>
+<p>什么是Buffer?什么是Cache?</p>
+</blockquote>
+<h2 id="什么是ZABBIX"><a href="#什么是ZABBIX" class="headerlink" title="什么是ZABBIX"></a>什么是ZABBIX</h2><p>Zabbix是一个企业级的、开源的、分布式的监控套件<br>Zabbix可以监控网络和服务的监控状况. Zabbix利用灵活的告警机制，允许用户对事件发送基于Email的告警. 这样可以保证快速的对问题作出相应. Zabbix可以利用存储数据提供杰出的报告及图形化方式. 这一特性将帮助用户完成容量规划.</p>
+<h3 id="进程介绍"><a href="#进程介绍" class="headerlink" title="进程介绍"></a>进程介绍</h3><ul>
+<li>ZABBIX_agentd :客户端守护进程，此进程收集客户端数据，例如cpu负载、内存、硬盘使用情况等</li>
+<li>zabbix_get : zabbix工具，单独使用的命令，通常在server或者proxy端执行获取远程客户端信息的命令。通常用户排错。例如在server端获取不到客户端的内存数据，我们可以使用zabbix_get获取客户端的内容的方式来做故障排查。</li>
+<li>zabbix_sender : zabbix工具，用于发送数据给server或者proxy，通常用于耗时比较长的检查。很多检查非常耗时间，导致zabbix超时。于是我们在脚本执行完毕之后，使用sender主动提交数据。</li>
+<li>zabbix服务端守护进程。zabbix\agentd、zabbix_get、zabbix_sender、zabbix_proxy、zabbix_java_gateway的数据最终都是提交到server</li>
+<li>zabbix_proxy : zabbix代理守护进程。功能类似server，唯一不同的是它只是一个中转站，它需要把收集到的数据提交/被提交到server里。为什么要用代理？代理是做什么的？卖个关子，请继续关注运维生存时间zabbix教程系列。</li>
+<li>zabbix_java_gateway : zabbix2.0之后引入的一个功能。顾名思义：Java网关，类似agentd，但是只用于Java方面。需要特别注意的是，它只能主动去获取数据，而不能被动获取数据。它的数据最终会给到server或者proxy。</li>
+</ul>
+<h3 id="软硬件需求"><a href="#软硬件需求" class="headerlink" title="软硬件需求"></a>软硬件需求</h3><p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-hard-require.jpg" alt="硬件需求表"></p>
+<p>支持的操作系统:</p>
+<ul>
+<li>Linux</li>
+<li>IBM AIX</li>
+<li>FreeBSD</li>
+<li>NetBSD</li>
+<li>OpenBSD</li>
+<li>HP-UX</li>
+<li>Mac OS X</li>
+<li>Solaris</li>
+<li>Windows: 2000, Server 2003, XP, Vista, Server 2008, 7, 8, Server 2012 (只能跑Zabbix agent)</li>
+</ul>
+<blockquote>
+<p>window只能跑客户端</p>
+</blockquote>
+<p>软件需求:</p>
+<ol>
+<li>数据库:<ol>
+<li>MySQL:5.0.3+,推荐使用InnoDB引擎</li>
+<li>Oracle:10G+</li>
+<li>Postgresql:8.1+</li>
+<li>SQLite:3.3.5+</li>
+<li>IBM DB2:9.7+</li>
+</ol>
+</li>
+<li>Web:<ol>
+<li>Apache:1.3.12+</li>
+<li>PHP:5.3.0+</li>
+<li>PHP 拓展:<ol>
+<li>gd</li>
+<li>bcmath</li>
+<li>ctype</li>
+<li>libXML     2.6.15或以上</li>
+<li>xmlreader</li>
+<li>xmlwriter</li>
+<li>session</li>
+<li>sockets</li>
+<li>mbstring</li>
+<li>gettext</li>
+<li>ibm_db2（可选）</li>
+<li>mysqli（推荐）</li>
+<li>oci8（可选）</li>
+<li>pgsql（可选）</li>
+<li>sqlite3    （可选）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>服务器:<ol>
+<li>OpenIPMI：IPMI硬件监控</li>
+<li>libssh2：版本1.0以上，监控ssh服务</li>
+<li>fping：icmp监控项</li>
+<li>libcurl：监控web项.</li>
+<li>libiksemel：支持jabber报警</li>
+<li>net-snmp：增加SNMP支持</li>
+</ol>
+</li>
+<li>JAVA网关:<ol>
+<li>logback-core-0.9.27.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ，0.9.27, 1.0.13, and 1.1.1已测试</li>
+<li>logback-classic-0.9.27.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ， 0.9.27, 1.0.13, and 1.1.1.已测试</li>
+<li>slf4j-api-1.6.1.jar ：<a href="http://logback.qos.ch/" target="_blank" rel="noopener">http://logback.qos.ch/</a> ，1.6.1, 1.6.6, and 1.7.6.已测试</li>
+<li>android-json-4.3_r3.1.jar <code>https://android.googlesource.com/platform/libcore/+/master/json ，2.3.3\_r1.1 and 4.3\_r3.1已测试</code></li>
+</ol>
+</li>
+<li>时间同步:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 * * * &#x2F;usr&#x2F;sbin&#x2F;ntpdate -u 195.13.1.153</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h2><p>安装ZABBIX需要在LNMP或者LAMP环境下.</p>
+<h3 id="安装MySQL"><a href="#安装MySQL" class="headerlink" title="安装MySQL"></a>安装MySQL</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">tar xvf MySQL.tar</span><br><span class="line"><span class="comment"># 将目录移到/Application或者/usr/local/下</span></span><br><span class="line">mv MySQL /usr/<span class="built_in">local</span>/MySQL</span><br><span class="line"><span class="comment"># 执行安装脚本</span></span><br><span class="line">/usr/<span class="built_in">local</span>/MySQL/bin/mysql_install_db</span><br><span class="line"><span class="comment"># 添加命令到环境中</span></span><br><span class="line">vim /etc/profile</span><br><span class="line"><span class="comment">#-------------------</span></span><br><span class="line">PATH=<span class="string">"usr/local/MySQL/bin:<span class="variable">$PATH</span>"</span></span><br><span class="line"><span class="comment">#--------------------</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 将服务添加至/init.d/中</span></span><br><span class="line">cp /usr/<span class="built_in">local</span>/mysql/support-files/mysql.server /etc/init.d/</span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">/etc/init.d/mysql.server start</span><br><span class="line"><span class="comment"># 检查是否启动了</span></span><br><span class="line">lsof -i:3306</span><br></pre></td></tr></table></figure>
+
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>php具体安装方法参考上面的链接，不过如下模块要特别留意加上</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bcmath        --<span class="built_in">enable</span>-bcmath</span><br><span class="line">mbstring    --<span class="built_in">enable</span>-mbstring</span><br><span class="line">sockets        --<span class="built_in">enable</span>-sockets</span><br><span class="line">gd            --with-gd</span><br><span class="line">libxml        --with-libxml-dir=/usr/<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+
+<p>php.ini配置文件需要修改,否则不能安装ZABBIX</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">max_execution_time = 300</span><br><span class="line">memory_limit = 128M</span><br><span class="line">post_max_size = 16M</span><br><span class="line">upload_max_filesize = 2M</span><br><span class="line">max_input_time = 300</span><br><span class="line">date.timezone PRC</span><br></pre></td></tr></table></figure>
+
+<p>安装 php</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php-5.5.38 --with-config-file-path=/usr/local/php-5.5.38/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装ZABBIX"><a href="#安装ZABBIX" class="headerlink" title="安装ZABBIX"></a>安装ZABBIX</h3><p>zabbix官网下载页:<br><code>https://www.zabbix.com/download</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum install net-snmp-devel libxml2-devel libcurl-devel</span><br><span class="line">tar -xzvf zabbix-2.2.2.tar.gz</span><br><span class="line">cd zabbix-2.2.2</span><br><span class="line">./configure --prefix=/usr/local/zabbix-2.2.2/ --enable-server \</span><br><span class="line">--enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在zabbix server一般充当两个角色：server、angent，所以上面的配置参数也同时加上了–enable-agent。<br>请安装好MySQL，snmp，curl开发库</p>
+</blockquote>
+<p>如果出现 not found mysqlclient library,解决方法是安装 mysql-devel</p>
+<h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><p>为了安全考虑,zabbix只使用普通用户使用运行.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd zabbix</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h3><p>zabbix server与proxy需要数据库，angent不需要。<br>尤其要注意的是proxy只需要导入一个sql文件，而server一共要导入3个sql文件。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> zabbix <span class="keyword">default</span> <span class="keyword">charset</span> utf8;</span><br></pre></td></tr></table></figure>
+
+<p>导入相关sql语句,再zabbix源安装包下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot zabbix &lt; /data/zabbix-2.2.20/database/mysql/schema.sql</span><br><span class="line"><span class="meta">#</span><span class="bash">初始化sever</span></span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/images.sql</span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/data.sql</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置zabbix-Server"><a href="#配置zabbix-Server" class="headerlink" title="配置zabbix_Server"></a>配置zabbix_Server</h3><p>配置文件再zabbix的源文件下,叫做zabbix_server.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/zabbix</span><br><span class="line">cp config/zabbix_server.conf /etc/zabbix/</span><br><span class="line">vim /etc/zabbix/zabbix_server.conf</span><br><span class="line"><span class="comment">#---zabbix_server.conf---#</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=root</span><br><span class="line">DBPassword=ttlsapwd</span><br><span class="line">DBPort=3306</span><br><span class="line"><span class="comment">#---zabbix_server.conf---#</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>TODO:20171225:今天就先学到这里,配置完zabbix_server端,晚安啦.</p>
+</blockquote>
+<h4 id="配置Zabbix-Server的前端界面"><a href="#配置Zabbix-Server的前端界面" class="headerlink" title="配置Zabbix_Server的前端界面"></a>配置Zabbix_Server的前端界面</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建根目录</span></span><br><span class="line">mkdir /dat/logs/nginx</span><br><span class="line">mkdir /data/site/monitor.ttlsa.com/zabbix</span><br><span class="line">cp -rp zabbix-2.2.2/frontends/php/* /data/site/monitor.ttlsa.com/zabbix</span><br></pre></td></tr></table></figure>
+
+<h4 id="在nginx中配置节点"><a href="#在nginx中配置节点" class="headerlink" title="在nginx中配置节点"></a>在nginx中配置节点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name monitor.ttlsa.com;</span><br><span class="line">    access_log &#x2F;data&#x2F;logs&#x2F;nginx&#x2F;monitor.ttlsa.com.access.log;</span><br><span class="line">    index index.html index.php;</span><br><span class="line">    root &#x2F;data&#x2F;site&#x2F;monitor.ttlsa.com;</span><br><span class="line">    location &#x2F;</span><br><span class="line">    &#123;</span><br><span class="line">        try_files $uri &#x2F;index.php?$args;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~*.\.(php|php5)$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置完后,重启一下nginx.</p>
+<h4 id="在浏览器中输入monitor-ttlsa-com-zabbix"><a href="#在浏览器中输入monitor-ttlsa-com-zabbix" class="headerlink" title="在浏览器中输入monitor.ttlsa.com/zabbix"></a>在浏览器中输入monitor.ttlsa.com/zabbix</h4><p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-1.jpg" alt="界面一"><br><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-2-check.jpg" alt="php环境检查"><br><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-3-mysql.jpg" alt="MySQL配置"></p>
+<p>省略两个图</p>
+<p><img src="http://www.ttlsa.com/wp-content/uploads/2014/03/zabbix-setup-6-Finnish.jpg" alt="最终界面"></p>
+<p>总结一下这个步骤踩到的坑:</p>
+<ol>
+<li>PHP环境检查的时候发现没有gd-jpeg-support和gd-freetype-support的支持,这个是需要在编译安装php的时候做好的.(TODO : 有没有方法是在php-fpm都安装完后,补安装呢? 找到一种解决方法,缺什么安装什么…<a href="http://blog.csdn.net/wudixingyunxingxing/article/details/56561620" target="_blank" rel="noopener">http://blog.csdn.net/wudixingyunxingxing/article/details/56561620</a>)</li>
+<li>Mysql配置的时候,有可能连接不上数据库,是因为数据的账号默认是本地连接,因此在数据库中创建的账户需要添加主机地址,例如root@’%’</li>
+<li>最后一步,可能提示配置文件无法生成,那是因为php没有写入的权限,可以手动复制过去.(不算错误的错误…)</li>
+</ol>
+<p>初始账号:<br>Admin-zabbix</p>
+<h4 id="配置监控主机"><a href="#配置监控主机" class="headerlink" title="配置监控主机"></a>配置监控主机</h4><p>Configure - Hosts - Create host</p>
+<p>要填写的信息:</p>
+<ul>
+<li>Host name</li>
+<li>Agent interfaces</li>
+</ul>
+<p>Template:</p>
+<p>select - Template OS Linux - Select - ADD</p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>客户端配置就简单很多了</p>
+<p>编译安装 zabbix-2.2.2</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --<span class="built_in">enable</span>-agent</span><br><span class="line">vi /usr/<span class="built_in">local</span>/zabbix-2.2.2/etc/</span><br><span class="line">/usr/<span class="built_in">local</span>/zabbix-2.2.2/sbin/zabbix_agentd</span><br></pre></td></tr></table></figure>
+
+<p>这个是zabbix_agentd相关说明:<a href="http://www.ttlsa.com/zabbix/zabbix-command-zabbix_agentd/" target="_blank" rel="noopener">http://www.ttlsa.com/zabbix/zabbix-command-zabbix_agentd/</a><br>以及这一篇文章:<br><a href="http://blog.51cto.com/pynliu/1569596" target="_blank" rel="noopener">http://blog.51cto.com/pynliu/1569596</a></p>
+<blockquote>
+<p>今天完成了zabbix的初步配置(服务端与客户端),明天把nec的电脑装成linux做服务器,并配置为LNMP和zabbix服务端.(2018-1-6)</p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ol>
+<li><code>http://www.ttlsa.com/zabbix/introduction-zabbix-the-first-section-of-chapter/</code></li>
+<li><code>http://www.ttlsa.com/zabbix/zabbix-features-section-2-of-chapter/</code></li>
+<li><code>http://www.ttlsa.com/zabbix/zabbix-section-3-of-chapter-1/</code></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/09/nagios-pi-liang-pei-zhi/" rel="next" title="Nagios批量配置">
+                <i class="fa fa-chevron-left"></i> Nagios批量配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/07/lnmp-zabbix-3.4.5-wan-zheng-bu-shu-shi-li/" rel="prev" title="LNMP-zabbix-3.4.5-实战">
+                LNMP-zabbix-3.4.5-实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#监控-ZABBIX"><span class="nav-number">1.</span> <span class="nav-text">监控-ZABBIX</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#监控的细节"><span class="nav-number">1.1.</span> <span class="nav-text">监控的细节</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU"><span class="nav-number">1.1.1.</span> <span class="nav-text">CPU</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是ZABBIX"><span class="nav-number">1.2.</span> <span class="nav-text">什么是ZABBIX</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程介绍"><span class="nav-number">1.2.1.</span> <span class="nav-text">进程介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软硬件需求"><span class="nav-number">1.2.2.</span> <span class="nav-text">软硬件需求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装过程"><span class="nav-number">1.3.</span> <span class="nav-text">安装过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装MySQL"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP"><span class="nav-number">1.3.2.</span> <span class="nav-text">PHP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装ZABBIX"><span class="nav-number">1.3.3.</span> <span class="nav-text">安装ZABBIX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用户"><span class="nav-number">1.3.4.</span> <span class="nav-text">创建用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化数据库"><span class="nav-number">1.3.5.</span> <span class="nav-text">初始化数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置zabbix-Server"><span class="nav-number">1.3.6.</span> <span class="nav-text">配置zabbix_Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Zabbix-Server的前端界面"><span class="nav-number">1.3.6.1.</span> <span class="nav-text">配置Zabbix_Server的前端界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在nginx中配置节点"><span class="nav-number">1.3.6.2.</span> <span class="nav-text">在nginx中配置节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在浏览器中输入monitor-ttlsa-com-zabbix"><span class="nav-number">1.3.6.3.</span> <span class="nav-text">在浏览器中输入monitor.ttlsa.com&#x2F;zabbix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置监控主机"><span class="nav-number">1.3.6.4.</span> <span class="nav-text">配置监控主机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端配置"><span class="nav-number">1.3.7.</span> <span class="nav-text">客户端配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">1.4.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

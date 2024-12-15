@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="RSYNCRemote synchronization,可以通过网络将两台机器进行数据备份。开源、快速、可实现全量与增量数据备份数据。 1.什么是全量、增量备份全量就是指全部文件进行备份。增量就是指对相同的文件进行第二次备份，只对有改动的文件备份。  备份时的命名规范：目录以IP地址命名，文件以时间命名  2.NFS的工作模式2.1第一种工作模式：本地（Local）相当于是本机操作：  rsync">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的RSYNC服务">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/15/linux-de-rsync-fu-wu/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="RSYNCRemote synchronization,可以通过网络将两台机器进行数据备份。开源、快速、可实现全量与增量数据备份数据。 1.什么是全量、增量备份全量就是指全部文件进行备份。增量就是指对相同的文件进行第二次备份，只对有改动的文件备份。  备份时的命名规范：目录以IP地址命名，文件以时间命名  2.NFS的工作模式2.1第一种工作模式：本地（Local）相当于是本机操作：  rsync">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-15T01:21:31.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.756Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/10/15/linux-de-rsync-fu-wu/"/>
+
+
+
+
+
+  <title>Linux的RSYNC服务 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/15/linux-de-rsync-fu-wu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux的RSYNC服务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-15T09:21:31+08:00">
+                2017-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="RSYNC"><a href="#RSYNC" class="headerlink" title="RSYNC"></a>RSYNC</h1><p>Remote synchronization,可以通过网络将两台机器进行数据备份。开源、快速、可实现全量与增量数据备份数据。</p>
+<h2 id="1-什么是全量、增量备份"><a href="#1-什么是全量、增量备份" class="headerlink" title="1.什么是全量、增量备份"></a>1.什么是全量、增量备份</h2><p>全量就是指全部文件进行备份。增量就是指对相同的文件进行第二次备份，只对有改动的文件备份。</p>
+<blockquote>
+<p>备份时的命名规范：目录以IP地址命名，文件以时间命名</p>
+</blockquote>
+<h2 id="2-NFS的工作模式"><a href="#2-NFS的工作模式" class="headerlink" title="2.NFS的工作模式"></a>2.NFS的工作模式</h2><h3 id="2-1第一种工作模式：本地（Local）"><a href="#2-1第一种工作模式：本地（Local）" class="headerlink" title="2.1第一种工作模式：本地（Local）"></a>2.1第一种工作模式：本地（Local）</h3><p>相当于是本机操作：</p>
+<ol>
+<li>rsync -avz /etc/hosts /tmp 等价于cp指令</li>
+<li>rsync -avz –delete /null /tmp/ 等价于rm指令</li>
+</ol>
+<h3 id="2-2第二种工作模式：远程（Remote）"><a href="#2-2第二种工作模式：远程（Remote）" class="headerlink" title="2.2第二种工作模式：远程（Remote）"></a>2.2第二种工作模式：远程（Remote）</h3><ol>
+<li>PUSH : rsync -avzP -e ‘ssh -p 22’ /tmp/ <a href="mailto:root@10.0.0.8">root@10.0.0.8</a>:/tmp</li>
+<li>PULL : rsync -avzP -e ‘ssh -p 22’ <a href="mailto:root@10.0.0.8">root@10.0.0.8</a>:/tmp /tmp/</li>
+</ol>
+<blockquote>
+<p>-e表示指定隧道,即是指定了端口.</p>
+</blockquote>
+<h2 id="3-关乎rsync命令的参数"><a href="#3-关乎rsync命令的参数" class="headerlink" title="3.关乎rsync命令的参数"></a>3.关乎rsync命令的参数</h2><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-v</td>
+<td align="center">–verbose(详细的,冗长的),详细模式输出,传输时的进度等信息</td>
+</tr>
+<tr>
+<td align="center">-z</td>
+<td align="center">–compress,传输时进行压缩以提高传输效率</td>
+</tr>
+<tr>
+<td align="center">-a</td>
+<td align="center">–archive(归档),表示以递归形式传输文件,并保持所有文件的属性</td>
+</tr>
+<tr>
+<td align="center">-r</td>
+<td align="center">–recursive(递归的,循环的)</td>
+</tr>
+<tr>
+<td align="center">-t</td>
+<td align="center">–times保持文件时间信息</td>
+</tr>
+<tr>
+<td align="center">-o</td>
+<td align="center">–owner保持文件的数组信息</td>
+</tr>
+<tr>
+<td align="center">-p</td>
+<td align="center">–perms保持文件权限</td>
+</tr>
+<tr>
+<td align="center">-g</td>
+<td align="center">–group保持文件数组信息</td>
+</tr>
+<tr>
+<td align="center">-P</td>
+<td align="center">–progress 显示同步的过程以及传输时的进度等信息</td>
+</tr>
+<tr>
+<td align="center">-D</td>
+<td align="center">–devices保持沈北文件信息</td>
+</tr>
+<tr>
+<td align="center">-l</td>
+<td align="center">–link保留软连接</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>常用的是avz属性,相当于vzrtopg</p>
+</blockquote>
+<h2 id="4-RSYNC-Server配置步骤"><a href="#4-RSYNC-Server配置步骤" class="headerlink" title="4.RSYNC Server配置步骤"></a>4.RSYNC Server配置步骤</h2><h3 id="在-etc-rsyncd-conf加入配置"><a href="#在-etc-rsyncd-conf加入配置" class="headerlink" title="在/etc/rsyncd.conf加入配置"></a>在/etc/rsyncd.conf加入配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">######################################################################################################</span><br><span class="line">#                      ******进程相关全局配置******</span><br><span class="line">######################################################################################################</span><br><span class="line">#    后面的值可根据自己的实际情况更改</span><br><span class="line">#    pid file 守护进程pid文件</span><br><span class="line">#    port 守护进程监听端口，可更改，由xinetd允许rsyncd时忽略此参数</span><br><span class="line">#    address 守护进程监听ip，由xinetd允许rsyncd时忽略此参数</span><br><span class="line">pid file &#x3D; &#x2F;var&#x2F;run&#x2F;rsyncd.pid</span><br><span class="line">port &#x3D; 873</span><br><span class="line">address &#x3D; 192.168.1.2</span><br><span class="line">#rsyncd 守护进程运行系统用户全局配置，也可在具体的块中独立配置,</span><br><span class="line">uid &#x3D; root</span><br><span class="line">gid &#x3D; root</span><br><span class="line">#允许 chroot，提升安全性，客户端连接模块，首先chroot到模块path参数指定的目录下</span><br><span class="line">#chroot为yes时必须使用root权限，且不能备份path路径外的链接文件</span><br><span class="line">use chroot &#x3D; yes</span><br><span class="line">#只读</span><br><span class="line">read only &#x3D; no</span><br><span class="line">#只写</span><br><span class="line">write only &#x3D; no</span><br><span class="line">#允许访问rsyncd服务的ip，ip端或者单独ip之间使用空格隔开</span><br><span class="line">hosts allow &#x3D; 192.168.0.1&#x2F;255.255.255.0 198.162.145.1 10.0.1.0&#x2F;255.255.255.0</span><br><span class="line">#不允许访问rsyncd服务的ip，*是全部(不涵盖在hosts allow中声明的ip，注意和hosts allow的先后顺序)</span><br><span class="line">hosts deny &#x3D; *</span><br><span class="line">#客户端最大连接数</span><br><span class="line">max connections &#x3D; 5</span><br><span class="line">#欢迎文件路径，可选的</span><br><span class="line">#motd file &#x3D; &#x2F;etc&#x2F;rsyncd&#x2F;rsyncd.motd</span><br><span class="line">#日志相关</span><br><span class="line">#    log file 指定rsync发送消息日志文件，而不是发送给syslog，如果不填这个参数默认发送给syslog</span><br><span class="line">#    transfer logging 是否记录传输文件日志</span><br><span class="line">#    log format 日志文件格式，格式参数请google</span><br><span class="line">#    syslog facility rsync发送消息给syslog时的消息级别，</span><br><span class="line">#    timeout连接超时时间</span><br><span class="line">log file &#x3D; &#x2F;usr&#x2F;local&#x2F;logs&#x2F;rsyncd.log</span><br><span class="line">transfer logging &#x3D; yes</span><br><span class="line">log format &#x3D; %t %a %m %f %b</span><br><span class="line">syslog facility &#x3D; local3</span><br><span class="line">timeout &#x3D; 300</span><br><span class="line"></span><br><span class="line">######################################################################################################</span><br><span class="line">#                      ******模块配置(多个)******</span><br><span class="line">######################################################################################################</span><br><span class="line">#模块 模块名称必须使用[]环绕，比如要访问data1,则地址应该是data1user@192.168.1.2::data1</span><br><span class="line">[data1]</span><br><span class="line">#模块根目录，必须指定</span><br><span class="line">path&#x3D;&#x2F;home&#x2F;username</span><br><span class="line">#是否允许列出模块里的内容</span><br><span class="line">list&#x3D;yes</span><br><span class="line">#忽略错误</span><br><span class="line">#ignore errors</span><br><span class="line">#模块验证用户名称，可使用空格或者逗号隔开多个用户名</span><br><span class="line">auth users &#x3D; data1user</span><br><span class="line">#模块验证密码文件 可放在全局配置里</span><br><span class="line">secrets file&#x3D;&#x2F;etc&#x2F;rsyncd&#x2F;rsyncd.secrets</span><br><span class="line">#注释</span><br><span class="line">comment &#x3D; some description about this moudle</span><br><span class="line">#排除目录，多个之间使用空格隔开</span><br><span class="line">exclude &#x3D; test1&#x2F; test2&#x2F;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#Rsync server</span><br><span class="line">#Created by Roman 2017-10-15 14:50</span><br><span class="line">##rsyncd.conf start##</span><br><span class="line">uid &#x3D; rsync</span><br><span class="line">gid &#x3D; rsync</span><br><span class="line">use chroot &#x3D; no</span><br><span class="line">#最长连接时间</span><br><span class="line">max connection &#x3D; 200</span><br><span class="line">#超时时间</span><br><span class="line">timout &#x3D;600</span><br><span class="line">#进程号</span><br><span class="line">pid file &#x3D;&#x2F;var&#x2F;run&#x2F;rsyncd.pid</span><br><span class="line">lock file &#x3D; &#x2F;var&#x2F;run&#x2F;rsync.lock</span><br><span class="line">log file &#x3D; &#x2F;var&#x2F;log&#x2F;rsyncd.log</span><br><span class="line">#忽略错误</span><br><span class="line">ignore errors</span><br><span class="line">read only &#x3D; false</span><br><span class="line">#客户端是否可以查看服务器内的文件列表</span><br><span class="line">list &#x3D; false</span><br><span class="line">hosts allow &#x3D; 10.0.0.0&#x2F;24</span><br><span class="line">#认证用户,为了安全,设置了一个虚拟用户</span><br><span class="line">auth users &#x3D; rsync_backup</span><br><span class="line">#账号密码</span><br><span class="line">secrets file &#x3D; &#x2F;etc&#x2F;rsync.password</span><br><span class="line">############################</span><br><span class="line">[backup]</span><br><span class="line">comment &#x3D; backup by roman 14:50 2017-10-15</span><br><span class="line">path &#x3D; &#x2F;backup</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建rsync用户以及共享的目录"><a href="#创建rsync用户以及共享的目录" class="headerlink" title="创建rsync用户以及共享的目录"></a>创建rsync用户以及共享的目录</h3><h3 id="S端创建密码文件"><a href="#S端创建密码文件" class="headerlink" title="S端创建密码文件"></a>S端创建密码文件</h3><ol>
+<li>echo “rsync_backup:oldboy” &gt; /etc/rsync.password</li>
+<li>chmod 600 /etc/rsync.password</li>
+<li>rsync –daemon</li>
+<li>检查 netstat -lntup | grep rsync</li>
+</ol>
+<h2 id="RSYNC-Client-配置"><a href="#RSYNC-Client-配置" class="headerlink" title="RSYNC Client 配置"></a>RSYNC Client 配置</h2><h3 id="C端创建密码文件"><a href="#C端创建密码文件" class="headerlink" title="C端创建密码文件"></a>C端创建密码文件</h3><ol>
+<li>echo “oldboy” /&gt;/etc/rsync.password</li>
+<li>chmod 600 /etc/rsync.password</li>
+</ol>
+<h3 id="RSYNC-操作"><a href="#RSYNC-操作" class="headerlink" title="RSYNC 操作"></a>RSYNC 操作</h3><p>PUSH:</p>
+<ul>
+<li>rsync [OPTION] SRC… [USER@]HOST::DEST</li>
+</ul>
+<p>例如:</p>
+<ul>
+<li>rsynv -avz /tmp <a href="mailto:rsync_backup@10.0.0.10">rsync_backup@10.0.0.10</a>::backup –password-file=/etc/rsync.password</li>
+</ul>
+<h2 id="4-RSYNC的故障排查"><a href="#4-RSYNC的故障排查" class="headerlink" title="4.RSYNC的故障排查"></a>4.RSYNC的故障排查</h2><h3 id="Connection-refused"><a href="#Connection-refused" class="headerlink" title="Connection refused"></a>Connection refused</h3><p>检查防火墙或者服务是否开启.</p>
+<h2 id="补充知识点-进程管理"><a href="#补充知识点-进程管理" class="headerlink" title="补充知识点 : 进程管理"></a>补充知识点 : 进程管理</h2><ul>
+<li>pkill指令 : pkill 进程名字</li>
+<li>kill指令 : kill 进程编号</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cat &#x2F;var&#x2F;run&#x2F;rsync.pid</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>关于echo: echo是可以穿件文件的,例如 echo “rsync_backup:oldboy” &gt; /etc/rsync.password</p>
+<ul>
+<li>echo 的内容代表的是 用户和密码 ; 用户名 : 密码 ;</li>
+</ul>
+<blockquote>
+<p>rsync.password 里面的用户 跟 /etc/rsyncd.conf 里面的 auth users是一样的.</p>
+</blockquote>
+<h2 id="设置RSYNC服务的步骤"><a href="#设置RSYNC服务的步骤" class="headerlink" title="设置RSYNC服务的步骤"></a>设置RSYNC服务的步骤</h2><p>Deamon工作模式</p>
+<ol>
+<li>创建配置文件 /etc/rsyncd.conf(默认不存在的)</li>
+<li>创建rsnc用户,用于rsync服务的</li>
+<li>创建密码文件,”用户名:密码”,/etc/rsync.password</li>
+<li>启动服务. rsync –daemon</li>
+<li>添加至开机启动项 . echo “rsync –daemon” &gt;&gt; /etc/rc.local</li>
+</ol>
+<blockquote>
+<p>密码文件要设置权限,非root用户不能修改,chomd 600 /etc/rsync.password</p>
+</blockquote>
+<h3 id="客户端配置步骤"><a href="#客户端配置步骤" class="headerlink" title="客户端配置步骤"></a>客户端配置步骤</h3><ol>
+<li>创建密码文件,文件里面只存放密码即可,因为登陆的时候默认带了用户名</li>
+<li>上传备份 , 即push</li>
+<li>下载备份 , 即pull</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rsync -avz &#x2F;temp rsync_backup@10.0.0.7::backup --password-file&#x3D;&#x2F;etc&#x2F;rsync.password</span><br></pre></td></tr></table></figure>
+
+<h2 id="Rsync-的优缺点"><a href="#Rsync-的优缺点" class="headerlink" title="Rsync 的优缺点"></a>Rsync 的优缺点</h2><ol>
+<li>优点:</li>
+</ol>
+<ul>
+<li>增量备份同步</li>
+<li>支持socket(daemon)</li>
+</ul>
+<ol>
+<li>缺点:</li>
+</ol>
+<ul>
+<li>大量小文件同步的时候,比对时间较长,有时候会出现rsync进程停止.(解决方案:打包成一个压缩文件 ; drbd(文件系统同步复制block))</li>
+<li>同步大文件,例如10G文件有时会中断.只要未完成同步前,文件都为隐藏文件.</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/14/linux-de-nfs/" rel="next" title="Linux 的NFS">
+                <i class="fa fa-chevron-left"></i> Linux 的NFS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/15/linux-shi-shi-tong-bu-shu-ju/" rel="prev" title="Linux实时同步数据">
+                Linux实时同步数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RSYNC"><span class="nav-number">1.</span> <span class="nav-text">RSYNC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是全量、增量备份"><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是全量、增量备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-NFS的工作模式"><span class="nav-number">1.2.</span> <span class="nav-text">2.NFS的工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1第一种工作模式：本地（Local）"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1第一种工作模式：本地（Local）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2第二种工作模式：远程（Remote）"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2第二种工作模式：远程（Remote）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-关乎rsync命令的参数"><span class="nav-number">1.3.</span> <span class="nav-text">3.关乎rsync命令的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-RSYNC-Server配置步骤"><span class="nav-number">1.4.</span> <span class="nav-text">4.RSYNC Server配置步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在-etc-rsyncd-conf加入配置"><span class="nav-number">1.4.1.</span> <span class="nav-text">在&#x2F;etc&#x2F;rsyncd.conf加入配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建rsync用户以及共享的目录"><span class="nav-number">1.4.2.</span> <span class="nav-text">创建rsync用户以及共享的目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S端创建密码文件"><span class="nav-number">1.4.3.</span> <span class="nav-text">S端创建密码文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSYNC-Client-配置"><span class="nav-number">1.5.</span> <span class="nav-text">RSYNC Client 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C端创建密码文件"><span class="nav-number">1.5.1.</span> <span class="nav-text">C端创建密码文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RSYNC-操作"><span class="nav-number">1.5.2.</span> <span class="nav-text">RSYNC 操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-RSYNC的故障排查"><span class="nav-number">1.6.</span> <span class="nav-text">4.RSYNC的故障排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Connection-refused"><span class="nav-number">1.6.1.</span> <span class="nav-text">Connection refused</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充知识点-进程管理"><span class="nav-number">1.7.</span> <span class="nav-text">补充知识点 : 进程管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置RSYNC服务的步骤"><span class="nav-number">1.8.</span> <span class="nav-text">设置RSYNC服务的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端配置步骤"><span class="nav-number">1.8.1.</span> <span class="nav-text">客户端配置步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rsync-的优缺点"><span class="nav-number">1.9.</span> <span class="nav-text">Rsync 的优缺点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

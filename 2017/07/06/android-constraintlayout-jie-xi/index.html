@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言因为ConstraintLayout这个布局是安卓的新特性,所以在此就学习一下.这里转自网上的一篇文章,把基本的东西都讲到了,感觉还是不错的. 正文　　本篇文章的主题是ConstraintLayout。其实ConstraintLayout是Android Studio 2.2中主要的新增功能之一，也是Google在去年的I&#x2F;O大会上重点宣传的一个功能。我们都知道，在传统的Android开发当中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android ConstraintLayout解析">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/07/06/android-constraintlayout-jie-xi/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言因为ConstraintLayout这个布局是安卓的新特性,所以在此就学习一下.这里转自网上的一篇文章,把基本的东西都讲到了,感觉还是不错的. 正文　　本篇文章的主题是ConstraintLayout。其实ConstraintLayout是Android Studio 2.2中主要的新增功能之一，也是Google在去年的I&#x2F;O大会上重点宣传的一个功能。我们都知道，在传统的Android开发当中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175356264.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357269.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357273.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357217.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357404.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358652.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358976.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358962.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358912.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359745.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359431.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359810.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359805.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400110.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400860.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400253.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400124.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401772.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401539.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401448.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402417.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402878.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402399.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402126.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403533.png">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403858.gif">
+<meta property="og:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403263.png">
+<meta property="article:published_time" content="2017-07-06T03:43:48.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.752Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175356264.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/07/06/android-constraintlayout-jie-xi/"/>
+
+
+
+
+
+  <title>Android ConstraintLayout解析 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/rohman-zhu" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/06/android-constraintlayout-jie-xi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rohman.Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android ConstraintLayout解析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-06T11:43:48+08:00">
+                2017-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为ConstraintLayout这个布局是安卓的新特性,所以在此就学习一下.这里转自网上的一篇文章,把基本的东西都讲到了,感觉还是不错的.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>　　本篇文章的主题是ConstraintLayout。其实ConstraintLayout是Android Studio 2.2中主要的新增功能之一，也是Google在去年的I/O大会上重点宣传的一个功能。我们都知道，在传统的Android开发当中，界面基本都是靠编写XML代码完成的，虽然Android Studio也支持可视化的方式来编写界面，但是操作起来并不方便，我也一直都不推荐使用可视化的方式来编写Android应用程序的界面。</p>
+<p>　　而ConstraintLayout就是为了解决这一现状而出现的。它和传统编写界面的方式恰恰相反，ConstraintLayout非常适合使用可视化的方式来编写界面，但并不太适合使用XML的方式来进行编写。当然，可视化操作的背后仍然还是使用的XML代码来实现的，只不过这些代码是由Android Studio根据我们的操作自动生成的。</p>
+<p>　　另外，ConstraintLayout还有一个优点，它可以有效地解决布局嵌套过多的问题。我们平时编写界面，复杂的布局总会伴随着多层的嵌套，而嵌套越多，程序的性能也就越差。ConstraintLayout则是使用约束的方式来指定各个控件的位置和关系的，它有点类似于RelativeLayout，但远比RelativeLayout要更强大。</p>
+<p>　　其实ConstraintLayout属于Android Studio 2.2的新特性，我在去年写《第二行代码》的时候就非常想要将这部分内容加入到新书里面，但是在尝试之后还是放弃了。因为ConstraintLayout的用法很多都是对控件进行拖拽，只用文字或者是一些静态图片实在太难将它的用法表达清楚了，因此不太适合写到书上。我当时的想法就是在博客上面写一篇ConstraintLayout的用法讲解，来弥补一下《第二行代码》中缺失的这部分新特性，那么今天这篇文章来了。</p>
+<p>##　　开始 ##</p>
+<p>　　下面我们开始用边学边练的方式来进行学习，首先打开你的Android Studio，并新建一个ConstraintLayoutTest项目。另外，确保你的Android Studio是2.2或以上版本。<br>　　为了要使用ConstraintLayout，我们需要在app/build.gradle文件中添加ConstraintLayout的依赖，如下所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　dependencies &#123;</span><br><span class="line">　  compile &#39;com.android.support.constraint:constraint-layout:1.0.2&#39;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　目前ConstraintLayout库最新的版本是1.0.2.</p>
+<p>　　在目前的Android Studio 2.3中默认布局就是ConstraintLayout的</p>
+<p>　　我们可以看到，现在主操作区域内有两个类似于手机屏幕的界面，左边的是预览界面，右边的是蓝图界面。这两部分都可以用于进行布局编辑工作，区别是左边部分主要用于预览最终的界面效果，右边部分主要用于观察界面内各个控件的约束情况。</p>
+<p><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175356264.gif" alt="ConstraintLayout转化"></p>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>　　下面我们来学习一些具体的操作吧，ConstraintLayout的基本用法很简单，比如我们想要向布局中添加一个按钮，那么只需要从左侧的Palette区域拖一个Button进去就可以了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357269.gif" alt="添加按钮"></p>
+<p>　　虽说现在Button已经添加到界面上了，但是由于我们还没有给Button添加任何的约束，因此Button并不知道自己应该出现在什么位置。现在我们在预览界面上看到的Button位置并不是它最终运行后的实际位置，如果一个控件没有添加任何约束的话，它在运行之后会自动位于界面的左上角。</p>
+<p>　　那么下面我们就来给Button添加约束，每个控件的约束都分为垂直和水平两类，一共可以在四个方向上给控件添加约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357273.png" alt="按钮约束">　　</p>
+<p>　　上图中Button的上下左右各有一个圆圈，这圆圈就是用来添加约束的，我们可以将约束添加到ConstraintLayout，也可以将约束添加到另一个控件。比如说，想让Button位于布局的右下角，就可以这样添加约束，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357217.gif" alt="添加约束"></p>
+<p>　　我们给Button的右边和下边添加了约束，因此Button就会将自己定位到布局的右下角了。类似地，如果我们想要让Button居中显示，那么就需要给它的上下左右都添加约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357404.gif" alt="添加约束">
+　　</p>
+<p>　　这就是添加约束最基本的用法了。</p>
+<p>　　除此之外，我们还可以使用约束让一个控件相对于另一个控件进行定位。比如说，我们希望再添加一个Button，让它位于第一个Button的正下方，并且间距64dp，那么操作如下所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358652.gif" alt="给控件进行定位"></p>
+<p>　　现在添加约束的方式我们已经学完了，那么该怎样删除约束呢?其实也很简单，删除约束的方式一共有三种，第一种用于删除一个单独的约束，将鼠标悬浮在某个约束的圆圈上，然后该圆圈会变成红色，这个时候单击一下就能删除了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358976.gif" alt="删除约束一"></p>
+<p>　　第二种用于删除某一个控件的所有约束，选中一个控件，然后它的左下角会出现一个删除约束的图标，点击该图标就能删除当前控件的所有约束了，如下所示。</p>
+<p><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358962.gif" alt="删除约束二">　　</p>
+<p>　　第三种用于删除当前界面中的所有约束，点击工具栏中的删除约束图标即可，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358912.png" alt="删除约束三"></p>
+<p>##　　Inspector ##<br>　　这样我们就把ConstraintLayout的基本用法学完了，接下来我们开始学习一些进阶的内容。</p>
+<p>　　当你选中任意一个控件的时候，在右侧的Properties区域就会出现很多的属性选项，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359745.png" alt="检查员"></p>
+<p>　　在这里我们就可以设置当前控件的所有属性，如文本内容、颜色、点击事件等等。这些功能都非常简单，我就不再进行详细介绍，大家自己点一点就会操作了。</p>
+<p>　　需要我们重点掌握的是Properties区域的上半部分，这部分也被称为Inspector。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359431.png" alt="属性">
+　　</p>
+<p>　　首先可以看到，在Inspector中有一个纵向的轴和一个横向的轴，这两个轴也是用于确定控件的位置的。我们刚才给Button的上下左右各添加了一个约束，然后Button就能居中显示了，其实就是因为这里纵横轴的值都是50。如果调整了纵横轴的比例，那么Button的位置也会随之改变，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359810.gif" alt="Button位置"></p>
+<p>　　不过，虽然我们将横轴的值拖动到了100，但是Button并没有紧贴到布局的最右侧，这是为什么呢?实际上，Android Studio给控件的每个方向上的约束都默认添加了一个16dp的间距，从Inspector上面也可以明显地看出来这些间距的值。如果这些默认值并不是你想要的，可以直接在Inspector上进行修改，如下图所示：<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359805.gif" alt="贴紧边缘">　　</p>
+<p>　　可以看到，修改成0之后Button右侧的间距就没了。<br>　　接下来我们再来学习一下位于Inspector最中间的那个正方形区域，它是用来控制控件大小的。一共有三种模式可选，每种模式都使用了一种不同的符号表示，点击符号即可进行切换。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400110.png" alt="wrap_content"></p>
+<p>　　表示wrap content，这个我们很熟悉了，不需要进行什么解释。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400860.png" alt="固定值">　　</p>
+<p>　　表示固定值，也就是给控件指定了一个固定的长度或者宽度值。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400253.png" alt="any_size"></p>
+<p>　　表示any size，它有点类似于match parent，但和match parent并不一样，是属于ConstraintLayout中特有的一种大小控制方式，下面我们来重点讲解一下。</p>
+<p>　　首先需要说明，在ConstraintLayout中是有match parent的，只不过用的比较少，因为ConstraintLayout的一大特点就是为了解决布局嵌套，既然没有了布局嵌套，那么match parent也就没有多大意义了。</p>
+<p>　　而any size就是用于在ConstraintLayout中顶替match parent的，先看一下我们怎样使用any size实现和match parent同样的效果吧。比如说我想让Button的宽度充满整个布局，操作如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400124.gif" alt="any_size">　　</p>
+<p>　　可以看到，我们将Button的宽度指定成any size，它就会自动充满整个布局了。当然还要记得将Button左侧的间距设置成0才行。</p>
+<p>　　那有的朋友可能会问了，这和match parent有什么区别呢?其实最大的区别在于，match parent是用于填充满当前控件的父布局，而any size是用于填充满当前控件的约束规则。举个例子更好理解，如果我们有一个新的Button，它的其中一个约束是添加到当前这个Button上的，那么any size的效果也会发生改变，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401772.gif" alt="any_size">　　</p>
+<p>　　通过上图的演示，相信你已经很好地理解any size的作用了。<br>##　　Guidelines ##</p>
+<p>　　现在你已经对ConstraintLayout比较熟悉，并且能使用ConstraintLayout来编写一些简单的界面了。不过目前有一个问题可能还比较头疼，刚才我们已经实现了让一个按钮居中对齐的功能，如果我们想让两个按钮共同居中对齐该怎么实现呢?</p>
+<p>　　其实这个需求很常见，比如说在应用的登录界面，都会有一个登录按钮和一个注册按钮，不管它们是水平居中也好还是垂直居中也好，但肯定都是两个按钮共同居中的。</p>
+<p>　　想要实现这个功能，仅仅用我们刚刚学的那些知识是不够的，这需要用到ConstraintLayout中的一个新的功能，Guidelines。</p>
+<p>　　下面我们还是通过实际操作来学习一下Guidelines的用法吧。比如现在已经向界面中添加了登录和注册这两个按钮，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401539.png" alt="两个按钮"></p>
+<p>　　然后我们希望让这两个按钮在水平方向上居中显示，在垂直方向上都距离底部64dp，那么就需要先添加一个垂直方向上的Guideline，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401448.gif" alt="垂直方向"></p>
+<p>　　我来对上图中的操作进行一下解释。首先点击通知栏中的Guidelines图标可以添加一个垂直或水平方向上的Guideline，这里我们需要的是垂直方向上的。而Guideline默认是使用的dp尺，我们需要选中Guideline，并点击一下最上面的箭头图标将它改成百比分尺，然后将垂直方向上的Guideline调整到50%的位置，这样就将准备工作做好了。</p>
+<p>　　接下来我们开始实现让两个按钮在水平方向上居中显示，并距离底部64dp的功能，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402417.gif" alt="增加64dp"></p>
+<p>　　可以看到，我们给登录按钮的右边向Guideline添加约束，登录按钮的下面向底部添加约束，并拖动按钮让它距离底部64dp。然后给注册按钮的左边向Guideline添加约束，注册按钮的下面向登录按钮的下面添加约束。这样就实现了让两个按钮在水平方向上居中显示，在垂直方向上都距离底部64dp的功能了。<br>##　　自动添加约束 ##<br>　　不过如果界面中的内容变得复杂起来，给每个控件一个个地添加约束也是一件很繁琐的事情。为此，ConstraintLayout中支持自动添加约束的功能，可以极大程度上简化那些繁琐的操作。</p>
+<p>　　自动添加约束的方式主要有两种，一种叫Autoconnect，一种叫Inference，我们先来看第一种。</p>
+<p>　　想要使用Autoconnect，首先需要在工具栏中将这个功能启用，默认情况下Autoconnect是不启用的，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402878.png" alt="Autoconnect"></p>
+<p>　　Autoconnect可以根据我们拖放控件的状态自动判断应该如何添加约束，比如我们将Button放到界面的正中央，那么它的上下左右都会自动地添加上约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402399.gif" alt="自动约束">
+　　</p>
+<p>　　然后我们在这个Button的下方再放置一个Button，效果如下。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402126.gif" alt="Autoconnect"></p>
+<p>　　可以看到，只需要将Button拖放到界面上，Autoconnect会判断我们的意图，并自动给控件添加约束。不过Autoconnect是无法保证百分百准确判断出我们的意图的，如果自动添加的约束并不是你想要的话，还可以在任何时候进行手动修改。总之，可以把它当成一个辅助工具，但不能完全靠它去添加控件的约束。<br>　　以上是Autoconnect的用法，接下来我们看一下Inference的用法。Inference也是用于自动添加约束的，但它比Autoconnect的功能要更为强大，因为AutoConnect只能给当前操作的控件自动添加约束，而Inference会给当前界面中的所有元素自动添加约束。因而Inference比较适合用来实现复杂度比较高的界面，它可以一键自动生成所有的约束。<br>　　下面我们就通过一个例子来演示一下Inference的用法，比如界面上现在有两个TextView，两个EditText，和两个Button，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403533.png" alt="Autoconnect"></p>
+<p>　　接下来我们先将各个控件按照界面设计的位置进行摆放，摆放完成之后点击一下工具栏上的Infer Constraints按钮，就能为所有控件自动添加约束了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403858.gif" alt="Autoconnect"><br>　　现在运行一下程序，最终效果如下图所示：<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403263.png" alt="运行效果"></p>
+<p>　　</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/06/ne555-hu-xi-deng/" rel="next" title="NE555-呼吸灯">
+                <i class="fa fa-chevron-left"></i> NE555-呼吸灯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/12/su-she-shu-zhuo-zhao-ming-xi-tong-gai-zao/" rel="prev" title="宿舍书桌照明系统改造">
+                宿舍书桌照明系统改造 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">2.1.</span> <span class="nav-text">基本操作</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
