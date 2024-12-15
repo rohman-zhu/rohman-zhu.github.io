@@ -425,6 +425,9 @@
 
 <p>执行指令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动整个应用</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止整个应用</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他一些补充"><a href="#其他一些补充" class="headerlink" title="其他一些补充"></a>其他一些补充</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 npm 当前安装了哪一些部件以及版本号</span></span><br><span class="line">npm ls --depth 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定版本</span></span><br><span class="line">npm i hexo@4.2.0 -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看compose过程中的一些报错</span></span><br><span class="line">docker-compose logs -f --tail=50</span><br></pre></td></tr></table></figure>
+
           
         
       

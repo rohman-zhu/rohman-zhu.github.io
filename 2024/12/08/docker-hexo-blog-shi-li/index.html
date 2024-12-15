@@ -87,7 +87,7 @@
 <meta property="og:description" content="需求说明之前是使用一台CentOS 部署 node.js 与 hexo ， 这种形态还是有点重，想改成Docker形态看看。 开始操作思路是先 拉取一个 node 镜像，然后再基于 node 镜像 封装一个 hexo 镜像； 参照：https:&#x2F;&#x2F;chunchengwei.github.io&#x2F;ruan-jian&#x2F;ji-yu-docker-de-hexo-bo-ke-da-jian&#x2F; 拉取 node">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-08T14:23:15.000Z">
-<meta property="article:modified_time" content="2024-12-15T14:19:29.833Z">
+<meta property="article:modified_time" content="2024-12-15T15:18:29.019Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="default">
 <meta name="twitter:card" content="summary">
@@ -425,6 +425,9 @@
 
 <p>执行指令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动整个应用</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止整个应用</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他一些补充"><a href="#其他一些补充" class="headerlink" title="其他一些补充"></a>其他一些补充</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 npm 当前安装了哪一些部件以及版本号</span></span><br><span class="line">npm ls --depth 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定版本</span></span><br><span class="line">npm i hexo@4.2.0 -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看compose过程中的一些报错</span></span><br><span class="line">docker-compose logs -f --tail=50</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -594,7 +597,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求说明"><span class="nav-number">1.</span> <span class="nav-text">需求说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始操作"><span class="nav-number">2.</span> <span class="nav-text">开始操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取-node-镜像"><span class="nav-number">2.1.</span> <span class="nav-text">拉取 node 镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装镜像"><span class="nav-number">2.2.</span> <span class="nav-text">封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试镜像是否可用"><span class="nav-number">2.3.</span> <span class="nav-text">测试镜像是否可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次封装镜像"><span class="nav-number">2.4.</span> <span class="nav-text">二次封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建docker-compose文件"><span class="nav-number">2.5.</span> <span class="nav-text">创建docker compose文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求说明"><span class="nav-number">1.</span> <span class="nav-text">需求说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始操作"><span class="nav-number">2.</span> <span class="nav-text">开始操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取-node-镜像"><span class="nav-number">2.1.</span> <span class="nav-text">拉取 node 镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装镜像"><span class="nav-number">2.2.</span> <span class="nav-text">封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试镜像是否可用"><span class="nav-number">2.3.</span> <span class="nav-text">测试镜像是否可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次封装镜像"><span class="nav-number">2.4.</span> <span class="nav-text">二次封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建docker-compose文件"><span class="nav-number">2.5.</span> <span class="nav-text">创建docker compose文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他一些补充"><span class="nav-number">2.6.</span> <span class="nav-text">其他一些补充</span></a></li></ol></li></ol></div>
             
 
           </div>
