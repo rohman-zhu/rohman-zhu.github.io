@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="default," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="测试许可列表vSphere 6VMware vSphere 6.x   类型 秘钥    ESXI MY4RH-AF1EJ-M84Z1-VL0NM-A7K24   VCSA NA24U-4WK1P-M85Z0-TAA7P-CL808   NSX H00V6-DW1D4-583D9-091K6-2092L   vSAN NF4HH-F1K1Q-488R0-3L954-AF828   vSAN 6.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="互联网上的vSphere许可收集">
+<meta property="og:url" content="http://github.com/rohman-zhu/2021/11/21/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84vSphere%E8%AE%B8%E5%8F%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="测试许可列表vSphere 6VMware vSphere 6.x   类型 秘钥    ESXI MY4RH-AF1EJ-M84Z1-VL0NM-A7K24   VCSA NA24U-4WK1P-M85Z0-TAA7P-CL808   NSX H00V6-DW1D4-583D9-091K6-2092L   vSAN NF4HH-F1K1Q-488R0-3L954-AF828   vSAN 6.0">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-21T22:46:14.000Z">
+<meta property="article:modified_time" content="2023-01-08T14:17:34.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2021/11/21/互联网上的vSphere许可收集/"/>
+
+
+
+
+
+  <title>互联网上的vSphere许可收集 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/21/%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%8A%E7%9A%84vSphere%E8%AE%B8%E5%8F%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">互联网上的vSphere许可收集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-21T22:46:14+00:00">
+                2021-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="测试许可列表"><a href="#测试许可列表" class="headerlink" title="测试许可列表"></a>测试许可列表</h1><h1 id="vSphere-6"><a href="#vSphere-6" class="headerlink" title="vSphere 6"></a>vSphere 6</h1><h2 id="VMware-vSphere-6-x"><a href="#VMware-vSphere-6-x" class="headerlink" title="VMware vSphere 6.x"></a>VMware vSphere 6.x</h2><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">秘钥</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ESXI</td>
+<td align="center">MY4RH-AF1EJ-M84Z1-VL0NM-A7K24</td>
+</tr>
+<tr>
+<td align="center">VCSA</td>
+<td align="center">NA24U-4WK1P-M85Z0-TAA7P-CL808</td>
+</tr>
+<tr>
+<td align="center">NSX</td>
+<td align="center">H00V6-DW1D4-583D9-091K6-2092L</td>
+</tr>
+<tr>
+<td align="center">vSAN</td>
+<td align="center">NF4HH-F1K1Q-488R0-3L954-AF828</td>
+</tr>
+</tbody></table>
+<h2 id="vSAN-6-0-Enterprise-plus"><a href="#vSAN-6-0-Enterprise-plus" class="headerlink" title="vSAN 6.0 Enterprise plus"></a>vSAN 6.0 Enterprise plus</h2><p>NF4HH-F1K1Q-488R0-3L954-AF828</p>
+<h1 id="vSphere-7"><a href="#vSphere-7" class="headerlink" title="vSphere 7"></a>vSphere 7</h1><h2 id="vSphere-ESXi-7-0-Enterprise-Plus"><a href="#vSphere-ESXi-7-0-Enterprise-Plus" class="headerlink" title="vSphere ESXi 7.0 Enterprise Plus"></a>vSphere ESXi 7.0 Enterprise Plus</h2><ol>
+<li>JJ2WR-25L9P-H71A8-6J20P-C0K3F</li>
+<li>HN2X0-0DH5M-M78Q1-780HH-CN214</li>
+<li>JH09A-2YL84-M7EC8-FL0K2-3N2J2</li>
+</ol>
+<h2 id="vCenter-7-0-Standard"><a href="#vCenter-7-0-Standard" class="headerlink" title="vCenter 7.0 Standard"></a>vCenter 7.0 Standard</h2><ol>
+<li>104HH-D4343-07879-MV08K-2D2H2</li>
+<li>410NA-DW28H-H74K1-ZK882-948L4</li>
+<li>406DK-FWHEH-075K8-XAC06-0JH08</li>
+</ol>
+<h2 id="VSAN-7-0-Enterprise-Plus"><a href="#VSAN-7-0-Enterprise-Plus" class="headerlink" title="VSAN 7.0 Enterprise Plus"></a>VSAN 7.0 Enterprise Plus</h2><ol>
+<li>HN0D8-AAJ1Q-07D00-6U924-CX224</li>
+<li>50008-221DH-M7E99-A9CKM-A1030</li>
+<li>HN0NH-62051-H75E9-P38RM-0H870</li>
+</ol>
+<h2 id="vSphere-7-Enterprise-Plus-with-Add-on-for-Kubernetes"><a href="#vSphere-7-Enterprise-Plus-with-Add-on-for-Kubernetes" class="headerlink" title="vSphere 7 Enterprise Plus with Add-on for Kubernetes"></a>vSphere 7 Enterprise Plus with Add-on for Kubernetes</h2><ol>
+<li>J1608-4GJEQ-071L8-9VA0H-2MUK6</li>
+<li>M10DH-8YL47-474L1-DV3U0-8H054</li>
+<li>MM4MR-2G005-H7039-JVCAP-2RAL8</li>
+</ol>
+<h2 id="VMware-Horizon-7-Enterprise-100-CCU-s"><a href="#VMware-Horizon-7-Enterprise-100-CCU-s" class="headerlink" title="VMware Horizon 7 Enterprise 100 CCU(s)"></a>VMware Horizon 7 Enterprise 100 CCU(s)</h2><ol>
+<li>9H0AK-4Y192-H8JAR-0H7R0-1RZJM</li>
+</ol>
+<h2 id="VMware-vCloud-Director-9-x"><a href="#VMware-vCloud-Director-9-x" class="headerlink" title="VMware vCloud Director 9.x"></a>VMware vCloud Director 9.x</h2><ol>
+<li>JV6X0-2FJ5K-098E9-A91Z0-83RLD</li>
+<li>0Z45A-AR38H-499K9-R9AE2-3ZAL2</li>
+<li>1F68H-8V2D0-H9DU9-R3352-9YHH4</li>
+</ol>
+<h2 id="VMware-vCloud-Director-10-x"><a href="#VMware-vCloud-Director-10-x" class="headerlink" title="VMware vCloud Director 10.x"></a>VMware vCloud Director 10.x</h2><ol>
+<li>HA0DR-6JL50-4A0J0-KH2XH-03UK2</li>
+<li>JA0J0-6CL9H-HA4M1-TA3X4-9AUH0</li>
+<li>4C4D2-FYJ5J-MA440-G8AZP-9ZAQ4</li>
+</ol>
+<h2 id="VMware-vRealize-Suite-2019-Enterprise"><a href="#VMware-vRealize-Suite-2019-Enterprise" class="headerlink" title="VMware vRealize Suite 2019 Enterprise"></a>VMware vRealize Suite 2019 Enterprise</h2><ol>
+<li>JV2TK-F8J5N-MA1N1-UKCZP-2PH52</li>
+<li>NZ0WK-A2H1Q-0A0L1-RACGP-0GK38</li>
+<li>4F4D2-070DK-4AD49-YJ154-CU868</li>
+</ol>
+<h2 id="VMware-vRealize-Network-Insight"><a href="#VMware-vRealize-Network-Insight" class="headerlink" title="VMware vRealize Network Insight"></a>VMware vRealize Network Insight</h2><p>HH4RM-FGL9J-08R61-0JA0P-2TUNL</p>
+<h1 id="vSphere-8"><a href="#vSphere-8" class="headerlink" title="vSphere 8"></a>vSphere 8</h1><h2 id="ESXi-8"><a href="#ESXi-8" class="headerlink" title="ESXi 8"></a>ESXi 8</h2><p>4V492-44210-48830-931GK-2PRJ4<br>4F40H-4ML1K-M89U0-0C2N4-1AKL4<br>HG00K-03H8K-48929-8K1NP-3LUJ4</p>
+<h2 id="VCSA-8"><a href="#VCSA-8" class="headerlink" title="VCSA 8"></a>VCSA 8</h2><p>0Z20K-07JEH-08030-908EP-1CUK4<br>4F282-0MLD2-M8869-T89G0-CF240</p>
+<h2 id="VCSA-8-1"><a href="#VCSA-8-1" class="headerlink" title="VCSA 8"></a>VCSA 8</h2><p>0F41K-0MJ4H-M88U1-0C3N0-0A214<br>NF212-08H0K-488X8-WV9X6-1F024</p>
+<h2 id="Horizon-8"><a href="#Horizon-8" class="headerlink" title="Horizon 8"></a>Horizon 8</h2><p>JF61H-48K8K-488X9-W98Z0-1FH24<br>0G4DA-49J81-M80R1-012N4-86KH4</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.ucbug.com/news/154052.html">http://www.ucbug.com/news/154052.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/default/" rel="tag"># default</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/11/21/%E9%80%9A%E8%BF%87ipmitool%E9%87%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%A6%E5%A4%96%E5%AF%86%E7%A0%81/" rel="next" title="通过ipmitool重置服务器带外密码">
+                <i class="fa fa-chevron-left"></i> 通过ipmitool重置服务器带外密码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/11/21/%E6%97%A0%E6%B3%95%E4%B8%BA%E4%B8%BB%E6%9C%BA%E5%88%86%E9%85%8D%E8%AE%B8%E5%8F%AF/" rel="prev" title="无法为主机分配许可">
+                无法为主机分配许可 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%AE%B8%E5%8F%AF%E5%88%97%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">测试许可列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vSphere-6"><span class="nav-number">2.</span> <span class="nav-text">vSphere 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-vSphere-6-x"><span class="nav-number">2.1.</span> <span class="nav-text">VMware vSphere 6.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vSAN-6-0-Enterprise-plus"><span class="nav-number">2.2.</span> <span class="nav-text">vSAN 6.0 Enterprise plus</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vSphere-7"><span class="nav-number">3.</span> <span class="nav-text">vSphere 7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vSphere-ESXi-7-0-Enterprise-Plus"><span class="nav-number">3.1.</span> <span class="nav-text">vSphere ESXi 7.0 Enterprise Plus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vCenter-7-0-Standard"><span class="nav-number">3.2.</span> <span class="nav-text">vCenter 7.0 Standard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSAN-7-0-Enterprise-Plus"><span class="nav-number">3.3.</span> <span class="nav-text">VSAN 7.0 Enterprise Plus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vSphere-7-Enterprise-Plus-with-Add-on-for-Kubernetes"><span class="nav-number">3.4.</span> <span class="nav-text">vSphere 7 Enterprise Plus with Add-on for Kubernetes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-Horizon-7-Enterprise-100-CCU-s"><span class="nav-number">3.5.</span> <span class="nav-text">VMware Horizon 7 Enterprise 100 CCU(s)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-vCloud-Director-9-x"><span class="nav-number">3.6.</span> <span class="nav-text">VMware vCloud Director 9.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-vCloud-Director-10-x"><span class="nav-number">3.7.</span> <span class="nav-text">VMware vCloud Director 10.x</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-vRealize-Suite-2019-Enterprise"><span class="nav-number">3.8.</span> <span class="nav-text">VMware vRealize Suite 2019 Enterprise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VMware-vRealize-Network-Insight"><span class="nav-number">3.9.</span> <span class="nav-text">VMware vRealize Network Insight</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vSphere-8"><span class="nav-number">4.</span> <span class="nav-text">vSphere 8</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ESXi-8"><span class="nav-number">4.1.</span> <span class="nav-text">ESXi 8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VCSA-8"><span class="nav-number">4.2.</span> <span class="nav-text">VCSA 8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VCSA-8-1"><span class="nav-number">4.3.</span> <span class="nav-text">VCSA 8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Horizon-8"><span class="nav-number">4.4.</span> <span class="nav-text">Horizon 8</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

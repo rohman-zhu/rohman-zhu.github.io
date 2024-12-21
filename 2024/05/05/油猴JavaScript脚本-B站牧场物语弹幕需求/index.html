@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="default," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需求说明B站有一个弹幕游戏，叫牧场物语，可以通过弹幕来进行喂鸡、收货、寻宝等动作；于是就想做一个自动点击操作的脚本；现有的技术能力有两种：  python+selenium； JavaScript+油猴插件；  方案1已经挑战过了，现在来试试方案2； 代码记录1234567891011121314151617181920212223242526272829303132333435363738394">
+<meta property="og:type" content="article">
+<meta property="og:title" content="油猴JavaScript脚本-B站牧场物语弹幕需求">
+<meta property="og:url" content="http://github.com/rohman-zhu/2024/05/05/%E6%B2%B9%E7%8C%B4JavaScript%E8%84%9A%E6%9C%AC-B%E7%AB%99%E7%89%A7%E5%9C%BA%E7%89%A9%E8%AF%AD%E5%BC%B9%E5%B9%95%E9%9C%80%E6%B1%82/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="需求说明B站有一个弹幕游戏，叫牧场物语，可以通过弹幕来进行喂鸡、收货、寻宝等动作；于是就想做一个自动点击操作的脚本；现有的技术能力有两种：  python+selenium； JavaScript+油猴插件；  方案1已经挑战过了，现在来试试方案2； 代码记录1234567891011121314151617181920212223242526272829303132333435363738394">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-05T00:21:04.000Z">
+<meta property="article:modified_time" content="2024-05-04T16:28:37.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2024/05/05/油猴JavaScript脚本-B站牧场物语弹幕需求/"/>
+
+
+
+
+
+  <title>油猴JavaScript脚本-B站牧场物语弹幕需求 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/05/05/%E6%B2%B9%E7%8C%B4JavaScript%E8%84%9A%E6%9C%AC-B%E7%AB%99%E7%89%A7%E5%9C%BA%E7%89%A9%E8%AF%AD%E5%BC%B9%E5%B9%95%E9%9C%80%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">油猴JavaScript脚本-B站牧场物语弹幕需求</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-05-05T00:21:04+00:00">
+                2024-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/default/" itemprop="url" rel="index">
+                    <span itemprop="name">default</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>B站有一个弹幕游戏，叫牧场物语，可以通过弹幕来进行喂鸡、收货、寻宝等动作；于是就想做一个自动点击操作的脚本；现有的技术能力有两种：</p>
+<ol>
+<li>python+selenium；</li>
+<li>JavaScript+油猴插件；</li>
+</ol>
+<p>方案1已经挑战过了，现在来试试方案2；</p>
+<h1 id="代码记录"><a href="#代码记录" class="headerlink" title="代码记录"></a>代码记录</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==UserScript==</span></span><br><span class="line"><span class="comment">// @name         牧场物语-喂食-收取-寻宝一条龙</span></span><br><span class="line"><span class="comment">// @namespace    http://tampermonkey.net/</span></span><br><span class="line"><span class="comment">// @version      2024-05-04</span></span><br><span class="line"><span class="comment">// @description  try to take over the world!</span></span><br><span class="line"><span class="comment">// @author       You</span></span><br><span class="line"><span class="comment">// @match        https://live.bilibili.com/21510733?live_from=84001&amp;spm_id_from=333.337.search-card.all.click</span></span><br><span class="line"><span class="comment">// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==</span></span><br><span class="line"><span class="comment">// @grant        none</span></span><br><span class="line"><span class="comment">// ==/UserScript==</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="string">&#x27;use strict&#x27;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;【TESTING！！】Start to handle script.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> index=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> timer;</span><br><span class="line">    <span class="comment">//timer =setInterval(function()&#123; var lock = getlock(); if(lock == 0)&#123;setval();clearInterval(timer)&#125; &#125;,500)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Global VAR</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">delay</span>(<span class="params">x</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">111</span>);</span><br><span class="line">                <span class="title function_">resolve</span>(x);</span><br><span class="line">            &#125;,<span class="number">2000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">WS</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to WS&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;喂食&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;Aqua&quot;</span>;</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]WS completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">SQ</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to SQ&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;收取&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;Lime&quot;</span>;</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]SQ completed.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">XB</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to XB&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var DM=document.querySelector(&quot;textarea&quot;);</span></span><br><span class="line">        <span class="comment">//DM.click();</span></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;寻宝&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var SENDB=document.querySelectorAll(&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;)[0];</span></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;yellow&quot;</span>;</span><br><span class="line">            <span class="comment">//DM.value=&quot;寻宝&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]XB completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">DY</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to XB&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var DM=document.querySelector(&quot;textarea&quot;);</span></span><br><span class="line">        <span class="comment">//DM.click();</span></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;d1&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var SENDB=document.querySelectorAll(&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;)[0];</span></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;yellow&quot;</span>;</span><br><span class="line">            <span class="comment">//DM.value=&quot;寻宝&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]XB completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">WS</span>,<span class="number">2000</span>);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">SQ</span>,<span class="number">8000</span>);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">XB</span>,<span class="number">18000</span>);</span><br><span class="line">    <span class="comment">//setTimeout(DY,18000);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//200s</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123; location.<span class="title function_">reload</span>();&#125;,<span class="number">202000</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意点，注意坑！"><a href="#注意点，注意坑！" class="headerlink" title="注意点，注意坑！"></a>注意点，注意坑！</h2><ol>
+<li>查找元素的方法为 dom 对象以及其对应的方法，比如 document.querySelector(“标签或者元素”)；</li>
+<li>注意大小写！JavaScript是区分大小写的，这个与powershell脚本不同；</li>
+<li>DOM的querySelectorAll方法，返回的是数组，所以需要引用该数组对象的第一个；</li>
+<li>setTimeout延时函数有毒，是异步执行的，所以写延时函数需要注意网页加载时间；</li>
+<li>匿名函数表示方法 ()&#x3D;&gt;{} ;</li>
+<li>页面刷新 location.reload();</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/default/" rel="tag"># default</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/05/04/HPE-SAN%E5%AD%98%E5%82%A8%E7%83%AD%E5%A4%87%E7%9B%98%E6%AF%94%E4%BE%8B/" rel="next" title="HPE-SAN存储热备盘比例">
+                <i class="fa fa-chevron-left"></i> HPE-SAN存储热备盘比例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/05/19/VMware-vMotion%E7%9B%B8%E5%85%B3/" rel="prev" title="VMware-vMotion相关">
+                VMware-vMotion相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">需求说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">代码记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9%EF%BC%8C%E6%B3%A8%E6%84%8F%E5%9D%91%EF%BC%81"><span class="nav-number">2.1.</span> <span class="nav-text">注意点，注意坑！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

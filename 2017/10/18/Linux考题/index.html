@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="考题写出下列端口对应的服务   port 服务    21 ftp   22 ssh   25 smtp   3306 mysql   873 rsync   161 snmp   111 rpc   3389 windows的远程桌面   80 www&#x2F;http   443 https   110 pop3   53 dns   514 rsyslog   6块 600G的SAS盘做R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux考题">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/18/Linux%E8%80%83%E9%A2%98/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="考题写出下列端口对应的服务   port 服务    21 ftp   22 ssh   25 smtp   3306 mysql   873 rsync   161 snmp   111 rpc   3389 windows的远程桌面   80 www&#x2F;http   443 https   110 pop3   53 dns   514 rsyslog   6块 600G的SAS盘做R">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-18T22:32:57.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/10/18/Linux考题/"/>
+
+
+
+
+
+  <title>Linux考题 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/18/Linux%E8%80%83%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux考题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-18T22:32:57+00:00">
+                2017-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="考题"><a href="#考题" class="headerlink" title="考题"></a>考题</h1><h2 id="写出下列端口对应的服务"><a href="#写出下列端口对应的服务" class="headerlink" title="写出下列端口对应的服务"></a>写出下列端口对应的服务</h2><table>
+<thead>
+<tr>
+<th align="center">port</th>
+<th align="center">服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">21</td>
+<td align="center">ftp</td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="center">ssh</td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="center">smtp</td>
+</tr>
+<tr>
+<td align="center">3306</td>
+<td align="center">mysql</td>
+</tr>
+<tr>
+<td align="center">873</td>
+<td align="center">rsync</td>
+</tr>
+<tr>
+<td align="center">161</td>
+<td align="center">snmp</td>
+</tr>
+<tr>
+<td align="center">111</td>
+<td align="center">rpc</td>
+</tr>
+<tr>
+<td align="center">3389</td>
+<td align="center">windows的远程桌面</td>
+</tr>
+<tr>
+<td align="center">80</td>
+<td align="center">www&#x2F;http</td>
+</tr>
+<tr>
+<td align="center">443</td>
+<td align="center">https</td>
+</tr>
+<tr>
+<td align="center">110</td>
+<td align="center">pop3</td>
+</tr>
+<tr>
+<td align="center">53</td>
+<td align="center">dns</td>
+</tr>
+<tr>
+<td align="center">514</td>
+<td align="center">rsyslog</td>
+</tr>
+</tbody></table>
+<h2 id="6块-600G的SAS盘做RAID5后-计划装系统部署-mysql-从数据库提供读服务-做-RAID-5-后-给出分区方案-分区后如何不重启就能生效"><a href="#6块-600G的SAS盘做RAID5后-计划装系统部署-mysql-从数据库提供读服务-做-RAID-5-后-给出分区方案-分区后如何不重启就能生效" class="headerlink" title="6块 600G的SAS盘做RAID5后,计划装系统部署 mysql 从数据库提供读服务.做 RAID 5 后,给出分区方案,分区后如何不重启就能生效"></a>6块 600G的SAS盘做RAID5后,计划装系统部署 mysql 从数据库提供读服务.做 RAID 5 后,给出分区方案,分区后如何不重启就能生效</h2><ul>
+<li>分出</li>
+<li>6 * 600 G , 只能party来分区</li>
+</ul>
+<h2 id="已知-A-B-服务器的SSH服务的端口均为-52113-用户为root-密码是123456-现在想把A服务器的-etc目录拷贝到B服务器的-tmp目录-要求文件属性不能改变-且不需要交互手工输入密码-也不能使用SSH-KEY的方式-请通过expect加-scp-命令给出详细的操作命令或脚本"><a href="#已知-A-B-服务器的SSH服务的端口均为-52113-用户为root-密码是123456-现在想把A服务器的-etc目录拷贝到B服务器的-tmp目录-要求文件属性不能改变-且不需要交互手工输入密码-也不能使用SSH-KEY的方式-请通过expect加-scp-命令给出详细的操作命令或脚本" class="headerlink" title="已知 A &#x2F; B 服务器的SSH服务的端口均为 52113 ,用户为root,密码是123456,现在想把A服务器的&#x2F;etc目录拷贝到B服务器的&#x2F;tmp目录,要求文件属性不能改变,且不需要交互手工输入密码,也不能使用SSH KEY的方式,请通过expect加 scp 命令给出详细的操作命令或脚本"></a>已知 A &#x2F; B 服务器的SSH服务的端口均为 52113 ,用户为root,密码是123456,现在想把A服务器的&#x2F;etc目录拷贝到B服务器的&#x2F;tmp目录,要求文件属性不能改变,且不需要交互手工输入密码,也不能使用SSH KEY的方式,请通过expect加 scp 命令给出详细的操作命令或脚本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/expect</span><br><span class="line"></span><br><span class="line">set password &quot;123456&quot;</span><br><span class="line"></span><br><span class="line">swap scp /etc &quot;root@A:/tmp -p1024&quot;</span><br><span class="line"></span><br><span class="line">expect&#123;</span><br><span class="line">    &quot;yes/no&quot; $yes</span><br><span class="line">    &quot;*password&quot; $password</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何批量改文件名字"><a href="#如何批量改文件名字" class="headerlink" title="如何批量改文件名字"></a>如何批量改文件名字</h2><ul>
+<li>假设 文件名是 : stu_finished_1_Delete.jpg</li>
+<li>目标文件名是 : stu_finished_1.jpg</li>
+</ul>
+<h3 id="shell方式来更改"><a href="#shell方式来更改" class="headerlink" title="shell方式来更改"></a>shell方式来更改</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># f = stu_finished_Delete.jpg</span><br><span class="line"># mv $f `echo $f | sed &#x27;s#_Delete##g&#x27;`</span><br><span class="line"></span><br><span class="line"># 编写脚本</span><br><span class="line"># vim /server/scripts/rename.sh</span><br><span class="line"></span><br><span class="line">----------</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line">for f in `ls *Delete*.jpg`</span><br><span class="line">do</span><br><span class="line">    mv $f `echo $f | sed &#x27;s#_Delete$$g&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rename-命令"><a href="#rename-命令" class="headerlink" title="rename 命令"></a>rename 命令</h3><blockquote>
+<p>rename from to file</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rename &quot;_Delete&quot; &quot;&quot; *.jpg</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计网站某一时间段所有IP的对应PVC数排序-打印出前10位"><a href="#统计网站某一时间段所有IP的对应PVC数排序-打印出前10位" class="headerlink" title="统计网站某一时间段所有IP的对应PVC数排序,打印出前10位"></a>统计网站某一时间段所有IP的对应PVC数排序,打印出前10位</h2><h2 id="DNS解析原理"><a href="#DNS解析原理" class="headerlink" title="DNS解析原理"></a>DNS解析原理</h2><h2 id="http通信原理"><a href="#http通信原理" class="headerlink" title="http通信原理"></a>http通信原理</h2><h2 id="TCP-IP的三次握手和四次断开"><a href="#TCP-IP的三次握手和四次断开" class="headerlink" title="TCP&#x2F;IP的三次握手和四次断开"></a>TCP&#x2F;IP的三次握手和四次断开</h2><h2 id="MySQL集群和高可用方案有哪些"><a href="#MySQL集群和高可用方案有哪些" class="headerlink" title="MySQL集群和高可用方案有哪些"></a>MySQL集群和高可用方案有哪些</h2><ul>
+<li>一主多从,一台从库用于备份,一台从库则给开发连接.</li>
+<li>级联</li>
+<li>双柱则用keepalive让两台服务器相互写数据</li>
+</ul>
+<h2 id="MySQL如何实现读写分离"><a href="#MySQL如何实现读写分离" class="headerlink" title="MySQL如何实现读写分离"></a>MySQL如何实现读写分离</h2><p>用MySQL_proxy</p>
+<h2 id="开发有一堆数据插入-如何防止插入的中文数据产生乱码"><a href="#开发有一堆数据插入-如何防止插入的中文数据产生乱码" class="headerlink" title="开发有一堆数据插入,如何防止插入的中文数据产生乱码"></a>开发有一堆数据插入,如何防止插入的中文数据产生乱码</h2><p>在客户端和服务端中把字符集都设置同一个字符集.</p>
+<h2 id="如何备份服务器"><a href="#如何备份服务器" class="headerlink" title="如何备份服务器"></a>如何备份服务器</h2><p>根据服务器的性能来查看,50G的数据量要用到4-5个小时</p>
+<h2 id="key-buffer-size参数作用-如何修改这个参数而不重启数据库"><a href="#key-buffer-size参数作用-如何修改这个参数而不重启数据库" class="headerlink" title="key_buffer_size参数作用,如何修改这个参数而不重启数据库"></a>key_buffer_size参数作用,如何修改这个参数而不重启数据库</h2><p>这是MyISAM引擎的缓存数据大小设置,在数据库中设置这个参数,然后再修改配置文件.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/" rel="next" title="Linux的批量管理">
+                <i class="fa fa-chevron-left"></i> Linux的批量管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/19/Linux%E7%9A%84Web%E6%9C%8D%E5%8A%A1/" rel="prev" title="Linux的Web服务">
+                Linux的Web服务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%80%83%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">考题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%87%BA%E4%B8%8B%E5%88%97%E7%AB%AF%E5%8F%A3%E5%AF%B9%E5%BA%94%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">写出下列端口对应的服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E5%9D%97-600G%E7%9A%84SAS%E7%9B%98%E5%81%9ARAID5%E5%90%8E-%E8%AE%A1%E5%88%92%E8%A3%85%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2-mysql-%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8F%90%E4%BE%9B%E8%AF%BB%E6%9C%8D%E5%8A%A1-%E5%81%9A-RAID-5-%E5%90%8E-%E7%BB%99%E5%87%BA%E5%88%86%E5%8C%BA%E6%96%B9%E6%A1%88-%E5%88%86%E5%8C%BA%E5%90%8E%E5%A6%82%E4%BD%95%E4%B8%8D%E9%87%8D%E5%90%AF%E5%B0%B1%E8%83%BD%E7%94%9F%E6%95%88"><span class="nav-number">1.2.</span> <span class="nav-text">6块 600G的SAS盘做RAID5后,计划装系统部署 mysql 从数据库提供读服务.做 RAID 5 后,给出分区方案,分区后如何不重启就能生效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%B2%E7%9F%A5-A-B-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84SSH%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%AB%AF%E5%8F%A3%E5%9D%87%E4%B8%BA-52113-%E7%94%A8%E6%88%B7%E4%B8%BAroot-%E5%AF%86%E7%A0%81%E6%98%AF123456-%E7%8E%B0%E5%9C%A8%E6%83%B3%E6%8A%8AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84-etc%E7%9B%AE%E5%BD%95%E6%8B%B7%E8%B4%9D%E5%88%B0B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84-tmp%E7%9B%AE%E5%BD%95-%E8%A6%81%E6%B1%82%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E4%B8%8D%E8%83%BD%E6%94%B9%E5%8F%98-%E4%B8%94%E4%B8%8D%E9%9C%80%E8%A6%81%E4%BA%A4%E4%BA%92%E6%89%8B%E5%B7%A5%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81-%E4%B9%9F%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8SSH-KEY%E7%9A%84%E6%96%B9%E5%BC%8F-%E8%AF%B7%E9%80%9A%E8%BF%87expect%E5%8A%A0-scp-%E5%91%BD%E4%BB%A4%E7%BB%99%E5%87%BA%E8%AF%A6%E7%BB%86%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E6%88%96%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.</span> <span class="nav-text">已知 A &#x2F; B 服务器的SSH服务的端口均为 52113 ,用户为root,密码是123456,现在想把A服务器的&#x2F;etc目录拷贝到B服务器的&#x2F;tmp目录,要求文件属性不能改变,且不需要交互手工输入密码,也不能使用SSH KEY的方式,请通过expect加 scp 命令给出详细的操作命令或脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D%E5%AD%97"><span class="nav-number">1.4.</span> <span class="nav-text">如何批量改文件名字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shell%E6%96%B9%E5%BC%8F%E6%9D%A5%E6%9B%B4%E6%94%B9"><span class="nav-number">1.4.1.</span> <span class="nav-text">shell方式来更改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rename-%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">rename 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E7%BD%91%E7%AB%99%E6%9F%90%E4%B8%80%E6%97%B6%E9%97%B4%E6%AE%B5%E6%89%80%E6%9C%89IP%E7%9A%84%E5%AF%B9%E5%BA%94PVC%E6%95%B0%E6%8E%92%E5%BA%8F-%E6%89%93%E5%8D%B0%E5%87%BA%E5%89%8D10%E4%BD%8D"><span class="nav-number">1.5.</span> <span class="nav-text">统计网站某一时间段所有IP的对应PVC数排序,打印出前10位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90%E5%8E%9F%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">DNS解析原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="nav-number">1.7.</span> <span class="nav-text">http通信原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-IP%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%96%AD%E5%BC%80"><span class="nav-number">1.8.</span> <span class="nav-text">TCP&#x2F;IP的三次握手和四次断开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL%E9%9B%86%E7%BE%A4%E5%92%8C%E9%AB%98%E5%8F%AF%E7%94%A8%E6%96%B9%E6%A1%88%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">1.9.</span> <span class="nav-text">MySQL集群和高可用方案有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="nav-number">1.10.</span> <span class="nav-text">MySQL如何实现读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9C%89%E4%B8%80%E5%A0%86%E6%95%B0%E6%8D%AE%E6%8F%92%E5%85%A5-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E6%8F%92%E5%85%A5%E7%9A%84%E4%B8%AD%E6%96%87%E6%95%B0%E6%8D%AE%E4%BA%A7%E7%94%9F%E4%B9%B1%E7%A0%81"><span class="nav-number">1.11.</span> <span class="nav-text">开发有一堆数据插入,如何防止插入的中文数据产生乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%A4%87%E4%BB%BD%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.12.</span> <span class="nav-text">如何备份服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#key-buffer-size%E5%8F%82%E6%95%B0%E4%BD%9C%E7%94%A8-%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E8%BF%99%E4%B8%AA%E5%8F%82%E6%95%B0%E8%80%8C%E4%B8%8D%E9%87%8D%E5%90%AF%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.13.</span> <span class="nav-text">key_buffer_size参数作用,如何修改这个参数而不重启数据库</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

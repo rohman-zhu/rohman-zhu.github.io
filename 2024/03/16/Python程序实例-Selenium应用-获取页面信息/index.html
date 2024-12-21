@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Selenium实例," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需求描述需要进入多个页面获取信息内容，并输出至文本，用于后期Excel数据展示。 涉及知识点Python 逐行读取文件1234567891011121314151617181920212223242526# 方案1# 全部读取FILE&#x3D;open(&quot;TEST.demo&quot;)# read()表示一次性读取文件全部内容LINE&#x3D;FILE.read()print(LINE)FILE.op">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python程序实例-Selenium应用-获取页面信息">
+<meta property="og:url" content="http://github.com/rohman-zhu/2024/03/16/Python%E7%A8%8B%E5%BA%8F%E5%AE%9E%E4%BE%8B-Selenium%E5%BA%94%E7%94%A8-%E8%8E%B7%E5%8F%96%E9%A1%B5%E9%9D%A2%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="需求描述需要进入多个页面获取信息内容，并输出至文本，用于后期Excel数据展示。 涉及知识点Python 逐行读取文件1234567891011121314151617181920212223242526# 方案1# 全部读取FILE&#x3D;open(&quot;TEST.demo&quot;)# read()表示一次性读取文件全部内容LINE&#x3D;FILE.read()print(LINE)FILE.op">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-16T18:11:15.000Z">
+<meta property="article:modified_time" content="2024-03-17T06:28:39.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Selenium实例">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2024/03/16/Python程序实例-Selenium应用-获取页面信息/"/>
+
+
+
+
+
+  <title>Python程序实例-Selenium应用-获取页面信息 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/03/16/Python%E7%A8%8B%E5%BA%8F%E5%AE%9E%E4%BE%8B-Selenium%E5%BA%94%E7%94%A8-%E8%8E%B7%E5%8F%96%E9%A1%B5%E9%9D%A2%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python程序实例-Selenium应用-获取页面信息</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-03-16T18:11:15+00:00">
+                2024-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index">
+                    <span itemprop="name">基础知识</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>需要进入多个页面获取信息内容，并输出至文本，用于后期Excel数据展示。</p>
+<h1 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h1><h2 id="Python-逐行读取文件"><a href="#Python-逐行读取文件" class="headerlink" title="Python 逐行读取文件"></a>Python 逐行读取文件</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方案1</span></span><br><span class="line"><span class="comment"># 全部读取</span></span><br><span class="line">FILE=<span class="built_in">open</span>(<span class="string">&quot;TEST.demo&quot;</span>)</span><br><span class="line"><span class="comment"># read()表示一次性读取文件全部内容</span></span><br><span class="line">LINE=FILE.read()</span><br><span class="line"><span class="built_in">print</span>(LINE)</span><br><span class="line">FILE.<span class="built_in">open</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方案2</span></span><br><span class="line"><span class="comment"># 逐行读取</span></span><br><span class="line">FILE=<span class="built_in">open</span>(<span class="string">&quot;TEST.demo&quot;</span>)</span><br><span class="line">LINE=FILE.readline()</span><br><span class="line"><span class="keyword">while</span> LINE:</span><br><span class="line">    <span class="built_in">print</span>(LINE)</span><br><span class="line">    LINE=FILE.readline()</span><br><span class="line">FILE.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方案3</span></span><br><span class="line"><span class="comment"># 读取所有行</span></span><br><span class="line">FILE=<span class="built_in">open</span>(<span class="string">&quot;TEST.demo&quot;</span>)</span><br><span class="line">LINES=FILE.readlines()</span><br><span class="line"><span class="keyword">for</span> LINE <span class="keyword">in</span> LINES:</span><br><span class="line">    <span class="built_in">print</span>(LINE)</span><br><span class="line">    LINE=FILE.readline()</span><br><span class="line">FILE.close()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="程序休眠"><a href="#程序休眠" class="headerlink" title="程序休眠"></a>程序休眠</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 休眠</span></span><br><span class="line">time.sleep([SECONDS])</span><br></pre></td></tr></table></figure>
+
+<h2 id="for-循环逐行读取"><a href="#for-循环逐行读取" class="headerlink" title="for 循环逐行读取"></a>for 循环逐行读取</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iterating_var <span class="keyword">in</span> sequence:</span><br><span class="line">    statements(s)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历字符串：</span></span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> <span class="string">&#x27;Python&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Current char $s&quot;</span>% char)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历0-100的数字：</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 等效于 Powershell 语言</span></span><br><span class="line"><span class="comment"># for ($i=0;$i -lt 100;$i ++)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历50-100的数字：</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">50</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
+
+<h2 id="数字整型转换成字符型"><a href="#数字整型转换成字符型" class="headerlink" title="数字整型转换成字符型"></a>数字整型转换成字符型</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TARGET_INT=<span class="number">10</span></span><br><span class="line">TARGET_STRING=<span class="built_in">str</span>(TARGET_INT)</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符型转换为整型"><a href="#字符型转换为整型" class="headerlink" title="字符型转换为整型"></a>字符型转换为整型</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认十进制</span></span><br><span class="line">TARGET_NUMBER=<span class="built_in">int</span>(<span class="string">&quot;20&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改为十六进制</span></span><br><span class="line">TARGET_NUMBER=<span class="built_in">int</span>(<span class="string">&quot;20&quot;</span>,<span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件输出"><a href="#文件输出" class="headerlink" title="文件输出"></a>文件输出</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 覆盖文件内容，作用相当于 echo &quot;&quot; &gt; test.demo</span></span><br><span class="line">FILE=<span class="built_in">open</span>(<span class="string">&#x27;test.demo&#x27;</span>,<span class="string">&quot;w&quot;</span>)</span><br><span class="line">FILE.write(<span class="string">&quot;TARGET CONTENT&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追加文件内容，作用相当于 echo &quot;&quot; &gt;&gt; test.demo</span></span><br><span class="line"><span class="comment"># 等价于 Powershell 的 Add-Content</span></span><br><span class="line">FILE=<span class="built_in">open</span>(<span class="string">&#x27;test.demo&#x27;</span>,<span class="string">&quot;a&quot;</span>)</span><br><span class="line">FILE.write(<span class="string">&quot;TARGET CONTENT&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符比较判断"><a href="#字符比较判断" class="headerlink" title="字符比较判断"></a>字符比较判断</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 汉字比较</span></span><br><span class="line">TEST_CHAT=<span class="string">&quot;用于测试的字符&quot;</span></span><br><span class="line">TARGET_CHAT=<span class="string">&quot;用于匹配判断的字符&quot;</span></span><br><span class="line"><span class="keyword">if</span> TEST_CHAT <span class="keyword">in</span> TARGET_CHAT:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;匹配成功&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串拼接"><a href="#字符串拼接" class="headerlink" title="字符串拼接"></a>字符串拼接</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TARGET_STRING1=<span class="string">&#x27;字符串1&#x27;</span></span><br><span class="line">TARGET_STRING2=<span class="string">&#x27;字符串2&#x27;</span></span><br><span class="line">TARGET_STRING3=<span class="string">&#x27;字符串3&#x27;</span></span><br><span class="line">TOTAL_STRING=TARGET_STRING1 + TARGET_STRING2 + TARGET_STRING3</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串替代"><a href="#字符串替代" class="headerlink" title="字符串替代"></a>字符串替代</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT_STRING=<span class="string">&quot;DEFUALTSTRING&quot;</span></span><br><span class="line">TEMP_STRING=<span class="string">&quot;I need to replace DEFUALTSTRING&quot;</span></span><br><span class="line">NEW_STRING=TEMP_STRING(<span class="string">&quot;DEFAULTSTRING&quot;</span>,<span class="string">&quot;NEWSTRING&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常处理或异常"><a href="#异常处理或异常" class="headerlink" title="异常处理或异常"></a>异常处理或异常</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    Code_Block</span><br><span class="line"><span class="keyword">except</span> [Except_type]:</span><br><span class="line">    Handle_EXCEPT_CODE_Block</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    Code Block</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> ex:</span><br><span class="line">    <span class="built_in">print</span>(ex)</span><br></pre></td></tr></table></figure>
+
+<h1 id="脚本内容"><a href="#脚本内容" class="headerlink" title="脚本内容"></a>脚本内容</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> selenium.webdriver <span class="keyword">as</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver。common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">WriteLog</span>(<span class="params">INFO</span>):</span><br><span class="line">    FILE=<span class="built_in">open</span>(<span class="string">&quot;Output.log&quot;</span>,<span class="string">&quot;a&quot;</span>)</span><br><span class="line">    FILE.write(INFO)</span><br><span class="line">    FILE.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">GetXPATHELEM</span>(<span class="params">DRIVER,TARGET_XPATH</span>):</span><br><span class="line">    ELEM=DRIVER.find_element(By.XPATH,TARGET_XPATH)</span><br><span class="line">    <span class="keyword">return</span> ELEM</span><br><span class="line">    </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">HandleElementInfo</span>(<span class="params">DRIVER</span>):</span><br><span class="line">    TARGET_ELEM_XPATH=<span class="string">&quot;&quot;</span></span><br><span class="line">    TARGET_CONTENT=GetXPATHELEM(DRIVER,TARGET_ELEM_XPATH).text</span><br><span class="line">    <span class="keyword">return</span> TARGET_CONTENT</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">HandleURL</span>(<span class="params">DRIVER,TARGET_URL</span>):</span><br><span class="line">    <span class="comment"># 避免被服务端禁用，需要暂停10s再执行</span></span><br><span class="line">    time.sleep(<span class="number">10</span>)</span><br><span class="line">    DEFAULT_URL=<span class="string">&quot;&quot;</span></span><br><span class="line">    NEW_URL=DEFAULT_URL.replace(<span class="string">&quot;&quot;</span>,TARGET_URL)</span><br><span class="line">    DRIVER.get(NEW_URL)</span><br><span class="line"></span><br><span class="line">driver=webdriver.Chrome()</span><br><span class="line">HandleURL(driver,<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Chrome-Driver-下载"><a href="#Chrome-Driver-下载" class="headerlink" title="Chrome Driver 下载"></a>Chrome Driver 下载</h1><p><a target="_blank" rel="noopener" href="https://googlechromelabs.github.io/chrome-for-testing">https://googlechromelabs.github.io/chrome-for-testing</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Selenium%E5%AE%9E%E4%BE%8B/" rel="tag"># Selenium实例</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/03/15/VCSA-VSAN%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%95%85%E9%9A%9C/" rel="next" title="VCSA-VSAN页面显示故障">
+                <i class="fa fa-chevron-left"></i> VCSA-VSAN页面显示故障
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/03/17/Docker-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" rel="prev" title="Docker-常用指令">
+                Docker-常用指令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">需求描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%89%E5%8F%8A%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">涉及知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">Python 逐行读取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%BC%91%E7%9C%A0"><span class="nav-number">2.2.</span> <span class="nav-text">程序休眠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for-%E5%BE%AA%E7%8E%AF%E9%80%90%E8%A1%8C%E8%AF%BB%E5%8F%96"><span class="nav-number">2.3.</span> <span class="nav-text">for 循环逐行读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E6%95%B4%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%88%90%E5%AD%97%E7%AC%A6%E5%9E%8B"><span class="nav-number">2.4.</span> <span class="nav-text">数字整型转换成字符型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E5%9E%8B"><span class="nav-number">2.5.</span> <span class="nav-text">字符型转换为整型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA"><span class="nav-number">2.6.</span> <span class="nav-text">文件输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%AF%94%E8%BE%83%E5%88%A4%E6%96%AD"><span class="nav-number">2.7.</span> <span class="nav-text">字符比较判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5"><span class="nav-number">2.8.</span> <span class="nav-text">字符串拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E4%BB%A3"><span class="nav-number">2.9.</span> <span class="nav-text">字符串替代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%88%96%E5%BC%82%E5%B8%B8"><span class="nav-number">2.10.</span> <span class="nav-text">异常处理或异常</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="nav-number">3.</span> <span class="nav-text">脚本内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chrome-Driver-%E4%B8%8B%E8%BD%BD"><span class="nav-number">4.</span> <span class="nav-text">Chrome Driver 下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

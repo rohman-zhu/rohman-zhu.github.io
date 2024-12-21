@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="default," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景1精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。 测试步骤 部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】 向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】 对目标虚拟机执行Storage vMo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSPHERE精简制备回收测试">
+<meta property="og:url" content="http://github.com/rohman-zhu/2023/02/05/VSPHERE%E7%B2%BE%E7%AE%80%E5%88%B6%E5%A4%87%E5%9B%9E%E6%94%B6%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景1精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。 测试步骤 部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】 向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】 对目标虚拟机执行Storage vMo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-05T23:07:48.000Z">
+<meta property="article:modified_time" content="2023-02-12T14:42:31.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2023/02/05/VSPHERE精简制备回收测试/"/>
+
+
+
+
+
+  <title>VSPHERE精简制备回收测试 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/02/05/VSPHERE%E7%B2%BE%E7%AE%80%E5%88%B6%E5%A4%87%E5%9B%9E%E6%94%B6%E6%B5%8B%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">VSPHERE精简制备回收测试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-02-05T23:07:48+00:00">
+                2023-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/" itemprop="url" rel="index">
+                    <span itemprop="name">VMware</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VMware/vSphere/" itemprop="url" rel="index">
+                    <span itemprop="name">vSphere</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景1"><a href="#背景1" class="headerlink" title="背景1"></a>背景1</h1><p>精简置备模式下的虚拟机，OS内的空间删除后，底层空间并没有随之释放。需要测试并输出可行的方法。</p>
+<h1 id="测试步骤"><a href="#测试步骤" class="headerlink" title="测试步骤"></a>测试步骤</h1><ol>
+<li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>对目标虚拟机执行Storage vMotion，先转厚置备快速置零（Thick），再转精简置备（Thin）。【记录底层空间占用情况】</li>
+<li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
+</ol>
+<h1 id="初步结论"><a href="#初步结论" class="headerlink" title="初步结论"></a>初步结论</h1><table>
+<thead>
+<tr>
+<th align="center">测试环境</th>
+<th align="center">空间自动回收</th>
+<th align="center">分区置零+Storage vMotion 是否会自动回收空间</th>
+<th align="center">分区置零+底层回收空间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CentOS 7 + XFS</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">Ubuntu 20.04 + EXT4</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">√</td>
+</tr>
+<tr>
+<td align="center">Windows Server 2019 + NTFS</td>
+<td align="center">√</td>
+<td align="center">无条件测试</td>
+<td align="center">无条件测试</td>
+</tr>
+<tr>
+<td align="center">Windows Server 2012R2 + NTFS</td>
+<td align="center">√</td>
+<td align="center">无条件测试</td>
+<td align="center">无条件测试</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Windows Server 2019 虚拟机底层空间会自动回收；无法做其他测试复核；</p>
+</blockquote>
+<h1 id="涉及脚本"><a href="#涉及脚本" class="headerlink" title="涉及脚本"></a>涉及脚本</h1><p>Linux中用dd置零</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Create ZERODATA to /data.&quot;</span></span><br><span class="line"><span class="built_in">df</span> -Th</span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/data/test bs=1G count=90;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Create ZERODATA completed.&quot;</span></span><br><span class="line"><span class="built_in">df</span> -Th</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Delete ZERODATA.&quot;</span></span><br><span class="line"><span class="built_in">rm</span> -f /data/test</span><br><span class="line"><span class="built_in">df</span> -Th</span><br></pre></td></tr></table></figure>
+
+<p>Linux重复写入常规数据</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># data.tar = 1G </span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Create DATA to /data/normaltest.&quot;</span></span><br><span class="line"><span class="built_in">df</span> -Th</span><br><span class="line"><span class="keyword">for</span>((i=<span class="number">0</span>;i&lt;<span class="number">80</span>;i++<span class="number">0</span>))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line">  <span class="built_in">cp</span> data.tar /data/normaltest/data.tar.<span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Create DATA to /data/normaltest/ completed.&quot;</span></span><br><span class="line"><span class="built_in">df</span> -Th</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Delete DATA to /data/normaltest .&quot;</span></span><br><span class="line"><span class="built_in">rm</span> -rf /data/normaltst/*</span><br><span class="line"><span class="built_in">df</span> -Th</span><br></pre></td></tr></table></figure>
+
+<p>ESXi Shell</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目标vmdk 路径假设为 /vmfs/volume/xxxx/xxxx.vmdk</span></span><br><span class="line"><span class="built_in">du</span> -sh ./*</span><br><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br><span class="line"><span class="built_in">du</span> -sh ./*</span><br></pre></td></tr></table></figure>
+
+<h1 id="背景2"><a href="#背景2" class="headerlink" title="背景2"></a>背景2</h1><p>在底层做vmdk置零块移除的时候，为了避免数据丢失，需要做一下快照；因此需要测试，在有快照的情况下，是否可以做置零块移除？</p>
+<h1 id="测试步骤-1"><a href="#测试步骤-1" class="headerlink" title="测试步骤"></a>测试步骤</h1><h2 id="测试1"><a href="#测试1" class="headerlink" title="测试1"></a>测试1</h2><ol>
+<li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>虚拟机拍摄内存快照；</li>
+<li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
+<li>删除虚拟机快照；【记录vmdk占用情况】</li>
+</ol>
+<h2 id="测试2"><a href="#测试2" class="headerlink" title="测试2"></a>测试2</h2><ol>
+<li>部署虚拟机，配置为 2C4G ，100G数据盘（D:\ 或 &#x2F;data）;【记录精简置备下，OS内的使用空间，底层使用空间】</li>
+<li>虚拟机拍摄硬盘快照；</li>
+<li>向数据盘写入非零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>向数据盘写入零数据，写入量大于等于80G的数据，并删除；【记录OS内的空间占用情况，记录底层存储空间占用情况】</li>
+<li>目标虚拟机关机，进入ESXi Shell 对目标vmdk置零回收空间。【记录vmdk使用量与回收时间】</li>
+<li>删除虚拟机快照；【记录vmdk占用情况】</li>
+</ol>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>有快照的情况下，均不能实现空间自动回收；而且Windows Server服务器要手动触发 SDelete 指令回收置零空间。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/default/" rel="tag"># default</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/02/02/VMFS6-%E7%A9%BA%E9%97%B4%E5%9B%9E%E6%94%B6/" rel="next" title="VMFS6-空间回收【待补充】">
+                <i class="fa fa-chevron-left"></i> VMFS6-空间回收【待补充】
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2023/02/08/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAESXi%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E5%8D%B7%E7%9A%84%E6%95%85%E9%9A%9C/" rel="prev" title="记录一个ESXi无法使用存储卷的故障">
+                记录一个ESXi无法使用存储卷的故障 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF1"><span class="nav-number">1.</span> <span class="nav-text">背景1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">测试步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E6%AD%A5%E7%BB%93%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">初步结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%89%E5%8F%8A%E8%84%9A%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">涉及脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF2"><span class="nav-number">5.</span> <span class="nav-text">背景2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">6.</span> <span class="nav-text">测试步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%951"><span class="nav-number">6.1.</span> <span class="nav-text">测试1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%952"><span class="nav-number">6.2.</span> <span class="nav-text">测试2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">7.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

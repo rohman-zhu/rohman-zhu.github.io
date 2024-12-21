@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="default," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需求说明之前是使用一台CentOS 部署 node.js 与 hexo ， 这种形态还是有点重，想改成Docker形态看看。 开始操作思路是先 拉取一个 node 镜像，然后再基于 node 镜像 封装一个 hexo 镜像； 参照：https:&#x2F;&#x2F;chunchengwei.github.io&#x2F;ruan-jian&#x2F;ji-yu-docker-de-hexo-bo-ke-da-jian&#x2F; 拉取 node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-Hexo_Blog实例">
+<meta property="og:url" content="http://github.com/rohman-zhu/2024/12/08/Docker-Hexo-Blog%E5%AE%9E%E4%BE%8B/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="需求说明之前是使用一台CentOS 部署 node.js 与 hexo ， 这种形态还是有点重，想改成Docker形态看看。 开始操作思路是先 拉取一个 node 镜像，然后再基于 node 镜像 封装一个 hexo 镜像； 参照：https:&#x2F;&#x2F;chunchengwei.github.io&#x2F;ruan-jian&#x2F;ji-yu-docker-de-hexo-bo-ke-da-jian&#x2F; 拉取 node">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-08T22:23:15.000Z">
+<meta property="article:modified_time" content="2024-12-21T16:07:42.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2024/12/08/Docker-Hexo-Blog实例/"/>
+
+
+
+
+
+  <title>Docker-Hexo_Blog实例 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/12/08/Docker-Hexo-Blog%E5%AE%9E%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker-Hexo_Blog实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-12-08T22:23:15+00:00">
+                2024-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>之前是使用一台CentOS 部署 node.js 与 hexo ， 这种形态还是有点重，想改成Docker形态看看。</p>
+<h1 id="开始操作"><a href="#开始操作" class="headerlink" title="开始操作"></a>开始操作</h1><p>思路是先 拉取一个 node 镜像，然后再基于 node 镜像 封装一个 hexo 镜像；</p>
+<p>参照：<a target="_blank" rel="noopener" href="https://chunchengwei.github.io/ruan-jian/ji-yu-docker-de-hexo-bo-ke-da-jian/">https://chunchengwei.github.io/ruan-jian/ji-yu-docker-de-hexo-bo-ke-da-jian/</a></p>
+<h2 id="拉取-node-镜像"><a href="#拉取-node-镜像" class="headerlink" title="拉取 node 镜像"></a>拉取 node 镜像</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取最新的 node.js 镜像</span></span><br><span class="line">docker pull node:latest</span><br></pre></td></tr></table></figure>
+
+<h2 id="封装镜像"><a href="#封装镜像" class="headerlink" title="封装镜像"></a>封装镜像</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建 hexo 工作目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/Hexo &amp;&amp; <span class="built_in">cd</span> ~/Hexo</span><br><span class="line"><span class="built_in">mkdir</span> hexo_docker &amp;&amp; <span class="built_in">cd</span> hexo_docker</span><br><span class="line"><span class="comment"># 创建 Docker 封装的编译文件</span></span><br><span class="line"><span class="built_in">touch</span> Dockerfile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> node:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> your_name &lt;your_mail&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /hexo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Hexo</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install hexo-cli -g</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> hexo init .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置git</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> git config --global user.name <span class="string">&quot;your_name&quot;</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> git config --global user.email <span class="string">&quot;your_mail&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">4000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/bin/bash&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>执行编译</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t <span class="string">&quot;hexo:latest&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>封装结束后，可以看到有这个镜像：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试镜像是否可用"><a href="#测试镜像是否可用" class="headerlink" title="测试镜像是否可用"></a>测试镜像是否可用</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建 6000 映射 4000 的容器</span></span><br><span class="line">docker run -it --name=<span class="string">&quot;temp&quot;</span> -p 6000:4000 hexo:latest /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入docker后</span></span><br><span class="line"><span class="comment"># 执行指令 hexo s，开启hexo服务</span></span><br><span class="line">hexo s</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>确认可以访问 ： 在外部访问 <a target="_blank" rel="noopener" href="http://docker/">http://docker</a> 宿主机IP:6000</p>
+</blockquote>
+<h2 id="二次封装镜像"><a href="#二次封装镜像" class="headerlink" title="二次封装镜像"></a>二次封装镜像</h2><p>确认完上述方案是可以成功运行后，我们需要进一步去封装docker镜像，使镜像可以直接使用。</p>
+<p>我期望有一些初始化动作就直接封装完毕，比如一些安装插件的动作即可在镜像中就完成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># 基础镜像</span><br><span class="line">FROM hexo:latest</span><br><span class="line"></span><br><span class="line"># 维护者</span><br><span class="line">MAINTAINER [维护者信息]</span><br><span class="line"></span><br><span class="line"># 工作目录</span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"># 修改npm 源，增加npm安装速率</span><br><span class="line">RUN npm config set registry https://registry.npmmirror.com</span><br><span class="line">RUN npm get registry</span><br><span class="line"></span><br><span class="line"># 安装 hexo 插件</span><br><span class="line">RUN npm i hexo-prism-plugin --save</span><br><span class="line"># 搜索插件</span><br><span class="line">RUN npm i hexo-generator-searchdb --save</span><br><span class="line"># 汉字转拼音插件</span><br><span class="line">RUN npm i hexo-permalink-pinyin --save</span><br><span class="line"></span><br><span class="line"># node 14 报错问题</span><br><span class="line">RUN yarn add hexo-renderer-stylus</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 对外映射端口</span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"># 运行命令</span><br><span class="line"># CMD [&quot;/bin/bash&quot;]</span><br><span class="line">CMD [&quot;/usr/bin/env&quot;, &quot;hexo&quot;, &quot;server&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>构建镜像</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t <span class="string">&quot;nextblog:24&quot;</span> -f dockerfile ./</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建docker-compose文件"><a href="#创建docker-compose文件" class="headerlink" title="创建docker compose文件"></a>创建docker compose文件</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">        <span class="attr">context:</span> <span class="string">hexo_docker</span></span><br><span class="line">        <span class="attr">dockerfile:</span> <span class="string">dockerfile</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nextblog:24</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">temp_simple_test</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;4000:4000&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD:/hexo</span></span><br></pre></td></tr></table></figure>
+
+<p>执行指令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动整个应用</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止整个应用</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他一些补充"><a href="#其他一些补充" class="headerlink" title="其他一些补充"></a>其他一些补充</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 npm 当前安装了哪一些部件以及版本号</span></span><br><span class="line">npm <span class="built_in">ls</span> --depth 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定版本</span></span><br><span class="line">npm i hexo@4.2.0 -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看compose过程中的一些报错</span></span><br><span class="line">docker-compose logs -f --<span class="built_in">tail</span>=50</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="实例记录"><a href="#实例记录" class="headerlink" title="实例记录"></a>实例记录</h2><p>基础镜像 node.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 获取最新node </span><br><span class="line">docker pull node:latest</span><br></pre></td></tr></table></figure>
+
+<p>创建 dockerfile 文件，用于编译专用镜像:</p>
+<ul>
+<li>docker相关：<ul>
+<li>docker-compose.yml 服务配置文件</li>
+<li>hexo_docker&#x2F; 用于存放Dockerfile文件</li>
+</ul>
+</li>
+<li>hexo相关：<ul>
+<li>scaffolds&#x2F; 存放模版文件</li>
+<li>source&#x2F; 存放用户资源文件，post，draft</li>
+<li>themes&#x2F; 存放主题</li>
+</ul>
+</li>
+<li>git相关：<ul>
+<li>.deploy_git&#x2F; hexo-deployer-git插件用于存放commit历史记录。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dockerfile如下</span></span><br><span class="line">FROM node:latest</span><br><span class="line"></span><br><span class="line">MAINTAINER rohman.zhu</span><br><span class="line"></span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用国内源</span></span><br><span class="line">RUN npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line">RUN npm install hexo-cli -g --save</span><br><span class="line">RUN hexo init .</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化主题</span></span><br><span class="line"><span class="comment"># [TODO] 主题可能会变</span></span><br><span class="line"><span class="comment"># Git 可能获取会超时，需要调整</span></span><br><span class="line"><span class="comment"># RUN git config --global http.version HTTP/1.1</span></span><br><span class="line"><span class="comment"># RUN git clone https://github.com/iissnan/hexo-theme-next themes/next</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新版本的next需要安装这个插件</span></span><br><span class="line">RUN npm i hexo-renderer-swig --no-fund --save</span><br><span class="line">RUN npm i hexo-prism-plugin --save</span><br><span class="line">RUN npm i hexo-permalink-pinyin --save</span><br><span class="line"></span><br><span class="line"><span class="comment"># HEXO 相关的</span></span><br><span class="line"><span class="comment"># 生成 categories 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="comment"># 生成 about 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="comment"># 生成 tag 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="comment"># 生成页面</span></span><br><span class="line">RUN hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建挂载点</span></span><br><span class="line">VOLUME [<span class="string">&quot;/hexo/.deploy_git&quot;</span>, <span class="string">&quot;/hexo/scaffolds&quot;</span>, <span class="string">&quot;/hexo/source&quot;</span>, <span class="string">&quot;/hexo/themes&quot;</span>, <span class="string">&quot;/root/.ssh&quot;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对外暴露 4000 端口</span></span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line"><span class="comment"># CMD [&quot;/bin/bash&quot;]</span></span><br><span class="line"><span class="comment"># 容器启动后，会默认执行的指令；</span></span><br><span class="line">CMD [<span class="string">&quot;/usr/bin/env&quot;</span>, <span class="string">&quot;hexo&quot;</span>, <span class="string">&quot;server&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可以临时编译测试看看；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于 node:latest 创建一个hexo镜像</span></span><br><span class="line">docker build -t <span class="string">&quot;hexo:1&quot;</span> .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不使用缓存,重新编译</span></span><br><span class="line">docker build -t <span class="string">&quot;hexo:1&quot;</span> . --no-cache</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 对创建出来的镜像试运行</span><br><span class="line">docker run -it --name=&quot;hexo-temptest&quot; -p 60101:4000  -v $PWD:/hexo/org hexo:1 /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>编写docker compose文件，用于自动生成；</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">        <span class="attr">context:</span> <span class="string">./</span></span><br><span class="line">        <span class="attr">dockerfile:</span> <span class="string">dockerfile</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hexo:1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">temp_simple_test</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;60101:4000&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$HOME/.ssh:/root/.ssh</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/.deploy_git:/hexo/.deploy_git</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/scaffolds:/hexo/scaffolds</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/source:/hexo/source</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/themes:/hexo/themes</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/_config.yml:/hexo/_config.yml</span></span><br></pre></td></tr></table></figure>
+
+<p>服务创建完成后，常用指令为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line"><span class="comment"># 进入compose文件所在的目录</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建新文章</span></span><br><span class="line">docker <span class="built_in">exec</span> [blog_docker 名称] hexo new <span class="string">&quot;文章名&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成文章静态页面</span></span><br><span class="line">docker <span class="built_in">exec</span> [blog_docker 名称] hexo g </span><br><span class="line"></span><br><span class="line"><span class="comment"># 发布文章至github</span></span><br><span class="line">docker <span class="built_in">exec</span> [blog_docker 名称] hexo d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭服务</span></span><br><span class="line">docker-compose down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指令别名</span></span><br><span class="line"><span class="built_in">alias</span> hexo=<span class="string">&quot;docker exec [blog_docker 名称] hexo&quot;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/default/" rel="tag"># default</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/20/%E5%BC%B1%E7%BD%91%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-clumsy/" rel="next" title="弱网测试工具--clumsy">
+                <i class="fa fa-chevron-left"></i> 弱网测试工具--clumsy
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/12/21/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">需求说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">开始操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96-node-%E9%95%9C%E5%83%8F"><span class="nav-number">2.1.</span> <span class="nav-text">拉取 node 镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%E9%95%9C%E5%83%8F"><span class="nav-number">2.2.</span> <span class="nav-text">封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%95%9C%E5%83%8F%E6%98%AF%E5%90%A6%E5%8F%AF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">测试镜像是否可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E5%B0%81%E8%A3%85%E9%95%9C%E5%83%8F"><span class="nav-number">2.4.</span> <span class="nav-text">二次封装镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAdocker-compose%E6%96%87%E4%BB%B6"><span class="nav-number">2.5.</span> <span class="nav-text">创建docker compose文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%B8%80%E4%BA%9B%E8%A1%A5%E5%85%85"><span class="nav-number">2.6.</span> <span class="nav-text">其他一些补充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E8%AE%B0%E5%BD%95"><span class="nav-number">2.7.</span> <span class="nav-text">实例记录</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

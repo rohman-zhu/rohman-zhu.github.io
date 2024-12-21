@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="负载均衡LVS,Keepalive#APR (Address Resolution Protocol) 地址解析协议 通过IP地址,获取主机的MAC地址  查看ARP: 12# Windows &amp;&amp; Linuxarp -a   有arp缓存表可以加速ARP的解析速度. 给恶意黑客带来攻击服务器主机的风险(ARP欺骗)   ARP属于三层协议  ARP欺骗原理ARP攻击就是通过伪造I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LVS集群以及keepalive高可用实战">
+<meta property="og:url" content="http://github.com/rohman-zhu/2018/01/21/%E5%BE%85%E8%A1%A5%E5%85%85-LVS%E9%9B%86%E7%BE%A4%E4%BB%A5%E5%8F%8Akeepalive%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="负载均衡LVS,Keepalive#APR (Address Resolution Protocol) 地址解析协议 通过IP地址,获取主机的MAC地址  查看ARP: 12# Windows &amp;&amp; Linuxarp -a   有arp缓存表可以加速ARP的解析速度. 给恶意黑客带来攻击服务器主机的风险(ARP欺骗)   ARP属于三层协议  ARP欺骗原理ARP攻击就是通过伪造I">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-21T19:31:08.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2018/01/21/待补充-LVS集群以及keepalive高可用实战/"/>
+
+
+
+
+
+  <title>LVS集群以及keepalive高可用实战 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/01/21/%E5%BE%85%E8%A1%A5%E5%85%85-LVS%E9%9B%86%E7%BE%A4%E4%BB%A5%E5%8F%8Akeepalive%E9%AB%98%E5%8F%AF%E7%94%A8%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LVS集群以及keepalive高可用实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T19:31:08+00:00">
+                2018-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="负载均衡LVS-Keepalive"><a href="#负载均衡LVS-Keepalive" class="headerlink" title="负载均衡LVS,Keepalive#"></a>负载均衡LVS,Keepalive#</h1><h2 id="APR-Address-Resolution-Protocol-地址解析协议"><a href="#APR-Address-Resolution-Protocol-地址解析协议" class="headerlink" title="APR (Address Resolution Protocol) 地址解析协议"></a>APR (Address Resolution Protocol) 地址解析协议</h2><blockquote>
+<p>通过IP地址,获取主机的MAC地址</p>
+</blockquote>
+<p>查看ARP:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Windows &amp;&amp; Linux</span><br><span class="line">arp -a</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>有arp缓存表可以加速ARP的解析速度.</li>
+<li>给恶意黑客带来攻击服务器主机的风险(ARP欺骗)</li>
+</ol>
+<blockquote>
+<p>ARP属于三层协议</p>
+</blockquote>
+<h3 id="ARP欺骗原理"><a href="#ARP欺骗原理" class="headerlink" title="ARP欺骗原理"></a>ARP欺骗原理</h3><p>ARP攻击就是通过伪造IP地址和MAC地址对(IP-MAC),实现ARP欺骗.</p>
+<p>解决方法 : </p>
+<ul>
+<li>记录正确网关地址</li>
+</ul>
+<h3 id="高可用服务器对-切换时ARP缓存问题"><a href="#高可用服务器对-切换时ARP缓存问题" class="headerlink" title="高可用服务器对 切换时ARP缓存问题"></a>高可用服务器对 切换时ARP缓存问题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/sbin/arping -I eth0 -c 3 -s 10.0.-.162 10.0.0.253</span><br><span class="line">/sbin/arping -U -I eth0 10.0.0.162</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器等设备迁移时-要考虑ARP缓存的问题"><a href="#路由器等设备迁移时-要考虑ARP缓存的问题" class="headerlink" title="路由器等设备迁移时,要考虑ARP缓存的问题"></a>路由器等设备迁移时,要考虑ARP缓存的问题</h3><p>同上一个问题.</p>
+<h2 id="LVS-Linux-Virtual-Server"><a href="#LVS-Linux-Virtual-Server" class="headerlink" title="LVS (Linux Virtual Server)"></a>LVS (Linux Virtual Server)</h2><p>负载均衡主要功能</p>
+<ol>
+<li>减少用户等待相应时间,系统处理能力得到大幅度提高.</li>
+<li>单个负载的运算分担到多台节点设备上做并行处理.</li>
+<li>7*24的服务保证</li>
+</ol>
+<p>LVS:</p>
+<ol>
+<li>实现调度的工具IPVS</li>
+<li>管理工具 IPVSADM</li>
+<li>keepalived 实现管理及高可用</li>
+</ol>
+<p>术语:</p>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">缩写</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">虚拟IP地址</td>
+<td align="center">VIP</td>
+<td align="center">VIP为Director用于向客户端计算机提供服务的IP地址</td>
+</tr>
+<tr>
+<td align="center">真实IP地址</td>
+<td align="center">RIP</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">客户端主机IP</td>
+<td align="center">CIP</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Director的IP地址</td>
+<td align="center">DIP</td>
+<td align="center">用于连接内外网络的IP 地址,物理网卡上的IP 地址.</td>
+</tr>
+</tbody></table>
+<h3 id="四种工作模式"><a href="#四种工作模式" class="headerlink" title="四种工作模式"></a>四种工作模式</h3><h4 id="DR模式-Director-Router"><a href="#DR模式-Director-Router" class="headerlink" title="DR模式(Director Router)"></a>DR模式(Director Router)</h4><p>通过改写请求报文的目标MAC地址,通过LVS发送给服务器,服务器将结果返回给客户端.</p>
+<blockquote>
+<p>请求过程: CIP -&gt; VIP -&gt; 更改 VIP:MAC -&gt; VIP:RMAC(真实服务器的MAC) -&gt; CIP -&gt; VIP -&gt; L0绑定VIP,并且抑制ARP</p>
+</blockquote>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/20/LNMP%E4%B9%8BPHP%E4%BC%98%E5%8C%96/" rel="next" title="LNMP之PHP优化">
+                <i class="fa fa-chevron-left"></i> LNMP之PHP优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/14/UEFI%E4%B8%8EGUID%E4%B8%8B%E7%9A%84%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%BC%95%E5%AF%BC/" rel="prev" title="UEFI与GUID下的双系统引导">
+                UEFI与GUID下的双系统引导 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1LVS-Keepalive"><span class="nav-number">1.</span> <span class="nav-text">负载均衡LVS,Keepalive#</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#APR-Address-Resolution-Protocol-%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.1.</span> <span class="nav-text">APR (Address Resolution Protocol) 地址解析协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP%E6%AC%BA%E9%AA%97%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">ARP欺骗原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9-%E5%88%87%E6%8D%A2%E6%97%B6ARP%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">高可用服务器对 切换时ARP缓存问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E7%AD%89%E8%AE%BE%E5%A4%87%E8%BF%81%E7%A7%BB%E6%97%B6-%E8%A6%81%E8%80%83%E8%99%91ARP%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.3.</span> <span class="nav-text">路由器等设备迁移时,要考虑ARP缓存的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVS-Linux-Virtual-Server"><span class="nav-number">1.2.</span> <span class="nav-text">LVS (Linux Virtual Server)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">四种工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DR%E6%A8%A1%E5%BC%8F-Director-Router"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">DR模式(Director Router)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

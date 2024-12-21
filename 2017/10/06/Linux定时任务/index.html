@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh_cn">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="定时任务常用的软件1.crontab适用于需要周期性执行的任务工作。例如：每5分钟一次服务器时间同步。 2.at适合执行一次就结束的调度任务命令。若需要执行 at 命令， 还需要启动ige名为 atd 的服务才行。 3.anacron适用于非 7 * 24 小时运行的服务器。 4.CrondCrond 是 Linux 系统中用来定期执行命令或者程序任务的一种软件或者服务。  一般定时任务存放于 &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux定时任务">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/06/Linux%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="定时任务常用的软件1.crontab适用于需要周期性执行的任务工作。例如：每5分钟一次服务器时间同步。 2.at适合执行一次就结束的调度任务命令。若需要执行 at 命令， 还需要启动ige名为 atd 的服务才行。 3.anacron适用于非 7 * 24 小时运行的服务器。 4.CrondCrond 是 Linux 系统中用来定期执行命令或者程序任务的一种软件或者服务。  一般定时任务存放于 &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-06T13:14:22.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://github.com/rohman-zhu/2017/10/06/Linux定时任务/"/>
+
+
+
+
+
+  <title>Linux定时任务 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh_cn">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诺曼实验室</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-list"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/06/Linux%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux定时任务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-06T13:14:22+00:00">
+                2017-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><h2 id="常用的软件"><a href="#常用的软件" class="headerlink" title="常用的软件"></a>常用的软件</h2><h3 id="1-crontab"><a href="#1-crontab" class="headerlink" title="1.crontab"></a>1.crontab</h3><p>适用于需要周期性执行的任务工作。例如：每5分钟一次服务器时间同步。</p>
+<h3 id="2-at"><a href="#2-at" class="headerlink" title="2.at"></a>2.at</h3><p>适合执行一次就结束的调度任务命令。若需要执行 at 命令， 还需要启动ige名为 atd 的服务才行。</p>
+<h3 id="3-anacron"><a href="#3-anacron" class="headerlink" title="3.anacron"></a>3.anacron</h3><p>适用于非 7 * 24 小时运行的服务器。</p>
+<h3 id="4-Crond"><a href="#4-Crond" class="headerlink" title="4.Crond"></a>4.Crond</h3><p><em>Crond</em> 是 Linux 系统中用来定期执行命令或者程序任务的一种软件或者服务。</p>
+<ul>
+<li>一般定时任务存放于 &#x2F;etc&#x2F;cron 下</li>
+<li>守护进程，即一直运行的。</li>
+<li>crontab</li>
+</ul>
+<h4 id="格式-："><a href="#格式-：" class="headerlink" title="格式 ："></a>格式 ：</h4><table>
+<thead>
+<tr>
+<th align="center">段</th>
+<th align="center">意义</th>
+<th align="center">取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">第一段</td>
+<td align="center">代表分钟</td>
+<td align="center">00-59</td>
+</tr>
+<tr>
+<td align="center">第二段</td>
+<td align="center">代表小时</td>
+<td align="center">00-23</td>
+</tr>
+<tr>
+<td align="center">第三段</td>
+<td align="center">代表日，天</td>
+<td align="center">01-31</td>
+</tr>
+<tr>
+<td align="center">第四段</td>
+<td align="center">代表月份</td>
+<td align="center">01-12</td>
+</tr>
+<tr>
+<td align="center">第五段</td>
+<td align="center">代表星期，周</td>
+<td align="center">0-6 （0代表星期日）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>口诀 ： 分时日月周 命令<br>0-59&#x2F;1 等价于 *</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">样例：</span><br><span class="line">//1.</span><br><span class="line">* * * * * /usr/sbin/ntpdate</span><br><span class="line"></span><br><span class="line">//2.</span><br><span class="line">30 3，12 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天凌晨3点和中午12点半时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//3.</span><br><span class="line">30 */6 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每6个小时的半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 8-18/2 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天在 8点 到 18点之间，每隔两小时的 半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 21 * * * /application/apache/bin/apachect1 graceful</span><br><span class="line">每晚21:30 重启apache</span><br><span class="line"></span><br><span class="line">//5.</span><br><span class="line">45 4 1,10,22 * * /application/apache/bin/apachectl graceful</span><br><span class="line">表示每月的1，10，22日 在凌晨 4:45 重启 apache</span><br><span class="line"></span><br><span class="line">//6.</span><br><span class="line">10 1 * * 6,0 /application/apache/bin/apachectl graceful</span><br><span class="line">表示每一个星期六和星期天 的 凌晨 1:10 重启apache</span><br><span class="line"></span><br><span class="line">//7.</span><br><span class="line">0,30 18-23 * * * /application/apache/bin/apachectl graceful</span><br><span class="line">&gt;表示在每天的 18:00，18:30，19:00，19:30，20:00，20:30，21:00，21:30，22:00，22:30，23:00，23:30 重启apache</span><br><span class="line"></span><br><span class="line">&gt;表示在每天 18:00 到 23：00 之间每隔30分钟重启 apache。最后一次执行是23:30。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>周和日尽量不要同时使用</p>
+</blockquote>
+<h4 id="特殊符号的意义"><a href="#特殊符号的意义" class="headerlink" title="特殊符号的意义"></a>特殊符号的意义</h4><table>
+<thead>
+<tr>
+<th align="center">特殊符号</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">*</td>
+<td align="center">任意时间</td>
+</tr>
+<tr>
+<td align="center">-</td>
+<td align="center">表示一个时间范围</td>
+</tr>
+<tr>
+<td align="center">，</td>
+<td align="center">分隔时段</td>
+</tr>
+<tr>
+<td align="center">&#x2F;n</td>
+<td align="center">每间隔n个单位时间</td>
+</tr>
+</tbody></table>
+<h3 id="实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”"><a href="#实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”" class="headerlink" title="实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”"></a>实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ whereis echo</span><br><span class="line">echo: /usr/bin/echo /usr/share/man/man1/echo.1.gz /usr/share/man/man1p/echo.1p.gz</span><br><span class="line"></span><br><span class="line">$ crontab -e</span><br><span class="line">## print username to /server/log/roman...</span><br><span class="line">* * * * * /usr/bin/echo roman &gt;&gt; /server/log/roman</span><br><span class="line"></span><br><span class="line">$ crontab -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令"><a href="#实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令" class="headerlink" title="实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令"></a>实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 每隔一分钟打印一个+号到xxx.txt</span><br><span class="line">$ * * * * * echo &quot;+&quot; &gt;&gt; xxx.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。"><a href="#实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。" class="headerlink" title="实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。"></a>实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 1.到目标内容上级目录打包</span><br><span class="line"></span><br><span class="line">$ cd /etc</span><br><span class="line"></span><br><span class="line">// 2.打包的频率是分，包名必须精确到分</span><br><span class="line"></span><br><span class="line">$ tar zcvf /tmp/services_$(date +%F-%H).tar.gz ./services</span><br><span class="line"></span><br><span class="line">// 3. 确保命令行是正确的，然后写进脚本内.（将脚本放到 /server/scripts/ 文件夹）</span><br><span class="line">$ cd /server/scripts/</span><br><span class="line">$ vim tar.sh</span><br><span class="line"></span><br><span class="line">//如果直接在启动计划内添加命令，则需要将相关的符号进行转移</span><br><span class="line"></span><br><span class="line">//3.1 测试脚本</span><br><span class="line">$ /bin/sh /server/scripts/tar.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 4. 将脚本添加到定时任务中执行。</span><br><span class="line"></span><br><span class="line">// 5. 末尾添加错误输入或输出</span><br><span class="line">&gt; dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>定时任务需要加注释</li>
+<li>结尾不要有 &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 因为以及存在输出</li>
+<li>&#x2F;server&#x2F;log 目录必须存在才能出结果</li>
+<li>定时任务的路径一定要绝对路径</li>
+<li>crond 服务必须开启</li>
+</ul>
+<h2 id="工作中调试定时任务的方法"><a href="#工作中调试定时任务的方法" class="headerlink" title="工作中调试定时任务的方法"></a>工作中调试定时任务的方法</h2><ol>
+<li>增加执行任务频率调试任务。</li>
+<li>调整系统时间调试任务。</li>
+<li>通过脚本日志输出调试定时任务。</li>
+<li>注意一些命令带来的问题</li>
+<li>注意环境变量导致的定时任务故障</li>
+<li>通过 crond 定时任务服务日志调试定时任务 。 （&#x2F;var&#x2F;log&#x2F;cron)</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/05/Linux%E6%9D%83%E9%99%90/" rel="next" title="Linux权限">
+                <i class="fa fa-chevron-left"></i> Linux权限
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/10/Linux-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" rel="prev" title="Linux 网络基础">
+                Linux 网络基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">429</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">143</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">定时任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">常用的软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-crontab"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.crontab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-at"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.at</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-anacron"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.anacron</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Crond"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.Crond</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F-%EF%BC%9A"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">格式 ：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">特殊符号的意义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5-1-%E6%AF%8F%E5%88%86%E9%92%9F%E6%89%93%E5%8D%B0%E4%B8%80%E6%AC%A1%E8%87%AA%E5%B7%B1%E7%9A%84%E5%90%8D%E5%AD%97%E6%8B%BC%E9%9F%B3%E5%88%B0%E2%80%9C-server-log-%E8%87%AA%E5%B7%B1%E5%91%BD%E5%90%8D%E7%9A%84%E6%96%87%E4%BB%B6%E2%80%9D"><span class="nav-number">1.1.5.</span> <span class="nav-text">实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5-2-%EF%BC%9A%E6%AF%8F%E9%9A%94%E4%B8%80%E5%88%86%E9%92%9F%EF%BC%8C%E6%89%93%E5%8D%B0%E4%B8%80%E4%B8%AA-%E5%8F%B7%E5%88%B0-xxx-txt-%EF%BC%8C%E8%AF%B7%E7%BB%99%E5%87%BAcrontab%E5%AE%8C%E6%95%B4%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.6.</span> <span class="nav-text">实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5-3-%EF%BC%9A-%E6%AF%8F%E9%9A%94-2-%E4%B8%AA%E5%B0%8F%E6%97%B6%E5%B0%86%E7%B3%BB%E7%BB%9F%E7%9A%84-etc-services-%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85%E5%A4%87%E4%BB%BD%E5%88%B0-tmp-%E4%B8%8B%E3%80%82"><span class="nav-number">1.1.7.</span> <span class="nav-text">实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.2.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E4%B8%AD%E8%B0%83%E8%AF%95%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">工作中调试定时任务的方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
