@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">430</span>
+          <span class="site-state-item-count">428</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,222 +147,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/10/02/Linux_%E6%95%85%E9%9A%9C%E4%BF%AE%E5%A4%8D%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">Linux 故障修复集</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-02 11:23:06" itemprop="dateCreated datePublished" datetime="2017-10-02T11:23:06+00:00">2017-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="修复CentOS-7启动引导"><a href="#修复CentOS-7启动引导" class="headerlink" title="修复CentOS-7启动引导"></a>修复CentOS-7启动引导</h1><h2 id="一、修复MBR："><a href="#一、修复MBR：" class="headerlink" title="一、修复MBR：##"></a>一、修复MBR：##</h2><p>MBR（Master Boot Record主引导记录）：</p>
-<p>硬盘的0柱面、0磁头、1扇区称为主引导扇区。其中446Byte是bootloader，64Byte为Partition table，剩下的2Byte为magic number。</p>
-<p>备份MBR：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/sda of=/root/mbr.bak count=1 bs=512</span><br></pre></td></tr></table></figure>
-
-<p>破坏bootloader：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/zero of=/dev/sda count=1 bs=200</span><br></pre></td></tr></table></figure>
-
-<p>这里边block size只要小于等于446即可。</p>
-<p>修复方式：</p>
-<ol>
-<li>借助其他系统挂载磁盘修复。</li>
-</ol>
-<p>修复方式同光盘修复类似，也是使用grub2-install命令。</p>
-<ol start="2">
-<li>借助安装光盘修复。</li>
-</ol>
-<h3 id="插入Linux安装盘"><a href="#插入Linux安装盘" class="headerlink" title="插入Linux安装盘"></a>插入Linux安装盘</h3><ol>
-<li>装入光盘，在光盘引导界面选择troubleshooting：</li>
-<li>选择进入救援模式（Recue a CentOS system )：</li>
-<li>按回车键继续：</li>
-<li>进入磁盘挂载选择模式：磁盘将会被挂载至&#x2F;mnt&#x2F;sysimage&#x2F;下</li>
-</ol>
-<ul>
-<li>continue 以rw方式挂载分区。</li>
-<li>read only 以ro方式挂载分区。</li>
-<li>skip 跳过，将来自己手工挂载磁盘。</li>
-</ul>
-<ol start="5">
-<li>选择continue，稍等片刻，提示已经挂载完成。</li>
-<li>此时进入救援模式的命令行：</li>
-<li>使用grub2-install命令重建bootloader,并且显示无错误后，重启系统。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grub2-install root-directory=/mnt/sysimage /dev/sda</span><br><span class="line">#sync</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2015-03/114678.htm">原文地址</a></p>
-<h1 id="硬件故障"><a href="#硬件故障" class="headerlink" title="硬件故障"></a>硬件故障</h1><p>先查看内核日志文件，检查问题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/01/Network-setup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/10/01/Network-setup/" class="post-title-link" itemprop="url">Network setup</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-01 22:53:18" itemprop="dateCreated datePublished" datetime="2017-10-01T22:53:18+00:00">2017-10-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>This have two way to setup internet-config,’setup’ command and others.</p>
-<ul>
-<li>Path : &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-eth1</li>
-</ul>
-<h2 id="Network-driver-file"><a href="#Network-driver-file" class="headerlink" title="Network driver file"></a>Network driver file</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$cat /etc/sysconfig/network-scripts/ifcfg-eth1</span><br><span class="line">BOOTPROTO = none # &lt;== 其中，proto取值可以是：none，引导时不使用协议；static 静态分配地址；bootp,使用BOOTP协议；或者DHCP，使用DHCP协议；</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>开启网卡</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$/etc/init.d/network restart &lt;== ONBOOT = yes 网卡文件中该属性必须位YES</span><br><span class="line">$ifup NetworkDirver &lt;== Make NetworkDirver working</span><br><span class="line">$ifdown NetworkDirver &lt;== Shutdown NetWorkDirver </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Checking network status</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ifconfig</span><br><span class="line">$ip ad</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="DNS-config"><a href="#DNS-config" class="headerlink" title="DNS config"></a>DNS config</h2><ul>
-<li>PATH : &#x2F;etc&#x2F;resolv.conf</li>
-</ul>
-<h3 id="DNS-config-summary"><a href="#DNS-config-summary" class="headerlink" title="DNS config summary"></a>DNS config summary</h3><ol>
-<li>客户端DNS可以在网卡配置文件里面设置。( &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;…)</li>
-<li>客户端DNS也可以在 &#x2F;etc&#x2F;resolv.conf 里面设置。</li>
-<li>网卡里的设置DNS 优先于 &#x2F;etc&#x2F;resolv.conf。</li>
-</ol>
-<ul>
-<li>PS： 上面的配置在DNS服务器重启的时候会清除, ($ &#x2F;etc&#x2F;init.d&#x2F;network restart)</li>
-</ul>
-<h2 id="etc-hosts-file"><a href="#etc-hosts-file" class="headerlink" title="&#x2F;etc&#x2F;hosts file"></a>&#x2F;etc&#x2F;hosts file</h2><p>The static table lookup for hostname.</p>
-<p>hosts企业里面的作用：</p>
-<ol>
-<li>开发，产品，测试等人员，用于通过正式的域名测试产品。</li>
-<li>服务器之间的调用可以用域名（内部的DNS），方便迁移。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1282,6 +1066,231 @@
 <h2 id="三-程序设计"><a href="#三-程序设计" class="headerlink" title="三.程序设计"></a>三.程序设计</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;reg51.h&gt;</span><br><span class="line"></span><br><span class="line">#define uchar unsigned char</span><br><span class="line">#define uint  unsigned int</span><br><span class="line"></span><br><span class="line">sbit TRIGGER = P2^0;  //用于触发超声波模块工作的引脚</span><br><span class="line">sbit ECHO = P2^1;      //用于接收超声波模块的数据引脚</span><br><span class="line"></span><br><span class="line">uint timeH; //从计时器,记下高位的数值</span><br><span class="line">uint timeL; //从计时器,记下低位的数值</span><br><span class="line">uint time; //计算得出的总时间</span><br><span class="line"></span><br><span class="line">uint distance; //测出的距离 ,单位cm</span><br><span class="line"></span><br><span class="line">//初始化函数</span><br><span class="line">void init()</span><br><span class="line">&#123;</span><br><span class="line">    TRIGGER = 0; //将触发引脚的电平拉低.</span><br><span class="line">    ECHO = 0;   //初始化接收引脚的电平</span><br><span class="line">    initTimer(); // 初始化定时器的函数</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void initTimer()</span><br><span class="line">&#123;</span><br><span class="line">    TMOD = 0x01;    //设置定时器0的工作模式</span><br><span class="line">    TH0 = 0;        //赋予初值</span><br><span class="line">    TL0 = 0;        //赋予初值,因为我们用的是自己计数,所以这里最好初值都赋为0;</span><br><span class="line">    EA = 1;         //打开总中断</span><br><span class="line">    ET0 = 1;        //打开中断源</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//延时函数,这里没有20us,因为C语言不准确等其他因素,导致这个延时函数所延长的时间大于20us.</span><br><span class="line">void delay_20us()</span><br><span class="line">&#123;</span><br><span class="line">    uchar a;</span><br><span class="line">    for(a = 0 ; a &lt; 100;a++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//计算超声波检测到的距离</span><br><span class="line">void calculate()</span><br><span class="line">&#123;</span><br><span class="line">    uint distance;</span><br><span class="line">    //--- 从计时器取值 ----//</span><br><span class="line">    timeH = TH0;</span><br><span class="line">    timeL = TL0;</span><br><span class="line">    time = timeH * 256  + timeL;</span><br><span class="line">    </span><br><span class="line">    distance = time * 0.017;</span><br><span class="line"></span><br><span class="line">    TH0 = 0;</span><br><span class="line">    TL0 = 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    init();</span><br><span class="line">    while(1)</span><br><span class="line">    &#123;</span><br><span class="line">        //----  触发信号 ----//                                                                        </span><br><span class="line">        TRIGGER = 1;</span><br><span class="line">        delay_20us();</span><br><span class="line">        TRIGGER = 0;</span><br><span class="line">	</span><br><span class="line">        while(ECHO != 1);   //接收端收到信号,开启计时器开始计数</span><br><span class="line">        TR0 = 1;            //有信号输入,打开计时器0计时.</span><br><span class="line">        while(ECHO == 1);   //信号持续时间.</span><br><span class="line">		TR0 = 0;            //打开关闭计时器0.</span><br><span class="line">        calculate();        //计算距离,并清除计时器的值.</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用起来其实蛮方便的,就是在将Trigger 与 Echo 引脚接到对应的 IO 口就好了 , 这边有一个未解决的疑难点,就是C语言中的延时函数,在for循环里计数时,所消耗的时间是多少? </p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/04/%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/07/04/%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">单片机最小系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-04 00:54:38" itemprop="dateCreated datePublished" datetime="2017-07-04T00:54:38+00:00">2017-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MCU/" itemprop="url" rel="index"><span itemprop="name">MCU</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>老是用开发板写程序,于是就想可不可以自己脱离开发板,自己组建一个单片机电路,然后自己烧写程序.于是在晚上查找资料,发现USB口采用的通讯协议跟单片机的串口通讯协议不同USB的四个引脚分别代表着:VCC , DATA - , DATA + , GND. 而在单片机中 , 用的是TXD与RXD这两个引脚来下载程序,或者传输成数据.因此,想要给单片机下载程序,不能直接通过usb连接,还需要一个转化器或者下载线.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-组成单片机的最小系统"><a href="#一-组成单片机的最小系统" class="headerlink" title="一. 组成单片机的最小系统"></a>一. 组成单片机的最小系统</h2><p>所谓最小系统无非是需要三个部分:</p>
+<ol>
+<li>复位电路.(可以不添加)</li>
+<li>时序电路.</li>
+<li>电源.</li>
+</ol>
+<ul>
+<li>复位电路是要给单片机进行重置才用到,一般复位引脚是第9引脚(RST&#x2F;VPD)接高电平即复位.</li>
+<li>时序电路,第18号引脚与第19号引脚(XTAL2 与 XTAL1)之间并一个晶振,再并上两个串联的电容,两个电容之间接地.</li>
+<li>电源引脚第20号引脚是GND,第40号引脚是VCC(呈现对角线分布),通上一个5V的电压.</li>
+</ul>
+<p>(PS: 在第31号引脚上面,也要接上高电平,代表的是使用内部存储器;若接上低电平或者悬空,则表示使用外部存储器)</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>没有钱买学习板也可以自己组建电路,这样下来所需要的成本也仅需30左右,对自己理解电路也会有帮助,但是这相对会耗费点时间,对于新手来说还是难了一些.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/02/%E5%AE%89%E5%8D%93%E8%93%9D%E7%89%99%E9%80%9A%E8%AE%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/07/02/%E5%AE%89%E5%8D%93%E8%93%9D%E7%89%99%E9%80%9A%E8%AE%AF/" class="post-title-link" itemprop="url">安卓蓝牙通讯</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-02 20:12:54" itemprop="dateCreated datePublished" datetime="2017-07-02T20:12:54+00:00">2017-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近做到一个案例,想实现的功能是 用手机蓝牙控制 <em>单片机</em> 上面的继电器, 那么在单片机上面需要一个蓝牙模块来与安卓手机上面的蓝牙通讯(这个代码,我会在另外一篇文章里面写).经过查询,发现单片机加装的蓝牙通讯模块,是用字节流的形式来进行数据传输,因此,我先来编写安卓手机上面的蓝牙通讯模块.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-获取蓝牙操作对象"><a href="#一-获取蓝牙操作对象" class="headerlink" title="一.获取蓝牙操作对象"></a>一.获取蓝牙操作对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BluetoothAdapter</span> <span class="variable">blueAdapter</span> <span class="operator">=</span> BluetoothAdapter.getDefaultAdapter();</span><br><span class="line"></span><br><span class="line"><span class="comment">//查看本地蓝牙是不是开启状态的</span></span><br><span class="line">blueAdapter.isEnable();</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询蓝牙是不是被发现的状态...这些都是BluetoothAdapter的方法,根据英文提示就好了.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//打开蓝牙设备</span></span><br><span class="line"><span class="comment">//方法一:</span></span><br><span class="line">&#123;</span><br><span class="line">    blueAdapter.Enable();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方法二:</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">Intent</span> <span class="variable">intent</span>  <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(BluetoothAdapter.ACTION_REQUEST_ENABLE);</span><br><span class="line">    startActivity(intent);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//开启蓝牙被发现的状态</span></span><br><span class="line">&#123;</span><br><span class="line">    BluetoothAdapter.startDiscovery();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二-获取搜索到的蓝牙设备"><a href="#二-获取搜索到的蓝牙设备" class="headerlink" title="二.获取搜索到的蓝牙设备"></a>二.获取搜索到的蓝牙设备</h2><p>这里的蓝牙设备对象都是BluetoothDevice对象,在BluetoothAdapter中可以获取到这些对象.<br>我要用到的是这个设备的 <em>名字</em> 和 <em>MAC地址</em> .</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    Set&lt;bluetoothDevice&gt; bluetoothDevices = BluetoothAdapter.getBondedDevices();<span class="comment">//这里返回的是一个Set集合</span></span><br><span class="line">    <span class="comment">//这里可以用一个增强for来遍历所有的设备</span></span><br><span class="line">    <span class="keyword">for</span>(BluetoothDevice device : bluetoothDevices)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">DeviceName</span> <span class="operator">=</span> device.getName();</span><br><span class="line">        <span class="type">String</span> <span class="variable">DeviceAddress</span> <span class="operator">=</span> device.getAddress();</span><br><span class="line">        <span class="comment">//添加到List集合中</span></span><br><span class="line">        <span class="comment">//自定义修改...   </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三-蓝牙通讯"><a href="#三-蓝牙通讯" class="headerlink" title="三.蓝牙通讯"></a>三.蓝牙通讯</h2><p>蓝牙通讯都是通过Socket型式来传送,需要 客户端(C端)与服务器端(S端) 这两端通过流传输.</p>
+<h2 id="四-固定的UUID"><a href="#四-固定的UUID" class="headerlink" title="四.固定的UUID"></a>四.固定的UUID</h2><h3 id="蓝牙串口服务"><a href="#蓝牙串口服务" class="headerlink" title="蓝牙串口服务"></a>蓝牙串口服务</h3><p>SerialPortServiceClass_UUID &#x3D; ‘{00001101-0000-1000-8000-00805F9B34FB}’<br>LANAccessUsingPPPServiceClass_UUID &#x3D; ‘{00001102-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="拨号网络服务"><a href="#拨号网络服务" class="headerlink" title="拨号网络服务"></a>拨号网络服务</h3><p>DialupNetworkingServiceClass_UUID &#x3D; ‘{00001103-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="信息同步服务"><a href="#信息同步服务" class="headerlink" title="信息同步服务"></a>信息同步服务</h3><p>IrMCSyncServiceClass_UUID &#x3D; ‘{00001104-0000-1000-8000-00805F9B34FB}’<br>SDP_OBEXObjectPushServiceClass_UUID &#x3D; ‘{00001105-0000-1000-8000-00805F9B34FB}’</p>
+<h3 id="文件传输服务"><a href="#文件传输服务" class="headerlink" title="文件传输服务"></a>文件传输服务</h3><p>OBEXFileTransferServiceClass_UUID &#x3D; ‘{00001106-0000-1000-8000-00805F9B34FB}’<br>IrMCSyncCommandServiceClass_UUID &#x3D; ‘{00001107-0000-1000-8000-00805F9B34FB}’</p>
+<h4 id="关键字"><a href="#关键字" class="headerlink" title="关键字:"></a>关键字:</h4><ul>
+<li>BluetoothServerSocket</li>
+<li>BluetoothSocket</li>
+<li>InputStream</li>
+<li>OutputStream</li>
+<li>耗时&#x2F;阻塞</li>
+<li>线程</li>
+<li>Handler</li>
+</ul>
+<p>无论是服务器端,还是客户端,都需相同UUID来创建SOCKET;</p>
+<h3 id="客户端-C端"><a href="#客户端-C端" class="headerlink" title="客户端( C端 )"></a>客户端( C端 )</h3><ul>
+<li><p>通过Socket.connect(),会让Socket连接到服务器端,但这个操作是耗时操作,会阻塞线程,所以这个方法必须放在另外一个线程里面操作.</p>
+</li>
+<li><p>创建客户端Socket需要一个 <em>“目标”</em> BluetoothDevice对象;</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//导包略...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ClientSocket</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BluetoothDevice bluetoothDevice;</span><br><span class="line">    <span class="keyword">private</span> UUID uuid;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> SocketIOOperate socketIOOperate;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ClientSocket</span><span class="params">(BluetoothDevice bluetoothDevice, UUID uuid,Handler handler)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bluetoothDevice = bluetoothDevice;</span><br><span class="line">        <span class="built_in">this</span>.uuid = uuid;</span><br><span class="line">        <span class="built_in">this</span>.handler = handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">ConnectToServer</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);</span><br><span class="line">            bluetoothSocket.connect();</span><br><span class="line">            <span class="comment">//TODO : 这里有两方法 ,先用第IO流操作个类,直接传入一个socket</span></span><br><span class="line">            <span class="comment">// 剩下的事情交给另外一个类来做</span></span><br><span class="line">            <span class="comment">//SocketIOOperate(BluetoothSocket bluetoothSocket,Handler handler)是一个操作流的类,用于处理Socket收发信息;</span></span><br><span class="line">            socketIOOperate = <span class="keyword">new</span> <span class="title class_">SocketIOOperate</span>(bluetoothSocket,handler);</span><br><span class="line">            socketIOOperate.start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String Content)</span></span><br><span class="line">    &#123;</span><br><span class="line">        socketIOOperate.sendMessage(Content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关闭Socket</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            socketIOOperate.close();</span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        ConnectToServer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="服务器端-S端"><a href="#服务器端-S端" class="headerlink" title="服务器端( S端 )"></a>服务器端( S端 )</h3><p>在服务器端里面会用到两个对象 ,分别是BluetoothServerSocket , BluetoothSocket; </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServerSocket</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BluetoothDevice bluetoothDevice;</span><br><span class="line">    <span class="keyword">private</span> UUID uuid;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> BluetoothServerSocket bluetoothServerSocket;</span><br><span class="line">    <span class="keyword">private</span> BluetoothAdapter bluetoothAdapter;</span><br><span class="line">    <span class="keyword">private</span> SocketIOOperate socketIOOperate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//private UUID uuid = UUID.fromString(&quot;8b66eab7-6f0e-42a2-870e-72a8141e308c&quot;); //固定</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServerSocket</span><span class="params">(BluetoothAdapter bluetoothAdapter,UUID uuid,Handler handler)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">this</span>.bluetoothAdapter = bluetoothAdapter;</span><br><span class="line">        <span class="built_in">this</span>.uuid = uuid;</span><br><span class="line">        <span class="built_in">this</span>.handler = handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">AcceptClient</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            bluetoothServerSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(<span class="string">&quot;MyBTServer&quot;</span>,uuid);</span><br><span class="line">            bluetoothSocket = bluetoothServerSocket.accept();</span><br><span class="line">            <span class="comment">//TODO : 这里有两方法 ,先用第IO流操作个类,直接传入一个socket</span></span><br><span class="line">            <span class="comment">// 剩下的事情交给另外一个类来做</span></span><br><span class="line">            socketIOOperate = <span class="keyword">new</span> <span class="title class_">SocketIOOperate</span>(bluetoothSocket,handler);</span><br><span class="line">            socketIOOperate.start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String Content)</span></span><br><span class="line">    &#123;</span><br><span class="line">        socketIOOperate.sendMessage(Content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关闭Socket</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            bluetoothServerSocket.close();</span><br><span class="line"></span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        AcceptClient();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作线程"><a href="#操作线程" class="headerlink" title="操作线程"></a>操作线程</h3><p>建立了两个Socket,并使其连接,这还不够,因为要让客户端或服务器端接收数据,或者发送数据,因为无论在客户端还是在服务器端,这两个操作都是一样的,因此单独写成一个线程来处理.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SocketIOOperate</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> BluetoothSocket bluetoothSocket;</span><br><span class="line">    <span class="keyword">private</span> InputStream inputStream;</span><br><span class="line">    <span class="keyword">private</span> OutputStream outputStream;</span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//---输入流需要的变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> readIndex;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">byte</span>[] buff;</span><br><span class="line">    <span class="keyword">private</span> String receiveContent;</span><br><span class="line">    <span class="keyword">private</span> Message msg;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SocketIOOperate</span><span class="params">(BluetoothSocket bluetoothSocket , Handler handler)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.bluetoothSocket = bluetoothSocket;</span><br><span class="line">        <span class="built_in">this</span>.handler = handler;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        buff = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        readIndex = <span class="number">0</span>;</span><br><span class="line">        receiveContent = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            inputStream  = bluetoothSocket.getInputStream();</span><br><span class="line">            outputStream = bluetoothSocket.getOutputStream();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">listenerContent</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//默认采用UTF-8的编码</span></span><br><span class="line">                readIndex = inputStream.read(buff);</span><br><span class="line">                receiveContent = <span class="keyword">new</span> <span class="title class_">String</span>(buff,<span class="number">0</span>,readIndex);</span><br><span class="line">                msg = <span class="keyword">new</span> <span class="title class_">Message</span>();</span><br><span class="line">                msg.obj = receiveContent;</span><br><span class="line">                handler.sendMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getReceiveContent</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> receiveContent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String content)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">byte</span>[] sendContent = content.getBytes();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            outputStream.write(sendContent);</span><br><span class="line">            outputStream.flush();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        listenerContent();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            inputStream.close();</span><br><span class="line">            outputStream.close();</span><br><span class="line">            bluetoothSocket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实现蓝牙通讯,额外总共开启了三个线程…这句话不太严谨,是一个作为客户端,要额外再开启两个线程;同理服务器端也需要额外开启两个线程.</p>
+<p>而开启线程的原因无非两个:</p>
+<ol>
+<li>是让耗时(阻塞)放在子线程里面;</li>
+<li>是需要重复执行读取流的操作.</li>
+</ol>
+<p>获取的数据通过Handler类来传输,这就可以实现蓝牙聊天室了.</p>
+<p><a href="https://github.com/R0manJ/BlueToothTestDemo">项目地址</a></p>
 
       
     </div>
