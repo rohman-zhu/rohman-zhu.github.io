@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录资源机RDS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="远程桌面RDP负载记录">
+<meta property="og:url" content="http://github.com/rohman-zhu/2022/12/27/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2RDP%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="业务描述使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。 业务主要特征：  与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高； 跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；  业务负载记录资源机RDS">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-27T15:02:01.000Z">
+<meta property="article:modified_time" content="2022-12-28T10:49:10.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="监控">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2022/12/27/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2RDP%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2022/12/27/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2RDP%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95/","path":"2022/12/27/远程桌面RDP负载记录/","title":"远程桌面RDP负载记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>远程桌面RDP负载记录 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">业务描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">业务负载记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%9C%BARDSH%E8%AE%B0%E5%BD%95"><span class="nav-number">2.1.</span> <span class="nav-text">资源机RDSH记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">2.2.</span> <span class="nav-text">安全服务器记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E6%8E%AA%E6%96%BD"><span class="nav-number">3.</span> <span class="nav-text">改进措施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BE%A7"><span class="nav-number">3.1.</span> <span class="nav-text">用户侧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E4%BE%A7"><span class="nav-number">3.2.</span> <span class="nav-text">资源侧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%9B%91%E6%8E%A7%E9%A1%B9"><span class="nav-number">3.2.1.</span> <span class="nav-text">优化监控项</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/12/27/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2RDP%E8%B4%9F%E8%BD%BD%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="远程桌面RDP负载记录 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          远程桌面RDP负载记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-12-27 15:02:01" itemprop="dateCreated datePublished" datetime="2022-12-27T15:02:01+00:00">2022-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-12-28 10:49:10" itemprop="dateModified" datetime="2022-12-28T10:49:10+00:00">2022-12-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="业务描述"><a href="#业务描述" class="headerlink" title="业务描述"></a>业务描述</h1><p>使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。<br>一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。</p>
+<p>业务主要特征：</p>
+<ul>
+<li>与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高；</li>
+<li>跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；</li>
+</ul>
+<h1 id="业务负载记录"><a href="#业务负载记录" class="headerlink" title="业务负载记录"></a>业务负载记录</h1><h2 id="资源机RDSH记录"><a href="#资源机RDSH记录" class="headerlink" title="资源机RDSH记录"></a>资源机RDSH记录</h2><p>XX月XX日 15:04 </p>
+<ul>
+<li>用户数：22</li>
+<li>CPU负载：90%</li>
+<li>RAM负载：50%</li>
+</ul>
+<p>描述：远程会有卡顿感。如果远程到目标端是多层RDP嵌套，则会更加卡顿。</p>
+<h2 id="安全服务器记录"><a href="#安全服务器记录" class="headerlink" title="安全服务器记录"></a>安全服务器记录</h2><p>安全服务器配置4C8G；</p>
+<p>XX月XX日 16:03</p>
+<p>新增加RDSH后，卡顿感明显；检查链路上的前端节点。</p>
+<ul>
+<li>用户总数：220</li>
+<li>CPU负载：100%</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：80Mbps；</li>
+</ul>
+<blockquote>
+<p>描述：用户数量达到 200 左右时， 安全服务器节点的CPU应该扩容至8C。</p>
+</blockquote>
+<p>xx月xx日 16:36</p>
+<p>安全服务器配置为8C16G；</p>
+<ul>
+<li>用户总数：241</li>
+<li>CPU负载：</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：</li>
+</ul>
+<h1 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h1><h2 id="用户侧"><a href="#用户侧" class="headerlink" title="用户侧"></a>用户侧</h2><p>要对用户做分类，根据用户实际业务场景对CPU使用情况由高到低分为重型用户、轻型用户、常规用户。</p>
+<p>重型用户在申请使用的环节就要识别出来，并把重型用户要归到高配的RDSH，避免其工作影响其他轻型用户、常规用户使用；</p>
+<h2 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h2><ol>
+<li>优化监控项；</li>
+<li>优化部署流程；</li>
+</ol>
+<h3 id="优化监控项"><a href="#优化监控项" class="headerlink" title="优化监控项"></a>优化监控项</h3><p>主要的问题：</p>
+<ol>
+<li>未能及时识别到告警的节点在链路中承担的角色，例如：告警信息只有IP信息，不清楚其为重要的安全服务器角色。</li>
+<li>告警等级不准确，例如：该为2级告警的信息被定义为3级告警。</li>
+<li>监控信息查看不方便，没有做信息聚合，例如：需要查看CPU使用率与用户数结合。</li>
+<li>没有办法及时评估整体负载情况。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%9B%91%E6%8E%A7/" rel="tag"># 监控</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/20/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1CPU%E8%B6%85%E7%BA%BF%E7%A8%8B%E5%AF%BC%E8%87%B4NVME%E5%9B%BA%E6%80%81%E7%9B%98%E6%95%85%E9%9A%9C/" rel="prev" title="记录一次CPU超线程导致NVME固态盘故障【待补充】">
+                  <i class="fa fa-angle-left"></i> 记录一次CPU超线程导致NVME固态盘故障【待补充】
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/27/vSAN%E5%86%99%E5%85%A5%E5%B8%A6%E5%AE%BD%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/" rel="next" title="vSAN写入带宽实测记录">
+                  vSAN写入带宽实测记录 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

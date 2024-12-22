@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="获取虚拟机配置信息CPU、Memory、制备空间、使用空间 123456789$VM&#x3D;Get-VM -Name &quot;虚拟机名&quot;# CPU核数，单位Core$cpu&#x3D;$VM.NumCPU;# 内存数，单位GB$ramGB&#x3D;$VM.MemoryGB;# 制备空间，单位GB$provisionedSpaceGB&#x3D;$VM.ProvisionedSpaceGB;# 使用空间，单位GB$us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware PowerCLI 常用指令">
+<meta property="og:url" content="http://github.com/rohman-zhu/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="获取虚拟机配置信息CPU、Memory、制备空间、使用空间 123456789$VM&#x3D;Get-VM -Name &quot;虚拟机名&quot;# CPU核数，单位Core$cpu&#x3D;$VM.NumCPU;# 内存数，单位GB$ramGB&#x3D;$VM.MemoryGB;# 制备空间，单位GB$provisionedSpaceGB&#x3D;$VM.ProvisionedSpaceGB;# 使用空间，单位GB$us">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-29T23:32:27.000Z">
+<meta property="article:modified_time" content="2024-05-15T14:18:48.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="常用指令">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/","path":"2022/12/29/VMware-PowerCLI-常用指令/","title":"VMware PowerCLI 常用指令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VMware PowerCLI 常用指令 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">获取虚拟机配置信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A4%87%E6%B3%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">设置虚拟机备注信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%83%AD%E5%85%B3%E9%97%AD%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">3.</span> <span class="nav-text">热关闭虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8D"><span class="nav-number">4.</span> <span class="nav-text">修改虚拟机名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">5.</span> <span class="nav-text">迁移虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%9B%AE%E6%A0%87%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AB%AF%E5%8F%A3%E7%BB%84"><span class="nav-number">6.</span> <span class="nav-text">设置目标虚拟机端口组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%AB%AF%E5%8F%A3%E7%BB%84"><span class="nav-number">7.</span> <span class="nav-text">创建分布式端口组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%BF%AB%E7%85%A7"><span class="nav-number">8.</span> <span class="nav-text">移除虚拟机快照</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83"><span class="nav-number">9.</span> <span class="nav-text">设置自定义规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">9.1.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">9.2.</span> <span class="nav-text">Windows</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%8B%E9%9A%86%E8%99%9A%E6%8B%9F%E6%9C%BA%E3%80%90%E5%BE%85%E8%A1%A5%E5%85%85%E3%80%91"><span class="nav-number">10.</span> <span class="nav-text">克隆虚拟机【待补充】</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%A0%87%E7%AD%BE"><span class="nav-number">11.</span> <span class="nav-text">设置标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">12.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/12/29/VMware-PowerCLI-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VMware PowerCLI 常用指令 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VMware PowerCLI 常用指令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-12-29 23:32:27" itemprop="dateCreated datePublished" datetime="2022-12-29T23:32:27+00:00">2022-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-05-15 14:18:48" itemprop="dateModified" datetime="2024-05-15T14:18:48+00:00">2024-05-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="获取虚拟机配置信息"><a href="#获取虚拟机配置信息" class="headerlink" title="获取虚拟机配置信息"></a>获取虚拟机配置信息</h1><p>CPU、Memory、制备空间、使用空间</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$VM</span>=<span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span></span><br><span class="line"><span class="comment"># CPU核数，单位Core</span></span><br><span class="line"><span class="variable">$cpu</span>=<span class="variable">$VM</span>.NumCPU;</span><br><span class="line"><span class="comment"># 内存数，单位GB</span></span><br><span class="line"><span class="variable">$ramGB</span>=<span class="variable">$VM</span>.MemoryGB;</span><br><span class="line"><span class="comment"># 制备空间，单位GB</span></span><br><span class="line"><span class="variable">$provisionedSpaceGB</span>=<span class="variable">$VM</span>.ProvisionedSpaceGB;</span><br><span class="line"><span class="comment"># 使用空间，单位GB</span></span><br><span class="line"><span class="variable">$usedSpaceGB</span>=<span class="variable">$VM</span>.UsedSpaceGB;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置虚拟机备注信息"><a href="#设置虚拟机备注信息" class="headerlink" title="设置虚拟机备注信息"></a>设置虚拟机备注信息</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保留之前的备注信息</span></span><br><span class="line"><span class="variable">$VM</span>=<span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span>;</span><br><span class="line"><span class="variable">$preNotes</span>=<span class="variable">$VM</span>.notes;</span><br><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Notes</span> <span class="string">&quot;<span class="variable">$preNotes</span>+[新的备注信息]&quot;</span> <span class="literal">-confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="热关闭虚拟机"><a href="#热关闭虚拟机" class="headerlink" title="热关闭虚拟机"></a>热关闭虚拟机</h1><blockquote>
+<p>VMware Tools要是可用情况下</p>
+</blockquote>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span> | <span class="built_in">Stop-GuestVM</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改虚拟机名"><a href="#修改虚拟机名" class="headerlink" title="修改虚拟机名"></a>修改虚拟机名</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Name</span> <span class="string">&quot;新虚拟机名&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="迁移虚拟机"><a href="#迁移虚拟机" class="headerlink" title="迁移虚拟机"></a>迁移虚拟机</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 仅迁移计算资源</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Move-VM</span> <span class="literal">-Destination</span> <span class="variable">$targetESXi</span> <span class="literal">-RunAsync</span>:<span class="variable">$fal</span></span><br><span class="line"><span class="comment"># 迁移计算资源与存储资源</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Move-VM</span> <span class="literal">-Destination</span> <span class="variable">$targetESXi</span> <span class="literal">-Datastore</span> <span class="variable">$targetDatastore</span> <span class="literal">-RunAsync</span>:<span class="variable">$fal</span></span><br></pre></td></tr></table></figure>
+<h1 id="设置目标虚拟机端口组"><a href="#设置目标虚拟机端口组" class="headerlink" title="设置目标虚拟机端口组"></a>设置目标虚拟机端口组</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$targetVDPort</span>=[目标端口组名称]</span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Get-NetworkAdapter</span> | <span class="built_in">Set-NetworkAdapter</span> <span class="literal">-NetworkName</span> <span class="variable">$targetVDPort</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分布式端口组"><a href="#创建分布式端口组" class="headerlink" title="创建分布式端口组"></a>创建分布式端口组</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建分布式端口组</span></span><br><span class="line"><span class="built_in">New-VDPortgroup</span> <span class="literal">-Name</span> <span class="variable">$targetVDPort</span> <span class="literal">-VDSwitch</span> <span class="variable">$targetVD</span> <span class="literal">-VlanID</span> <span class="variable">$targetVLanID</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将目标分布式端口指定上行链路</span></span><br><span class="line"><span class="variable">$activeUplinkPortList</span>=<span class="string">&quot;Need-Used&quot;</span></span><br><span class="line"><span class="variable">$unusedUplikPortList</span>=<span class="string">&quot;上行链路1&quot;</span>,<span class="string">&quot;上行链路2&quot;</span></span><br><span class="line"><span class="built_in">Get-VDPortgroup</span> <span class="literal">-Name</span> <span class="variable">$targetVDPort</span> <span class="literal">-VDSwitch</span> <span class="variable">$targetVD</span> | <span class="built_in">Get-VDUplinkTeamingPolicy</span> | <span class="built_in">Set-VDUplinkTeamingPolicy</span> <span class="literal">-ActiveUplinkPort</span> <span class="variable">$activeUplinkPortList</span>  <span class="literal">-UnusedUplinkPort</span> <span class="variable">$unusedUplinkPortList</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="移除虚拟机快照"><a href="#移除虚拟机快照" class="headerlink" title="移除虚拟机快照"></a>移除虚拟机快照</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入项</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$servername</span> | <span class="built_in">Get-Snapshot</span> | <span class="built_in">Remove-Snapshot</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置自定义规范"><a href="#设置自定义规范" class="headerlink" title="设置自定义规范"></a>设置自定义规范</h1><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OSCUSTOMIZATIONSPEC</span>=<span class="string">&quot;目标自定义规范的名称&quot;</span>;</span><br><span class="line"><span class="variable">$DEFAULTGATEWAY</span>=<span class="string">&quot;默认网关&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETIPADDRESS</span>=<span class="string">&quot;IP&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETSUBNETMASK</span>=<span class="string">&quot;子网掩码&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETDNS</span>=<span class="string">&quot;目标DNS&quot;</span>;</span><br><span class="line"><span class="comment"># 多个地址是$TARGETDNS=&quot;8.8.8.8&quot;,&quot;8.8.4.4&quot;;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$TARGETOSCUSTOMIZATION</span>=<span class="built_in">Get-OSCustomizationSpec</span> <span class="literal">-Name</span> <span class="variable">$OSCUSTOMIZATIONSPEC</span>;</span><br><span class="line"><span class="built_in">Get-OSCustomizationNicMapping</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> | <span class="built_in">Set-OSCustomizationNicMapping</span> <span class="literal">-DefaultGateway</span> <span class="variable">$DEFAULTGATEWAY</span> <span class="literal">-IPAddress</span> <span class="variable">$TARGETIPADDRESS</span><span class="literal">-SubnetMask</span> <span class="variable">$TARGETSUBNETMASK</span> <span class="literal">-IpMode</span> <span class="string">&quot;UseStaticIP&quot;</span>;</span><br><span class="line"><span class="comment"># 设置DNS</span></span><br><span class="line"><span class="built_in">Set-OSCustomizationSpec</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> <span class="literal">-DnsServer</span> <span class="variable">$TARGETDNS</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OSCUSTOMIZATIONSPEC</span>=<span class="string">&quot;目标自定义规范的名称&quot;</span>;</span><br><span class="line"><span class="variable">$DEFAULTGATEWAY</span>=<span class="string">&quot;默认网关&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETIPADDRESS</span>=<span class="string">&quot;IP&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETSUBNETMASK</span>=<span class="string">&quot;子网掩码&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETDNS</span>=<span class="string">&quot;目标DNS&quot;</span>;</span><br><span class="line"><span class="comment"># 多个地址是$TARGETDNS=&quot;8.8.8.8&quot;,&quot;8.8.4.4&quot;;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$TARGETOSCUSTOMIZATION</span>=<span class="built_in">Get-OSCustomizationSpec</span> <span class="literal">-Name</span> <span class="variable">$OSCUSTOMIZATIONSPEC</span>;</span><br><span class="line"><span class="built_in">Get-OSCustomizationNicMapping</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> | <span class="built_in">Set-OSCustomizationNicMapping</span> <span class="literal">-DefaultGateway</span> <span class="variable">$DEFAULTGATEWAY</span> <span class="literal">-IPAddress</span> <span class="variable">$TARGETIPADDRESS</span><span class="literal">-SubnetMask</span> <span class="variable">$TARGETSUBNETMASK</span> <span class="literal">-IpMode</span> <span class="string">&quot;UseStaticIP&quot;</span> <span class="literal">-Dns</span> <span class="variable">$TARGETDNS</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="克隆虚拟机【待补充】"><a href="#克隆虚拟机【待补充】" class="headerlink" title="克隆虚拟机【待补充】"></a>克隆虚拟机【待补充】</h1><ol>
+<li>获取虚拟机对象；</li>
+<li>使用指令New-VM -Name 虚拟机名 -VM 被克隆的虚拟机对象 -VMHost ESXi主机 -Datastore 存储卷 -OSCustomizationSpec 自定义规范</li>
+<li>设置目标虚拟机的端口组</li>
+<li>启动虚拟机</li>
+</ol>
+<h1 id="设置标签"><a href="#设置标签" class="headerlink" title="设置标签"></a>设置标签</h1><p>指令： Get-Annotation , Set-Annotation</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://developer.vmware.com/">https://developer.vmware.com</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" rel="tag"># 常用指令</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/27/vSAN%E5%86%99%E5%85%A5%E5%B8%A6%E5%AE%BD%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/" rel="prev" title="vSAN写入带宽实测记录">
+                  <i class="fa fa-angle-left"></i> vSAN写入带宽实测记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/30/%E5%85%B3%E9%97%ADUbuntu%E8%87%AA%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E8%BF%9B%E7%A8%8Bcloud-init/" rel="next" title="关闭Ubuntu自动初始化的进程cloud-init">
+                  关闭Ubuntu自动初始化的进程cloud-init <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

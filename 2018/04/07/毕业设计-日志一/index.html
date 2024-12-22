@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="毕业设计（一）前言已经很久没有上传Git博客了，意志松懈了。如今已到4月这个充满话题的月份，希望没有《四月是你的谎言》的忧伤，开设新的专题，是记录我的毕业设计的过程，把所学所用的东西都记录下来，方便以后回顾复习。  关于毕业设计我们的课题是 智能机器狗 ， 要实现以下功能：  语音控制照明电路中的开关，如开灯、关灯语音指令控制灯泡。 模拟家庭宠物，能实现自由行动，自主避障。 能简单交流、应答。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="毕业设计-日志一">
+<meta property="og:url" content="http://github.com/rohman-zhu/2018/04/07/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%B8%80/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="毕业设计（一）前言已经很久没有上传Git博客了，意志松懈了。如今已到4月这个充满话题的月份，希望没有《四月是你的谎言》的忧伤，开设新的专题，是记录我的毕业设计的过程，把所学所用的东西都记录下来，方便以后回顾复习。  关于毕业设计我们的课题是 智能机器狗 ， 要实现以下功能：  语音控制照明电路中的开关，如开灯、关灯语音指令控制灯泡。 模拟家庭宠物，能实现自由行动，自主避障。 能简单交流、应答。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.alicdn.com/imgextra/i3/706012768/TB2ELFjbcnI8KJjSsziXXb8QpXa_!!706012768.jpg">
+<meta property="article:published_time" content="2018-04-07T22:04:16.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="电子">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.alicdn.com/imgextra/i3/706012768/TB2ELFjbcnI8KJjSsziXXb8QpXa_!!706012768.jpg">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2018/04/07/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%B8%80/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2018/04/07/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%B8%80/","path":"2018/04/07/毕业设计-日志一/","title":"毕业设计-日志一"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>毕业设计-日志一 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%EF%BC%88%E4%B8%80%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">毕业设计（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.1.</span> <span class="nav-text">关于毕业设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">1.2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E5%B1%95%E6%9C%9B"><span class="nav-number">1.3.</span> <span class="nav-text">后续展望</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/04/07/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="毕业设计-日志一 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          毕业设计-日志一
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-07 22:04:16" itemprop="dateCreated datePublished" datetime="2018-04-07T22:04:16+00:00">2018-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="毕业设计（一）"><a href="#毕业设计（一）" class="headerlink" title="毕业设计（一）"></a>毕业设计（一）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经很久没有上传Git博客了，意志松懈了。如今已到4月这个充满话题的月份，希望没有《四月是你的谎言》的忧伤，开设新的专题，是记录我的毕业设计的过程，把所学所用的东西都记录下来，方便以后回顾复习。 </p>
+<h3 id="关于毕业设计"><a href="#关于毕业设计" class="headerlink" title="关于毕业设计"></a>关于毕业设计</h3><p>我们的课题是 智能机器狗 ， 要实现以下功能：</p>
+<ul>
+<li>语音控制照明电路中的开关，如开灯、关灯语音指令控制灯泡。</li>
+<li>模拟家庭宠物，能实现自由行动，自主避障。</li>
+<li>能简单交流、应答。</li>
+</ul>
+<p>关于语音识别模块，采用的是现成的模块（唯信电子 的M6模块,高配版458RMB） ， 而程序控制的芯片则采用STC89C51芯片 。 因为要像宠物狗一样，所以整个核心电路 与 要被控制的照明电路是分离的状态。因此控制部分的信号传输，采用无线蓝牙的型式来完成。 </p>
+<p><img src="https://img.alicdn.com/imgextra/i3/706012768/TB2ELFjbcnI8KJjSsziXXb8QpXa_!!706012768.jpg" alt="M6"></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此部分不会记录详细的、完整的知识点，只是记录我做了什么操作，并且期中遇到的难题，才会记录于此。</p>
+<p>OK，今天拿到了完整的模块，把对应的线都连接好，M6上面的 TXD 口 连接单片机的 P3.0（即是10#RXD管脚） 、 RXD 口 连接单片机P3.1（即11#TXD管脚）。但是我在电源上面我做了一个比较无知的决定，M6我采用的是手机充电器的供电，而单片机则是另外一套供电电路，因此会造成，两部分的电路中的电源不是相同的，这就会导致单片机在识别  <em>M6</em>  发送过来的信号时没法处理（因为没有参照电压）。</p>
+<blockquote>
+<p>两个电路必须共GND，单片机有效才能识别信号。<br>串口通信用的就是TXD和RXD。</p>
+</blockquote>
+<p>连接完电路后，就是测试语音模块的指令是否正常。在此之前，我用 <em>M6</em> 供应商提供的烧写软，写了如下指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 监听语句</span><br><span class="line">@WriteKeywords#开灯 001|关灯 002|放屁 003$</span><br><span class="line"></span><br><span class="line"># 应答语句</span><br><span class="line">@WriteFlashText#|001 马上开灯|002 马上关灯|003 噗噗噗$</span><br><span class="line"></span><br><span class="line"># 识别（唤醒）模式</span><br><span class="line">@AsrMode#0:按钮1:对话模式 2:大管家 3:自定义$</span><br><span class="line"></span><br><span class="line"># 自定义唤醒的关键词</span><br><span class="line">@wakeyword#小明同学$</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>原谅我的恶趣味…这里的指令必须按照编号顺序依次写入，不能隔着编号或者编号大于255 ， 如下：</p>
+</blockquote>
+<blockquote>
+<p>@WriteKeywords#开灯 001|关灯 002|放屁 009$</p>
+</blockquote>
+<p>有了之前写入的程序后，测试的结果就如预期。需要注意的是，因为默认为单字节输出（即一次输出8位），因此返回值是1-255（0x01-0xff).</p>
+<h2 id="后续展望"><a href="#后续展望" class="headerlink" title="后续展望"></a>后续展望</h2><p>下一步弄清楚中断的触发实质，在接收到语音控制的需求后，单片机在执行完参数能返回一个值代表是否执行成功，并且能被计算机记录统计。【时间，操作，是否完成】</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E5%AD%90/" rel="tag"># 电子</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/02/15/%E8%AE%A9%E5%AD%98%E6%94%BE%E7%9D%80PE%E7%B3%BB%E7%BB%9F%E7%9A%84U%E7%9B%98%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%AD%98%E5%82%A8%E5%A4%A7%E6%96%87%E4%BB%B6/" rel="prev" title="让存放着PE系统的U盘也可以存储大文件">
+                  <i class="fa fa-angle-left"></i> 让存放着PE系统的U盘也可以存储大文件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/23/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%BA%8C/" rel="next" title="毕业设计-日志二">
+                  毕业设计-日志二 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="安装软件安装软件地方式    优点 缺点    编译安装 可以定制安装目录，按需开启功能等。 查找并实验出合适的编译参数。   yum安装软件 全自动化安装，不需要为依赖问题发愁。 自主性太差，软件功能、路径都固定，不易变更。   编译源码安装 根据自己的需求制定rpm包 -&gt; 搭建yum仓库    FPM安装FPM是ruby写的，因此系统环境需要ruby ，版本号要大于1.8.5 。 12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux安装软件">
+<meta property="og:url" content="http://github.com/rohman-zhu/2018/06/04/Linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="安装软件安装软件地方式    优点 缺点    编译安装 可以定制安装目录，按需开启功能等。 查找并实验出合适的编译参数。   yum安装软件 全自动化安装，不需要为依赖问题发愁。 自主性太差，软件功能、路径都固定，不易变更。   编译源码安装 根据自己的需求制定rpm包 -&gt; 搭建yum仓库    FPM安装FPM是ruby写的，因此系统环境需要ruby ，版本号要大于1.8.5 。 12">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-04T07:49:42.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2018/06/04/Linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2018/06/04/Linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6/","path":"2018/06/04/Linux安装软件/","title":"Linux安装软件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux安装软件 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%9C%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">安装软件地方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPM%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">FPM安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPM%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="nav-number">1.3.</span> <span class="nav-text">FPM参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="nav-number">1.4.</span> <span class="nav-text">实例演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YUM%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA"><span class="nav-number">1.5.</span> <span class="nav-text">YUM仓库搭建</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/06/04/Linux%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux安装软件 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux安装软件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-06-04 07:49:42" itemprop="dateCreated datePublished" datetime="2018-06-04T07:49:42+00:00">2018-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h1><h2 id="安装软件地方式"><a href="#安装软件地方式" class="headerlink" title="安装软件地方式"></a>安装软件地方式</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编译安装</td>
+<td>可以定制安装目录，按需开启功能等。</td>
+<td>查找并实验出合适的编译参数。</td>
+</tr>
+<tr>
+<td>yum安装软件</td>
+<td>全自动化安装，不需要为依赖问题发愁。</td>
+<td>自主性太差，软件功能、路径都固定，不易变更。</td>
+</tr>
+<tr>
+<td>编译源码安装</td>
+<td>根据自己的需求制定rpm包 -&gt; 搭建yum仓库</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="FPM安装"><a href="#FPM安装" class="headerlink" title="FPM安装"></a>FPM安装</h2><p>FPM是ruby写的，因此系统环境需要ruby ，版本号要大于1.8.5 。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Ruby 模块</span></span><br><span class="line">$ yum -y install ruby rubygems ruby-devel</span><br><span class="line"><span class="comment"># 添加淘宝的Ruby仓库 </span></span><br><span class="line">$ gem sources -a http://ruby.taobao.org/</span><br><span class="line"><span class="comment"># 移除原生的Ruby仓库</span></span><br><span class="line">$ gem sources -remove http://rubygems.org/</span><br><span class="line"><span class="comment"># 安装fpm</span></span><br><span class="line">$ gem install fpm</span><br></pre></td></tr></table></figure>
+
+<h2 id="FPM参数说明"><a href="#FPM参数说明" class="headerlink" title="FPM参数说明"></a>FPM参数说明</h2><table>
+<thead>
+<tr>
+<th>常用参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-s</td>
+<td>指定源类型</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>指定目标类型，即想要制成什么包</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>指定包的名字</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>指定包的版本</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定打包的相对路径</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>指定依赖于哪些包</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>第二次打包时目录下如果有相同安装包存在，覆盖它</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>输出的安装包的目录，不想放在当前目录下就需要指定</td>
+</tr>
+<tr>
+<td>–post-install</td>
+<td>软件包安装完成之后所要运行的脚本；同–after-install</td>
+</tr>
+<tr>
+<td>–pre-install</td>
+<td>软件包安装完成之前索要运行的脚本；同–before-install</td>
+</tr>
+<tr>
+<td>–post-uninstall</td>
+<td>软件包卸载完成之后要运行的脚本；同–after-remove</td>
+</tr>
+<tr>
+<td>–pre-uninstall</td>
+<td>软件包卸载完成之前要运行的脚本；同–before-remove</td>
+</tr>
+</tbody></table>
+<h2 id="实例演示"><a href="#实例演示" class="headerlink" title="实例演示"></a>实例演示</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Nignx</span></span><br><span class="line"><span class="comment"># Nignx需要 openssl-devel pcre-devel 的依赖</span></span><br><span class="line"><span class="comment"># 查看本机是否有这两个包的依赖</span></span><br><span class="line">$ rpm -aq openssl-devel pcre-devel</span><br><span class="line"></span><br><span class="line"><span class="comment"># TODO 缺少中间环节</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传rpm包</span></span><br><span class="line">$ rpm -ivh nginx-1.6.2-1.x86_64.rpm</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>删除软连接：rm -f &#x2F;软链接名称 ； </p>
+<p>注意 ： rm -f &#x2F;软链接名称&#x2F; 是删除整个目录。</p>
+</blockquote>
+<h2 id="YUM仓库搭建"><a href="#YUM仓库搭建" class="headerlink" title="YUM仓库搭建"></a>YUM仓库搭建</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/25/%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-%E6%97%A5%E5%BF%97%E4%B8%89/" rel="prev" title="毕业设计-日志三">
+                  <i class="fa fa-angle-left"></i> 毕业设计-日志三
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/06/23/Devstack%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" rel="next" title="Devstack部署指南">
+                  Devstack部署指南 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

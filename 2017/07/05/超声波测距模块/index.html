@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言今天接触到一个新的模块 – 超声波测距模块,这个模块在淘宝上看就卖2.3一块,非常的便宜,而且卖家给出的参数又挺不错的,所以我就买一块来玩玩.但直到今天才来用,实在惭愧…捣鼓了一天,还是不知道怎么回事,于是先记录下来相关的参数. 正文一.引脚说明一共有四个引脚:  VCC TRIG(触控器) ECHO(接收端) GND注意 TRIG 引脚是一个内部上拉10K的电阻,用单片机的 IO 口拉TRI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超声波测距模块">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/07/05/%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言今天接触到一个新的模块 – 超声波测距模块,这个模块在淘宝上看就卖2.3一块,非常的便宜,而且卖家给出的参数又挺不错的,所以我就买一块来玩玩.但直到今天才来用,实在惭愧…捣鼓了一天,还是不知道怎么回事,于是先记录下来相关的参数. 正文一.引脚说明一共有四个引脚:  VCC TRIG(触控器) ECHO(接收端) GND注意 TRIG 引脚是一个内部上拉10K的电阻,用单片机的 IO 口拉TRI">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-05T19:45:07.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="MCU">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2017/07/05/%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D%E6%A8%A1%E5%9D%97/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2017/07/05/%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D%E6%A8%A1%E5%9D%97/","path":"2017/07/05/超声波测距模块/","title":"超声波测距模块"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>超声波测距模块 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E5%BC%95%E8%84%9A%E8%AF%B4%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">一.引脚说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">二.工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.3.</span> <span class="nav-text">三.程序设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/07/05/%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D%E6%A8%A1%E5%9D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="超声波测距模块 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          超声波测距模块
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-05 19:45:07" itemprop="dateCreated datePublished" datetime="2017-07-05T19:45:07+00:00">2017-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MCU/" itemprop="url" rel="index"><span itemprop="name">MCU</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天接触到一个新的模块 – 超声波测距模块,这个模块在淘宝上看就卖2.3一块,非常的便宜,而且卖家给出的参数又挺不错的,所以我就买一块来玩玩.但直到今天才来用,实在惭愧…捣鼓了一天,还是不知道怎么回事,于是先记录下来相关的参数.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一-引脚说明"><a href="#一-引脚说明" class="headerlink" title="一.引脚说明"></a>一.引脚说明</h2><p>一共有四个引脚:</p>
+<ol>
+<li>VCC</li>
+<li>TRIG(触控器)</li>
+<li>ECHO(接收端)</li>
+<li>GND<br>注意 <em>TRIG</em> 引脚是一个内部上拉10K的电阻,用单片机的 <em>IO</em> 口拉TRIG 引脚,然后给一个 10us 以上的脉冲信号.</li>
+</ol>
+<h2 id="二-工作原理"><a href="#二-工作原理" class="headerlink" title="二.工作原理"></a>二.工作原理</h2><ol>
+<li>采用 <em>IO</em> 触发测距,给至少10us的高电平信号.</li>
+<li>模块自动发送8个40khz的方波,自动检测是否有信号返回.</li>
+<li>如果有信号返回,通过 <em>IO</em> 输出一高电平,高电平持续的时间就是超声波从发送到返回的时间(t).</li>
+</ol>
+<blockquote>
+<p>测距离公式 &#x3D; (高电平持续时间 * 声速(340m&#x2F;s)) &#x2F; 2 ;</p>
+</blockquote>
+<p>而在单片机中,计时器每记一个数是 1 us(一个指令周期) ,因此计算公式是 : 单片机记下的数 * 0.017</p>
+<h2 id="三-程序设计"><a href="#三-程序设计" class="headerlink" title="三.程序设计"></a>三.程序设计</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;reg51.h&gt;</span><br><span class="line"></span><br><span class="line">#define uchar unsigned char</span><br><span class="line">#define uint  unsigned int</span><br><span class="line"></span><br><span class="line">sbit TRIGGER = P2^0;  //用于触发超声波模块工作的引脚</span><br><span class="line">sbit ECHO = P2^1;      //用于接收超声波模块的数据引脚</span><br><span class="line"></span><br><span class="line">uint timeH; //从计时器,记下高位的数值</span><br><span class="line">uint timeL; //从计时器,记下低位的数值</span><br><span class="line">uint time; //计算得出的总时间</span><br><span class="line"></span><br><span class="line">uint distance; //测出的距离 ,单位cm</span><br><span class="line"></span><br><span class="line">//初始化函数</span><br><span class="line">void init()</span><br><span class="line">&#123;</span><br><span class="line">    TRIGGER = 0; //将触发引脚的电平拉低.</span><br><span class="line">    ECHO = 0;   //初始化接收引脚的电平</span><br><span class="line">    initTimer(); // 初始化定时器的函数</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void initTimer()</span><br><span class="line">&#123;</span><br><span class="line">    TMOD = 0x01;    //设置定时器0的工作模式</span><br><span class="line">    TH0 = 0;        //赋予初值</span><br><span class="line">    TL0 = 0;        //赋予初值,因为我们用的是自己计数,所以这里最好初值都赋为0;</span><br><span class="line">    EA = 1;         //打开总中断</span><br><span class="line">    ET0 = 1;        //打开中断源</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//延时函数,这里没有20us,因为C语言不准确等其他因素,导致这个延时函数所延长的时间大于20us.</span><br><span class="line">void delay_20us()</span><br><span class="line">&#123;</span><br><span class="line">    uchar a;</span><br><span class="line">    for(a = 0 ; a &lt; 100;a++);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//计算超声波检测到的距离</span><br><span class="line">void calculate()</span><br><span class="line">&#123;</span><br><span class="line">    uint distance;</span><br><span class="line">    //--- 从计时器取值 ----//</span><br><span class="line">    timeH = TH0;</span><br><span class="line">    timeL = TL0;</span><br><span class="line">    time = timeH * 256  + timeL;</span><br><span class="line">    </span><br><span class="line">    distance = time * 0.017;</span><br><span class="line"></span><br><span class="line">    TH0 = 0;</span><br><span class="line">    TL0 = 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">    init();</span><br><span class="line">    while(1)</span><br><span class="line">    &#123;</span><br><span class="line">        //----  触发信号 ----//                                                                        </span><br><span class="line">        TRIGGER = 1;</span><br><span class="line">        delay_20us();</span><br><span class="line">        TRIGGER = 0;</span><br><span class="line">	</span><br><span class="line">        while(ECHO != 1);   //接收端收到信号,开启计时器开始计数</span><br><span class="line">        TR0 = 1;            //有信号输入,打开计时器0计时.</span><br><span class="line">        while(ECHO == 1);   //信号持续时间.</span><br><span class="line">		TR0 = 0;            //打开关闭计时器0.</span><br><span class="line">        calculate();        //计算距离,并清除计时器的值.</span><br><span class="line"></span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用起来其实蛮方便的,就是在将Trigger 与 Echo 引脚接到对应的 IO 口就好了 , 这边有一个未解决的疑难点,就是C语言中的延时函数,在for循环里计数时,所消耗的时间是多少? </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MCU/" rel="tag"># MCU</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/07/04/%E5%8D%95%E7%89%87%E6%9C%BA%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" rel="prev" title="单片机最小系统">
+                  <i class="fa fa-angle-left"></i> 单片机最小系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/07/05/%E5%A4%9A%E8%B0%90%E9%9C%87%E8%8D%A1%E5%99%A8/" rel="next" title="多谐震荡器">
+                  多谐震荡器 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

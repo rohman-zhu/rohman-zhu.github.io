@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言如今的网络应用早已从 CPU 密集型转向了 I&#x2F;O 密集型，网络服务器大多是基于 C-S 模型，也即 客户端 - 服务端 模型，客户端需要和服务端进行大量的网络通信，这也决定了现代网络应用的性能瓶颈：I&#x2F;O。 传统的 Linux 操作系统的标准 I&#x2F;O 接口是基于数据拷贝操作的，即 I&#x2F;O 操作会导致数据在操作系统内核地址空间的缓冲区和用户进程地址空间定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux IO原理和Zero-Copy技术总结-Todo">
+<meta property="og:url" content="http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言如今的网络应用早已从 CPU 密集型转向了 I&#x2F;O 密集型，网络服务器大多是基于 C-S 模型，也即 客户端 - 服务端 模型，客户端需要和服务端进行大量的网络通信，这也决定了现代网络应用的性能瓶颈：I&#x2F;O。 传统的 Linux 操作系统的标准 I&#x2F;O 接口是基于数据拷贝操作的，即 I&#x2F;O 操作会导致数据在操作系统内核地址空间的缓冲区和用户进程地址空间定">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-14T23:47:50.000Z">
+<meta property="article:modified_time" content="2021-11-14T15:52:50.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/","path":"2021/11/14/Linux-IO原理和Zero-Copy技术总结/","title":"Linux IO原理和Zero-Copy技术总结-Todo"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux IO原理和Zero-Copy技术总结-Todo | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">计算机存储器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%86%85%E5%AD%98"><span class="nav-number">2.1.</span> <span class="nav-text">物理内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2021/11/14/Linux-IO%E5%8E%9F%E7%90%86%E5%92%8CZero-Copy%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux IO原理和Zero-Copy技术总结-Todo | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux IO原理和Zero-Copy技术总结-Todo
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-11-14 23:47:50 / Modified: 15:52:50" itemprop="dateCreated datePublished" datetime="2021-11-14T23:47:50+00:00">2021-11-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>如今的网络应用早已从 CPU 密集型转向了 I&#x2F;O 密集型，网络服务器大多是基于 C-S 模型，也即 客户端 - 服务端 模型，客户端需要和服务端进行大量的网络通信，这也决定了现代网络应用的性能瓶颈：I&#x2F;O。</p>
+<p>传统的 Linux 操作系统的标准 I&#x2F;O 接口是基于数据拷贝操作的，即 I&#x2F;O 操作会导致数据在操作系统内核地址空间的缓冲区和用户进程地址空间定义的缓冲区之间进行传输。设置缓冲区最大的好处是可以减少磁盘 I&#x2F;O 的操作，如果所请求的数据已经存放在操作系统的高速缓冲存储器中，那么就不需要再进行实际的物理磁盘 I&#x2F;O 操作；然而传统的 Linux I&#x2F;O 在数据传输过程中的数据拷贝操作深度依赖 CPU，也就是说 I&#x2F;O 过程需要 CPU 去执行数据拷贝的操作，因此导致了极大的系统开销，限制了操作系统有效进行数据传输操作的能力。</p>
+<p>I&#x2F;O 是决定网络服务器性能瓶颈的关键，而传统的 Linux I&#x2F;O 机制又会导致大量的数据拷贝操作，损耗性能，所以我们亟需一种新的技术来解决数据大量拷贝的问题，这个答案就是零拷贝(Zero-copy)。</p>
+<h1 id="计算机存储器"><a href="#计算机存储器" class="headerlink" title="计算机存储器"></a>计算机存储器</h1><p>既然要分析 Linux I&#x2F;O，就不能不了解计算机的各类存储器。</p>
+<p>存储器是计算机的核心部件之一，在完全理想的状态下，存储器应该要同时具备以下三种特性：</p>
+<p>速度足够快：存储器的存取速度应当快于 CPU 执行一条指令，这样 CPU 的效率才不会受限于存储器</p>
+<p>容量足够大：容量能够存储计算机所需的全部数据<br>价格足够便宜：价格低廉，所有类型的计算机都能配备</p>
+<p>但是现实往往是残酷的，我们目前的计算机技术无法同时满足上述的三个条件，于是现代计算机的存储器设计采用了一种分层次的结构：</p>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">处理速度</th>
+<th align="center">常规容量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">寄存器</td>
+<td align="center">1 ns</td>
+<td align="center">&lt;1KB</td>
+</tr>
+<tr>
+<td align="center">高速缓存</td>
+<td align="center">2 ns</td>
+<td align="center">4MiB</td>
+</tr>
+<tr>
+<td align="center">主寸（内存）</td>
+<td align="center">10ns</td>
+<td align="center">1~8GiB</td>
+</tr>
+<tr>
+<td align="center">磁盘</td>
+<td align="center">10ms</td>
+<td align="center">1~4TiB</td>
+</tr>
+</tbody></table>
+<p>从顶至底，现代计算机里的存储器类型分别有：寄存器、高速缓存、主存和磁盘，这些存储器的速度和容量逐级递减。存取速度最快的是寄存器，因为寄存器的制作材料和 CPU 是相同的，所以速度和 CPU 一样快，CPU 访问寄存器是没有时延的，然而因为价格昂贵，因此容量也极小，一般 32 位的 CPU 配备的寄存器容量是 32✖️32 Bit，64 位的 CPU 则是 64✖️64 Bit，不管是 32 位还是 64 位，寄存器容量都小于 1 KB，且寄存器也必须通过软件自行管理。</p>
+<p>第二层是高速缓存，也即我们平时了解的 CPU 高速缓存 L1、L2、L3，一般 L1 是每个 CPU 独享，L3 是全部 CPU 共享，而 L2 则根据不同的架构设计会被设计成独享或者共享两种模式之一，比如 Intel 的多核芯片采用的是共享 L2 模式而 AMD 的多核芯片则采用的是独享 L2 模式。</p>
+<p>第三层则是主存，也即主内存，通常称作随机访问存储器（Random Access Memory, RAM）。是与 CPU 直接交换数据的内部存储器。它可以随时读写（刷新时除外），而且速度很快，通常作为操作系统或其他正在运行中的程序的临时资料存储介质。</p>
+<p>最后则是磁盘，磁盘和主存相比，每个二进制位的成本低了两个数量级，因此容量比之会大得多，动辄上 GB、TB，而问题是访问速度则比主存慢了大概三个数量级。机械硬盘速度慢主要是因为机械臂需要不断在金属盘片之间移动，等待磁盘扇区旋转至磁头之下，然后才能进行读写操作，因此效率很低。</p>
+<h2 id="物理内存"><a href="#物理内存" class="headerlink" title="物理内存"></a>物理内存</h2><p>我们平时一直提及的物理内存就是上文中对应的第三种计算机存储器，RAM 主存，它在计算机中以内存条的形式存在，嵌在主板的内存槽上，用来加载各式各样的程序与数据以供 CPU 直接运行和使用。</p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>在计算机领域有一句如同摩西十诫般神圣的哲言：”计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决”，从内存管理、网络模型、并发调度甚至是硬件架构，都能看到这句哲言在闪烁着光芒，而虚拟内存则是这一哲言的完美实践之一。</p>
+<p>虚拟内存是现代计算机中的一个非常重要的存储器抽象，主要是用来解决应用程序日益增长的内存使用需求：现代物理内存的容量增长已经非常快速了，然而还是跟不上应用程序对主存需求的增长速度，对于应用程序来说内存还是不够用，因此便需要一种方法来解决这两者之间的容量差矛盾。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/eUJbSBE3-uAN_0pT1-Sqqg">https://mp.weixin.qq.com/s/eUJbSBE3-uAN_0pT1-Sqqg</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/default/" rel="tag"># default</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" rel="prev" title="TODO-计算机网络常用知识总结">
+                  <i class="fa fa-angle-left"></i> TODO-计算机网络常用知识总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/14/Linux%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%89%80%E6%9C%89%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="next" title="Linux内存管理所有知识点-Todo">
+                  Linux内存管理所有知识点-Todo <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

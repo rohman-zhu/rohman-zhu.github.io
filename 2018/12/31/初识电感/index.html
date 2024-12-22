@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言因为看到一篇文章写焦耳小偷的，自己也想尝试组建一个电路来试试，奈何自己手上没有电感，不过可以先学学电感的相关知识。  电感电感器(Inductor)是能够把电能转化为磁能而存储起来的元件。电感器的结构类似于变压器，但只有一个绕组。电感器具有一定的电感，它只阻碍电流的变化。如果电感器在没有电流通过的状态下，电路接通时它将试图阻碍电流流过它;如果电感器在有电流通过的状态下，电路断开时它将试图维持电">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识电感">
+<meta property="og:url" content="http://github.com/rohman-zhu/2018/12/31/%E5%88%9D%E8%AF%86%E7%94%B5%E6%84%9F/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言因为看到一篇文章写焦耳小偷的，自己也想尝试组建一个电路来试试，奈何自己手上没有电感，不过可以先学学电感的相关知识。  电感电感器(Inductor)是能够把电能转化为磁能而存储起来的元件。电感器的结构类似于变压器，但只有一个绕组。电感器具有一定的电感，它只阻碍电流的变化。如果电感器在没有电流通过的状态下，电路接通时它将试图阻碍电流流过它;如果电感器在有电流通过的状态下，电路断开时它将试图维持电">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://file.elecfans.com/web1/M00/45/40/pIYBAFpmvlCAXFMoAABAgLYngrg008.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20180120114046085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQWFiY2Q5ODc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=384ed8bf7e1ed21b6dc426b7cc07b6a1/472309f790529822cdd4708ed4ca7bcb0b46d49c.jpg">
+<meta property="article:published_time" content="2018-12-31T22:50:10.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="电子">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://file.elecfans.com/web1/M00/45/40/pIYBAFpmvlCAXFMoAABAgLYngrg008.png">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2018/12/31/%E5%88%9D%E8%AF%86%E7%94%B5%E6%84%9F/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2018/12/31/%E5%88%9D%E8%AF%86%E7%94%B5%E6%84%9F/","path":"2018/12/31/初识电感/","title":"初识电感"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>初识电感 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E6%84%9F"><span class="nav-number">2.</span> <span class="nav-text">电感</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E6%84%9F%E4%BD%9C%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">电感作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E6%84%9F%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">电感的工作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">主要参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E6%84%9F%E9%87%8F"><span class="nav-number">5.1.</span> <span class="nav-text">电感量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%B3%E6%89%8B%E5%AE%9A%E5%88%99"><span class="nav-number">6.</span> <span class="nav-text">右手定则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%A6%E6%89%8B%E5%AE%9A%E5%88%99"><span class="nav-number">7.</span> <span class="nav-text">左手定则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/12/31/%E5%88%9D%E8%AF%86%E7%94%B5%E6%84%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="初识电感 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识电感
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-12-31 22:50:10" itemprop="dateCreated datePublished" datetime="2018-12-31T22:50:10+00:00">2018-12-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为看到一篇文章写焦耳小偷的，自己也想尝试组建一个电路来试试，奈何自己手上没有电感，不过可以先学学电感的相关知识。</p>
+<p><img src="http://file.elecfans.com/web1/M00/45/40/pIYBAFpmvlCAXFMoAABAgLYngrg008.png" alt="标准焦耳小偷电路"></p>
+<h1 id="电感"><a href="#电感" class="headerlink" title="电感"></a>电感</h1><p>电感器(Inductor)是能够把电能转化为磁能而存储起来的元件。电感器的结构类似于变压器，但只有一个绕组。电感器具有一定的电感，它只阻碍电流的变化。如果电感器在没有电流通过的状态下，电路接通时它将试图阻碍电流流过它;如果电感器在有电流通过的状态下，电路断开时它将试图维持电流不变。电感器又称扼流器、电抗器、动态电抗器。</p>
+<p><img src="https://img-blog.csdn.net/20180120114046085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQWFiY2Q5ODc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="电感"></p>
+<h1 id="电感作用"><a href="#电感作用" class="headerlink" title="电感作用"></a>电感作用</h1><ul>
+<li>电感的作用：滤波、振荡、延迟、陷波;形象说法：“通直流，阻交流</li>
+<li>通直流：所谓通直流就是指在直流电路中，电感的作用就相当于一根导线，不起任何作用</li>
+<li>阻交流：在交流电路中，电感会有阻抗，即XL，整个电路的电流会变小，对交流有一定的阻碍作用。</li>
+<li>电感的阻流作用：电感线圈线圈中的自感电动势总是与线圈中的电流变化。</li>
+<li>电感的调谐与选频作用：电感线圈与电容器并联可组成LC调谐电路。</li>
+<li>电感还有筛选信号、过滤噪声、稳定电流及抑制电磁波干扰等作用。</li>
+</ul>
+<h1 id="电感的工作原理"><a href="#电感的工作原理" class="headerlink" title="电感的工作原理"></a>电感的工作原理</h1><p>电感是导线内通过交流电流时，在导线的内部周围产生交变磁通，导线的磁通量与生产此磁通的电流之比。当电感中通过直流电流时，其周围只呈现固定的磁力线，不随时间而变化;可是当在线圈中通过交流电流时，其周围将呈现出随时间而变化的磁力线。</p>
+<p>根据法拉弟电磁感应定律—磁生电来分析，变化的磁力线在线圈两端会产生感应电势，此感应电势相当于一个“新电源”。当形成闭合回路时，此感应电势就要产生感应电流。由楞次定律知道感应电流所产生的磁力线总量要力图阻止磁力线的变化的。磁力线变化来源于外加交变电源的变化，故从客观效果看，电感线圈有阻止交流电路中电流变化的特性。电感线圈有与力学中的惯性相类似的特性，在电学上取名为“自感应”，通常在拉开闸刀开关或接通闸刀开关的瞬间，会发生火花，这自感现象产生很高的感应电势所造成的。</p>
+<p>电感器具有阻止交流电通过而让直流电顺利通过的特性，频率越高，线圈阻抗越大。因此，电感器的主要功能是对交流信号进行隔离、滤波或与电容器、电阻器等组成谐振电路。</p>
+<h1 id="主要参数"><a href="#主要参数" class="headerlink" title="主要参数"></a>主要参数</h1><p>电感的主要参数有电感量、允许偏差、品质因数、分布电容及额定电流等。</p>
+<h2 id="电感量"><a href="#电感量" class="headerlink" title="电感量"></a>电感量</h2><p>电感量也称自感系数，是表示电感器产生自感应能力的一个物理量。电感器电感量的大小，主要取决于线圈的圈数(匝数)、绕制方式、有无磁心及磁心的材料等等。通常，线圈圈数越多、绕制的线圈越密集，电感量就越大。有磁心的线圈比无磁心的线圈电感量大;磁心导磁率越大的线圈，电感量也越大。电感量的基本单位是亨利(简称亨)，用字母“H”表示。常用的单位还有毫亨(mH)和微亨(μH)，它们之间的关系是：1H&#x3D;1000mH1mH&#x3D;1000μH</p>
+<h1 id="右手定则"><a href="#右手定则" class="headerlink" title="右手定则"></a>右手定则</h1><p>右手定则判断的主要是与力无关的方向。如果是和力有关的则全依靠左手定则。即，关于力的用左手，其他的（一般用于判断感应电流方向）用右手定则。（这一点常常有人记混，可以发现“力”字向左撇，就用左手；而“电”字向右撇，就用右手）记忆口诀：左通力右生电。 还可以记忆为：因电而动用左手，因动而电用右手，方法简要：右手手指沿电流方向拳起，大拇指伸出，观察大拇指方向。</p>
+<p><img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=384ed8bf7e1ed21b6dc426b7cc07b6a1/472309f790529822cdd4708ed4ca7bcb0b46d49c.jpg" alt="右手定则"></p>
+<h1 id="左手定则"><a href="#左手定则" class="headerlink" title="左手定则"></a>左手定则</h1><h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><ul>
+<li>焦耳小偷详解 ：<a target="_blank" rel="noopener" href="http://m.elecfans.com/article/621410.html">http://m.elecfans.com/article/621410.html</a></li>
+<li>电感淘宝卖家店 ：<a target="_blank" rel="noopener" href="https://detail.tmall.com/item.htm?spm=a230r.1.14.34.18ec4cd3TAabPR&id=524844684848&ns=1&abbucket=16&skuId=3971366290731">https://detail.tmall.com/item.htm?spm=a230r.1.14.34.18ec4cd3TAabPR&amp;id=524844684848&amp;ns=1&amp;abbucket=16&amp;skuId=3971366290731</a></li>
+<li>电感的工作原理与作用 ：<a target="_blank" rel="noopener" href="https://blog.csdn.net/aabcd987/article/details/79113128">https://blog.csdn.net/aabcd987/article/details/79113128</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E5%AD%90/" rel="tag"># 电子</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/12/14/%E7%A1%AC%E4%BB%B6%E9%98%B2%E7%81%AB%E5%A2%99%E5%AD%A6%E4%B9%A0-Checkpoint/" rel="prev" title="硬件防火墙学习-Checkpoint">
+                  <i class="fa fa-angle-left"></i> 硬件防火墙学习-Checkpoint
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/01/firewall-cmd%E4%BD%BF%E7%94%A8/" rel="next" title="firewall-cmd使用">
+                  firewall-cmd使用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

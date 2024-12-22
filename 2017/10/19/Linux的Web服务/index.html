@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Web网站访问俗语IP-Internet_ProtocolInternet-Protocol (独立IP),独立IP数是指不同IP地址的计算机访问网站的被计算的总次数. (以一天为计算) 一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少答案: 3次. PV-Page View页面浏览,即页面浏览量或点击量,不管客户端是不是相同,也不管IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的Web服务">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/19/Linux%E7%9A%84Web%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="Web网站访问俗语IP-Internet_ProtocolInternet-Protocol (独立IP),独立IP数是指不同IP地址的计算机访问网站的被计算的总次数. (以一天为计算) 一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少答案: 3次. PV-Page View页面浏览,即页面浏览量或点击量,不管客户端是不是相同,也不管IP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-19T10:39:48.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2017/10/19/Linux%E7%9A%84Web%E6%9C%8D%E5%8A%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2017/10/19/Linux%E7%9A%84Web%E6%9C%8D%E5%8A%A1/","path":"2017/10/19/Linux的Web服务/","title":"Linux的Web服务"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux的Web服务 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">1.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E4%BF%97%E8%AF%AD"><span class="nav-number">1.1.</span> <span class="nav-text">网站访问俗语</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IP-Internet-Protocol"><span class="nav-number">1.1.1.</span> <span class="nav-text">IP-Internet_Protocol</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%A2%E6%88%B7%E6%9C%BA%E9%80%9A%E8%BF%87ADSL%E6%8B%A8%E5%8F%B7%E4%B8%8A%E7%BD%91-%E4%BD%86%E4%B8%8A%E7%BD%91%E5%81%B6%E5%B0%94%E6%8E%89%E7%BA%BF-%E4%B8%80%E5%85%B1%E9%87%8D%E6%96%B0%E6%8B%A8%E5%8F%B7%E4%B8%89%E6%AC%A1-%E7%84%B6%E5%90%8E%E5%8E%BB%E8%AE%BF%E9%97%AE%E7%99%BE%E5%BA%A6-%E6%AD%A4%E6%97%B6%E7%99%BE%E5%BA%A6%E7%9A%84%E7%8B%AC%E7%AB%8BIP%E6%95%B0%E6%9C%89%E5%A4%9A%E5%B0%91"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PV-Page-View"><span class="nav-number">1.1.2.</span> <span class="nav-text">PV-Page View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UV-Unique-Visitor"><span class="nav-number">1.1.3.</span> <span class="nav-text">UV-Unique Visitor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UV%E5%BA%A6%E9%87%8F"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">UV度量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1"><span class="nav-number">1.1.4.</span> <span class="nav-text">统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.2.</span> <span class="nav-text">Web服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AE%E7%BD%91%E7%AB%99%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">用户访问网站原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">DNS解析基本流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Domain-Name-System"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Domain Name System</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">基本流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.4.</span> <span class="nav-text">HTTP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">HTTP 请求方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">HTTP 状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URL-Uniform-Resource-Identifier"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">URL (Uniform Resource Identifier )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E6%8A%A5%E6%96%87"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">HTTP报文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91"><span class="nav-number">1.2.5.</span> <span class="nav-text">并发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90-%E4%BD%9C%E7%94%A8%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是静态资源 ? 作用以及优缺点是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%B5%84%E6%BA%90-%E4%BD%9C%E7%94%A8%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.2.</span> <span class="nav-text">什么是动态资源?作用以及优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%AA%E9%9D%99%E6%80%81-%E4%BD%9C%E7%94%A8%E4%BB%A5%E5%8F%8A%E7%BC%BA%E7%82%B9"><span class="nav-number">1.3.3.</span> <span class="nav-text">什么是伪静态?作用以及缺点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/19/Linux%E7%9A%84Web%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux的Web服务 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux的Web服务
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-19 10:39:48" itemprop="dateCreated datePublished" datetime="2017-10-19T10:39:48+00:00">2017-10-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="网站访问俗语"><a href="#网站访问俗语" class="headerlink" title="网站访问俗语"></a>网站访问俗语</h2><h3 id="IP-Internet-Protocol"><a href="#IP-Internet-Protocol" class="headerlink" title="IP-Internet_Protocol"></a>IP-Internet_Protocol</h3><p>Internet-Protocol (独立IP),独立IP数是指不同IP地址的计算机访问网站的被计算的总次数. (以一天为计算)</p>
+<h4 id="一个客户机通过ADSL拨号上网-但上网偶尔掉线-一共重新拨号三次-然后去访问百度-此时百度的独立IP数有多少"><a href="#一个客户机通过ADSL拨号上网-但上网偶尔掉线-一共重新拨号三次-然后去访问百度-此时百度的独立IP数有多少" class="headerlink" title="一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少"></a>一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少</h4><p>答案: 3次.</p>
+<h3 id="PV-Page-View"><a href="#PV-Page-View" class="headerlink" title="PV-Page View"></a>PV-Page View</h3><p>页面浏览,即页面浏览量或点击量,不管客户端是不是相同,也不管IP是否相同,用户每次访问一个网站都会被计算一个PV.</p>
+<blockquote>
+<p>一个来访者访问网站,PVC数可能产生若干,但是独立IP数就为1个,因此如果对比一个网站的独立IP数和PV数,PV数一定会大于独立IP数,视网站的业务而定,例如这种分类门户可能要达到10:1,甚至更多.</p>
+</blockquote>
+<h3 id="UV-Unique-Visitor"><a href="#UV-Unique-Visitor" class="headerlink" title="UV-Unique Visitor"></a>UV-Unique Visitor</h3><p>同一台客户端(PC或者移动端)访问网站被计算为一个方可.</p>
+<blockquote>
+<p>考虑到一台客户端电脑可能会被多人使用,因此UV实际上并不一定是独立的自然人访问.</p>
+</blockquote>
+<h4 id="UV度量"><a href="#UV度量" class="headerlink" title="UV度量"></a>UV度量</h4><ol>
+<li>通过客户端HTTP请求报文分析 .(用IP地址+其他特征共同定义)</li>
+<li>通过Cookie.</li>
+</ol>
+<h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h3><ol>
+<li>分析 Web 服务器的访问日志信息,对IP地址段去重后统计.</li>
+<li>第三方统计,谷歌的统计(GA)</li>
+<li>在网站的每一个页尾嵌入js等统计程序代码,当用户加载网页后,发给统计IP的服务器.</li>
+</ol>
+<h2 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h2><h3 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h3><ol>
+<li>Apache (常用2.2)</li>
+<li>Nginx 大型网站web服务主流</li>
+<li>lighttpd</li>
+</ol>
+<p>常用动态服务的软件:</p>
+<ol>
+<li>php</li>
+<li>tomcat</li>
+<li>resin</li>
+<li>IIS(Internet information server)</li>
+</ol>
+<h3 id="用户访问网站原理"><a href="#用户访问网站原理" class="headerlink" title="用户访问网站原理"></a>用户访问网站原理</h3><ul>
+<li>DNS 解析原理</li>
+<li>http 请求原理</li>
+</ul>
+<h3 id="DNS解析基本流程"><a href="#DNS解析基本流程" class="headerlink" title="DNS解析基本流程"></a>DNS解析基本流程</h3><h4 id="Domain-Name-System"><a href="#Domain-Name-System" class="headerlink" title="Domain Name System"></a>Domain Name System</h4><p>常用:</p>
+<ul>
+<li>设置 CNAME 别名记录</li>
+<li>设置 MX 邮件记录</li>
+<li>设置 PTR 记录 , 方向解析, 即把IP地址解析为对应的域名.</li>
+</ul>
+<h4 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h4><ol>
+<li>用户查找本地 Hosts 文件(本地DNS缓存)</li>
+<li>继续请求客户机DNS服务器</li>
+<li>请求全球 DNS 服务器</li>
+</ol>
+<h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><p>HyperText Transfer Protocol,超文本传输协议.属于OSI模型中的第七层协议.<br></br><br>WWW(World Wid Web),默认的服务端口是80,另一个加密的www服务(HTTPS)默认服务端口是443,用于网银,支付等.</p>
+</br>
+有这么几个主要的版本:
+
+<ul>
+<li>HTTP 0.9</li>
+<li>HTTP 1.0</li>
+<li>HTTP 1.1</li>
+</ul>
+</br>
+推荐的书籍:
+HTTP权威指南(前4章)
+
+<p>1.1支持持久连接,在一个TCP连接上可以传送多个HTTP请求和响应.</p>
+<h4 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h4><p>每一个HTTP请求保温中都包含一个方法,例如:获取界面,提交内容到服务器.删除资源.</p>
+<table>
+<thead>
+<tr>
+<th align="center">HTTP方法</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">GET</td>
+<td align="center">客户端请求指定资源信息,服务器范返回指定资源</td>
+</tr>
+<tr>
+<td align="center">HEAD</td>
+<td align="center">只请求响应报文中的HTTP 首部</td>
+</tr>
+<tr>
+<td align="center">POST</td>
+<td align="center">将客户端的数据提交到服务器</td>
+</tr>
+<tr>
+<td align="center">PUT</td>
+<td align="center">从客户端向服务器传送的数据取代指定的文档内容</td>
+</tr>
+<tr>
+<td align="center">DELETE</td>
+<td align="center">请求服务器删除指定的资源</td>
+</tr>
+<tr>
+<td align="center">MOVE</td>
+<td align="center">请求服务器指定的页面移至另一个网络地址</td>
+</tr>
+</tbody></table>
+<h4 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h4><table>
+<thead>
+<tr>
+<th align="center">状态码</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">100-199</td>
+<td align="center">指定客户端应相对的某些动作</td>
+</tr>
+<tr>
+<td align="center">200-299</td>
+<td align="center">用于表示请求成功</td>
+</tr>
+<tr>
+<td align="center">300-399</td>
+<td align="center">用于已经移动的文件并且常被包含在定位头信息中指定新的地址信息</td>
+</tr>
+<tr>
+<td align="center">400-499</td>
+<td align="center">用于指定客户端的错误</td>
+</tr>
+<tr>
+<td align="center">500-599</td>
+<td align="center">用于指出服务器错误</td>
+</tr>
+</tbody></table>
+<ul>
+<li>200 表示成功</li>
+<li>301 表示永久跳转,所有请求的网页将永久跳转到被设定的新位置</li>
+<li>403 禁止访问</li>
+<li>404 服务器找不到客户端请求的指定页面</li>
+<li>500 内部服务器错误,例如SELinux开启,而又没有为http设置许可规则</li>
+<li>502 (Bad Gateway)网关故障,基本跟代理有关</li>
+<li>503服务当前不可用 服务当前不可用,可能因为服务器超载或者维护</li>
+<li>504 网关超时,一般是网关代理服务器请求后端服务时,后端服务没有在特定的时间内完成处理请求</li>
+</ul>
+<h4 id="URL-Uniform-Resource-Identifier"><a href="#URL-Uniform-Resource-Identifier" class="headerlink" title="URL (Uniform Resource Identifier )"></a>URL (Uniform Resource Identifier )</h4><p>协议:分隔符号:IP地址:分隔符号:资源目录地址</p>
+<h4 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h4><p>请求报文:<br>Web客户端发向Web服务端<br></br><br>响应报文:<br>Web服务端发向Web客户端</p>
+<p>*待补充!!*</p>
+<p>分为两种:</p>
+<ul>
+<li>请求报文</li>
+<li>响应报文</li>
+</ul>
+<blockquote>
+<p>如何获取HTTP请求报文 ?</p>
+</blockquote>
+<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><p>非正式的理解: 网站服务器在单位时间内能处理的最大连接数.</p>
+<ul>
+<li>Query Per Second - 查询</li>
+<li>IOPS(Input&#x2F;Output Oeperations Per Second) - 硬盘读写</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="什么是静态资源-作用以及优缺点是什么"><a href="#什么是静态资源-作用以及优缺点是什么" class="headerlink" title="什么是静态资源 ? 作用以及优缺点是什么"></a>什么是静态资源 ? 作用以及优缺点是什么</h3><p>URL固定,后缀是HTML,HTM,服务器存在的文件.</p>
+<p>特点: 无可交互的数据库</p>
+<ul>
+<li>优点: 性能高,体验好 ; 便于SEO(Search Engine Optimizatio , 网站推广)</li>
+<li>缺点: 交互差;维护麻烦</li>
+</ul>
+<h3 id="什么是动态资源-作用以及优缺点"><a href="#什么是动态资源-作用以及优缺点" class="headerlink" title="什么是动态资源?作用以及优缺点"></a>什么是动态资源?作用以及优缺点</h3><p>有数据库支持,内容丰富 ,后缀是.php , jsp ,asp , aspx</p>
+<p>特点:</p>
+<ul>
+<li>优点: 交互性好(登录,注册);维护简单;</li>
+<li>缺点: 性能差(服务器端解析) ; URL变化不利于搜索</li>
+</ul>
+<h3 id="什么是伪静态-作用以及缺点"><a href="#什么是伪静态-作用以及缺点" class="headerlink" title="什么是伪静态?作用以及缺点"></a>什么是伪静态?作用以及缺点</h3><p>动态URL伪装成静态,rewrite规则模块</p>
+<ul>
+<li>优点 : 方便收录 ; 提升用户浏览体验</li>
+<li>缺点 : 不会提升网站性能,微降</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/18/Linux%E8%80%83%E9%A2%98/" rel="prev" title="Linux考题">
+                  <i class="fa fa-angle-left"></i> Linux考题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/20/Web_Nginx/" rel="next" title="Web服务之Nginx">
+                  Web服务之Nginx <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

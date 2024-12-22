@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python学习笔记 三为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在Python中，一个.py文件就称之为一个模块（Module）。 模块 module 类似C语言中的include 或者 java中的import  作用域在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习笔记(三)">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="Python学习笔记 三为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在Python中，一个.py文件就称之为一个模块（Module）。 模块 module 类似C语言中的include 或者 java中的import  作用域在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-19T19:26:26.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/","path":"2017/11/19/Python学习笔记-三/","title":"Python学习笔记(三)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python学习笔记(三) | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89"><span class="nav-number">1.</span> <span class="nav-text">Python学习笔记 三</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97-module"><span class="nav-number">1.1.</span> <span class="nav-text">模块 module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.</span> <span class="nav-text">安装第三方模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装常用模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">面向对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">类与实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E9%99%90%E5%88%B6"><span class="nav-number">1.4.2.</span> <span class="nav-text">访问限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81"><span class="nav-number">1.4.3.</span> <span class="nav-text">继承和多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.4.</span> <span class="nav-text">获取对象信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8type"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">使用type()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8isinstance"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">使用isinstance()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8dir"><span class="nav-number">1.4.4.3.</span> <span class="nav-text">使用dir()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">面向对象高级编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-slots"><span class="nav-number">1.5.1.</span> <span class="nav-text">使用 __slots__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-property"><span class="nav-number">1.5.2.</span> <span class="nav-text">使用@property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF"><span class="nav-number">1.5.3.</span> <span class="nav-text">多继承</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/11/19/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python学习笔记(三) | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python学习笔记(三)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-19 19:26:26" itemprop="dateCreated datePublished" datetime="2017-11-19T19:26:26+00:00">2017-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Python学习笔记-三"><a href="#Python学习笔记-三" class="headerlink" title="Python学习笔记 三"></a>Python学习笔记 三</h1><p>为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在Python中，一个.py文件就称之为一个模块（Module）。</p>
+<h2 id="模块-module"><a href="#模块-module" class="headerlink" title="模块 module"></a>模块 module</h2><blockquote>
+<p>类似C语言中的include 或者 java中的import</p>
+</blockquote>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>在一个模块中，我们可能会定义很多函数和变量，但有的函数和变量我们希望给别人使用，有的函数和变量我们希望仅仅在模块内部使用。在Python中，是通过_前缀来实现的。</p>
+<blockquote>
+<p>private 在 python中用_代替</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_private_1</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello, %s&#x27;</span> % name</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_private_2</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hi, %s&#x27;</span> % name</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greeting</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(name) &gt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> _private_1(name)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> _private_2(name)</span><br></pre></td></tr></table></figure>
+
+<p>在模块里公开greeting()函数，而把内部逻辑用private函数隐藏起来了，这样，调用greeting()函数不用关心内部的private函数细节，这也是一种非常有用的代码封装和抽象的方法，即：</p>
+<p>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public。</p>
+<h2 id="安装第三方模块"><a href="#安装第三方模块" class="headerlink" title="安装第三方模块"></a>安装第三方模块</h2><p>在命令提示窗口下运行’pip’命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 第三方库都会在Python官方的pypi.python.org网站注册，要安装一个第三方库，必须先知道该库的名称，可以在官网或者pypi上搜索，比如Pillow的名称叫Pillow，因此，安装Pillow的命令就是：</span><br><span class="line"># pip install Pillow</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装常用模块"><a href="#安装常用模块" class="headerlink" title="安装常用模块"></a>安装常用模块</h3><p>在使用Python时，我们经常需要用到很多第三方库，例如，上面提到的Pillow，以及MySQL驱动程序，Web框架Flask，科学计算Numpy等。用pip一个一个安装费时费力，还需要考虑兼容性。我们推荐直接使用Anaconda，这是一个基于Python的数据处理和科学计算平台，它已经内置了许多非常有用的第三方库，我们装上Anaconda，就相当于把数十个第三方模块自动安装好了，非常简单易用。</p>
+<p>下载地址:<code>https://www.anaconda.com/download/#macos</code></p>
+<p>默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">import</span> sys</span><br><span class="line">&gt;&gt;&gt;sys.path</span><br><span class="line">&gt;&gt;&gt;添加路径</span><br><span class="line">&gt;&gt;&gt;sys.path.append(<span class="string">&#x27;new path&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>另外一种添加路径的方式:设置环境变量PYTHONPATH，该环境变量的内容会被自动添加到模块搜索路径中。设置方式与设置Path环境变量类似。注意只需要添加你自己的搜索路径，Python自己本身的搜索路径不受影响。</p>
+</blockquote>
+<h2 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h2><p>面向对象的设计思想是从自然界中来的，因为在自然界中，类（Class）和实例（Instance）的概念是很自然的。Class是一种抽象概念，比如我们定义的Class——Student，是指学生这个概念，而实例（Instance）则是一个个具体的Student，比如，Bart Simpson和Lisa Simpson是两个具体的Student。</p>
+<p>所以，面向对象的设计思想是抽象出Class，根据Class创建Instance。</p>
+<p>面向对象的抽象程度又比函数要高，因为一个Class既包含数据，又包含操作数据的方法。</p>
+<h3 id="类与实例"><a href="#类与实例" class="headerlink" title="类与实例"></a>类与实例</h3><p><em>class</em> 后面紧接着是类名，即Student，类名通常是大写开头的单词，紧接着是(object)，表示该类是从哪个类继承下来的，如果没有合适的继承类，就使用object类，这是所有类最终都会继承的类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">########</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init___</span>(<span class="params">self,name,score</span>):</span><br><span class="line">    <span class="variable language_">self</span>.name = name</span><br><span class="line">    <span class="variable language_">self</span>.score = score</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意:特殊方法“__init__”前后分别有两个下划线！！！<br>注意: __init__ 方法的第一个参数永远是self，表示创建的实例本身，因此，在__init__方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身。</p>
+</blockquote>
+<p>有了__init__方法，在创建实例的时候，就不能传入空的参数了，必须传入与__init__方法匹配的参数，但self不需要传，Python解释器自己会把实例变量传进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bart = Student(<span class="string">&#x27;Bart Simpason&#x27;</span>,<span class="number">58</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</p>
+</blockquote>
+<h3 id="访问限制"><a href="#访问限制" class="headerlink" title="访问限制"></a>访问限制</h3><p>如果要让内部属性不被外部访问，可以把属性的名称前加上两个下划线__，在Python中，实例的变量名如果以__开头，就变成了一个私有变量（private），只有内部可以访问，外部不能访问，所以，我们把Student类改一改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init___</span>(<span class="params">self,name,score</span>):</span><br><span class="line">        <span class="variable language_">self</span>.__name = name</span><br><span class="line">        <span class="variable language_">self</span>.__score = score</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">print_score</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s:%s&#x27;</span> % (<span class="variable language_">self</span>.__name,<span class="variable language_">self</span>.__score))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>变量名类似__xxx__的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量</p>
+</blockquote>
+<p>双下划线不代表private</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">有些时候，你会看到以一个下划线开头的实例变量名，比如_name，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。</span><br><span class="line"></span><br><span class="line">双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，仍然可以通过_Student__name来访问__name变量</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:写一个student类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">Object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,name,general</span>):</span><br><span class="line">        <span class="variable language_">self</span>.__name = name</span><br><span class="line">        <span class="variable language_">self</span>.__general = general</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_general</span>(<span class="params">general</span>):</span><br><span class="line">        <span class="variable language_">self</span>.__general = general</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_general</span>(<span class="params">general</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.__general</span><br></pre></td></tr></table></figure>
+
+<h3 id="继承和多态"><a href="#继承和多态" class="headerlink" title="继承和多态"></a>继承和多态</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>(<span class="title class_ inherited__">Object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">self</span>):</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">&quot;I am running&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span>(<span class="title class_ inherited__">Animal</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#此时Dog类有父类Animal的方法,可以实例化并调用父类的方法</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对于静态语言（例如Java）来说，如果需要传入Animal类型，则传入的对象必须是Animal类型或者它的子类，否则，将无法调用run()方法。</p>
+</blockquote>
+<p>对于Python这样的动态语言来说，则不一定需要传入Animal类型。我们只需要保证传入的对象有一个run()方法就可以了.</p>
+<blockquote>
+<p>这就是动态语言的“鸭子类型”，它并不要求严格的继承体系，一个对象只要“看起来像鸭子，走起路来像鸭子”，那它就可以被看做是鸭子。</p>
+</blockquote>
+<h3 id="获取对象信息"><a href="#获取对象信息" class="headerlink" title="获取对象信息"></a>获取对象信息</h3><h4 id="使用type"><a href="#使用type" class="headerlink" title="使用type()"></a>使用type()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="built_in">type</span>(<span class="number">123</span>)</span><br><span class="line">&lt;<span class="keyword">class</span> <span class="string">&#x27;int&#x27;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用isinstance"><a href="#使用isinstance" class="headerlink" title="使用isinstance()"></a>使用isinstance()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a = Animal()</span><br><span class="line">&gt;&gt;&gt;dog = Dog()</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">isinstance</span>(a,Animal)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">isinstance</span>(dog,Animal)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用dir"><a href="#使用dir" class="headerlink" title="使用dir()"></a>使用dir()</h4><p>如果要获得一个对象的所有属性和方法，可以使用dir()函数，它返回一个包含字符串的list</p>
+<p>仅仅把属性和方法列出来是不够的，配合getattr()、setattr()以及hasattr()，我们可以直接操作一个对象的状态：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">class</span> <span class="title class_">MyObject</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"><span class="meta">... </span>        <span class="variable language_">self</span>.x = <span class="number">9</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">def</span> <span class="title function_">power</span>(<span class="params">self</span>):</span><br><span class="line"><span class="meta">... </span>        <span class="keyword">return</span> <span class="variable language_">self</span>.x * <span class="variable language_">self</span>.x</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj = MyObject()</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">hasattr</span>(obj, <span class="string">&#x27;x&#x27;</span>) <span class="comment"># 有属性&#x27;x&#x27;吗？</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj.x</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">hasattr</span>(obj, <span class="string">&#x27;y&#x27;</span>) <span class="comment"># 有属性&#x27;y&#x27;吗？</span></span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">setattr</span>(obj, <span class="string">&#x27;y&#x27;</span>, <span class="number">19</span>) <span class="comment"># 设置一个属性&#x27;y&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">hasattr</span>(obj, <span class="string">&#x27;y&#x27;</span>) <span class="comment"># 有属性&#x27;y&#x27;吗？</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">getattr</span>(obj, <span class="string">&#x27;y&#x27;</span>) <span class="comment"># 获取属性&#x27;y&#x27;</span></span><br><span class="line"><span class="number">19</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>obj.y <span class="comment"># 获取属性&#x27;y&#x27;</span></span><br><span class="line"><span class="number">19</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习 : 为了统计学生人数，可以给Student类增加一个类属性，每创建一个实例，该属性自动增加;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Count</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">Count</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,name</span>):</span><br><span class="line">        <span class="variable language_">self</span>.name = name</span><br><span class="line">        Count.count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_Count</span>():</span><br><span class="line">        <span class="built_in">print</span>(Count.count)</span><br><span class="line">        <span class="keyword">return</span> Count.count</span><br></pre></td></tr></table></figure>
+
+<h2 id="面向对象高级编程"><a href="#面向对象高级编程" class="headerlink" title="面向对象高级编程"></a>面向对象高级编程</h2><p>python允许动态为实例添加属性和方法…</p>
+<h3 id="使用-slots"><a href="#使用-slots" class="headerlink" title="使用 __slots__"></a>使用 __slots__</h3><p>动态添加属性和方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 给实例添加属性</span></span><br><span class="line">s = Student()</span><br><span class="line">s.name = <span class="string">&#x27;Micheal&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(s.name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_age</span>(<span class="params">self,age</span>):</span><br><span class="line">    <span class="variable language_">self</span>.age = age</span><br><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> MethodType</span><br><span class="line">s.set_age = MethodType(set_age,s)</span><br><span class="line">s.set_age(<span class="number">25</span>)</span><br><span class="line"><span class="built_in">print</span>(s.age)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>给一个实例绑定的方法，对另一个实例是不起作用的</p>
+</blockquote>
+<p>要给所有实例都绑定方法,可以用class绑定方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">set_score</span>(<span class="params">self,score</span>):</span><br><span class="line">    <span class="variable language_">self</span>.score = score</span><br><span class="line">Student.set_score = set_score</span><br></pre></td></tr></table></figure>
+
+<p>既然可以动态添加实例的属性,就可以限制添加属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    __slots__ = (<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;age&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在Student类只允许设置name和age</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-property"><a href="#使用-property" class="headerlink" title="使用@property"></a>使用@property</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Screen</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">width</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.width</span><br><span class="line"><span class="meta">    @width.setter</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">width</span>(<span class="params">self,vale</span>):</span><br><span class="line">        <span class="variable language_">self</span>.width = value</span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">height</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.heigth</span><br><span class="line"><span class="meta">    @height.setter</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">height</span>(<span class="params">self,value</span>):</span><br><span class="line">        <span class="variable language_">self</span>.height = value</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>property要比setter先设置,否则会出现无法识别相关属性<br>NameError: name ‘xxx’ is not defined</p>
+</blockquote>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Farther</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Monther</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son</span>(Farther,Monther):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/11/18/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/" rel="prev" title="Python学习笔记(二)">
+                  <i class="fa fa-angle-left"></i> Python学习笔记(二)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/11/20/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9B%9B/" rel="next" title="Python学习笔记(四)">
+                  Python学习笔记(四) <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

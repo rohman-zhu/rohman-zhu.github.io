@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景有一台服务器经常死机，配置了kdump后并无生成dump日志，手动触发系统Crash后依旧无法重启记录Dump日志。重装操作系统后依旧无生成dump日志。  OS：Ubuntu 20.04 Kernel ： 5.4.0-42-generic CPU：6252 * 4 Memory：512GB  分析原因经过长期实测，主要原因还是在于需要增加dumpcrash的内存大小，否则kdump进程没有足">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一次Ubuntu2004下的kdump配置与测试">
+<meta property="og:url" content="http://github.com/rohman-zhu/2022/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Ubuntu2004%E4%B8%8B%E7%9A%84kdump%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景有一台服务器经常死机，配置了kdump后并无生成dump日志，手动触发系统Crash后依旧无法重启记录Dump日志。重装操作系统后依旧无生成dump日志。  OS：Ubuntu 20.04 Kernel ： 5.4.0-42-generic CPU：6252 * 4 Memory：512GB  分析原因经过长期实测，主要原因还是在于需要增加dumpcrash的内存大小，否则kdump进程没有足">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-22T16:17:42.000Z">
+<meta property="article:modified_time" content="2022-05-23T16:01:10.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="kdump">
+<meta property="article:tag" content="crash">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2022/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Ubuntu2004%E4%B8%8B%E7%9A%84kdump%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2022/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Ubuntu2004%E4%B8%8B%E7%9A%84kdump%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95/","path":"2022/05/22/记录一次Ubuntu2004下的kdump配置与测试/","title":"记录一次Ubuntu2004下的kdump配置与测试"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>记录一次Ubuntu2004下的kdump配置与测试 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text">分析原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ubuntu-20-04%E9%85%8D%E7%BD%AE-Kdump-%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 20.04配置 Kdump 过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">触发测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%97%A5%E5%BF%97"><span class="nav-number">5.</span> <span class="nav-text">分析日志</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%97%A5%E5%BF%97%E7%9A%84%E5%89%8D%E7%BD%AE%E5%B7%A5%E4%BD%9C%E2%80%93%E5%AE%89%E8%A3%85-dbgsym"><span class="nav-number">5.1.</span> <span class="nav-text">分析日志的前置工作–安装 dbgsym</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%88%86%E6%9E%90"><span class="nav-number">5.2.</span> <span class="nav-text">开始分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2022/05/22/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1Ubuntu2004%E4%B8%8B%E7%9A%84kdump%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="记录一次Ubuntu2004下的kdump配置与测试 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记录一次Ubuntu2004下的kdump配置与测试
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-22 16:17:42" itemprop="dateCreated datePublished" datetime="2022-05-22T16:17:42+00:00">2022-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-05-23 16:01:10" itemprop="dateModified" datetime="2022-05-23T16:01:10+00:00">2022-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>有一台服务器经常死机，配置了kdump后并无生成dump日志，手动触发系统Crash后依旧无法重启记录Dump日志。<br>重装操作系统后依旧无生成dump日志。</p>
+<ul>
+<li>OS：Ubuntu 20.04</li>
+<li>Kernel ： 5.4.0-42-generic</li>
+<li>CPU：6252 * 4</li>
+<li>Memory：512GB</li>
+</ul>
+<h1 id="分析原因"><a href="#分析原因" class="headerlink" title="分析原因"></a>分析原因</h1><p>经过长期实测，主要原因还是在于需要增加dumpcrash的内存大小，否则kdump进程没有足够多的内存写入日志。</p>
+<h1 id="Ubuntu-20-04配置-Kdump-过程"><a href="#Ubuntu-20-04配置-Kdump-过程" class="headerlink" title="Ubuntu 20.04配置 Kdump 过程"></a>Ubuntu 20.04配置 Kdump 过程</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装主要工具</span></span><br><span class="line"><span class="comment"># 这里会安装 crash 、 kexec-tools 、 makedumpfile</span></span><br><span class="line">apt-get install linux-crashdump -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整crashkernel分配的内存空间</span></span><br><span class="line">vim /etc/default/grub.d/kexec-tools.cfg</span><br><span class="line"><span class="comment"># 末尾字段增加</span></span><br><span class="line"><span class="comment"># 需要根据实际内存大小来预分配</span></span><br><span class="line">crashkernel=128G-:4096M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整kdump配置文件</span></span><br><span class="line">vim /etc/default/kdump-tools</span><br><span class="line"><span class="comment">#配置项为 </span></span><br><span class="line">USE_KDUMP=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置触发条件</span></span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 配置项为</span></span><br><span class="line"><span class="comment"># 相应sysrq来触发</span></span><br><span class="line">kernel.sysrq=1</span><br><span class="line"><span class="comment"># 硬件NMI按钮被按下时触发</span></span><br><span class="line">kernel.unknown_nmi_panic=1</span><br><span class="line">kernel.panic_on_unrecovered_nmi=1</span><br><span class="line"><span class="comment"># 触发内存OOM收集kdump</span></span><br><span class="line">vm.panic_on_oom=1</span><br><span class="line"><span class="comment"># 内核在OOPS错误（非法内存访问或非法指令）后触发</span></span><br><span class="line">kernel.panic_on_oops=1</span><br><span class="line"><span class="comment"># 内核在死锁或者死循环（soft-lockup）触发</span></span><br><span class="line">kernel.panic_on_io_nmi=1</span><br><span class="line"><span class="comment"># 内核在进程hung住时触发</span></span><br><span class="line">kernel.hung_task_panic=1</span><br><span class="line"><span class="comment"># 进程hung住多少时间触发</span></span><br><span class="line">kernel.hung_task_timeout_secs=120</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置完成后，需要重启服务器才能生效</span></span><br><span class="line">init 6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看是否配置成功，可以在重启后执行指令;查看是否有为kdump分配内存</span></span><br><span class="line">dmesg | grep -i crash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启完成后，通过指令查询</span></span><br><span class="line">kdump-config show</span><br><span class="line"><span class="built_in">cat</span> /proc/cmdline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志会默认保存在 /var/crash目录</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="触发测试"><a href="#触发测试" class="headerlink" title="触发测试"></a>触发测试</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> 1 &gt; /proc/sys/kernel/sysrq</span><br><span class="line"><span class="built_in">echo</span> c &gt; /proc/sysrq-trigger</span><br></pre></td></tr></table></figure>
+
+<p>正常情况下，服务器会卡死，并开始记录crash信息，屏幕会输出 makedumpfile 信息。最终将重启服务器，并在&#x2F;var&#x2F;crash目录中生存相关信息。</p>
+<h1 id="分析日志"><a href="#分析日志" class="headerlink" title="分析日志"></a>分析日志</h1><h2 id="分析日志的前置工作–安装-dbgsym"><a href="#分析日志的前置工作–安装-dbgsym" class="headerlink" title="分析日志的前置工作–安装 dbgsym"></a>分析日志的前置工作–安装 dbgsym</h2><p>分析日志需要用到 dbgsym ，也就是debug info包。需要增加 ddebs 源才能安装，联网安装方式为</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;deb http://ddebs.ubuntu.com <span class="subst">$(lsb_release -cs)</span> main restricted universe multiverse &quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/apt/sources.list.d/ddebs.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/apt/sources.list.d/ddebs.list 应该有以下内容</span></span><br><span class="line">deb http://ddebs.ubuntu.com [Ubuntu 发行版本] main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com [Ubuntu 发行版本]-updates main restricted universe multiverse</span><br><span class="line">deb http://ddebs.ubuntu.com [Ubuntu 发行版本]-proposed main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始安装</span></span><br><span class="line">apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ECDCAD72428D7C01</span><br><span class="line">apt-get update</span><br><span class="line">apt-get install systemtap</span><br><span class="line">apt-get install linux-image-$(<span class="built_in">uname</span> -r)-dbgsym</span><br><span class="line">apt-get <span class="built_in">source</span> linux-image-$(<span class="built_in">uname</span> -r)</span><br></pre></td></tr></table></figure>
+
+<p>离线安装方式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载地址 http://ddebs.ubuntu.com/pool/main/l/linux</span></span><br><span class="line"><span class="comment"># 因系统为 5.4.0-42-generic 的内核，因此需要使用这个版本</span></span><br><span class="line"><span class="comment"># 下载64位专用版本 linux-image-unsigned-5.4.0-42-generic-dbgsym_5.4.0-42.46_amd64.ddeb </span></span><br><span class="line"><span class="comment"># 服务器内安装 </span></span><br><span class="line">dpkg -i linux-image-unsigned-5.4.0-42-generic-dbgsym_5.4.0-42.46_amd64.ddeb</span><br></pre></td></tr></table></figure>
+
+<h2 id="开始分析"><a href="#开始分析" class="headerlink" title="开始分析"></a>开始分析</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指令  crash [vmcore] [dumpfile]</span></span><br><span class="line"></span><br><span class="line">crash /usr/lib/debug/boot/vmlinux.......   /var/crash/20xxxxx/dump.xxxxxx </span><br><span class="line"></span><br><span class="line"><span class="comment"># 看到因为我们手动触发系统 Crash 的那一部分显示</span></span><br><span class="line">PANIC：“Kernel panic - not syncing： sysrq triggered crash”</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>CentOS下的配置 <a target="_blank" rel="noopener" href="https://blog.51cto.com/kk876435928/2054256">https://blog.51cto.com/kk876435928/2054256</a><br>Ubuntu 20.04 下配置 <a target="_blank" rel="noopener" href="https://www.ebpf.top/post/ubuntu_kdump_crash/">https://www.ebpf.top/post/ubuntu_kdump_crash/</a><br>Kdump技术了解 <a target="_blank" rel="noopener" href="https://linux.cn/article-8737-1.html">https://linux.cn/article-8737-1.html</a><br>dbgsym: <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1637887">https://cloud.tencent.com/developer/article/1637887</a><br>ubuntu 中 的hwe ： <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/248914/what-is-hardware-enablement-hwe">https://askubuntu.com/questions/248914/what-is-hardware-enablement-hwe</a><br>dbgsym 库 ： <a target="_blank" rel="noopener" href="http://ddebs.ubuntu.com/pool/main/l/linux-hwe-5.4/">http://ddebs.ubuntu.com/pool/main/l/linux-hwe-5.4/</a><br>x86 “ <a target="_blank" rel="noopener" href="https://blog.csdn.net/xiao_yi_xiao/article/details/120223255?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-120223255-blog-86352725.pc_relevant_default&spm=1001.2101.3001.4242.1&utm_relevant_index=3">https://blog.csdn.net/xiao_yi_xiao/article/details/120223255?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-120223255-blog-86352725.pc_relevant_default&amp;spm=1001.2101.3001.4242.1&amp;utm_relevant_index=3</a><br>Ubuntu 中的内存大小 小于 实际内存大小： <a target="_blank" rel="noopener" href="https://askubuntu.com/questions/923371/why-does-ubuntu-show-slightly-less-ram-than-my-computer-has-built-in">https://askubuntu.com/questions/923371/why-does-ubuntu-show-slightly-less-ram-than-my-computer-has-built-in</a><br>kdump ： <a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/Kernel/CrashdumpRecipe">https://wiki.ubuntu.com/Kernel/CrashdumpRecipe</a><br>其他：<a target="_blank" rel="noopener" href="https://blog.csdn.net/quqi99/article/details/38069657">https://blog.csdn.net/quqi99/article/details/38069657</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kdump/" rel="tag"># kdump</a>
+              <a href="/tags/crash/" rel="tag"># crash</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/10/Powershell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/" rel="prev" title="Powershell常用脚本汇总">
+                  <i class="fa fa-angle-left"></i> Powershell常用脚本汇总
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/22/esxcli-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E8%AE%B0%E5%BD%95/" rel="next" title="esxcli 常用指令记录">
+                  esxcli 常用指令记录 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

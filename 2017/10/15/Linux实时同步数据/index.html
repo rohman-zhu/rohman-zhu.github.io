@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实时同步数据有两款软件较为常用:  inotify sersync  1.inotifyInotify是一种强大的,异步的文件系统事件监听机制,linux内核从2.6.13起,加入了Inotify支持. 1.1检查当前版本是否支持inotify工具 检查内核版本 : uname -r  内核版本大于2.6.13即可以  ls -l &#x2F;proc&#x2F;sysy&#x2F;fs&amp;#x2F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux实时同步数据">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/15/Linux%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="实时同步数据有两款软件较为常用:  inotify sersync  1.inotifyInotify是一种强大的,异步的文件系统事件监听机制,linux内核从2.6.13起,加入了Inotify支持. 1.1检查当前版本是否支持inotify工具 检查内核版本 : uname -r  内核版本大于2.6.13即可以  ls -l &#x2F;proc&#x2F;sysy&#x2F;fs&amp;#x2F">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-15T17:31:32.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2017/10/15/Linux%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2017/10/15/Linux%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/","path":"2017/10/15/Linux实时同步数据/","title":"Linux实时同步数据"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux实时同步数据 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">实时同步数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-inotify"><span class="nav-number">1.1.</span> <span class="nav-text">1.inotify</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%A3%80%E6%9F%A5%E5%BD%93%E5%89%8D%E7%89%88%E6%9C%AC%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81inotify%E5%B7%A5%E5%85%B7"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1检查当前版本是否支持inotify工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E5%AE%89%E8%A3%85%E6%BA%90%E7%A0%81%E5%8C%85%E8%BD%AF%E4%BB%B6%E6%AD%A5%E9%AA%A4-%E4%B8%89%E6%AD%A5"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2安装源码包软件步骤(三步)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1%E8%A7%A3%E5%8E%8B"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2%E5%88%87%E6%8D%A2%E5%88%B0%E8%AF%A5%E7%9B%AE%E5%BD%95"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2切换到该目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3make-make-install"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3make &amp;&amp; make install</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-inotify-%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 inotify 的两个命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1inotifywait-%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">1.3.1inotifywait 参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inotify-sh-%E8%84%9A%E6%9C%AC"><span class="nav-number">1.1.4.</span> <span class="nav-text">inotify.sh 脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">应用案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.2.1.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">1.2.2.</span> <span class="nav-text">服务端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inotify-%E4%BC%98%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">inotify 优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inotify-%E7%BC%BA%E7%82%B9"><span class="nav-number">1.4.</span> <span class="nav-text">inotify 缺点</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/15/Linux%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux实时同步数据 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux实时同步数据
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-15 17:31:32" itemprop="dateCreated datePublished" datetime="2017-10-15T17:31:32+00:00">2017-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="实时同步数据"><a href="#实时同步数据" class="headerlink" title="实时同步数据"></a>实时同步数据</h1><p>有两款软件较为常用:</p>
+<ul>
+<li>inotify</li>
+<li>sersync</li>
+</ul>
+<h2 id="1-inotify"><a href="#1-inotify" class="headerlink" title="1.inotify"></a>1.inotify</h2><p>Inotify是一种强大的,异步的文件系统事件监听机制,linux内核从2.6.13起,加入了Inotify支持.</p>
+<h3 id="1-1检查当前版本是否支持inotify工具"><a href="#1-1检查当前版本是否支持inotify工具" class="headerlink" title="1.1检查当前版本是否支持inotify工具"></a>1.1检查当前版本是否支持inotify工具</h3><ul>
+<li>检查内核版本 : uname -r</li>
+</ul>
+<p>内核版本大于2.6.13即可以</p>
+<ul>
+<li>ls -l &#x2F;proc&#x2F;sysy&#x2F;fs&#x2F;inotify&#x2F;</li>
+</ul>
+<p>出现下面三条信息即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l /proc/sys/fs/inotify/</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Oct 15 08:29 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Oct 15 08:29 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Oct 15 08:29 max_user_watches</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2安装源码包软件步骤-三步"><a href="#1-2安装源码包软件步骤-三步" class="headerlink" title="1.2安装源码包软件步骤(三步)"></a>1.2安装源码包软件步骤(三步)</h3><h4 id="1-2-1解压"><a href="#1-2-1解压" class="headerlink" title="1.2.1解压"></a>1.2.1解压</h4><p>tar zxf 软件包.tar</p>
+<h4 id="1-2-2切换到该目录"><a href="#1-2-2切换到该目录" class="headerlink" title="1.2.2切换到该目录"></a>1.2.2切换到该目录</h4><p>cd 软件包</p>
+<h4 id="1-2-3make-make-install"><a href="#1-2-3make-make-install" class="headerlink" title="1.2.3make &amp;&amp; make install"></a>1.2.3make &amp;&amp; make install</h4><blockquote>
+<p>.&#x2F;configure –prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;软件包名字<br>make &amp;&amp; make install</p>
+</blockquote>
+<h3 id="1-3-inotify-的两个命令"><a href="#1-3-inotify-的两个命令" class="headerlink" title="1.3 inotify 的两个命令"></a>1.3 inotify 的两个命令</h3><ul>
+<li>inotifywait : 在被监控的文件或目录上等特定文件系统事件(open\close\delete等)发生,执行后处于阻塞状态,适合在shell脚本中使用.</li>
+<li>inotifywatch : 收集被监视的文件系统使用统计数据,指文件系统事件发生的次数统计.</li>
+</ul>
+<h4 id="1-3-1inotifywait-参数"><a href="#1-3-1inotifywait-参数" class="headerlink" title="1.3.1inotifywait 参数"></a>1.3.1inotifywait 参数</h4><blockquote>
+<p>[inotify-tools-3.14]# .&#x2F;bin&#x2F;inotifywait –help<br></br><br>.&#x2F;bin&#x2F;inotifywait</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-m</td>
+<td align="center">永远监控事件</td>
+</tr>
+<tr>
+<td align="center">-r</td>
+<td align="center">递归查询整个目录</td>
+</tr>
+<tr>
+<td align="center">-q</td>
+<td align="center">打印少量的信息,之显示日志</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td align="center">监听事件类型</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">access   file or directory contents were read</span><br><span class="line">modify   file or directory contents were written</span><br><span class="line">attrib   file or directory attributes changed</span><br><span class="line">close_write  file or directory closed, after being opened in writeable mode</span><br><span class="line">close_nowrite   file or directory closed, after being opened in read-only mode</span><br><span class="line">close    file or directory closed, regardless of read/write mode</span><br><span class="line">open     file or directory opened</span><br><span class="line">moved_to    file or directory moved to watched directory</span><br><span class="line">moved_from  file or directory moved from watched directory</span><br><span class="line">move    file or directory moved to or from watched directory</span><br><span class="line">create      file or directory created within watched directory</span><br><span class="line">delete   file or directory deleted within watched directory</span><br><span class="line">delete_self  file or directory was deleted</span><br><span class="line">unmount     file system containing file or directory unmounted</span><br></pre></td></tr></table></figure>
+
+<h3 id="inotify-sh-脚本"><a href="#inotify-sh-脚本" class="headerlink" title="inotify.sh 脚本"></a>inotify.sh 脚本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 把脚本固定在/server/scripts目录里面</span><br><span class="line"># mkdir -p /server/scripts</span><br><span class="line"># vim inotify.sh</span><br><span class="line"></span><br><span class="line">#!/bin/bash</span><br><span class="line">inotify=/usr/local/inotify-tools/bin/inotifywait</span><br><span class="line">$inotify -mrq --format &#x27;%w%f&#x27; -e create,close_write,delete /oldboy  \</span><br><span class="line">|while read file</span><br><span class="line">do</span><br><span class="line">    cd /oldboy &amp;&amp;</span><br><span class="line">    rsync -ac ./ --delete rsync_backup@10.0.0.7::oldboy \ --password-file=/etc/rsync.password</span><br><span class="line">done</span><br><span class="line">:wq</span><br><span class="line"></span><br><span class="line"># 检查</span><br><span class="line"># sh -x /server/scripts/inotify.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用案例"><a href="#应用案例" class="headerlink" title="应用案例"></a>应用案例</h2><ul>
+<li>客户端 10.0.0.x</li>
+<li>服务端 10.0.0.7</li>
+</ul>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>需要以下几个条件:</p>
+<ul>
+<li>需要监控的目录</li>
+<li>rsync的密码文件</li>
+<li>inotify脚本</li>
+<li>启动脚本</li>
+</ul>
+<p>这里我们用的例子中:</p>
+<ul>
+<li>被监控的目录在 &#x2F;data 中</li>
+<li>密码文件 &#x2F;etc&#x2F;rsync.password</li>
+<li>脚本 &#x2F;server&#x2F;scripts&#x2F;inotify.sh</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># 创建需要监控的目录</span><br><span class="line"># mkdir /data</span><br><span class="line"># mkdir -p /server/scripts</span><br><span class="line"></span><br><span class="line"># 编写脚本</span><br><span class="line"># vim /server/scripts/inotify.sh</span><br><span class="line"></span><br><span class="line"># 创建rsync用的密码文件</span><br><span class="line"># echo oldboy &gt; /etc/rsync.password</span><br><span class="line"># chmod 600 /etc/rsync.password</span><br><span class="line"></span><br><span class="line">#!bin/bash</span><br><span class="line">inotify=/usr/local/inotify-tools/bin/inotifywait</span><br><span class="line">$inotify -mrq --format &#x27;%w%f&#x27; -e create,close_write,delete /oldboy  \</span><br><span class="line">|while read file</span><br><span class="line">do</span><br><span class="line">    cd /oldboy &amp;&amp;</span><br><span class="line">    rsync -ac ./ --delete rsync_backup@10.0.0.7::oldboy \ --password-file=/etc/rsync.password</span><br><span class="line">done</span><br><span class="line">:wq</span><br><span class="line"></span><br><span class="line"># 编译脚本</span><br><span class="line"># sh -x /server/scripts/inotify.sh</span><br><span class="line"></span><br><span class="line"># 运行脚本</span><br><span class="line"># bin/sh /server/scripts/inotify.sh</span><br><span class="line"></span><br><span class="line"># 添加到开机自启动项目</span><br><span class="line"># echo bin/sh /server/scripts/inotify.sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>需要以下几个条件:</p>
+<ul>
+<li>存放备份文件的目录 &#x2F;backup</li>
+<li>rsync用的配置文件 rsyncd.conf</li>
+<li>rsync认证用的用户与密码文件 rsyncd.password</li>
+<li>开启daemon模式的rsync 服务</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 创建配置文件</span><br><span class="line"># vim /etc/rsyncd.conf</span><br><span class="line">#Rsync server</span><br><span class="line">#Created by Roman 2017-10-15 14:50</span><br><span class="line">##rsyncd.conf start##</span><br><span class="line">uid = rsync</span><br><span class="line">gid = rsync</span><br><span class="line">use chroot = no</span><br><span class="line">max connection = 200</span><br><span class="line">timout =600</span><br><span class="line">pid file =/var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">ignore errors</span><br><span class="line">read only = false</span><br><span class="line">list = false</span><br><span class="line">hosts allow = 10.0.0.0/24</span><br><span class="line">auth users = rsync_backup</span><br><span class="line">secrets file = /etc/rsync.password</span><br><span class="line">############################</span><br><span class="line">[backup]</span><br><span class="line">comment = backup by roman 14:50 2017-10-15</span><br><span class="line">path = /backup/</span><br><span class="line">:wq</span><br><span class="line"></span><br><span class="line"># echo &quot;rsync_backup:oldboy&quot; &gt; /etc/rsync.password</span><br><span class="line"></span><br><span class="line"># mkdir /backup</span><br><span class="line"></span><br><span class="line"># rsync --daemon</span><br></pre></td></tr></table></figure>
+
+<h2 id="inotify-优点"><a href="#inotify-优点" class="headerlink" title="inotify 优点"></a>inotify 优点</h2><p>实时数据同步</p>
+<h2 id="inotify-缺点"><a href="#inotify-缺点" class="headerlink" title="inotify 缺点"></a>inotify 缺点</h2><ol>
+<li>并发如果大于200个文件(10-100K),不同会有延迟.</li>
+<li>每一次都是全部推送一次,确实是增量的.</li>
+<li>监控到事件后,调用 rsync 同步是单进程的(加并发),sersync多进程同步.</li>
+</ol>
+<p>既然有了inotify-tools,为什么还要开发sersync?<br></br><br>sersync功能多:</p>
+<ol>
+<li>配置文件</li>
+<li>真正的守护进程socket</li>
+<li>可以对失败文件定时重传</li>
+<li>第三方的HTTP接口</li>
+<li>默认多线程同步</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/15/Linux%E7%9A%84RSYNC%E6%9C%8D%E5%8A%A1/" rel="prev" title="Linux的RSYNC服务">
+                  <i class="fa fa-angle-left"></i> Linux的RSYNC服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/" rel="next" title="Linux的批量管理">
+                  Linux的批量管理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

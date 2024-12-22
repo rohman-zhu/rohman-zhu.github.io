@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="批量管理方案一般会有三种方案:  面对中小企业的 sshkey 密钥方案 面对门户网站的 PUPPET 其他: SALTSTACK  SSH我们一般用的是SSH2加密协议,具体原理待补充. 常用的两个命令:  ssh-keygen -t dsa 用于生产公钥和私钥 ssh-copy-id -i 公钥的地址 目标机器  这里有一个形象的比喻:  公钥 - 锁 私钥 - 钥匙  我们常用ssh无密码登">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的批量管理">
+<meta property="og:url" content="http://github.com/rohman-zhu/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="批量管理方案一般会有三种方案:  面对中小企业的 sshkey 密钥方案 面对门户网站的 PUPPET 其他: SALTSTACK  SSH我们一般用的是SSH2加密协议,具体原理待补充. 常用的两个命令:  ssh-keygen -t dsa 用于生产公钥和私钥 ssh-copy-id -i 公钥的地址 目标机器  这里有一个形象的比喻:  公钥 - 锁 私钥 - 钥匙  我们常用ssh无密码登">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-10-16T21:21:20.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/","path":"2017/10/16/Linux的批量管理/","title":"Linux的批量管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux的批量管理 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">批量管理方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH"><span class="nav-number">1.1.</span> <span class="nav-text">SSH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8F%90%E9%80%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何提速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%94%A8ssh%E7%99%BB%E5%BD%95%E7%9B%AE%E6%A0%87%E6%9C%BA%E5%99%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何用ssh登录目标机器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">故障排查</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssh%E8%BF%9E%E6%8E%A5%E5%B0%8F%E7%BB%93"><span class="nav-number">1.1.3.</span> <span class="nav-text">ssh连接小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SCP"><span class="nav-number">1.2.</span> <span class="nav-text">SCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.2.1.</span> <span class="nav-text">上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.2.2.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.2.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sftp"><span class="nav-number">1.3.</span> <span class="nav-text">sftp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SFTP%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.3.1.</span> <span class="nav-text">SFTP下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SFTP%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.3.2.</span> <span class="nav-text">SFTP上传</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%99%B7"><span class="nav-number">1.4.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86-%E6%89%B9%E9%87%8F%E9%83%A8%E7%BD%B2"><span class="nav-number">1.5.</span> <span class="nav-text">如何批量管理,批量部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A9%E5%85%B6%E4%BB%96%E6%9C%BA%E5%99%A8%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86"><span class="nav-number">1.6.</span> <span class="nav-text">如何让其他机器免密码登陆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E6%9C%BA%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E9%99%86%E6%9C%8D%E5%8A%A1%E6%9C%BA"><span class="nav-number">1.6.1.</span> <span class="nav-text">客户机免密码登陆服务机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%BB%8EA%E6%8C%87%E5%AE%9A%E7%9B%AE%E5%BD%95%E6%89%B9%E9%87%8F%E5%88%86%E5%8F%91%E6%96%87%E4%BB%B6%E5%88%B0B-C%E7%94%A8%E6%88%B7%E7%9A%84%E5%AE%B6%E7%9B%AE%E5%BD%95"><span class="nav-number">1.7.</span> <span class="nav-text">如何实现从A指定目录批量分发文件到B,C用户的家目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E6%9C%BA%E5%99%A8%E7%9A%84%E8%B4%9F%E8%BD%BDload-cpu-%E5%86%85%E5%AD%98%E7%AD%89%E4%BF%A1%E6%81%AF"><span class="nav-number">1.8.</span> <span class="nav-text">如何快速查看所有机器的负载load,cpu,内存等信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SHELL%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.8.1.</span> <span class="nav-text">SHELL脚本编程知识点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5"><span class="nav-number">1.9.</span> <span class="nav-text">如何实现远程实时同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Expect%E9%9D%9E%E4%BA%A4%E4%BA%92%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80"><span class="nav-number">1.10.</span> <span class="nav-text">Expect非交互脚本语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#expect%E6%A0%B7%E4%BE%8B"><span class="nav-number">1.10.1.</span> <span class="nav-text">expect样例</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2017/10/16/Linux%E7%9A%84%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux的批量管理 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux的批量管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-16 21:21:20" itemprop="dateCreated datePublished" datetime="2017-10-16T21:21:20+00:00">2017-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="批量管理方案"><a href="#批量管理方案" class="headerlink" title="批量管理方案"></a>批量管理方案</h1><p>一般会有三种方案:</p>
+<ul>
+<li>面对中小企业的 sshkey 密钥方案</li>
+<li>面对门户网站的 PUPPET</li>
+<li>其他: SALTSTACK</li>
+</ul>
+<h2 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h2><p>我们一般用的是SSH2加密协议,具体原理待补充.</p>
+<p>常用的两个命令:</p>
+<ul>
+<li>ssh-keygen -t dsa 用于生产公钥和私钥</li>
+<li>ssh-copy-id -i 公钥的地址 目标机器</li>
+</ul>
+<p>这里有一个形象的比喻:</p>
+<ul>
+<li>公钥 - 锁</li>
+<li>私钥 - 钥匙</li>
+</ul>
+<p>我们常用ssh无密码登录,可以采用将公钥发布给信任的机器.</p>
+<h3 id="如何提速"><a href="#如何提速" class="headerlink" title="如何提速"></a>如何提速</h3><p>修改sshd的配置文件即可,&#x2F;etc&#x2F;ssh&#x2F;sshd.conf</p>
+<ul>
+<li>UseDns no</li>
+<li>Auth…DNS no</li>
+</ul>
+<h3 id="如何用ssh登录目标机器"><a href="#如何用ssh登录目标机器" class="headerlink" title="如何用ssh登录目标机器"></a>如何用ssh登录目标机器</h3><p>机器:</p>
+<ul>
+<li>被访问的机器 : 10.0.0.7 Server</li>
+<li>需求访问的机器 : 10.0.0.8 Client</li>
+</ul>
+<p>要实现该功能,首先在_Server_端操作:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 创建公钥与私钥</span><br><span class="line"># ssh-keygen -t dsa</span><br><span class="line"># -t是指定密钥的类型</span><br><span class="line"></span><br><span class="line"># 将公钥发布到目标机器上</span><br><span class="line"># ssh-copy-id -i ~/.ssh/id_dsa.pub Client@10.0.0.8</span><br></pre></td></tr></table></figure>
+
+<p>在输入完Client密码后,就可以在_Server_端用ssh登陆Client了</p>
+<h4 id="故障排查"><a href="#故障排查" class="headerlink" title="故障排查"></a>故障排查</h4><p>以上的操作,都是基于ssh的端口为22.如果端口不为22,而是被修改为其他端口,则会出现以下错误:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh: umask 077; test -d .ssh || mkdir .ssh ; cat &gt;&gt; .ssh/authorized_keys: Name or service not know</span><br></pre></td></tr></table></figure>
+
+<p>目前找到一种解决方案,亲测有效:<br></br><br>在复制公钥到机器的时候,添加双引号</p>
+<ul>
+<li>ssh-copy-id -i ~&#x2F;.ssh&#x2F;id_rsa.pub “-p 1024 <a href="mailto:&#67;&#x6c;&#x69;&#101;&#110;&#x74;&#64;&#x31;&#48;&#46;&#x30;&#x2e;&#x30;&#x2e;&#55;">&#67;&#x6c;&#x69;&#101;&#110;&#x74;&#64;&#x31;&#48;&#46;&#x30;&#x2e;&#x30;&#x2e;&#55;</a>“ 即可</li>
+</ul>
+<h3 id="ssh连接小结"><a href="#ssh连接小结" class="headerlink" title="ssh连接小结"></a>ssh连接小结</h3><ol>
+<li>切换到别人的机器 ,ssh -p端口号 username@ip</li>
+<li>直接执行命令 ,ssh -p端口号 username@ip 命令(全路径)</li>
+<li>第一次ssh连接的时候,本地会产生一个密钥文件 ~&#x2F;.ssh&#x2F;know_hosts文件</li>
+</ol>
+<h2 id="SCP"><a href="#SCP" class="headerlink" title="SCP"></a>SCP</h2><p>secure copy (remote file copy program)</p>
+<h3 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h3><ul>
+<li>scp -P 端口号 -avz 要上传的文件(全路径) username@ip:&#x2F;存放路径</li>
+</ul>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><ul>
+<li>scp -P 端口号 -avz username@ip:&#x2F;目标路径  存放文件的目录(全路径)</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>scp是加密的远程拷贝,而cp仅是本地拷贝</li>
+<li>可以把数据从一台机器推送给另外一台机器 , 也可以从其他服务器把数据来回本地</li>
+<li>每次都是全量完整拷贝,因此效率不高,适合第一次拷贝用,如果需要增量拷贝,用rsync.</li>
+</ol>
+<h2 id="sftp"><a href="#sftp" class="headerlink" title="sftp"></a>sftp</h2><p>这是一个FTP服务器,基于SSH,即是加密传输<br></br><br>格式:<br></br><br>sftp -oPort&#x3D;端口号 username@ip</p>
+<h3 id="SFTP下载"><a href="#SFTP下载" class="headerlink" title="SFTP下载"></a>SFTP下载</h3><p>get 目录 本地存放的目录(全路径)</p>
+<h3 id="SFTP上传"><a href="#SFTP上传" class="headerlink" title="SFTP上传"></a>SFTP上传</h3><p>put 需要上传的文件(全路径) 存放的目录(全路径)</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ol>
+<li>用的是root用户,权限太大,有可能会误操作破坏系统</li>
+</ol>
+<h2 id="如何批量管理-批量部署"><a href="#如何批量管理-批量部署" class="headerlink" title="如何批量管理,批量部署"></a>如何批量管理,批量部署</h2><p>两个部分:</p>
+<ul>
+<li>分发服务器</li>
+<li>分发对象</li>
+</ul>
+<p>应用:</p>
+<ul>
+<li>将机器名字对应到hosts文件里面,再发给所有用户机</li>
+</ul>
+<p>部署其实是通过脚本来实现的:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># vim /server/scripts/test.sh</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line"># 加入系统函数库</span><br><span class="line">. /etc/init.d/functions</span><br><span class="line">for n in 7 8 9</span><br><span class="line">do</span><br><span class="line">    scp -P1024 hosts oldgirl@10.0.0.$n:~</span><br><span class="line">    if[$? -eq 0]</span><br><span class="line">        then</span><br><span class="line">            action &quot;fenfa $1 ok&quot; /etc/true</span><br><span class="line">        else</span><br><span class="line">            actiong &quot;fenfa $1 fail&quot; /etc/false</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何让其他机器免密码登陆"><a href="#如何让其他机器免密码登陆" class="headerlink" title="如何让其他机器免密码登陆"></a>如何让其他机器免密码登陆</h2><h3 id="客户机免密码登陆服务机"><a href="#客户机免密码登陆服务机" class="headerlink" title="客户机免密码登陆服务机"></a>客户机免密码登陆服务机</h3><p>思路 : 服务机通过 scp 将 私钥文件放置客户机的 .ssh 目录下面, 服务及再通过 ssh-copy-id 将公钥给予自己.</p>
+<ul>
+<li>服务机 : Server , 10.0.0.7 : 1024</li>
+<li>客户机 : Client , 10.0.0.8 : 1024</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># scp -p1024 .ssh/id_dsa Client@10.0.0.8</span><br><span class="line"></span><br><span class="line"># ssh-copy-id -i .ssh/id_dsa_pub &quot;-p1024 Server@10.0.0.7&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那么在客户机下就可以用Client用户无密码登录Server机了</p>
+<h2 id="如何实现从A指定目录批量分发文件到B-C用户的家目录"><a href="#如何实现从A指定目录批量分发文件到B-C用户的家目录" class="headerlink" title="如何实现从A指定目录批量分发文件到B,C用户的家目录"></a>如何实现从A指定目录批量分发文件到B,C用户的家目录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">. /etc/init.d/functions</span><br><span class="line">if[$# -ne 1]</span><br><span class="line">then</span><br><span class="line">    echo &quot;USAGE : $0 FILENAME&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">for n in 8 9</span><br><span class="line">do</span><br><span class="line">    scp -P 1024 -rp $1 commonTestMan@10.0.0.$n &amp;&gt;/dev/null</span><br><span class="line">    if[$? -eq 0]</span><br><span class="line">    then</span><br><span class="line">        action &quot;$n is ok&quot; /bin/true</span><br><span class="line">    else</span><br><span class="line">        action &quot;$n is fail /bin/false</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何快速查看所有机器的负载load-cpu-内存等信息"><a href="#如何快速查看所有机器的负载load-cpu-内存等信息" class="headerlink" title="如何快速查看所有机器的负载load,cpu,内存等信息"></a>如何快速查看所有机器的负载load,cpu,内存等信息</h2><p>创建脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">if[$# -ne 1]</span><br><span class="line">then</span><br><span class="line">    echo &quot;USAGE:$0 CMD&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">for n in 8 9</span><br><span class="line">do</span><br><span class="line">    ssh Server@10.0.0.$n $1 2&gt;/dev/null</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h3 id="SHELL脚本编程知识点"><a href="#SHELL脚本编程知识点" class="headerlink" title="SHELL脚本编程知识点"></a>SHELL脚本编程知识点</h3><ul>
+<li>符号#!用来告诉系统它后面的参数是用来执行该文件的程序</li>
+<li>‘$#’表示输入的参数</li>
+<li>‘-ne’表示不等于</li>
+<li>“if” 表达式 如果条件为真则执行then后面的部分：最终以fi结尾</li>
+<li>$+数字 一般是位置参数的用法</li>
+<li>$0 脚本文件的名字</li>
+</ul>
+<h2 id="如何实现远程实时同步"><a href="#如何实现远程实时同步" class="headerlink" title="如何实现远程实时同步"></a>如何实现远程实时同步</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">if [ $# -ne 2]</span><br><span class="line">then</span><br><span class="line">    echo &quot;USAGE:$0 FileName RemoteDiretory&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">for n in 8 9</span><br><span class="line">do</span><br><span class="line">    scp -rp $1 commonTestMan@10.0.0.$n:~ &amp;&gt;/dev/null&amp;&amp; \</span><br><span class="line">    ssh -t commonTestMan@10.0.0.$n sudo rsync $1 $2 &amp;&gt;/dev/null</span><br><span class="line">    if [ $? -eq 0]</span><br><span class="line">    then</span><br><span class="line">        action &quot;$1 to $2 10.0.0.$n is ok&quot; /bin/true</span><br><span class="line">    else</span><br><span class="line">        action &quot;$1 to $2 10.0.0.$n is fail&quot; /bin/false</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h2 id="Expect非交互脚本语言"><a href="#Expect非交互脚本语言" class="headerlink" title="Expect非交互脚本语言"></a>Expect非交互脚本语言</h2><h3 id="expect样例"><a href="#expect样例" class="headerlink" title="expect样例"></a>expect样例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/expect</span><br><span class="line">if &#123; $argc != 3 &#125;&#123;</span><br><span class="line">    send_user &quot;usage : expect scp-expect.exp file host dir\n&quot;</span><br><span class="line">    exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define var</span><br><span class="line">set file [lindex $argv 0]</span><br><span class="line">set host [lindex $argv 1]</span><br><span class="line">set dir  [lindex $argv 2]</span><br><span class="line">set password &quot;123456&quot;</span><br><span class="line"></span><br><span class="line">#spawn scp /etc/hosts root@10.0.0.142:/etc/hosts</span><br><span class="line">spawn scp -P22 -p $file root@host:$dir</span><br><span class="line">set timeout 60</span><br><span class="line">expect&#123;</span><br><span class="line">    -timeout 2</span><br><span class="line">    &quot;yes/no&quot; &#123;send &quot;yes\r&quot;;exp_continue&#125;</span><br><span class="line">    &quot;*password&quot; &#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">    timeout &#123;puts &quot;expect connect timeout,pls contact oldboy.&quot;;return&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect eof</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/10/15/Linux%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5%E6%95%B0%E6%8D%AE/" rel="prev" title="Linux实时同步数据">
+                  <i class="fa fa-angle-left"></i> Linux实时同步数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/10/18/Linux%E8%80%83%E9%A2%98/" rel="next" title="Linux考题">
+                  Linux考题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

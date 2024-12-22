@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言今天完成了几台服务器的上架任务（包括安装系统），期间的操作流程在此做一下记录。因有保密性要求，这里就不列出服务器的型号与业务。仅是将今天所学到的一些规范和注意事项做一下记录。 准备工作确认服务器配置由于服务器到运维人员手上时，该服务器已经历过多手转换，期间又有多个人对接谈判，因此，该服务器的配置是否还是你当初的所要求的，这里需要留一个问好。  这个服务器的配置是我需要的吗？  先确认最明显的几">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器上架笔记(1)">
+<meta property="og:url" content="http://github.com/rohman-zhu/2018/10/18/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%9E%B6%E7%AC%94%E8%AE%B0-1/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言今天完成了几台服务器的上架任务（包括安装系统），期间的操作流程在此做一下记录。因有保密性要求，这里就不列出服务器的型号与业务。仅是将今天所学到的一些规范和注意事项做一下记录。 准备工作确认服务器配置由于服务器到运维人员手上时，该服务器已经历过多手转换，期间又有多个人对接谈判，因此，该服务器的配置是否还是你当初的所要求的，这里需要留一个问好。  这个服务器的配置是我需要的吗？  先确认最明显的几">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-18T22:47:32.000Z">
+<meta property="article:modified_time" content="2020-03-15T12:25:38.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/2018/10/18/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%9E%B6%E7%AC%94%E8%AE%B0-1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/2018/10/18/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%9E%B6%E7%AC%94%E8%AE%B0-1/","path":"2018/10/18/服务器上架笔记-1/","title":"服务器上架笔记(1)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>服务器上架笔记(1) | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">确认服务器配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BA%BF%E8%B7%AF%E7%A1%AE%E8%AE%A4"><span class="nav-number">2.2.</span> <span class="nav-text">网络线路确认</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E7%83%AD%E9%87%8F%E7%A1%AE%E8%AE%A4"><span class="nav-number">2.3.</span> <span class="nav-text">服务器发热量确认</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4U%E6%A7%BD%E4%B8%8E%E7%90%86%E7%BA%BF"><span class="nav-number">2.4.</span> <span class="nav-text">确认U槽与理线</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8A%E6%9E%B6"><span class="nav-number">3.</span> <span class="nav-text">上架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.</span> <span class="nav-text">安装系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C%E5%B0%8F%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">经验小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2018/10/18/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%9E%B6%E7%AC%94%E8%AE%B0-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="服务器上架笔记(1) | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          服务器上架笔记(1)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-18 22:47:32" itemprop="dateCreated datePublished" datetime="2018-10-18T22:47:32+00:00">2018-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2020-03-15 12:25:38" itemprop="dateModified" datetime="2020-03-15T12:25:38+00:00">2020-03-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天完成了几台服务器的上架任务（包括安装系统），期间的操作流程在此做一下记录。因有保密性要求，这里就不列出服务器的型号与业务。仅是将今天所学到的一些规范和注意事项做一下记录。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="确认服务器配置"><a href="#确认服务器配置" class="headerlink" title="确认服务器配置"></a>确认服务器配置</h2><p>由于服务器到运维人员手上时，该服务器已经历过多手转换，期间又有多个人对接谈判，因此，该服务器的配置是否还是你当初的所要求的，这里需要留一个问好。</p>
+<blockquote>
+<p>这个服务器的配置是我需要的吗？</p>
+</blockquote>
+<p>先确认最明显的几点：</p>
+<ul>
+<li>是否带冗余电源。</li>
+<li>是否有配备RAID阵列卡。</li>
+<li>RAID阵列卡是什么型号的。</li>
+<li>网卡、网口是否满足需求，是要四口的？还是2口？</li>
+<li>光口的网卡是什么类型的，40G？10G？HBA？</li>
+<li>硬盘多少G。</li>
+<li>随机配备的光模块确认清楚，是否都齐全。</li>
+<li>确认拓展卡槽是什么类型的 ， PCIex8 ？ PCIex16 ？ ML2 ？</li>
+<li>电源是否都为PDU专用，规格是什么？是不是C13-14？</li>
+</ul>
+<h2 id="网络线路确认"><a href="#网络线路确认" class="headerlink" title="网络线路确认"></a>网络线路确认</h2><ul>
+<li>存储用的是哪几个口，分配什么IP ？</li>
+<li>业务用的是哪几个口，分配什么IP ？</li>
+<li>带外管理用的是什么IP ？</li>
+<li>服务器本身管理用的是什么网口 ？</li>
+<li>采用什么样的接线方式 ？ 交叉 ？ 为什么？</li>
+</ul>
+<h2 id="服务器发热量确认"><a href="#服务器发热量确认" class="headerlink" title="服务器发热量确认"></a>服务器发热量确认</h2><p>确认主要发热的模块是哪一些？<br>重新规划各个阵列卡的位置，确保有效散热。</p>
+<h2 id="确认U槽与理线"><a href="#确认U槽与理线" class="headerlink" title="确认U槽与理线"></a>确认U槽与理线</h2><ul>
+<li>服务器占几U ？</li>
+<li>怎么摆放 ？</li>
+<li>确定要用什么电源线 ？ </li>
+<li>标签要写什么 ？</li>
+<li>服务器名称写什么 ？</li>
+</ul>
+<h1 id="上架"><a href="#上架" class="headerlink" title="上架"></a>上架</h1><p>面对十几公斤的服务器，一定要两个人合作上架，避免出现事故。</p>
+<h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><p>确定需要安装什么版本的系统，采用什么方式安装。 </p>
+<ul>
+<li>ESXi ？ Custom ？</li>
+<li>Ubuntu 1404 server LTS ？</li>
+<li>Ubuntu 1604 server LTS ？</li>
+<li>CentOS 6 ？ CentOS 7 ？</li>
+<li>Windows Server 2012 ？</li>
+</ul>
+<h1 id="经验小结"><a href="#经验小结" class="headerlink" title="经验小结"></a>经验小结</h1><ul>
+<li>对于一个业务用两个网口（A ， B） ， 如果条件允许，请将两个口分散在两块不同的网卡上面，避免一块网卡损坏时，导致这个业务全部中断。</li>
+<li>对于电源线的接法，也采用交叉的方式去接 。 例如 A服务器两块电源 A1 、 A2 对饮接到 PDU1 、 PDU 2； 而B服务器两块电源 B1 、 B2 则对应接到 PDU2 、 PDU1 。 这样就可以使负载更加分散，避免单路PDU负载过高。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/10/16/%5B%E5%BE%85%E5%AE%8C%E5%96%84%5D-LVM%E6%89%A9%E5%AE%B9/" rel="prev" title="LVM扩容">
+                  <i class="fa fa-angle-left"></i> LVM扩容
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/18/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%E5%AD%98%E6%B5%8B%E8%AF%95/" rel="next" title="服务器内存测试">
+                  服务器内存测试 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
