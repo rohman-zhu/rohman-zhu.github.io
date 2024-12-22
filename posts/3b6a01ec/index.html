@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="需求部署了一套ELK环境，需要将vCenter的日志转发至ELK。但是ELK接入日志的要求：  接入的日志要为 json 格式； 时间格式有要求；  但是 vCenter 的输出日志不能直接为 json 格式，ELK无法解析此日志。 方案说明 部署一台 rsyslog 日志服务器，用于接收vCenter的日志。 将接收到的日志转为json格式。 将日志转至ELK服务器。  前置工作准备信息梳理与规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将VCSA的SYSLOG转发至ELK【待补充】">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/3b6a01ec/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="需求部署了一套ELK环境，需要将vCenter的日志转发至ELK。但是ELK接入日志的要求：  接入的日志要为 json 格式； 时间格式有要求；  但是 vCenter 的输出日志不能直接为 json 格式，ELK无法解析此日志。 方案说明 部署一台 rsyslog 日志服务器，用于接收vCenter的日志。 将接收到的日志转为json格式。 将日志转至ELK服务器。  前置工作准备信息梳理与规">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-14T22:44:08.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.189Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="syslog">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/3b6a01ec/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/3b6a01ec/","path":"posts/3b6a01ec/","title":"如何将VCSA的SYSLOG转发至ELK【待补充】"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何将VCSA的SYSLOG转发至ELK【待补充】 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">方案说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E5%B7%A5%E4%BD%9C%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">前置工作准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%A2%B3%E7%90%86%E4%B8%8E%E8%A7%84%E5%88%92"><span class="nav-number">3.1.</span> <span class="nav-text">信息梳理与规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E6%A2%B3%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">防火墙梳理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#syslog%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">3.3.</span> <span class="nav-text">syslog服务器信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%96%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">4.</span> <span class="nav-text">实施阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85rsyslog"><span class="nav-number">4.1.</span> <span class="nav-text">安装rsyslog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEsyslog%E6%8E%A5%E6%94%B6%E6%A8%A1%E6%9D%BF"><span class="nav-number">4.2.</span> <span class="nav-text">配置syslog接收模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEfilebeat"><span class="nav-number">4.3.</span> <span class="nav-text">配置filebeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">4.4.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3b6a01ec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何将VCSA的SYSLOG转发至ELK【待补充】 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何将VCSA的SYSLOG转发至ELK【待补充】
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-14 22:44:08" itemprop="dateCreated datePublished" datetime="2021-09-14T22:44:08+00:00">2021-09-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>部署了一套ELK环境，需要将vCenter的日志转发至ELK。但是ELK接入日志的要求：</p>
+<ol>
+<li>接入的日志要为 json 格式；</li>
+<li>时间格式有要求；</li>
+</ol>
+<p>但是 vCenter 的输出日志不能直接为 json 格式，ELK无法解析此日志。</p>
+<h1 id="方案说明"><a href="#方案说明" class="headerlink" title="方案说明"></a>方案说明</h1><ol>
+<li>部署一台 rsyslog 日志服务器，用于接收vCenter的日志。</li>
+<li>将接收到的日志转为json格式。</li>
+<li>将日志转至ELK服务器。</li>
+</ol>
+<h1 id="前置工作准备"><a href="#前置工作准备" class="headerlink" title="前置工作准备"></a>前置工作准备</h1><h2 id="信息梳理与规划"><a href="#信息梳理与规划" class="headerlink" title="信息梳理与规划"></a>信息梳理与规划</h2><table>
+<thead>
+<tr>
+<th align="center">IP</th>
+<th align="center">角色</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">IP1</td>
+<td align="center">syslog服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">IP2</td>
+<td align="center">VCSA服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">IP3</td>
+<td align="center">ELK服务器-接收日志</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="防火墙梳理"><a href="#防火墙梳理" class="headerlink" title="防火墙梳理"></a>防火墙梳理</h2><table>
+<thead>
+<tr>
+<th align="center">SRC</th>
+<th align="center">DST</th>
+<th align="center">TCP-Port</th>
+<th align="center">UDP-Port</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">VCSA服务器地址</td>
+<td align="center">syslog服务器地址</td>
+<td align="center">514（可自定义）</td>
+<td align="center"></td>
+<td align="center">将VCSA日志传至syslog</td>
+</tr>
+<tr>
+<td align="center">syslog服务器地址</td>
+<td align="center">ELK服务器</td>
+<td align="center">自定义</td>
+<td align="center"></td>
+<td align="center">将syslog日志转至ELK服务器</td>
+</tr>
+</tbody></table>
+<h2 id="syslog服务器信息"><a href="#syslog服务器信息" class="headerlink" title="syslog服务器信息"></a>syslog服务器信息</h2><ul>
+<li>OS：CentOS 7.5-1804</li>
+<li>rsyslog版本： xxx</li>
+</ul>
+<h1 id="实施阶段"><a href="#实施阶段" class="headerlink" title="实施阶段"></a>实施阶段</h1><h2 id="安装rsyslog"><a href="#安装rsyslog" class="headerlink" title="安装rsyslog"></a>安装rsyslog</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install rsyslog -y</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置syslog接收模板"><a href="#配置syslog接收模板" class="headerlink" title="配置syslog接收模板"></a>配置syslog接收模板</h2><p>常规配置则为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#[系统类型].[消息类型]  [日志存放至某一个目录]</span><br><span class="line">#例如：mail.info   /var/log/mail/logs</span><br><span class="line">#解释：表示邮件系统的info日志，存放至/var/log/mail/logs文件中</span><br><span class="line"></span><br><span class="line">#若对输出日志有格式要求，可以定义模板；完成定义后，再去应用模板</span><br><span class="line">#模板定义Template</span><br><span class="line">#Template(name=&quot;模板名&quot; type=&quot;类型&quot;)(具体描述)</span><br><span class="line">#使用模板</span><br><span class="line">#[系统类型].[消息类型]  [日志存放至某一个目录];[模板名]</span><br></pre></td></tr></table></figure>
+
+<p>json格式简单解释</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#json格式定义</span><br><span class="line">#&#123;&#125;或括号包住头尾</span><br><span class="line">#每一对键值用,隔开</span><br><span class="line">#键与值之间用:隔开</span><br><span class="line">#键与值都需要用&quot;&quot;包起来</span><br><span class="line">#例如</span><br><span class="line">#&#123;&quot;键1&quot;:&quot;值1&quot;,&quot;键2&quot;,&quot;值2&quot;&#125;</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+<p>定义list类型模板，可将输出类型转至json格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Template(name=&quot;toJson&quot; type=&quot;list&quot;)&#123;</span><br><span class="line">  constant(&quot;&#123;&quot;&#125;)</span><br><span class="line"></span><br><span class="line">  constant(&quot;&#125;\n&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置filebeat"><a href="#配置filebeat" class="headerlink" title="配置filebeat"></a>配置filebeat</h2><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>《使用Rsyslog进行VMware vSphere和vCenter重要日志管理》 ： <a target="_blank" rel="noopener" href="https://www.ywnz.com/linuxyffq/4328.html">https://www.ywnz.com/linuxyffq/4328.html</a></p>
+<p>《将 vCenter Server Appliance日志文件转发到 远程 Syslog 服务器》：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.vsphere.vcsa.doc/GUID-9633A961-A5C3-4658-B099-B81E0512DC21.html">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.vsphere.vcsa.doc/GUID-9633A961-A5C3-4658-B099-B81E0512DC21.html</a><br>《rsyslog模板解释》：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cherishry/p/6776407.html">https://www.cnblogs.com/cherishry/p/6776407.html</a><br>《rsyslog输出至json格式》：<a target="_blank" rel="noopener" href="https://www.iyunv.com/thread-144079-1-1.html">https://www.iyunv.com/thread-144079-1-1.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/syslog/" rel="tag"># syslog</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/a2eccc9a/" rel="prev" title="实例-如何快速找到Datastore内的模板【待补充】">
+                  <i class="fa fa-angle-left"></i> 实例-如何快速找到Datastore内的模板【待补充】
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/fd036253/" rel="next" title="VCSA证书过期导致vCenter服务异常-【待补充】">
+                  VCSA证书过期导致vCenter服务异常-【待补充】 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

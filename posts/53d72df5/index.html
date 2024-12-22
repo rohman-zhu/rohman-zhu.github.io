@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言这段时间看到一位大佬的学习记录，因此这里有大部分内容是转载的。推荐看原文!!! 转载自：  https:&#x2F;&#x2F;www.zsythink.net&#x2F;archives&#x2F;4286  什么是Docker 与 安装 Docker咱们还是以传统意义上的“虚拟机”作为切入点，假设，有一台物理服务器，我们把这台服务器当做宿主机，在宿主机上虚出了虚机A、虚机B等虚拟机，对于这些虚拟机来说，它们各自都独占了一套完整的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-学习记录">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/53d72df5/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言这段时间看到一位大佬的学习记录，因此这里有大部分内容是转载的。推荐看原文!!! 转载自：  https:&#x2F;&#x2F;www.zsythink.net&#x2F;archives&#x2F;4286  什么是Docker 与 安装 Docker咱们还是以传统意义上的“虚拟机”作为切入点，假设，有一台物理服务器，我们把这台服务器当做宿主机，在宿主机上虚出了虚机A、虚机B等虚拟机，对于这些虚拟机来说，它们各自都独占了一套完整的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2022/01/16421268329864.jpg">
+<meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2022/02/16443754787791.jpg">
+<meta property="article:published_time" content="2024-03-17T14:45:03.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:47.824Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.zsythink.net/wp-content/uploads/2022/01/16421268329864.jpg">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/53d72df5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/53d72df5/","path":"posts/53d72df5/","title":"Docker-学习记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker-学习记录 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFDocker-%E4%B8%8E-%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">2.</span> <span class="nav-text">什么是Docker 与 安装 Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-%E4%BB%93%E5%BA%93%E3%80%81%E9%95%9C%E5%83%8F%E3%80%81%E5%AE%B9%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">初始化 仓库、镜像、容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8EDocker%E4%BA%A4%E4%BA%92"><span class="nav-number">4.</span> <span class="nav-text">与Docker交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8B%E9%9A%94%E7%A6%BB"><span class="nav-number">4.1.</span> <span class="nav-text">关于进程隔离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%95%9C%E5%83%8F"><span class="nav-number">5.</span> <span class="nav-text">镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E6%9E%84%E5%BB%BA%E6%96%B0%E9%95%9C%E5%83%8F"><span class="nav-number">5.1.</span> <span class="nav-text">Docker 构建新镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Compose-%E5%BA%94%E7%94%A8"><span class="nav-number">5.2.</span> <span class="nav-text">Docker Compose 应用</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/53d72df5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker-学习记录 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker-学习记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-17 14:45:03" itemprop="dateCreated datePublished" datetime="2024-03-17T14:45:03+00:00">2024-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这段时间看到一位大佬的学习记录，因此这里有大部分内容是转载的。推荐看原文!!!</p>
+<p>转载自：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/4286">https://www.zsythink.net/archives/4286</a></li>
+</ul>
+<h1 id="什么是Docker-与-安装-Docker"><a href="#什么是Docker-与-安装-Docker" class="headerlink" title="什么是Docker 与 安装 Docker"></a>什么是Docker 与 安装 Docker</h1><p>咱们还是以传统意义上的“虚拟机”作为切入点，假设，有一台物理服务器，我们把这台服务器当做宿主机，在宿主机上虚出了虚机A、虚机B等虚拟机，对于这些虚拟机来说，它们各自都独占了一套完整的操作系统，准确的说，应该是一套完整的“操作系统发行版”，注意，这里强调一下“发行版”三个字，以linux系统为例，组成一个“linux系统发行版”，首先需要有“linux内核”，其次还需要有相关软件依赖的运行环境软件包，比如说一些类库包、命令行工具等等，不同的linux发行版基于相同的linux内核开发，但是由于组成运行环境的包的不同，所以产生了不同的发行版，比如ubuntu和centos就是不同的linux发行版，对于虚机A和虚机B来说，它们各自拥有一套完整的操作系统（即使A和B都安装了centos7.9，本质上也是两个相互独立的操作系统），从隔离层面上来说，A和B之间是“linux系统发行版”的完整隔离，A和B都各自使用自己的内核和运行环境依赖包，各自使用自己的虚拟硬件，这是虚拟机在操作系统层面的隔离，理解上述概念，是避免搞混docker和传统虚拟化的关键。</p>
+<p>现在再来聊聊docker，我们知道docker是一种容器引擎，docker运行容器的本质目的是去运行某个程序，docker通过应用程序镜像，安装并运行对应的程序，比如，我需要运行nginx，只需要下载对应的nginx镜像，docker就可以把这个nginx镜像运行成一个容器，容器把内部的nginx服务端口暴露出来，我们就可以访问nginx服务了，其他服务软件同理，在没有使用docker之前，看到“镜像”这个词，我又情不自禁的想到了虚拟机，只不过，虚拟机是通过“操作系统镜像”安装运行系统，docker是通过“应用程序镜像”安装运行对应的软件，当我搜索docker和虚拟机有什么不同的时候，我看到了下面这张图</p>
+<p><img src="https://www.zsythink.net/wp-content/uploads/2022/01/16421268329864.jpg" alt="Docker与虚拟机区别"></p>
+<p>从上图来看，每个虚拟机都有自己的完整的操作系统（上图的GUEST OS就是虚拟机的操作系统，但是此处，我们应该把它拆成两部分理解，GUEST OS是由其内核和运行环境包组成的），VM1虚拟机上的所有APP使用的是同一套运行库和内核，其他虚拟机同理，Hypervisor层对硬件资源进行划分，各个虚拟机在整个操作系统发行版层面进行了隔离，而容器则不同，容器是将APP和其需要依赖的运行库打包成一个镜像，在APP进程和运行库层面进行了隔离（上图中CONTAINER中的APP就是应用程序镜像，这个镜像中包含应用本身和其需要的运行时依赖包），不同的APP各自使用自己的运行时环境，容器所运行的镜像中不需要内核，所有容器共用所在主机HostOS的内核，统一通过HostOS的内核与硬件进行交互，docker就是运行在HostOS中的容器引擎，理解了上图以后，我们就能明显感觉到它们的区别了，上图中最凸显的区别就是隔离层面的不同，虚拟机是针对整个系统发行版层面的隔离，而容器则是对程序进程和其依赖的运行环境的隔离，虚拟机的隔离性更强，隔离范围大，容器的隔离性没有虚拟机强，但是隔离范围更小，容器并不涉及Hypervisor层，它是一种进程隔离技术，从这个方面讲，它不应该算做“传统虚拟化”的范围，人们愿意把它称之为容器“虚拟化”技术，我觉得是因为容器更偏向于“java虚拟机”或者“python虚拟环境”这种软件意义上的“虚拟”，所以说，容器并不会取代虚拟机，它们之间也并不冲突，它们应该是相辅相成的。</p>
+<p>把应用程序和其运行时依赖库打包隔离的好处有哪些呢？首先，由于隔离的范围更小了，所以当出现问题时，影响的范围也会更小，只会影响这个应用程序容器的进程本身，而不是其他程序的容器和HOST操作系统，其次，由于应用程序和其依赖的运行时环境是打包在一起的（打包成一个docker镜像），这就表示，如果一个程序的镜像在我的centos7上能够运行，那么在你的centos7上用也能够正常运行，不会出现某个程序在开发人员的笔记本中可以运行，但是放在服务器上就不能正常运行的情况（因为服务器上可能没有安装程序所依赖的包），这就是把程序和依赖打包在一起的好处。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># Ubuntu 安装Docker</span></span><br><span class="line"><span class="comment"># 参考 https://docs.docker.com/desktop/install/ubuntu/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新 Docker 源</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"><span class="built_in">sudo</span> apt-get install ca-certificates curl -y</span><br><span class="line"><span class="built_in">sudo</span> install -m 0755 -d /etc/apt/keyrings</span><br><span class="line"><span class="built_in">sudo</span> curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> a+r /etc/apt/keyrings/docker.asc</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add the repository to Apt sources:</span></span><br><span class="line"><span class="built_in">echo</span> </span><br><span class="line">  <span class="string">&quot;deb [arch=<span class="subst">$(dpkg --print-architecture)</span> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  <span class="subst">$(. /etc/os-release &amp;&amp; echo <span class="string">&quot;<span class="variable">$VERSION_CODENAME</span>&quot;</span>)</span> stable&quot;</span> | </span><br><span class="line">  <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/docker.list &gt; /dev/null</span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Docker GUI 版本</span></span><br><span class="line">apt-get install ./docker-desktop-&lt;vsersion&gt;-&lt;<span class="built_in">arch</span>&gt;.deb</span><br><span class="line">apt-get install ./docker-desktop-4.28.0-amd64.deb</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository</span></span><br><span class="line"> <span class="built_in">sudo</span> apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化-仓库、镜像、容器"><a href="#初始化-仓库、镜像、容器" class="headerlink" title="初始化 仓库、镜像、容器"></a>初始化 仓库、镜像、容器</h1><p>参考 <a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/4302">https://www.zsythink.net/archives/4302</a></p>
+<p>从docker hub默认仓库获取镜像</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 表示从docker hub的nginx官方仓库中拉取tag为latest的镜像（即从nginx官方仓库中拉取最新版本的nginx镜像</span></span><br><span class="line">docker pull docker.io/library/nginx:latest</span><br><span class="line"><span class="comment"># 等效于 </span></span><br><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+
+<p>关于 URL ： docker.io&#x2F;library&#x2F;nginx:latest<br><img src="https://www.zsythink.net/wp-content/uploads/2022/02/16443754787791.jpg" alt="Docker URL"></p>
+<p>第1部分 docker.io ：代表从哪个仓库服务中心下载镜像，docker.io就是官方的仓库服务中心（其实就是docker hub，官方的仓库服务器），这个仓库服务器中有很多组织，也有很多个人，每个组织或者个人都可以在这个仓库服务器创建仓库，然后把镜像存放在仓库中，前文说过，docker hub的官网地址是registry.hub.docker.com，这个地址是方便我们从web页面查找镜像使用的，使用命令行从docker hub拉取镜像时，默认使用的是docker.io这个地址。除了docker官方的docker hub，还有一些其他仓库服务器，我们也可以自建仓库服务器，当使用其他仓库服务器或者自建仓库服务器时，要把第1部分改为对应的域名或IP，如果我们就是想要从官方的docker hub下载镜像，上图中的第1部分可以不写，当省略第1部分时，默认就是使用docker.io这个仓库服务器的，仓库服务或者仓库服务中心的英文原文是registry，简单来说，第1部分就是registry的地址。</p>
+<p>第2部分 library：代表组织或者个人的“命名空间”，命名空间是什么意思呢？举个例子，我们每个人都可以docker hub上注册自己的账号，然后使用自己的账号在docker hub上创建仓库，比如，我在docker hub上的账号id是zsythink，那么我就可以在docker hub的zsythink命名空间下创建仓库，如果我创建了一个名为nginx的仓库，那么我就可以通过如下url，获取到这个nginx仓库中的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker.io/zsythink/nginx</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>library，这个命名空间比较特殊，library是专门给上游软件提供商官方使用的命名空间，比如，nginx官方（或者说nginx组织）的nginx的仓库，并不会使用docker.io&#x2F;nginx&#x2F;nginx，而是会使用docker.io&#x2F;library&#x2F;nginx，同理，redis官方的redis仓库，也不会使用docker.io&#x2F;redis&#x2F;redis，而是会使用docker.io&#x2F;library&#x2F;redis，官方仓库中的镜像被称之为官方镜像，docker有一个专门的团队，负责审核和发布官方镜像，这个团队会与软件提供商、社区以及安全专家合作，共同维护这些官方仓库中的镜像，官方镜像的更多内容，可以参考如下链接<a target="_blank" rel="noopener" href="https://docs.docker.com/docker-hub/official_images%EF%BC%8C%E5%BD%93%E6%88%91%E4%BB%AC%E6%83%B3%E8%A6%81%E4%BB%8E%E5%AE%98%E6%96%B9%E4%BB%93%E5%BA%93%E4%B8%8B%E8%BD%BD%E9%95%9C%E5%83%8F%E6%97%B6%EF%BC%8C%E6%98%AF%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5library%E7%9A%84%EF%BC%8C%E6%AF%94%E5%A6%82%EF%BC%8C%E6%88%91%E6%83%B3%E8%A6%81%E7%9B%B4%E6%8E%A5%E4%BB%8Edocker">https://docs.docker.com/docker-hub/official_images，当我们想要从官方仓库下载镜像时，是可以省略library的，比如，我想要直接从docker</a> hub的nginx官方仓库中下载镜像，可以直接使用docker pull nginx命令，此命令等效于docker pull docker.io&#x2F;library&#x2F;nginx，需要注意，只有官方仓库可以省略（即只有library可以省略），其他组织或者个人的命名空间不能省略。</p>
+</blockquote>
+<p>第3部分 nginx：代表仓库名，在介绍第2部分时，我们已经描述的比较清楚了，我们可以在自己的命名空间下创建很多仓库，比如nginx仓库、redis仓库等，nginx仓库专门用来存放nginx镜像，redis仓库专门用来存放redis镜像，创建仓库时，我们可以选择是否公开仓库，如果不公开，只有通过认证后，才能够获取仓库中的镜像，仓库的英文原文为repository，简单来说，第3部分就是repository的名字。</p>
+<p>第4部分 latest：代表镜像对应的标签（tag），通常情况下，我们会通过标签对镜像的版本进行区分，比如，nginx仓库中有十个nginx镜像，第一个nginx镜像对应的版本为nginxV1.1，第二个nginx镜像对应的版本为nginxV1.2，那么第一个镜像的tag就是1.1，第二个镜像的tag就是1.2，以此类推，当我们在拉取镜像时，如果没有指定tag，默认会使用”latest”作为tag，也就是图例中第4部分的标签，”latest”表示最新版，当省略标签或者标签为latest时，会从仓库中下载最新版本的镜像，但是今天的最新版可能就是明天的旧版本，所以，在生产环境中，不要使用latest这个tag，或者说，不要省略tag，最好是指定一个明确的版本tag，这样做是为了防止”latest”这个特殊的tag对应的镜像发生了更新。tag和仓库名之间需要用冒号隔开，比如，nginx:1.21表示nginx库中的tag为1.21的镜像。</p>
+<p>启动镜像，基于nginx:latest这个镜像，创建一个名为nginx-demo的容器，并启动这个容器，-d表示后台运行这个容器，-p 80:80表示将docker主机的80端口和容器内nginx服务的80端口进行映射，映射后，访问docker主机的80端口，即相当于访问容器内的nginx服务的80端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx-demo -d -p 80:80 nginx:latest</span><br></pre></td></tr></table></figure>
+
+<h1 id="与Docker交互"><a href="#与Docker交互" class="headerlink" title="与Docker交互"></a>与Docker交互</h1><p>已有一个名为 nginx-demo 的容器，需要进入容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it nginx-demo /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># -i参数表示interactive，即交互模式。</span></span><br><span class="line"><span class="comment"># -t参数表示分配一个伪终端。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行上述命令后，命令提示符会从host主机的提示符变成了容器的提示符（host主机就是容器所在的主机</span></span><br><span class="line">[root@kvm32docker2 ~]# docker <span class="built_in">exec</span> -it nginx-demo /bin/bash</span><br><span class="line">root@55e0b2020fc0:/# </span><br><span class="line">root@55e0b2020fc0:/# </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>55e0b2020fc0为容器的ID</p>
+</blockquote>
+<p>修改Docker内的文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1，将文件拷贝出来做修改操作</span></span><br><span class="line">docker <span class="built_in">cp</span> nginx-demo:/etc/nginx/nginx.conf ./</span><br><span class="line"><span class="comment"># 修改完毕后，拷贝回去</span></span><br><span class="line">docker <span class="built_in">cp</span> ./nginx.conf nginx-demo:/etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2，进入docker，执行修改指令</span></span><br><span class="line">docker <span class="built_in">exec</span> -it nginx-demo /bin/bash</span><br><span class="line">vi [target.file]</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于进程隔离"><a href="#关于进程隔离" class="headerlink" title="关于进程隔离"></a>关于进程隔离</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/4321">https://www.zsythink.net/archives/4321</a></p>
+<p>在host主机中通过docker top命令查询出的pid，和在容器中通过ps命令查询出的pid不同，前文说过，docker的本质是一种进程隔离技术，docker是通过Linux内核的namespace功能实现PID的隔离的，pid namespace将host上的PID映射为容器内的PID，这样可以让不同的PID namespace中存在相同的进程号，并控制进程间的关系。</p>
+<p>这样说可能不太容易理解，咱们换个方式解释一下，假设，现在有两个容器，一个nginx容器，一个redis容器，在nginx容器中，nginx的master进程的pid为1，在redis容器中，redis-server进程的pid为1，对于nginx-master进程或者redis-server进程来说，它们都以为自己是这个世界上的王者，因为它们只能看到自己的世界，而且在自己看到的世界中，自己是主进程（PID为1）。</p>
+<p>其实，它们都只不过是host主机中的一个普通进程罢了，nginx容器的master进程在host主机中的PID可能是1234，redis容器中的server进程在host主机中的PID可能是5678，即使在各自的容器中，它们的PID都是1，也许这就是pid namespace进程隔离最直观的感受吧。所以，docker top命令查看的是容器进程在host中的pid，在容器内执行ps命令查看的是容器进程在容器内的pid。</p>
+<h1 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h1><p>镜像来源：</p>
+<ol>
+<li>官方镜像库；</li>
+<li>自定义镜像；</li>
+</ol>
+<p>自定义镜像流程：</p>
+<ol>
+<li>初始化一个容器</li>
+<li>进入容器做自定义修改</li>
+<li>打包镜像</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1</span></span><br><span class="line">docker run -td --name alpine-test alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">docker <span class="built_in">exec</span> -it alpine-test sh</span><br><span class="line">apk add nginx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3</span></span><br><span class="line">docker commit -p -c <span class="string">&#x27;CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]&#x27;</span> alpine-test zsythink/nginx:test1</span><br><span class="line"><span class="comment"># docker commit 提交容器为镜像</span></span><br><span class="line"><span class="comment"># 基于 alpine-test 创建名为 zsythink/nginx:test1 的镜像</span></span><br><span class="line"><span class="comment"># 上例标签中的zsythink是作者在docker hub上注册的账号ID，zsythink/nginx表示zsythink账号下名为nginx的仓库，完整的写法应该是docker.io/zsythink/nginx:test1，表示docker hub上zsythink账户下nginx仓库中的tag为test1的镜像，但是由于是docker hub上的仓库，所以可以省略registry地址，于是就写成了zsythink/nginx:test1</span></span><br><span class="line"><span class="comment"># -c选项用于设定镜像的各种参数，上例-c选项的值为&#x27;CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]&#x27;，表示将镜像的默认运行的程序设置为nginx</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Docker-构建新镜像"><a href="#Docker-构建新镜像" class="headerlink" title="Docker 构建新镜像"></a>Docker 构建新镜像</h2><p>基于现有的镜像，重新封装一个新的镜像；需要有原始镜像，并且需要有dockerfile文件</p>
+<p>以下为基于node最新镜像，封装安装一个hexo博客引擎镜像；</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> node:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 维护者信息</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> your_name &lt;your_mail&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /hexo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Hexo</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install hexo-cli -g</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> hexo init .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> npm install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置git</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> git config --global user.name <span class="string">&quot;your_name&quot;</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> git config --global user.email <span class="string">&quot;your_mail&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">4000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;/bin/bash&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>文件写完后，执行指令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t <span class="string">&quot;hexo:latest&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编译完成后，会出现镜像 hexo:latest</p>
+</blockquote>
+<h2 id="Docker-Compose-应用"><a href="#Docker-Compose-应用" class="headerlink" title="Docker Compose 应用"></a>Docker Compose 应用</h2><p>将一些列动作打包至一个配置文件中，并将最终的docker以服务的方式运行。</p>
+<blockquote>
+<p>先决条件：涉及镜像封装，需要有dockerfile ；</p>
+</blockquote>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置一个hexo的compose文件</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="comment"># 如果镜像有异常就直接执行重启</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">        <span class="comment"># 涉及构建，dockerfile所在的文件夹为context属性，即为上下文</span></span><br><span class="line">        <span class="attr">context:</span> <span class="string">hexo_docker</span></span><br><span class="line">        <span class="comment"># 对应的dockerfile</span></span><br><span class="line">        <span class="attr">dockerfile:</span> <span class="string">dockerfile</span></span><br><span class="line">    <span class="comment"># 构建完的镜像名</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nextblog:24</span></span><br><span class="line">    <span class="comment"># 新起的docker服务名</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">temp_simple_test</span></span><br><span class="line">    <span class="comment"># 映射端口</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;4000:4000&quot;</span></span><br><span class="line">    <span class="comment"># 映射的目录</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD:/hexo</span></span><br></pre></td></tr></table></figure>
+
+<p>检查compose过程中的报错日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose logs -f --<span class="built_in">tail</span>=50 </span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/default/" rel="tag"># default</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/37b1e185/" rel="prev" title="Docker-常用指令">
+                  <i class="fa fa-angle-left"></i> Docker-常用指令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/d444b552/" rel="next" title="Excel-常用公示">
+                  Excel-常用公示 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

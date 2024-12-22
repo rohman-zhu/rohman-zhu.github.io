@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="环境准备Ubuntu-20.04 MySQL-8.0.22php-8.1.9Nginx-1.22.0zabbix-6.2.1  弃用 MariaDB - 10.9.3，编译安装需要替换包中的工具；改用mysql8；MySQL下载地址：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;1799089  部署记录OS准备略 12345678910111213141">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LNMP-Zabbix-6.2.1-部署案例">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/e3ce5fb7/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="环境准备Ubuntu-20.04 MySQL-8.0.22php-8.1.9Nginx-1.22.0zabbix-6.2.1  弃用 MariaDB - 10.9.3，编译安装需要替换包中的工具；改用mysql8；MySQL下载地址：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer&#x2F;article&#x2F;1799089  部署记录OS准备略 12345678910111213141">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-30T14:27:15.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:48.055Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Zabbix">
+<meta property="article:tag" content="LNMP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/e3ce5fb7/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/e3ce5fb7/","path":"posts/e3ce5fb7/","title":"LNMP-Zabbix-6.2.1-部署案例"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LNMP-Zabbix-6.2.1-部署案例 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">部署记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OS%E5%87%86%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">OS准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-MySQL8"><span class="nav-number">2.2.</span> <span class="nav-text">安装 MySQL8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85-Nginx-1-22-0"><span class="nav-number">2.3.</span> <span class="nav-text">WEB服务器安装-Nginx-1.22.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E6%9C%8D%E5%8A%A1%E5%AE%89%E8%A3%85-php-8-1-9"><span class="nav-number">2.4.</span> <span class="nav-text">PHP服务安装-php-8.1.9</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zabbix%E6%9C%8D%E5%8A%A1%E5%AE%89%E8%A3%85-Zabbix-6-2-1"><span class="nav-number">2.5.</span> <span class="nav-text">Zabbix服务安装-Zabbix-6.2.1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">2.5.1.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e3ce5fb7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LNMP-Zabbix-6.2.1-部署案例 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LNMP-Zabbix-6.2.1-部署案例
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-30 14:27:15" itemprop="dateCreated datePublished" datetime="2022-10-30T14:27:15+00:00">2022-10-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>Ubuntu-20.04</p>
+<p>MySQL-8.0.22<br>php-8.1.9<br>Nginx-1.22.0<br>zabbix-6.2.1</p>
+<blockquote>
+<p>弃用 MariaDB - 10.9.3，编译安装需要替换包中的工具；改用mysql8；<br>MySQL下载地址：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1799089">https://cloud.tencent.com/developer/article/1799089</a></p>
+</blockquote>
+<h1 id="部署记录"><a href="#部署记录" class="headerlink" title="部署记录"></a>部署记录</h1><h2 id="OS准备"><a href="#OS准备" class="headerlink" title="OS准备"></a>OS准备</h2><p>略</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 前置依赖</span></span><br><span class="line">apt-get install libxml2-dev libxml2 bzip2 libcurl-dev libfmt-dev</span><br><span class="line"></span><br><span class="line">bison</span><br><span class="line">libbison-dev</span><br><span class="line">zlib1g</span><br><span class="line">zlib1g-dev</span><br><span class="line">libcurl4-openssl-dev</span><br><span class="line">libarchive-dev</span><br><span class="line">boost-devel</span><br><span class="line">libboost-all-dev</span><br><span class="line">gcc</span><br><span class="line">gcc-c++</span><br><span class="line">libevent-dev</span><br><span class="line">libgnutls28-dev</span><br><span class="line">libaio-dev</span><br><span class="line">libssl-dev</span><br><span class="line">libxml2-dev</span><br><span class="line">build-essential</span><br><span class="line">libfmt-dev</span><br><span class="line">libncurses5-dev </span><br><span class="line">libncursesw5-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-MySQL8"><a href="#安装-MySQL8" class="headerlink" title="安装 MySQL8"></a>安装 MySQL8</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.22.tar.gz">https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.22.tar.gz</a></p>
+<p>安装MySQL 8.0.22资料参考地址：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mhing/articles/14054727.html">https://www.cnblogs.com/mhing/articles/14054727.html</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential cmake bison libncurses5-dev libssl-dev pkg-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DWITH_BOOST=boost -DFORCE_INSOURCE_BUILD=ON</span><br><span class="line"><span class="comment"># -DCMAKE_INSTALL_PREFIX： 指定安装路径</span></span><br><span class="line"><span class="comment"># -DMYSQL_DATADIR ： 指定数据存放路径</span></span><br><span class="line"><span class="comment"># -DMYSQL_UNIX_ADDR ：指定套间字路径</span></span><br><span class="line"><span class="comment"># -DDEFAULT_CHARSET ： 设置字符集</span></span><br><span class="line"><span class="comment"># -DDEFAULT_COLLATION ： 设置字符校验集</span></span><br><span class="line"><span class="comment"># -DWITH_BOOST ： 指定Boost扩展源码路径</span></span><br><span class="line"><span class="comment"># -DFORCE_INSOURCE_BUILD=ON ： 定义是否强制进行源内构建。建议使用源外构建，因为它们允许来自同一源的多个构建，并且可以通过删除构建目录来快速执行清理。</span></span><br><span class="line"><span class="comment"># 参数含义 https://dev.mysql.com/doc/refman/8.0/en/source-configuration-options.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="comment"># 编译速度慢的问题，可以使用 指令make -j [ CPU核数]</span></span><br><span class="line"><span class="comment"># https://blog.csdn.net/wangjingfei/article/details/4969942</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加用户</span></span><br><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库-数据目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /usr/local/mysql/data</span><br><span class="line"><span class="built_in">chown</span> -R mysql:mysql /usr/local/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化数据库</span></span><br><span class="line">/usr/local/mysql/bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</span><br><span class="line"><span class="comment"># 初始密码在 mysqld.conf 配置的报错日志中 ，参数项为 log-error=</span></span><br><span class="line"><span class="comment"># 参考资料：https://blog.csdn.net/zonghua521/article/details/78198052</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑MySQL服务端的配置文件</span></span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">socket = /tmp/mysql.sock</span><br><span class="line">basedir = /usr/local/mysql</span><br><span class="line">datadir = /usr/local/mysql/data</span><br><span class="line"><span class="comment"># 编辑MySQL客户端配置文件</span></span><br><span class="line">/etc/mysql/mysql.conf.d/mysql.cnf</span><br><span class="line">[client]</span><br><span class="line">socket = /tmp/mysql.sock</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 配置服务项</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> +x /etc/init.d/mysqld</span><br><span class="line">update-rc.d mysqld defaults</span><br><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看服务是否已启动</span></span><br><span class="line">ps -aux|grep mysql</span><br><span class="line">lsof -i:3306</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置初始密码</span></span><br><span class="line"><span class="comment"># 登录MySQL数据库</span></span><br><span class="line"><span class="comment"># 以下为SQL指令</span></span><br><span class="line"><span class="comment"># mysql 旧版本的修改方法；</span></span><br><span class="line">use mysql;</span><br><span class="line">update user <span class="built_in">set</span> passowrd=password(<span class="string">&#x27;我是密码&#x27;</span>) <span class="built_in">where</span> user=<span class="string">&#x27;root&#x27;</span> and host=<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="comment"># MySQL 8.0的修改方法</span></span><br><span class="line"><span class="comment"># 参考https://blog.csdn.net/qq_38265784/article/details/80915098</span></span><br><span class="line">use mysql;</span><br><span class="line">alter user <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified with mysql_native_password by <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看是否有其他用户；</span></span><br><span class="line"><span class="keyword">select</span> user from user;</span><br><span class="line"></span><br><span class="line">mysql.infoschema</span><br><span class="line">mysql.session</span><br><span class="line">mysql.sys</span><br><span class="line">root</span><br><span class="line"><span class="comment"># 参考：https://kalacloud.com/blog/how-to-list-all-users-in-mysql/</span></span><br><span class="line"><span class="comment"># 参考：https://www.linuxprobe.com/mysql-show-all-users.html</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="WEB服务器安装-Nginx-1-22-0"><a href="#WEB服务器安装-Nginx-1-22-0" class="headerlink" title="WEB服务器安装-Nginx-1.22.0"></a>WEB服务器安装-Nginx-1.22.0</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压Nginx文件</span></span><br><span class="line">tar xvf nginx-1.22.0.tar.gz</span><br><span class="line"><span class="comment"># 进入目录文件</span></span><br><span class="line">./configure --prefix=/usr/local/nginx</span><br><span class="line"><span class="comment"># 编译安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="comment"># 检测安装是否正确</span></span><br><span class="line">nginx -version</span><br><span class="line"><span class="comment"># 启动Nginx</span></span><br><span class="line">nginx</span><br><span class="line"><span class="comment"># 检测Nginx配置文件</span></span><br><span class="line">nginx -t</span><br><span class="line"><span class="comment"># 重新加载Nginx配置文件</span></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否能正常启动业务</span></span><br><span class="line">curl localhost</span><br></pre></td></tr></table></figure>
+
+<h2 id="PHP服务安装-php-8-1-9"><a href="#PHP服务安装-php-8-1-9" class="headerlink" title="PHP服务安装-php-8.1.9"></a>PHP服务安装-php-8.1.9</h2><table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="left">8.1.9版本参数</th>
+<th align="left">5.5.38版本参数</th>
+<th align="center">参数说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">prefix</td>
+<td align="left"></td>
+<td align="center">安装目录</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">with-config-file-path</td>
+<td align="left"></td>
+<td align="center">配置文件目录</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">with-bz2</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">with-curl</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">enable-ftp</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">enable-sockets</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">disable-ipv6</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">with-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">with-jpeg-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">with-png-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">with-freetype-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">enable-gd-native-ttf</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">with-iconv-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">enable-mbstring</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">enable-calendar</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">with-gettext</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">with-libxml-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">with-zlib</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">with-pdo-mysql&#x3D;mysqlnd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="left">with-mysqli&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="left">with-mysql&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="left">enable-dom</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="left">enable-xml</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">24</td>
+<td align="left">enable-fpm</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="left">with-libdir&#x3D;lib64</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">26</td>
+<td align="left">enable-bcmath</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">27</td>
+<td align="left">enable-mbstring</td>
+<td align="left">oniguruma是一个处理正则表达式的库，开启此功能需要这个库。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">28</td>
+<td align="left">with-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">29</td>
+<td align="left">with-libxml-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">30</td>
+<td align="left">with-apxs2&#x3D;?</td>
+<td align="left">Apache 相关服务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">31</td>
+<td align="left">with-openssl</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="left">enable-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="left">with-jpeg</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">34</td>
+<td align="left">with-webp</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="left">with-freetype</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">36</td>
+<td align="left">without-sqlite3</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">37</td>
+<td align="left">with-fpm-user</td>
+<td align="left">调用fpm的用户</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">38</td>
+<td align="left">with-fpm-group</td>
+<td align="left">调用fpm的组</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php-8.1.9 --with-config-file-path=/usr/local/php-8.1.9/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local  --with-openssl --enable-gd --with-jpeg --with-webp --with-freetype -without-sqlit3 --with-fpm-user=nginx --with-fpm-group=nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">make -j 4 &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf</span><br><span class="line"><span class="built_in">cp</span> /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 www.conf</span></span><br><span class="line"><span class="comment"># 将启动的User修改为 nginx</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 php-fpm</span></span><br><span class="line">php-fpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否监听</span></span><br><span class="line">lsof -i:9000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证是否可以与Nginx结合使用</span></span><br><span class="line"><span class="comment"># 参考https://www.cnblogs.com/jiangxiaobo/p/10879457.html</span></span><br><span class="line"><span class="comment"># Nginx创建一个站点，加入配置文件</span></span><br><span class="line">location ~ .php$ &#123;</span><br><span class="line">root html;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME $document_root<span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 重启Nginx后</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 浏览器访问 localhost/index.php</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://osfere.com/linux/how-to-build-install-and-configure-latest-php-on-centos">https://osfere.com/linux/how-to-build-install-and-configure-latest-php-on-centos</a></p>
+</blockquote>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiangxiaobo/p/10879457.html">https://www.cnblogs.com/jiangxiaobo/p/10879457.html</a></p>
+</blockquote>
+<blockquote>
+<p>安装依赖 apt-get install libbz2-dev libpng-dev libwebp-dev libjpeg-dev libfreetype-dev libfreetype6-dev libonig-dev libsqlite3-dev</p>
+</blockquote>
+<h2 id="Zabbix服务安装-Zabbix-6-2-1"><a href="#Zabbix服务安装-Zabbix-6-2-1" class="headerlink" title="Zabbix服务安装-Zabbix-6.2.1"></a>Zabbix服务安装-Zabbix-6.2.1</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装依赖 apt-get install libsnmp-dev</p>
+</blockquote>
+<p>初始化Zabbix</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database zabbix <span class="keyword">default</span> charset utf8;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> zabbix.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入zabbix初始化的数据库表格</span></span><br><span class="line"><span class="comment"># 需要数据库超级权限才可以导入</span></span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/mysql/schema.sql</span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/mysql/images.sql</span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/myslq/data.sql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将安装包内的UI目录下的文件拷贝至 html文件内</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Nginx配置Zabbix_Server</span></span><br><span class="line">location ~*.\.(php|php5)$</span><br><span class="line">&#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">index index.html index.php;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Zabbix初始账户密码为 Admin\zabbix , 一定要尽快更改密码</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>post_max_size 要求是16M<br>max_execution_time 要求是 300<br>max_input_time 要求是 300</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://rohman-zhu.github.io/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Zabbix/" rel="tag"># Zabbix</a>
+              <a href="/tags/LNMP/" rel="tag"># LNMP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/52d71aa2/" rel="prev" title="SSH服务端异常故障记录">
+                  <i class="fa fa-angle-left"></i> SSH服务端异常故障记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/406627b4/" rel="next" title="SQL常用指令">
+                  SQL常用指令 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

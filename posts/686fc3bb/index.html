@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言今年生日狮子送我一个黑群晖设备(她还不知道NAS是什么，但一查小红书看到是中年男人三宝，头牌就是Synology群晖，她差点就奔着群晖买，赶紧被我叫停了，那么贵的东西；我点名要买黑群晖，在此谢谢狮子！)；拿到设备后，在对NAS做一些简单的测试，我梳理了一下需求，主要分为：  数据备份：存储遵循3+2+1原则，即3份数据副本，2份在本地（分不同存储设备），1份在云上； 下载器: 充当下载器，可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑群晖折腾记录_下载器_流媒体">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/686fc3bb/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言今年生日狮子送我一个黑群晖设备(她还不知道NAS是什么，但一查小红书看到是中年男人三宝，头牌就是Synology群晖，她差点就奔着群晖买，赶紧被我叫停了，那么贵的东西；我点名要买黑群晖，在此谢谢狮子！)；拿到设备后，在对NAS做一些简单的测试，我梳理了一下需求，主要分为：  数据备份：存储遵循3+2+1原则，即3份数据副本，2份在本地（分不同存储设备），1份在云上； 下载器: 充当下载器，可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-02T16:01:59.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.572Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="黑群晖">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/686fc3bb/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/686fc3bb/","path":"posts/686fc3bb/","title":"黑群晖折腾记录_下载器_流媒体"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>黑群晖折腾记录_下载器_流媒体 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%93%8D%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">实操记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E4%B8%80%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E3%80%90%E5%BE%85%E6%9B%B4%E6%96%B0%E3%80%91"><span class="nav-number">2.1.</span> <span class="nav-text">需求一，数据备份【待更新】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E4%BA%8C%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">需求二，下载器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BE%E5%BA%A6%E4%BA%91"><span class="nav-number">2.2.1.</span> <span class="nav-text">百度云</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cloud-Sync"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Cloud Sync</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9-Docker-%E5%B0%81%E8%A3%85-%EF%BC%8C-%E6%9D%A5%E8%87%AA-johnshine-baidunetdisk-crossover-vnc-1"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E4%B8%89%EF%BC%8C%E6%B5%81%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">需求三，流服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jellyfin"><span class="nav-number">2.3.1.</span> <span class="nav-text">Jellyfin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%BF%87%E7%A8%8B"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">部署过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A5%97%E4%BB%B6%E4%B8%AD%E5%BF%83%E9%83%A8%E7%BD%B2"><span class="nav-number">2.3.1.1.1.</span> <span class="nav-text">套件中心部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Docker%E6%96%B9%E5%BC%8F%E9%83%A8%E7%BD%B2-Jellyfin"><span class="nav-number">2.3.1.1.2.</span> <span class="nav-text">Docker方式部署 Jellyfin</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%88%AE%E7%89%87%E6%BA%90%E8%A7%A3%E6%9E%90"><span class="nav-number">2.3.1.1.2.1.</span> <span class="nav-text">设置刮片源解析</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%AA%92%E4%BD%93%E5%BA%93"><span class="nav-number">2.3.1.1.3.</span> <span class="nav-text">设置媒体库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MetaTube-%E9%83%A8%E7%BD%B2"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">MetaTube 部署</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%AD%E6%96%87%E5%AD%97%E5%B9%95"><span class="nav-number">2.3.1.2.1.</span> <span class="nav-text">添加中文字幕</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-number">2.3.1.2.2.</span> <span class="nav-text">查看数据源</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E5%88%AE%E5%89%8A%E6%BA%90%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">2.3.1.2.2.1.</span> <span class="nav-text">调整刮削源优先级</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">2.3.1.2.3.</span> <span class="nav-text">命名规范</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jellyfin-%E4%B8%AD%E5%AE%89%E8%A3%85MetaTube%E6%8F%92%E4%BB%B6"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">Jellyfin 中安装MetaTube插件</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/686fc3bb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="黑群晖折腾记录_下载器_流媒体 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          黑群晖折腾记录_下载器_流媒体
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-02 16:01:59" itemprop="dateCreated datePublished" datetime="2024-10-02T16:01:59+00:00">2024-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/NAS%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">NAS存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今年生日狮子送我一个黑群晖设备(她还不知道NAS是什么，但一查小红书看到是中年男人三宝，头牌就是Synology群晖，她差点就奔着群晖买，赶紧被我叫停了，那么贵的东西；我点名要买黑群晖，在此谢谢狮子！)；拿到设备后，在对NAS做一些简单的测试，我梳理了一下需求，主要分为：</p>
+<ol>
+<li>数据备份：存储遵循3+2+1原则，即3份数据副本，2份在本地（分不同存储设备），1份在云上；</li>
+<li>下载器: 充当下载器，可以使用迅雷、百度云，主要的需求来自这两个下载器，未来可能还会有其他的下载器的需求；</li>
+<li>私人影院: 家里有投影、IPad、还有一些手机终端，想看存储中的影片，排除传统的SAMBA协议去读取远端磁盘中的文件，想搭建一个流服务器，并实现刮片；</li>
+</ol>
+<p>基于上述三个需求，我会记录我在折腾过程中的一些思考与实操过程；</p>
+<h1 id="实操记录"><a href="#实操记录" class="headerlink" title="实操记录"></a>实操记录</h1><h2 id="需求一，数据备份【待更新】"><a href="#需求一，数据备份【待更新】" class="headerlink" title="需求一，数据备份【待更新】"></a>需求一，数据备份【待更新】</h2><p>老实讲，我对黑群晖还是有一点抵触，因为我不确定这个东西是否有后门，我不太确认里面是否有其他进程在窃取内网中的数据，目前我所采取的策略是对这个设备目前是0信任。</p>
+<blockquote>
+<p>举证原则，谁质疑谁举证？怎么证明黑群晖是不安全的？</p>
+</blockquote>
+<p>还有一个问题，如果系统崩溃了，上面的数据怎么恢复？我还没有实操恢复操作系统的过程。</p>
+<h2 id="需求二，下载器"><a href="#需求二，下载器" class="headerlink" title="需求二，下载器"></a>需求二，下载器</h2><h3 id="百度云"><a href="#百度云" class="headerlink" title="百度云"></a>百度云</h3><p>我尝试过在DSM的套件中心，直接搜索“百度网盘”、“百度网盘 DSM7.2”下载安装，这两个看起来还是Docker的形式运行，安装完成后；通过NAS端口转发，跳转到百度云的扫码登录界面。</p>
+<p>当我完成安装后，界面成功跳转到百度云的登录界面时，扫码登录一直失败，会提示“登录失败，每个群晖账号在同一群晖设备只能绑定一个百度网盘账号”。无论怎么操作都是这个提示，我估计是因为黑群晖安装的方式，原群晖SN与MAC地址已经有百度网盘登录，我无法再此使用此方式登录。</p>
+<p>于是方案上面转到了下面两种，分别是使用 DSM 原生的云同步工具”Cloud Sync” ，或者 第三方 Docker 封装方案（来自 johnshine-baidunetdisk-crossover-vnc-1）;</p>
+<h4 id="Cloud-Sync"><a href="#Cloud-Sync" class="headerlink" title="Cloud Sync"></a>Cloud Sync</h4><ol>
+<li>套件中心搜索 “Cloud Sync”,安装此套件；</li>
+<li>打开此套件，点击添加，选择百度云;</li>
+<li>授权DSM访问百度云；</li>
+<li>本地路径、远程路径需要选择正确；【远程路径我觉得应该指定某一个路径，而不是拖库下来】</li>
+<li>同步方向，我这里选择单向传输，只选择”仅下载远程更改”；</li>
+<li>启用一致性检查；</li>
+</ol>
+<p>设置完毕后，百度云上面的东西如果需要传输到本地，则在百度云中，将文件放入指定的目录中，内网的NAS会自动去同步文件，将文件拉取到本地。</p>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限，而且我百度云也有会员，速率上面我觉得还可以。</p>
+</blockquote>
+<blockquote>
+<p>这里的玩法还可以改一下，方向改为上传，则可以将加密数据定期上传至百度云。</p>
+</blockquote>
+<h4 id="第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1"><a href="#第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1" class="headerlink" title="第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1"></a>第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1</h4><ol>
+<li>需要安装Docker管理器，套件中心搜索”Container Manager”;【DSM6 以前好像是叫Docker】</li>
+<li>进入”Container Manager”的注册表，搜索baidunetdisk；【2024-07，国内Docker已经被封禁了，已经没有办法通过此方式搜索，唉~一声长叹】</li>
+<li>下载离线版本的Docker镜像，</li>
+<li>进入”Container Mangaer”中，进入”映像”，依次点击 操作&#x2F;导入&#x2F;从文件添加&#x2F;从本地设备 ，导入刚才下载好的离线镜像；</li>
+<li>镜像导入进入后，在”Container Mangaer”中，进入”容器”，点击新增；</li>
+<li>映像选择刚刚的镜像”Johnshine&#x2F;baidunetdisk-crossover-vnc”,勾选 “启动自动重新启动”，点击下一步；</li>
+<li>端口设置中，本地端口的映射需要填写，可以自定义填写，我这里就默认填写为 5901,6080；</li>
+<li>存储空间设置，需要添加一个文件夹，用于映射NAS本地路径与Docker中的文件路径，主要是给百度网盘下载文件存储用的，需要创建一个映射关系；</li>
+<li>Docker创建完后，打开浏览器，直接访问 NAS_IP:6080 , 登录进去访问即可；</li>
+</ol>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限。</p>
+</blockquote>
+<p>这里有一个安全问题，只要登录后，同网段访问此百度网盘路径，无论什么客户端均能访问，这个非常危险。</p>
+<p>这里需要添加一个VNC密码，环境变量为 vnc_password ，值就设置为密码。</p>
+<blockquote>
+<p>vnc_password 参数，参考 :<a target="_blank" rel="noopener" href="https://www.modb.pro/db/127326">https://www.modb.pro/db/127326</a></p>
+</blockquote>
+<h2 id="需求三，流服务器"><a href="#需求三，流服务器" class="headerlink" title="需求三，流服务器"></a>需求三，流服务器</h2><h3 id="Jellyfin"><a href="#Jellyfin" class="headerlink" title="Jellyfin"></a>Jellyfin</h3><p>可以直接在套件中心搜索，Jellyfin 点击安装；</p>
+<h4 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h4><ol>
+<li>权限，Jellyfin 仅需要只读权限即可；</li>
+<li>刮削插件如果没有就绪，可以先不要开启，否则会影响扫描；</li>
+</ol>
+<h5 id="套件中心部署"><a href="#套件中心部署" class="headerlink" title="套件中心部署"></a>套件中心部署</h5><p>直接在DSM的套件中心搜索，Jellyfin默认安装即可；</p>
+<p>安装完毕后在浏览器中输入 [IP]:8096 ，进入初始化界面；</p>
+<h5 id="Docker方式部署-Jellyfin"><a href="#Docker方式部署-Jellyfin" class="headerlink" title="Docker方式部署 Jellyfin"></a>Docker方式部署 Jellyfin</h5><p>好像有一个比较出名的镜像，是 nyanmisaka&#x2F;jellyfin ，是一个大佬封装的docker镜像，里面集成了驱动；不过我本次还是先用官方镜像部署吧；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">docker pull dockerproxy.cn/jellyfin/jellyfin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin -p 8096:8096 \</span><br><span class="line">-v /home/rohman/docker/jellyfin/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin/media:/media \</span><br><span class="line">--device=/dev/dri:/dev/dri \</span><br><span class="line">dockerproxy.cn/jellyfin/jellyfin:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin-n -p 8097:8096 \</span><br><span class="line">--net=host \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/media:/media \</span><br><span class="line">dockerproxy.cn/nyanmisaka/jellyfin:latest</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>media 目录，仅需要只读权限即可；</p>
+</blockquote>
+<h6 id="设置刮片源解析"><a href="#设置刮片源解析" class="headerlink" title="设置刮片源解析"></a>设置刮片源解析</h6><p>数据源 api.themoviedb.org<br>数据源 api.thetvdb.org<br>图片源 image.tmdb.org<br>图片源 image.thetvdb.org</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://www.itdog.cn/ping">https://www.itdog.cn/ping</a> ,检测这四个域名可用的解析地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 更新时间 2024-10-04</span><br><span class="line"></span><br><span class="line"># api.themoviedb.org 解析地址为</span><br><span class="line">3.167.212.66 api.themoviedb.org</span><br><span class="line">18.172.31.15 api.themoviedb.org</span><br><span class="line"></span><br><span class="line"># api.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line"></span><br><span class="line"># image.tmdb.org 解析地址为</span><br><span class="line">143.244.50.89 image.tmdb.org </span><br><span class="line">143.244.50.83 image.tmdb.org </span><br><span class="line"></span><br><span class="line"># image.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 image.thetvdb.org</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置媒体库"><a href="#设置媒体库" class="headerlink" title="设置媒体库"></a>设置媒体库</h5><p>关于电影，选择类型要选择“电影”；</p>
+<p>关于电视剧，选择类型要选择“节目”；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 目录结构为</span><br><span class="line">tvshows/</span><br><span class="line">├── 苍兰诀.2022</span><br><span class="line">│   ├── backdrop.jpg</span><br><span class="line">│   ├── folder.jpg</span><br><span class="line">│   ├── logo.png</span><br><span class="line">│   ├── Season.1</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.nfo</span><br><span class="line">│   │   ├── folder.jpg</span><br><span class="line">│   │   ├── metadata</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E01.jpg</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E02.jpg</span><br><span class="line">│   │   │   └── 苍兰诀.2022.S01E03.jpg</span><br><span class="line">│   │   └── season.nfo</span><br><span class="line">│   └── tvshow.nfo </span><br></pre></td></tr></table></figure>
+
+<h4 id="MetaTube-部署"><a href="#MetaTube-部署" class="headerlink" title="MetaTube 部署"></a>MetaTube 部署</h4><p>MetaTube 本质上一个爬虫软件，可以集成到Jellyfin里面，为影片抓取文本与海报信息；</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://metatube-community.github.io/README_ZH/">https://metatube-community.github.io/README_ZH/</a></p>
+</blockquote>
+<p>本次采用Docker安装，Docker在国内已经很难打开了，需要使用代理：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 亲测可用 ，https://dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 使用方式一，在拉取时，增加字段dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 如 docker pull whyour/qinglong:latest 变更为 docker pull dockerproxy.cn/whyour/qinglong:latest</span></span><br><span class="line"><span class="comment"># 方式二，未实测</span></span><br><span class="line"><span class="comment"># 修改文件 /etc/docker/daemon.json（如果不存在则创建）</span></span><br><span class="line"><span class="comment"># 修改此文件，添加 ：&#123;&quot;registry-mirrors&quot;: [&quot;https://dockerproxy.cn&quot;]&#125;</span></span><br><span class="line"><span class="comment"># sudo systemctl daemon-reload #重载systemd管理守护进程配置文件</span></span><br><span class="line"><span class="comment"># sudo systemctl restart docker #重启 Docker 服务</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站二：https://www.rainbond.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站三：https://docker.udayun.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站四：https://docker.211678.top/</span></span><br></pre></td></tr></table></figure>
+
+<p>部署MetaTube插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取MetaTube的Docker镜像</span></span><br><span class="line">docker pull dockerproxy.cn/metatube/metatube-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Docker</span></span><br><span class="line"><span class="comment"># 内存模式</span></span><br><span class="line">docker run -d -p 8080:8080 --name metatube metatube/metatube-server:latest</span><br><span class="line"><span class="comment"># 数据库模式</span></span><br><span class="line">docker run -d -p 8080:8080 -v <span class="variable">$PWD</span>/config:/config --name metatube metatube/metatube-server:latest -dsn /config/metatube.db --TOKEN [Token]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署完成后，端口映射为8080，仅需要使用服务器地址+端口即可验证是否成功部署</span></span><br><span class="line">curl [IP]:8080</span><br><span class="line"><span class="comment"># 返回以下值，代表部署成功</span></span><br><span class="line"><span class="comment"># &#123;&quot;data&quot;:&#123;&quot;app&quot;:&quot;metatube&quot;,&quot;version&quot;:&quot;v1.2.7-43f17e0&quot;&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要更新MetaTube时,需要将Docker关闭，移除后重新部署；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop metatube</span><br><span class="line">docker <span class="built_in">rm</span> metatube</span><br></pre></td></tr></table></figure>
+<h5 id="添加中文字幕"><a href="#添加中文字幕" class="headerlink" title="添加中文字幕"></a>添加中文字幕</h5><p>参考：<a target="_blank" rel="noopener" href="https://metatube-community.github.io/wiki/chinese-subtitle/">https://metatube-community.github.io/wiki/chinese-subtitle/</a></p>
+<p>MetaTube 插件对于以下几种情况，会自动为影片添加中文字幕标签：</p>
+<p>视频以-C或-ch后缀结尾，例如某堂下载的中字资源，视频目录下存在.chi，.chs，.cht，.zh，.zh-cn等结尾的字幕文件；</p>
+<blockquote>
+<p>这是影片文件的命名规范之一。</p>
+</blockquote>
+<h5 id="查看数据源"><a href="#查看数据源" class="headerlink" title="查看数据源"></a>查看数据源</h5><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://metatube-community.github.io/wiki/metadata-providers/">https://metatube-community.github.io/wiki/metadata-providers/</a></p>
+</blockquote>
+<p>可以在 &#x2F;v1&#x2F;providers 的 API endpoint 下查看所有后端开启的刮削源。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;actor_providers&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;AV-LEAGUE&quot;</span>: <span class="string">&quot;https://www.av-league.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Gfriends&quot;</span>: <span class="string">&quot;https://github.com/gfriends/gfriends&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;movie_providers&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;10musume&quot;</span>: <span class="string">&quot;https://www.10musume.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;1Pondo&quot;</span>: <span class="string">&quot;https://www.1pondo.tv/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AIRAV&quot;</span>: <span class="string">&quot;https://www.airav.wiki/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;ARZON&quot;</span>: <span class="string">&quot;https://www.arzon.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AVBASE&quot;</span>: <span class="string">&quot;https://www.avbase.net/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AVE&quot;</span>: <span class="string">&quot;https://www.aventertainments.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;C0930&quot;</span>: <span class="string">&quot;https://www.c0930.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Caribbeancom&quot;</span>: <span class="string">&quot;https://www.caribbeancom.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;CaribbeancomPR&quot;</span>: <span class="string">&quot;https://www.caribbeancompr.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;DAHLIA&quot;</span>: <span class="string">&quot;https://dahlia-av.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;DUGA&quot;</span>: <span class="string">&quot;https://duga.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FALENO&quot;</span>: <span class="string">&quot;https://faleno.jp/top/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FANZA&quot;</span>: <span class="string">&quot;https://www.dmm.co.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FC2&quot;</span>: <span class="string">&quot;https://adult.contents.fc2.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Gcolle&quot;</span>: <span class="string">&quot;https://gcolle.net/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Getchu&quot;</span>: <span class="string">&quot;https://dl.getchu.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;H0930&quot;</span>: <span class="string">&quot;https://www.h0930.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;H4610&quot;</span>: <span class="string">&quot;https://www.h4610.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;HEYZO&quot;</span>: <span class="string">&quot;https://www.heyzo.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;HeyDouga&quot;</span>: <span class="string">&quot;https://www.heydouga.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;JAV321&quot;</span>: <span class="string">&quot;https://www.jav321.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;JavBus&quot;</span>: <span class="string">&quot;https://www.javbus.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;KIN8&quot;</span>: <span class="string">&quot;https://www.kin8tengoku.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MGS&quot;</span>: <span class="string">&quot;https://www.mgstage.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MURAMURA&quot;</span>: <span class="string">&quot;https://www.muramura.tv/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MYWIFE&quot;</span>: <span class="string">&quot;https://mywife.cc/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;PACOPACOMAMA&quot;</span>: <span class="string">&quot;https://www.pacopacomama.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Pcolle&quot;</span>: <span class="string">&quot;https://www.pcolle.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;SOD&quot;</span>: <span class="string">&quot;https://ec.sod.co.jp/prime/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;TOKYO-HOT&quot;</span>: <span class="string">&quot;https://my.tokyo-hot.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;XXX-AV&quot;</span>: <span class="string">&quot;https://www.xxx-av.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;fc2hub&quot;</span>: <span class="string">&quot;https://javten.com/&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="调整刮削源优先级"><a href="#调整刮削源优先级" class="headerlink" title="调整刮削源优先级"></a>调整刮削源优先级</h6><p>现在通过设置环境变量即可手动修改 MetaTube Server 的刮削源优先级。</p>
+<p>例如：</p>
+<ul>
+<li>将AVBASE的优先级设置为 1000：export MT_MOVIE_PROVIDER_PRIORITY_AVBASE&#x3D;1000</li>
+<li>将GFriends的优先级设置为 99：export MT_ACTOR_PROVIDER_PRIORITY_GFRIENDS&#x3D;99</li>
+<li>将ARZON从刮削源中移除（设置为 0）：export MT_MOVIE_PROVIDER_PRIORITY_ARZON&#x3D;0</li>
+</ul>
+<blockquote>
+<p>注意：刮削源名称以及默认优先级请参考 provider 目录下的具体刮削源中的 Name 和 Priority 字段。 优先级通常应当设置在 1000 ± 10 范围以保证最佳刮削排序质量。</p>
+</blockquote>
+<h5 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h5><p>影片名主要格式为 [字母]-[番号] ， 可以不区分大小写，但要区分下划线-与_ ,这里使用的是-；</p>
+<p>如果要添加中文字符，则需要加 -C;</p>
+<h4 id="Jellyfin-中安装MetaTube插件"><a href="#Jellyfin-中安装MetaTube插件" class="headerlink" title="Jellyfin 中安装MetaTube插件"></a>Jellyfin 中安装MetaTube插件</h4><ol>
+<li>进入 Jellyfin 控制台 &gt; 插件 &gt; 存储库，点击添加</li>
+<li>输入存储库名称：MetaTube</li>
+<li>输入存储库URL：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json">https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json</a></li>
+<li>在插件目录下找到 MetaTube，点击安装</li>
+<li>重启Jellyfin</li>
+<li>适用于中国大陆的存储库URL：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json%EF%BC%88%E5%8F%AF%E8%83%BD%E6%9C%89%E7%BC%93%E5%AD%98%EF%BC%89">https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json（可能有缓存）</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%BB%91%E7%BE%A4%E6%99%96/" rel="tag"># 黑群晖</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/888287f2/" rel="prev" title="虚拟化环境中的存储性能测试工具HCIBench">
+                  <i class="fa fa-angle-left"></i> 虚拟化环境中的存储性能测试工具HCIBench
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/f3a16578/" rel="next" title="Bash-Shell常用脚本汇总">
+                  Bash-Shell常用脚本汇总 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

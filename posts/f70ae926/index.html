@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言最新的Exchange Server需要安装补丁KB4536988，而这个补丁需要升级至CU23才可安装，然而我们的服务器版本为CU21。因此，服务器需要做一遍升级操作才可安装补丁。 主要流程：  安装 dot net 4.7.2 安装 CU23  安装补丁 KB-4536988  前端服务器升级升级步骤：    步骤 任务 详情 备注    1 备份OWA自定义文件 Exchange Ser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exchange CU23升级日志">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/f70ae926/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言最新的Exchange Server需要安装补丁KB4536988，而这个补丁需要升级至CU23才可安装，然而我们的服务器版本为CU21。因此，服务器需要做一遍升级操作才可安装补丁。 主要流程：  安装 dot net 4.7.2 安装 CU23  安装补丁 KB-4536988  前端服务器升级升级步骤：    步骤 任务 详情 备注    1 备份OWA自定义文件 Exchange Ser">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-08T15:28:40.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:47.912Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Exchange Server">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/f70ae926/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/f70ae926/","path":"posts/f70ae926/","title":"Exchange CU23升级日志"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Exchange CU23升级日志 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8D%87%E7%BA%A7"><span class="nav-number">2.</span> <span class="nav-text">前端服务器升级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8D%87%E7%BA%A7"><span class="nav-number">3.</span> <span class="nav-text">后端服务器升级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="nav-number">3.1.</span> <span class="nav-text">问题记录</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f70ae926/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Exchange CU23升级日志 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Exchange CU23升级日志
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-08 15:28:40" itemprop="dateCreated datePublished" datetime="2020-03-08T15:28:40+00:00">2020-03-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最新的Exchange Server需要安装补丁KB4536988，而这个补丁需要升级至CU23才可安装，然而我们的服务器版本为CU21。因此，服务器需要做一遍升级操作才可安装补丁。</p>
+<p>主要流程：</p>
+<ol>
+<li>安装 dot net 4.7.2</li>
+<li>安装 CU23 </li>
+<li>安装补丁 KB-4536988</li>
+</ol>
+<h1 id="前端服务器升级"><a href="#前端服务器升级" class="headerlink" title="前端服务器升级"></a>前端服务器升级</h1><p>升级步骤：</p>
+<table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\版本号\themes</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\OWA\Auth\logon.aspx</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">验证测试</td>
+<td align="left">见前端测试流程</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>为了避免出错，可以管理员身份运行安装包，可以使用 CMD（以管理员身份运行）。</p>
+</blockquote>
+<p>测试流程：</p>
+<ol>
+<li>修改hosts文件，将邮件服务器域名解析指向目标前端服务器；</li>
+<li>测试 OWA 的邮件收发情况（内网、外网均测试一下）</li>
+<li>新建用户邮件 profile 文件 ，使用新profile文件进行邮件收发测试</li>
+</ol>
+<h1 id="后端服务器升级"><a href="#后端服务器升级" class="headerlink" title="后端服务器升级"></a>后端服务器升级</h1><table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份Web.config文件</td>
+<td align="left">Exchange Server\Bin\EdgeTransport.exe.config</td>
+<td align="center">后端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">将DAG中的邮箱服务器切换到维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">将邮箱服务器退出维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">检查服务</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>进入维护模式：</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 定义本机主机名变量</span></span><br><span class="line"><span class="variable">$Computer</span> = <span class="variable">$ENV:ComputerName</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 排空邮箱服务器上的所有传送队列的活动邮件，同时传输这些邮件到另外一台服务器上。</span></span><br><span class="line">Redirect<span class="literal">-Message</span> <span class="literal">-Server</span> <span class="variable">$Computer</span> <span class="literal">-Target</span> [<span class="type">DAG</span>的伙伴服务器<span class="type">FQDN</span>名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 传输组件设置维护模式</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> HubTransport <span class="literal">-State</span> Draining <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 重启Exchange传输服务</span></span><br><span class="line"><span class="built_in">Restart-Service</span> MSExchangeTransport</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 暂停此群集节点</span></span><br><span class="line"><span class="built_in">Suspend-ClusterNode</span> <span class="variable">$Computer</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 设置迁移活动数据库不能回到当前数据库</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyActivationDisabledAndMoveNow</span> <span class="variable">$True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 设置自动切换数据库策略为阻止</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyAutoActivationPolicy</span> Blocked</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. 将服务器设置到维护模式</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> ServerWideOffline <span class="literal">-State</span> Inactive <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span></span><br><span class="line"><span class="built_in">Get-ServerComponentState</span> <span class="variable">$Computer</span> | <span class="built_in">ft</span> Component,State <span class="literal">-Autosize</span></span><br></pre></td></tr></table></figure>
+
+<p>退出维护模式：</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 定义本机主机名变量</span></span><br><span class="line"><span class="variable">$Computer</span> = <span class="variable">$ENV:ComputerName</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 恢复传输组件状态</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> ServerWideOffline <span class="literal">-State</span> Active <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 恢复此群集节点</span></span><br><span class="line"><span class="built_in">Resume-ClusterNode</span> <span class="variable">$Computer</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 手动切换数据库状态</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyActivationDisabledAndMoveNow</span> <span class="variable">$False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 设置自动切换数据库策略为不受限制</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyAutoActivationPolicy</span> Unrestricted</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 传输服务器设置维护状态</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> HubTransport <span class="literal">-State</span> Active <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 重启Exchange传输服务</span></span><br><span class="line"><span class="built_in">Restart-Service</span> MSExchangeTransport</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span></span><br><span class="line"><span class="built_in">Get-ServerComponentState</span> <span class="variable">$Computer</span> | <span class="built_in">ft</span> Component,State <span class="literal">-Autosize</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>一、 IIS导致的故障</p>
+<p>解决方法：</p>
+<ol>
+<li>verify you have several gigs free disk space on C drive of the server being upgraded</li>
+<li>Stop the IISADMIN service and World Wide Web Services</li>
+<li>Make sure the account your using to run the installer is member of schema admins, domain admins and exchange organization management</li>
+<li>Run the upgrade again, but this time, right click the install file and click ‘run as administrator’</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/">https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/</a></p>
+<p>二、 安装CU23出现错误 “ Setup can’t continue with the upgrade because the monad(7688) …mscorsvw (14664) has open files. Close the process, and then restart Setup. For more information, visit: <a target="_blank" rel="noopener" href="http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx">http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx</a> ”</p>
+<ul>
+<li><p>关于 mscorsvw（14664） 是一个 .net 相关的进程，可能net4.7.2没有安装成功。</p>
+</li>
+<li><p>参考：<a target="_blank" rel="noopener" href="https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue">https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue</a></p>
+</li>
+<li><p>关于monad（7688）是一个powershell的进程，但这是跟NetBackup备份服务相关的进程冲突导致的，需要关闭相关服务。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Exchange-Server/" rel="tag"># Exchange Server</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/7f128923/" rel="prev" title="查询已安装的dotNet版本">
+                  <i class="fa fa-angle-left"></i> 查询已安装的dotNet版本
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/14cc785a/" rel="next" title="AD服务器防火墙端口整理">
+                  AD服务器防火墙端口整理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

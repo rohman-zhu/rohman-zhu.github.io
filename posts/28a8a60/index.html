@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言工作也一年多了，期间参与过几个变更项目，虽然如今也是一只小菜鸡，但有过几次体验后，在面对其他变更时也不至于手忙脚乱。 清楚“变更的需求”对于接到任务之后，就不假思索的去做，是很可怕的，因为你并不知道做这件事情的意义。每一次变更就和开车并道一样，并一次就多一分产生车祸的风险，需要清楚衡量变更的意义和价值，权衡风险和价值的轻重，才可以对此次变更进行有效的精力投入评估。  我们必须要问自己一句：这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变更过程的意识">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/28a8a60/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言工作也一年多了，期间参与过几个变更项目，虽然如今也是一只小菜鸡，但有过几次体验后，在面对其他变更时也不至于手忙脚乱。 清楚“变更的需求”对于接到任务之后，就不假思索的去做，是很可怕的，因为你并不知道做这件事情的意义。每一次变更就和开车并道一样，并一次就多一分产生车祸的风险，需要清楚衡量变更的意义和价值，权衡风险和价值的轻重，才可以对此次变更进行有效的精力投入评估。  我们必须要问自己一句：这个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-28T23:30:04.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.154Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="运维">
+<meta property="article:tag" content="IT">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/28a8a60/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/28a8a60/","path":"posts/28a8a60/","title":"变更过程的意识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>变更过程的意识 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E6%A5%9A%E2%80%9C%E5%8F%98%E6%9B%B4%E7%9A%84%E9%9C%80%E6%B1%82%E2%80%9D"><span class="nav-number">1.1.</span> <span class="nav-text">清楚“变更的需求”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E6%A5%9A%E2%80%9C%E5%8F%98%E6%9B%B4%E7%9A%84%E5%90%88%E9%80%82%E6%97%B6%E9%97%B4%E2%80%9D"><span class="nav-number">1.2.</span> <span class="nav-text">清楚“变更的合适时间”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E4%B8%BA%E2%80%9C%E5%8F%98%E6%9B%B4%E7%9A%84%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E2%80%9D"><span class="nav-number">1.3.</span> <span class="nav-text">成为“变更的项目经理”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E9%81%B5%E5%BE%AA%E5%8F%98%E6%9B%B4%E6%B5%81%E7%A8%8B%E2%80%9D"><span class="nav-number">1.4.</span> <span class="nav-text">“遵循变更流程”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/28a8a60/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="变更过程的意识 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          变更过程的意识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-28 23:30:04" itemprop="dateCreated datePublished" datetime="2019-11-28T23:30:04+00:00">2019-11-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>工作也一年多了，期间参与过几个变更项目，虽然如今也是一只小菜鸡，但有过几次体验后，在面对其他变更时也不至于手忙脚乱。</p>
+<h2 id="清楚“变更的需求”"><a href="#清楚“变更的需求”" class="headerlink" title="清楚“变更的需求”"></a>清楚“变更的需求”</h2><p>对于接到任务之后，就不假思索的去做，是很可怕的，因为你并不知道做这件事情的意义。每一次变更就和开车并道一样，并一次就多一分产生车祸的风险，需要清楚衡量变更的意义和价值，权衡风险和价值的轻重，才可以对此次变更进行有效的精力投入评估。</p>
+<blockquote>
+<p>我们必须要问自己一句：这个变更一定要做吗，是否值得对需求方提出挑战？</p>
+</blockquote>
+<h2 id="清楚“变更的合适时间”"><a href="#清楚“变更的合适时间”" class="headerlink" title="清楚“变更的合适时间”"></a>清楚“变更的合适时间”</h2><p>假设每次变更都有产生故障的可能性，那么就必须要确认清楚最佳变更时间。有几个原则：</p>
+<ol>
+<li>避开本产品线业务高峰期、关键期；</li>
+<li>和同产品线的其他变更互斥；</li>
+<li>和相关产品线的其他变更互斥。</li>
+</ol>
+<p>建议把变更看成一个项目进行推进，每个环节的进展需要同步告知干系人，干系人负责进行风险评估。</p>
+<h2 id="成为“变更的项目经理”"><a href="#成为“变更的项目经理”" class="headerlink" title="成为“变更的项目经理”"></a>成为“变更的项目经理”</h2><p>打个比方，消防员在冲进火场的时候，需要确认是否仍有可能的爆炸源，否则被炸因公殉职也是自己的责任。运维在职能上和消防员类似，出现故障（火灾）的时候去歼灭故障源（火源），在执行变更的时候也需要多留一个心眼，反复确认上下游干系业务，才能进行变更规划（其实故障处理也是一次紧急变更）。任何一次变更都要当做一个项目进行运作，清楚干系人，把控风险，制定合理的步骤和时间节点，我们要把他看成一个持续若干天的项目推进，也就是说变更其实在接到需求的那一刻就开始了。</p>
+<h2 id="“遵循变更流程”"><a href="#“遵循变更流程”" class="headerlink" title="“遵循变更流程”"></a>“遵循变更流程”</h2><p>似曾相识的场景：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">我：为什么要先做 raid 再告诉同事忽略报警？</span><br><span class="line">A：这样也没什么问题吗，不就是骚扰大家一下，我也提醒了。</span><br><span class="line">我：为什么不走流程，先关报警再变更？</span><br><span class="line">A：没必要吧，SA每天这么多操作都需要这样？</span><br><span class="line">我：不关注细节，终会酿成大错，当年我因为没有关注流程出现过600个节点同时宕机的误操作。假设你的报警淹没了当时的其他重要报警，我们晚发现核心业务故障5分钟，你知道损失是多少吗？</span><br><span class="line">A：……（惭愧）</span><br></pre></td></tr></table></figure>
+
+<p>变更的大致流程是：需求确认 -&gt; 干系业务&#x2F;人确定 -&gt; 方案探讨 -&gt; 方案确立&amp;时间确立 -&gt; 变更单撰写 -&gt; 变更单 review -&gt; 审批报备 -&gt; 变更通告 -&gt; 方案实施 -&gt; 方案效果反馈 (-&gt; 回滚方案)，可酌情进行步骤删减。</p>
+<p>遵循变更流程的主要好处是，首先，你可以在整理变更步骤的时候仔细思考每一处风险点，多次变更之后可以固化下来风险相对较小的标准化文档，后续可以把重复操作自动化。其次，风险均摊及最小化，方案是大家探讨后确定的，时间是大家商量后认可的，流程是经过审批报备的。</p>
+<p>真的，如果把类似的流程贯彻下去，因为变更产生故障的概率会大大降低。<br>现在成熟的公司运维团队，都已经把类似的流程固化到运维平台里了，但是又有多少团队的负责人真正在遵循，而不是随便审批了事呢？不要和我谈业务压力有多大，不要和我谈缺人手，原则是不能却步的，否则捡了芝麻丢了西瓜。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/16e952ca444a">https://www.jianshu.com/p/16e952ca444a</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag"># 运维</a>
+              <a href="/tags/IT/" rel="tag"># IT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/e8ef492c/" rel="prev" title="LINUX-DHCP服务搭建">
+                  <i class="fa fa-angle-left"></i> LINUX-DHCP服务搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/4f93626d/" rel="next" title="Ubuntu--Q&A">
+                  Ubuntu--Q&A <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

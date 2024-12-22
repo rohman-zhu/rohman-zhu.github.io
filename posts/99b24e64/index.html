@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言这周末看了LDAP的相关文档，只是尝试根据官方说明文档搭建了一下这个应用。但对于该应用是否能够投入使用，以及搭建过程中是否出错，目前不得而知。因此，此篇文章只做简单的记录，后续还需要再验证。而之所以会想去了解 LDAP ，是因为在工作环境中会听到这个词汇，但我对于其具体作用却不得而知，所以才会利用空余时间去了解一下这一个应用。 理论部分LDAP这里采用官方文档的介绍： LDAP stands">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识LDAP">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/99b24e64/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言这周末看了LDAP的相关文档，只是尝试根据官方说明文档搭建了一下这个应用。但对于该应用是否能够投入使用，以及搭建过程中是否出错，目前不得而知。因此，此篇文章只做简单的记录，后续还需要再验证。而之所以会想去了解 LDAP ，是因为在工作环境中会听到这个词汇，但我对于其具体作用却不得而知，所以才会利用空余时间去了解一下这一个应用。 理论部分LDAP这里采用官方文档的介绍： LDAP stands">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-15T23:58:26.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.144Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/99b24e64/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/99b24e64/","path":"posts/99b24e64/","title":"初识LDAP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>初识LDAP | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">理论部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LDAP"><span class="nav-number">2.1.</span> <span class="nav-text">LDAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DIT%EF%BC%88-Directory-Information-Tree%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">DIT（ Directory Information Tree）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LDIF-%EF%BC%88-LDAP-Data-Interchange-Format%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">LDIF （ LDAP Data Interchange Format）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E4%B8%8A%E5%AE%89%E8%A3%85LDAP"><span class="nav-number">2.4.</span> <span class="nav-text">Linux上安装LDAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.5.</span> <span class="nav-text">启动服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">未完结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/99b24e64/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="初识LDAP | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识LDAP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-07-15 23:58:26" itemprop="dateCreated datePublished" datetime="2018-07-15T23:58:26+00:00">2018-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这周末看了LDAP的相关文档，只是尝试根据官方说明文档搭建了一下这个应用。但对于该应用是否能够投入使用，以及搭建过程中是否出错，目前不得而知。因此，此篇文章只做简单的记录，后续还需要再验证。而之所以会想去了解 <em>LDAP</em> ，是因为在工作环境中会听到这个词汇，但我对于其具体作用却不得而知，所以才会利用空余时间去了解一下这一个应用。</p>
+<h1 id="理论部分"><a href="#理论部分" class="headerlink" title="理论部分"></a>理论部分</h1><h2 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h2><p>这里采用官方文档的介绍：</p>
+<p>LDAP stands for Lightweight Directory Access Protocol. As the name suggests, it is a lightweight protocol for accessing directory services, specifically X.500-based directory services. LDAP runs over TCP&#x2F;IP or other connection oriented transfer services. LDAP is an IETF Standard Track protocol and is specified in “Lightweight Directory Access Protocol (LDAP) Technical Specification Road Map” RFC4510.</p>
+<p> The LDAP information model is based on entries. An entry is a collection of attributes that has a globally-unique Distinguished Name (DN). The DN is used to refer to the entry unambiguously（ <em>不含糊地 adv</em> ）. Each of the entry’s attributes has a type and one or more values. The types are typically mnemonic( <em>有助于记忆的 adj</em> ) strings, like “cn” for common name, or “mail” for email address. The syntax of values depend on the attribute type. For example, a cn attribute might contain the value Babs Jensen. A mail attribute might contain the value “<a href="mailto:&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;">&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;</a>“. A jpegPhoto attribute would contain a photograph in the JPEG (binary) format.</p>
+<p>The LDAP search operation allows some portion of the directory to be searched for entries that match some criteria specified by a search filter. Information can be requested from each entry that matches the criteria（n. 标准）.</p>
+<p> In general, you should use a Directory server when you <em>require data to be centrally managed, stored and accessible via standards based methods</em>.</p>
+<p>从上述内容中，可以知道：</p>
+<ol>
+<li>LDAP是一个轻量级的目录访问协议，适用于目录服务的。（这里的目录，并不仅仅指我们说的文件夹）</li>
+<li>LDAP是可以运行在TCP&#x2F;IP 协议上。</li>
+<li>记录信息的单位是 Entry ，类似于数据库中的记录。</li>
+<li>信息存储是以树状形式存储的。（类似于DNS的多级域名解析）</li>
+<li>需要通过一些简单的方式集中管理、存储的数据，我们用LDAP。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">缩写</th>
+<th align="center">全称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">dc</td>
+<td align="center">domain Component</td>
+</tr>
+<tr>
+<td align="center">uid</td>
+<td align="center">user ID</td>
+</tr>
+<tr>
+<td align="center">ou</td>
+<td align="center">organization unit</td>
+</tr>
+<tr>
+<td align="center">cn</td>
+<td align="center">comman name</td>
+</tr>
+<tr>
+<td align="center">sn</td>
+<td align="center">surname</td>
+</tr>
+<tr>
+<td align="center">dn</td>
+<td align="center">distinguished name</td>
+</tr>
+<tr>
+<td align="center">rdn</td>
+<td align="center">relative distinguished name</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td align="center">country</td>
+</tr>
+<tr>
+<td align="center">o</td>
+<td align="center">organization</td>
+</tr>
+</tbody></table>
+<p>目前从文档中看到的四个特点是：</p>
+<ol>
+<li>采用标准协议</li>
+<li>树状结构表示数据</li>
+<li>静态数据查询快，但更新慢</li>
+<li>可采用 SASL 、 SSL 、 TLS 安全认证</li>
+</ol>
+<h2 id="DIT（-Directory-Information-Tree）"><a href="#DIT（-Directory-Information-Tree）" class="headerlink" title="DIT（ Directory Information Tree）"></a>DIT（ Directory Information Tree）</h2><h2 id="LDIF-（-LDAP-Data-Interchange-Format）"><a href="#LDIF-（-LDAP-Data-Interchange-Format）" class="headerlink" title="LDIF （ LDAP Data Interchange Format）"></a>LDIF （ LDAP Data Interchange Format）</h2><ul>
+<li>必须存在objectclass</li>
+<li>以空行分割不同的记录 ，类似于｛｝的作用。</li>
+</ul>
+<h2 id="Linux上安装LDAP"><a href="#Linux上安装LDAP" class="headerlink" title="Linux上安装LDAP"></a>Linux上安装LDAP</h2><ul>
+<li>Centos_6.9_minimal</li>
+<li>LDAP_2.4.46</li>
+<li>Berkeley_5.1</li>
+</ul>
+<p>由于我的Linux是最小化安装，因此还缺少一些必要的工具，类似于NTP服务、GCC编译等。所以在安装前，先执行以下指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">yum grouplist</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前系统是否有安装以下包</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Base</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Compatibility libraries</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Debugging Tools</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Development Tools</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Dial-up Networking Support</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Hardware monitoring utilities</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Performance Tools</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">yum groupinstall <span class="string">&quot;需要安装的包&quot;</span> -y</span></span><br></pre></td></tr></table></figure>
+
+<p>在安装前，需做好以下工作，避免产生不必要的错误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">SELINUX</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sed -i <span class="string">&quot;s#SELINUX=enforcing#SELINUX=disabled#g&quot;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">iptables</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/etc/init.d/iptables stop</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NTP</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/sbin/ntpdate time.windows.com</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加到定时任务</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">crontab -e</span></span><br><span class="line"></span><br><span class="line">*/5 * * * * /usr/sbin/ntpdate time.windows.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>采用编译安装，如果过程中出现“BerkeleyDB”未找到，需要指定相关目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">Berkeley 安装</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">tar xf db-5.1.tar</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">cd</span> db-5.1/build_unix/</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">../dist/configure</span> </span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make &amp;&amp; make install</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">OpenLdap安装</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">tar openldap</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">cd</span> openldap</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./configure CPPFLAGS=<span class="string">&quot;-I/usr/local/BerkeleyDB.6.2/include&quot;</span> LDFLAGS=<span class="string">&quot;-L/usr/local/BerkeleyDB.6.2/lib&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一次安装openldap的时候，在已经安装了Berkeley的情况下依然出现 BerkeleyDB version incompatible withBDB&#x2F;HDB backends ， 查询了一下 <em>README</em> 文件后才知道，Openldap对DB版本有要求地。</p>
+</blockquote>
+<p>参考 : <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2016-05/130997.htm">https://www.linuxidc.com/Linux/2016-05/130997.htm</a></p>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>根据官方文档，编译安装启动方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">/usr/local/libexec/slapd [option]</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">port:389</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">lsof -i:389</span></span><br></pre></td></tr></table></figure>
+
+<p>默认配置文件 ：  &#x2F;usr&#x2F;local&#x2F;etc&#x2F;openldap&#x2F;slapd.ldif</p>
+<h1 id="未完结"><a href="#未完结" class="headerlink" title="未完结"></a>未完结</h1>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/96fc5cdf/" rel="prev" title="Devstack部署指南">
+                  <i class="fa fa-angle-left"></i> Devstack部署指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/ee237316/" rel="next" title="Ubuntu下安装VmwareWorkstation无法启动">
+                  Ubuntu下安装VmwareWorkstation无法启动 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

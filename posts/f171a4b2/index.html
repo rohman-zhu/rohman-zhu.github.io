@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景说明本次测试使用 CrystalDiskMark 简单测试，仅作数据参考。 实测数据记录第一次测试   环境 顺序or随机 块大小 队列 线程 读吞吐(MBps) 写吞吐(MBps) 读 IOPS 写 IOPS 读时延(us) 写时延(us)    18块 HDD盘组成 RAID6 顺序 1M 8 1 1294 1421 1234 1355 6471 5864   18块 HDD盘组成 RAI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用CrystalDiskMark测试的一些硬盘数据记录">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/f171a4b2/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景说明本次测试使用 CrystalDiskMark 简单测试，仅作数据参考。 实测数据记录第一次测试   环境 顺序or随机 块大小 队列 线程 读吞吐(MBps) 写吞吐(MBps) 读 IOPS 写 IOPS 读时延(us) 写时延(us)    18块 HDD盘组成 RAID6 顺序 1M 8 1 1294 1421 1234 1355 6471 5864   18块 HDD盘组成 RAI">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-22T17:01:53.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.109Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="硬盘性能测试">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/f171a4b2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/f171a4b2/","path":"posts/f171a4b2/","title":"使用CrystalDiskMark测试的一些硬盘数据记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用CrystalDiskMark测试的一些硬盘数据记录 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">背景说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%B5%8B%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">实测数据记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.</span> <span class="nav-text">第一次测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">第二次测试</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f171a4b2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用CrystalDiskMark测试的一些硬盘数据记录 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用CrystalDiskMark测试的一些硬盘数据记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-09-22 17:01:53" itemprop="dateCreated datePublished" datetime="2024-09-22T17:01:53+00:00">2024-09-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>本次测试使用 CrystalDiskMark 简单测试，仅作数据参考。</p>
+<h1 id="实测数据记录"><a href="#实测数据记录" class="headerlink" title="实测数据记录"></a>实测数据记录</h1><h2 id="第一次测试"><a href="#第一次测试" class="headerlink" title="第一次测试"></a>第一次测试</h2><table>
+<thead>
+<tr>
+<th align="center">环境</th>
+<th align="center">顺序or随机</th>
+<th align="center">块大小</th>
+<th align="center">队列</th>
+<th align="center">线程</th>
+<th align="center">读吞吐(MBps)</th>
+<th align="center">写吞吐(MBps)</th>
+<th align="center">读 IOPS</th>
+<th align="center">写 IOPS</th>
+<th align="center">读时延(us)</th>
+<th align="center">写时延(us)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1294</td>
+<td align="center">1421</td>
+<td align="center">1234</td>
+<td align="center">1355</td>
+<td align="center">6471</td>
+<td align="center">5864</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">355</td>
+<td align="center">1385</td>
+<td align="center">339</td>
+<td align="center">1321</td>
+<td align="center">2907</td>
+<td align="center">756</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">10</td>
+<td align="center">64</td>
+<td align="center">2480</td>
+<td align="center">15829</td>
+<td align="center">12842</td>
+<td align="center">1863</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">18</td>
+<td align="center">352</td>
+<td align="center">4551</td>
+<td align="center">2827</td>
+<td align="center">195</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1176</td>
+<td align="center">1434</td>
+<td align="center">1121</td>
+<td align="center">1367</td>
+<td align="center">7095</td>
+<td align="center">5808</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">813</td>
+<td align="center">1433</td>
+<td align="center">775</td>
+<td align="center">1367</td>
+<td align="center">1288</td>
+<td align="center">730</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">7</td>
+<td align="center">72</td>
+<td align="center">1927</td>
+<td align="center">17687</td>
+<td align="center">16513</td>
+<td align="center">882</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">38</td>
+<td align="center">195</td>
+<td align="center">9356</td>
+<td align="center">5086</td>
+<td align="center">106</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1005</td>
+<td align="center">447</td>
+<td align="center">958</td>
+<td align="center">426</td>
+<td align="center">8333</td>
+<td align="center">18666</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">367</td>
+<td align="center">443</td>
+<td align="center">350</td>
+<td align="center">422</td>
+<td align="center">2850</td>
+<td align="center">2359</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">415</td>
+<td align="center">111</td>
+<td align="center">101559</td>
+<td align="center">27135</td>
+<td align="center">314</td>
+<td align="center">1177</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">29</td>
+<td align="center">52</td>
+<td align="center">7223</td>
+<td align="center">12925</td>
+<td align="center">138</td>
+<td align="center">77</td>
+</tr>
+</tbody></table>
+<h2 id="第二次测试"><a href="#第二次测试" class="headerlink" title="第二次测试"></a>第二次测试</h2><table>
+<thead>
+<tr>
+<th align="center">环境</th>
+<th align="center">顺序or随机</th>
+<th align="center">块大小</th>
+<th align="center">队列</th>
+<th align="center">线程</th>
+<th align="center">读吞吐(MBps)</th>
+<th align="center">写吞吐(MBps)</th>
+<th align="center">读 IOPS</th>
+<th align="center">写 IOPS</th>
+<th align="center">读时延(us)</th>
+<th align="center">写时延(us)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1139</td>
+<td align="center">1435</td>
+<td align="center">1086</td>
+<td align="center">1369</td>
+<td align="center">7349</td>
+<td align="center">5786</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">335</td>
+<td align="center">1292</td>
+<td align="center">319</td>
+<td align="center">1233</td>
+<td align="center">2963</td>
+<td align="center">810</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">11</td>
+<td align="center">42</td>
+<td align="center">2892</td>
+<td align="center">10427</td>
+<td align="center">11027</td>
+<td align="center">2998</td>
+</tr>
+<tr>
+<td align="center">18块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">41</td>
+<td align="center">499</td>
+<td align="center">10198</td>
+<td align="center">2002</td>
+<td align="center">96</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1177</td>
+<td align="center">1597</td>
+<td align="center">1122</td>
+<td align="center">1523</td>
+<td align="center">7118</td>
+<td align="center">5153</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">857</td>
+<td align="center">1509</td>
+<td align="center">817</td>
+<td align="center">1439</td>
+<td align="center">1221</td>
+<td align="center">693</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">12</td>
+<td align="center">63</td>
+<td align="center">2940</td>
+<td align="center">15563</td>
+<td align="center">10862</td>
+<td align="center">1731</td>
+</tr>
+<tr>
+<td align="center">8块 HDD盘组成 RAID6</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">41</td>
+<td align="center">211</td>
+<td align="center">10066</td>
+<td align="center">4711</td>
+<td align="center">98</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">1031</td>
+<td align="center">443</td>
+<td align="center">983</td>
+<td align="center">422</td>
+<td align="center">8121</td>
+<td align="center">18736</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">顺序</td>
+<td align="center">1M</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">386</td>
+<td align="center">441</td>
+<td align="center">368</td>
+<td align="center">421</td>
+<td align="center">2709</td>
+<td align="center">2366</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">32</td>
+<td align="center">1</td>
+<td align="center">407</td>
+<td align="center">110</td>
+<td align="center">99480</td>
+<td align="center">27075</td>
+<td align="center">321</td>
+<td align="center">1180</td>
+</tr>
+<tr>
+<td align="center">2块 SSD组成 RAID1</td>
+<td align="center">随机</td>
+<td align="center">4K</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">31</td>
+<td align="center">54</td>
+<td align="center">7621</td>
+<td align="center">13240</td>
+<td align="center">130</td>
+<td align="center">75</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A1%AC%E7%9B%98%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag"># 硬盘性能测试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/48929e2/" rel="prev" title="esxcli catch patch">
+                  <i class="fa fa-angle-left"></i> esxcli catch patch
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/888287f2/" rel="next" title="虚拟化环境中的存储性能测试工具HCIBench">
+                  虚拟化环境中的存储性能测试工具HCIBench <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

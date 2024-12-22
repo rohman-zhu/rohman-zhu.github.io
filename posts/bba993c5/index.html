@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="LVS &amp; Keepalivehttp:&#x2F;&#x2F;www.linuxvirtualserver.org&#x2F;zh&#x2F; 相关名词   名称 备注    Virtual IP Address    Real Server IP Address 在集群下面节点上使用的IP地址,物理IP地址   Director IP Address 用于连接内网的IP地址,实际为物理网卡的IP地址   Client IP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LVS&amp;Keepalived集群架构服务应用">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/bba993c5/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="LVS &amp; Keepalivehttp:&#x2F;&#x2F;www.linuxvirtualserver.org&#x2F;zh&#x2F; 相关名词   名称 备注    Virtual IP Address    Real Server IP Address 在集群下面节点上使用的IP地址,物理IP地址   Director IP Address 用于连接内网的IP地址,实际为物理网卡的IP地址   Client IP">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-23T08:32:22.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:48.985Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/bba993c5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/bba993c5/","path":"posts/bba993c5/","title":"LVS&Keepalived集群架构服务应用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LVS&Keepalived集群架构服务应用 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LVS-Keepalive"><span class="nav-number">1.</span> <span class="nav-text">LVS &amp; Keepalive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%90%8D%E8%AF%8D"><span class="nav-number">1.1.</span> <span class="nav-text">相关名词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVS"><span class="nav-number">1.2.</span> <span class="nav-text">LVS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVS-%E9%9B%86%E7%BE%A4%E7%9A%84%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">LVS 集群的三种模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">ARP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2ARP"><span class="nav-number">1.3.2.</span> <span class="nav-text">查询ARP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows%E4%B8%8B"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Windows下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux%E4%B8%8B"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Linux下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARP-%E7%BC%93%E5%AD%98%E8%A1%A8%E6%98%AF%E4%B8%80%E6%8A%8A%E5%8F%8C%E5%88%83%E5%89%91"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">ARP 缓存表是一把双刃剑</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%97%A0%E7%BC%9D%E6%B7%BB%E5%8A%A0%E6%96%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">1.3.2.3.1.</span> <span class="nav-text">如何无缝添加新的路由器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ARP%E7%9A%84%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.2.3.2.</span> <span class="nav-text">ARP的相关问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VS-NAT"><span class="nav-number">1.3.3.</span> <span class="nav-text">VS&#x2F;NAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VS-DR"><span class="nav-number">1.3.4.</span> <span class="nav-text">VS&#x2F;DR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TUN"><span class="nav-number">1.3.5.</span> <span class="nav-text">TUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FULLNAT"><span class="nav-number">1.3.6.</span> <span class="nav-text">FULLNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LVS%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="nav-number">1.3.7.</span> <span class="nav-text">LVS调度算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%AE%89%E8%A3%85"><span class="nav-number">1.3.8.</span> <span class="nav-text">实际安装</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bba993c5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LVS&Keepalived集群架构服务应用 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LVS&Keepalived集群架构服务应用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-23 08:32:22" itemprop="dateCreated datePublished" datetime="2017-11-23T08:32:22+00:00">2017-11-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="LVS-Keepalive"><a href="#LVS-Keepalive" class="headerlink" title="LVS &amp; Keepalive"></a>LVS &amp; Keepalive</h1><p><code>http://www.linuxvirtualserver.org/zh/</code></p>
+<h2 id="相关名词"><a href="#相关名词" class="headerlink" title="相关名词"></a>相关名词</h2><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Virtual IP Address</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Real Server IP Address</td>
+<td align="center">在集群下面节点上使用的IP地址,物理IP地址</td>
+</tr>
+<tr>
+<td align="center">Director IP Address</td>
+<td align="center">用于连接内网的IP地址,实际为物理网卡的IP地址</td>
+</tr>
+<tr>
+<td align="center">Client IP Address</td>
+<td align="center">客户端用户计算机请求集群服务器的IP地址</td>
+</tr>
+</tbody></table>
+<h2 id="LVS"><a href="#LVS" class="headerlink" title="LVS"></a>LVS</h2><p>Linux Virtual Server</p>
+<blockquote>
+<p>使用软件配置LVS时,不能直接配置内核中的ipvs,而是需要管理工具ipvsadm进行管理.</p>
+</blockquote>
+<p>小结笔记:</p>
+<ol>
+<li>实现负载调度的工具是IPVS,工作在LINUX内核层面</li>
+<li>LVS自带的IPVS管理工具是ipvsadm</li>
+<li>keepalived实现管理IPVS以及对负载均衡器的高可用.</li>
+<li>RedHat工具Piranha_Web管理实现调度的工具IPVS</li>
+</ol>
+<h2 id="LVS-集群的三种模式"><a href="#LVS-集群的三种模式" class="headerlink" title="LVS 集群的三种模式"></a>LVS 集群的三种模式</h2><h3 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h3><p>Address Resolution Protocol , 地址解析协议,使用ARP协议可实现通过IP地址获得对应主机的物理地址(MAC).</p>
+<p>32位的IP地址 –&gt; 48位的MAC地址</p>
+<blockquote>
+<p>ARP协议不需要配置服务<br>ARP协议要求通信的主机双方必须在同一个物理网段<br>ARP是第三层协议(OSI)</p>
+</blockquote>
+<h3 id="查询ARP"><a href="#查询ARP" class="headerlink" title="查询ARP"></a>查询ARP</h3><h4 id="Windows下"><a href="#Windows下" class="headerlink" title="Windows下"></a>Windows下</h4><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># arp -a 查询所有缓存表</span><br><span class="line"># arp -d 清除ARP缓存表</span><br><span class="line"># arp -s 绑定ARP</span><br></pre></td></tr></table></figure>
+
+<h4 id="Linux下"><a href="#Linux下" class="headerlink" title="Linux下"></a>Linux下</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -c 次数 -s 源</span></span><br><span class="line">/sbin/arping -I eth0 -c 3 -s 10.0.0.162 10.0.0.253</span><br><span class="line">/sbin/arping -U -I eth0 10.0.0.162</span><br><span class="line">NAME arping -send ARP REQUEST to a neighbour host</span><br><span class="line">SYNOPSIS arping [-c count][-w dead-line][-s <span class="built_in">source</span>] -I interface destination</span><br></pre></td></tr></table></figure>
+
+<h4 id="ARP-缓存表是一把双刃剑"><a href="#ARP-缓存表是一把双刃剑" class="headerlink" title="ARP 缓存表是一把双刃剑"></a>ARP 缓存表是一把双刃剑</h4><ol>
+<li>主机有了ARP缓存表,可以加快ARP的解析速度,减少局域网内广播风暴.</li>
+<li>正时游了ARP缓存表,给恶意黑客带来了共计服务器主机的风险,这就是ARP欺骗攻击.</li>
+<li>切换路由器,负载均衡器等设备时,可能会导致网络中断.</li>
+</ol>
+<h5 id="如何无缝添加新的路由器"><a href="#如何无缝添加新的路由器" class="headerlink" title="如何无缝添加新的路由器"></a>如何无缝添加新的路由器</h5><p>要求:</p>
+<ol>
+<li>旧的配置导入新的配置里面.</li>
+<li>arping 指定客户端所有ARP缓存表.</li>
+<li>切换路由器,负载均衡器等设备时,可以能会导致网络中断.</li>
+</ol>
+<h5 id="ARP的相关问题"><a href="#ARP的相关问题" class="headerlink" title="ARP的相关问题"></a>ARP的相关问题</h5><ol>
+<li>ARP病毒,ARP欺骗</li>
+<li>高可用服务器之间切换时要考虑ARP缓存问题</li>
+<li>路由器等设备无缝迁移时要考虑ARP缓存问题</li>
+</ol>
+<h3 id="VS-NAT"><a href="#VS-NAT" class="headerlink" title="VS&#x2F;NAT"></a>VS&#x2F;NAT</h3><p>Virtual Server via Network Address Translation</p>
+<blockquote>
+<p>入站DNAT,出站SANT,入站出站都经过LVS,可以修改端口.</p>
+</blockquote>
+<h3 id="VS-DR"><a href="#VS-DR" class="headerlink" title="VS&#x2F;DR"></a>VS&#x2F;DR</h3><p>Virtual Server via Direct Routing(直接路由)</p>
+<p>主要特征:</p>
+<ul>
+<li>LVS只负责入站请求</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><ol>
+<li>通过更改数据包的目标MAC地址实现数据包转发.</li>
+<li>所有节点和LVS要处于一个局域网.</li>
+</ol>
+<blockquote>
+<p>修改数据包的目的MAC地址,入站经过LVS,出站不经过LVS,直接返回给客户,不能改端口,LAN内使用</p>
+</blockquote>
+<h3 id="TUN"><a href="#TUN" class="headerlink" title="TUN"></a>TUN</h3><p>IP Tunneling</p>
+<p>原理:</p>
+<ol>
+<li>负载均衡通过把请求的报文通过IP隧道的方式转发至真实服务器,而真实服务器将响应处理后返回客户端用户.(请求报文不经过原目的地址的改写(包括MAC),直接封装成另外的IP报文)</li>
+<li>由于真实服务器将响应处理后的报文直接返回给客户端用户,因此,最好RSYNC有一个外网IP地址.</li>
+</ol>
+<blockquote>
+<p>不改变数据包内容,数据包外部封装一个IP头,入站经过LVS,出站不经过LVS,直接返回客户,不能改端口,LAN&#x2F;WAN使用</p>
+</blockquote>
+<h3 id="FULLNAT"><a href="#FULLNAT" class="headerlink" title="FULLNAT"></a>FULLNAT</h3><p>Full Network Address Translation</p>
+<h3 id="LVS调度算法"><a href="#LVS调度算法" class="headerlink" title="LVS调度算法"></a>LVS调度算法</h3><p>固定调度算法: rr , wrr , dh , sh<br>动态调度算法:</p>
+<ul>
+<li>wlc (Weighted Least-Connection 加权最小连接数调度)</li>
+<li>lc (Least-Connection 最小连接数调度)</li>
+<li>lblc (Locality-Based Least-Connection 基于地址的最小连接调度)</li>
+<li>lblcr(Locality-Based Least-Connection with Replication 基于地址带重复最小连接数调度)</li>
+</ul>
+<blockquote>
+<p>一般网络服务(类似Http&#x2F;Mail&#x2F;MySQL等)常用的调度LVS算法为:rr,wlc,wrr</p>
+</blockquote>
+<h3 id="实际安装"><a href="#实际安装" class="headerlink" title="实际安装"></a>实际安装</h3><p>注意:</p>
+<ol>
+<li>Centos5.x 使用1.24版本</li>
+<li>Centos6.x 使用1.26版本</li>
+<li>提前安装 : yum install libnl* popt* -y</li>
+<li>安装完后,执行ipvsadm(modprobe ip_vs)把ip_vs模块加载到内核</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/7c7aeb92/" rel="prev" title="Python实战">
+                  <i class="fa fa-angle-left"></i> Python实战
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/baf6444b/" rel="next" title="NOSQL之Memcached缓存服务实战">
+                  NOSQL之Memcached缓存服务实战 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

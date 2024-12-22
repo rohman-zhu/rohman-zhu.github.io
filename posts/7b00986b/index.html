@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言本次使用的电脑是上初中时,在淘宝买的二手电脑(NEC VY20M&#x2F;W-5),当时只是买来打打dota,配置如下表:    组件 型号 价格    CPU     内存     显卡     主板     硬盘     如今这台电脑的性能已经过于老旧了,因此想把它做成Linux服务器,平时做做文件存储之类的工作,或者家庭点播平台之类的活(这些后续再说…). 目前这条电脑没有发现损坏的地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LNMP-zabbix-3.4.5-实战">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/7b00986b/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言本次使用的电脑是上初中时,在淘宝买的二手电脑(NEC VY20M&#x2F;W-5),当时只是买来打打dota,配置如下表:    组件 型号 价格    CPU     内存     显卡     主板     硬盘     如今这台电脑的性能已经过于老旧了,因此想把它做成Linux服务器,平时做做文件存储之类的工作,或者家庭点播平台之类的活(这些后续再说…). 目前这条电脑没有发现损坏的地">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.ttlsa.com/wp-content/uploads/2014/04/zabbix-monitor-server-01.jpg">
+<meta property="article:published_time" content="2018-01-07T09:34:36.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:48.049Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Zabbix">
+<meta property="article:tag" content="LNMP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.ttlsa.com/wp-content/uploads/2014/04/zabbix-monitor-server-01.jpg">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/7b00986b/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/7b00986b/","path":"posts/7b00986b/","title":"LNMP-zabbix-3.4.5-实战"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LNMP-zabbix-3.4.5-实战 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">开始安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F-%E7%95%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装系统.(略)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#etc-systemd-logind-conf"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">&#x2F;etc&#x2F;systemd&#x2F;logind.conf</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Nginx-1-6"><span class="nav-number">1.1.3.</span> <span class="nav-text">安装Nginx-1.6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Mysql%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.1.4.</span> <span class="nav-text">安装Mysql数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85PHP-5-5-58"><span class="nav-number">1.1.5.</span> <span class="nav-text">安装PHP-5.5.58</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85ZABBIX-3-4-5"><span class="nav-number">1.1.6.</span> <span class="nav-text">安装ZABBIX-3.4.5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E8%A7%86%E7%AC%AC%E4%B8%80%E5%8F%B0%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.1.7.</span> <span class="nav-text">监视第一台客户端</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7b00986b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LNMP-zabbix-3.4.5-实战 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LNMP-zabbix-3.4.5-实战
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-07 09:34:36" itemprop="dateCreated datePublished" datetime="2018-01-07T09:34:36+00:00">2018-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本次使用的电脑是上初中时,在淘宝买的二手电脑(NEC VY20M&#x2F;W-5),当时只是买来打打dota,配置如下表:</p>
+<table>
+<thead>
+<tr>
+<th align="center">组件</th>
+<th align="center">型号</th>
+<th align="center">价格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CPU</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">内存</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">显卡</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">主板</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">硬盘</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>如今这台电脑的性能已经过于老旧了,因此想把它做成Linux服务器,平时做做文件存储之类的工作,或者家庭点播平台之类的活(这些后续再说…).</p>
+<p>目前这条电脑没有发现损坏的地方(扬声器和显示屏完好无损).</p>
+<p>下面是这台电脑的应用程序清单:</p>
+<table>
+<thead>
+<tr>
+<th align="center">软件类型</th>
+<th align="center">名称</th>
+<th align="center">版本号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">操作系统</td>
+<td align="center">Linux_Centos</td>
+<td align="center">centos7</td>
+</tr>
+<tr>
+<td align="center">数据库</td>
+<td align="center">MySQL</td>
+<td align="center">mysql-5.5.58</td>
+</tr>
+<tr>
+<td align="center">Web应用</td>
+<td align="center">Nginx</td>
+<td align="center">nginx-1.</td>
+</tr>
+<tr>
+<td align="center">监控服务端</td>
+<td align="center">Zabbix</td>
+<td align="center">zabbix-3.4.5</td>
+</tr>
+<tr>
+<td align="center">PHP</td>
+<td align="center">PHP</td>
+<td align="center">php-5.5.38</td>
+</tr>
+</tbody></table>
+<p>软件下载地址:</p>
+<ul>
+<li>Nginx : <a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></li>
+<li>Mysql : <a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/community/">https://downloads.mysql.com/archives/community/</a></li>
+<li>Zabbix : <a target="_blank" rel="noopener" href="https://www.zabbix.com/download">https://www.zabbix.com/download</a></li>
+<li>PHP : <a target="_blank" rel="noopener" href="http://php.net/releases/">http://php.net/releases/</a></li>
+</ul>
+<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><h3 id="安装系统-略"><a href="#安装系统-略" class="headerlink" title="安装系统.(略)"></a>安装系统.(略)</h3><h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 网络 #</span></span><br><span class="line"><span class="comment"># 添加IP到局域网内 #</span></span><br><span class="line"><span class="comment"># ifconfig enp2s0 192.168.1.89 netmask 255.255.255.0 gateway</span></span><br><span class="line"><span class="comment"># 添加默认网关 #</span></span><br><span class="line"><span class="comment"># echo &quot;GATEWAY=192.168.1.1&quot; &gt;&gt; /etc/sysconfig/network</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭Selinux #</span></span><br><span class="line"><span class="comment"># sed -i &quot;s#enforcing#disabled#g&quot; /etc/selinux/config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭防火墙 #</span></span><br><span class="line"><span class="comment"># systemctl stop firewalld.server</span></span><br><span class="line"><span class="comment"># systemctl disable firewalld.server</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 合上笔记本后不休眠 #</span></span><br><span class="line"><span class="comment"># 方法一 : 追加</span></span><br><span class="line"><span class="comment"># echo &#x27;HandleLidSwitch=ignore&#x27; &gt;&gt; /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 方法二 : 替换</span></span><br><span class="line"><span class="comment"># sed -i &#x27;s##\HandleLidSwitch=hibernate#HandleLidSwitch=ignore#g&#x27; /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 生效</span></span><br><span class="line"><span class="comment"># systemctl restart systemd-logind</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置国内源 #</span></span><br><span class="line"><span class="comment"># cd /etc/yum.repos.d/</span></span><br><span class="line"><span class="comment"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加网卡的时候出现’不允许的操作’,需要提升权限操作.</p>
+</blockquote>
+<h4 id="etc-systemd-logind-conf"><a href="#etc-systemd-logind-conf" class="headerlink" title="&#x2F;etc&#x2F;systemd&#x2F;logind.conf"></a>&#x2F;etc&#x2F;systemd&#x2F;logind.conf</h4><ul>
+<li>HandlePowerKey：按下电源键后的动作</li>
+<li>HandleSleepKey：按下挂起键后的动作</li>
+<li>HandleHibernateKey: 按下休眠键后的动作</li>
+<li>HandleLidSwitch：合上笔记本盖后待机</li>
+</ul>
+<p>值:</p>
+<ul>
+<li>ignore（什么都不做）</li>
+<li>poweroff（关机）</li>
+<li>reboot（重新启动）</li>
+<li>halt（关机，和poweroff有什么区别，需要手动断开电源？）</li>
+<li>suspend（待机挂起）</li>
+<li>hibernate（休眠）</li>
+</ul>
+<h3 id="安装Nginx-1-6"><a href="#安装Nginx-1-6" class="headerlink" title="安装Nginx-1.6"></a>安装Nginx-1.6</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装nginx #</span></span><br><span class="line"><span class="comment"># 解压 &amp;&amp; 安装 (略)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示没有PCRE库 #</span></span><br><span class="line"><span class="comment"># yum install pcre pcre-devel -y</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里也有一个坑要注意一下:</p>
+<p>本部电脑连接了两个网卡,一个连接局域网的网卡enp2s0,另一个是通过手机分享出来的网卡.</p>
+<ul>
+<li>局域网 IP:192.168.1.89 Gateway:192.168.1.1</li>
+<li>广域网 IP:192.168.42.xx Gateway:192.168.42.129</li>
+</ul>
+<p>解决方法是通过路由表设置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># route add default gw 192.168.42.129</span></span><br><span class="line"><span class="comment"># route add -net 192.168.1.0/24 gw 192.168.1.1 enp2s0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Mysql数据库"><a href="#安装Mysql数据库" class="headerlink" title="安装Mysql数据库"></a>安装Mysql数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压源码复制到/usr/local/ #</span></span><br><span class="line"><span class="comment"># 运行安装脚本 ./support_files/mysql_install --user=mysql --datadir=/usr/local/mysql/data/mysql</span></span><br><span class="line"><span class="comment"># 添加命令到profile #</span></span><br><span class="line"><span class="comment"># 复制启动脚本到/etc/init.d #</span></span><br></pre></td></tr></table></figure>
+
+<p>遇坑:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#x27;/var/log/mariadb/mariadb.log&#x27;, however file don&#x27;t exists. Create writable for user &#x27;mysql&#x27;.</span><br><span class="line"> ERROR! The server quit without updating PID file (/var/lib/mysql/sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
+
+<p> 手动创建日志文件,并更改所有组.</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#x27;/var/log/mariadb/mariadb.log&#x27;, however file don&#x27;t exists. Create writable for user &#x27;mysql&#x27;.</span><br><span class="line">ERROR! The server quit without updating PID file (/var/lib/mysql/sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
+
+<p> 可能存在僵尸线程,关闭掉即可.</p>
+<h3 id="安装PHP-5-5-58"><a href="#安装PHP-5-5-58" class="headerlink" title="安装PHP-5.5.58"></a>安装PHP-5.5.58</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ./configure --prefix=/usr/local/php-5.5.38 --with-config-file-path=/usr/local/php-5.5.38/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"><span class="comment"># 在php主目录下</span></span><br><span class="line"><span class="comment"># cp php.ini-production   /application/php/lib/php.ini</span></span><br><span class="line"><span class="comment">#在软件目录下的etc文件夹内</span></span><br><span class="line"><span class="comment"># cp php-fpm.conf.default  ./php-fpm.conf</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>遇坑:80端口拒绝访问,这个是防火墙问题,在centos7,防火墙是firewall</p>
+</li>
+<li><p>gd 负责画图的库</p>
+</li>
+</ul>
+<h3 id="安装ZABBIX-3-4-5"><a href="#安装ZABBIX-3-4-5" class="headerlink" title="安装ZABBIX-3.4.5"></a>安装ZABBIX-3.4.5</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压安装 #</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/usr/local/zabbix-3.4.5/ --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-lixbml2</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加用户 #</span></span><br><span class="line"><span class="comment"># useradd zabbix</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>初始化数据库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql -uroot -p</span></span><br><span class="line">mysql&gt;create database zabbix default charset utf8;</span><br><span class="line">mysql&gt;create user zabbix@<span class="string">&#x27;localhost&#x27;</span> identified by <span class="string">&#x27;503428761&#x27;</span>;</span><br><span class="line">mysql&gt;grant all on zabbix.* to zabbix@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line">mysql&gt;quit;</span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/schema.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/images.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/myslq/data.sql</span></span><br></pre></td></tr></table></figure>
+
+<p>配置Zabbix_server</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成配置文件 #</span></span><br><span class="line"><span class="comment"># mkdir /etc/zabbix</span></span><br><span class="line"><span class="comment"># cp ./config/zabbix_server.conf /etc/zabbix</span></span><br><span class="line"><span class="comment"># vim /etc/zabbix/zabbix_server.conf</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=zabbix</span><br><span class="line">DBPassword=503428761</span><br><span class="line">DBPort=3306</span><br></pre></td></tr></table></figure>
+
+<p>在Nignx中添加前段文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir /usr/local/nginx/html/monitor.r0hman.com/zabbix -p</span></span><br><span class="line"><span class="comment"># cp -rp ./frontends/php/* /usr/local/nginx/html/monitor.r0hman.com/zabbix</span></span><br><span class="line"><span class="comment"># chown -R nginx:nginx /usr/local/nginx/html/monitor.r0hman.com/</span></span><br></pre></td></tr></table></figure>
+
+<p>在Nignx文件中添加节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name monitor.r0hman.com;</span><br><span class="line">    access_log logs/monitor.r0hman.com;</span><br><span class="line">    index index.html index.php;</span><br><span class="line">    root html/monitor.r0hman.com;</span><br><span class="line"></span><br><span class="line">    location \</span><br><span class="line">    &#123;</span><br><span class="line">       try_files <span class="variable">$uri</span> /index.php?<span class="variable">$args</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~*.\.(php|php5)$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改PHP的配置文件</p>
+<p>在浏览器中打开 monitor.r0hman.com,按照流程逐渐输入即可.如果遇到什么问题,则去查看日志,任何问题的解决方案都是在日志上面的.</p>
+<p>遇坑:</p>
+<ol>
+<li>到最后一步,可能会遇到无法生存配置文件,这个是因为php没有写入权限.原因是因为php-fpm的写入用户是nobody,而&#x2F;monitor.rohman.com&#x2F;站点下的目录文件下的conf文件夹是有写入权限限制的.</li>
+<li>20170109目前出现了一个坑,更改了nginx和php的用户(从nobody变为nginx),zabbix的安装界面就不能继续了…这个是php-fpm的用户组出问题了,默认为nobody没有问题</li>
+<li>php中提示UTC 与 其他时区冲突,修改php的配置文件即可</li>
+<li>zabbix中提示”server is not running”,这个是网站的php配置出现问题,修改一下servername和地址即可.</li>
+</ol>
+<h3 id="监视第一台客户端"><a href="#监视第一台客户端" class="headerlink" title="监视第一台客户端"></a>监视第一台客户端</h3><p>客户端地址:192.168.1.88</p>
+<p>服务端地址:192.168.1.89</p>
+<p>网址:monitor.rohman.com&#x2F;zabbix</p>
+<p>客户端需要安装 <em>zabbix_agentd</em>,并且配置 zabbix_agentd.conf 文件.</p>
+<blockquote>
+<p>注意 : zabbix_agentd.conf文件的路径是这样的 &#x2F;zabbix-3.4.5&#x2F;etc&#x2F;zabbix_agentd.conf,然而在启动zabbix_agentd的时候,如果没有制定配置文件,则zabbix会选用 &#x2F;usr&#x2F;local&#x2F;etc&#x2F;zabbix_agentd.conf的配置文件.</p>
+</blockquote>
+<p>在 zabbix_agentd.conf 中要修改的几个地方 :</p>
+<ul>
+<li>Hostname , 这个属性跟server端网页配置主机的hostname相对应.(见图一)</li>
+<li>Server , 这个填写的地址即是server端的地址.</li>
+<li>ServerActive , 这个也是填写server端的地址.</li>
+</ul>
+<p><img src="http://www.ttlsa.com/wp-content/uploads/2014/04/zabbix-monitor-server-01.jpg" alt="图一"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Server 与 ServerActive 的区别 #</span><br><span class="line"></span><br><span class="line">### Option: Server</span><br><span class="line">#       List of comma delimited IP addresses, optionally in CIDR notation, or hostnames of Zabbix servers.</span><br><span class="line">#       Incoming connections will be accepted only from the hosts listed here.</span><br><span class="line">#       If IPv6 support is enabled then &#x27;127.0.0.1&#x27;, &#x27;::127.0.0.1&#x27;, &#x27;::ffff:127.0.0.1&#x27; are treated equally and &#x27;::/0&#x27; will allow any IPv4 or IPv6 address.</span><br><span class="line">#       &#x27;0.0.0.0/0&#x27; can be used to allow any IPv4 address.</span><br><span class="line">#       Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.domain</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># Server=</span><br><span class="line"></span><br><span class="line">### Option: ServerActive</span><br><span class="line">#       List of comma delimited IP:port (or hostname:port) pairs of Zabbix servers for active checks.</span><br><span class="line">#       If port is not specified, default port is used.</span><br><span class="line">#       IPv6 addresses must be enclosed in square brackets if port for that host is specified.</span><br><span class="line">#       If port is not specified, square brackets for IPv6 addresses are optional.</span><br><span class="line">#       If this parameter is not specified, active checks are disabled.</span><br><span class="line">#       Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># ServerActive=</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过以上两段话的对比,可以得知,Server设置完,只是被动接受目标server的请求,而 ServerActive 则设置的是主动模式.</p>
+<blockquote>
+<p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server&#x2F;proxy<br>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+</blockquote>
+<p>主动模式的流程:</p>
+<ul>
+<li>设置ServerActive&#x3D;ServerIP</li>
+<li>Agent向Server建立一个TCP连接</li>
+<li>Agent请求需要检测的数据列表</li>
+<li>Server响应Agent，发送一个Items列表</li>
+<li>Agent允许响应</li>
+<li>TCP连接完成本次会话关闭</li>
+<li>Agent开始周期性地收集数据</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Zabbix/" rel="tag"># Zabbix</a>
+              <a href="/tags/LNMP/" rel="tag"># LNMP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/3b64c65c/" rel="prev" title="ZABBIX学习笔记">
+                  <i class="fa fa-angle-left"></i> ZABBIX学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/e1e4ddff/" rel="next" title="VNC应用">
+                  VNC应用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

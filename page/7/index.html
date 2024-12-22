@@ -156,7 +156,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/VCSA-503%E6%95%85%E9%9A%9C-%E8%AF%81%E4%B9%A6%E5%88%B0%E6%9C%9F/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/aae56061/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/VCSA-503%E6%95%85%E9%9A%9C-%E8%AF%81%E4%B9%A6%E5%88%B0%E6%9C%9F/" class="post-title-link" itemprop="url">VCSA-503故障-证书到期</a>
+          <a href="/posts/aae56061/" class="post-title-link" itemprop="url">VCSA-503故障-证书到期</a>
         </h2>
 
         <div class="post-meta-container">
@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-08-15 17:54:17" itemprop="dateModified" datetime="2024-08-15T17:54:17+00:00">2024-08-15</time>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,7 +240,7 @@
 
 <h2 id="根证书替换"><a href="#根证书替换" class="headerlink" title="根证书替换"></a>根证书替换</h2><p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#x61;&#x64;&#109;&#x69;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#x6f;&#114;&#x40;&#x76;&#x73;&#112;&#x68;&#101;&#114;&#101;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;">&#x61;&#x64;&#109;&#x69;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#x6f;&#114;&#x40;&#x76;&#x73;&#112;&#x68;&#101;&#114;&#101;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;</a>密码</li>
+<li><a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
 <li>VCSA的FQDN；</li>
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择4,Regenerate a new VMCA Root Certificate and replace all certificates。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -250,7 +250,7 @@
 </blockquote>
 <p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#x73;&#x74;&#114;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#115;&#112;&#x68;&#x65;&#114;&#101;&#x2e;&#x6c;&#111;&#99;&#97;&#x6c;">&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#x73;&#x74;&#114;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#115;&#112;&#x68;&#x65;&#114;&#101;&#x2e;&#x6c;&#111;&#99;&#97;&#x6c;</a>密码</li>
+<li><a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;</a>密码</li>
 <li>VCSA的FQDN；</li>
 <li>获取VCSA的FQDN、VCSA的hostname；</li>
 </ol>
@@ -289,7 +289,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/vCenter%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4f7b31ae/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -307,7 +307,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/vCenter%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E6%89%A9%E5%AE%B9/" class="post-title-link" itemprop="url">vCenter磁盘空间扩容</a>
+          <a href="/posts/4f7b31ae/" class="post-title-link" itemprop="url">vCenter磁盘空间扩容</a>
         </h2>
 
         <div class="post-meta-container">
@@ -325,7 +325,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-10-06 15:04:17" itemprop="dateModified" datetime="2023-10-06T15:04:17+00:00">2023-10-06</time>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -485,7 +485,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/Citrix-%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E4%BF%A1%E6%81%AF/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8ec359a/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -503,7 +503,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/Citrix-%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">Citrix 合作伙伴信息</a>
+          <a href="/posts/8ec359a/" class="post-title-link" itemprop="url">Citrix 合作伙伴信息</a>
         </h2>
 
         <div class="post-meta-container">
@@ -513,9 +513,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-07-30 17:23:44 / Modified: 09:29:26" itemprop="dateCreated datePublished" datetime="2023-07-30T17:23:44+00:00">2023-07-30</time>
+      <time title="Created: 2023-07-30 17:23:44" itemprop="dateCreated datePublished" datetime="2023-07-30T17:23:44+00:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -575,7 +581,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/Citrix-Virtual-Apps-and-Desktops-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9b8590f7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -593,7 +599,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/Citrix-Virtual-Apps-and-Desktops-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">Citrix Virtual Apps and Desktops 常用指令</a>
+          <a href="/posts/9b8590f7/" class="post-title-link" itemprop="url">Citrix Virtual Apps and Desktops 常用指令</a>
         </h2>
 
         <div class="post-meta-container">
@@ -603,9 +609,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-07-30 17:19:20 / Modified: 09:23:24" itemprop="dateCreated datePublished" datetime="2023-07-30T17:19:20+00:00">2023-07-30</time>
+      <time title="Created: 2023-07-30 17:19:20" itemprop="dateCreated datePublished" datetime="2023-07-30T17:19:20+00:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -665,7 +677,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/ESXi-%E6%97%B6%E9%97%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5898552c/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -683,7 +695,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/ESXi-%E6%97%B6%E9%97%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3/" class="post-title-link" itemprop="url">ESXi-时间服务器相关</a>
+          <a href="/posts/5898552c/" class="post-title-link" itemprop="url">ESXi-时间服务器相关</a>
         </h2>
 
         <div class="post-meta-container">
@@ -693,9 +705,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-07-30 16:16:51 / Modified: 08:52:57" itemprop="dateCreated datePublished" datetime="2023-07-30T16:16:51+00:00">2023-07-30</time>
+      <time title="Created: 2023-07-30 16:16:51" itemprop="dateCreated datePublished" datetime="2023-07-30T16:16:51+00:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -815,7 +833,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ea1f31d5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -833,7 +851,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/07/30/VMware-Horizon-%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">VMware Horizon-连接服务器常规配置注意事项</a>
+          <a href="/posts/ea1f31d5/" class="post-title-link" itemprop="url">VMware Horizon-连接服务器常规配置注意事项</a>
         </h2>
 
         <div class="post-meta-container">
@@ -843,9 +861,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-07-30 15:33:11 / Modified: 08:15:37" itemprop="dateCreated datePublished" datetime="2023-07-30T15:33:11+00:00">2023-07-30</time>
+      <time title="Created: 2023-07-30 15:33:11" itemprop="dateCreated datePublished" datetime="2023-07-30T15:33:11+00:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -929,7 +953,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/30/CentOS%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/86d67da7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -947,7 +971,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/30/CentOS%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/" class="post-title-link" itemprop="url">CentOS图形化远程桌面方案-XRDP-GNOME</a>
+          <a href="/posts/86d67da7/" class="post-title-link" itemprop="url">CentOS图形化远程桌面方案-XRDP-GNOME</a>
         </h2>
 
         <div class="post-meta-container">
@@ -957,9 +981,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-30 17:27:10 / Modified: 09:30:24" itemprop="dateCreated datePublished" datetime="2023-04-30T17:27:10+00:00">2023-04-30</time>
+      <time title="Created: 2023-04-30 17:27:10" itemprop="dateCreated datePublished" datetime="2023-04-30T17:27:10+00:00">2023-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1016,7 +1046,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/30/Ubuntu%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/be9942a7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1034,7 +1064,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/30/Ubuntu%E5%9B%BE%E5%BD%A2%E5%8C%96%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%96%B9%E6%A1%88-XRDP-GNOME/" class="post-title-link" itemprop="url">Ubuntu图形化远程桌面方案-XRDP+GNOME</a>
+          <a href="/posts/be9942a7/" class="post-title-link" itemprop="url">Ubuntu图形化远程桌面方案-XRDP+GNOME</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1044,9 +1074,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-30 17:01:08 / Modified: 09:03:36" itemprop="dateCreated datePublished" datetime="2023-04-30T17:01:08+00:00">2023-04-30</time>
+      <time title="Created: 2023-04-30 17:01:08" itemprop="dateCreated datePublished" datetime="2023-04-30T17:01:08+00:00">2023-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1102,7 +1138,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/30/Ubuntu-GUI%E6%A1%8C%E9%9D%A2%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8%E4%BC%91%E7%9C%A0/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f439bf52/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1120,7 +1156,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/30/Ubuntu-GUI%E6%A1%8C%E9%9D%A2%E5%85%B3%E9%97%AD%E8%87%AA%E5%8A%A8%E4%BC%91%E7%9C%A0/" class="post-title-link" itemprop="url">Ubuntu-GUI桌面关闭自动休眠</a>
+          <a href="/posts/f439bf52/" class="post-title-link" itemprop="url">Ubuntu-GUI桌面关闭自动休眠</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1130,9 +1166,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-30 16:03:03 / Modified: 08:55:36" itemprop="dateCreated datePublished" datetime="2023-04-30T16:03:03+00:00">2023-04-30</time>
+      <time title="Created: 2023-04-30 16:03:03" itemprop="dateCreated datePublished" datetime="2023-04-30T16:03:03+00:00">2023-04-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1186,7 +1228,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2023/04/05/ESXi-%E5%85%B6%E4%BB%96%E4%B8%BB%E6%9C%BA%E7%A1%AC%E4%BB%B6%E5%AF%B9%E8%B1%A1%E5%91%8A%E8%AD%A6/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1ecd22e9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1204,7 +1246,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/05/ESXi-%E5%85%B6%E4%BB%96%E4%B8%BB%E6%9C%BA%E7%A1%AC%E4%BB%B6%E5%AF%B9%E8%B1%A1%E5%91%8A%E8%AD%A6/" class="post-title-link" itemprop="url">ESXi-其他主机硬件对象告警</a>
+          <a href="/posts/1ecd22e9/" class="post-title-link" itemprop="url">ESXi-其他主机硬件对象告警</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1214,9 +1256,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-05 22:08:12 / Modified: 14:18:14" itemprop="dateCreated datePublished" datetime="2023-04-05T22:08:12+00:00">2023-04-05</time>
+      <time title="Created: 2023-04-05 22:08:12" itemprop="dateCreated datePublished" datetime="2023-04-05T22:08:12+00:00">2023-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">

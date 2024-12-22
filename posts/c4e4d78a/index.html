@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景略 分类小结场景分配   类型 配置 备注    常规用户 4C8G    轻度编译用户 4C16G    重度编译用户 8C16G    超重度编译用户 16C32G    以上4中用户类型中，若资源条件允许，应让“轻度编译用户”类型作为常规用户，当下的个人PC配置环境基本是16G内存起步。如果内存分配过小，用户在实际使用的时候很容易出现“Out of memory”的错误。 以上环境的单核">
+<meta property="og:type" content="article">
+<meta property="og:title" content="疫情期间VDI小结">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/c4e4d78a/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景略 分类小结场景分配   类型 配置 备注    常规用户 4C8G    轻度编译用户 4C16G    重度编译用户 8C16G    超重度编译用户 16C32G    以上4中用户类型中，若资源条件允许，应让“轻度编译用户”类型作为常规用户，当下的个人PC配置环境基本是16G内存起步。如果内存分配过小，用户在实际使用的时候很容易出现“Out of memory”的错误。 以上环境的单核">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-20T22:53:04.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.361Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="VDI">
+<meta property="article:tag" content="远程办公">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/c4e4d78a/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/c4e4d78a/","path":"posts/c4e4d78a/","title":"疫情期间VDI小结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>疫情期间VDI小结 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E5%B0%8F%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">分类小结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E5%88%86%E9%85%8D"><span class="nav-number">2.1.</span> <span class="nav-text">场景分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E6%80%BB%E7%BB%93"><span class="nav-number">2.2.</span> <span class="nav-text">业务总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E8%AF%84%E4%BC%B0"><span class="nav-number">2.2.1.</span> <span class="nav-text">使用场景评估</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E4%BE%A7%E8%AF%84%E4%BC%B0"><span class="nav-number">2.2.2.</span> <span class="nav-text">信息安全侧评估</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E7%8E%87%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.</span> <span class="nav-text">效率总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E4%BE%A7"><span class="nav-number">2.3.1.</span> <span class="nav-text">管理侧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E4%BE%A7"><span class="nav-number">2.3.2.</span> <span class="nav-text">资源侧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84%E4%BE%A7"><span class="nav-number">2.3.3.</span> <span class="nav-text">基础架构侧</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c4e4d78a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="疫情期间VDI小结 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          疫情期间VDI小结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-03-20 22:53:04" itemprop="dateCreated datePublished" datetime="2022-03-20T22:53:04+00:00">2022-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>略</p>
+<h1 id="分类小结"><a href="#分类小结" class="headerlink" title="分类小结"></a>分类小结</h1><h2 id="场景分配"><a href="#场景分配" class="headerlink" title="场景分配"></a>场景分配</h2><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">配置</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">常规用户</td>
+<td align="center">4C8G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">轻度编译用户</td>
+<td align="center">4C16G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">重度编译用户</td>
+<td align="center">8C16G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">超重度编译用户</td>
+<td align="center">16C32G</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>以上4中用户类型中，若资源条件允许，应让“轻度编译用户”类型作为常规用户，当下的个人PC配置环境基本是16G内存起步。如果内存分配过小，用户在实际使用的时候很容易出现“Out of memory”的错误。</p>
+<p>以上环境的单核基础频率是2.1GHz，也就是说一个重度用户对CPU的需求为16.8GHz左右。同一个任务下，4C要比8C多耗时40分钟左右。</p>
+<h2 id="业务总结"><a href="#业务总结" class="headerlink" title="业务总结"></a>业务总结</h2><h3 id="使用场景评估"><a href="#使用场景评估" class="headerlink" title="使用场景评估"></a>使用场景评估</h3><p>需要清楚用户的访问链路，思考几个问题：</p>
+<ol>
+<li>用户的访问链路应该是怎么样的？</li>
+<li>是否会与其他的远程工具冲突，如原本在外网就有解析的入口，是否会与VPN冲突？</li>
+<li>私有云的出口网络带宽是否能支撑用户的访问需求？带宽需求大概是多少？</li>
+<li>是否可以清楚监控到对应节点的负载情况？</li>
+<li>用户的核心需求是什么？是远程桌面？还是VDI？</li>
+</ol>
+<blockquote>
+<p>No.5非常重要，避免资源浪费，用户也许不清楚自己需要什么，更多情况下就是什么资源都会申请，这无疑会增加运维人员与支持人员的工作量。</p>
+</blockquote>
+<h3 id="信息安全侧评估"><a href="#信息安全侧评估" class="headerlink" title="信息安全侧评估"></a>信息安全侧评估</h3><p>需要明确信息安全红线，确保数据进出方向，对于敏感策略一定要设置有监控。所有的部署方案、防火墙策略申请应有审批报备。</p>
+<h2 id="效率总结"><a href="#效率总结" class="headerlink" title="效率总结"></a>效率总结</h2><h3 id="管理侧"><a href="#管理侧" class="headerlink" title="管理侧"></a>管理侧</h3><p>对于 VMware Horizon View 中的 RDS 桌面部署，基本上都是在Chrome浏览器中用鼠标点击授权，这个重复性的操作可以用Python3+Selenuim+Chrome来做自动化点击部署。</p>
+<h3 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h3><p>对于初始化RDSH服务器，可以使用 Windows + Openssh + Ansible 来批量部署。</p>
+<p>RDSH服务器均为Windows服务器，在上面安装Openssh，并配置允许Ansible账户来部署。</p>
+<p>Ansible侧则是需要写好相应的脚本批量下发即可，这里要注意Ansible服务器的配置，避免跑的任务太多导致CPU爆满。</p>
+<h3 id="基础架构侧"><a href="#基础架构侧" class="headerlink" title="基础架构侧"></a>基础架构侧</h3><p>底层资源要充足，在紧急时候能够提供所需资源，这个需要与业务方商谈，让其做相关预算。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/VDI/" rel="tag"># VDI</a>
+              <a href="/tags/%E8%BF%9C%E7%A8%8B%E5%8A%9E%E5%85%AC/" rel="tag"># 远程办公</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/d93c5529/" rel="prev" title="Windows虚拟机扩容后CPU使用现象记录">
+                  <i class="fa fa-angle-left"></i> Windows虚拟机扩容后CPU使用现象记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/31dd3f1c/" rel="next" title="基于Python+Selenium+Chrome做的自动点击网页程序">
+                  基于Python+Selenium+Chrome做的自动点击网页程序 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

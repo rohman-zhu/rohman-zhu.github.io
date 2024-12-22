@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Keepalive起初是为LVS设计的,专门用来监控LVS集群系统中各个服务节点的状态,后来又加入了VRRP的功能(Virtual Router Redundancy Protocol 虚拟路由器冗余协议),因此配合除了LVS服务外,也可以作为其他服务(nginx,haproxy)的高可用软件.  VRRP出现是为了解决静态路由出现的单点故障问题.  主要两大用户:healthcheck , fa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keepalived高可用集群">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/94fa7fb3/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="Keepalive起初是为LVS设计的,专门用来监控LVS集群系统中各个服务节点的状态,后来又加入了VRRP的功能(Virtual Router Redundancy Protocol 虚拟路由器冗余协议),因此配合除了LVS服务外,也可以作为其他服务(nginx,haproxy)的高可用软件.  VRRP出现是为了解决静态路由出现的单点故障问题.  主要两大用户:healthcheck , fa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-11-16T18:17:11.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:48.032Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/94fa7fb3/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/94fa7fb3/","path":"posts/94fa7fb3/","title":"Keepalived高可用集群"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Keepalived高可用集群 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Keepalive"><span class="nav-number">1.</span> <span class="nav-text">Keepalive</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VRRP"><span class="nav-number">1.1.</span> <span class="nav-text">VRRP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#failover"><span class="nav-number">1.2.</span> <span class="nav-text">failover</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#healthcheck"><span class="nav-number">1.3.</span> <span class="nav-text">healthcheck</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived-%E6%95%85%E9%9A%9C%E5%88%87%E6%8D%A2%E8%BD%AC%E7%A7%BB%E5%8E%9F%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">keepalived 故障切换转移原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEkeepalive"><span class="nav-number">1.5.</span> <span class="nav-text">配置keepalive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E5%BA%94%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">场景应用</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/94fa7fb3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Keepalived高可用集群 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Keepalived高可用集群
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-16 18:17:11" itemprop="dateCreated datePublished" datetime="2017-11-16T18:17:11+00:00">2017-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Keepalive"><a href="#Keepalive" class="headerlink" title="Keepalive"></a>Keepalive</h1><p>起初是为LVS设计的,专门用来监控LVS集群系统中各个服务节点的状态,后来又加入了VRRP的功能(Virtual Router Redundancy Protocol 虚拟路由器冗余协议),因此配合除了LVS服务外,也可以作为其他服务(nginx,haproxy)的高可用软件.</p>
+<blockquote>
+<p>VRRP出现是为了解决静态路由出现的单点故障问题.</p>
+</blockquote>
+<p>主要两大用户:healthcheck , failover</p>
+<h2 id="VRRP"><a href="#VRRP" class="headerlink" title="VRRP"></a>VRRP</h2><p>Virtual Router Redundacy Protocol,解决静态路由器的单点故障,VRRP时通过一种竞选协议机制来将故障路由器的任务给某台VRRP.</p>
+<ul>
+<li>VRRP是通过IP多播的方式实现通信</li>
+<li>主发包,备接包,当备接不到主发的包的时候,就启动接管程序接管主的资源.</li>
+</ul>
+<h2 id="failover"><a href="#failover" class="headerlink" title="failover"></a>failover</h2><p>实现LB Master主机和 Backup 主机之间故障转移何自动切换.(这里针对有两个负载均衡)</p>
+<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h2><ol>
+<li>keepalived.conf里面配置就可以实现LVS.</li>
+<li>keepalive可以对LVS下面的集群节点做监控检查.</li>
+</ol>
+<p>负载均衡定期检查RSYNC的可用性决定是否给其分发请求.</p>
+<h2 id="keepalived-故障切换转移原理"><a href="#keepalived-故障切换转移原理" class="headerlink" title="keepalived 故障切换转移原理"></a>keepalived 故障切换转移原理</h2><ol>
+<li>在keepalived directors正常工作时,主Director节点会不断向被节点广播心跳消息,告诉备节点设备–主节点设备正常.</li>
+<li>当主节点发生故障时,备节点就无法检测到主节点的心跳,今儿调用自身的接管程序,接管主节点的IP资源与服务.</li>
+<li>当主节点恢复时,备节点会释放主节点故障时自身接管的IP资源与服务,恢复到原来的自身备用角色.</li>
+</ol>
+<h2 id="配置keepalive"><a href="#配置keepalive" class="headerlink" title="配置keepalive"></a>配置keepalive</h2><p>官网 <code>http:\\www.keepalived.org</code></p>
+<p>这里用的是 1.2.16 的版本.</p>
+<p>相关的配置可以用man keepalived.conf查看,这里只列出80%</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ln -s /user/src/kernel/2.6 /usr/src/linux</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 到keepalive的文件包里面</span></span><br><span class="line"><span class="comment"># ./configure</span></span><br><span class="line"><span class="comment"># 出现以下相关内容即可</span></span><br><span class="line">Use IPVS Framework  : Yes</span><br><span class="line">IPVS <span class="built_in">sync</span> daemon support: Yes</span><br><span class="line">Use VRRP Framework : Yes</span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 规范启动</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/rc.d/init.d/keepalived /etc/init.d/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置启动脚本参数</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/sysconfig/keepalived /etc/sysconfig/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建默认的keepalived配置文件路径</span></span><br><span class="line"><span class="comment"># mkdir /etc/keepalived</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/keepalived/keepalived.conf /etc/keepalived</span></span><br></pre></td></tr></table></figure>
+
+<p>keepalived的配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">!Configuration File for keepalived</span><br><span class="line"></span><br><span class="line">!全局变量</span><br><span class="line">!Comments start with ’#’ or ’!’ to the end of the line and can start anywhere in a line.</span><br><span class="line">!contains subblocks of Global definitions, Static routes, and Static rules</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        !管理员邮箱</span><br><span class="line">        admin@example.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from admin@example.com</span><br><span class="line">    !邮箱服务器的地址设置</span><br><span class="line">    smtp_server xx.xx.xx.xx</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line"></span><br><span class="line">    !string,identifying the machine,(do not have to be hostname,default:localhostname)</span><br><span class="line">    router_id LVS_DEVEL</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Static routes/address/rules</span><br><span class="line">!Keepalived can configure static addresses, routes, and rules. These addresses are NOT moved by vrrpd, they stay on the machine.  If you already  have  IPs and routes on your machines and your machines can ping each other, you don’t need this section.</span><br><span class="line"></span><br><span class="line">static_ipaddress&#123;</span><br><span class="line">    192.168.1.2/24 dev eth0 scope global</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_routes&#123;</span><br><span class="line">    192.168.1.1/24 via 192.168.1.100</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_rules&#123;</span><br><span class="line">    from 192.168.1.1/24 table 1</span><br><span class="line">    to 192.168.1.1/24 table 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Adds a scritpt to be executed periodically.Its exit code will be recorded for all VRRP instances which are monitoring it with non-zero weight.</span><br><span class="line">vrrp_script &lt;SCRIPT_NAME&gt;&#123;</span><br><span class="line">    !path of the script to execute</span><br><span class="line">    script &lt;STRING&gt;|&lt;QUOTED-STRING&gt;</span><br><span class="line">    !seconds between script invocations,default 1 second</span><br><span class="line">    interval &lt;INTEGER&gt;</span><br><span class="line">    !seconds after which script is considered to have failed</span><br><span class="line">    timeout &lt;INTEGER&gt;</span><br><span class="line">    !adjust priority by this weight,default 2</span><br><span class="line">    weight &lt;INTEGER : -254..254&gt;</span><br><span class="line">    !required number of successes for OK transition</span><br><span class="line">    rise &lt;INTERGER&gt;</span><br><span class="line">    !required number of successes for KO transition</span><br><span class="line">    fall &lt;INTEGER&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!describes the movable IP for each instance of a group in vrrp_sync_group.</span><br><span class="line">!Here are describes two IPs(on inside_network an on_outside_network)on machine &quot;my_hostname&quot;,!which belog to the group VG_1 and which will trasition together on any state change.</span><br><span class="line"></span><br><span class="line">vrrp_instance inside_network&#123;</span><br><span class="line">    !Initial state,MASTER | BACKUP</span><br><span class="line">    !As soon as the other machine(s) come up,</span><br><span class="line">    !an election will be held and the machine</span><br><span class="line">    !With the highest priority will become MASTER</span><br><span class="line">    !So the entry here do not matter a whole lot</span><br><span class="line">    state MASTER</span><br><span class="line"></span><br><span class="line">    !Interface for inside_network,bound by vrrp</span><br><span class="line">    interface eth0</span><br><span class="line"></span><br><span class="line">    !Use VRRP Virtual MAC.</span><br><span class="line">    use_vmac [&lt;VMAC_INTERFACE&gt;]</span><br><span class="line"></span><br><span class="line">    !Send/Recv VRRP messages from base interface instea dof</span><br><span class="line">    vmac_xmit_base</span><br><span class="line"></span><br><span class="line">    !force instance to use IPv6(when mixed IPv4 and IPv6 config)</span><br><span class="line">    native_ipv6</span><br><span class="line"></span><br><span class="line">    !Ignore VRRP interface faults(default unset)</span><br><span class="line">    dont_track_primary</span><br><span class="line"></span><br><span class="line">    ! optional,monitor these as well</span><br><span class="line">    ! go to FAULT state if any of these go down</span><br><span class="line">    track_interface&#123;</span><br><span class="line">        eth0</span><br><span class="line">        eth1</span><br><span class="line">        eth2 weight &lt;-254..254&gt;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ! add a tracking script to the interface (&lt;SCRIPT_NAME&gt;is the name of the vrrp_script entry)</span><br><span class="line">    track_script&#123;</span><br><span class="line">        &lt;SCRIPT_NAME&gt;</span><br><span class="line">        &lt;SCRIPT_NAME&gt; weight &lt;-254..254&gt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    !Default IP for binding vrrpd is the primary IP on interface.If you want to hid the location of vrrpd, use this IP as src_addr for multicast or unicast vrrp packets.(Since it is multicast,vrrpd will get the reply packet no matter what src_addr is used).</span><br><span class="line">    !Optional</span><br><span class="line">    mcast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    unicast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    ! VRRP version to run on interface</span><br><span class="line">    version&lt;2 or 3&gt;</span><br><span class="line"></span><br><span class="line">    !addresses add|del on change to MASTER , to BACKUP.With the same entries on other machines, the opposite transition will be occurring.</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        &lt;IPADDR&gt;/&lt;MASK&gt; brd &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPE&gt; label &lt;LABEL&gt;</span><br><span class="line">        192.168.200.17/24 dev eth1</span><br><span class="line">        192.168.200.18/24 dev eth2 label eth2:1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Note: authentication was removed from the VRRPv2 specification by RFC3768 in 2004.</span><br><span class="line">    #    Use of this option is non-compliant and can cause problems; avoid using if possible,</span><br><span class="line">    #   except when using unicast, where it can be helpful.</span><br><span class="line">    authentication &#123;</span><br><span class="line">        # Authentication block</span><br><span class="line">        # PASS||AH</span><br><span class="line">        # PASS - Simple password (suggested)</span><br><span class="line">        # AH - IPSEC (not recommended))</span><br><span class="line">        auth_type PASS</span><br><span class="line">        # Password for accessing vrrpd.</span><br><span class="line">        # should be the same on all machines.</span><br><span class="line">        # Only the first eight (8) characters are used.</span><br><span class="line">        auth_pass 1234</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>主要配置:</p>
+<ul>
+<li>从文档中可以看到,我们需要配置主要有全局参数(global_defs),email &amp; router_id</li>
+<li>如果有需要定时执行的脚本,则配置vrrp_script 块, script位置,interval,weight</li>
+<li>配置主机标签vrrp_instance ,里面设置state,网卡接口,主机ip,virtual_id,优先级priorioty,adver_int,authentication,为主机虚拟ip,检测脚本</li>
+<li>用上一个步骤里面的虚拟IP配置虚拟服务器</li>
+</ul>
+<p>主:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id MASTER_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.150</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id BACKUP_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.151</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主备的配置文件需要注意:</p>
+<ol>
+<li>在vrrp_instance节点中,主备的实例名字可以不一样,但virtual_router_id必须一样.</li>
+<li>virtual_router_id的作用是区分不同的vrrp组,因此在同一网段内,不同的vrrp组不能重复id.</li>
+<li>一个 virtual_server节点中配置多个 real_server,需要注意 TCP_CHECK与’{‘ 之间的空格,如果没有空格,则从上往下数第二个real_server会识别不到.</li>
+<li>VIP可以和主机真实IP地址不在同一个网段,但必须在环境中搭建VPN.</li>
+</ol>
+<p>启动服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># keeplived需要通过ip地址添加来启动服务</span><br><span class="line"># ip addr add 10.0.0.18/24 dev eth0</span><br><span class="line"># /etc/init.d/keepalived start</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对外提供服务的是VIP(virtual ip)</p>
+</blockquote>
+<h2 id="场景应用"><a href="#场景应用" class="headerlink" title="场景应用"></a>场景应用</h2><p>假设我们的集群架构中,有两台机器是作为LB存在,分别是LB1(主),LB2(备) ; 两台 LB 通过 <em>keepalive</em> 建立关系 , 当一台 _LB_挂了,立即启用 <em>备用LB</em> .</p>
+<p>我用的 <em>load Balance</em> 软件是 Nginx , 所谓宕机就是 <em>Nginx</em> 和 <em>keepalive</em> 这两个服务停止了,然而当 <em>Nginx</em> 停止服务的时候 ,keepalive 是不能识别到的(Keepalive不会关闭,不会让 <em>备用LB</em> 接管 <em>主LB</em> 接受到的请求)</p>
+<p>因此,我们要写一个监控Nginx状态的脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Monitoring Nginx status</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="subst">$(ps -ef|grep <span class="string">&quot;nginx : master process&quot;</span>|grep -v grep)</span>&quot;</span>==<span class="string">&quot;&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    <span class="built_in">sleep</span> 5</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="subst">$(ps -ef|grep <span class="string">&quot;nginx : master process&quot;</span>|grep -v grep)</span>&quot;</span>==<span class="string">&quot;&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">    killall keepalived</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>升级版:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /etc/keepaalived/check_nginx.sh</span></span><br><span class="line">Count1=<span class="string">&quot;netstat -antp |grep -v grep|grep nginx|wc -l&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$Count1</span> -eq 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    <span class="built_in">sleep</span> 2</span><br><span class="line">    Count2=<span class="string">&quot;netstat -antp|grep -v grep|grep nginx|wc -l&quot;</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$Count2</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        /etc/init.d/keepalived stop</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本可以放到 <em>keepalived.conf</em> 里面 <em>vrrp_script</em> 节点中,这里可以每隔相应的时间执行一次脚本.</p>
+<p>在工作时,keepalived根据用户设定的策略判断服务器上的程序是否正常运行,如果故障则将这台服务器从热备组移出.</p>
+<p>在实例中重要参数: nopreempt , 当主LB挂了,备LB接管,主恢复,不自动接管</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/61d1add5/" rel="prev" title="Linux之kickstart无人值守系统装系统">
+                  <i class="fa fa-angle-left"></i> Linux之kickstart无人值守系统装系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/297a89d9/" rel="next" title="Python学习笔记">
+                  Python学习笔记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

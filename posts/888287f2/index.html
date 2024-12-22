@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景说明一般部署完虚拟化环境后，需要使用一些工具用于测试磁盘性能。传统使用FIO，VDBench来测试性能，但在虚拟化环境中，官方有一个免费且方便的测试工具，可以一键部署，并下发测试任务；对比传统的FIO、VDBench来测试，HCIBench不再需要我们申请虚拟机，部署测试节点、服务节点，且写好测试文件，HCIBench会纳管vCenter，从而实现自动部署测试节点。 FHCIBench 介绍本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟化环境中的存储性能测试工具HCIBench">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/888287f2/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景说明一般部署完虚拟化环境后，需要使用一些工具用于测试磁盘性能。传统使用FIO，VDBench来测试性能，但在虚拟化环境中，官方有一个免费且方便的测试工具，可以一键部署，并下发测试任务；对比传统的FIO、VDBench来测试，HCIBench不再需要我们申请虚拟机，部署测试节点、服务节点，且写好测试文件，HCIBench会纳管vCenter，从而实现自动部署测试节点。 FHCIBench 介绍本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://typorabyethancheung911.oss-cn-shanghai.aliyuncs.com/typoralimage-20230831181326290.png">
+<meta property="article:published_time" content="2024-09-22T18:07:05.000Z">
+<meta property="article:modified_time" content="2024-12-22T05:27:49.389Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="磁盘性能测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://typorabyethancheung911.oss-cn-shanghai.aliyuncs.com/typoralimage-20230831181326290.png">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/888287f2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/888287f2/","path":"posts/888287f2/","title":"虚拟化环境中的存储性能测试工具HCIBench"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>虚拟化环境中的存储性能测试工具HCIBench | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E8%AF%B4%E6%98%8E"><span class="nav-number">1.</span> <span class="nav-text">背景说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FHCIBench-%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">FHCIBench 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FIO"><span class="nav-number">2.1.</span> <span class="nav-text">FIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VDBench"><span class="nav-number">2.2.</span> <span class="nav-text">VDBench</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HCIBench%E6%9E%B6%E6%9E%84"><span class="nav-number">2.3.</span> <span class="nav-text">HCIBench架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E4%BB%A5%E4%B8%8B%E7%BB%84%E4%BB%B6"><span class="nav-number">2.3.1.</span> <span class="nav-text">包含以下组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81Ruby-vSphere-Console-RVC"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">1、Ruby vSphere Console (RVC)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81GOVC"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">2、GOVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81Docker"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">3、Docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81vSAN-Observer"><span class="nav-number">2.3.1.4.</span> <span class="nav-text">4、vSAN Observer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81Automation-bundle"><span class="nav-number">2.3.1.5.</span> <span class="nav-text">5、Automation bundle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81Configuration-files"><span class="nav-number">2.3.1.6.</span> <span class="nav-text">6、Configuration files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7%E3%80%81Fio-binary-3-30"><span class="nav-number">2.3.1.7.</span> <span class="nav-text">7、Fio binary: 3.30</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8%E3%80%81Photon-guest-VM-template-3-0"><span class="nav-number">2.3.1.8.</span> <span class="nav-text">8、Photon guest VM template: 3.0</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">防火墙策略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9C%80%E7%BB%88%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">查看最终测试结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E6%A8%A1%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">IO模型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%85%E6%B5%8B%E9%A1%B9%E7%9B%AE%E2%80%93%E9%9B%86%E7%BE%A4%E6%95%B4%E4%BD%93%E6%80%A7%E8%83%BD"><span class="nav-number">5.1.</span> <span class="nav-text">必测项目–集群整体性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%85%E6%B5%8B%E9%A1%B9%E7%9B%AE%E2%80%93%E5%8D%95%E4%B8%AA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%9C%A8%E6%AD%A4%E9%9B%86%E7%BE%A4%E4%B8%AD%E8%83%BD%E8%B7%91%E5%88%B0%E7%9A%84%E6%80%A7%E8%83%BD"><span class="nav-number">5.2.</span> <span class="nav-text">必测项目–单个虚拟机在此集群中能跑到的性能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/888287f2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="虚拟化环境中的存储性能测试工具HCIBench | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          虚拟化环境中的存储性能测试工具HCIBench
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-09-22 18:07:05" itemprop="dateCreated datePublished" datetime="2024-09-22T18:07:05+00:00">2024-09-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>一般部署完虚拟化环境后，需要使用一些工具用于测试磁盘性能。<br>传统使用FIO，VDBench来测试性能，但在虚拟化环境中，官方有一个免费且方便的测试工具，可以一键部署，并下发测试任务；<br>对比传统的FIO、VDBench来测试，HCIBench不再需要我们申请虚拟机，部署测试节点、服务节点，且写好测试文件，HCIBench会纳管vCenter，从而实现自动部署测试节点。</p>
+<h1 id="FHCIBench-介绍"><a href="#FHCIBench-介绍" class="headerlink" title="FHCIBench 介绍"></a>FHCIBench 介绍</h1><p>本章节引用博客  <a target="_blank" rel="noopener" href="https://www.ethanzhang.xyz/">https://www.ethanzhang.xyz/</a></p>
+<p>官方推荐HCIBench作为vSAN的性能测试工具，其本质是对开源的性能测试工具Vdbench 和Fio以Photon guest VM为基础镜像进行重新打包。</p>
+<blockquote>
+<p>PhotonOS是VMware专为ESXi定制的容器操作系统</p>
+</blockquote>
+<p>然后虚拟机模版部署在vSphere平台上，利用RVC&#x2F;GOVC控制vCenter通过自动化脚本向vSphere平台部署用于基准性能测试的虚拟机，用于产生测试工作负载</p>
+<p>在各工作负载的虚拟机内，利用FIO&#x2F;VDBench开源工具进行基线测试，HCIBench控制虚拟机(Control VM)会不断收集相关信息，同时新添加的Grafana工具，以容器化部署的方式在Control VM中对外以可视化的形式提供服务。</p>
+<h2 id="FIO"><a href="#FIO" class="headerlink" title="FIO"></a>FIO</h2><p>FIO（Flexible I&#x2F;O Tester）是一个用于测试磁盘、文件系统、块设备和网络设备性能的工具。它可以模拟不同类型的I&#x2F;O负载，包括随机或顺序读写、混合读写、随机或顺序访问等</p>
+<p>FIO提供了丰富的选项和参数，可以对测试进行高度定制化配置，以满足各种应用场景和需求。FIO是开源软件，可在Linux、Unix、Windows等多种平台上运行</p>
+<h2 id="VDBench"><a href="#VDBench" class="headerlink" title="VDBench"></a>VDBench</h2><p>VDBench是一款基于Java编写的性能基准测试工具。它可以测试不同类型的存储设备，如磁盘，网络文件系统（NFS），网络附加存储（NAS）和存储区域网络（SAN）等</p>
+<p>VDBench的设计目标是测试存储系统的性能特征，如带宽和IOPS（每秒输入&#x2F;输出操作数）</p>
+<h2 id="HCIBench架构"><a href="#HCIBench架构" class="headerlink" title="HCIBench架构"></a>HCIBench架构</h2><p>下载地址：</p>
+<p>原地址：<a target="_blank" rel="noopener" href="https://flings.vmware.com/hcibench">https://flings.vmware.com/hcibench</a><br>新地址：<a href="https://github.com/vmware-labs/hci-benchmark-appliance">https://github.com/vmware-labs/hci-benchmark-appliance</a></p>
+<p>HCIBench专为针对vSphere中的共享或本地数据存储运行性能测试而设计，它使用Vdbench或Fio生成测试工作负载</p>
+<blockquote>
+<p>实际上HCIBench并没有包括Vdbench的二进制程序，如果需要以Vdbench的方式提供测试，在测试阶段会从Oracle网站进行在线下载</p>
+</blockquote>
+<p>HCIBench以开放虚拟化设备（OVA格式）的形式提供，用于安装在vSphere上，具体架构如下图所示</p>
+<p><img src="https://typorabyethancheung911.oss-cn-shanghai.aliyuncs.com/typoralimage-20230831181326290.png" alt="HCIBench Applicance"></p>
+<h3 id="包含以下组件"><a href="#包含以下组件" class="headerlink" title="包含以下组件"></a>包含以下组件</h3><h4 id="1、Ruby-vSphere-Console-RVC"><a href="#1、Ruby-vSphere-Console-RVC" class="headerlink" title="1、Ruby vSphere Console (RVC)"></a>1、Ruby vSphere Console (RVC)</h4><p>RVC是基于Ruby的一个vSphere命令行工具，他可以管理ESXi或者vCenter</p>
+<h4 id="2、GOVC"><a href="#2、GOVC" class="headerlink" title="2、GOVC"></a>2、GOVC</h4><p>GOVC是基于 VMware 官方govmomi库的一个 vSphere 命令行工具，使用它可以通过命令或脚本，实现对 VMware vSphere 系统的管理</p>
+<p>注意：</p>
+<p>从HCIBench2.6开始GOVC开始添加到Control VM中，HCIBench的核心引擎最终将从RVC转移到GOVC</p>
+<h4 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h4><p>​ 3.1 Graphite Container: 1.1.5-10</p>
+<p>​ 3.2 Grafana Container: 8.3.11</p>
+<p>​ 3.3 InfluxDB Container: 1.8.1-alpine</p>
+<h4 id="4、vSAN-Observer"><a href="#4、vSAN-Observer" class="headerlink" title="4、vSAN Observer"></a>4、vSAN Observer</h4><h4 id="5、Automation-bundle"><a href="#5、Automation-bundle" class="headerlink" title="5、Automation bundle"></a>5、Automation bundle</h4><h4 id="6、Configuration-files"><a href="#6、Configuration-files" class="headerlink" title="6、Configuration files"></a>6、Configuration files</h4><h4 id="7、Fio-binary-3-30"><a href="#7、Fio-binary-3-30" class="headerlink" title="7、Fio binary: 3.30"></a>7、Fio binary: 3.30</h4><h4 id="8、Photon-guest-VM-template-3-0"><a href="#8、Photon-guest-VM-template-3-0" class="headerlink" title="8、Photon guest VM template: 3.0"></a>8、Photon guest VM template: 3.0</h4><p>其中Photon guest VM template用于部署Guest VM产生工作负载</p>
+<h1 id="防火墙策略"><a href="#防火墙策略" class="headerlink" title="防火墙策略"></a>防火墙策略</h1><table>
+<thead>
+<tr>
+<th align="center">SRC</th>
+<th align="center">DST</th>
+<th align="center">TCP Port</th>
+<th align="center">UDP Port</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">HCIBench</td>
+<td align="center">vCenter</td>
+<td align="center">443</td>
+<td align="center">-</td>
+<td align="center">纳管vCenter，使HCIBench可以读取到VCSA信息并且做下发部署指令</td>
+</tr>
+<tr>
+<td align="center">HCIBench</td>
+<td align="center">ESXi Host</td>
+<td align="center">443</td>
+<td align="center">-</td>
+<td align="center">HCIBench 获取到ESXI Host用于检测目标ESXiHost信息</td>
+</tr>
+<tr>
+<td align="center">HCIBench</td>
+<td align="center">ESXi Host</td>
+<td align="center">22</td>
+<td align="center">-</td>
+<td align="center">若每次测试完毕后要清除数据，则需要开通此端口</td>
+</tr>
+<tr>
+<td align="center">Operator Machine</td>
+<td align="center">HCIBench</td>
+<td align="center">80,443,8443</td>
+<td align="center">-</td>
+<td align="center">用于访问HCIBenc的WEB界面，完成配置</td>
+</tr>
+</tbody></table>
+<h1 id="查看最终测试结果"><a href="#查看最终测试结果" class="headerlink" title="查看最终测试结果"></a>查看最终测试结果</h1><p><a target="_blank" rel="noopener" href="https://hcibenchip:8443/results">https://HCIBenchIP:8443/results</a></p>
+<h1 id="IO模型建议"><a href="#IO模型建议" class="headerlink" title="IO模型建议"></a>IO模型建议</h1><p>除了覆盖到以下测试项，如果未达到集群瓶颈，可以再增加资源进行压力测试，比如增加测试的虚拟机、测试的虚拟机配置提高，并增加每台虚拟机测试的进程；</p>
+<h2 id="必测项目–集群整体性能"><a href="#必测项目–集群整体性能" class="headerlink" title="必测项目–集群整体性能"></a>必测项目–集群整体性能</h2><ol>
+<li>块大小从4K到1024K均需要覆盖；</li>
+<li>顺序、随机均需要覆盖；</li>
+<li>100%读、100%写、70%读；</li>
+</ol>
+<h2 id="必测项目–单个虚拟机在此集群中能跑到的性能"><a href="#必测项目–单个虚拟机在此集群中能跑到的性能" class="headerlink" title="必测项目–单个虚拟机在此集群中能跑到的性能"></a>必测项目–单个虚拟机在此集群中能跑到的性能</h2><ol>
+<li>块大小从4K到1024K均需要覆盖；</li>
+<li>顺序、随机均需要覆盖；</li>
+<li>100%读、100%写、70%读；</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing">https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A3%81%E7%9B%98%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag"># 磁盘性能测试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/f171a4b2/" rel="prev" title="使用CrystalDiskMark测试的一些硬盘数据记录">
+                  <i class="fa fa-angle-left"></i> 使用CrystalDiskMark测试的一些硬盘数据记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/686fc3bb/" rel="next" title="黑群晖折腾记录_下载器_流媒体">
+                  黑群晖折腾记录_下载器_流媒体 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

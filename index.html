@@ -156,7 +156,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/12/08/Docker-Hexo-Blog%E5%AE%9E%E4%BE%8B/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bc9f4eee/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/12/08/Docker-Hexo-Blog%E5%AE%9E%E4%BE%8B/" class="post-title-link" itemprop="url">Docker-Hexo_Blog实例</a>
+          <a href="/posts/bc9f4eee/" class="post-title-link" itemprop="url">Docker-Hexo_Blog实例</a>
         </h2>
 
         <div class="post-meta-container">
@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:11:18" itemprop="dateModified" datetime="2024-12-22T05:11:18+00:00">2024-12-22</time>
+      <time title="Modified: 2024-12-22 05:30:55" itemprop="dateModified" datetime="2024-12-22T05:30:55+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,7 +273,7 @@
 <blockquote>
 <p>编译时，需要有root权限，否则会影响npm安装动作；</p>
 </blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dockerfile如下</span></span><br><span class="line">FROM node:latest</span><br><span class="line"></span><br><span class="line">MAINTAINER rohman.zhu</span><br><span class="line"></span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用国内源</span></span><br><span class="line">RUN npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line">RUN npm install hexo-cli -g --save</span><br><span class="line">RUN hexo init .</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化主题</span></span><br><span class="line"><span class="comment"># [TODO] 主题可能会变</span></span><br><span class="line"><span class="comment"># Git 可能获取会超时，需要调整</span></span><br><span class="line"><span class="comment"># RUN git config --global http.version HTTP/1.1</span></span><br><span class="line"><span class="comment"># RUN git clone https://github.com/iissnan/hexo-theme-next themes/next</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新版本的next需要安装这个插件</span></span><br><span class="line">RUN npm i hexo-renderer-swig --no-fund --save</span><br><span class="line">RUN npm i hexo-prism-plugin --save</span><br><span class="line">RUN npm i hexo-permalink-pinyin --save</span><br><span class="line">RUN npm i hexo-deployer-git --save</span><br><span class="line">RUN git init ./.deploy_git/</span><br><span class="line">RUN git config --global user.name <span class="string">&quot;your_name&quot;</span></span><br><span class="line">RUN git config --global user.email <span class="string">&quot;your_mail&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># HEXO 相关的</span></span><br><span class="line"><span class="comment"># 生成 categories 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="comment"># 生成 about 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="comment"># 生成 tag 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="comment"># 生成页面</span></span><br><span class="line">RUN hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建挂载点</span></span><br><span class="line">VOLUME [<span class="string">&quot;/hexo/.deploy_git&quot;</span>, <span class="string">&quot;/hexo/scaffolds&quot;</span>, <span class="string">&quot;/hexo/source&quot;</span>, <span class="string">&quot;/hexo/themes&quot;</span>, <span class="string">&quot;/root/.ssh&quot;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对外暴露 4000 端口</span></span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line"><span class="comment"># CMD [&quot;/bin/bash&quot;]</span></span><br><span class="line"><span class="comment"># 容器启动后，会默认执行的指令；</span></span><br><span class="line">CMD [<span class="string">&quot;/usr/bin/env&quot;</span>, <span class="string">&quot;hexo&quot;</span>, <span class="string">&quot;server&quot;</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dockerfile如下</span></span><br><span class="line">FROM node:latest</span><br><span class="line"></span><br><span class="line">MAINTAINER rohman.zhu</span><br><span class="line"></span><br><span class="line">WORKDIR /hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用国内源</span></span><br><span class="line">RUN npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line">RUN npm install hexo-cli -g --save</span><br><span class="line">RUN hexo init .</span><br><span class="line">RUN npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化主题</span></span><br><span class="line"><span class="comment"># [TODO] 主题可能会变</span></span><br><span class="line"><span class="comment"># Git 可能获取会超时，需要调整</span></span><br><span class="line"><span class="comment"># RUN git config --global http.version HTTP/1.1</span></span><br><span class="line"><span class="comment"># RUN git clone https://github.com/iissnan/hexo-theme-next themes/next</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新版本的next需要安装这个插件</span></span><br><span class="line">RUN npm i hexo-renderer-swig --no-fund --save</span><br><span class="line">RUN npm i hexo-prism-plugin --save</span><br><span class="line">RUN npm i hexo-permalink-pinyin --save</span><br><span class="line">RUN npm i hexo-deployer-git --save</span><br><span class="line">RUN npm i hexo-abbrlink --save</span><br><span class="line">RUN git init ./.deploy_git/</span><br><span class="line">RUN git config --global user.name <span class="string">&quot;your_name&quot;</span></span><br><span class="line">RUN git config --global user.email <span class="string">&quot;your_mail&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># HEXO 相关的</span></span><br><span class="line"><span class="comment"># 生成 categories 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="comment"># 生成 about 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="comment"># 生成 tag 页面</span></span><br><span class="line">RUN hexo new page <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="comment"># 生成页面</span></span><br><span class="line">RUN hexo g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建挂载点</span></span><br><span class="line">VOLUME [<span class="string">&quot;/hexo/.deploy_git&quot;</span>, <span class="string">&quot;/hexo/scaffolds&quot;</span>, <span class="string">&quot;/hexo/source&quot;</span>, <span class="string">&quot;/hexo/themes&quot;</span>, <span class="string">&quot;/root/.ssh&quot;</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对外暴露 4000 端口</span></span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行命令</span></span><br><span class="line"><span class="comment"># CMD [&quot;/bin/bash&quot;]</span></span><br><span class="line"><span class="comment"># 容器启动后，会默认执行的指令；</span></span><br><span class="line">CMD [<span class="string">&quot;/usr/bin/env&quot;</span>, <span class="string">&quot;hexo&quot;</span>, <span class="string">&quot;server&quot;</span>]</span><br></pre></td></tr></table></figure>
 
 <p>可以临时编译测试看看；</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于 node:latest 创建一个hexo镜像</span></span><br><span class="line">docker build -t <span class="string">&quot;hexo:1&quot;</span> .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不使用缓存,重新编译</span></span><br><span class="line">docker build -t <span class="string">&quot;hexo:1&quot;</span> . --no-cache</span><br></pre></td></tr></table></figure>
@@ -293,7 +293,7 @@
 
 <p>原因：.deploy_git 文件下没有初始化.git仓库</p>
 <p>解决方法： git init .&#x2F;.deploy_git&#x2F;</p>
-<h2 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h2><p>next主题：<a target="_blank" rel="noopener" href="https://zxblog.eu.org/posts/488a">https://zxblog.eu.org/posts/488a</a><br>hexo博客设置：<a target="_blank" rel="noopener" href="https://zxblog.eu.org/posts/5a75/">https://zxblog.eu.org/posts/5a75/</a><br>docker 编译过程中，指定用户：<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_16175463/9129345#:~:text=%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Docker%20build%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%201%201.%20%E7%AE%80%E4%BB%8B%20%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build,4.%20%E7%BB%93%E8%AE%BA%20%E9%80%9A%E8%BF%87%E4%BB%A5%E4%B8%8A%E6%AD%A5%E9%AA%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build%20%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E6%9D%A5%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E3%80%82%20%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E5%A2%9E%E5%8A%A0%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E3%80%82%20%E5%B8%8C%E6%9C%9B%E6%9C%AC%E6%96%87%E5%AF%B9%E4%BD%A0%E6%9C%89%E6%89%80%E5%B8%AE%E5%8A%A9%EF%BC%8C%E7%A5%9D%E4%BD%A0%E5%9C%A8%E4%BD%BF%E7%94%A8Docker%E6%97%B6%E5%8F%96%E5%BE%97%E6%88%90%E5%8A%9F%EF%BC%81">https://blog.51cto.com/u_16175463/9129345#:~:text=%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Docker%20build%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%201%201.%20%E7%AE%80%E4%BB%8B%20%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build,4.%20%E7%BB%93%E8%AE%BA%20%E9%80%9A%E8%BF%87%E4%BB%A5%E4%B8%8A%E6%AD%A5%E9%AA%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build%20%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E6%9D%A5%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E3%80%82%20%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E5%A2%9E%E5%8A%A0%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E3%80%82%20%E5%B8%8C%E6%9C%9B%E6%9C%AC%E6%96%87%E5%AF%B9%E4%BD%A0%E6%9C%89%E6%89%80%E5%B8%AE%E5%8A%A9%EF%BC%8C%E7%A5%9D%E4%BD%A0%E5%9C%A8%E4%BD%BF%E7%94%A8Docker%E6%97%B6%E5%8F%96%E5%BE%97%E6%88%90%E5%8A%9F%EF%BC%81</a></p>
+<h2 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h2><p>next主题：<a target="_blank" rel="noopener" href="https://zxblog.eu.org/posts/488a">https://zxblog.eu.org/posts/488a</a><br>hexo博客设置：<a target="_blank" rel="noopener" href="https://zxblog.eu.org/posts/5a75/">https://zxblog.eu.org/posts/5a75/</a><br>docker 编译过程中，指定用户：<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_16175463/9129345#:~:text=%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Docker%20build%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%201%201.%20%E7%AE%80%E4%BB%8B%20%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build,4.%20%E7%BB%93%E8%AE%BA%20%E9%80%9A%E8%BF%87%E4%BB%A5%E4%B8%8A%E6%AD%A5%E9%AA%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build%20%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E6%9D%A5%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E3%80%82%20%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E5%A2%9E%E5%8A%A0%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E3%80%82%20%E5%B8%8C%E6%9C%9B%E6%9C%AC%E6%96%87%E5%AF%B9%E4%BD%A0%E6%9C%89%E6%89%80%E5%B8%AE%E5%8A%A9%EF%BC%8C%E7%A5%9D%E4%BD%A0%E5%9C%A8%E4%BD%BF%E7%94%A8Docker%E6%97%B6%E5%8F%96%E5%BE%97%E6%88%90%E5%8A%9F%EF%BC%81">https://blog.51cto.com/u_16175463/9129345#:~:text=%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Docker%20build%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%201%201.%20%E7%AE%80%E4%BB%8B%20%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build,4.%20%E7%BB%93%E8%AE%BA%20%E9%80%9A%E8%BF%87%E4%BB%A5%E4%B8%8A%E6%AD%A5%E9%AA%A4%EF%BC%8C%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%9C%A8Docker%E4%B8%AD%E4%BD%BF%E7%94%A8%20docker%20build%20%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E6%9D%A5%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F%E3%80%82%20%E8%BF%99%E6%A0%B7%E5%8F%AF%E4%BB%A5%E5%A2%9E%E5%8A%A0%E5%AE%89%E5%85%A8%E6%80%A7%E5%92%8C%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E3%80%82%20%E5%B8%8C%E6%9C%9B%E6%9C%AC%E6%96%87%E5%AF%B9%E4%BD%A0%E6%9C%89%E6%89%80%E5%B8%AE%E5%8A%A9%EF%BC%8C%E7%A5%9D%E4%BD%A0%E5%9C%A8%E4%BD%BF%E7%94%A8Docker%E6%97%B6%E5%8F%96%E5%BE%97%E6%88%90%E5%8A%9F%EF%BC%81</a><br>目录结构插件 abbrLink ： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zsuh/articles/17231388.html">https://www.cnblogs.com/zsuh/articles/17231388.html</a></p>
 
       
     </div>
@@ -320,7 +320,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/20/%E5%BC%B1%E7%BD%91%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-clumsy/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9102e9f1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -338,7 +338,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/20/%E5%BC%B1%E7%BD%91%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-clumsy/" class="post-title-link" itemprop="url">弱网测试工具--clumsy</a>
+          <a href="/posts/9102e9f1/" class="post-title-link" itemprop="url">弱网测试工具--clumsy</a>
         </h2>
 
         <div class="post-meta-container">
@@ -348,9 +348,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-10-20 19:20:08 / Modified: 11:26:26" itemprop="dateCreated datePublished" datetime="2024-10-20T19:20:08+00:00">2024-10-20</time>
+      <time title="Created: 2024-10-20 19:20:08" itemprop="dateCreated datePublished" datetime="2024-10-20T19:20:08+00:00">2024-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -411,7 +417,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/19/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E7%A8%8D%E5%90%8E%E9%98%85%E8%AF%BB%E9%83%A8%E7%BD%B2-wallabag/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/afa59f26/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -429,7 +435,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/19/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E7%A8%8D%E5%90%8E%E9%98%85%E8%AF%BB%E9%83%A8%E7%BD%B2-wallabag/" class="post-title-link" itemprop="url">黑群晖折腾记录_稍后阅读部署_wallabag</a>
+          <a href="/posts/afa59f26/" class="post-title-link" itemprop="url">黑群晖折腾记录_稍后阅读部署_wallabag</a>
         </h2>
 
         <div class="post-meta-container">
@@ -447,7 +453,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-10-20 11:20:10" itemprop="dateModified" datetime="2024-10-20T11:20:10+00:00">2024-10-20</time>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -522,7 +528,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/10/Citrix-XenDesktop-7-6-Windows-Server-2019%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c4809c86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -540,7 +546,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/10/Citrix-XenDesktop-7-6-Windows-Server-2019%E5%AE%9E%E6%B5%8B%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">Citrix_XenDesktop_7.6_Windows_Server_2019实测记录</a>
+          <a href="/posts/c4809c86/" class="post-title-link" itemprop="url">Citrix_XenDesktop_7.6_Windows_Server_2019实测记录</a>
         </h2>
 
         <div class="post-meta-container">
@@ -558,7 +564,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-10-09 18:33:34" itemprop="dateModified" datetime="2024-10-09T18:33:34+00:00">2024-10-09</time>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -623,7 +629,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/06/%E5%9F%BA%E4%BA%8E%E5%9D%9A%E6%9E%9C%E4%BA%91%E7%9A%84WedDav%E5%8A%9F%E8%83%BD%E5%88%9B%E5%BB%BAkeepass%E4%BA%91%E5%90%8C%E6%AD%A5%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/59949797/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -641,7 +647,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/06/%E5%9F%BA%E4%BA%8E%E5%9D%9A%E6%9E%9C%E4%BA%91%E7%9A%84WedDav%E5%8A%9F%E8%83%BD%E5%88%9B%E5%BB%BAkeepass%E4%BA%91%E5%90%8C%E6%AD%A5%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">基于坚果云的WedDav功能创建keepass云同步服务</a>
+          <a href="/posts/59949797/" class="post-title-link" itemprop="url">基于坚果云的WedDav功能创建keepass云同步服务</a>
         </h2>
 
         <div class="post-meta-container">
@@ -651,9 +657,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-10-06 11:51:20 / Modified: 04:48:53" itemprop="dateCreated datePublished" datetime="2024-10-06T11:51:20+00:00">2024-10-06</time>
+      <time title="Created: 2024-10-06 11:51:20" itemprop="dateCreated datePublished" datetime="2024-10-06T11:51:20+00:00">2024-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -727,7 +739,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/05/Docker%E5%AE%9E%E4%BE%8B-ncmdump%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%E9%83%A8%E7%BD%B2/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/2586a343/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -745,7 +757,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/05/Docker%E5%AE%9E%E4%BE%8B-ncmdump%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%E9%83%A8%E7%BD%B2/" class="post-title-link" itemprop="url">Docker实例-ncmdump转换工具部署</a>
+          <a href="/posts/2586a343/" class="post-title-link" itemprop="url">Docker实例-ncmdump转换工具部署</a>
         </h2>
 
         <div class="post-meta-container">
@@ -755,9 +767,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-10-05 21:40:40 / Modified: 13:59:32" itemprop="dateCreated datePublished" datetime="2024-10-05T21:40:40+00:00">2024-10-05</time>
+      <time title="Created: 2024-10-05 21:40:40" itemprop="dateCreated datePublished" datetime="2024-10-05T21:40:40+00:00">2024-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -816,7 +834,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/04/Bash-Shell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f3a16578/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -834,7 +852,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/04/Bash-Shell%E5%B8%B8%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">Bash-Shell常用脚本汇总</a>
+          <a href="/posts/f3a16578/" class="post-title-link" itemprop="url">Bash-Shell常用脚本汇总</a>
         </h2>
 
         <div class="post-meta-container">
@@ -844,9 +862,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-10-04 17:54:27 / Modified: 15:21:40" itemprop="dateCreated datePublished" datetime="2024-10-04T17:54:27+00:00">2024-10-04</time>
+      <time title="Created: 2024-10-04 17:54:27" itemprop="dateCreated datePublished" datetime="2024-10-04T17:54:27+00:00">2024-10-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -905,7 +929,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/10/02/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E4%B8%8B%E8%BD%BD%E5%99%A8-%E6%B5%81%E5%AA%92%E4%BD%93/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/686fc3bb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -923,7 +947,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/10/02/%E9%BB%91%E7%BE%A4%E6%99%96%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E4%B8%8B%E8%BD%BD%E5%99%A8-%E6%B5%81%E5%AA%92%E4%BD%93/" class="post-title-link" itemprop="url">黑群晖折腾记录_下载器_流媒体</a>
+          <a href="/posts/686fc3bb/" class="post-title-link" itemprop="url">黑群晖折腾记录_下载器_流媒体</a>
         </h2>
 
         <div class="post-meta-container">
@@ -941,7 +965,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-10-04 15:33:52" itemprop="dateModified" datetime="2024-10-04T15:33:52+00:00">2024-10-04</time>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1111,7 +1135,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/09/22/%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7HCIBench/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/888287f2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1129,7 +1153,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/22/%E8%99%9A%E6%8B%9F%E5%8C%96%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7HCIBench/" class="post-title-link" itemprop="url">虚拟化环境中的存储性能测试工具HCIBench</a>
+          <a href="/posts/888287f2/" class="post-title-link" itemprop="url">虚拟化环境中的存储性能测试工具HCIBench</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1139,9 +1163,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-09-22 18:07:05 / Modified: 10:26:27" itemprop="dateCreated datePublished" datetime="2024-09-22T18:07:05+00:00">2024-09-22</time>
+      <time title="Created: 2024-09-22 18:07:05" itemprop="dateCreated datePublished" datetime="2024-09-22T18:07:05+00:00">2024-09-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1276,7 +1306,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/2024/09/22/%E4%BD%BF%E7%94%A8CrystalDiskMark%E6%B5%8B%E8%AF%95%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A1%AC%E7%9B%98%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f171a4b2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1294,7 +1324,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/09/22/%E4%BD%BF%E7%94%A8CrystalDiskMark%E6%B5%8B%E8%AF%95%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A1%AC%E7%9B%98%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">使用CrystalDiskMark测试的一些硬盘数据记录</a>
+          <a href="/posts/f171a4b2/" class="post-title-link" itemprop="url">使用CrystalDiskMark测试的一些硬盘数据记录</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1304,9 +1334,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2024-09-22 17:01:53 / Modified: 10:06:42" itemprop="dateCreated datePublished" datetime="2024-09-22T17:01:53+00:00">2024-09-22</time>
+      <time title="Created: 2024-09-22 17:01:53" itemprop="dateCreated datePublished" datetime="2024-09-22T17:01:53+00:00">2024-09-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
