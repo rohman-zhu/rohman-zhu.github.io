@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-count">428</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,113 +147,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/cce1e06/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/cce1e06/" class="post-title-link" itemprop="url">记录一次vMotion异常-多个故障叠加</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-21 21:59:16" itemprop="dateCreated datePublished" datetime="2024-07-21T21:59:16+00:00">2024-07-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>一台虚拟机要做存储迁移，该虚拟机规格是一台高负载、高配置的复杂虚拟机，虚拟机有40多个vmdk，OS内通过LVM做了条带卷。</p>
-<p>第一次迁移，选择一次性同时迁移6块盘，该任务耗时 3 个小时左右，最终提示”Operation timed out”；</p>
-<p>第二次迁移，选择单次仅迁移1块盘，任务均会提示失败，提示”The operation is not allowed in the cureent state.The operation cannot be performed because VM migration is in progress.”;</p>
-<p>第三次迁移，选择仅迁移计算资源，任务均会提示失败，提示”The operation is not allowed in the cureent state.The operation cannot be performed because VM migration is in progress.”;</p>
-<p>第四次迁移，选择仅迁移1块盘，这次任务正常了，任务耗时较久，为54分钟；</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>第一次迁移失败，可能是因为该虚拟机负载过高，vMotion过程需要拷贝原始数据，但数据变化量远远超过vMotion所能承受的极限，在第一次vMotion任务至第四次vMotion任务期间，可以观测到虚拟机整体的IOPS在 10K-17K 之间。</p>
-<p>第二次迁移失败，因为在此时发现VCSA有异常，LOG目录的空间被写满，导致vpxd服务异常，因此对VCSA做了扩容修复，并重启了VCSA；这个过程导致VCSA的任务管理异常，迁移任务处于未释放的状态；且重启完VCSA后，选择VCSA的时候，会提示还在同步中；</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在VCSA中，可以查到有很多 TASK ID</span></span><br><span class="line"><span class="comment"># 参考：https://blogs.vmware.com/vsphere/2019/09/troubleshooting-vmotion.html</span></span><br><span class="line">grep <span class="string">&quot;relocate&quot;</span> /var/log/vmware/vpxd/vpxd-*.<span class="built_in">log</span> | grep BEGIN</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分析ESXi的hostd日志</span></span><br><span class="line"><span class="comment"># 会有提示</span></span><br><span class="line">Hostlog_ExecuteCleanup:Failed to start disk /vmfs/xxxxxxx.vmdk - not cleaning up.xxxxx</span><br><span class="line"><span class="comment">#  磁盘任务失败；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务状态也会异常</span></span><br><span class="line">Invlid transition requested (VM_STATE_EMIGRATING -&gt; VM_STATE_CREATE_SCREENSHOT):Invalid state;</span><br></pre></td></tr></table></figure>
-
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li>VCSA要确保正常，各项服务需要是正常运行的；</li>
-<li>ESXi可以尝试重启管理程序，或者在VCSA中试试断开连接后重连；</li>
-<li>针对这种类型的虚拟机，迁移时尽可能选择较少的磁盘迁移，每次仅迁移一块磁盘；</li>
-</ol>
-<blockquote>
-<p>留一个方案： 假如我调整了ESXi的 Stream Helper是否会有帮助呢？</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1247,6 +1140,110 @@
 <li>匿名函数表示方法 ()&#x3D;&gt;{} ;</li>
 <li>页面刷新 location.reload();</li>
 </ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/de3b0569/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/de3b0569/" class="post-title-link" itemprop="url">HPE-SAN存储热备盘比例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-04 23:39:36" itemprop="dateCreated datePublished" datetime="2024-05-04T23:39:36+00:00">2024-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">SAN存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>做SAN存储扩容时，需要供应商做扩容方案。对应的硬件所堆积出来的硬件可用容量到底怎么计算的？这里面有几个问题：</p>
+<ol>
+<li>裸容量是多少？</li>
+<li>可用容量是多少？</li>
+<li>热备盘比例是多少？</li>
+</ol>
+<h1 id="可查资料"><a href="#可查资料" class="headerlink" title="可查资料"></a>可查资料</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Spare rate</span><br><span class="line">A key parameter in the spare policy is the spare rate. The spare rate is a target amount of space to set aside for sparing expressed relative to the number of disks of a given type in the system. A spare rate of 24, for example, sets target spare space equal to the size of one drive for every 24 drives in the array.</span><br><span class="line">The spare rate is defined based on the hardware configuration in the array as follows:</span><br><span class="line">• Spare rate = 40 if there are any magazines present in the array (e.g., 10,000)</span><br><span class="line">• Spare rate = 24 for all others such as 7400/7400c, 7450/7450c, etc.</span><br><span class="line"></span><br><span class="line">Sparing algorithms defined</span><br><span class="line">The spare option is set for the entire array and applied to each disk type (SSD, FC, NL) in the following way.</span><br><span class="line">• Default: Roughly 2.5 percent with minimums</span><br><span class="line">Small configurations (e.g., 7000’s with less than 48 disks, 10000’s with less than 80 disks) have a spare space target equal to the size of two of the largest drives of the type being spared.</span><br><span class="line">• Minimal: Roughly 2.5 percent without minimums</span><br><span class="line">Minimal is the same as default except for small configurations. When the configuration is small, minimal will only set aside spare space equal to one of the largest drives (compared to two for default) of the type being sized.</span><br><span class="line">• Maximal: One disk’s worth in every cage</span><br><span class="line">Spare space is calculated as the space of the largest drive of the drive type being sized for each disk cage.</span><br><span class="line">• Custom: Implemented manually by the administrator using the createspare, showspare, and removespare commands.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>默认比例为 2.5%；最大比例为 12%；</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333">https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333</a></p>
 
       
     </div>
