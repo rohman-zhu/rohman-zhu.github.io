@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-count">429</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,96 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c07e00fa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c07e00fa/" class="post-title-link" itemprop="url">Linux 挂载与卸载文件系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 13:24:51" itemprop="dateCreated datePublished" datetime="2017-10-05T13:24:51+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux挂载与卸载文件系统"><a href="#Linux挂载与卸载文件系统" class="headerlink" title="Linux挂载与卸载文件系统"></a>Linux挂载与卸载文件系统</h1><h2 id="练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上"><a href="#练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上" class="headerlink" title="练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上"></a>练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上</h2><ol>
+<li>查询这个硬盘的信息。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ blkid</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/dev/sda1: UUID=&quot;2A98DE1F98DDE979&quot; TYPE=&quot;ntfs&quot; </span><br><span class="line">/dev/sda2: UUID=&quot;000A8A2B00090684&quot; TYPE=&quot;ntfs&quot; </span><br><span class="line">/dev/sda3: UUID=&quot;a19323f9-0867-4328-9ec5-6075bf75fe5e&quot; TYPE=&quot;xfs&quot; </span><br><span class="line">/dev/sda5: UUID=&quot;zDW5vb-IDea-s8rS-Wo5k-mWMf-eou2-MWtxXc&quot; TYPE=&quot;LVM2_member&quot; </span><br><span class="line">/dev/mapper/cl-root: UUID=&quot;a9d6aab6-0568-4b3b-b11e-278ec4f9795d&quot; TYPE=&quot;xfs&quot; </span><br><span class="line">/dev/mapper/cl-swap: UUID=&quot;344d22fa-7e77-4168-a1a7-0abb8614f637&quot; TYPE=&quot;swap&quot; </span><br><span class="line">/dev/mapper/cl-home: UUID=&quot;db643711-334f-47ab-b5e7-4729f5edb435&quot; TYPE=&quot;xfs&quot; </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>在Linux上创建一个文件夹，作为挂载点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir testDev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据 UUID 将文件系统挂载到 Linux 的 testDev 下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mount UUID=&quot;000A8A2B00090684&quot; testDev/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载在 Linux 上面的文件系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ umount testDev/</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1330,117 +1420,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/460156fd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/460156fd/" class="post-title-link" itemprop="url">Linux 故障修复集</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-02 11:23:06" itemprop="dateCreated datePublished" datetime="2017-10-02T11:23:06+00:00">2017-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="修复CentOS-7启动引导"><a href="#修复CentOS-7启动引导" class="headerlink" title="修复CentOS-7启动引导"></a>修复CentOS-7启动引导</h1><h2 id="一、修复MBR："><a href="#一、修复MBR：" class="headerlink" title="一、修复MBR：##"></a>一、修复MBR：##</h2><p>MBR（Master Boot Record主引导记录）：</p>
-<p>硬盘的0柱面、0磁头、1扇区称为主引导扇区。其中446Byte是bootloader，64Byte为Partition table，剩下的2Byte为magic number。</p>
-<p>备份MBR：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/sda of=/root/mbr.bak count=1 bs=512</span><br></pre></td></tr></table></figure>
-
-<p>破坏bootloader：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/zero of=/dev/sda count=1 bs=200</span><br></pre></td></tr></table></figure>
-
-<p>这里边block size只要小于等于446即可。</p>
-<p>修复方式：</p>
-<ol>
-<li>借助其他系统挂载磁盘修复。</li>
-</ol>
-<p>修复方式同光盘修复类似，也是使用grub2-install命令。</p>
-<ol start="2">
-<li>借助安装光盘修复。</li>
-</ol>
-<h3 id="插入Linux安装盘"><a href="#插入Linux安装盘" class="headerlink" title="插入Linux安装盘"></a>插入Linux安装盘</h3><ol>
-<li>装入光盘，在光盘引导界面选择troubleshooting：</li>
-<li>选择进入救援模式（Recue a CentOS system )：</li>
-<li>按回车键继续：</li>
-<li>进入磁盘挂载选择模式：磁盘将会被挂载至&#x2F;mnt&#x2F;sysimage&#x2F;下</li>
-</ol>
-<ul>
-<li>continue 以rw方式挂载分区。</li>
-<li>read only 以ro方式挂载分区。</li>
-<li>skip 跳过，将来自己手工挂载磁盘。</li>
-</ul>
-<ol start="5">
-<li>选择continue，稍等片刻，提示已经挂载完成。</li>
-<li>此时进入救援模式的命令行：</li>
-<li>使用grub2-install命令重建bootloader,并且显示无错误后，重启系统。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grub2-install root-directory=/mnt/sysimage /dev/sda</span><br><span class="line">#sync</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2015-03/114678.htm">原文地址</a></p>
-<h1 id="硬件故障"><a href="#硬件故障" class="headerlink" title="硬件故障"></a>硬件故障</h1><p>先查看内核日志文件，检查问题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/40/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/42/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1453,7 +1432,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
