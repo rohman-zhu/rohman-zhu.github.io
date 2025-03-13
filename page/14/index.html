@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">428</span>
+          <span class="site-state-item-count">429</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">143</span>
+        <span class="site-state-item-count">144</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,116 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7d020ab4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7d020ab4/" class="post-title-link" itemprop="url">Windows本地防火墙相关操作</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-07-04 00:04:52" itemprop="dateCreated datePublished" datetime="2022-07-04T00:04:52+00:00">2022-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Windows 本地防火墙与常规的Linux防火墙还是有区别的，策略匹配顺序、策略放行优先级有着较大的差异。</p>
+<p>默认配置：</p>
+<ul>
+<li>未创建的策略，默认情况下是拒绝。（推荐设置为拒绝，这个也可以自行设置）</li>
+</ul>
+<p>匹配原则：</p>
+<ol>
+<li>显式定义的允许规则将优先于默认阻止设置。</li>
+<li>显式阻止规则将优先于任何冲突的允许规则。（“拒绝优先”）</li>
+<li>更具体的规则将优先于不太具体的规则，2 中提及的显式阻止规则除外。 （例如，如果规则 1 的参数包含 IP 地址范围，而规则 2 的参数包含一个 IP 主机地址，则规则 2 的优先级更高。）</li>
+</ol>
+<blockquote>
+<p>实际测试下来，建议忽略规则3，无实际意义。</p>
+</blockquote>
+<blockquote>
+<p>若要打开 Windows 防火墙，请转到“开始”菜单，选择“运行”，键入“WF.msc”，然后选择“确定”。 </p>
+</blockquote>
+<h1 id="相关powershell指令"><a href="#相关powershell指令" class="headerlink" title="相关powershell指令"></a>相关powershell指令</h1><h2 id="打开防火墙"><a href="#打开防火墙" class="headerlink" title="打开防火墙"></a>打开防火墙</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-NetFirewallProfile</span> <span class="literal">-Profile</span> Private,Domain,Public <span class="literal">-Enabled</span> True</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建防火墙策略"><a href="#创建防火墙策略" class="headerlink" title="创建防火墙策略"></a>创建防火墙策略</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建TCP-3389入站策略,并允许192.168.1.1，192.168.1.2匹配</span></span><br><span class="line"><span class="built_in">New-NetFirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Accept TCP 3389&quot;</span> <span class="literal">-Direction</span> Inbound <span class="literal">-LocalPort</span> <span class="number">3389</span> <span class="literal">-Protocol</span> TCP <span class="literal">-Action</span> Accept <span class="literal">-RemoteAddress</span> &#123;<span class="number">192.168</span>.<span class="number">1.1</span>&#125;,&#123;<span class="number">192.168</span>.<span class="number">1.2</span>&#125;;</span><br><span class="line"><span class="comment"># 创建UDP-3389出站策略</span></span><br><span class="line"><span class="built_in">New-NetFirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Accept UDP 3389&quot;</span> <span class="literal">-Direction</span> Outbound <span class="literal">-LocalPort</span> <span class="number">3389</span> <span class="literal">-Protocol</span> UDP <span class="literal">-Action</span> Block;</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改防火墙应用的地址范围"><a href="#修改防火墙应用的地址范围" class="headerlink" title="修改防火墙应用的地址范围"></a>修改防火墙应用的地址范围</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改上述创建的TCP-3389策略的应用范围为192.168.1.3</span></span><br><span class="line"><span class="built_in">Get-NetFirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;*TCP*3389*&quot;</span> | <span class="built_in">Get-NetFirewallAddressFilter</span> | <span class="built_in">Set-NetFirewallAddressFilter</span> <span class="literal">-RemoteAddress</span> &#123;<span class="number">192.168</span>.<span class="number">1.3</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动某一个防火墙策略"><a href="#启动某一个防火墙策略" class="headerlink" title="启动某一个防火墙策略"></a>启动某一个防火墙策略</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-NetFirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;*TCP*3389*&quot;</span> | <span class="built_in">Set-NetFirewallRule</span> <span class="literal">-Enabled</span> True;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>最佳实践：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/security/threat-protection/windows-firewall/best-practices-configuring">https://docs.microsoft.com/zh-cn/windows/security/threat-protection/windows-firewall/best-practices-configuring</a><br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps</a><br>Powershell 与 防火墙相关指令: <a target="_blank" rel="noopener" href="https://www.pstips.net/manage-firewall-using-powershell.html">https://www.pstips.net/manage-firewall-using-powershell.html</a><br>Set-NetFirewallAddressFilter : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewalladdressfilter?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewalladdressfilter?view=windowsserver2022-ps</a><br>Set-NetFirewallPortFilter : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallportfilter?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallportfilter?view=windowsserver2022-ps</a><br>New-NetFirewallRule : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps</a><br>Set-NetFirewallRule : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallrule?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/set-netfirewallrule?view=windowsserver2022-ps</a><br>Get-NetFirewallPortFilter : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallportfilter?view=windowsserver2022-ps">https://docs.microsoft.com/en-us/powershell/module/netsecurity/get-netfirewallportfilter?view=windowsserver2022-ps</a><br>显示动态端口 : <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-CN/troubleshoot/windows-server/networking/default-dynamic-port-range-tcpip-chang">https://docs.microsoft.com/zh-CN/troubleshoot/windows-server/networking/default-dynamic-port-range-tcpip-chang</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1444,139 +1554,6 @@
 <li>Excel（xls文件）</li>
 </ol>
 <h1 id="代码部分【TODO】"><a href="#代码部分【TODO】" class="headerlink" title="代码部分【TODO】"></a>代码部分【TODO】</h1>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c4e4d78a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/c4e4d78a/" class="post-title-link" itemprop="url">疫情期间VDI小结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-20 22:53:04" itemprop="dateCreated datePublished" datetime="2022-03-20T22:53:04+00:00">2022-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>略</p>
-<h1 id="分类小结"><a href="#分类小结" class="headerlink" title="分类小结"></a>分类小结</h1><h2 id="场景分配"><a href="#场景分配" class="headerlink" title="场景分配"></a>场景分配</h2><table>
-<thead>
-<tr>
-<th align="center">类型</th>
-<th align="center">配置</th>
-<th align="center">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">常规用户</td>
-<td align="center">4C8G</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">轻度编译用户</td>
-<td align="center">4C16G</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">重度编译用户</td>
-<td align="center">8C16G</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">超重度编译用户</td>
-<td align="center">16C32G</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<p>以上4中用户类型中，若资源条件允许，应让“轻度编译用户”类型作为常规用户，当下的个人PC配置环境基本是16G内存起步。如果内存分配过小，用户在实际使用的时候很容易出现“Out of memory”的错误。</p>
-<p>以上环境的单核基础频率是2.1GHz，也就是说一个重度用户对CPU的需求为16.8GHz左右。同一个任务下，4C要比8C多耗时40分钟左右。</p>
-<h2 id="业务总结"><a href="#业务总结" class="headerlink" title="业务总结"></a>业务总结</h2><h3 id="使用场景评估"><a href="#使用场景评估" class="headerlink" title="使用场景评估"></a>使用场景评估</h3><p>需要清楚用户的访问链路，思考几个问题：</p>
-<ol>
-<li>用户的访问链路应该是怎么样的？</li>
-<li>是否会与其他的远程工具冲突，如原本在外网就有解析的入口，是否会与VPN冲突？</li>
-<li>私有云的出口网络带宽是否能支撑用户的访问需求？带宽需求大概是多少？</li>
-<li>是否可以清楚监控到对应节点的负载情况？</li>
-<li>用户的核心需求是什么？是远程桌面？还是VDI？</li>
-</ol>
-<blockquote>
-<p>No.5非常重要，避免资源浪费，用户也许不清楚自己需要什么，更多情况下就是什么资源都会申请，这无疑会增加运维人员与支持人员的工作量。</p>
-</blockquote>
-<h3 id="信息安全侧评估"><a href="#信息安全侧评估" class="headerlink" title="信息安全侧评估"></a>信息安全侧评估</h3><p>需要明确信息安全红线，确保数据进出方向，对于敏感策略一定要设置有监控。所有的部署方案、防火墙策略申请应有审批报备。</p>
-<h2 id="效率总结"><a href="#效率总结" class="headerlink" title="效率总结"></a>效率总结</h2><h3 id="管理侧"><a href="#管理侧" class="headerlink" title="管理侧"></a>管理侧</h3><p>对于 VMware Horizon View 中的 RDS 桌面部署，基本上都是在Chrome浏览器中用鼠标点击授权，这个重复性的操作可以用Python3+Selenuim+Chrome来做自动化点击部署。</p>
-<h3 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h3><p>对于初始化RDSH服务器，可以使用 Windows + Openssh + Ansible 来批量部署。</p>
-<p>RDSH服务器均为Windows服务器，在上面安装Openssh，并配置允许Ansible账户来部署。</p>
-<p>Ansible侧则是需要写好相应的脚本批量下发即可，这里要注意Ansible服务器的配置，避免跑的任务太多导致CPU爆满。</p>
-<h3 id="基础架构侧"><a href="#基础架构侧" class="headerlink" title="基础架构侧"></a>基础架构侧</h3><p>底层资源要充足，在紧急时候能够提供所需资源，这个需要与业务方商谈，让其做相关预算。</p>
-
       
     </div>
 
