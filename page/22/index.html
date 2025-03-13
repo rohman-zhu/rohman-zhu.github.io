@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-count">430</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,115 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/46aa89dc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/46aa89dc/" class="post-title-link" itemprop="url">Windows设置驱动数字签名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-25 08:36:04" itemprop="dateCreated datePublished" datetime="2020-12-25T08:36:04+00:00">2020-12-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景需求"><a href="#背景需求" class="headerlink" title="背景需求"></a>背景需求</h1><p>用户需要安装驱动，需要禁用驱动数字签名检测。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>方法一：</p>
+<ol>
+<li>依次选择开始-设置-更新和安全-恢复-立即重新启动。</li>
+<li>在启动设置页面,依次选择疑难解答-高级选项-启动设置-重启。</li>
+<li>系统重新启动以后，在启动设置页面按”7”或者”F7”选择禁用驱动程序强制签名。</li>
+</ol>
+<p>方法二：</p>
+<ol>
+<li>以管理员方式打开 CMD </li>
+<li>输入指令 bcdedit.exe &#x2F;set nointegritychecks on  回车</li>
+<li>重启PC</li>
+</ol>
+<blockquote>
+<p>如果需要改回来，则输入指令 bcdedit.exe &#x2F;set nointegritychecks off ， 重启</p>
+</blockquote>
+<p>进入测试模式</p>
+<ol>
+<li>以管理员方式打开 CMD </li>
+<li>输入指令   bcdedit &#x2F;set testsigning on ， 回车</li>
+<li>重启PC</li>
+</ol>
+<blockquote>
+<p>系统禁用驱动程序强制签名模式，用于关闭系统驱动签名，安装一些没有经过签名的驱动和程序。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1042,95 +1151,6 @@
 <p>如果不可以用，可能是libssl.so.1.1 和 libcrypto.so.1.1 依赖出现问题，可以参照一下以下指令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先要确认依赖的位置</span></span><br><span class="line">ldd /usr/local/openssl/bin/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建依赖的软连接</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libssl.so.1.1 /usr/lib/libssl.so.1.1</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libcrypto.so.1.1 /usr/lib/libcrypto.so.1.1</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bd86dee4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/bd86dee4/" class="post-title-link" itemprop="url">Ubuntu20.04开机网卡超时等待</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-08 23:21:37" itemprop="dateCreated datePublished" datetime="2020-12-08T23:21:37+00:00">2020-12-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>开机卡在“A start job is running for wait for network to be Configured”两分多钟。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/systemd/system/network-online.target.wants/</span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> ./</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改本目录下的文件</span></span><br><span class="line"><span class="comment">#在[Service]下添加TimeoutStartSec=2sec</span></span><br><span class="line">vi ./xxxxx</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=2sec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 

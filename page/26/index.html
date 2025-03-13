@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">429</span>
+          <span class="site-state-item-count">430</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,220 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f70ae926/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/f70ae926/" class="post-title-link" itemprop="url">Exchange CU23升级日志</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-08 15:28:40" itemprop="dateCreated datePublished" datetime="2020-03-08T15:28:40+00:00">2020-03-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最新的Exchange Server需要安装补丁KB4536988，而这个补丁需要升级至CU23才可安装，然而我们的服务器版本为CU21。因此，服务器需要做一遍升级操作才可安装补丁。</p>
+<p>主要流程：</p>
+<ol>
+<li>安装 dot net 4.7.2</li>
+<li>安装 CU23 </li>
+<li>安装补丁 KB-4536988</li>
+</ol>
+<h1 id="前端服务器升级"><a href="#前端服务器升级" class="headerlink" title="前端服务器升级"></a>前端服务器升级</h1><p>升级步骤：</p>
+<table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\版本号\themes</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">备份OWA自定义文件</td>
+<td align="left">Exchange Server\V15\Frontend\HttpProxy\OWA\Auth\logon.aspx</td>
+<td align="center">CAS 前端服务器</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">验证测试</td>
+<td align="left">见前端测试流程</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>为了避免出错，可以管理员身份运行安装包，可以使用 CMD（以管理员身份运行）。</p>
+</blockquote>
+<p>测试流程：</p>
+<ol>
+<li>修改hosts文件，将邮件服务器域名解析指向目标前端服务器；</li>
+<li>测试 OWA 的邮件收发情况（内网、外网均测试一下）</li>
+<li>新建用户邮件 profile 文件 ，使用新profile文件进行邮件收发测试</li>
+</ol>
+<h1 id="后端服务器升级"><a href="#后端服务器升级" class="headerlink" title="后端服务器升级"></a>后端服务器升级</h1><table>
+<thead>
+<tr>
+<th align="center">步骤</th>
+<th align="center">任务</th>
+<th align="left">详情</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">备份Web.config文件</td>
+<td align="left">Exchange Server\Bin\EdgeTransport.exe.config</td>
+<td align="center">后端服务器</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">将DAG中的邮箱服务器切换到维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">安装 dot Net 4.7.2</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">安装CU23</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">安装KB-4536988</td>
+<td align="left">以管理员身份运行安装包，安装完后重启服务器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">将邮箱服务器退出维护模式</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">检查服务</td>
+<td align="left">见下列操作步骤</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>进入维护模式：</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 定义本机主机名变量</span></span><br><span class="line"><span class="variable">$Computer</span> = <span class="variable">$ENV:ComputerName</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 排空邮箱服务器上的所有传送队列的活动邮件，同时传输这些邮件到另外一台服务器上。</span></span><br><span class="line">Redirect<span class="literal">-Message</span> <span class="literal">-Server</span> <span class="variable">$Computer</span> <span class="literal">-Target</span> [<span class="type">DAG</span>的伙伴服务器<span class="type">FQDN</span>名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 传输组件设置维护模式</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> HubTransport <span class="literal">-State</span> Draining <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 重启Exchange传输服务</span></span><br><span class="line"><span class="built_in">Restart-Service</span> MSExchangeTransport</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 暂停此群集节点</span></span><br><span class="line"><span class="built_in">Suspend-ClusterNode</span> <span class="variable">$Computer</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 设置迁移活动数据库不能回到当前数据库</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyActivationDisabledAndMoveNow</span> <span class="variable">$True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 设置自动切换数据库策略为阻止</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyAutoActivationPolicy</span> Blocked</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. 将服务器设置到维护模式</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> ServerWideOffline <span class="literal">-State</span> Inactive <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span></span><br><span class="line"><span class="built_in">Get-ServerComponentState</span> <span class="variable">$Computer</span> | <span class="built_in">ft</span> Component,State <span class="literal">-Autosize</span></span><br></pre></td></tr></table></figure>
+
+<p>退出维护模式：</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 定义本机主机名变量</span></span><br><span class="line"><span class="variable">$Computer</span> = <span class="variable">$ENV:ComputerName</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 恢复传输组件状态</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> ServerWideOffline <span class="literal">-State</span> Active <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 恢复此群集节点</span></span><br><span class="line"><span class="built_in">Resume-ClusterNode</span> <span class="variable">$Computer</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 手动切换数据库状态</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyActivationDisabledAndMoveNow</span> <span class="variable">$False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 设置自动切换数据库策略为不受限制</span></span><br><span class="line"><span class="built_in">Set-MailboxServer</span> <span class="variable">$Computer</span> <span class="literal">-DatabaseCopyAutoActivationPolicy</span> Unrestricted</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 传输服务器设置维护状态</span></span><br><span class="line"><span class="built_in">Set-ServerComponentState</span> <span class="variable">$Computer</span> <span class="literal">-Component</span> HubTransport <span class="literal">-State</span> Active <span class="literal">-Requester</span> Maintenance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 重启Exchange传输服务</span></span><br><span class="line"><span class="built_in">Restart-Service</span> MSExchangeTransport</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. 查询所有服务器状态，所有组件必须为 “inactive” 状态 。（除了Monitoring 和 RecoveryActionsEnabled）</span></span><br><span class="line"><span class="built_in">Get-ServerComponentState</span> <span class="variable">$Computer</span> | <span class="built_in">ft</span> Component,State <span class="literal">-Autosize</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><p>一、 IIS导致的故障</p>
+<p>解决方法：</p>
+<ol>
+<li>verify you have several gigs free disk space on C drive of the server being upgraded</li>
+<li>Stop the IISADMIN service and World Wide Web Services</li>
+<li>Make sure the account your using to run the installer is member of schema admins, domain admins and exchange organization management</li>
+<li>Run the upgrade again, but this time, right click the install file and click ‘run as administrator’</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/">https://enterpriseit.co/microsoft-exchange/2013/error-cu-upgrade-system-management-automation-remoteexception/</a></p>
+<p>二、 安装CU23出现错误 “ Setup can’t continue with the upgrade because the monad(7688) …mscorsvw (14664) has open files. Close the process, and then restart Setup. For more information, visit: <a target="_blank" rel="noopener" href="http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx">http://technet.microsoft.com/library(EXCHG.150)/ms.exch.setupreadiness.ProcessNeedsToBeClosedOnUpgrade.aspx</a> ”</p>
+<ul>
+<li><p>关于 mscorsvw（14664） 是一个 .net 相关的进程，可能net4.7.2没有安装成功。</p>
+</li>
+<li><p>参考：<a target="_blank" rel="noopener" href="https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue">https://www.concurrency.com/blog/w/exchange-2013-cu-installation-setup-can-t-continue</a></p>
+</li>
+<li><p>关于monad（7688）是一个powershell的进程，但这是跟NetBackup备份服务相关的进程冲突导致的，需要关闭相关服务。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -850,81 +1064,6 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h1><p>服务端开放监听端口 TCP 1688</p>
 <h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$KMS_SERVER</span>=<span class="string">&quot;0.0.0.0&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置激活服务器</span></span><br><span class="line">slmg <span class="literal">-skms</span> <span class="variable">$KMS_SERVER</span></span><br><span class="line"><span class="comment">#激活</span></span><br><span class="line">slmg <span class="literal">-ato</span></span><br><span class="line"><span class="comment"># xpr</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/736ab5ba/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/736ab5ba/" class="post-title-link" itemprop="url">Windows服务器脱域</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-02-05 11:39:45" itemprop="dateCreated datePublished" datetime="2020-02-05T11:39:45+00:00">2020-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
       
     </div>
 
