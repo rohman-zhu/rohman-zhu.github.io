@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+      <time title="Modified: 2025-03-18 08:48:44" itemprop="dateModified" datetime="2025-03-18T08:48:44+00:00">2025-03-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -227,7 +227,7 @@
 <h2 id="长期方案【待补充】"><a href="#长期方案【待补充】" class="headerlink" title="长期方案【待补充】"></a>长期方案【待补充】</h2><p>需要升级openssl</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 版本查看</span></span><br><span class="line">openssl version</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 2023-10-07</span><br><span class="line">测试过 2306 ，2306-FIPS版本，结果只有普通版的2306版本是正常的，而FIPS版本则无法使用；</span><br><span class="line">可能是FIPS版本，过程有需要SHA-1加密的TLS，导致被Chrome给拦截了，目前还在等待官方信息；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 2023-10-07</span><br><span class="line">测试过 2306 ，2306-FIPS版本，结果只有普通版的2306版本是正常的，而FIPS版本则无法使用；</span><br><span class="line">可能是FIPS版本，过程有需要SHA-1加密的TLS，导致被Chrome给拦截了，目前还在等待官方信息；</span><br><span class="line"></span><br><span class="line"># 2025-03-18</span><br><span class="line"># euc-unified-access-gateway-23.06.1.0-22332533_OVF10.ova 版本可用，不会出现SSL拦截，使用一年下来，也不会出现根目录用满情况。</span><br></pre></td></tr></table></figure>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>诡异的ERR_SSL_PROTOCOL_ERROR：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/659738295">https://zhuanlan.zhihu.com/p/659738295</a><br>Chromium描述：<a target="_blank" rel="noopener" href="https://bugs.chromium.org/p/chromium/issues/detail?id=1488571">https://bugs.chromium.org/p/chromium/issues/detail?id=1488571</a><br>发布信息：<a target="_blank" rel="noopener" href="https://chromium-review.googlesource.com/c/chromium/src/+/4898836">https://chromium-review.googlesource.com/c/chromium/src/+/4898836</a></p>
 
       
