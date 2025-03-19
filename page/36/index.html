@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">430</span>
+          <span class="site-state-item-count">431</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">144</span>
+        <span class="site-state-item-count">145</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,113 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ee237316/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ee237316/" class="post-title-link" itemprop="url">Ubuntu下安装VmwareWorkstation无法启动</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-11 23:19:47" itemprop="dateCreated datePublished" datetime="2018-10-11T23:19:47+00:00">2018-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h1><ul>
+<li>Ubuntu 14.04.3 Kylin</li>
+<li>3.3.56-genric 的内核</li>
+<li>gcc版本</li>
+<li>Vmware Workstation 11\14\15 (都试过安装)</li>
+</ul>
+<h1 id="Vmware-安装步骤"><a href="#Vmware-安装步骤" class="headerlink" title="Vmware 安装步骤"></a>Vmware 安装步骤</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载VM安装文件到当前目录，vmware...bundle</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加可执行权限</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">chmod</span> +x ./vmware...bundle</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> ./vmware...bundle</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">接着图形界面安装即可</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><h2 id="version11"><a href="#version11" class="headerlink" title="version11"></a>version11</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开软件会提示两个内核模块没有加载成功 ： vmmon 、 vmnet</p>
+</li>
+</ul>
+<h2 id="version12"><a href="#version12" class="headerlink" title="version12"></a>version12</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘&#x2F;dev&#x2F;vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h2 id="version14"><a href="#version14" class="headerlink" title="version14"></a>version14</h2><ul>
+<li><p>控制台会提示 无法加载主题引擎 ‘murrine‘ ， 并且会有字体配置文件错误的提示。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘&#x2F;dev&#x2F;vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h2 id="version15"><a href="#version15" class="headerlink" title="version15"></a>version15</h2><ul>
+<li><p>控制台无错误信息。</p>
+</li>
+<li><p>打开虚拟机会提示，无法找到 ‘&#x2F;dev&#x2F;vmmon’目录或者文件夹。</p>
+</li>
+</ul>
+<h1 id="网络上的解决方案"><a href="#网络上的解决方案" class="headerlink" title="网络上的解决方案"></a>网络上的解决方案</h1><h2 id="手动复制-vmmon-ko"><a href="#手动复制-vmmon-ko" class="headerlink" title="手动复制 vmmon.ko"></a>手动复制 vmmon.ko</h2><h2 id="安装必须的gtk内核"><a href="#安装必须的gtk内核" class="headerlink" title="安装必须的gtk内核"></a>安装必须的gtk内核</h2><h2 id="修改vmware补丁的配置文件（未尝试）"><a href="#修改vmware补丁的配置文件（未尝试）" class="headerlink" title="修改vmware补丁的配置文件（未尝试）"></a>修改vmware补丁的配置文件（未尝试）</h2><h2 id="执行vmware提供的命令生产vmmon"><a href="#执行vmware提供的命令生产vmmon" class="headerlink" title="执行vmware提供的命令生产vmmon"></a>执行vmware提供的命令生产vmmon</h2>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1279,102 +1386,8 @@ sudo chown -R stack:stack /usr/local/lib/python2.7/dist-packages/
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/668cc0fd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/668cc0fd/" class="post-title-link" itemprop="url">LNMP之PHP优化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-01-20 18:56:49" itemprop="dateCreated datePublished" datetime="2018-01-20T18:56:49+00:00">2018-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="PHP优化–-拓展安装方式"><a href="#PHP优化–-拓展安装方式" class="headerlink" title="PHP优化– 拓展安装方式"></a>PHP优化– 拓展安装方式</h1><h2 id="PHP缓存加速器介绍"><a href="#PHP缓存加速器介绍" class="headerlink" title="PHP缓存加速器介绍"></a>PHP缓存加速器介绍</h2><h3 id="操作码与缓存"><a href="#操作码与缓存" class="headerlink" title="操作码与缓存"></a>操作码与缓存</h3><p>客户端请求一个PHP程序,服务器的PHP引擎会解析该PHP程序,并将其编译为特定的操作码文件(OperateCode).</p>
-<p>默认情况,opcode执行完后会被丢弃.而,Opcode cache的原理就是将这个编译后的操作码保存下来,放入共享内存里,以便下次调用.</p>
-<h3 id="PHP缓存软件"><a href="#PHP缓存软件" class="headerlink" title="PHP缓存软件"></a>PHP缓存软件</h3><ul>
-<li>xcache</li>
-<li>eaccelerator</li>
-<li>APC(Alternative PHP Cache)</li>
-<li>ZendOpcache</li>
-</ul>
-<h2 id="使用Xcache"><a href="#使用Xcache" class="headerlink" title="使用Xcache"></a>使用Xcache</h2><p>安装前需要执行以下操作:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解决相关的Warning出现</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export LC_ALL=C&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装perl-devel,如果不装,那么在安装图形转换的软件可能会出现错误</span></span><br><span class="line">yum install perl-devel -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>视频采用的是3.2.x,安装过程是:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line">tar xf xcache-3.2.0.tar.bz2</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> xcache-3.2.0</span><br><span class="line">/application/php/bin/phpize</span><br><span class="line">./configure --enable-xcache --with-php-config=/application/php/bin/php-config</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install </span><br></pre></td></tr></table></figure>
-
-<h2 id="memcache"><a href="#memcache" class="headerlink" title="memcache"></a>memcache</h2><h2 id="ImageMagick软件"><a href="#ImageMagick软件" class="headerlink" title="ImageMagick软件"></a>ImageMagick软件</h2><h2 id="imagick-php-拓展插件"><a href="#imagick-php-拓展插件" class="headerlink" title="imagick php 拓展插件"></a>imagick php 拓展插件</h2><h2 id="PHP配置"><a href="#PHP配置" class="headerlink" title="PHP配置"></a>PHP配置</h2><p>路径是 &#x2F;application&#x2F;PHP&#x2F;lib&#x2F;php.ini</p>
-<p>结尾添加:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extension_dir = &quot;拓展插件的路径&quot;</span><br><span class="line">extension = xx1.so</span><br><span class="line">extension = xx2.so</span><br></pre></td></tr></table></figure>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章内容主要是讲PHP的插件安装,安装一些功能性插件与优化插件,对于功能性插件如果不知道是否要使用,最好直接安装上,优化插件选择其中一个即可(如 Xcache ). </p>
-<p><a target="_blank" rel="noopener" href="http://www.tudou.com/programs/view/Ef8GkNnfm2w/">http://www.tudou.com/programs/view/Ef8GkNnfm2w/</a> 这个是PHP加速器压力测试过程讲解,视频是否还在?</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/35/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><span class="page-number current">36</span><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/37/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/35/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><span class="page-number current">36</span><a class="page-number" href="/page/37/">37</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/37/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
