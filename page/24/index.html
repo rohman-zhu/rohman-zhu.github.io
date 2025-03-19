@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">431</span>
+          <span class="site-state-item-count">432</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,99 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5dce0f24/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/5dce0f24/" class="post-title-link" itemprop="url">记一次Datastore高延迟故障</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-11-29 23:28:57" itemprop="dateCreated datePublished" datetime="2020-11-29T23:28:57+00:00">2020-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>虚拟机上面看到iowait与磁盘利用率达到100%以上，延迟非常高。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>底层datastore负载过高。</p>
+<p>进入看到虚拟机的虚拟磁盘的读取延迟非常高。大于20ms</p>
+<p>一般情况下，10ms以内的延迟是能接受的。而DB的延迟大于20ms，则会出现告警。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>将虚拟机迁移至空闲的datastore或者ssd 存储。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1074,104 +1167,6 @@
 <h1 id="实例：-查看当前服务器支持可扩容的内存"><a href="#实例：-查看当前服务器支持可扩容的内存" class="headerlink" title="实例： 查看当前服务器支持可扩容的内存"></a>实例： 查看当前服务器支持可扩容的内存</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前内存大小</span></span><br><span class="line">free </span><br><span class="line"><span class="built_in">cat</span> /proc/meminfo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用dmidecode</span></span><br><span class="line">dmidecode -t 16 | grep Maximum</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存插槽</span></span><br><span class="line">dmidecode -t 17</span><br><span class="line">dmidecode -t 17 | grep Size</span><br><span class="line"><span class="comment"># 如果Size为No Module Installed 表示该插槽当前未有插入内存。</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="http://www.ttlsa.com/linux/the-linux-dmidecode-command-to-get-the-hardware-information/">http://www.ttlsa.com/linux/the-linux-dmidecode-command-to-get-the-hardware-information/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/704f48d4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/704f48d4/" class="post-title-link" itemprop="url">Linux下的阵列卡工具</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-05-30 21:19:42" itemprop="dateCreated datePublished" datetime="2020-05-30T21:19:42+00:00">2020-05-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>对已经做了磁盘阵列的服务器，需要在OS层查看阵列状态信息，如硬件的健康状态、阵列等级……</p>
-<p>对于Linux，可以使用MegaCli这个工具。</p>
-<h1 id="MegaCli-介绍"><a href="#MegaCli-介绍" class="headerlink" title="MegaCli 介绍"></a>MegaCli 介绍</h1><p>MegaCli是一款管理维护硬件RAID软件，可以通过它来了解当前raid卡的所有信息，包括 raid卡的型号，raid的阵列类型，raid 上各磁盘状态。</p>
-<p>这个工具有Linux和Windows两个版本。本文先看Linux下的使用方式。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>如果是通过Linux自身查看：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看软件RAID</span></span><br><span class="line"><span class="built_in">cat</span>  /proc/mdstat</span><br><span class="line"><span class="comment"># 查看硬件RAID：查看RAID的厂家、型号、级别</span></span><br><span class="line">dmesg | grep -i raid</span><br><span class="line"><span class="built_in">cat</span> /proc/scsi/scsi</span><br></pre></td></tr></table></figure>
-
-<p>通过 MegaCli：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 【查raid级别】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -Lall -aALL </span><br><span class="line"><span class="comment"># 【查raid卡信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpAllInfo -aALL</span><br><span class="line"><span class="comment"># 查看【硬盘信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -PDList -aALL </span><br><span class="line"><span class="comment">#  【查看电池信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -aAll</span><br><span class="line"><span class="comment"># 【查看raid卡日志】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -FwTermLog -Dsply -aALL </span><br><span class="line"><span class="comment"># 【显示适配器个数】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -adpCount </span><br><span class="line"><span class="comment"># 【显示适配器时间】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpGetTime –aALL</span><br><span class="line"><span class="comment">#  【显示所有适配器信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpAllInfo -aAll </span><br><span class="line"><span class="comment">#  【显示所有逻辑磁盘组信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -LALL -aAll</span><br><span class="line"><span class="comment"># 【显示所有的物理信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -PDList -aAll </span><br><span class="line"><span class="comment"># 【查看充电状态】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL |grep ‘Charger Status’ </span><br><span class="line"><span class="comment">#【显示BBU状态信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -GetBbuStatus -aALL</span><br><span class="line"><span class="comment"># 【显示BBU容量信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -GetBbuCapacityInfo -aALL</span><br><span class="line"><span class="comment"># 【显示BBU设计参数】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -GetBbuDesignInfo -aALL </span><br><span class="line"><span class="comment"># 【显示当前BBU属性】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -AdpBbuCmd -GetBbuProperties -aALL </span><br><span class="line"><span class="comment"># 【显示Raid卡型号，Raid设置，Disk相关信息】</span></span><br><span class="line">/opt/MegaRAID/MegaCli/MegaCli64 -cfgdsply -aALL </span><br></pre></td></tr></table></figure>
-
-<p>这个软件貌似支持从系统层做RAID，但我们一般都在服务器的BIOS设置，这里的命令仅做记录，并没有验证：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#6.创建一个 raid5 阵列，由物理盘 2,3,4 构成，该阵列的热备盘是物理盘 5</span></span><br><span class="line">/opt/MegaCli -CfgLdAdd -r5 [1:2,1:3,1:4] WB Direct -Hsp[1:5] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#7.创建阵列，不指定热备</span></span><br><span class="line">/opt/MegaCli -CfgLdAdd -r5 [1:2,1:3,1:4] WB Direct -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#8.删除阵列</span></span><br><span class="line">/opt/MegaCli -CfgLdDel -L1 -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#9.在线添加磁盘</span></span><br><span class="line">/opt/MegaCli -LDRecon -Start -r5 -Add -PhysDrv[1:4] -L1 -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#10.阵列创建完后，会有一个初始化同步块的过程，可以看看其进度。</span></span><br><span class="line">/opt/MegaCli -LDInit -ShowProg -LALL -aALL</span><br><span class="line"></span><br><span class="line"><span class="comment">#或者以动态可视化文字界面显示</span></span><br><span class="line">/opt/MegaCli -LDInit -ProgDsply -LALL -aALL</span><br><span class="line"></span><br><span class="line"><span class="comment">#11.查看阵列后台初始化进度</span></span><br><span class="line">/opt/MegaCli -LDBI -ShowProg -LALL -aALL</span><br><span class="line"></span><br><span class="line"><span class="comment">#或者以动态可视化文字界面显示</span></span><br><span class="line">/opt/MegaCli -LDBI -ProgDsply -LALL -aALL</span><br><span class="line"></span><br><span class="line"><span class="comment">#12.指定第 5 块盘作为全局热备</span></span><br><span class="line">/opt/MegaCli -PDHSP -Set [-EnclAffinity] [-nonRevertible] -PhysDrv[1:5] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#13.指定为某个阵列的专用热备</span></span><br><span class="line">/opt/MegaCli -PDHSP -Set [-Dedicated [-Array1]] [-EnclAffinity] [-nonRevertible] -PhysDrv[1:5] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#14.删除全局热备</span></span><br><span class="line">/opt/MegaCli -PDHSP -Rmv -PhysDrv[1:5] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#15.将某块物理盘下线/上线</span></span><br><span class="line">/opt/MegaCli -PDOffline -PhysDrv [1:4] -a0</span><br><span class="line">/opt/MegaCli -PDOnline -PhysDrv [1:4] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 16.查看物理磁盘重建进度</span></span><br><span class="line">/opt/MegaCli -PDRbld -ShowProg -PhysDrv [1:5] -a0</span><br><span class="line"></span><br><span class="line"><span class="comment">#或者以动态可视化文字界面显示</span></span><br><span class="line">/opt/MegaCli -PDRbld -ProgDsply -PhysDrv [1:5] -a0</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/hmtk520/2140657">https://blog.51cto.com/hmtk520/2140657</a><br><a target="_blank" rel="noopener" href="http://www.ttlsa.com/tools/megacli-tool-query-raid-status/">http://www.ttlsa.com/tools/megacli-tool-query-raid-status/</a><br>下载地址：<a target="_blank" rel="noopener" href="https://www.broadcom.com/site-search?q=megacli">https://www.broadcom.com/site-search?q=megacli</a></p>
 
       
     </div>

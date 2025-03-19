@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">431</span>
+          <span class="site-state-item-count">432</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,97 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/44a772f3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/44a772f3/" class="post-title-link" itemprop="url">Windows文件复制的坑</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-12-19 00:01:30" itemprop="dateCreated datePublished" datetime="2019-12-19T00:01:30+00:00">2019-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上周遇到一个资料转移的需求，而相应的服务是需要依赖这些被转移的文件的。然而在复制完后，服务竟然无法启动！</p>
+<h2 id="问题回溯"><a href="#问题回溯" class="headerlink" title="问题回溯"></a>问题回溯</h2><p>需求：添加新磁盘，并将旧磁盘上的所有资料转移至新磁盘上，并且将新磁盘与旧磁盘的盘符相互对调一下，最后启动服务。</p>
+<p>一开始以为是简单的复制粘贴，大不了我用xcopy时，保留属性复制就可以了。（Linux中常见的操作）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux 中复制文件 ， 参数p不仅包含文件的属性，还包括文件的权限组。</span></span><br><span class="line"><span class="built_in">cp</span> -rp /old-dir/* /new-dir/</span><br></pre></td></tr></table></figure>
+
+<p>然而在Windows中，保留属性，仅仅只是指文件的读写，而跟安全组没有关系。</p>
+<h2 id="使用指令-robocopy-【待补充】"><a href="#使用指令-robocopy-【待补充】" class="headerlink" title="使用指令 robocopy 【待补充】"></a>使用指令 robocopy 【待补充】</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/wzde2012/1873754">https://blog.51cto.com/wzde2012/1873754</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1012,93 +1103,6 @@
 <h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><ul>
 <li>《通过inotify-tools实现监控文件变化》：<a target="_blank" rel="noopener" href="https://weizhimiao.github.io/2016/10/29/Linux%E4%B8%AD%E9%80%9A%E8%BF%87inotify-tools%E5%AE%9E%E7%8E%B0%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E5%8F%98%E5%8C%96/">https://weizhimiao.github.io/2016/10/29/Linux%E4%B8%AD%E9%80%9A%E8%BF%87inotify-tools%E5%AE%9E%E7%8E%B0%E7%9B%91%E6%8E%A7%E6%96%87%E4%BB%B6%E5%8F%98%E5%8C%96/</a></li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e51de25b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/e51de25b/" class="post-title-link" itemprop="url">Linux配置SAMBA服务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-04-04 18:36:29" itemprop="dateCreated datePublished" datetime="2019-04-04T18:36:29+00:00">2019-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
-<li>OS ： Ubuntu-16.04</li>
-<li>Samba version : 4.3.11-Ubuntu</li>
-</ul>
-<h1 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 安装 samba服务</span></span><br><span class="line">apt-get install samba -y</span><br><span class="line"><span class="comment"># 2. 检查 samba 版本</span></span><br><span class="line">samba</span><br><span class="line"><span class="comment"># 3. 配置 samba 配置文件，先备份</span></span><br><span class="line"><span class="built_in">cp</span> /etc/samba/smb.conf /etc/samba/smb.conf.bak</span><br><span class="line"><span class="comment"># 4. 编辑配置文件</span></span><br><span class="line">vim /etc/samba/smb.conf</span><br></pre></td></tr></table></figure>
-
-<p>在配置文件中添加节点</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户显示的文件夹名</span></span><br><span class="line">[TEST-Dir]</span><br><span class="line">    <span class="comment"># 描述，即文件夹的显示信息</span></span><br><span class="line">    comment = <span class="built_in">test</span> directory </span><br><span class="line">    <span class="comment"># 该共享文件夹的路径</span></span><br><span class="line">    path = /home/user/</span><br><span class="line">    browseable = <span class="built_in">yes</span></span><br><span class="line">    <span class="comment"># 设定该共享服务是否能够被游客访问，其同义选项有guest ok。</span></span><br><span class="line">    public = no</span><br><span class="line">    <span class="comment"># 设定该共享服务是否为只读，该选项有一个同义选项writeable。</span></span><br><span class="line">    <span class="built_in">read</span> only = no</span><br><span class="line">    <span class="comment"># 设定能够使用该共享服务的用户和组，其值的格式与user选项一样。</span></span><br><span class="line">    valid <span class="built_in">users</span> = user</span><br><span class="line">    create mask = 0777</span><br><span class="line">    directory mask = 0777 </span><br><span class="line">    force user = nobody</span><br><span class="line">    force group = nogroup</span><br><span class="line">    available = <span class="built_in">yes</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>设置用于共享的账号与密码</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># user 是 /etc/passwd 中的账户</span></span><br><span class="line"><span class="built_in">sudo</span> smbpasswd -a user</span><br><span class="line"><span class="comment"># 重启Samba服务</span></span><br><span class="line"><span class="built_in">sudo</span> service smbd restart</span><br></pre></td></tr></table></figure>
-
 
       
     </div>

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">431</span>
+          <span class="site-state-item-count">432</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,98 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bcb7d6ac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/bcb7d6ac/" class="post-title-link" itemprop="url">Linux磁盘IO性能观测</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-09-05 23:48:55" itemprop="dateCreated datePublished" datetime="2022-09-05T23:48:55+00:00">2022-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>用于检查磁盘性能IO情况、读写情况。</p>
+<h1 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h1><p>常用指令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 间隔1s输出结果</span></span><br><span class="line">iostat -x 1</span><br></pre></td></tr></table></figure>
+
+<h1 id="sar"><a href="#sar" class="headerlink" title="sar"></a>sar</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sar -d 1 10</span><br></pre></td></tr></table></figure>
+
+<h1 id="atop"><a href="#atop" class="headerlink" title="atop"></a>atop</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atop -dl</span><br></pre></td></tr></table></figure>
+
+<h1 id="iotop"><a href="#iotop" class="headerlink" title="iotop"></a>iotop</h1><h1 id="dstat"><a href="#dstat" class="headerlink" title="dstat"></a>dstat</h1>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1355,164 +1447,6 @@
 <li>组策略与注册表项查询：<a target="_blank" rel="noopener" href="https://admx.help/?Category=Windows_8.1_2012R2&Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL">https://admx.help/?Category=Windows_8.1_2012R2&amp;Policy=Microsoft.Policies.WindowsUpdate::CorpWuURL</a></li>
 <li>Start-Transcript: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4">https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.host/start-transcript?view=powershell-7.4</a></li>
 <li>Write-Host与Write-Output区别： <a target="_blank" rel="noopener" href="https://juejin.cn/s/powershell%20write-host%20write-output">https://juejin.cn/s/powershell%20write-host%20write-output</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/403570ec/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/403570ec/" class="post-title-link" itemprop="url">基于Invoke-Command远程更新VMware Horizon View Agent</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-05-08 17:04:29" itemprop="dateCreated datePublished" datetime="2022-05-08T17:04:29+00:00">2022-05-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>需要更新RDSH的Horizon View Agent 至最新版本。</p>
-<blockquote>
-<p>Target VMware Horizon View Agent： 7.13.1</p>
-</blockquote>
-<h2 id="条件准备"><a href="#条件准备" class="headerlink" title="条件准备"></a>条件准备</h2><ul>
-<li>OS ： Windows Server 2012R2；</li>
-<li>网络：到客户端的TCP-5985防火墙需要开通；</li>
-<li>客户端：需要开启WinRM功能，指令 Enable-PSRemoting；</li>
-<li>安装包准备：将Horizon View Agent安装包放置到客户端的C盘目录下，例如C:\1-InstallPackage；</li>
-</ul>
-<h2 id="脚本实现"><a href="#脚本实现" class="headerlink" title="脚本实现"></a>脚本实现</h2><ol>
-<li>将所需的文件拷贝至客户端；</li>
-<li>删除旧的Horizon View Agent客户端，客户端安装完成后重启；</li>
-<li>安装新的Horizon View Agent客户端，客户端安装完成后重启；</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="center">文件名</th>
-<th align="center">说明</th>
-<th align="center">使用方式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">hosts.list</td>
-<td align="center">客户端的文件列表</td>
-<td align="center">逐行记录客户端的Hostname</td>
-</tr>
-<tr>
-<td align="center">CopyFiles.ps1</td>
-<td align="center">用于拷贝文件至远端服务器</td>
-<td align="center">.\CopyFiles.ps1 .\hosts.list</td>
-</tr>
-<tr>
-<td align="center">SendCommand.ps1</td>
-<td align="center">下发指令至客户端</td>
-<td align="center">.\SendCommand.ps1 .\hosts.list .[脚本]</td>
-</tr>
-<tr>
-<td align="center">UninstallHorizonViewAgent.ps1</td>
-<td align="center">卸载Horizon View Agent</td>
-<td align="center">.\SendCommand.ps1 .\hosts.list .\UninstallHorizonViewAgent.ps1</td>
-</tr>
-<tr>
-<td align="center">InstallHorizonViewAgent.ps1</td>
-<td align="center">安装Horizon View Agent</td>
-<td align="center">.\InstallHorizonViewAgent.ps1 .\hosts.list</td>
-</tr>
-</tbody></table>
-<h3 id="拷贝文件脚本–CopyFiles-ps1"><a href="#拷贝文件脚本–CopyFiles-ps1" class="headerlink" title="拷贝文件脚本–CopyFiles.ps1"></a>拷贝文件脚本–CopyFiles.ps1</h3><p>可以用 Copy-Item 指令</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入客户端</span></span><br><span class="line"><span class="variable">$targetHostsFile</span>=<span class="variable">$args</span>[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">Get-Content</span> <span class="variable">$targetHostsFile</span> | <span class="built_in">ForEach-Object</span> &#123;</span><br><span class="line"><span class="variable">$targetSession</span>=<span class="built_in">New-PSSession</span> <span class="literal">-ComputerName</span> <span class="variable">$_</span> ;</span><br><span class="line">  <span class="built_in">Copy-Item</span> [源文件路径] <span class="literal">-Destination</span> [目标文件路径] <span class="literal">-ToSession</span> <span class="variable">$targetSession</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="发送指令脚本–SendCommand-ps1"><a href="#发送指令脚本–SendCommand-ps1" class="headerlink" title="发送指令脚本–SendCommand.ps1"></a>发送指令脚本–SendCommand.ps1</h3><p>原本指令为 Invoke-Command -ComputerName [Hostname] -Filepath [脚本路径]</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$targetHostsFile</span>=<span class="variable">$args</span>[<span class="number">0</span>];</span><br><span class="line"><span class="variable">$scriptFile</span>=<span class="variable">$args</span>[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">Get-Content</span> <span class="variable">$targetHostsFile</span> | <span class="built_in">ForEach-Object</span> &#123;</span><br><span class="line">  <span class="built_in">Invoke-Command</span> <span class="literal">-ComputerName</span> <span class="variable">$_</span> <span class="literal">-Filepath</span> <span class="variable">$scriptFile</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除VMware-Horizon-View-Agent脚本–UninstallHorizonViewAgent-ps1"><a href="#删除VMware-Horizon-View-Agent脚本–UninstallHorizonViewAgent-ps1" class="headerlink" title="删除VMware Horizon View Agent脚本–UninstallHorizonViewAgent.ps1"></a>删除VMware Horizon View Agent脚本–UninstallHorizonViewAgent.ps1</h3><p>卸载完成后，会自动重启服务器；</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Package</span> <span class="literal">-Name</span> <span class="string">&quot;VMware Horizon Agent&quot;</span> | <span class="built_in">Uninstall-Package</span>;</span><br><span class="line">Shutdown <span class="literal">-r</span> <span class="literal">-t</span> <span class="number">300</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装VMwareHorizon-View-Agent脚本–InstallHorizonViewAgent-ps1"><a href="#安装VMwareHorizon-View-Agent脚本–InstallHorizonViewAgent-ps1" class="headerlink" title="安装VMwareHorizon View Agent脚本–InstallHorizonViewAgent.ps1"></a>安装VMwareHorizon View Agent脚本–InstallHorizonViewAgent.ps1</h3><p>利用的是安装包可以用msi静默安装的指令；<br>这里的安装包放在客户端的C:\1-InstallPackage\agent.exe;<br>安装结束后，可以自动触发服务器重启；</p>
-<blockquote>
-<p>本次脚本是触发agent.exe去后台安装，如果PS会话被注销，则会导致安装失败；因此需要建立一个会话供Horizon View Agent去安装。</p>
-</blockquote>
-<p>本脚本需要输入客户端列表 hosts.list；</p>
-<p>脚本内部需要修改：</p>
-<ul>
-<li>Connect Server IP；</li>
-<li>密码</li>
-</ul>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$targetHostsFile</span>=<span class="variable">$args</span>[<span class="number">0</span>];</span><br><span class="line"><span class="variable">$i</span>=<span class="number">0</span>;</span><br><span class="line"><span class="variable">$sessionArray</span>=<span class="selector-tag">@</span>(<span class="variable">$a</span>,<span class="variable">$b</span>,<span class="variable">$c</span>,<span class="variable">$d</span>,<span class="variable">$e</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Get-Content</span> <span class="variable">$targetHostsFile</span> | <span class="built_in">ForEach-Object</span> &#123;</span><br><span class="line"><span class="comment">#设置5个并发为一组</span></span><br><span class="line"><span class="variable">$index</span>=<span class="variable">$</span>(<span class="variable">$i</span>%<span class="number">5</span>)</span><br><span class="line"><span class="variable">$sessionArray</span>[<span class="variable">$index</span>]=<span class="built_in">New-PSSession</span> <span class="literal">-ComputerName</span> <span class="variable">$_</span> ;</span><br><span class="line"><span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$sessionArray</span>[<span class="variable">$index</span>] <span class="literal">-ScriptBlock</span> &#123;</span><br><span class="line">  C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\agent.exe /s /v <span class="string">&#x27;/qn RDP_CHOICE=0 VDM_VC_MANAGED_AGENT=0 VDM_SERVER_NAME=[Connect Server IP] VDM_SERVER_USERNAME=[domain\administratorUsername] VDM_SERVER_PASSWORD=&quot;[密码，需要用双引号]&quot; ADDLOCAL=Core REBOOT=Force&#x27;</span> /l C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\installAgent.log;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$index</span> <span class="operator">-eq</span> <span class="number">4</span>)&#123;</span><br><span class="line">  <span class="built_in">Start-Sleep</span> <span class="literal">-Seconds</span> <span class="number">300</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$i</span>++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>TCP-5985：<a target="_blank" rel="noopener" href="https://www.speedguide.net/port.php?port=5985">https://www.speedguide.net/port.php?port=5985</a></li>
-<li>VMware Horizon View Agent 静默安装：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-Horizon-7/7.13/horizon-virtual-desktops/GUID-0B32D33F-152F-45EC-AC2C-F523D9432426.html">https://docs.vmware.com/cn/VMware-Horizon-7/7.13/horizon-virtual-desktops/GUID-0B32D33F-152F-45EC-AC2C-F523D9432426.html</a></li>
 </ul>
 
       
