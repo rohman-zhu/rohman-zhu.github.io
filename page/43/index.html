@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">432</span>
+          <span class="site-state-item-count">433</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,146 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/55f10baf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/55f10baf/" class="post-title-link" itemprop="url">Android ConstraintLayout解析</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-06 11:43:48" itemprop="dateCreated datePublished" datetime="2017-07-06T11:43:48+00:00">2017-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为ConstraintLayout这个布局是安卓的新特性,所以在此就学习一下.这里转自网上的一篇文章,把基本的东西都讲到了,感觉还是不错的.</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>　　本篇文章的主题是ConstraintLayout。其实ConstraintLayout是Android Studio 2.2中主要的新增功能之一，也是Google在去年的I&#x2F;O大会上重点宣传的一个功能。我们都知道，在传统的Android开发当中，界面基本都是靠编写XML代码完成的，虽然Android Studio也支持可视化的方式来编写界面，但是操作起来并不方便，我也一直都不推荐使用可视化的方式来编写Android应用程序的界面。</p>
+<p>　　而ConstraintLayout就是为了解决这一现状而出现的。它和传统编写界面的方式恰恰相反，ConstraintLayout非常适合使用可视化的方式来编写界面，但并不太适合使用XML的方式来进行编写。当然，可视化操作的背后仍然还是使用的XML代码来实现的，只不过这些代码是由Android Studio根据我们的操作自动生成的。</p>
+<p>　　另外，ConstraintLayout还有一个优点，它可以有效地解决布局嵌套过多的问题。我们平时编写界面，复杂的布局总会伴随着多层的嵌套，而嵌套越多，程序的性能也就越差。ConstraintLayout则是使用约束的方式来指定各个控件的位置和关系的，它有点类似于RelativeLayout，但远比RelativeLayout要更强大。</p>
+<p>　　其实ConstraintLayout属于Android Studio 2.2的新特性，我在去年写《第二行代码》的时候就非常想要将这部分内容加入到新书里面，但是在尝试之后还是放弃了。因为ConstraintLayout的用法很多都是对控件进行拖拽，只用文字或者是一些静态图片实在太难将它的用法表达清楚了，因此不太适合写到书上。我当时的想法就是在博客上面写一篇ConstraintLayout的用法讲解，来弥补一下《第二行代码》中缺失的这部分新特性，那么今天这篇文章来了。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>　　下面我们开始用边学边练的方式来进行学习，首先打开你的Android Studio，并新建一个ConstraintLayoutTest项目。另外，确保你的Android Studio是2.2或以上版本。<br>　　为了要使用ConstraintLayout，我们需要在app&#x2F;build.gradle文件中添加ConstraintLayout的依赖，如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　dependencies &#123;</span><br><span class="line">　  compile &#x27;com.android.support.constraint:constraint-layout:1.0.2&#x27;</span><br><span class="line">　　&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　目前ConstraintLayout库最新的版本是1.0.2.</p>
+<p>　　在目前的Android Studio 2.3中默认布局就是ConstraintLayout的</p>
+<p>　　我们可以看到，现在主操作区域内有两个类似于手机屏幕的界面，左边的是预览界面，右边的是蓝图界面。这两部分都可以用于进行布局编辑工作，区别是左边部分主要用于预览最终的界面效果，右边部分主要用于观察界面内各个控件的约束情况。</p>
+<p><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175356264.gif" alt="ConstraintLayout转化"></p>
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>　　下面我们来学习一些具体的操作吧，ConstraintLayout的基本用法很简单，比如我们想要向布局中添加一个按钮，那么只需要从左侧的Palette区域拖一个Button进去就可以了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357269.gif" alt="添加按钮"></p>
+<p>　　虽说现在Button已经添加到界面上了，但是由于我们还没有给Button添加任何的约束，因此Button并不知道自己应该出现在什么位置。现在我们在预览界面上看到的Button位置并不是它最终运行后的实际位置，如果一个控件没有添加任何约束的话，它在运行之后会自动位于界面的左上角。</p>
+<p>　　那么下面我们就来给Button添加约束，每个控件的约束都分为垂直和水平两类，一共可以在四个方向上给控件添加约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357273.png" alt="按钮约束">　　</p>
+<p>　　上图中Button的上下左右各有一个圆圈，这圆圈就是用来添加约束的，我们可以将约束添加到ConstraintLayout，也可以将约束添加到另一个控件。比如说，想让Button位于布局的右下角，就可以这样添加约束，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357217.gif" alt="添加约束"></p>
+<p>　　我们给Button的右边和下边添加了约束，因此Button就会将自己定位到布局的右下角了。类似地，如果我们想要让Button居中显示，那么就需要给它的上下左右都添加约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175357404.gif" alt="添加约束">
+　　</p>
+<p>　　这就是添加约束最基本的用法了。</p>
+<p>　　除此之外，我们还可以使用约束让一个控件相对于另一个控件进行定位。比如说，我们希望再添加一个Button，让它位于第一个Button的正下方，并且间距64dp，那么操作如下所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358652.gif" alt="给控件进行定位"></p>
+<p>　　现在添加约束的方式我们已经学完了，那么该怎样删除约束呢?其实也很简单，删除约束的方式一共有三种，第一种用于删除一个单独的约束，将鼠标悬浮在某个约束的圆圈上，然后该圆圈会变成红色，这个时候单击一下就能删除了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358976.gif" alt="删除约束一"></p>
+<p>　　第二种用于删除某一个控件的所有约束，选中一个控件，然后它的左下角会出现一个删除约束的图标，点击该图标就能删除当前控件的所有约束了，如下所示。</p>
+<p><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358962.gif" alt="删除约束二">　　</p>
+<p>　　第三种用于删除当前界面中的所有约束，点击工具栏中的删除约束图标即可，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175358912.png" alt="删除约束三"></p>
+<h2 id="Inspector"><a href="#Inspector" class="headerlink" title="Inspector"></a>Inspector</h2><p>　　这样我们就把ConstraintLayout的基本用法学完了，接下来我们开始学习一些进阶的内容。</p>
+<p>　　当你选中任意一个控件的时候，在右侧的Properties区域就会出现很多的属性选项，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359745.png" alt="检查员"></p>
+<p>　　在这里我们就可以设置当前控件的所有属性，如文本内容、颜色、点击事件等等。这些功能都非常简单，我就不再进行详细介绍，大家自己点一点就会操作了。</p>
+<p>　　需要我们重点掌握的是Properties区域的上半部分，这部分也被称为Inspector。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359431.png" alt="属性">
+　　</p>
+<p>　　首先可以看到，在Inspector中有一个纵向的轴和一个横向的轴，这两个轴也是用于确定控件的位置的。我们刚才给Button的上下左右各添加了一个约束，然后Button就能居中显示了，其实就是因为这里纵横轴的值都是50。如果调整了纵横轴的比例，那么Button的位置也会随之改变，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359810.gif" alt="Button位置"></p>
+<p>　　不过，虽然我们将横轴的值拖动到了100，但是Button并没有紧贴到布局的最右侧，这是为什么呢?实际上，Android Studio给控件的每个方向上的约束都默认添加了一个16dp的间距，从Inspector上面也可以明显地看出来这些间距的值。如果这些默认值并不是你想要的，可以直接在Inspector上进行修改，如下图所示：<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175359805.gif" alt="贴紧边缘">　　</p>
+<p>　　可以看到，修改成0之后Button右侧的间距就没了。<br>　　接下来我们再来学习一下位于Inspector最中间的那个正方形区域，它是用来控制控件大小的。一共有三种模式可选，每种模式都使用了一种不同的符号表示，点击符号即可进行切换。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400110.png" alt="wrap_content"></p>
+<p>　　表示wrap content，这个我们很熟悉了，不需要进行什么解释。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400860.png" alt="固定值">　　</p>
+<p>　　表示固定值，也就是给控件指定了一个固定的长度或者宽度值。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400253.png" alt="any_size"></p>
+<p>　　表示any size，它有点类似于match parent，但和match parent并不一样，是属于ConstraintLayout中特有的一种大小控制方式，下面我们来重点讲解一下。</p>
+<p>　　首先需要说明，在ConstraintLayout中是有match parent的，只不过用的比较少，因为ConstraintLayout的一大特点就是为了解决布局嵌套，既然没有了布局嵌套，那么match parent也就没有多大意义了。</p>
+<p>　　而any size就是用于在ConstraintLayout中顶替match parent的，先看一下我们怎样使用any size实现和match parent同样的效果吧。比如说我想让Button的宽度充满整个布局，操作如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175400124.gif" alt="any_size">　　</p>
+<p>　　可以看到，我们将Button的宽度指定成any size，它就会自动充满整个布局了。当然还要记得将Button左侧的间距设置成0才行。</p>
+<p>　　那有的朋友可能会问了，这和match parent有什么区别呢?其实最大的区别在于，match parent是用于填充满当前控件的父布局，而any size是用于填充满当前控件的约束规则。举个例子更好理解，如果我们有一个新的Button，它的其中一个约束是添加到当前这个Button上的，那么any size的效果也会发生改变，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401772.gif" alt="any_size">　　</p>
+<p>　　通过上图的演示，相信你已经很好地理解any size的作用了。<br>##　　Guidelines ##</p>
+<p>　　现在你已经对ConstraintLayout比较熟悉，并且能使用ConstraintLayout来编写一些简单的界面了。不过目前有一个问题可能还比较头疼，刚才我们已经实现了让一个按钮居中对齐的功能，如果我们想让两个按钮共同居中对齐该怎么实现呢?</p>
+<p>　　其实这个需求很常见，比如说在应用的登录界面，都会有一个登录按钮和一个注册按钮，不管它们是水平居中也好还是垂直居中也好，但肯定都是两个按钮共同居中的。</p>
+<p>　　想要实现这个功能，仅仅用我们刚刚学的那些知识是不够的，这需要用到ConstraintLayout中的一个新的功能，Guidelines。</p>
+<p>　　下面我们还是通过实际操作来学习一下Guidelines的用法吧。比如现在已经向界面中添加了登录和注册这两个按钮，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401539.png" alt="两个按钮"></p>
+<p>　　然后我们希望让这两个按钮在水平方向上居中显示，在垂直方向上都距离底部64dp，那么就需要先添加一个垂直方向上的Guideline，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175401448.gif" alt="垂直方向"></p>
+<p>　　我来对上图中的操作进行一下解释。首先点击通知栏中的Guidelines图标可以添加一个垂直或水平方向上的Guideline，这里我们需要的是垂直方向上的。而Guideline默认是使用的dp尺，我们需要选中Guideline，并点击一下最上面的箭头图标将它改成百比分尺，然后将垂直方向上的Guideline调整到50%的位置，这样就将准备工作做好了。</p>
+<p>　　接下来我们开始实现让两个按钮在水平方向上居中显示，并距离底部64dp的功能，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402417.gif" alt="增加64dp"></p>
+<p>　　可以看到，我们给登录按钮的右边向Guideline添加约束，登录按钮的下面向底部添加约束，并拖动按钮让它距离底部64dp。然后给注册按钮的左边向Guideline添加约束，注册按钮的下面向登录按钮的下面添加约束。这样就实现了让两个按钮在水平方向上居中显示，在垂直方向上都距离底部64dp的功能了。<br>##　　自动添加约束 ##<br>　　不过如果界面中的内容变得复杂起来，给每个控件一个个地添加约束也是一件很繁琐的事情。为此，ConstraintLayout中支持自动添加约束的功能，可以极大程度上简化那些繁琐的操作。</p>
+<p>　　自动添加约束的方式主要有两种，一种叫Autoconnect，一种叫Inference，我们先来看第一种。</p>
+<p>　　想要使用Autoconnect，首先需要在工具栏中将这个功能启用，默认情况下Autoconnect是不启用的，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402878.png" alt="Autoconnect"></p>
+<p>　　Autoconnect可以根据我们拖放控件的状态自动判断应该如何添加约束，比如我们将Button放到界面的正中央，那么它的上下左右都会自动地添加上约束，如下图所示。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402399.gif" alt="自动约束">
+　　</p>
+<p>　　然后我们在这个Button的下方再放置一个Button，效果如下。<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175402126.gif" alt="Autoconnect"></p>
+<p>　　可以看到，只需要将Button拖放到界面上，Autoconnect会判断我们的意图，并自动给控件添加约束。不过Autoconnect是无法保证百分百准确判断出我们的意图的，如果自动添加的约束并不是你想要的话，还可以在任何时候进行手动修改。总之，可以把它当成一个辅助工具，但不能完全靠它去添加控件的约束。<br>　　以上是Autoconnect的用法，接下来我们看一下Inference的用法。Inference也是用于自动添加约束的，但它比Autoconnect的功能要更为强大，因为AutoConnect只能给当前操作的控件自动添加约束，而Inference会给当前界面中的所有元素自动添加约束。因而Inference比较适合用来实现复杂度比较高的界面，它可以一键自动生成所有的约束。<br>　　下面我们就通过一个例子来演示一下Inference的用法，比如界面上现在有两个TextView，两个EditText，和两个Button，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403533.png" alt="Autoconnect"></p>
+<p>　　接下来我们先将各个控件按照界面设计的位置进行摆放，摆放完成之后点击一下工具栏上的Infer Constraints按钮，就能为所有控件自动添加约束了，如下图所示。<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403858.gif" alt="Autoconnect"><br>　　现在运行一下程序，最终效果如下图所示：<br>　　<br><img src="http://www.jeawaa.com/knowledge/UploadFiles_8892/201702/20170204175403263.png" alt="运行效果"></p>
+<p>　　</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1186,272 +1326,6 @@
 </li>
 </ul>
 <p>参考资料:<a href=http://m.blog.csdn.net/shaoyezhangliwei/article/details/52488179>CSDN</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8ec7caa0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/8ec7caa0/" class="post-title-link" itemprop="url">安卓自定义控件学习笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-06-19 17:51:22" itemprop="dateCreated datePublished" datetime="2017-06-19T17:51:22+00:00">2017-06-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="自定义控件概述"><a href="#自定义控件概述" class="headerlink" title="自定义控件概述"></a>自定义控件概述</h1><ol>
-<li>原生控件（TextView EditText ImageView）</li>
-<li>自定义控件<ol>
-<li>组合式控件(把原生控件组合在一起)</li>
-<li>自己绘制的控件（绘制，行为操作）</li>
-</ol>
-</li>
-</ol>
-<h2 id="View和ViewGroup"><a href="#View和ViewGroup" class="headerlink" title="View和ViewGroup"></a>View和ViewGroup</h2><ol>
-<li><p>View：矩形，负责绘制和事件处理</p>
-</li>
-<li><p>ViewGroup: 能够包含其他的View(孩子)</p>
-</li>
-<li><p>View和ViewGroup关系</p>
-<ol>
-<li>继承关系<br> <img src="/img/view_arc.png" alt="icon"></li>
-<li>组合关系<br> <img src="/img/viewgroup.png" alt="icon"></li>
-</ol>
-</li>
-</ol>
-<h2 id="广告轮播图"><a href="#广告轮播图" class="headerlink" title="广告轮播图"></a>广告轮播图</h2><ol>
-<li><p>功能分析</p>
-<ol>
-<li>滑动图片切换</li>
-<li>滑动标题切换</li>
-<li>滑动圆点切换</li>
-<li>循环切换</li>
-</ol>
-</li>
-<li><p>源码关联</p>
-<ol>
-<li>Android Private Libaries -&gt;Build Path -&gt; Remove from build path</li>
-<li>libs -&gt; Build Path -&gt; Add to build path</li>
-<li>Attach source -&gt; sdk&#x2F;extra&#x2F;v4</li>
-<li>Android Tools -&gt; Fix Project Properties</li>
-</ol>
-</li>
-<li><p>setOffscreenPageLimit设置左右两边缓存页面数</p>
-</li>
-<li><p>自定义控件</p>
-<ol>
-<li>提供设置图片和标题 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//要做的是封装起来,所以在布局文件中,要用Merge标签</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-<h2 id="优酷菜单"><a href="#优酷菜单" class="headerlink" title="优酷菜单"></a>优酷菜单</h2><blockquote>
-<p>三级菜单的显现与隐藏</p>
-</blockquote>
-<ol>
-<li><p>功能分析</p>
-<ol>
-<li>菜单的显示和隐藏 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//对控件设置监听事件</span><br><span class="line">.setOnClickListen();</span><br><span class="line">//隐藏与显示</span><br><span class="line">.setVisiblity(View.GONE);//隐藏</span><br><span class="line">.setVisiblity(View.VISIBLE);//显示</span><br></pre></td></tr></table></figure></li>
-<li>旋转动画 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation xx = new RotateAnimation(旋转度数,...);</span><br><span class="line">//设置动画持续时间</span><br><span class="line">xx.setDuration(500);</span><br><span class="line">//设置延时</span><br><span class="line">xx.setStartOffset(int delay);</span><br><span class="line">//设置动画监听,防止重复点击菜单</span><br><span class="line">xx.setAnimationListener(...);</span><br><span class="line">xxx.startAnimation(xx);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>补间动画,控件的点击事件还会在原来位置</p>
-</blockquote>
-<ol start="3">
-<li>手机菜单键 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyUp(int keyCode , KeyEvent event)</span><br><span class="line">&#123;</span><br><span class="line">	if(KeyCode == KeyEvent.KEYCODE_MENU)</span><br><span class="line">	&#123;</span><br><span class="line">		//处理逻辑</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	return super.onKeyUp(KeyCode,event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><p>顺时针旋转 正</p>
-</li>
-<li><p>自定义控件</p>
-<ol>
-<li>组合式控件</li>
-<li>setFocusableInTouchMode获取键盘事件</li>
-</ol>
-</li>
-</ol>
-<blockquote>
-<p>会调用invalidate,导致控件重新绘制,不关心控件的可见性</p>
-</blockquote>
-<h2 id="下拉选择框"><a href="#下拉选择框" class="headerlink" title="下拉选择框"></a>下拉选择框</h2><h3 id="布局实现"><a href="#布局实现" class="headerlink" title="布局实现:"></a>布局实现:</h3><blockquote>
-<ol>
-<li>实现圆角</li>
-</ol>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//写一个xml文件</span><br><span class="line">&lt;shape xmlns:android=&quot;http://schemas.android.com/apk.res/android&quot;</span><br><span class="line">android:shape=&quot;rectangle&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- rectangle 长方形 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 设置圆角的半径 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;corners android:radius=&quot;5dp&quot;/&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 画边框 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;stroke android:width=&quot;1dp&quot;</span><br><span class="line">		android:color = &quot;#ff0000/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/shape&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="功能"><a href="#功能" class="headerlink" title="功能:"></a>功能:</h3><ol>
-<li>点击箭头弹出下拉列表</li>
-<li>选中一个item显示在编辑框</li>
-<li>删除下拉列表中的一项</li>
-<li>自定义控件<ol>
-<li>组合式控件</li>
-</ol>
-</li>
-</ol>
-<h2 id="滑动开关"><a href="#滑动开关" class="headerlink" title="滑动开关"></a>滑动开关</h2><blockquote>
-<p>这个控件里面没有配置相应的xml文件,都是通过”绘制”的形式来展现</p>
-</blockquote>
-<ol>
-<li><p>View的绘制流程</p>
-<ol>
-<li>measure() 测量控件的大小</li>
-<li>layout() 设置位置和大小(包括孩子)</li>
-<li>draw() 渲染控件(包括孩子)</li>
-</ol>
-</li>
-<li><p>自定义控件可以重写的函数</p>
-<ol>
-<li>onMeasure()<ol>
-<li>必须调用setMeasuredDimension设置测量宽高</li>
-<li>如果是ViewGroup，有责任去测量孩子(child.measure)</li>
-</ol>
-</li>
-<li>onLayout()<ol>
-<li>如果是ViewGroup必须去重写，去布局孩子(child.layout)</li>
-</ol>
-</li>
-<li>onDraw()<ol>
-<li>通过canvas绘制</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>onTouchEvent() 处理触摸事件</p>
-</li>
-<li><p>设置监听事件</p>
-<ol>
-<li>现在类中写入一个设置接口的方法 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setOnSwitchListener(OnSwitchListener onSwitchListener)</span><br><span class="line">&#123;</span><br><span class="line">	this.onSwitchListener = onSwtichListener;//初始化全局变量onSwithcListener</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>设置接口与实现方法 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface OnSwitchListener()</span><br><span class="line">&#123;</span><br><span class="line">	public void onSwitch(boolean isOpend);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>在实现类中设置控件的监听 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ToggleView.setOnSwitchListener(new OnSwitchListener()</span><br><span class="line">&#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void onSwitch(boolean isOpend)</span><br><span class="line">	&#123;</span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-<h2 id="侧滑菜单"><a href="#侧滑菜单" class="headerlink" title="侧滑菜单"></a>侧滑菜单</h2><ol>
-<li><p>widthMeasureSpec</p>
-<ol>
-<li>32二进制，前两位mode, 后30位是大小</li>
-<li>UNSPECIFIED 想多大多大</li>
-<li>EXACTLY 父亲决定了准确大小</li>
-<li>AT_MOST 最大能多大</li>
-</ol>
-</li>
-<li><p>获取模式<br> int mode &#x3D; MeasureSpec.getMode(widthMeasureSpec);<br>获取大小<br> int size &#x3D; MeasureSpec.getSize(widthMeasureSpec);</p>
-</li>
-<li><p>scrollTo和scrollBy</p>
-<ol>
-<li>scrollTo滑动到一个坐标</li>
-<li>scrollBy增量滑动</li>
-</ol>
-<blockquote>
-<p>关于强制转换9.9与9.1,这两个float型的数据转成int型,都会变成9
- </p>
-</blockquote>
-</li>
-<li><p>getWidth和getMeasuredWidth</p>
-<ol>
-<li>getWidth只能在layout之后调用</li>
-<li>getMeasuredWidth测量之后调用</li>
-<li>在layout中设置的四个参数(int left , int  top , int right , int bottom):</li>
-</ol>
-<blockquote>
-<p>解释一: 控件的左边距离父窗体的左边距离是left,控件的上边距离父窗体的顶部是top,控件的右边距离父窗体的左边是right,控件的下边距离父窗体的顶部是bottom.</p>
-</blockquote>
-<blockquote>
-<p>解释二: left,top这两个数据代表的是坐标一;right,bottom这两个数据代表的是坐标二.两个坐标确定一个控件的大小.</p>
-</blockquote>
-</li>
-<li><p>Touch事件的传递(蛋糕的传递)<br> 触摸事件一层一层往下传递，直到有View消费事件，如果没有，触摸事件又会一层一层往上传递，直到有ViewGroup消费事件(onTouchEvent 返回true)</p>
-<ol>
-<li>dispatchTouchEvent() 事件的分发</li>
-<li>onInterceptTouchEvent 事件的拦截(拦截孩子的触摸事件，true 拦截) </li>
-<li>onTouchEvent() 事件的消费 （true，消费）</li>
-</ol>
-</li>
-</ol>
-<h2 id="滑动删除"><a href="#滑动删除" class="headerlink" title="滑动删除"></a>滑动删除</h2><ol>
-<li><p>ViewDragHelper</p>
-<ol>
-<li>初始化对象mViewDragHelper &#x3D; ViewDragHelper.create(this, cb);</li>
-<li>tryCaptureView 是否滑动孩子 ACTION_DOWN</li>
-<li>clampViewPositionHorizontal 返回新的位置 ACTION_MOVE</li>
-<li>onViewPositionChanged 位置变化后的回调 ACTION_MOVE</li>
-<li>onViewReleased ACTION_UP</li>
-</ol>
-</li>
-<li><p>requestLayout -&gt; onMeasure -&gt; onLayout</p>
-</li>
-</ol>
 
       
     </div>

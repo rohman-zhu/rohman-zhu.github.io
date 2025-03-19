@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">432</span>
+          <span class="site-state-item-count">433</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,203 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bc1709b2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/bc1709b2/" class="post-title-link" itemprop="url">Web服务之Nginx</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-20 19:06:50" itemprop="dateCreated datePublished" datetime="2017-10-20T19:06:50+00:00">2017-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><p>这是一个web服务架,Linux + Apache + MySQL + PHP</p>
+<blockquote>
+<p>实现WWW服务的常用Web软件 : nginx 和 apache(静态Web软件)</p>
+</blockquote>
+<p>流行的Web组合:</p>
+<ul>
+<li>LAMP &#x3D; Linux + Apache + MySQL + PHP</li>
+<li>LNMP &#x3D; Linux + Nginx + MySQL +PHP</li>
+</ul>
+<h2 id="Nginx-读-Engine-x"><a href="#Nginx-读-Engine-x" class="headerlink" title="Nginx(读:Engine x)"></a>Nginx(读:Engine x)</h2><p>www服务软件,由俄罗斯人开发,开源,性能很高,C语言开发的(780K)</p>
+<p>Nginx本身是一款静态(html,js,css等)的www软件,不能解析动态的PHP,JSP,DO.</p>
+<p>最大特点:</p>
+<ol>
+<li>配置简单,灵活,轻量</li>
+<li>静态小文件(1M) , 支持高并发,同时占用的资源很少.3W并发,10个进程,内存150M.</li>
+<li>支持的平台 : Unix,Linux,windows</li>
+<li>支持epoll模型,使得Nginx可以支持高并发(Apache使用的是select模型)</li>
+<li>支持rewrite模块</li>
+<li>支持HTTP限速</li>
+<li>支持虚拟主机</li>
+<li>…等等</li>
+</ol>
+<p>并发参考值:</p>
+<ul>
+<li>Nginx 1-3W访问量</li>
+<li>php 300-800访问量</li>
+<li>DB 300-800访问量</li>
+</ul>
+<p>Nginx服务从大方向的功能:</p>
+<ol>
+<li>www web服务,邮件服务,邮件代理</li>
+<li>负载均衡(反向代理proxy)</li>
+<li>web cache(web缓存),相当于squid</li>
+</ol>
+<h3 id="应用场合"><a href="#应用场合" class="headerlink" title="应用场合"></a>应用场合</h3><ol>
+<li>提供静态服务(图片.视频服务),另一个lighttpd.</li>
+<li>提供动态服务 , nginx + fastcgi的方式运行PHP,jsp.</li>
+<li>提供反向代理(proxy)服务,或者称负载均衡.</li>
+<li>缓存业务,类似Squid,Varnish,ats.</li>
+</ol>
+<h3 id="支持虚拟主机"><a href="#支持虚拟主机" class="headerlink" title="支持虚拟主机"></a>支持虚拟主机</h3><p>一个Server标签就是一个虚拟主机.</p>
+<ol>
+<li>基于域名和虚拟主机.通过域名来区分虚拟主机</li>
+<li>基于端口的虚拟主机.</li>
+<li>基于IP的虚拟主机.(几乎不用)</li>
+</ol>
+<h3 id="安装Nignx"><a href="#安装Nignx" class="headerlink" title="安装Nignx"></a>安装Nignx</h3><h4 id="安装PCRE"><a href="#安装PCRE" class="headerlink" title="安装PCRE"></a>安装PCRE</h4><p>Perl Compatiable Regular Expressions</p>
+<p>安装方式:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># wget http://sourceforge.net/projects/pcre/files/pcre.tar</span><br><span class="line"># tar vxf pcre.tar</span><br><span class="line"># cd pcre/</span><br><span class="line"># ./configure</span><br><span class="line"># make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># ----------------</span><br><span class="line"></span><br><span class="line"># yum install pcre pcre-devel -y</span><br><span class="line"></span><br><span class="line"># -----------安装open sll</span><br><span class="line"></span><br><span class="line"># yum install opensll-devel -y</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装Nignx服务"><a href="#安装Nignx服务" class="headerlink" title="安装Nignx服务"></a>安装Nignx服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># rpm -qa nginx</span><br><span class="line"># wget [nignx url]</span><br><span class="line"># ./configure</span><br><span class="line"># make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"># 创建用户</span><br><span class="line"># useradd nginx /sbin/nologin</span><br><span class="line"># ----检查---</span><br><span class="line"># id nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="如果出现-Another-app-is-currently-holding-the-yum-lock"><a href="#如果出现-Another-app-is-currently-holding-the-yum-lock" class="headerlink" title="如果出现 Another app is currently holding the yum lock"></a>如果出现 Another app is currently holding the yum lock</h5><p>可以进行强制关闭进程</p>
+<blockquote>
+<p>rm -f &#x2F;var&#x2F;run&#x2F;yum.pid</p>
+</blockquote>
+<h4 id="Ngnix-配置站点"><a href="#Ngnix-配置站点" class="headerlink" title="Ngnix 配置站点"></a>Ngnix 配置站点</h4><h5 id="添加站点信息到-ngnix-conf-nginx-conf"><a href="#添加站点信息到-ngnix-conf-nginx-conf" class="headerlink" title="添加站点信息到&#x2F;ngnix&#x2F;conf&#x2F;nginx.conf"></a>添加站点信息到&#x2F;ngnix&#x2F;conf&#x2F;nginx.conf</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">html&#123;</span><br><span class="line">    server&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name xx.xxx.xxx;</span><br><span class="line">        location \ &#123;</span><br><span class="line">            root html/xxx;</span><br><span class="line">            index xxx.html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="在ngnix-html中创建站点"><a href="#在ngnix-html中创建站点" class="headerlink" title="在ngnix&#x2F;html中创建站点"></a>在ngnix&#x2F;html中创建站点</h4><p>mkdir &#x2F;ngnix&#x2F;html&#x2F;xxxx&#x2F;</p>
+<h4 id="添加域名到hosts文件"><a href="#添加域名到hosts文件" class="headerlink" title="添加域名到hosts文件"></a>添加域名到hosts文件</h4><p>echo “xx.xx.xx.xx(ip) xxx.xxx.xxx(域名)” &gt; &#x2F;etc&#x2F;hosts</p>
+<h3 id="关于Ngnix的相关操作"><a href="#关于Ngnix的相关操作" class="headerlink" title="关于Ngnix的相关操作"></a>关于Ngnix的相关操作</h3><h4 id="1-规范配置文件"><a href="#1-规范配置文件" class="headerlink" title="1.规范配置文件"></a>1.规范配置文件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># vim conf/nginx.conf</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"></span><br><span class="line"># 在http节点里面用include</span><br><span class="line">http</span><br><span class="line">&#123;</span><br><span class="line">    include extra/htmt.conf</span><br><span class="line">    include extra/blog.conf</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"># 创建目录</span><br><span class="line"># mkdir /nginx/extra/</span><br><span class="line"># touch /nginx/extra/html.conf</span><br><span class="line"># 把原来的server节点复制进去</span><br><span class="line"># sed -n &#x27;26,33p&#x27; nginx.conf.base-name &gt; extra/html.conf</span><br><span class="line"># 检查语法</span><br><span class="line"># /ngnix/sbin/ngnix -t</span><br><span class="line"># 重启</span><br><span class="line"># /ngix/sbin/ngnix -s reload</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-别名的配置"><a href="#2-别名的配置" class="headerlink" title="2.别名的配置"></a>2.别名的配置</h4><p>虚拟主机的别名配置,主要在server_name里面添加,同时要在DNS里面添加域名</p>
+<h4 id="3-Ngnix的状态"><a href="#3-Ngnix的状态" class="headerlink" title="3.Ngnix的状态"></a>3.Ngnix的状态</h4><p>–with-http-stub_status_mode;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 增加一个虚拟主机</span><br><span class="line"># vim extra/status.conf</span><br><span class="line"></span><br><span class="line">#---------------</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name status.etiantian.org;</span><br><span class="line">    location / &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 需要包含进配置文件</span><br><span class="line"># 检查语法</span><br><span class="line"># 添加进DNS服务器</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-错误日志配置"><a href="#4-错误日志配置" class="headerlink" title="4.错误日志配置"></a>4.错误日志配置</h4><p>放在Main区块中全局配置 , 格式如下:</p>
+<blockquote>
+<p>error_log file level</p>
+</blockquote>
+<ul>
+<li>level : debug | info | notice | warm | error | crit | alert | emerg</li>
+</ul>
+<p>少用debug与info这两个都会打印出所有日志,会增加磁盘的负担.</p>
+<h3 id="Ngnix的访问日志"><a href="#Ngnix的访问日志" class="headerlink" title="Ngnix的访问日志"></a>Ngnix的访问日志</h3><ul>
+<li>log_format 用于定义记录日志的格式</li>
+<li>access_log 访问log 格式: access_log logs&#x2F;access.log combined</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Ngnix日志变量</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$remote_addr</td>
+<td align="center">记录访问网站的客户端地址</td>
+</tr>
+<tr>
+<td align="center">$http_x_forwarded_for</td>
+<td align="center">当前有代理服务器时,设置web节点记录客户端地址的配置,此参数生效的前提是代理服务器上也要进行相关的x_forwarded_for设置.</td>
+</tr>
+<tr>
+<td align="center">$remote_user</td>
+<td align="center">远程客户端用户名称</td>
+</tr>
+<tr>
+<td align="center">$time_local</td>
+<td align="center">记录访问时间与时区</td>
+</tr>
+<tr>
+<td align="center">$request</td>
+<td align="center">用户的http请求起始行信息</td>
+</tr>
+<tr>
+<td align="center">$status</td>
+<td align="center">http状态码,记录请求返回的状态</td>
+</tr>
+<tr>
+<td align="center">$body_bytes_sents</td>
+<td align="center">服务器发送给客户端的响应body字节数</td>
+</tr>
+<tr>
+<td align="center">$http_referer</td>
+<td align="center">记录此次请求是从哪一个链接访问过来的,可以根据referer进行防盗链设置.</td>
+</tr>
+<tr>
+<td align="center">$http_user_agent</td>
+<td align="center">记录客户端访问信息,例如:浏览器or手机客户端等</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1882,97 +2079,6 @@ HTTP权威指南(前4章)
 <li>注意环境变量导致的定时任务故障</li>
 <li>通过 crond 定时任务服务日志调试定时任务 。 （&#x2F;var&#x2F;log&#x2F;cron)</li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d5690523/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/d5690523/" class="post-title-link" itemprop="url">Linux权限</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-05 21:27:23" itemprop="dateCreated datePublished" datetime="2017-10-05T21:27:23+00:00">2017-10-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>文件和目录都设置有权限的概念，可以通过 ls -l 查看 ， 权限分为三种类型，分别是：</p>
-<ul>
-<li>用户权限</li>
-<li>组权限</li>
-<li>其他用户权限</li>
-</ul>
-<h3 id="umask的作用"><a href="#umask的作用" class="headerlink" title="umask的作用"></a>umask的作用</h3><p>可以理解成屏蔽权限的命令，可以通过 umask 查看被屏蔽的权限是什么。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">设置umask为051</span><br><span class="line">$ umask 051</span><br></pre></td></tr></table></figure>
-
-<p>看后三位即可，由前到后分别是 用户权限，组权限，其他用户权限。</p>
-<p>默认创建的目录，权限是755 ； 文件的权限是 644 。而计算公式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">默认文件的全部权限位666</span><br><span class="line">umask权限             -</span><br><span class="line">如果umask上面的数字为基数 +1</span><br><span class="line">--------------------------</span><br><span class="line">最终结果为文件创建后的权限</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">$ touch test</span><br><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">6   6   6</span><br><span class="line">0   2   2       -</span><br><span class="line">------------------</span><br><span class="line">6   4   4</span><br><span class="line"></span><br><span class="line">改变umask</span><br><span class="line">$ umask 032</span><br><span class="line">$ touch test2</span><br><span class="line"></span><br><span class="line">6   6   6  </span><br><span class="line">0   3   2       -</span><br><span class="line">    1           +</span><br><span class="line">-----------------</span><br><span class="line">6   4   4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>想用永久设置umask生效，则将umask设置到 profiles 文件里面。</p>
-</blockquote>
 
       
     </div>

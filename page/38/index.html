@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">432</span>
+          <span class="site-state-item-count">433</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,207 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/54dd7c63/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/54dd7c63/" class="post-title-link" itemprop="url">Linux之监控</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-25 15:16:25" itemprop="dateCreated datePublished" datetime="2017-11-25T15:16:25+00:00">2017-11-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><h2 id="监控系统需要监控的方面"><a href="#监控系统需要监控的方面" class="headerlink" title="监控系统需要监控的方面"></a>监控系统需要监控的方面</h2><ol>
+<li>本地资源:负载uptime,CPU(top,sar),磁盘(df),内存(free),IO(iostat),RAID,温度,passwd文件的变化,本地所有文件的指纹.</li>
+<li>网络服务:端口,URL,DB,丢包,进程数,网络流量.</li>
+<li>其他设备: 路由器,交换机端口流量, 打印机,Windows等</li>
+<li>业务数据:用户登录次数,用户登录网站次数,输入验证码失败的次数,某一个API接口流量并发,电商网站订单,支付交易的数量.</li>
+</ol>
+<h2 id="监控工具-Nagios"><a href="#监控工具-Nagios" class="headerlink" title="监控工具 Nagios"></a>监控工具 Nagios</h2><h3 id="介绍与优势"><a href="#介绍与优势" class="headerlink" title="介绍与优势"></a>介绍与优势</h3><p><em>Nagios</em> 是一款开源的网络以及服务的监控工具.可以监控windows,linux,unix等系统的主机各种状态信息,交换机,路由器等网络设备,主机端口以及URL服务等,根据不同古战级别发送警告信息(邮件,微信,短信等)给管理员.</p>
+<blockquote>
+<p>windows可以作为被监控的主机,但不能作为监控服务器.</p>
+</blockquote>
+<p>官网地址:<code>https://www.nagios.org</code></p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>监控网络服务(SMTP,POP3,HTTP,TCP,PING等)</li>
+<li>监控主机资源(CPU,负载,IO状态,虚拟及正事内存以及磁盘利用率等)</li>
+<li>简单的插件设计模式使得用户可以方便定制符合自己的服务的检测方法.</li>
+<li>并行服务检查机制.</li>
+<li>具有定义网络分层结构的能力,用 <em>parent</em> 主机来定义网络主机间的关系,这种关系可以用来发现和明晰主机宕机或不可达的状态.</li>
+<li>当服务或主机问题产生与解决后将警告发给联系人.</li>
+<li>支持分布式检查机制</li>
+</ol>
+<h3 id="Nagios监控系统构成"><a href="#Nagios监控系统构成" class="headerlink" title="Nagios监控系统构成"></a>Nagios监控系统构成</h3><ol>
+<li>主程序:Nagios(服务端软件)</li>
+<li>插件程序(nagio-plugins)</li>
+<li>附件插件(NRPE,NSClient,NSCA,NDOUtils)</li>
+</ol>
+<h4 id="几个附加程序"><a href="#几个附加程序" class="headerlink" title="几个附加程序"></a>几个附加程序</h4><h5 id="NRPE-半被动模式"><a href="#NRPE-半被动模式" class="headerlink" title="NRPE:半被动模式"></a>NRPE:半被动模式</h5><ul>
+<li>存在位置 : NRPE软件工作于被监控端,操作系统为 Linux \ Unix</li>
+<li>NRPE作用 : 用于在被监控的远程 Linux&#x2F;Unix 主机上执行脚本插件获取数据回传给服务器端,以实现对这些主机资源的监控.</li>
+<li>存在形式 : 守护进程(agent)模式,开启的端口5666</li>
+<li>本地资源 : 负载uptime,CPU(top,sar),内存(free,swap),IO(iostat),RAID级别,本地所有文件指纹识别监控.</li>
+</ul>
+<h5 id="NSClient-半被动模式"><a href="#NSClient-半被动模式" class="headerlink" title="NSClient++:半被动模式"></a>NSClient++:半被动模式</h5><ul>
+<li>存在位置 : 用于被监控端为windows系统的服务</li>
+<li>作用 : 功能相当于Linux下的NRPE.</li>
+</ul>
+<blockquote>
+<p>用于监控Windows主机时,安装再windows主机上的组件.</p>
+</blockquote>
+<h5 id="NSCA-纯被动模式的监控"><a href="#NSCA-纯被动模式的监控" class="headerlink" title="NSCA:纯被动模式的监控"></a>NSCA:纯被动模式的监控</h5><ul>
+<li>位置:NSCA需要同时安装再nagios的服务端和客户端(被监控端).</li>
+<li>作用: 用于让被监控的远程Linux&#x2F;Unix主机主动将监控到的信息发给Nagios服务器.</li>
+</ul>
+<h3 id="Nagios监控的简单原理"><a href="#Nagios监控的简单原理" class="headerlink" title="Nagios监控的简单原理"></a>Nagios监控的简单原理</h3><h4 id="NRPE-运行原理"><a href="#NRPE-运行原理" class="headerlink" title="NRPE 运行原理"></a>NRPE 运行原理</h4><p>NRPE放在被监控的主机上面.</p>
+<p>Nagios -&gt; check_nrpe |—–&gt;| NRPE -&gt; {check_disk,check_load,…} -&gt; Local Resources and Services</p>
+<ul>
+<li>端口:5666</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.配置yum源</span></span><br><span class="line"><span class="comment"># 2.调整字符集</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export LC_ALL=C&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 3.关闭防火墙 &amp; selinux</span></span><br><span class="line">chkconfig iptables off</span><br><span class="line">setenfore 0</span><br><span class="line">vi /etc/selinux/config</span><br><span class="line"><span class="comment"># 4.定时任务--时间同步</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;*/10 * * * * /usr/sbin/ntpdata pool.ntp.org &gt; /dev/null 2&gt;&amp;1&#x27;</span> &gt;&gt;/var/spool</span><br><span class="line"></span><br><span class="line">crontab -l</span><br><span class="line"><span class="comment"># 5.install gcc and lamp env etc</span></span><br><span class="line"></span><br><span class="line">yum install unzip</span><br><span class="line">yum install gcc glibc-common -y</span><br><span class="line">yum install gd gd-devel -y</span><br><span class="line">yum install httpd php php-gd -y</span><br><span class="line">yum install mysql* -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.添加用户和组</span></span><br><span class="line">useradd -m nagios</span><br><span class="line">useradd apache</span><br><span class="line">useradd nagcmd</span><br><span class="line"></span><br><span class="line">usermod -a -G nagcmd nagios</span><br><span class="line">usermod -a -G nagcmd nagcmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.download and install nagios</span></span><br><span class="line">解压忽略(3.5版本)</span><br><span class="line">./configure --with-command-group=nagcmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.1安装</span></span><br><span class="line">[3.5版本的]</span><br><span class="line">make install-init</span><br><span class="line">make install-config</span><br><span class="line">make install-commandmode</span><br><span class="line">make install-webconf</span><br><span class="line"></span><br><span class="line">[新版本]</span><br><span class="line"><span class="comment">#make all</span></span><br><span class="line"><span class="comment">#make install</span></span><br><span class="line"><span class="comment">#make install-init</span></span><br><span class="line"><span class="comment">#make install-commandmode</span></span><br><span class="line"><span class="comment">#make install-webconf</span></span><br><span class="line"><span class="comment">#make install-config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 8 config web</span></span><br><span class="line">htpasswd -cb /usr/local/nagios/etc/htpasswd.users username passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9 install nagios-plugins</span></span><br><span class="line">yum install perl-devel</span><br><span class="line"><span class="comment"># nagios-plugins-1.4.16</span></span><br><span class="line">./configure --with-nagios-user=nagios --with-nagios-group=nagios --enable-perl-modules</span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 install NRPE</span></span><br><span class="line"><span class="comment"># include check_nrpe command</span></span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">make install</span><br><span class="line">make install-plugin</span><br><span class="line">make install-daemon</span><br><span class="line">make install-daemon-config</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="客户端安装"><a href="#客户端安装" class="headerlink" title="客户端安装"></a>客户端安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.配置yum源</span></span><br><span class="line"><span class="comment"># 2.调整字符集</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export LC_ALL = C&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 3.关闭防火墙 &amp; selinux</span></span><br><span class="line">chkconfig iptables off</span><br><span class="line">setenfore 0</span><br><span class="line">vi /etc/selinux/config</span><br><span class="line"><span class="comment"># 4.定时任务--时间同步</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;*/10 * * * * /usr/sbin/ntpdata pool.ntp.org &gt; /dev/null 2&gt;&amp;1&#x27;</span> &gt;&gt;/var/spool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.添加nagios用户</span></span><br><span class="line">useradd -m nagios</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.install nagios-plugins</span></span><br><span class="line">./configure --prefix=/usr/local/nagios --enable-prel-modules --enable-redhat-pthread-workaround</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.install nrpe</span></span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">make install-plugin</span><br><span class="line">make install-daemon</span><br><span class="line">make install-daemon-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8.install soft for iostat</span></span><br><span class="line">yum install sysstat -y</span><br><span class="line"><span class="comment"># 把相关的的软件复制到/nagios/libexec</span></span><br><span class="line"><span class="comment"># 修改权限</span></span><br><span class="line"><span class="built_in">chmod</span> 755 /libexec/check_memory.pl</span><br><span class="line"><span class="built_in">chmod</span> 755 /libexec/check_iostat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9.Modify nrpe.configure</span></span><br><span class="line"><span class="comment"># No.79</span></span><br><span class="line">vi ./nrpe.conf +79</span><br><span class="line"><span class="comment">#----</span></span><br><span class="line">allowhost=x.x.x.x(target host)</span><br><span class="line"><span class="comment"># del 199-203</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">配置文件</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">cgi.cfg</td>
+<td align="center">控制 CGI 访问的配置文件</td>
+</tr>
+<tr>
+<td align="center">nagios.cfg</td>
+<td align="center">Nagios 主配置文件</td>
+</tr>
+<tr>
+<td align="center">resource.cfg</td>
+<td align="center">变量定义文件，又称为资源文件，在此文件中定义变量，以便由其他配置文件引用，如$USER1$</td>
+</tr>
+<tr>
+<td align="center">objects</td>
+<td align="center">objects 是一个目录，在此目录下有很多配置文件模板，用于定义 Nagios 对象</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;commands.cfg</td>
+<td align="center">命令定义配置文件，其中定义的命令可以被其他配置文件引用</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;contacts.cfg</td>
+<td align="center">定义联系人和联系人组的配置文件</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;localhost.cfg</td>
+<td align="center">定义监控本地主机的配置文件</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;printer.cfg</td>
+<td align="center">定义监控打印机的一个配置文件模板，默认没有启用此文件</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;switch.cfg</td>
+<td align="center">监控路由器的一个配置文件模板，默认没有启用此文件</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;templates.cfg</td>
+<td align="center">定义主机和服务的一个模板配置文件，可以在其他配置文件中引用</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;timeperiods.cfg</td>
+<td align="center">定义 Nagios 监控时间段的配置文件</td>
+</tr>
+<tr>
+<td align="center">objects&#x2F;windows.cfg</td>
+<td align="center">监控 Windows 主机的一个配置文件模板，默认没有启用此文件</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>备注:Nagios 在配置方面非常灵活，默认的配置文件并不是必需的。可以使用这些默认的配置文件，也可以创建自己的配置文件，然后在主配置文件 nagios.cfg 中引用即可。</p>
+</blockquote>
+<p>主要配置:</p>
+<ul>
+<li>host.cfg</li>
+<li>service.cfg</li>
+</ul>
+<h4 id="配置主机服务"><a href="#配置主机服务" class="headerlink" title="配置主机服务"></a>配置主机服务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./objects/</span><br><span class="line">vi ./hosts.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment">#----</span></span><br><span class="line">define host&#123;</span><br><span class="line">    <span class="comment"># use 模板名字</span></span><br><span class="line">    use linux-server</span><br><span class="line">    host_name client</span><br><span class="line">    <span class="built_in">alias</span>   client2</span><br><span class="line">    address 10.0.0.8</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">    command_name check_nrpe</span><br><span class="line">    command_line $USER$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#----</span></span><br></pre></td></tr></table></figure>
+
+<p>流程:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在nagios.cfg添加:</span></span><br><span class="line">cfg_file=/usr/local/nagios/etc/objects/host.cfg</span><br><span class="line">cfg_file=/usr/local/nagios/etc/objects/service.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成host.cfg文件</span></span><br><span class="line"><span class="built_in">head</span> -50 localhost.cfg &gt; hosts.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑hosts.cfg增加被监控的主机</span></span><br><span class="line">define host &#123;</span><br><span class="line">    use     linux-server</span><br><span class="line">    host_name   webxxx</span><br><span class="line">    <span class="built_in">alias</span>       webxxx2</span><br><span class="line">    address     192.168.1.x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define hostgroup&#123;</span><br><span class="line">    hostgroup_name      linux-servers</span><br><span class="line">    <span class="built_in">alias</span>               linux-servers2</span><br><span class="line">    members             web-xxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置service.cfg配置文件</span></span><br><span class="line">define service&#123;</span><br><span class="line">    use     generic-service</span><br><span class="line">    host_name   web-xxx</span><br><span class="line">    service_description Disk Partition</span><br><span class="line">    check_command   check_nrpe!check_disk</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查语法</span></span><br><span class="line">/etc/init.d/nagios checkfonfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改访问权限</span></span><br><span class="line">vim ./nagios/etc/cgi.cfg</span><br><span class="line">nagiosadmin-&gt;user</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启nagios</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="监控模式定义以及监控模式"><a href="#监控模式定义以及监控模式" class="headerlink" title="监控模式定义以及监控模式"></a>监控模式定义以及监控模式</h3><ul>
+<li>主动模式</li>
+<li>被动模式</li>
+</ul>
+<p>本地监控,一般选择NRPE(被动模式);</p>
+<p>对于web服务,数据库这种对外提供服务的监控,一般选择主动模式.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1592,123 +1793,6 @@
 <p>在工作时,keepalived根据用户设定的策略判断服务器上的程序是否正常运行,如果故障则将这台服务器从热备组移出.</p>
 <p>在实例中重要参数: nopreempt , 当主LB挂了,备LB接管,主恢复,不自动接管</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/61d1add5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/61d1add5/" class="post-title-link" itemprop="url">Linux之kickstart无人值守系统装系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-14 15:48:16" itemprop="dateCreated datePublished" datetime="2017-11-14T15:48:16+00:00">2017-11-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="无人值守装系统-PXE-APACHE-DHCP-TFTP-KICKSTART"><a href="#无人值守装系统-PXE-APACHE-DHCP-TFTP-KICKSTART" class="headerlink" title="无人值守装系统(PXE+APACHE+DHCP+TFTP+KICKSTART)"></a>无人值守装系统(PXE+APACHE+DHCP+TFTP+KICKSTART)</h1><ul>
-<li>DHCP_Server 用于给客户端提供IP地址以及PXE文件的位置.</li>
-<li>Web_Server 存放系统镜像以及kickstart的配置文件.</li>
-<li>TFTP_Server 存放PXE文件以及相关的启动文件</li>
-</ul>
-<hr>
-<p>相关IP地址:</p>
-<ul>
-<li>DHCP_Server:192.168.1.2</li>
-<li>Web_Server:192.168.1.3</li>
-<li>TFTP_Server:192.168.1.4</li>
-</ul>
-<h2 id="1-1-什么是PXE"><a href="#1-1-什么是PXE" class="headerlink" title="1.1 什么是PXE"></a>1.1 什么是PXE</h2><p>PXE(preboot execute environment，预启动执行环境)是由Intel公司开发的最新技术，工作于Client&#x2F;Server的网络模式，支持工作站通过网络从远端服务器下载映像，并由此支持通过网络启动操作系统，</p>
-<p>在启动过程中，终端要求服务器分配IP地址，再用TFTP（trivial file transfer protocol）或MTFTP(multicast trivial file transfer protocol)协议下载一个启动软件包到本机内存中执行，由这个启动软件包完成终端（客户端）基本软件设置，从而引导预先安装在服务器中的终端操作系统。</p>
-<h2 id="1-2-PXE工作过程"><a href="#1-2-PXE工作过程" class="headerlink" title="1.2 PXE工作过程"></a>1.2 PXE工作过程</h2><p><img src="http://images.cnitblog.com/blog/370046/201406/152331547498487.jpg" alt="PXE工作原理示意图"></p>
-<p>PXE客户端 (发送UDP广播请求)-&gt; DHCP服务 (DHCP服务器提供信息) -&gt; PXE客户端 (请求下载启动文件)-&gt; TFTP服务 (响应并提供文件)-&gt; PXE 客户端 (请求下载自动应答文件) -&gt; Http服务 (客户端安装操作系统) -&gt; PXE客户端</p>
-<h3 id="1-2-1-获取相关的pxe程序"><a href="#1-2-1-获取相关的pxe程序" class="headerlink" title="1.2.1 获取相关的pxe程序"></a>1.2.1 获取相关的pxe程序</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 安装syslinux</span><br><span class="line"># syslinux是一个引导加载程序,而且兼容各种介质.syslinux是一个小型的Linux操作系统,目的是简化首次安装Linux的时间,并建立维护或者其他特殊用途的启动盘</span><br><span class="line"># yum install syslinux</span><br><span class="line"></span><br><span class="line"># 将Linux的pxe文件复制到TFTP文件夹中(TFTP下面会讲到安装,默认启动的路径在/var/lib/tftpboot/)</span><br><span class="line"># cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 将iso镜像中的/image/pxeboot/initrd.img和vmlinux复制到/var/lib/tftpboot/下</span><br><span class="line"># scp -P22 root@192.168.1.3:/var/www/html/cdrom/images/pxeboot/&#123;initrd.im,gvmlinuz&#125; /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 复制iso镜像中的/isolinux/*.msg 到 /var/lib/tftpboot/文件夹中</span><br><span class="line"># cp /var/www/html/cdrom/isolinux/*.msg /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 在/var/lib/tftpboot/中创建一个pxelinux.cfg目录</span><br><span class="line"># mkdir /var/lib/tftpboot/pxelinux.cfg</span><br><span class="line"></span><br><span class="line"># 将iso镜像中的/isolinux目录中的isolinux.cfg复制到pxelinux.cfg目录下,同时改名为default</span><br><span class="line"># cp /var/www/html/cdrom/isolinux/isolinux.cfg /var/lib/tftpboot/pxelinux.cfg/default</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>修改default文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 设置启动的是&#x27;label ks&#x27;中的内容</span><br><span class="line">default ks</span><br><span class="line"># 显示 &#x27;boot:&#x27;提示符.为&#x27;0&#x27;时则不显示,将会直接启动&#x27;default&#x27;参数中指定的内容.</span><br><span class="line">prompt 1</span><br><span class="line">#在用户输入之前的超时时间,单位为0.1秒</span><br><span class="line">timeout 6</span><br><span class="line"># 显示某个文件的内容,注意文件的路径.</span><br><span class="line"># 默认是在/var/lib/tftpboot/目录下</span><br><span class="line"># 也可以指定其他的全路径下的msg文件</span><br><span class="line">display boot.msg</span><br><span class="line"></span><br><span class="line"># &#x27;label&#x27;指定在&#x27;boot&#x27;提示符下输入的关键字,比如boot:linux[ENTER],这个会启动&#x27;label linux&#x27;下标记的kernel和initrd.img文件</span><br><span class="line">label linux</span><br><span class="line">    # kernel 参数指定要启动的内核</span><br><span class="line">    kernel vmlinuz</span><br><span class="line">    # append指定追加给内核的参数,能够在grub里使用的追加给内核的参数.</span><br><span class="line">    append initrd=initrd.img</span><br><span class="line">label ks</span><br><span class="line">    kernel vmlinuz</span><br><span class="line">    #指定ks.cfg文件</span><br><span class="line">    append ks=http://192.168.1.3/ks.cfg initrd=initrd.img</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Linux初始RAM磁盘（initrd）是在系统引导过程中挂载的一个临时根文件系统，用来支持两阶段的引导过程。initrd文件中包含了各种可执行程序和驱动程序，它们可以用来挂载实际的根文件系统，然后再将这个 initrd RAM磁盘卸载，并释放内存。在很多嵌入式Linux系统中，initrd 就是最终的根文件系统。</p>
-</blockquote>
-<h2 id="2-DHCP服务器安装"><a href="#2-DHCP服务器安装" class="headerlink" title="2. DHCP服务器安装"></a>2. DHCP服务器安装</h2><p>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段.</p>
-<p>在本次案例中,DHCP服务器用于给客户机分配IP地址以及TFTP服务器的IP地址.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 安装DHCP服务</span><br><span class="line"># yum -y install dhcp</span><br><span class="line"></span><br><span class="line"># 复制配置模板文件到DHCP的配置目录中</span><br><span class="line"># cp -f /usr/share/doc/dhcp-4.1.1/dhcpd.conf/sample /etc/dhcp/dhcpd.conf</span><br><span class="line"></span><br><span class="line"># 修改/etc/dhcp/dhcp.conf配置文件,内容如下:</span><br><span class="line"># vi /etc/dhcp/dhcp.conf</span><br><span class="line"># ---</span><br><span class="line">ddns-update-style interim;</span><br><span class="line">ignore client-updates;</span><br><span class="line"># pxelinux启动文件位置;</span><br><span class="line">filename &quot;pxelinux.0&quot;;</span><br><span class="line"># TFTP Server的IP地址;</span><br><span class="line">next-server 192.168.1.4;</span><br><span class="line"></span><br><span class="line">subnet 192.168.1.0 netmask 255.255.255.0&#123;</span><br><span class="line">    option routers 192.168.1.4;</span><br><span class="line">    option subnet-mask 255.255.255.0;</span><br><span class="line"></span><br><span class="line">    range dynamic-bootp 192.168.1.100 192.168.1.200;</span><br><span class="line">    default-lease-time 21600;</span><br><span class="line">    max-lease-time 43000;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 启动DHCP服务</span><br><span class="line"># /etc/init.d/dhcpd start</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里有可能会出现客户机无法找到ip地址,需要关闭防火墙和selinux.</p>
-</blockquote>
-<h2 id="3-TFTP-Server-安装与配置"><a href="#3-TFTP-Server-安装与配置" class="headerlink" title="3.TFTP_Server 安装与配置"></a>3.TFTP_Server 安装与配置</h2><p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是TCP&#x2F;IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。端口号为69。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 安装tftp-server</span><br><span class="line"># yum install tftp-server -y</span><br><span class="line"></span><br><span class="line"># 编辑tftp服务的配置</span><br><span class="line"># vi /etc/xinetd.d/tftp</span><br><span class="line"># ---</span><br><span class="line">service tftp</span><br><span class="line">&#123;</span><br><span class="line">    socket_type = dgram</span><br><span class="line">    protocol = udp</span><br><span class="line">    wait = yes</span><br><span class="line">    user = root</span><br><span class="line">    server = /usr/sbin/in.tftpd</span><br><span class="line">    server_args = -s /var/lib/tftpboot</span><br><span class="line">    disable = no</span><br><span class="line">    per_source = 11</span><br><span class="line">    cps = 100 2</span><br><span class="line">    flags = IPv4</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line"># /etc/init.d/xinetd restart</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-安装HTTP服务"><a href="#4-安装HTTP服务" class="headerlink" title="4. 安装HTTP服务"></a>4. 安装HTTP服务</h2><p>可以用 <em>Apache</em> 或者 <em>Nginx</em> , 具体安装教程在以往的文章中由详细记录.</p>
-<blockquote>
-<p>创建一个站点目录挂载光盘镜像.</p>
-</blockquote>
-<h2 id="6-创建ks-cfg"><a href="#6-创建ks-cfg" class="headerlink" title="6.创建ks.cfg"></a>6.创建ks.cfg</h2><h3 id="6-1-语法"><a href="#6-1-语法" class="headerlink" title="6.1 语法"></a>6.1 语法</h3><ul>
-<li>命令段</li>
-<li>脚本段</li>
-</ul>
-<h3 id="6-2-定制配置文件"><a href="#6-2-定制配置文件" class="headerlink" title="6.2 定制配置文件"></a>6.2 定制配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#platform=x86, AMD64, or Intel EM64T</span><br><span class="line">#version=DEVEL</span><br><span class="line"># Firewall configuration</span><br><span class="line">firewall --disabled</span><br><span class="line"># Install OS instead of upgrade</span><br><span class="line">install</span><br><span class="line"># Use network installation</span><br><span class="line">url --url=http://192.168.1.3/cdrom/</span><br><span class="line">#这个选项告诉安装程序：到服务器192.168.1.3 的HTTP根目录下的cdrom 文件夹下寻找安装介质</span><br><span class="line"># Root password</span><br><span class="line">rootpw --iscrypted $1$vsvtP./e$6PVMNfJd.shq2LgFJjYfA1</span><br><span class="line"># System authorization information</span><br><span class="line">auth  --useshadow  --enablemd5</span><br><span class="line"># Use graphical install</span><br><span class="line">graphical</span><br><span class="line">firstboot --disable</span><br><span class="line"># System keyboard</span><br><span class="line">keyboard us</span><br><span class="line"># System language</span><br><span class="line">lang en_US</span><br><span class="line"># SELinux configuration</span><br><span class="line">selinux --disabled</span><br><span class="line"># Installation logging level</span><br><span class="line">logging --level=info</span><br><span class="line"># Reboot after installation</span><br><span class="line">reboot</span><br><span class="line"># System timezone</span><br><span class="line">timezone  --isUtc Asia/Shanghai</span><br><span class="line"># Network information</span><br><span class="line">network  --bootproto=dhcp --device=eth0 --onboot=on</span><br><span class="line"># System bootloader configuration</span><br><span class="line"># Redhat system</span><br><span class="line"># key --skip</span><br><span class="line"></span><br><span class="line">bootloader --append=&quot;rhgb quiet&quot; --location=mbr --driveorder=sda</span><br><span class="line"></span><br><span class="line"># Clear the Master Boot Record</span><br><span class="line">zerombr</span><br><span class="line"># Partition clearing information</span><br><span class="line">clearpart --all --initlabel</span><br><span class="line"># Disk partitioning information</span><br><span class="line">part /boot --fstype=&quot;ext4&quot; --size=200</span><br><span class="line">part swap --fstype=&quot;swap&quot; --size=1024</span><br><span class="line">part / --fstype=&quot;ext4&quot; --size=8192</span><br><span class="line">part /home --fstype=&quot;ext4&quot; --size=2048</span><br><span class="line"></span><br><span class="line">%packages</span><br><span class="line">@base</span><br><span class="line"></span><br><span class="line">%end</span><br></pre></td></tr></table></figure>
       
     </div>
 

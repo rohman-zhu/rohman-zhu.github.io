@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">432</span>
+          <span class="site-state-item-count">433</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,272 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8ec7caa0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/8ec7caa0/" class="post-title-link" itemprop="url">安卓自定义控件学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-06-19 17:51:22" itemprop="dateCreated datePublished" datetime="2017-06-19T17:51:22+00:00">2017-06-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="自定义控件概述"><a href="#自定义控件概述" class="headerlink" title="自定义控件概述"></a>自定义控件概述</h1><ol>
+<li>原生控件（TextView EditText ImageView）</li>
+<li>自定义控件<ol>
+<li>组合式控件(把原生控件组合在一起)</li>
+<li>自己绘制的控件（绘制，行为操作）</li>
+</ol>
+</li>
+</ol>
+<h2 id="View和ViewGroup"><a href="#View和ViewGroup" class="headerlink" title="View和ViewGroup"></a>View和ViewGroup</h2><ol>
+<li><p>View：矩形，负责绘制和事件处理</p>
+</li>
+<li><p>ViewGroup: 能够包含其他的View(孩子)</p>
+</li>
+<li><p>View和ViewGroup关系</p>
+<ol>
+<li>继承关系<br> <img src="/img/view_arc.png" alt="icon"></li>
+<li>组合关系<br> <img src="/img/viewgroup.png" alt="icon"></li>
+</ol>
+</li>
+</ol>
+<h2 id="广告轮播图"><a href="#广告轮播图" class="headerlink" title="广告轮播图"></a>广告轮播图</h2><ol>
+<li><p>功能分析</p>
+<ol>
+<li>滑动图片切换</li>
+<li>滑动标题切换</li>
+<li>滑动圆点切换</li>
+<li>循环切换</li>
+</ol>
+</li>
+<li><p>源码关联</p>
+<ol>
+<li>Android Private Libaries -&gt;Build Path -&gt; Remove from build path</li>
+<li>libs -&gt; Build Path -&gt; Add to build path</li>
+<li>Attach source -&gt; sdk&#x2F;extra&#x2F;v4</li>
+<li>Android Tools -&gt; Fix Project Properties</li>
+</ol>
+</li>
+<li><p>setOffscreenPageLimit设置左右两边缓存页面数</p>
+</li>
+<li><p>自定义控件</p>
+<ol>
+<li>提供设置图片和标题 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//要做的是封装起来,所以在布局文件中,要用Merge标签</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="优酷菜单"><a href="#优酷菜单" class="headerlink" title="优酷菜单"></a>优酷菜单</h2><blockquote>
+<p>三级菜单的显现与隐藏</p>
+</blockquote>
+<ol>
+<li><p>功能分析</p>
+<ol>
+<li>菜单的显示和隐藏 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//对控件设置监听事件</span><br><span class="line">.setOnClickListen();</span><br><span class="line">//隐藏与显示</span><br><span class="line">.setVisiblity(View.GONE);//隐藏</span><br><span class="line">.setVisiblity(View.VISIBLE);//显示</span><br></pre></td></tr></table></figure></li>
+<li>旋转动画 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation xx = new RotateAnimation(旋转度数,...);</span><br><span class="line">//设置动画持续时间</span><br><span class="line">xx.setDuration(500);</span><br><span class="line">//设置延时</span><br><span class="line">xx.setStartOffset(int delay);</span><br><span class="line">//设置动画监听,防止重复点击菜单</span><br><span class="line">xx.setAnimationListener(...);</span><br><span class="line">xxx.startAnimation(xx);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>补间动画,控件的点击事件还会在原来位置</p>
+</blockquote>
+<ol start="3">
+<li>手机菜单键 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onKeyUp(int keyCode , KeyEvent event)</span><br><span class="line">&#123;</span><br><span class="line">	if(KeyCode == KeyEvent.KEYCODE_MENU)</span><br><span class="line">	&#123;</span><br><span class="line">		//处理逻辑</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	return super.onKeyUp(KeyCode,event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>顺时针旋转 正</p>
+</li>
+<li><p>自定义控件</p>
+<ol>
+<li>组合式控件</li>
+<li>setFocusableInTouchMode获取键盘事件</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>会调用invalidate,导致控件重新绘制,不关心控件的可见性</p>
+</blockquote>
+<h2 id="下拉选择框"><a href="#下拉选择框" class="headerlink" title="下拉选择框"></a>下拉选择框</h2><h3 id="布局实现"><a href="#布局实现" class="headerlink" title="布局实现:"></a>布局实现:</h3><blockquote>
+<ol>
+<li>实现圆角</li>
+</ol>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//写一个xml文件</span><br><span class="line">&lt;shape xmlns:android=&quot;http://schemas.android.com/apk.res/android&quot;</span><br><span class="line">android:shape=&quot;rectangle&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- rectangle 长方形 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 设置圆角的半径 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;corners android:radius=&quot;5dp&quot;/&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- 画边框 --&gt;</span><br><span class="line"></span><br><span class="line">	&lt;stroke android:width=&quot;1dp&quot;</span><br><span class="line">		android:color = &quot;#ff0000/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/shape&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能:"></a>功能:</h3><ol>
+<li>点击箭头弹出下拉列表</li>
+<li>选中一个item显示在编辑框</li>
+<li>删除下拉列表中的一项</li>
+<li>自定义控件<ol>
+<li>组合式控件</li>
+</ol>
+</li>
+</ol>
+<h2 id="滑动开关"><a href="#滑动开关" class="headerlink" title="滑动开关"></a>滑动开关</h2><blockquote>
+<p>这个控件里面没有配置相应的xml文件,都是通过”绘制”的形式来展现</p>
+</blockquote>
+<ol>
+<li><p>View的绘制流程</p>
+<ol>
+<li>measure() 测量控件的大小</li>
+<li>layout() 设置位置和大小(包括孩子)</li>
+<li>draw() 渲染控件(包括孩子)</li>
+</ol>
+</li>
+<li><p>自定义控件可以重写的函数</p>
+<ol>
+<li>onMeasure()<ol>
+<li>必须调用setMeasuredDimension设置测量宽高</li>
+<li>如果是ViewGroup，有责任去测量孩子(child.measure)</li>
+</ol>
+</li>
+<li>onLayout()<ol>
+<li>如果是ViewGroup必须去重写，去布局孩子(child.layout)</li>
+</ol>
+</li>
+<li>onDraw()<ol>
+<li>通过canvas绘制</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>onTouchEvent() 处理触摸事件</p>
+</li>
+<li><p>设置监听事件</p>
+<ol>
+<li>现在类中写入一个设置接口的方法 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void setOnSwitchListener(OnSwitchListener onSwitchListener)</span><br><span class="line">&#123;</span><br><span class="line">	this.onSwitchListener = onSwtichListener;//初始化全局变量onSwithcListener</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>设置接口与实现方法 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface OnSwitchListener()</span><br><span class="line">&#123;</span><br><span class="line">	public void onSwitch(boolean isOpend);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在实现类中设置控件的监听 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ToggleView.setOnSwitchListener(new OnSwitchListener()</span><br><span class="line">&#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void onSwitch(boolean isOpend)</span><br><span class="line">	&#123;</span><br><span class="line">		......</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="侧滑菜单"><a href="#侧滑菜单" class="headerlink" title="侧滑菜单"></a>侧滑菜单</h2><ol>
+<li><p>widthMeasureSpec</p>
+<ol>
+<li>32二进制，前两位mode, 后30位是大小</li>
+<li>UNSPECIFIED 想多大多大</li>
+<li>EXACTLY 父亲决定了准确大小</li>
+<li>AT_MOST 最大能多大</li>
+</ol>
+</li>
+<li><p>获取模式<br> int mode &#x3D; MeasureSpec.getMode(widthMeasureSpec);<br>获取大小<br> int size &#x3D; MeasureSpec.getSize(widthMeasureSpec);</p>
+</li>
+<li><p>scrollTo和scrollBy</p>
+<ol>
+<li>scrollTo滑动到一个坐标</li>
+<li>scrollBy增量滑动</li>
+</ol>
+<blockquote>
+<p>关于强制转换9.9与9.1,这两个float型的数据转成int型,都会变成9
+ </p>
+</blockquote>
+</li>
+<li><p>getWidth和getMeasuredWidth</p>
+<ol>
+<li>getWidth只能在layout之后调用</li>
+<li>getMeasuredWidth测量之后调用</li>
+<li>在layout中设置的四个参数(int left , int  top , int right , int bottom):</li>
+</ol>
+<blockquote>
+<p>解释一: 控件的左边距离父窗体的左边距离是left,控件的上边距离父窗体的顶部是top,控件的右边距离父窗体的左边是right,控件的下边距离父窗体的顶部是bottom.</p>
+</blockquote>
+<blockquote>
+<p>解释二: left,top这两个数据代表的是坐标一;right,bottom这两个数据代表的是坐标二.两个坐标确定一个控件的大小.</p>
+</blockquote>
+</li>
+<li><p>Touch事件的传递(蛋糕的传递)<br> 触摸事件一层一层往下传递，直到有View消费事件，如果没有，触摸事件又会一层一层往上传递，直到有ViewGroup消费事件(onTouchEvent 返回true)</p>
+<ol>
+<li>dispatchTouchEvent() 事件的分发</li>
+<li>onInterceptTouchEvent 事件的拦截(拦截孩子的触摸事件，true 拦截) </li>
+<li>onTouchEvent() 事件的消费 （true，消费）</li>
+</ol>
+</li>
+</ol>
+<h2 id="滑动删除"><a href="#滑动删除" class="headerlink" title="滑动删除"></a>滑动删除</h2><ol>
+<li><p>ViewDragHelper</p>
+<ol>
+<li>初始化对象mViewDragHelper &#x3D; ViewDragHelper.create(this, cb);</li>
+<li>tryCaptureView 是否滑动孩子 ACTION_DOWN</li>
+<li>clampViewPositionHorizontal 返回新的位置 ACTION_MOVE</li>
+<li>onViewPositionChanged 位置变化后的回调 ACTION_MOVE</li>
+<li>onViewReleased ACTION_UP</li>
+</ol>
+</li>
+<li><p>requestLayout -&gt; onMeasure -&gt; onLayout</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
