@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">433</span>
+          <span class="site-state-item-count">434</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,147 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/94fa7fb3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/94fa7fb3/" class="post-title-link" itemprop="url">Keepalived高可用集群</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-16 18:17:11" itemprop="dateCreated datePublished" datetime="2017-11-16T18:17:11+00:00">2017-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Keepalive"><a href="#Keepalive" class="headerlink" title="Keepalive"></a>Keepalive</h1><p>起初是为LVS设计的,专门用来监控LVS集群系统中各个服务节点的状态,后来又加入了VRRP的功能(Virtual Router Redundancy Protocol 虚拟路由器冗余协议),因此配合除了LVS服务外,也可以作为其他服务(nginx,haproxy)的高可用软件.</p>
+<blockquote>
+<p>VRRP出现是为了解决静态路由出现的单点故障问题.</p>
+</blockquote>
+<p>主要两大用户:healthcheck , failover</p>
+<h2 id="VRRP"><a href="#VRRP" class="headerlink" title="VRRP"></a>VRRP</h2><p>Virtual Router Redundacy Protocol,解决静态路由器的单点故障,VRRP时通过一种竞选协议机制来将故障路由器的任务给某台VRRP.</p>
+<ul>
+<li>VRRP是通过IP多播的方式实现通信</li>
+<li>主发包,备接包,当备接不到主发的包的时候,就启动接管程序接管主的资源.</li>
+</ul>
+<h2 id="failover"><a href="#failover" class="headerlink" title="failover"></a>failover</h2><p>实现LB Master主机和 Backup 主机之间故障转移何自动切换.(这里针对有两个负载均衡)</p>
+<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h2><ol>
+<li>keepalived.conf里面配置就可以实现LVS.</li>
+<li>keepalive可以对LVS下面的集群节点做监控检查.</li>
+</ol>
+<p>负载均衡定期检查RSYNC的可用性决定是否给其分发请求.</p>
+<h2 id="keepalived-故障切换转移原理"><a href="#keepalived-故障切换转移原理" class="headerlink" title="keepalived 故障切换转移原理"></a>keepalived 故障切换转移原理</h2><ol>
+<li>在keepalived directors正常工作时,主Director节点会不断向被节点广播心跳消息,告诉备节点设备–主节点设备正常.</li>
+<li>当主节点发生故障时,备节点就无法检测到主节点的心跳,今儿调用自身的接管程序,接管主节点的IP资源与服务.</li>
+<li>当主节点恢复时,备节点会释放主节点故障时自身接管的IP资源与服务,恢复到原来的自身备用角色.</li>
+</ol>
+<h2 id="配置keepalive"><a href="#配置keepalive" class="headerlink" title="配置keepalive"></a>配置keepalive</h2><p>官网 <code>http:\\www.keepalived.org</code></p>
+<p>这里用的是 1.2.16 的版本.</p>
+<p>相关的配置可以用man keepalived.conf查看,这里只列出80%</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ln -s /user/src/kernel/2.6 /usr/src/linux</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 到keepalive的文件包里面</span></span><br><span class="line"><span class="comment"># ./configure</span></span><br><span class="line"><span class="comment"># 出现以下相关内容即可</span></span><br><span class="line">Use IPVS Framework  : Yes</span><br><span class="line">IPVS <span class="built_in">sync</span> daemon support: Yes</span><br><span class="line">Use VRRP Framework : Yes</span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 规范启动</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/rc.d/init.d/keepalived /etc/init.d/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置启动脚本参数</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/sysconfig/keepalived /etc/sysconfig/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建默认的keepalived配置文件路径</span></span><br><span class="line"><span class="comment"># mkdir /etc/keepalived</span></span><br><span class="line"><span class="comment"># cp /usr/local/etc/keepalived/keepalived.conf /etc/keepalived</span></span><br></pre></td></tr></table></figure>
+
+<p>keepalived的配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">!Configuration File for keepalived</span><br><span class="line"></span><br><span class="line">!全局变量</span><br><span class="line">!Comments start with ’#’ or ’!’ to the end of the line and can start anywhere in a line.</span><br><span class="line">!contains subblocks of Global definitions, Static routes, and Static rules</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        !管理员邮箱</span><br><span class="line">        admin@example.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from admin@example.com</span><br><span class="line">    !邮箱服务器的地址设置</span><br><span class="line">    smtp_server xx.xx.xx.xx</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line"></span><br><span class="line">    !string,identifying the machine,(do not have to be hostname,default:localhostname)</span><br><span class="line">    router_id LVS_DEVEL</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Static routes/address/rules</span><br><span class="line">!Keepalived can configure static addresses, routes, and rules. These addresses are NOT moved by vrrpd, they stay on the machine.  If you already  have  IPs and routes on your machines and your machines can ping each other, you don’t need this section.</span><br><span class="line"></span><br><span class="line">static_ipaddress&#123;</span><br><span class="line">    192.168.1.2/24 dev eth0 scope global</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_routes&#123;</span><br><span class="line">    192.168.1.1/24 via 192.168.1.100</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static_rules&#123;</span><br><span class="line">    from 192.168.1.1/24 table 1</span><br><span class="line">    to 192.168.1.1/24 table 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!Adds a scritpt to be executed periodically.Its exit code will be recorded for all VRRP instances which are monitoring it with non-zero weight.</span><br><span class="line">vrrp_script &lt;SCRIPT_NAME&gt;&#123;</span><br><span class="line">    !path of the script to execute</span><br><span class="line">    script &lt;STRING&gt;|&lt;QUOTED-STRING&gt;</span><br><span class="line">    !seconds between script invocations,default 1 second</span><br><span class="line">    interval &lt;INTEGER&gt;</span><br><span class="line">    !seconds after which script is considered to have failed</span><br><span class="line">    timeout &lt;INTEGER&gt;</span><br><span class="line">    !adjust priority by this weight,default 2</span><br><span class="line">    weight &lt;INTEGER : -254..254&gt;</span><br><span class="line">    !required number of successes for OK transition</span><br><span class="line">    rise &lt;INTERGER&gt;</span><br><span class="line">    !required number of successes for KO transition</span><br><span class="line">    fall &lt;INTEGER&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">!describes the movable IP for each instance of a group in vrrp_sync_group.</span><br><span class="line">!Here are describes two IPs(on inside_network an on_outside_network)on machine &quot;my_hostname&quot;,!which belog to the group VG_1 and which will trasition together on any state change.</span><br><span class="line"></span><br><span class="line">vrrp_instance inside_network&#123;</span><br><span class="line">    !Initial state,MASTER | BACKUP</span><br><span class="line">    !As soon as the other machine(s) come up,</span><br><span class="line">    !an election will be held and the machine</span><br><span class="line">    !With the highest priority will become MASTER</span><br><span class="line">    !So the entry here do not matter a whole lot</span><br><span class="line">    state MASTER</span><br><span class="line"></span><br><span class="line">    !Interface for inside_network,bound by vrrp</span><br><span class="line">    interface eth0</span><br><span class="line"></span><br><span class="line">    !Use VRRP Virtual MAC.</span><br><span class="line">    use_vmac [&lt;VMAC_INTERFACE&gt;]</span><br><span class="line"></span><br><span class="line">    !Send/Recv VRRP messages from base interface instea dof</span><br><span class="line">    vmac_xmit_base</span><br><span class="line"></span><br><span class="line">    !force instance to use IPv6(when mixed IPv4 and IPv6 config)</span><br><span class="line">    native_ipv6</span><br><span class="line"></span><br><span class="line">    !Ignore VRRP interface faults(default unset)</span><br><span class="line">    dont_track_primary</span><br><span class="line"></span><br><span class="line">    ! optional,monitor these as well</span><br><span class="line">    ! go to FAULT state if any of these go down</span><br><span class="line">    track_interface&#123;</span><br><span class="line">        eth0</span><br><span class="line">        eth1</span><br><span class="line">        eth2 weight &lt;-254..254&gt;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ! add a tracking script to the interface (&lt;SCRIPT_NAME&gt;is the name of the vrrp_script entry)</span><br><span class="line">    track_script&#123;</span><br><span class="line">        &lt;SCRIPT_NAME&gt;</span><br><span class="line">        &lt;SCRIPT_NAME&gt; weight &lt;-254..254&gt;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    !Default IP for binding vrrpd is the primary IP on interface.If you want to hid the location of vrrpd, use this IP as src_addr for multicast or unicast vrrp packets.(Since it is multicast,vrrpd will get the reply packet no matter what src_addr is used).</span><br><span class="line">    !Optional</span><br><span class="line">    mcast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    unicast_src_ip &lt;IPADDR&gt;</span><br><span class="line">    ! VRRP version to run on interface</span><br><span class="line">    version&lt;2 or 3&gt;</span><br><span class="line"></span><br><span class="line">    !addresses add|del on change to MASTER , to BACKUP.With the same entries on other machines, the opposite transition will be occurring.</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        &lt;IPADDR&gt;/&lt;MASK&gt; brd &lt;IPADDR&gt; dev &lt;STRING&gt; scope &lt;SCOPE&gt; label &lt;LABEL&gt;</span><br><span class="line">        192.168.200.17/24 dev eth1</span><br><span class="line">        192.168.200.18/24 dev eth2 label eth2:1</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Note: authentication was removed from the VRRPv2 specification by RFC3768 in 2004.</span><br><span class="line">    #    Use of this option is non-compliant and can cause problems; avoid using if possible,</span><br><span class="line">    #   except when using unicast, where it can be helpful.</span><br><span class="line">    authentication &#123;</span><br><span class="line">        # Authentication block</span><br><span class="line">        # PASS||AH</span><br><span class="line">        # PASS - Simple password (suggested)</span><br><span class="line">        # AH - IPSEC (not recommended))</span><br><span class="line">        auth_type PASS</span><br><span class="line">        # Password for accessing vrrpd.</span><br><span class="line">        # should be the same on all machines.</span><br><span class="line">        # Only the first eight (8) characters are used.</span><br><span class="line">        auth_pass 1234</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>主要配置:</p>
+<ul>
+<li>从文档中可以看到,我们需要配置主要有全局参数(global_defs),email &amp; router_id</li>
+<li>如果有需要定时执行的脚本,则配置vrrp_script 块, script位置,interval,weight</li>
+<li>配置主机标签vrrp_instance ,里面设置state,网卡接口,主机ip,virtual_id,优先级priorioty,adver_int,authentication,为主机虚拟ip,检测脚本</li>
+<li>用上一个步骤里面的虚拟IP配置虚拟服务器</li>
+</ul>
+<p>主:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id MASTER_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.150</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">!Configuration file for keepalived</span><br><span class="line">global_defs&#123;</span><br><span class="line">    notification_email&#123;</span><br><span class="line">        zhur0ngjian@126.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from zhur0ngjian@126.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id BACKUP_ROUTER</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance V1_1&#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eth1</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    mcast_src_ip 172.16.177.151</span><br><span class="line">    priority 50</span><br><span class="line">    adver_int 1</span><br><span class="line">    authentication&#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass chtopnet</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress&#123;</span><br><span class="line">        10.0.1.1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 10.0.1.1 80&#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind DR</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.150 80 &#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    real_server 172.16.177.151 80&#123;</span><br><span class="line">        weight 3</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 10</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">            connect_port 80</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主备的配置文件需要注意:</p>
+<ol>
+<li>在vrrp_instance节点中,主备的实例名字可以不一样,但virtual_router_id必须一样.</li>
+<li>virtual_router_id的作用是区分不同的vrrp组,因此在同一网段内,不同的vrrp组不能重复id.</li>
+<li>一个 virtual_server节点中配置多个 real_server,需要注意 TCP_CHECK与’{‘ 之间的空格,如果没有空格,则从上往下数第二个real_server会识别不到.</li>
+<li>VIP可以和主机真实IP地址不在同一个网段,但必须在环境中搭建VPN.</li>
+</ol>
+<p>启动服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># keeplived需要通过ip地址添加来启动服务</span><br><span class="line"># ip addr add 10.0.0.18/24 dev eth0</span><br><span class="line"># /etc/init.d/keepalived start</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对外提供服务的是VIP(virtual ip)</p>
+</blockquote>
+<h2 id="场景应用"><a href="#场景应用" class="headerlink" title="场景应用"></a>场景应用</h2><p>假设我们的集群架构中,有两台机器是作为LB存在,分别是LB1(主),LB2(备) ; 两台 LB 通过 <em>keepalive</em> 建立关系 , 当一台 _LB_挂了,立即启用 <em>备用LB</em> .</p>
+<p>我用的 <em>load Balance</em> 软件是 Nginx , 所谓宕机就是 <em>Nginx</em> 和 <em>keepalive</em> 这两个服务停止了,然而当 <em>Nginx</em> 停止服务的时候 ,keepalive 是不能识别到的(Keepalive不会关闭,不会让 <em>备用LB</em> 接管 <em>主LB</em> 接受到的请求)</p>
+<p>因此,我们要写一个监控Nginx状态的脚本</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Monitoring Nginx status</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="subst">$(ps -ef|grep <span class="string">&quot;nginx : master process&quot;</span>|grep -v grep)</span>&quot;</span>==<span class="string">&quot;&quot;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    <span class="built_in">sleep</span> 5</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="subst">$(ps -ef|grep <span class="string">&quot;nginx : master process&quot;</span>|grep -v grep)</span>&quot;</span>==<span class="string">&quot;&quot;</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">    killall keepalived</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>升级版:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat /etc/keepaalived/check_nginx.sh</span></span><br><span class="line">Count1=<span class="string">&quot;netstat -antp |grep -v grep|grep nginx|wc -l&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$Count1</span> -eq 0 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    /application/nginx/sbin/nginx</span><br><span class="line">    <span class="built_in">sleep</span> 2</span><br><span class="line">    Count2=<span class="string">&quot;netstat -antp|grep -v grep|grep nginx|wc -l&quot;</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$Count2</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        /etc/init.d/keepalived stop</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">exit</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本可以放到 <em>keepalived.conf</em> 里面 <em>vrrp_script</em> 节点中,这里可以每隔相应的时间执行一次脚本.</p>
+<p>在工作时,keepalived根据用户设定的策略判断服务器上的程序是否正常运行,如果故障则将这台服务器从热备组移出.</p>
+<p>在实例中重要参数: nopreempt , 当主LB挂了,备LB接管,主恢复,不自动接管</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1302,272 +1443,6 @@
 <h3 id="5-3将相关的文件放置html的节点下"><a href="#5-3将相关的文件放置html的节点下" class="headerlink" title="5.3将相关的文件放置html的节点下"></a>5.3将相关的文件放置html的节点下</h3><p>下载Discuz,解压,将.&#x2F;upload里面的内容解压至html&#x2F;bbs;</p>
 <h3 id="5-4给该目录文件授权"><a href="#5-4给该目录文件授权" class="headerlink" title="5.4给该目录文件授权"></a>5.4给该目录文件授权</h3><p>因为我们是在root用户下面操作的,所以所有文件或文件夹,操作用户是root,属组也是root,而我们通过nginx连上的网页,用户默认为nginx,因此在安装的时候,会显示相关目录不能读写.</p>
 <h3 id="5-5完成测试"><a href="#5-5完成测试" class="headerlink" title="5.5完成测试"></a>5.5完成测试</h3><p>安装完成后,需要将该虚拟主机的域名添加至hosts文件中.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/47aea328/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/47aea328/" class="post-title-link" itemprop="url">Linux之数据库</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-21 11:09:37" itemprop="dateCreated datePublished" datetime="2017-10-21T11:09:37+00:00">2017-10-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="1-数据库种类"><a href="#1-数据库种类" class="headerlink" title="1.数据库种类"></a>1.数据库种类</h2><h3 id="1-1关系型数据库"><a href="#1-1关系型数据库" class="headerlink" title="1.1关系型数据库"></a>1.1关系型数据库</h3><p>本质上是一张二维表,每一个字段都有对应的记录</p>
-<blockquote>
-<p>常用的MySQL,Oracle,db2,MariaDB</p>
-</blockquote>
-<h3 id="1-2非关系型数据库"><a href="#1-2非关系型数据库" class="headerlink" title="1.2非关系型数据库"></a>1.2非关系型数据库</h3><ul>
-<li>特点: 读写更多的是和磁盘打交道,数据一致性,安全.(高效,高性能)</li>
-<li>缺点:速度慢</li>
-</ul>
-<blockquote>
-<p>常用的 memcached ,redis</p>
-</blockquote>
-<h2 id="2-安装MySql"><a href="#2-安装MySql" class="headerlink" title="2.安装MySql"></a>2.安装MySql</h2><p>这里采用的是二进制文件安装. 下载MySQL-5.58.xxx.tar并传送到Linux下;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># tar xvf MySQL.tar</span><br><span class="line"></span><br><span class="line"># 将目录移到/Application或者/usr/local/下</span><br><span class="line"># mv MySQL /usr/local/MySQL</span><br><span class="line"></span><br><span class="line"># 执行安装脚本</span><br><span class="line"># /usr/local/MySQL/bin/mysql_install_db</span><br><span class="line"></span><br><span class="line"># 添加命令到环境中</span><br><span class="line"># vim /etc/profile</span><br><span class="line"></span><br><span class="line">#-------------------</span><br><span class="line">PATH=&quot;/usr/local/MySQL/bin:$PATH&quot;</span><br><span class="line">#--------------------</span><br><span class="line">#source /etc/profile</span><br><span class="line"></span><br><span class="line"># 将服务添加至/init.d/中</span><br><span class="line"># cp /usr/local/mysql/support-files/mysql.server /etc/init.d/</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line"># /etc/init.d/mysql.server start</span><br><span class="line"></span><br><span class="line"># 检查是否启动了</span><br><span class="line"># lsof -i:3306</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-1Mysql的配置文件"><a href="#2-1Mysql的配置文件" class="headerlink" title="2.1Mysql的配置文件"></a>2.1Mysql的配置文件</h3><p>&#x2F;etc&#x2F;my.cnf</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/storage/db/mysql</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
-
-<p>如果没有设置client标签和mysql标签,则在连接数据库的时候,系统会找不到socket文件报错.</p>
-<h2 id="3-MySQL相关指令"><a href="#3-MySQL相关指令" class="headerlink" title="3.MySQL相关指令"></a>3.MySQL相关指令</h2><ul>
-<li>显示所有数据库 show databases;</li>
-<li>查看表格 show tables;</li>
-<li>查看用户列表 select user,host from mysql.user;</li>
-<li>查看当前用户 select user();</li>
-<li>查看当前所在库 select database();</li>
-<li>删除数据库 drop database 库名;</li>
-<li>删除用户 drop user ‘用户‘@’主机’;</li>
-<li>添加用户 grante all on [database] to [userName] identified by ‘password’</li>
-<li>远程连接需要添加参数 -h 主机ip</li>
-</ul>
-<h2 id="4-数据库备份"><a href="#4-数据库备份" class="headerlink" title="4.数据库备份"></a>4.数据库备份</h2><p>mysqldump:</p>
-<ul>
-<li>-A 备份所有库</li>
-<li>-B 备份多个库,并添加use 库名: create database库等功能</li>
-<li>-x 锁表,会影响读写,尽量晚上执行.</li>
-<li>|gzip 压缩效率高</li>
-<li>.sql.gz 表示ssql语句数据,.gz是压缩包</li>
-</ul>
-<p>例如: mysqldump -uroot -poldboyg123 -B -A –events -x | gzip&gt;&#x2F;opt&#x2F;bak_$(date +%F).sql.gz</p>
-<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><ul>
-<li>Nginx机器为 172.16.177.133</li>
-<li>数据库机器为 172.16.177.132</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># mysqldump -uroot -poldboy123 -B -A| gzip &gt;bak_$(date+ %F).sql.gz</span><br><span class="line"></span><br><span class="line"># 已经创建了备份文件</span><br><span class="line"># 把备份文件送到目标机器</span><br><span class="line"></span><br><span class="line"># 在其含有该备份文件的目录下</span><br><span class="line"># gzip -d bak_****.sql.gz</span><br><span class="line"># 会得到一个sql文件</span><br><span class="line"># 利用输入重定向写入sql语句</span><br><span class="line"># mysql -uroot -pxxxx &lt; bak_*****.sql</span><br><span class="line"></span><br><span class="line"># 完成备份</span><br><span class="line"></span><br><span class="line"># 给Nginx用户授权</span><br><span class="line"># mysql</span><br><span class="line"></span><br><span class="line">#-------------</span><br><span class="line"></span><br><span class="line">mysql &gt; grant delect,select,update,insert,drop on wordpress to wordpress@&#x27;172.16.177.%&#x27; identified by &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">意思是所有172.16.177网段过来的机器都能访问</span><br><span class="line"></span><br><span class="line">#-------------</span><br><span class="line"></span><br><span class="line">#### 修改Nginxz主机里面 blog 节点的php配置信息 ###</span><br><span class="line">### 172.16.177.133 ###</span><br><span class="line"># 略...</span><br><span class="line">### 配置host文件</span><br><span class="line"># echo &quot;172.16.177.132 database.server.org&quot; &gt;&gt; /etc/hosts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="5-遇到的问题"><a href="#5-遇到的问题" class="headerlink" title="5.遇到的问题"></a>5.遇到的问题</h2><h3 id="Can’t-connect-to-local-MySQL-server-through-socket-‘-tmp-mysql-sock’-2"><a href="#Can’t-connect-to-local-MySQL-server-through-socket-‘-tmp-mysql-sock’-2" class="headerlink" title="Can’t connect to local MySQL server through socket ‘&#x2F;tmp&#x2F;mysql.sock’(2)"></a>Can’t connect to local MySQL server through socket ‘&#x2F;tmp&#x2F;mysql.sock’(2)</h3><p>这个可能是因为服务没有启动,或者是因为配置文件的路径没有修改好.</p>
-<h3 id="没有设置mysql的root密码"><a href="#没有设置mysql的root密码" class="headerlink" title="没有设置mysql的root密码"></a>没有设置mysql的root密码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;use mysql;</span><br><span class="line">mysql&gt;update user set password=password(&#x27;newpassword&#x27;) where user=&#x27;root&#x27;;</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line"></span><br><span class="line">## 将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="6-MySQL进阶"><a href="#6-MySQL进阶" class="headerlink" title="6.MySQL进阶"></a>6.MySQL进阶</h2><h3 id="6-1-多实例"><a href="#6-1-多实例" class="headerlink" title="6.1 多实例"></a>6.1 多实例</h3><ul>
-<li>简单理解这个概念:同一套mysql程序,不同的”my.cnf,启动程序,端口”.</li>
-<li>优势:有效利用服务器资源,节约服务器资源,</li>
-<li>适用:并发访问不是特别大的业务</li>
-</ul>
-<h4 id="6-1-2-安装"><a href="#6-1-2-安装" class="headerlink" title="6.1.2.安装"></a>6.1.2.安装</h4><ol>
-<li>ncurses-devel # 依赖库</li>
-<li>libaio-devel  # 依赖库</li>
-<li>cmake # 软件</li>
-<li>tree , dos2unix</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.5.58 \ 指定安装目录</span><br><span class="line">-DMYSQL_DATADIR=/application/mysql-5.5.58/data \ 指定数据存放路径</span><br><span class="line">-DMYSQL_UNIX_ADDR=/application/mysql-5.5.58/tmp/mysql.sock \ 指定套间字路径</span><br><span class="line">-DDEFAULT_CHARSET=utf8 \ 指定默认字符集</span><br><span class="line">-DDEFAULT_COLLATION=utf9_general_ci \ 设置字符校验集</span><br><span class="line">-DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \</span><br><span class="line">-DENABLED_LOCAL_INFILE=ON \</span><br><span class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1 \ 安装INNOBASE存储引擎</span><br><span class="line">-DWITH_FEDERATED_STORAGE_ENGINE=1 \ 安装BLACKHOLE存储引擎</span><br><span class="line">-DWITH_BLACKHOLE_STORAGE_ENGINE=1 \ 安装BLACKHOLE存储引擎</span><br><span class="line">-DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \  不启用或不编译EXAMPLE存储引擎</span><br><span class="line">-DWITHOUT_PARTITION_STORAGE_ENGINE=1 \</span><br><span class="line">-DWITH_FAST_MUTEXES=1 \</span><br><span class="line">-DWITH_ZLIB=bundled \</span><br><span class="line">-DENABLED_LOCAL_INFILE=1 \</span><br><span class="line">-DWITH_READLINE=1 \</span><br><span class="line">-DWITH_EMBEDDED_SERVER=1 \</span><br><span class="line">-DWITH_DEBUG=0</span><br></pre></td></tr></table></figure>
-
-<p>最终也是要make &amp;&amp; make install</p>
-<h4 id="6-1-3-配置"><a href="#6-1-3-配置" class="headerlink" title="6.1.3.配置"></a>6.1.3.配置</h4><p>创建数据文件夹3306,3307</p>
-<ul>
-<li>&#x2F;application&#x2F;mysql&#x2F;data&#x2F;3306</li>
-<li>&#x2F;application&#x2F;mysql&#x2F;data&#x2F;3307</li>
-</ul>
-<p>分别在数据文件夹里面写配置文件</p>
-<blockquote>
-<p>我们采用的独立配置文件和Sock来启动实例,所以要编写好配置文件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 其中的一个节点,需要主要的几项</span><br><span class="line">[mysql]</span><br><span class="line">basedir=/application/mysql</span><br><span class="line">datadir=/data/3307</span><br><span class="line">port=</span><br><span class="line">socket=</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意好以上几点的路径即可<br>这里采用直直接复制根目录下的&#x2F;support-files&#x2F;mysql-small.cnf<br>注意:socket非常重要,因为要通过socket来启动或关闭程序,并且socket是通过程序启动后生成的.</p>
-</blockquote>
-<h4 id="6-1-4-启动多实例"><a href="#6-1-4-启动多实例" class="headerlink" title="6.1.4 启动多实例"></a>6.1.4 启动多实例</h4><p>因为是多实例,所以启动要根据配置文件来启动.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ./bin/mysql_safe --defaults-file=/data/3306/my.cnf</span><br><span class="line"># 检查是否启动</span><br><span class="line"># lsof -i:3306</span><br></pre></td></tr></table></figure>
-
-<h4 id="6-1-5链接数据库"><a href="#6-1-5链接数据库" class="headerlink" title="6.1.5链接数据库"></a>6.1.5链接数据库</h4><p>根据sock文件来链接数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mysql -S /data/3306/mysql.sock</span><br></pre></td></tr></table></figure>
-
-<h4 id="6-1-6关闭数据库"><a href="#6-1-6关闭数据库" class="headerlink" title="6.1.6关闭数据库"></a>6.1.6关闭数据库</h4><p>这里是通过mysqladmin与sock来关闭数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -S /data/3306/mysql.sock shutdown</span><br></pre></td></tr></table></figure>
-
-<h4 id="6-1-7小结"><a href="#6-1-7小结" class="headerlink" title="6.1.7小结"></a>6.1.7小结</h4><p>官方给出的多实例样例,是将所有实例都写在一个配置文件中,这样会增加耦合度,不符合运维思想,而这里的做法是通过将配置文件分离出来,因此关键步骤也在配置文件上面,同时要设置好权限.多实例是为了解决硬件资源不足的情况,但现在实际生产环境中已经没有什么应用的机会,因为现在机器硬件都很充足,没必要去多实例.本次案例中的操作可以用脚本实现开关数据库程序,把 mysql_safe 与 msqladmin 都整合到一个脚本文件中.</p>
-<h3 id="6-2-主从复制"><a href="#6-2-主从复制" class="headerlink" title="6.2 主从复制"></a>6.2 主从复制</h3><ul>
-<li>常用:主要是一主多从.</li>
-<li>不建议双写.</li>
-</ul>
-<p>原理: MySQL的主从复制是一个异步的复制过程,从 Master -&gt; Slave .</p>
-<h4 id="6-2-1过程"><a href="#6-2-1过程" class="headerlink" title="6.2.1过程"></a>6.2.1过程</h4><ul>
-<li>用户写入数据到数据库的同时,还要写进binlog(增量文件,格式mysql-bin.000001,默认1.1G,存放更改的内容是insert,update,delete,create,drop,alter),索引文件mysql-index;</li>
-<li>用户的数据配置文件要添加’开关’,即是my.cnf中的 log-bin &#x3D; “文件名”要打开.</li>
-<li>从库(slave)要开启两个线程,IO线程,SQL,master.info记录要从哪里获取内容,以及relay.00000x</li>
-</ul>
-<h4 id="6-2-2过程"><a href="#6-2-2过程" class="headerlink" title="6.2.2过程"></a>6.2.2过程</h4><ol>
-<li>授权一个用户用于备份同步.</li>
-<li>Master:备份开始前-&gt;锁表-&gt;拿主库的位置点-&gt;binlog文件名字-&gt;对应pos-&gt;解锁</li>
-<li>Slave:通过命令行change master,修改master.info信息,连接主库-&gt;binlog文件以及文件里的位置</li>
-<li>Master:binlog内容,主库IO读到的文件,位置点</li>
-<li>Slave:记录主库发过来的内容到relay-log,SQL线程读取relay-log中的SQL语句,执行数据库操作.</li>
-</ol>
-<h5 id="6-2-2-1-案例"><a href="#6-2-2-1-案例" class="headerlink" title="6.2.2.1 案例"></a>6.2.2.1 案例</h5><ul>
-<li>主库:3306</li>
-<li>从库:3307</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 在Master主库的配置文件中中开启binlog</span><br><span class="line"># vim /data/3306/my.cnf</span><br><span class="line"># 在数据库中是否开启该功能</span><br><span class="line"># mysql</span><br><span class="line">&gt; show variables;</span><br><span class="line">&gt; show variables like &quot;log_bin&quot;;</span><br><span class="line">&gt; show variables like &quot;server_id&quot;;</span><br><span class="line"># 创建授权用户</span><br><span class="line">&gt; grant replication slave on *.* to rep@&#x27;172.16.177/%&#x27; identified by &#x27;123456&#x27;</span><br><span class="line"># 刷新权限</span><br><span class="line">&gt; reflush privileges;</span><br><span class="line"># 锁表(不能进行操作)</span><br><span class="line">&gt;flush table with read lock;</span><br><span class="line">&gt; show master status;</span><br><span class="line"># 看binlog位置节点</span><br><span class="line"># mysqldump -uxx -pxx -S xx/mysql.sock -A -B -x --events |gzip&gt;./bak_$(date +%F).sql.gz</span><br><span class="line"># --master-data=2表示注释binlog节点位置 , -x锁表</span><br><span class="line"># mysqldump -u -p -A -B -F --master-data=2 -x --events|gzip &gt; ./bak_$(date +%F).sql.gz</span><br><span class="line"></span><br><span class="line">#还原</span><br><span class="line">#获取sql文件,用输入重定向</span><br><span class="line"># mysql -u -p -S &lt; ./bak_$(date +%F).sql</span><br></pre></td></tr></table></figure>
-
-<p>登陆从库配置同步参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;CHANGE MASTER TO</span><br><span class="line">&gt;MASTER_HOST=&quot;x.x.x.x&quot;, --主库的IP</span><br><span class="line">&gt;MASTER_PORT=3306, --主库的端口</span><br><span class="line">&gt;MASTER_USER=&#x27;rep&#x27;,</span><br><span class="line">&gt;MASTER_PASSWORD=&#x27;123456&#x27;, --用于复制的用户密码</span><br><span class="line">&gt;MASTER_LOG_FILE=&#x27;mysql-bin.00008&#x27;, --这里是show master status时查看到的二进制文件名称,注意不能多空格.</span><br><span class="line">&gt; MASTER_LOG_POS=342; --这里是show master status 时看到的二进制日志偏移量,注意不能有空格.</span><br><span class="line"># 打开开关</span><br><span class="line">&gt;start slave;</span><br></pre></td></tr></table></figure>
-
-<h5 id="6-2-2-2-问题"><a href="#6-2-2-2-问题" class="headerlink" title="6.2.2.2 问题"></a>6.2.2.2 问题</h5><ol>
-<li>在数据库中无法show master status; –配置文件中bin-log功能没有开启</li>
-<li>服务器不能正常启动; –确定配置文件没有错误 , rm -rf 把pid删除,重新开启;</li>
-</ol>
-<h4 id="6-2-3小结"><a href="#6-2-3小结" class="headerlink" title="6.2.3小结"></a>6.2.3小结</h4><ol>
-<li>主从复制是异步的,逻辑的SQL语句备份.</li>
-<li>同步时,主库有一个IO线程,从库有两个线程:IO线程,SQL.</li>
-<li>实现主从复制的必要条件,主库要开启binlog功能.</li>
-<li>binlog文件只记录对数据库有更改的SQL语句(来自主数据库内容的更变).</li>
-</ol>
-<h3 id="6-3-4-主从复制的相关问题"><a href="#6-3-4-主从复制的相关问题" class="headerlink" title="6.3.4 主从复制的相关问题"></a>6.3.4 主从复制的相关问题</h3><h4 id="从库记录bin-log"><a href="#从库记录bin-log" class="headerlink" title="从库记录bin-log"></a>从库记录bin-log</h4><p>应用场景:</p>
-<ol>
-<li>双主互为主从场景</li>
-<li>级联复制</li>
-</ol>
-<p>实现方式:</p>
-<p>在从库的配置文件中加入以下的配置:</p>
-<ul>
-<li>log-bin &#x3D; &#x2F;data&#x2F;3307&#x2F;mysql-bin</li>
-<li>log-slave-update #必须要有这个参数</li>
-<li>expire_logs_day &#x3D; 7 # 相当于 find &#x2F;data&#x2F;3307&#x2F; -type f -name “mysql-bin.000*” -mitime +7 | xargs rm -f</li>
-</ul>
-<h4 id="级联复制"><a href="#级联复制" class="headerlink" title="级联复制"></a>级联复制</h4><p>方案: 3306 -&gt; 3307 -&gt; 3308</p>
-<h4 id="双主复制"><a href="#双主复制" class="headerlink" title="双主复制"></a>双主复制</h4><p>两种方案:</p>
-<ol>
-<li>让表的ID自增,然后让主库1 写 1,3,5…的数据,主2 写 2,4,6…的数据</li>
-<li>不让表的ID自增,然后通过WEB端城区去seq服务器取ID,写入双主.</li>
-</ol>
-<h5 id="6-3-4-1-1方案一"><a href="#6-3-4-1-1方案一" class="headerlink" title="6.3.4.1.1方案一"></a>6.3.4.1.1方案一</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在主库一,增加以下两个参数:</span><br><span class="line">auto\_increment_increment = 2 #自增ID的间隔</span><br><span class="line">auto\_increment_offset = 1 #ID的初始位置.</span><br><span class="line">log-slave-updates</span><br><span class="line">log-bin</span><br><span class="line">expire\_logs_days = 7</span><br><span class="line"></span><br><span class="line">在主库二,增加以下参数:</span><br><span class="line">auto\_increment_increment = 2 #自增ID的间隔</span><br><span class="line">auto\_increment_offset = 2 #ID的初始位置.</span><br><span class="line">log-slave-updates</span><br><span class="line">log-bin</span><br><span class="line">expire\_logs_days = 7</span><br></pre></td></tr></table></figure>
-
-<h4 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h4><p>软件:</p>
-<ul>
-<li>MySQL-proxy</li>
-<li>Amoeba</li>
-</ul>
-<h4 id="主从复制延迟"><a href="#主从复制延迟" class="headerlink" title="主从复制延迟"></a>主从复制延迟</h4><ol>
-<li>从库过多导致复制延迟.(3-5为宜)</li>
-<li>从库硬件比主库差会导致复制延迟.</li>
-<li>慢SQL语句过多.</li>
-<li>网络延迟.</li>
-<li>主从复制模式设计有问题.(利用程序实现多线程)</li>
-<li>主库读写压力大导致复制延迟.(架构的前端添加buffer以及缓存层)</li>
-</ol>
-<h4 id="主库MASTER-宕机-灾难恢复"><a href="#主库MASTER-宕机-灾难恢复" class="headerlink" title="主库MASTER 宕机(灾难恢复)"></a>主库MASTER 宕机(灾难恢复)</h4><p>建立虚拟IP地址,由VIP提供服务</p>
-<h5 id="方法1-半同步从库-谷歌半同步插件-5-5自带"><a href="#方法1-半同步从库-谷歌半同步插件-5-5自带" class="headerlink" title="方法1 半同步从库(谷歌半同步插件 5.5自带)"></a>方法1 半同步从库(谷歌半同步插件 5.5自带)</h5><p>主库插入数据后,同时写到S1,成功返回.</p>
-<ul>
-<li>优点:两台库同时写入数据</li>
-<li>缺点:写入会慢,网络不稳定,主库持续等待.</li>
-</ul>
-<p>解决措施:</p>
-<ol>
-<li>连不上S1的时候自动转为异步.</li>
-<li>设置10秒超时,超过10秒转为异步.</li>
-<li>S1网络,硬件要好,不提供服务,只等接管.</li>
-</ol>
-<h5 id="方法2-S1只做同步的从库"><a href="#方法2-S1只做同步的从库" class="headerlink" title="方法2 S1只做同步的从库"></a>方法2 S1只做同步的从库</h5><h5 id="方法3-把S1切换为MASTER"><a href="#方法3-把S1切换为MASTER" class="headerlink" title="方法3 把S1切换为MASTER"></a>方法3 把S1切换为MASTER</h5><h6 id="如果主库可以提供SSH链接-BINLOG数据没有丢失"><a href="#如果主库可以提供SSH链接-BINLOG数据没有丢失" class="headerlink" title="如果主库可以提供SSH链接,BINLOG数据没有丢失"></a>如果主库可以提供SSH链接,BINLOG数据没有丢失</h6><ol>
-<li>调配为read-only.授权用户select变成增删改查,开启binlog.</li>
-<li>登陆数据库 reset master</li>
-<li>重启数据库,提升S1为MASTER.</li>
-<li>把主库的BINLOG文件补全到所有从库:CHANGE MASTER TO ,MASTER_LOG_FILE&#x3D;’xxxx’,MASTER_LOG_POS&#x3D;xxx;</li>
-</ol>
-<h6 id="如果主库连接补上"><a href="#如果主库连接补上" class="headerlink" title="如果主库连接补上"></a>如果主库连接补上</h6><ol>
-<li>半同步从库提升为主库,半同步数据,补全到所有从库.</li>
-<li>rm -f master.info master-relay.*</li>
-<li>提升S1为主库MASTER</li>
-<li>主库宕机,没有事先指定从库为主库.</li>
-</ol>
-<p>步骤:</p>
-<ol>
-<li>登陆所有从库,show processlist;</li>
-<li>查看所有从库,master.info的信息;</li>
-<li>选取POS最大的为主库</li>
-</ol>
-<p>工具:</p>
-<ul>
-<li>MySQL+HA+DRBD</li>
-<li>MySQL-MMM</li>
-<li>MySQL MHA</li>
-</ul>
-<h5 id="强制关闭数据方法"><a href="#强制关闭数据方法" class="headerlink" title="强制关闭数据方法"></a>强制关闭数据方法</h5><p>尽量不用 killall , pkill,kill</p>
 
       
     </div>
