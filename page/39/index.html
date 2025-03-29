@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">434</span>
+          <span class="site-state-item-count">435</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,360 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/297a89d9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/297a89d9/" class="post-title-link" itemprop="url">Python学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-17 22:59:55" itemprop="dateCreated datePublished" datetime="2017-11-17T22:59:55+00:00">2017-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Python学习-–-基础学习"><a href="#Python学习-–-基础学习" class="headerlink" title="Python学习 – 基础学习"></a>Python学习 – 基础学习</h1><p>官方介绍略,这里只说python的缺点:</p>
+<ol>
+<li>运行速度慢，和C程序相比非常慢，因为Python是解释型语言，你的代码在执行时会一行一行地翻译成CPU能理解的机器码，这个翻译过程非常耗时，所以很慢。而C程序是运行前直接编译成CPU能执行的机器码，所以非常快。</li>
+<li>代码不能加密。如果要发布你的Python程序，实际上就是发布源代码，这一点跟C语言不同，C语言不用发布源代码，只需要把编译后的机器码（也就是你在Windows上常见的xxx.exe文件）发布出去。要从机器码反推出C代码是不可能的，所以，凡是编译型的语言，都没有这个问题，而解释型的语言，则必须把源码发布出去。</li>
+</ol>
+<h2 id="安装Python"><a href="#安装Python" class="headerlink" title="安装Python"></a>安装Python</h2><p>这里有三种平台的安装文件:</p>
+<ol>
+<li>Mac : <code>https://www.python.org/ftp/python/3.6.3/python-3.6.3-macosx10.6.pkg</code></li>
+<li>Linux 略</li>
+<li>Windows 下载对应的exe安装文件即可</li>
+</ol>
+<p>检测是否安装成功:</p>
+<ul>
+<li>在Windows上运行Python时，请先启动命令行，然后运行python。</li>
+<li>在Mac和Linux上运行Python时，请打开终端，然后运行python3。</li>
+</ul>
+<h2 id="Python解释器"><a href="#Python解释器" class="headerlink" title="Python解释器"></a>Python解释器</h2><p>当我们编写Python代码时，我们得到的是一个包含Python代码的以.py为扩展名的文本文件。要运行代码，就需要Python解释器去执行.py文件。<br>由于整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。</p>
+<ol>
+<li>CPython – 官方版本的解释器：CPython。这个解释器是用C语言开发的，所以叫CPython。在命令行下运行python就是启动CPython解释器。</li>
+<li>IPython – 基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的。</li>
+<li>PyPy – 另一个Python解释器，它的目标是执行速度。PyPy采用JIT技术，对Python代码进行动态编译（注意不是解释），所以可以显著提高Python代码的执行速度。</li>
+<li>Jython – Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行。</li>
+<li>IronPython – IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。</li>
+</ol>
+<h2 id="开始编写python程序"><a href="#开始编写python程序" class="headerlink" title="开始编写python程序"></a>开始编写python程序</h2><h3 id="1-进入编辑界面-–-第一个程序"><a href="#1-进入编辑界面-–-第一个程序" class="headerlink" title="1.进入编辑界面 – 第一个程序"></a>1.进入编辑界面 – 第一个程序</h3><p>打开命令行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># python</span><br><span class="line"></span><br><span class="line">Python 2.7.10 (default, Feb  7 2017, 00:08:15)</span><br><span class="line">[GCC 4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.34)] on darwin</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt;exit()</span><br></pre></td></tr></table></figure>
+
+<p>在Python交互模式下输入exit()并回车，就退出了Python交互模式，并回到命令行模式;</p>
+<p>如果要让Python打印出指定的文字，可以用print()函数，然后把希望打印的文字用单引号或者双引号括起来，但不能混用单引号和双引号：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(<span class="string">&#x27;hello world&#x27;</span>)</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>执行一个.py文件只能在命令行模式执行。</p>
+<p>小结:</p>
+<ul>
+<li>在Python交互式模式下，可以直接输入代码，然后执行，并立刻得到结果。</li>
+<li>在命令行模式下，可以直接运行.py文件。</li>
+</ul>
+<h4 id="1-1-输入"><a href="#1-1-输入" class="headerlink" title="1.1 输入"></a>1.1 输入</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;name = <span class="built_in">input</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Python基础部分"><a href="#2-Python基础部分" class="headerlink" title="2.Python基础部分"></a>2.Python基础部分</h3><p>Python是一种计算机编程语言。计算机编程语言和我们日常使用的自然语言有所不同，最大的区别就是，自然语言在不同的语境下有不同的理解，而计算机要根据编程语言执行任务，就必须保证编程语言写出的程序决 <em>不能有歧义</em> ，所以，任何一种编程语言都有自己的一套语法，编译器或者解释器就是负责把符合语法的程序代码转换成CPU能够执行的机器码，然后执行。Python也不例外。</p>
+<p>以#开头的语句是注释，注释是给人看的，可以是任意内容，解释器会忽略掉注释。其他每一行都是一个语句，当语句以冒号:结尾时，缩进的语句视为代码块。</p>
+<blockquote>
+<p>缩进有利有弊。好处是强迫你写出格式化的代码，但没有规定缩进是几个空格还是Tab。按照约定俗成的管理，应该始终坚持使用 <em>4个空格</em> 的缩进。</p>
+</blockquote>
+<h4 id="2-1-数据类型和变量"><a href="#2-1-数据类型和变量" class="headerlink" title="2.1 数据类型和变量"></a>2.1 数据类型和变量</h4><h5 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h5><ul>
+<li>Python可以处理任意大小的整数，当然包括负整数，在程序中的表示方法和数学上的写法一模一样，例如：1，100，-8080，0，等等。</li>
+<li>计算机由于使用二进制，所以，有时候用十六进制表示整数比较方便，十六进制用0x前缀和0-9，a-f表示，例如：0xff00，0xa5b4c3d2，等等。</li>
+</ul>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><p>浮点数也就是小数，之所以称为浮点数，是因为按照科学记数法表示时，一个浮点数的小数点位置是可变的，比如，1.23x109和12.3x108是完全相等的。浮点数可以用数学写法，如1.23，3.14，-9.01，等等。但是对于很大或很小的浮点数，就必须用科学计数法表示，把10用e替代，1.23x109就是1.23e9，或者12.3e8，0.000012可以写成1.2e-5，等等。</p>
+<p>整数和浮点数在计算机内部存储的方式是不同的，整数运算永远是精确的（除法难道也是精确的？是的！），而浮点数运算则可能会有四舍五入的误差。</p>
+<h5 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h5><p>字符串是以单引号’或双引号”括起来的任意文本，比如’abc’，”xyz”等等。请注意，’’或””本身只是一种表示方式，不是字符串的一部分，因此，字符串’abc’只有a，b，c这3个字符。如果’本身也是一个字符，那就可以用””括起来，比如”I’m OK”包含的字符是I，’，m，空格，O，K这6个字符。</p>
+<ul>
+<li><p>转义字符\可以转义很多字符，比如\n表示换行，\t表示制表符，字符\本身也要转义，所以\表示的字符就是\，可以在Python的交互式命令行用print()打印字符串看看：</p>
+</li>
+<li><p>如果字符串里面有很多字符都需要转义，就需要加很多\，为了简化，Python还允许用r’’表示’’内部的字符串默认不转义，可以自己试试：</p>
+</li>
+</ul>
+<h5 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h5><p>布尔值和布尔代数的表示完全一致，一个布尔值只有True、False两种值，要么是True，要么是False，在Python中，可以直接用True、False表示布尔值（请注意大小写）.</p>
+<p>布尔值可以用and、or和not运算。</p>
+<ul>
+<li>and运算是与运算，只有所有都为True，and运算结果才是True：</li>
+<li>or运算是或运算，只要其中有一个为True，or运算结果就是True：</li>
+<li>not运算是非运算，它是一个单目运算符，把True变成False，False变成True：</li>
+</ul>
+<h5 id="空值"><a href="#空值" class="headerlink" title="空值"></a>空值</h5><p>空值是Python里一个特殊的值，用None表示。None不能理解为0，因为0是有意义的，而None是一个特殊的空值。</p>
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><p>变量的概念基本上和初中代数的方程变量是一致的，只是在计算机程序中，变量不仅可以是数字，还可以是任意数据类型。</p>
+<blockquote>
+<p>变量在程序中就是用一个变量名表示了，变量名必须是大小写英文、数字和_的组合，且不能用数字开头</p>
+</blockquote>
+<p>python可以不指定变量类型</p>
+<blockquote>
+<p>这种变量本身类型不固定的语言称之为动态语言，与之对应的是静态语言。静态语言在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。例如Java是静态语言.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a=<span class="string">&#x27;zrj&#x27;</span> <span class="comment">#解释器创建了字符串&#x27;zrj&#x27;和变量a，并把a指向&#x27;zrj&#x27;：</span></span><br><span class="line">&gt;&gt;&gt;b=a <span class="comment">#解释器创建了变量b，并把b指向a指向的字符串&#x27;zrj&#x27;：</span></span><br><span class="line">&gt;&gt;&gt;a=<span class="string">&#x27;genius&#x27;</span> <span class="comment">#解释器创建了字符串&#x27;genius&#x27;，并把a的指向改为&#x27;genius&#x27;，但b并没有更改</span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(b)</span><br><span class="line">zrj</span><br></pre></td></tr></table></figure>
+
+<h5 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h5><p>在Python中，通常用全部大写的变量名表示常量: PI&#x3D;3.1414926</p>
+<h5 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h5><p>字符串也是一种数据类型,但字符串比较特殊的是还有一个编码问题.</p>
+<p>用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：</p>
+<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387245992536e2ba28125cf04f5c8985dbc94a02245e000/0" alt="Unicode编码"></p>
+<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387245979827634fd6204f9346a1ae6358d9ed051666000/0" alt="浏览网页的时候，服务器会把动态生成的Unicode内容转换为UTF-8再传输到浏览器"></p>
+<p>看到很多网页的源码上会有类似 &lt;meta charset&#x3D;”UTF-8” &#x2F;&gt; 的信息，表示该网页正是用的UTF-8编码。</p>
+<p>在最新的Python 3版本中，字符串是以Unicode编码的，也就是说，Python的字符串支持多语言，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="built_in">print</span>(<span class="string">&#x27;包含中文的str&#x27;</span>)</span><br><span class="line">包含中文的<span class="built_in">str</span></span><br><span class="line">&gt;&gt;&gt;<span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>) <span class="comment"># ord 函数获取字符的整数表示</span></span><br><span class="line"><span class="number">65</span></span><br><span class="line">&gt;&gt;&gt;char(<span class="number">65</span>) <span class="comment"># chr函数把编码转换为对应的字符</span></span><br><span class="line"><span class="string">&#x27;A&#x27;</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>由于Python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把str变为以字节为单位的bytes。</p>
+<p>Python对bytes类型的数据用带b前缀的单引号或双引号表示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;x =<span class="string">b&#x27;ABC&#x27;</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">&#x27;ABC&#x27;</span>.encode(<span class="string">&#x27;ascii&#x27;</span>) <span class="comment">#以Unicode表示的str通过encode()方法可以编码为指定的bytes</span></span><br><span class="line"><span class="string">b&#x27;ABC&#x27;</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">b&#x27;ABC&#x27;</span>.decode(<span class="string">&#x27;ascii&#x27;</span>) <span class="comment">#从网络或磁盘上读取了字节流，那么读到的数据就是bytes。要把bytes变为str，就需要用decode()方法;</span></span><br><span class="line">&gt;&gt;&gt;<span class="string">b&#x27;ABC&#x27;</span>.decode(<span class="string">&#x27;utf-8&#x27;</span>,errors=<span class="string">&#x27;ignore&#x27;</span>) <span class="comment"># 如果bytes中只有一小部分无效的字节，可以传入errors=&#x27;ignore&#x27;忽略错误的字节</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>纯英文的str可以用ASCII编码为bytes，内容是一样的，含有中文的str可以用UTF-8编码为bytes。含有中文的str无法用ASCII编码，因为中文编码的范围超过了ASCII编码的范围，Python会报</p>
+</blockquote>
+<p>计算string包含多少字符,可以用len()函数(类似java的String.length()函数)</p>
+<p>len()函数计算的是 <em>str的字符数</em> ，如果换成bytes，len()函数就计算字节数;</p>
+<blockquote>
+<p>如果Python源码中包含中文字符,那么在保存源码文件的时候,用UTF-8编码保存.</p>
+</blockquote>
+<p>格式化:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">&#x27;Hi, %s, you have $%d.&#x27;</span> % (<span class="string">&#x27;Michael&#x27;</span>, <span class="number">1000000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个类似C语言中的print语句,例如 : n&#x3D;100 ,print(“I have %d $”,n);</p>
+<blockquote>
+<p>%运算符就是用来格式化字符串的。在字符串内部，%s表示用字符串替换，%d表示用整数替换，有几个%?占位符，后面就跟几个变量或者值，顺序要对应好。如果只有一个%?，括号可以省略。</p>
+</blockquote>
+<p>常见的占位符:</p>
+<table>
+<thead>
+<tr>
+<th align="center">占位符</th>
+<th align="center">替换内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">%d</td>
+<td align="center">整数</td>
+</tr>
+<tr>
+<td align="center">%f</td>
+<td align="center">浮点数</td>
+</tr>
+<tr>
+<td align="center">%s</td>
+<td align="center">字符串</td>
+</tr>
+<tr>
+<td align="center">%x</td>
+<td align="center">十六进制整数</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>有些时候，字符串里面的%是一个普通字符怎么办？这个时候就需要转义，用%%来表示一个%</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">&#x27;This is %d %%&quot; % 60</span></span><br><span class="line"><span class="string">This is 60 %</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="list-和-tuple"><a href="#list-和-tuple" class="headerlink" title="list 和 tuple"></a>list 和 tuple</h4><p>Java中有list集合,python也有,python不需要new一个list集合,直接定义即可.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;classmates = [<span class="string">&quot;Zrj&quot;</span>,<span class="string">&quot;Roman&quot;</span>,<span class="string">&quot;Cheryl&quot;</span>]</span><br><span class="line">&gt;&gt;&gt;classmates</span><br><span class="line">[<span class="string">&quot;Zrj&quot;</span>,<span class="string">&quot;Roman&quot;</span>,<span class="string">&quot;Cheryl&quot;</span>]</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">len</span>(classmates) <span class="comment"># 显示list集合元素个数</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line">&gt;&gt;&gt;classmates[<span class="number">0</span>] <span class="comment">#根据索引来获取元素,</span></span><br></pre></td></tr></table></figure>
+
+<p>遍历list集合也不需要写个for循环,直接显示</p>
+<p>显示list的元素个数,用len()函数 ,</p>
+<p>一个list的元素可以是另一个list</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;p=[<span class="string">&#x27;asp&#x27;</span>,<span class="string">&#x27;php&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;a=[<span class="string">&#x27;python&#x27;</span>,p,<span class="string">&#x27;scheme&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">len</span>(a)</span><br><span class="line"><span class="number">3</span></span><br><span class="line">&gt;&gt;&gt;a</span><br><span class="line">[<span class="string">&#x27;python&#x27;</span>,[<span class="string">&#x27;asp&#x27;</span>,<span class="string">&#x27;php&#x27;</span>],<span class="string">&#x27;scheme&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>另一种有序列表叫元组,tuple . tuple和list非常类似，但是tuple一旦初始化就不能修改，比如同样是列出同学的名字</p>
+<p>定义tuple:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;classmates=(<span class="string">&#x27;Zrj&#x27;</span>,<span class="string">&#x27;Romen&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment">#classmates这个tuple不能变了，它也没有append()，insert()这样的方法。其他获取元素的方法和list是一样的，你可以正常地使用classmates[0]，classmates[-1]，但不能赋值成另外的元素。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple。</p>
+</blockquote>
+<p>Python在显示只有1个元素的tuple时，也会加一个逗号,，以免你误解成数学计算意义上的括号.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;t = (<span class="number">1</span>)</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment">#定义的不是tuple，是1这个数！这是因为括号()既可以表示tuple，又可以表示数学公式中的小括号，这就产生了歧义，因此，Python规定，这种情况下，按小括号进行计算，计算结果自然是1。</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;t=(<span class="number">1</span>,)</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line">(<span class="number">1</span>,)</span><br></pre></td></tr></table></figure>
+
+<h5 id="可变的tuple"><a href="#可变的tuple" class="headerlink" title="可变的tuple"></a>可变的tuple</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;t=(<span class="number">1</span>,<span class="number">2</span>,[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>])</span><br><span class="line">&gt;&gt;&gt;t</span><br><span class="line">(<span class="number">1</span>,<span class="number">2</span>,[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.webxueyuan.com/cdn/files/attachments/001387269705541ad608276b6f7426ca59b8c2b19947243000/0" alt=";定义的三个变量"></p>
+<p>表面上看，tuple的元素确实变了，但其实变的不是tuple的元素，而是list的元素。</p>
+<blockquote>
+<p>tuple一开始指向的list并没有改成别的list，所以，tuple所谓的“不变”是说，tuple的每个元素，指向永远不变。即指向’a’，就不能改成指向’b’，指向一个list，就不能改成指向其他对象，但指向的这个list本身是可变的！</p>
+</blockquote>
+<h4 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt;= <span class="number">20</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Your age is&#x27;</span>,age)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;adult&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Your age is&#x27;</span>,age)</span><br></pre></td></tr></table></figure>
+
+<p>如果if语句判断是True，就把缩进的两行print语句执行了,也可以给if添加一个else语句，意思是，如果if判断是False，不要执行if的内容，去把else执行了</p>
+<blockquote>
+<p>注意冒号’:’不要遗漏,同时每一个语句后面都不用加分号’;’</p>
+</blockquote>
+<p>多分支用elif</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">20</span></span><br><span class="line"><span class="keyword">if</span> age &gt;= <span class="number">20</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Your age is&#x27;</span>,age)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;adult&#x27;</span>)</span><br><span class="line"><span class="keyword">elif</span> age &gt;= <span class="number">80</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;You are a old man&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Your age is&#x27;</span>,age)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>if语句执行有个特点，它是从上往下判断，如果在某个判断上是True，把该判断对应的语句执行后，就忽略掉剩下的elif和else.</p>
+</blockquote>
+<p>if语句可以简写:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#只要x是非零数值、非空字符串、非空list等，就判断为True，否则为False。</span></span><br><span class="line"><span class="keyword">if</span> x:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;True&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输入函数input返回的是string类型,如果需要对string类型进行转义则需要int()函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="built_in">input</span>(<span class="string">&#x27;your age is&#x27;</span>)</span><br><span class="line">age = <span class="built_in">int</span>(i)</span><br><span class="line"><span class="keyword">if</span> age &lt; <span class="number">18</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;young man!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>int()函数发现一个字符串并不是合法的数字时就会报错，程序就退出了. 跟java的valueof()一样有检查检查功能.</p>
+</blockquote>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><h5 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h5><p>这的语法跟shell的语法类似</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">names=[<span class="string">&#x27;Zrj&#x27;</span>,<span class="string">&#x27;Roman&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br></pre></td></tr></table></figure>
+
+<p>做一个累加的程序:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]:</span><br><span class="line">    <span class="built_in">sum</span> = <span class="built_in">sum</span> + x</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是1到100累加,在shell中是&#123;1..100&#125;,在python中可以用range(n)函数,这个是从0到n的整数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>):</span><br><span class="line">    <span class="built_in">sum</span> += x</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一样的,不要忘记冒号’:’</p>
+</blockquote>
+<h5 id="while-循环"><a href="#while-循环" class="headerlink" title="while 循环"></a>while 循环</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">n = <span class="number">99</span></span><br><span class="line"><span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">sum</span> = <span class="built_in">sum</span> + n</span><br><span class="line">    n = n - <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="break-Continue"><a href="#break-Continue" class="headerlink" title="break , Continue"></a>break , Continue</h5><ul>
+<li>在循环中，break语句可以提前退出循环</li>
+<li>在循环过程中，也可以通过continue语句，跳过当前的这次循环，直接开始下一次循环</li>
+</ul>
+<h4 id="dict-set"><a href="#dict-set" class="headerlink" title="dict &amp; set"></a>dict &amp; set</h4><h5 id="dict"><a href="#dict" class="headerlink" title="dict"></a>dict</h5><p>Python内置了字典：dict的支持，dict全称dictionary，在其他语言中也称为map，使用键-值（key-value）存储，具有极快的查找速度。</p>
+<blockquote>
+<p>这类似java中的map</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;d = &#123;<span class="string">&#x27;Zrj&#x27;</span>:<span class="number">92</span>,<span class="string">&#x27;Roman&#x27;</span>:<span class="number">99</span>&#125;</span><br><span class="line">&gt;&gt;&gt;d[<span class="string">&#x27;Zrj&#x27;</span>]</span><br><span class="line"><span class="number">92</span></span><br><span class="line">&gt;&gt;&gt;d[<span class="string">&#x27;Zrj&#x27;</span>]=<span class="number">95</span> <span class="comment">#修改,由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉：</span></span><br><span class="line">&gt;&gt;&gt;d[<span class="string">&#x27;Zrj&#x27;</span>]</span><br><span class="line"><span class="number">95</span></span><br></pre></td></tr></table></figure>
+
+<p>判断dict是否有这个key,有两种方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">&#x27;Zrx&#x27;</span> <span class="keyword">in</span> d</span><br><span class="line"><span class="literal">False</span></span><br><span class="line">&gt;&gt;&gt;d.get(<span class="string">&#x27;Zrx&#x27;</span>)</span><br><span class="line">&gt;&gt;&gt;d.get(<span class="string">&#x27;Zrx&#x27;</span>,<span class="string">&#x27;False&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;False&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>删除一个key-value,可以用pop(key)的方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;d.pop(<span class="string">&#x27;Roman&#x27;</span>)</span><br><span class="line"><span class="number">99</span></span><br></pre></td></tr></table></figure>
+
+<p>dict与list的特点对比:</p>
+<table>
+<thead>
+<tr>
+<th align="center">dict</th>
+<th align="center">list</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">查找和插入速度极快,不会随着key的增减而变慢</td>
+<td align="center">查找和插入的空间随着元素的增加而增加</td>
+</tr>
+<tr>
+<td align="center">需要占用大量的内存,内存浪费</td>
+<td align="center">占用空间小,浪费的内存很少</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>dict是用空间来换取时间的一种方法。</p>
+</blockquote>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="comment">#创建一个set , 需要提供一个list作为输入集合</span></span><br><span class="line">&gt;&gt;&gt;s =<span class="built_in">set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#重复元素将被自动过滤掉</span></span><br><span class="line">&gt;&gt;&gt;s=<span class="built_in">set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br><span class="line">&gt;&gt;&gt;通过add()方法将元素添加到<span class="built_in">set</span>中</span><br><span class="line">&gt;&gt;&gt;s.add(<span class="number">5</span>)</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line">&gt;&gt;&gt;通过remove(key)方法可以删除元素</span><br><span class="line">&gt;&gt;&gt;s.remove(<span class="number">4</span>)</span><br><span class="line">&gt;&gt;&gt;s</span><br><span class="line">&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>&#125;</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作</span></span><br><span class="line">&gt;&gt;&gt;s1= <span class="built_in">set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">&gt;&gt;&gt;s2= <span class="built_in">set</span>([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br><span class="line">&gt;&gt;&gt;s1 &amp; s2</span><br><span class="line">&#123;<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">&gt;&gt;&gt;s1 | s2</span><br><span class="line">&gt;&gt;&gt;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
+<li>求绝对值 abs()</li>
+<li>最大值 max()</li>
+<li>类型转换 int() , float() , str() , bool()</li>
+</ul>
+<p>函数名其实就是指向一个函数对象的引用，完全可以把函数名赋给一个变量，相当于给这个函数起了一个“别名”:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a=<span class="built_in">abs</span></span><br><span class="line">&gt;&gt;&gt;a(-<span class="number">1</span>)</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>请使用迭代查找一个list中最小和最大值，并返回一个tuple：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Find the max and min number and return a tuple</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>():</span><br><span class="line">    <span class="comment">#Max</span></span><br><span class="line">    a = <span class="number">0</span></span><br><span class="line">    <span class="comment">#Min</span></span><br><span class="line">    b = <span class="number">99</span></span><br><span class="line">    <span class="keyword">for</span> i ,value <span class="keyword">in</span> <span class="built_in">enumerate</span>([<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]):</span><br><span class="line">        <span class="keyword">if</span> a &lt; value :</span><br><span class="line">            a = value</span><br><span class="line">        <span class="keyword">if</span> b &gt; value :</span><br><span class="line">            b = value</span><br><span class="line">    <span class="built_in">print</span>(a,b)ww</span><br><span class="line">    <span class="keyword">return</span> d = (a,b)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>定义一个函数要使用def语句,一次写出 函数名 , 括号 , 括号中的参数 , 冒号 ; 然后，在缩进块中编写函数体，函数的返回值用return语句返回。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_abs</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> -x</span><br><span class="line"></span><br><span class="line"><span class="comment">#对参数类型做检查，只允许整数和浮点数类型的参数。数据类型检查可以用内置函数isinstance()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_abs</span>(<span class="params">x</span>):</span><br><span class="line">   <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">isinstance</span>(x,(<span class="built_in">int</span>,<span class="built_in">float</span>)):</span><br><span class="line">       <span class="keyword">raise</span> TypeError(<span class="string">&#x27;Bad operand type&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> -x</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>把my_abs()的函数定义保存为abstest.py文件了，那么，可以在该文件的当前目录下启动Python解释器，用from abstest import my_abs来导入my_abs()函数，注意abstest是文件名（不含.py扩展名）：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">from</span> abstest <span class="keyword">import</span> my_abs</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_abs(-<span class="number">8</span>)</span><br><span class="line"><span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>如果想定义一个什么事也不做的空函数，可以用pass语句;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">nop</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#pass语句什么都不做，那有什么用？实际上pass可以用来作为占位符，比如现在还没想好怎么写函数的代码，就可以先放一个pass，让代码能运行起来。</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>测试:写一个一元二次方程的求解程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">a,b,c</span>):</span><br><span class="line">    <span class="keyword">if</span> b*b - <span class="number">4</span>*a*c &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Illegal args&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;x1=&quot;</span> , (-b + math.sqrt(b*b - <span class="number">4</span>*a*c))/(<span class="number">2</span>*a))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;x2=&quot;</span> , (-b - math.sqrt(b*b - <span class="number">4</span>*a*c))/(<span class="number">2</span>*a))</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Python的函数定义非常简单，但灵活度却非常大。除了正常定义的必选参数外，还可以使用默认参数、可变参数和关键字参数，使得函数定义出来的接口，不但能处理复杂的参数，还可以简化调用者的代码。</p>
+<blockquote>
+<p>函数的参数跟C语言差不多,都有形参与实参的说法</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#给参数一个默认值</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fun</span>(<span class="params">x,y=<span class="number">2</span></span>)</span><br></pre></td></tr></table></figure>
+
+<p>需要注意:</p>
+<ol>
+<li>是必选参数在前，默认参数在后，否则Python的解释器会报错.(会产生歧义,fun(x,y&#x3D;2,z),用户调用fun(1,3)则会报错)</li>
+<li>当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可以作为默认参数。</li>
+</ol>
+<blockquote>
+<p>如果默认参数是一个list,记得要给list加上一个END,list.append(‘END’)</p>
+</blockquote>
+<hr>
+<p>可变参数:</p>
+<p>当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面。变化小的参数就可以作为默认参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># a*a + b*b + c*c +...</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calc</span>(<span class="params">*numbers</span>):</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> numbers:</span><br><span class="line">        <span class="built_in">sum</span> = <span class="built_in">sum</span> + n*n</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果没有* 每次调用则需要传入一个list或者tuple</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>了解python的基础变量 , 集合 , 数组 , 函数的定义 , 在python中用缩进的规则来区分代码块,并且不要遗忘冒号 :</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1308,142 +1662,6 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="错误或者问题集锦"><a href="#错误或者问题集锦" class="headerlink" title="错误或者问题集锦"></a>错误或者问题集锦</h1><h2 id="1-用curl命令出现”file-not-found”"><a href="#1-用curl命令出现”file-not-found”" class="headerlink" title="1.用curl命令出现”file not found”"></a>1.用curl命令出现”file not found”</h2><p>这里可能是php解析出了问题,或者是配置php节点.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~* \.(ph|php5)?$</span><br><span class="line">&#123;</span><br><span class="line">    fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">    fastcgi_index index.php;</span><br><span class="line">    include fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c036635b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/c036635b/" class="post-title-link" itemprop="url">PHP</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-21 23:33:47" itemprop="dateCreated datePublished" datetime="2017-10-21T23:33:47+00:00">2017-10-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="LNMP之PHP"><a href="#LNMP之PHP" class="headerlink" title="LNMP之PHP"></a>LNMP之PHP</h1><h2 id="1-CGI"><a href="#1-CGI" class="headerlink" title="1.CGI"></a>1.CGI</h2><p>CGI(Common Gateway Interface),通用网关接口,用于HTTP服务器与其他机器上的程序服务通信交流的一种工具,CGI程序必须运行在网络服务器上.</p>
-<ul>
-<li>主要缺点: 性能差,因为每次HTTP服务器遇到动态程序都需要重新启动解析器来解析,然后再将结果返回给HTTP服务器.</li>
-</ul>
-<h2 id="2-FASTCGI"><a href="#2-FASTCGI" class="headerlink" title="2.FASTCGI"></a>2.FASTCGI</h2><p>是一个可伸缩,高速地在HTTP服务器和动态脚本语言间通信的接口.(Linux 下是Socket,也可以是ip_Socket)</p>
-<ul>
-<li>主要优点: 动态语言和HTTP服务器分离出来.主要支持Apache,Nginx,lighttpd.</li>
-<li>接口采用C&#x2F;S结构,分为客户端(HTTP服务器)和服务端(动态语言解析服务器)</li>
-<li>PHP动态语言服务端可以启动多个FastCGI的守护进程</li>
-<li>http服务器通过 FastCGI客户端和动态语言FastCGI服务端通信.(例如php-fpm)</li>
-</ul>
-<h3 id="2-1-运行原理"><a href="#2-1-运行原理" class="headerlink" title="2.1.运行原理"></a>2.1.运行原理</h3><p>Nginx不支持对外部动态程序的直接调用或者解析,所有的外部程序(包括PHP)必须他通过FastCGI接口来调用.</p>
-</br>
-
-<p>FastCGI接口在Linux下是Socket(这个Socket可以是文件,也可以是ip socket).</p>
-</br>
-
-<p>为了调用CGI程序,还需要一个FastCGI的wrapper(wrapper可以理解成用于启动另一个程序的程序,包装),这个wrapper绑定在某一个固定socket上,如端口或者文件socket.</p>
-</br>
-
-<p>当Nginx将CGI请求发送给这个Socket的时候,通过FastCGI接口,wrapper接收到请求,然后派生出一个新的线程,这个线程调用解释器或者外部程序处理脚本并读取返回数据.</p>
-</br>
-
-<p>wrapper再将返回的数据通过FastCGI接口,沿着固定的socket传递给Nginx,最后Nginx将数据发送给客户端.</p>
-<h2 id="3-安装PHP"><a href="#3-安装PHP" class="headerlink" title="3.安装PHP"></a>3.安装PHP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">wget http://cn.php.net/get/php-5.3.27.tar.gz/from/cn2.php.net/mirror</span><br><span class="line"></span><br><span class="line">wget http://cn2.php.net/get/php-5.3.27.tar.gz/from/this/mirror</span><br><span class="line"></span><br><span class="line"># 安装相关的依赖库</span><br><span class="line"></span><br><span class="line"># 需要的软件有:zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel</span><br><span class="line"></span><br><span class="line">yum install zlib-devel libxml2-devel libjpeg-devel libiconv-devel</span><br><span class="line">yum install freetype-devel libpng-devel gd-devel curl-devel</span><br><span class="line"></span><br><span class="line"># 安装libmcrypt库,在此采用的是epel源方法来安装libmcrypt包</span><br><span class="line"></span><br><span class="line">yum -y install libmcrypt</span><br><span class="line"></span><br><span class="line"># 执行安装脚本</span><br><span class="line">vim install.sh</span><br><span class="line">#---------------</span><br><span class="line">./configure \</span><br><span class="line">--prefix=/application/php-5.3.27 \</span><br><span class="line">--with-mysql=/application/mysql \</span><br><span class="line">--with-iconv-dir=/usr/local/libiconv \</span><br><span class="line">--with-freetype-dir \</span><br><span class="line">--with-jpeg-dir \</span><br><span class="line">--with-png-dir \</span><br><span class="line">--with-zlib \</span><br><span class="line">--with-libxml-dir=/usr \</span><br><span class="line">--enable-xml \</span><br><span class="line">--disable-rpath \</span><br><span class="line">--enable-safe-mode \</span><br><span class="line">--enable-bcmath \</span><br><span class="line">--enable-shmop \</span><br><span class="line">--enable-sysvsem \</span><br><span class="line">--enable-inline-optimization \</span><br><span class="line">--with-curlwrappers \</span><br><span class="line">--enable-mbregex \</span><br><span class="line">--enable-mbstring \</span><br><span class="line">--enable-fpm \</span><br><span class="line">--with-mcrypt \</span><br><span class="line">--with-gd \</span><br><span class="line">--enable-gd-native-ttf \</span><br><span class="line">--with-openssl \</span><br><span class="line">--with-mhash \</span><br><span class="line">--enable-pcntl \</span><br><span class="line">--enable-sockets \</span><br><span class="line">--with-xmlrpc \</span><br><span class="line">--enable-zip \</span><br><span class="line">--enable-soap \</span><br><span class="line">--enable-short-tags \</span><br><span class="line">--enable-zend-multibyte \</span><br><span class="line">--enable-static \</span><br><span class="line">--with-xsl \</span><br><span class="line">--with-fpm-user=nginx \</span><br><span class="line">--with-fpm-group=nginx \</span><br><span class="line">--enable-ftp</span><br><span class="line"></span><br><span class="line"># -------------</span><br><span class="line"></span><br><span class="line"># Before make</span><br><span class="line">ln -s /application/mysql/lib/libmysqlclient.so.18 /usr/lib64/</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"># 配置php解析文件</span><br><span class="line"># 在php主目录下</span><br><span class="line">cp php.ini-production   /application/php/lib/php.ini</span><br><span class="line"></span><br><span class="line">#在软件目录下的etc文件夹内</span><br><span class="line">cp php-fpm.conf.default  ./php-fpm.conf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 启动php进程</span><br><span class="line">/php/sbin/php-fpm</span><br><span class="line">lsof -i:9000</span><br><span class="line"></span><br><span class="line"># 测试</span><br><span class="line"># 在nginx的一个站点下写一个</span><br><span class="line"># test_phpinfo.php代码测试php</span><br><span class="line">#------</span><br><span class="line">&lt;?php</span><br><span class="line">    phpinfo();</span><br><span class="line">?&gt;</span><br><span class="line">#-------</span><br><span class="line"></span><br><span class="line"># 编辑location节点</span><br><span class="line"># ------------</span><br><span class="line">location ~*.\.php  &#123;</span><br><span class="line">    fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 输入域名测试</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-1-知识补充-Nginx-location语法"><a href="#3-1-知识补充-Nginx-location语法" class="headerlink" title="3.1.知识补充:Nginx location语法"></a>3.1.知识补充:Nginx location语法</h3><ul>
-<li>&#x3D; 严格匹配。如果这个查询匹配，那么将停止搜索并立即处理此请求。</li>
-<li>~ 为区分大小写匹配(可用正则表达式)</li>
-<li>!~为区分大小写不匹配</li>
-<li>~* 为不区分大小写匹配(可用正则表达式)</li>
-<li>!~*为不区分大小写不匹配</li>
-<li>^~ 如果把这个前缀用于一个常规字符串,那么告诉nginx 如果路径匹配那么不测试正则表达式。</li>
-</ul>
-<h2 id="4-WordPress博客实战"><a href="#4-WordPress博客实战" class="headerlink" title="4.WordPress博客实战"></a>4.WordPress博客实战</h2><h3 id="4-1到官网下载tar文件"><a href="#4-1到官网下载tar文件" class="headerlink" title="4.1到官网下载tar文件"></a>4.1到官网下载tar文件</h3><p><a target="_blank" rel="noopener" href="http://www.wordpress.org/">www.wordpress.org</a></p>
-<p>&lt;a href&#x3D;&#96;http:<a target="_blank" rel="noopener" href="http://www.wordpress.org/">www.wordpress.org</a> &gt;下载地址</a></p>
-<h3 id="4-2解压安装"><a href="#4-2解压安装" class="headerlink" title="4.2解压安装"></a>4.2解压安装</h3><p>tar xvf wordpress.tar</p>
-<p>复制当前整个目录到nginx的html的blog文件节点下.</p>
-<h3 id="4-3修改blog节点的配置文件"><a href="#4-3修改blog节点的配置文件" class="headerlink" title="4.3修改blog节点的配置文件"></a>4.3修改blog节点的配置文件</h3><p>vim &#x2F;conf&#x2F;nginx.conf</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name blog.test.org;</span><br><span class="line">    root html/blog;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        index index.php index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~*.\.(php|php5)?$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">    include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># ngnix -t</span><br><span class="line"># ngnix -s reload</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-4出现的问题"><a href="#4-4出现的问题" class="headerlink" title="4.4出现的问题"></a>4.4出现的问题</h3><h4 id="403"><a href="#403" class="headerlink" title="403"></a>403</h4><p>这个问题可能是html目录下的权限问题导致的.</p>
-<h4 id="没有安装mysql拓展"><a href="#没有安装mysql拓展" class="headerlink" title="没有安装mysql拓展"></a>没有安装mysql拓展</h4><p>默认的php配置文件在.&#x2F;lib下</p>
-<ol>
-<li>yum install mysql-devel</li>
-<li>修改php目录下面的php.ini ,在里面添加两个命令 :</li>
-</ol>
-<p>extension&#x3D;mysql.so<br>extension&#x3D;”&#x2F;usr&#x2F;lib64&#x2F;php&#x2F;modules&#x2F;“</p>
-<h4 id="4-3-1-location匹配字符讲解"><a href="#4-3-1-location匹配字符讲解" class="headerlink" title="4.3.1 location匹配字符讲解"></a>4.3.1 location匹配字符讲解</h4><ul>
-<li>&#x3D; 开头表示精确匹配</li>
-<li>^~ 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码，因此请求为&#x2F;static&#x2F;20%&#x2F;aa，可以被规则^~ &#x2F;static&#x2F; &#x2F;aa匹配到（注意是空格）。</li>
-<li>~ 开头表示区分大小写的正则匹配</li>
-<li>~* 开头表示不区分大小写的正则匹配</li>
-<li>!<del>和!</del>*分别为区分大小写不匹配及不区分大小写不匹配 的正则</li>
-<li>&#x2F; 通用匹配，任何请求都会匹配到。</li>
-</ul>
-<h2 id="5-BBS实战"><a href="#5-BBS实战" class="headerlink" title="5.BBS实战"></a>5.BBS实战</h2><h3 id="5-1创建用户"><a href="#5-1创建用户" class="headerlink" title="5.1创建用户"></a>5.1创建用户</h3><h3 id="5-2创建配置文件"><a href="#5-2创建配置文件" class="headerlink" title="5.2创建配置文件"></a>5.2创建配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line"></span><br><span class="line">    listen 80;</span><br><span class="line">    server_name bbs.test.org;</span><br><span class="line">    location / &#123;</span><br><span class="line">        index index.php index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~* \.(php|php5)?$ &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index_php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-3将相关的文件放置html的节点下"><a href="#5-3将相关的文件放置html的节点下" class="headerlink" title="5.3将相关的文件放置html的节点下"></a>5.3将相关的文件放置html的节点下</h3><p>下载Discuz,解压,将.&#x2F;upload里面的内容解压至html&#x2F;bbs;</p>
-<h3 id="5-4给该目录文件授权"><a href="#5-4给该目录文件授权" class="headerlink" title="5.4给该目录文件授权"></a>5.4给该目录文件授权</h3><p>因为我们是在root用户下面操作的,所以所有文件或文件夹,操作用户是root,属组也是root,而我们通过nginx连上的网页,用户默认为nginx,因此在安装的时候,会显示相关目录不能读写.</p>
-<h3 id="5-5完成测试"><a href="#5-5完成测试" class="headerlink" title="5.5完成测试"></a>5.5完成测试</h3><p>安装完成后,需要将该虚拟主机的域名添加至hosts文件中.</p>
-
       
     </div>
 

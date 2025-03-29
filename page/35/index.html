@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">434</span>
+          <span class="site-state-item-count">435</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,82 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1793218a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1793218a/" class="post-title-link" itemprop="url">[待补充]浪潮服务器上的坑-- RAID10</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-31 22:34:48" itemprop="dateCreated datePublished" datetime="2018-10-31T22:34:48+00:00">2018-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天上架浪潮的服务器，有四块STAT硬盘要做成RAID10。然而做成RAID10后，安装系统的时候竟然没有识别到硬盘分区。经过一番排查后，BIOS默认只设置了一个span，需要再另设一个span2，并均匀分配硬盘（即SPAN1 、SPAN2各分两块盘）。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1080,126 +1156,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>昨天给服务器多加 8 根内存条 ，用的是 双列内存条，单条16GB。 原本服务器已经有8条 16GB的单列内存条，共计 128 GB 的内存。新增 8 条内存条 ，理论上应该共计 256 GB。可是 最终仅有 240 GB ，相当于少了一条内存条。现在就记录一下排查过程，已经处理方法。 </p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/697d10de/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/697d10de/" class="post-title-link" itemprop="url">服务器上架笔记(1)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-18 22:47:32" itemprop="dateCreated datePublished" datetime="2018-10-18T22:47:32+00:00">2018-10-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天完成了几台服务器的上架任务（包括安装系统），期间的操作流程在此做一下记录。因有保密性要求，这里就不列出服务器的型号与业务。仅是将今天所学到的一些规范和注意事项做一下记录。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="确认服务器配置"><a href="#确认服务器配置" class="headerlink" title="确认服务器配置"></a>确认服务器配置</h2><p>由于服务器到运维人员手上时，该服务器已经历过多手转换，期间又有多个人对接谈判，因此，该服务器的配置是否还是你当初的所要求的，这里需要留一个问好。</p>
-<blockquote>
-<p>这个服务器的配置是我需要的吗？</p>
-</blockquote>
-<p>先确认最明显的几点：</p>
-<ul>
-<li>是否带冗余电源。</li>
-<li>是否有配备RAID阵列卡。</li>
-<li>RAID阵列卡是什么型号的。</li>
-<li>网卡、网口是否满足需求，是要四口的？还是2口？</li>
-<li>光口的网卡是什么类型的，40G？10G？HBA？</li>
-<li>硬盘多少G。</li>
-<li>随机配备的光模块确认清楚，是否都齐全。</li>
-<li>确认拓展卡槽是什么类型的 ， PCIex8 ？ PCIex16 ？ ML2 ？</li>
-<li>电源是否都为PDU专用，规格是什么？是不是C13-14？</li>
-</ul>
-<h2 id="网络线路确认"><a href="#网络线路确认" class="headerlink" title="网络线路确认"></a>网络线路确认</h2><ul>
-<li>存储用的是哪几个口，分配什么IP ？</li>
-<li>业务用的是哪几个口，分配什么IP ？</li>
-<li>带外管理用的是什么IP ？</li>
-<li>服务器本身管理用的是什么网口 ？</li>
-<li>采用什么样的接线方式 ？ 交叉 ？ 为什么？</li>
-</ul>
-<h2 id="服务器发热量确认"><a href="#服务器发热量确认" class="headerlink" title="服务器发热量确认"></a>服务器发热量确认</h2><p>确认主要发热的模块是哪一些？<br>重新规划各个阵列卡的位置，确保有效散热。</p>
-<h2 id="确认U槽与理线"><a href="#确认U槽与理线" class="headerlink" title="确认U槽与理线"></a>确认U槽与理线</h2><ul>
-<li>服务器占几U ？</li>
-<li>怎么摆放 ？</li>
-<li>确定要用什么电源线 ？ </li>
-<li>标签要写什么 ？</li>
-<li>服务器名称写什么 ？</li>
-</ul>
-<h1 id="上架"><a href="#上架" class="headerlink" title="上架"></a>上架</h1><p>面对十几公斤的服务器，一定要两个人合作上架，避免出现事故。</p>
-<h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><p>确定需要安装什么版本的系统，采用什么方式安装。 </p>
-<ul>
-<li>ESXi ？ Custom ？</li>
-<li>Ubuntu 1404 server LTS ？</li>
-<li>Ubuntu 1604 server LTS ？</li>
-<li>CentOS 6 ？ CentOS 7 ？</li>
-<li>Windows Server 2012 ？</li>
-</ul>
-<h1 id="经验小结"><a href="#经验小结" class="headerlink" title="经验小结"></a>经验小结</h1><ul>
-<li>对于一个业务用两个网口（A ， B） ， 如果条件允许，请将两个口分散在两块不同的网卡上面，避免一块网卡损坏时，导致这个业务全部中断。</li>
-<li>对于电源线的接法，也采用交叉的方式去接 。 例如 A服务器两块电源 A1 、 A2 对饮接到 PDU1 、 PDU 2； 而B服务器两块电源 B1 、 B2 则对应接到 PDU2 、 PDU1 。 这样就可以使负载更加分散，避免单路PDU负载过高。</li>
-</ul>
 
       
     </div>

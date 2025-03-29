@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">434</span>
+          <span class="site-state-item-count">435</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,123 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/731111df/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/731111df/" class="post-title-link" itemprop="url">Ubuntu2004无人值守安装实例【待完善】</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-03-29 12:20:28 / Modified: 16:29:10" itemprop="dateCreated datePublished" datetime="2025-03-29T12:20:28+00:00">2025-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><h2 id="一期需求"><a href="#一期需求" class="headerlink" title="一期需求"></a>一期需求</h2><p>最终输出一个Ubuntu20.04的ISO镜像，服务器挂载此镜像时，就能自动安装完，并初始化主机名、网卡、镜像源、用户名、初始密码；</p>
+<h2 id="二期需求"><a href="#二期需求" class="headerlink" title="二期需求"></a>二期需求</h2><p>最终输出一个Ubuntu20.04的ISO镜像，服务器挂载此镜像时，可以要求用户输入主机名、IP，输入完毕后就能自动安装完，并初始化主机名、网卡、镜像源、用户名、初始密码；</p>
+<h2 id="三期需求"><a href="#三期需求" class="headerlink" title="三期需求"></a>三期需求</h2><p>通过PXE方式，实现远程挂载镜像自动安装；</p>
+<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h1><p>整体过程：</p>
+<ol>
+<li>使用虚拟机安装；</li>
+<li>先手动安装一遍，并在&#x2F;var&#x2F;log&#x2F;installer&#x2F;autoinstall-user-data</li>
+<li>将user-data文件封装进 ISO，并测试安装；</li>
+</ol>
+<h2 id="一期需求落地"><a href="#一期需求落地" class="headerlink" title="一期需求落地"></a>一期需求落地</h2><h3 id="虚拟机准备"><a href="#虚拟机准备" class="headerlink" title="虚拟机准备"></a>虚拟机准备</h3><p>虚拟化层：使用 VirtualBox 7.1.6 版本；<br>虚拟机配置：1C1G；（低于此配置，可能会在安装的时候触发中断）<br>镜像准备：ubuntu-20.04.5-live-server-amd64.iso (下载地址：<a target="_blank" rel="noopener" href="https://old-releases.ubuntu.com/releases/20.04.5/">https://old-releases.ubuntu.com/releases/20.04.5/</a>  ； 这里有一个坑，我在一个看起来像官网的地方，下载了一个镜像结果怎么样都无法使用)</p>
+<h3 id="手动安装准备"><a href="#手动安装准备" class="headerlink" title="手动安装准备"></a>手动安装准备</h3><p>主机名 test001<br>用户名 testuser<br>密码 Abc321<br>磁盘 10G：0.5G为EFI分区，2G为boot分区，2G为swap分区，5G为根分区<br>网卡名称：enp0s3<br>IP：192.168.56.101<br>Netmask：255.255.255.0<br>Gateway：192.168.56.1<br>DNS：8.8.8.8,8.8.4.4<br>search domain：rohman.com<br>镜像源： <a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/ubuntu/">https://mirrors.aliyun.com/ubuntu/</a><br>安装OpenSSH</p>
+<h3 id="自动安装"><a href="#自动安装" class="headerlink" title="自动安装"></a>自动安装</h3><p>通过手动安装，我们获取到了user-data的应答文件，可以开始准备封装自动化安装的镜像。</p>
+<h4 id="应答文件-user-data"><a href="#应答文件-user-data" class="headerlink" title="应答文件 user-data"></a>应答文件 user-data</h4><p>从服务器中获取 autoinstall-user-data</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line">#cloud-config</span><br><span class="line">autoinstall:</span><br><span class="line">  apt:</span><br><span class="line">    disable_components: []</span><br><span class="line">    geoip: true</span><br><span class="line">    preserve_sources_list: false</span><br><span class="line">    # apt 仓库</span><br><span class="line">    primary:</span><br><span class="line">    - arches:</span><br><span class="line">      - amd64</span><br><span class="line">      - i386</span><br><span class="line">      uri: http://mirrors.aliyun.com/ubuntu</span><br><span class="line">    - arches:</span><br><span class="line">      - default</span><br><span class="line">      uri: http://ports.ubuntu.com/ubuntu-ports</span><br><span class="line">  drivers:</span><br><span class="line">    install: false</span><br><span class="line">  # 配置主机与用户名信息</span><br><span class="line">  identity:</span><br><span class="line">    hostname: test001</span><br><span class="line">    password: $6$St6DjEmmG0KypFth$J56GKZ05nU2G3TiJF9o7AfnH8obgB/XKqeAc1964nSu/vnYLJkJGMrwq/abZAO4E8/Agt0pmT3/3CmSCDNI7e.</span><br><span class="line">    realname: testuser</span><br><span class="line">    username: testuser</span><br><span class="line">  kernel:</span><br><span class="line">    package: linux-generic</span><br><span class="line">  keyboard:</span><br><span class="line">    layout: us</span><br><span class="line">    toggle: null</span><br><span class="line">    variant: &#x27;&#x27;</span><br><span class="line">  locale: en_US.UTF-8</span><br><span class="line">  # 配置网络</span><br><span class="line">  network:</span><br><span class="line">    ethernets:</span><br><span class="line">      enp0s3:</span><br><span class="line">        addresses:</span><br><span class="line">        - 192.168.56.102/24</span><br><span class="line">        gateway4: 192.168.56.1</span><br><span class="line">        nameservers:</span><br><span class="line">          addresses:</span><br><span class="line">          - 8.8.8.8</span><br><span class="line">          - 8.8.4.4</span><br><span class="line">          search:</span><br><span class="line">          - rohman.com</span><br><span class="line">    version: 2</span><br><span class="line">  # 配置SSH</span><br><span class="line">  ssh:</span><br><span class="line">    allow-pw: true</span><br><span class="line">    authorized-keys: []</span><br><span class="line">    install-server: true</span><br><span class="line">  # 存储配置</span><br><span class="line">  storage:</span><br><span class="line">    config:</span><br><span class="line">    - ptable: gpt</span><br><span class="line">      serial: VBOX_HARDDISK_VB84cd466a-d1bb429d</span><br><span class="line">      path: /dev/sda</span><br><span class="line">      preserve: true</span><br><span class="line">      name: &#x27;&#x27;</span><br><span class="line">      grub_device: false</span><br><span class="line">      type: disk</span><br><span class="line">      id: disk-sda</span><br><span class="line">    - device: disk-sda</span><br><span class="line">      size: 564133888</span><br><span class="line">      flag: boot</span><br><span class="line">      number: 1</span><br><span class="line">      preserve: true</span><br><span class="line">      grub_device: true</span><br><span class="line">      type: partition</span><br><span class="line">      id: partition-sda1</span><br><span class="line">    - device: disk-sda</span><br><span class="line">      size: 1073741824</span><br><span class="line">      wipe: superblock</span><br><span class="line">      flag: linux</span><br><span class="line">      number: 2</span><br><span class="line">      preserve: true</span><br><span class="line">      grub_device: false</span><br><span class="line">      type: partition</span><br><span class="line">      id: partition-sda2</span><br><span class="line">    - fstype: ext4</span><br><span class="line">      volume: partition-sda2</span><br><span class="line">      preserve: false</span><br><span class="line">      type: format</span><br><span class="line">      id: format-0</span><br><span class="line">    - fstype: vfat</span><br><span class="line">      volume: partition-sda1</span><br><span class="line">      preserve: true</span><br><span class="line">      type: format</span><br><span class="line">      id: format-partition-sda1</span><br><span class="line">    - device: disk-sda</span><br><span class="line">      size: 9097445376</span><br><span class="line">      flag: linux</span><br><span class="line">      number: 3</span><br><span class="line">      preserve: true</span><br><span class="line">      grub_device: false</span><br><span class="line">      type: partition</span><br><span class="line">      id: partition-sda3</span><br><span class="line">    - name: vg-root</span><br><span class="line">      devices:</span><br><span class="line">      - partition-sda3</span><br><span class="line">      preserve: true</span><br><span class="line">      type: lvm_volgroup</span><br><span class="line">      id: lvm-volgroup-vg-root</span><br><span class="line">    - name: lv-swap</span><br><span class="line">      volgroup: lvm-volgroup-vg-root</span><br><span class="line">      size: 2147483648B</span><br><span class="line">      wipe: superblock</span><br><span class="line">      preserve: true</span><br><span class="line">      type: lvm_partition</span><br><span class="line">      id: lvm-partition-lv-swap</span><br><span class="line">    - fstype: swap</span><br><span class="line">      volume: lvm-partition-lv-swap</span><br><span class="line">      preserve: false</span><br><span class="line">      type: format</span><br><span class="line">      id: format-1</span><br><span class="line">    - path: &#x27;&#x27;</span><br><span class="line">      device: format-1</span><br><span class="line">      type: mount</span><br><span class="line">      id: mount-2</span><br><span class="line">    - name: lv-root</span><br><span class="line">      volgroup: lvm-volgroup-vg-root</span><br><span class="line">      size: 5368709120B</span><br><span class="line">      wipe: superblock</span><br><span class="line">      preserve: true</span><br><span class="line">      type: lvm_partition</span><br><span class="line">      id: lvm-partition-lv-root</span><br><span class="line">    - fstype: ext4</span><br><span class="line">      volume: lvm-partition-lv-root</span><br><span class="line">      preserve: false</span><br><span class="line">      type: format</span><br><span class="line">      id: format-2</span><br><span class="line">    - path: /</span><br><span class="line">      device: format-2</span><br><span class="line">      type: mount</span><br><span class="line">      id: mount-3</span><br><span class="line">    - path: /boot</span><br><span class="line">      device: format-0</span><br><span class="line">      type: mount</span><br><span class="line">      id: mount-1</span><br><span class="line">    - path: /boot/efi</span><br><span class="line">      device: format-partition-sda1</span><br><span class="line">      type: mount</span><br><span class="line">      id: mount-0</span><br><span class="line">    swap:</span><br><span class="line">      swap: 0</span><br><span class="line">  updates: security</span><br><span class="line">  # 安装完成后，需要执行的指令</span><br><span class="line">  late-commands:</span><br><span class="line">    # NTP服务修改</span><br><span class="line">    - </span><br><span class="line">  version: 1</span><br></pre></td></tr></table></figure>
+<p>这份文件需要修改的地方是 “serial: VBOX_HARDDISK_VB84cd466a-d1bb429d”,这个值每一个机器都是独一份的，配置文件中不能复用，否则会报错。</p>
+<h4 id="引导文件-grub-cfg"><a href="#引导文件-grub-cfg" class="headerlink" title="引导文件 grub.cfg"></a>引导文件 grub.cfg</h4><p>ISO的引导文件放置在 &#x2F;ubuntu-20.04.5-live-server-amd64.iso&#x2F;boot&#x2F;grub&#x2F;grub.cfg 中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if loadfont /boot/grub/font.pf2 ; then</span><br><span class="line">	set gfxmode=auto</span><br><span class="line">	insmod efi_gop</span><br><span class="line">	insmod efi_uga</span><br><span class="line">	insmod gfxterm</span><br><span class="line">	terminal_output gfxterm</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">set menu_color_normal=white/black</span><br><span class="line">set menu_color_highlight=black/light-gray</span><br><span class="line"></span><br><span class="line">set timeout=5</span><br><span class="line">menuentry &quot;Install Ubuntu Server&quot; &#123;</span><br><span class="line">	set gfxpayload=keep</span><br><span class="line">	linux	/casper/vmlinuz autoinstall ds=&#x27;nocloud;s=/cdrom/&#x27; fsck.mode=skip  quiet  ---</span><br><span class="line">	initrd	/casper/initrd</span><br><span class="line">&#125;</span><br><span class="line">grub_platform</span><br><span class="line">if [ &quot;$grub_platform&quot; = &quot;efi&quot; ]; then</span><br><span class="line">menuentry &#x27;Boot from next volume&#x27; &#123;</span><br><span class="line">	exit 1</span><br><span class="line">&#125;</span><br><span class="line">menuentry &#x27;UEFI Firmware Settings&#x27; &#123;</span><br><span class="line">	fwsetup</span><br><span class="line">&#125;</span><br><span class="line">fi</span><br><span class="line">submenu &#x27;Boot and Install with the HWE kernel&#x27; &#123;</span><br><span class="line">menuentry &quot;Install Ubuntu Server&quot; &#123;</span><br><span class="line">	set gfxpayload=keep</span><br><span class="line">	linux	/casper/hwe-vmlinuz   quiet  ---</span><br><span class="line">	initrd	/casper/hwe-initrd</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>增加 autoinstall ds&#x3D;’nocloud;s&#x3D;&#x2F;cdrom&#x2F;‘ fsck.mode&#x3D;skip 字段；关键字段是 autoinstall ds&#x3D;’nocloud;s&#x3D;&#x2F;cdrom&#x2F;‘ 这个是自动安装的关键。</p>
+</blockquote>
+<h4 id="重新封装ISO文件"><a href="#重新封装ISO文件" class="headerlink" title="重新封装ISO文件"></a>重新封装ISO文件</h4><p>这里使用的工具是 UltraISO 工具，用此工具打开原ISO文件，主要放入的三个文件：</p>
+<ol>
+<li>grub.cfg文件，要替换 &#x2F;ubuntu-20.04.5-live-server-amd64.iso&#x2F;boot&#x2F;grub&#x2F;grub.cfg ；</li>
+<li>user-data应答文件，要放入  &#x2F;ubuntu-20.04.5-live-server-amd64.iso&#x2F; 根目录；</li>
+<li>meta-data应答文件的元数据文件，要放入 &#x2F;ubuntu-20.04.5-live-server-amd64.iso&#x2F; 根目录；</li>
+</ol>
+<p>确认放入后，点击保存即可。</p>
+<h4 id="虚拟机验证测试"><a href="#虚拟机验证测试" class="headerlink" title="虚拟机验证测试"></a>虚拟机验证测试</h4><p>VirtualBox创建虚拟机，挂载ISO文件。预期内应该能自动完成安装。</p>
+<h4 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h4><h5 id="问题1：无法初始化硬盘，安装过程中直接中断暂停，配置文件语法有问题"><a href="#问题1：无法初始化硬盘，安装过程中直接中断暂停，配置文件语法有问题" class="headerlink" title="问题1：无法初始化硬盘，安装过程中直接中断暂停，配置文件语法有问题"></a>问题1：无法初始化硬盘，安装过程中直接中断暂停，配置文件语法有问题</h5><p>tty1提示在 configuring storage阶段报错，日志写到 &#x2F;var&#x2F;crash&#x2F;xxx.install_fail.crash<br>查看 &#x2F;var&#x2F;crash&#x2F;xxx.install_fail.crash ，搜索Error字段，发现明显的提示 RuntimeError: type:disk id&#x3D;disk-sda has both wipe and preserve</p>
+<h6 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h6><p>应答文件中写得有冲突，在存储配置里面，有关于 磁盘是否要保留数据的参数 preserve 参数，填写了 true；<br>新硬盘正常不应该会存在分区，填写了包留分区，则会有冲突，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">preserve: true, false</span><br><span class="line"></span><br><span class="line">When the preserve key is present and set to true curtin will attempt reuse the existing storage device. Curtin will verify aspects of the device against the configuration provided. </span><br><span class="line">For example, when assessing whether curtin can use a preserved partition, curtin checks that the device exists, size of the partition matches the value in the config and checks if the same partition flag is set. </span><br><span class="line">The set of verification checks vary by device type. If curtin encounters a mismatch between config and what is found on the device a RuntimeError will be raised with the expected and found values and halt the installation. </span><br></pre></td></tr></table></figure>
+
+<p>第二个关键参数，wipe;当wipe指定了内容，则是要格式化磁盘，所有内容均会被抹除；原配置文件中带有wipe参数，但是preserve又填为true，因此导致前后冲突。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wipe: superblock, superblock-recursive, pvremove, zero, random</span><br><span class="line"></span><br><span class="line">If wipe is specified, the disk contents will be destroyed. In the case that a disk is a part of virtual block device, like bcache, RAID array, or LVM, then curtin will attempt to tear down the virtual device to allow access to the disk for resetting the disk.</span><br><span class="line"></span><br><span class="line">The most common option for clearing a disk is wipe: superblock. In some cases use of wipe: superblock-recursive is useful to ensure that embedded superblocks on a disk aren’t rediscovered during probing. For example, LVM, bcache and RAID on a partition would have metadata outside of the range of a superblock wipe of the start and end sections of the disk.</span><br><span class="line"></span><br><span class="line">The wipe: zero option will write zeros to each sector of the disk. Depending on the size and speed of the disk; it may take a long time to complete.</span><br><span class="line"></span><br><span class="line">The wipe: random option will write pseudo-random data from /dev/urandom Depending on the size and speed of the disk; it may take a long time to complete.</span><br><span class="line"></span><br><span class="line">The wipe: pvremove option will execute the pvremove command to wipe the LVM metadata so that the device is no longer part of an LVM.</span><br></pre></td></tr></table></figure>
+
+<h6 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h6><p>将 preserve: true 全部改成 preserve: false;</p>
+<h5 id="问题2：无法初始化硬盘，安装过程中直接中断暂停，原始硬盘空间不足【待补充完整】"><a href="#问题2：无法初始化硬盘，安装过程中直接中断暂停，原始硬盘空间不足【待补充完整】" class="headerlink" title="问题2：无法初始化硬盘，安装过程中直接中断暂停，原始硬盘空间不足【待补充完整】"></a>问题2：无法初始化硬盘，安装过程中直接中断暂停，原始硬盘空间不足【待补充完整】</h5><p>tty1提示在 configuring storage阶段报错，日志写到 &#x2F;var&#x2F;crash&#x2F;xxx.install_fail.crash</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>《制作自动安装Ubuntu22.04-server的iso镜像以及安装过程详解》： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/luokeli0755/p/17861638.html">https://www.cnblogs.com/luokeli0755/p/17861638.html</a><br>《grub2详解(翻译和整理官方手册)》：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-ck-need-u/p/7094693.html">https://www.cnblogs.com/f-ck-need-u/p/7094693.html</a><br>《如何使用 autoinstall 编写和执行 Ubuntu 无人值守安装》：<a target="_blank" rel="noopener" href="https://cn.linux-console.net/?p=33717">https://cn.linux-console.net/?p=33717</a><br>《Ubuntu&#x2F;Debian无人值守 Autoinstall》：<a target="_blank" rel="noopener" href="https://gitbook.curiouser.top/origin/ubuntu-autoinstall.html">https://gitbook.curiouser.top/origin/ubuntu-autoinstall.html</a><br>《配置界面存储的语法Storage》：<a target="_blank" rel="noopener" href="https://curtin.readthedocs.io/en/latest/topics/storage.html">https://curtin.readthedocs.io/en/latest/topics/storage.html</a><br>《Ubuntu的autoinstall自动安装配置》<a target="_blank" rel="noopener" href="https://scc.ustc.edu.cn/hmli/doc/linux/ubuntu-autoinstall/ubuntu-autoinstall.html">https://scc.ustc.edu.cn/hmli/doc/linux/ubuntu-autoinstall/ubuntu-autoinstall.html</a><br>《ubuntu20.04打包iso镜像自动安装》 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/super-age/p/14952469.html">https://www.cnblogs.com/super-age/p/14952469.html</a><br>《Ubuntu无人值守安装保姆级教程》 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1886733079500007398">https://zhuanlan.zhihu.com/p/1886733079500007398</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1064,117 +1181,6 @@
 <li>+10ms、+15ms为梯度去测试；（根据实际业务环境去实测）</li>
 </ul>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://gulut.github.io/gulut-blog/post1/2020/09/20/2020-09-20-clumsy-a-bad-net-test-tool/">https://gulut.github.io/gulut-blog/post1/2020/09/20/2020-09-20-clumsy-a-bad-net-test-tool/</a><br><a target="_blank" rel="noopener" href="http://jagt.github.io/clumsy/manual.html">http://jagt.github.io/clumsy/manual.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/afa59f26/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/afa59f26/" class="post-title-link" itemprop="url">黑群晖折腾记录_稍后阅读部署_wallabag</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-10-19 20:23:33" itemprop="dateCreated datePublished" datetime="2024-10-19T20:23:33+00:00">2024-10-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/NAS%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">NAS存储</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在什么值得买里面看到稍后阅读的服务 wallabag ，于是想利用这个组建搭建一个私有化的服务器用于保留日常记录的网页信息。</p>
-<h1 id="开始部署"><a href="#开始部署" class="headerlink" title="开始部署"></a>开始部署</h1><p>本地化部署是需要 数据库 + 应用的</p>
-<h2 id="安装数据库"><a href="#安装数据库" class="headerlink" title="安装数据库"></a>安装数据库</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull mariadb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动数据库容器</span></span><br><span class="line"><span class="comment"># 配置的关键参数是MARIDB_ROOT_PASSWORD \ TZ</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="安装-wallabag"><a href="#安装-wallabag" class="headerlink" title="安装 wallabag"></a>安装 wallabag</h2><h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull wallabag/wallabag</span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内有保护，需要使用代理</span></span><br><span class="line">docker pull dockerproxy.cn/wallabag/wallabag</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动-wallabag-容器"><a href="#启动-wallabag-容器" class="headerlink" title="启动 wallabag 容器"></a>启动 wallabag 容器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 设置网页缓存路径</span></span><br><span class="line"><span class="comment"># docker 内关键路径：/var/www/wallabag/web/assets/images</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 设置端口映射，默认是使用80端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 设置数据库路径</span></span><br><span class="line">关键参数：</span><br><span class="line">MARIDB_ROOT_PASSWORD	</span><br><span class="line">SYMFONY__ENV__DATABASE_DRIVER	</span><br><span class="line">SYMFONY__ENV__DATABASE_PORT</span><br><span class="line">SYMFONY__ENV__DATABASE_NAME</span><br><span class="line">SYMFONY__ENV__DATABASE_USER</span><br><span class="line">SYMFONY__ENV__DATABASE_PASSWORD</span><br><span class="line">SYMFONY__ENV__DATABASE_CHARSET</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 设置对外映射环境</span></span><br><span class="line">SYMFONY__ENV__DOMAIN_NAME</span><br><span class="line">SYMFONY__ENV__SERVER_NAME</span><br><span class="line">SYMFONY__ENV__FOSUSER_CONFIRMATION</span><br><span class="line">SYMFONY__ENV__TWOFACTOR_AUTH	</span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>默认密码 wallabag&#x2F;wallabag</p>
-<h1 id="思考或待办"><a href="#思考或待办" class="headerlink" title="思考或待办"></a>思考或待办</h1><ol>
-<li>在部署maridb 、 wallabag 的容器时，均会涉及到目录文件权限的问题，docker的日志中会提示权限不足，无法写入；对应的解决方法是将目录权限改为 Everyone，这个风险很大，需要解决；</li>
-<li>导出会有乱码问题，应该是字符集没有设置好导致的；</li>
-<li>部署至公有云，则可以通过移动端采集，服务器端自动记录；</li>
-</ol>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
-<li>保存网页、稍后阅读，自建 Wallabag 服务也是一种选择 ：<a target="_blank" rel="noopener" href="https://sspai.com/post/52979">https://sspai.com/post/52979</a></li>
-<li>官方文档：<a target="_blank" rel="noopener" href="https://doc.wallabag.org/en/admin/installation/installation.html#installation">https://doc.wallabag.org/en/admin/installation/installation.html#installation</a></li>
-<li>部署说明：<a target="_blank" rel="noopener" href="https://www.christian-knedel.de/zh/post/2021/april/20210418-docker-wallabag/">https://www.christian-knedel.de/zh/post/2021/april/20210418-docker-wallabag/</a></li>
-</ol>
 
       
     </div>
