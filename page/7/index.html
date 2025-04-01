@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">435</span>
+          <span class="site-state-item-count">437</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,296 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7df976fa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7df976fa/" class="post-title-link" itemprop="url">关闭VCLS虚拟机</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-11-15 00:08:09" itemprop="dateCreated datePublished" datetime="2023-11-15T00:08:09+00:00">2023-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>从 vSphere 7 开始，集群中会部署vCLS虚拟机用于集群管理；但是vCLS虚拟机需要检查ESXi主机的BIOS设置，CPU选项需要开启“MWAIT”选项。<br>如果没有开启，则vCLS虚拟机会无法启动，而vCenter会一直尝试部署开机；</p>
+<p>因此短期需要关闭vCLS部署；长期来看，需要开启底层BIOS设置；</p>
+<blockquote>
+<p>Monitor 指令：MONITOR EAX, ECX, EDX；设置硬件要监视的线性地址范围，并激活监视器。地址范围应该是写回内存缓存型。</p>
+</blockquote>
+<blockquote>
+<p>Mwait指令：MwAIT EAX, ECX；这是一个提示，允许处理器停止指令执行，并进入取决于具体版本的优化状态，直到发生某类事件。</p>
+</blockquote>
+<h1 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h1><ol>
+<li>登录 vCenter Client；</li>
+<li>选中集群，会在URL中看到集群域ID，类似于 domain-c<number>；</li>
+<li>进入vCenter配置选项；</li>
+<li>进入高级配置选项；点击编辑设置；</li>
+<li>添加参数  config.vcls.clusters.domain-c<number>.enabled 且值为 False 的新条目；</li>
+<li>保存退出即可；</li>
+</ol>
+<blockquote>
+<p>设置完后，vCLS 监控服务将启动 vCLS 虚拟机的清理，用户将开始看到删除虚拟机的任务。<br>如果此集群启用了 DRS，则它将不起作用，并会在集群摘要中显示额外的警告。在此集群上重新启用 vCLS 之前，DRS 将一直处于禁用状态。<br>要从集群中移除撤回模式，请在上面的步骤 5 中将值更改为 True。 </p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/80472?lang=zh_CN">https://kb.vmware.com/s/article/80472?lang=zh_CN</a><br>Mwait设置： <a target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/knowledge/EKB1100006339">https://support.huawei.com/enterprise/zh/knowledge/EKB1100006339</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e3237ebb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e3237ebb/" class="post-title-link" itemprop="url">常用Python脚本</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-11-09 00:07:43" itemprop="dateCreated datePublished" datetime="2023-11-09T00:07:43+00:00">2023-11-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">基础知识</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (判断语句):</span><br><span class="line">    执行条件</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>没有{}，没有; ，注意缩进格式，注意: 。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">含义</th>
+<th align="center">符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">大于</td>
+<td align="center">&gt;</td>
+</tr>
+<tr>
+<td align="center">小于</td>
+<td align="center">&lt;</td>
+</tr>
+<tr>
+<td align="center">大于等于</td>
+<td align="center">&gt;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">小于等于</td>
+<td align="center">&lt;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">赋值</td>
+<td align="center">&#x3D;</td>
+</tr>
+<tr>
+<td align="center">相等</td>
+<td align="center">&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">不等</td>
+<td align="center">!&#x3D;</td>
+</tr>
+<tr>
+<td align="center">相等(对象)</td>
+<td align="center">is</td>
+</tr>
+<tr>
+<td align="center">不等(对象)</td>
+<td align="center">is not</td>
+</tr>
+<tr>
+<td align="center">逻辑非</td>
+<td align="center">not</td>
+</tr>
+<tr>
+<td align="center">逻辑与</td>
+<td align="center">and</td>
+</tr>
+<tr>
+<td align="center">逻辑或</td>
+<td align="center">or</td>
+</tr>
+<tr>
+<td align="center">位运算 或</td>
+<td align="center">|</td>
+</tr>
+<tr>
+<td align="center">位运算 异或</td>
+<td align="center">^</td>
+</tr>
+<tr>
+<td align="center">位运算 与</td>
+<td align="center">&amp;</td>
+</tr>
+</tbody></table>
+<h1 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">函数名</span>(<span class="params">形参</span>):</span><br><span class="line">    函数体</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数</span></span><br><span class="line">函数名(实参)</span><br></pre></td></tr></table></figure>
+
+<h1 id="逐行读取文本"><a href="#逐行读取文本" class="headerlink" title="逐行读取文本"></a>逐行读取文本</h1><blockquote>
+<p>节省内存,但会比较慢</p>
+</blockquote>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FILE = Open(<span class="string">&#x27;文件绝对路径‘)</span></span><br><span class="line"><span class="string">LINE = FILE.readline()</span></span><br><span class="line"><span class="string">while LINE:</span></span><br><span class="line"><span class="string">    print(LINE)</span></span><br><span class="line"><span class="string">    LINE = FILE.readline()</span></span><br><span class="line"><span class="string">FILE.close()</span></span><br></pre></td></tr></table></figure>
+
+<p>参考 ： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Kingfan1993/p/9570079.html">https://www.cnblogs.com/Kingfan1993/p/9570079.html</a></p>
+<h1 id="字符串分割"><a href="#字符串分割" class="headerlink" title="字符串分割"></a>字符串分割</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string=<span class="string">&quot;world;world2;word&quot;</span></span><br><span class="line">stringSet=string.split(<span class="string">&quot;;&quot;</span>)</span><br><span class="line">stringSet[<span class="number">0</span>]</span><br><span class="line">stringSet[<span class="number">1</span>]</span><br><span class="line">stringSet[<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="字符型与整型转化"><a href="#字符型与整型转化" class="headerlink" title="字符型与整型转化"></a>字符型与整型转化</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">num_str=<span class="string">&quot;123&quot;</span></span><br><span class="line">num_int=<span class="built_in">int</span>(num_str)</span><br><span class="line"></span><br><span class="line">num_str=<span class="built_in">str</span>(num_int)</span><br></pre></td></tr></table></figure>
+
+<h1 id="时延函数"><a href="#时延函数" class="headerlink" title="时延函数"></a>时延函数</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.sleep(秒)</span><br></pre></td></tr></table></figure>
+
+<h1 id="其他规则"><a href="#其他规则" class="headerlink" title="其他规则"></a>其他规则</h1><ol>
+<li>Python严格区分大小写</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -897,335 +1187,6 @@
 <p>使用正确的密码却无法登录服务器，一直提示Login incorrect.</p>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>服务器开启了 selinux</p>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/selinux/config</span><br><span class="line"></span><br><span class="line">将selinux改为disabled</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/aae56061/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/aae56061/" class="post-title-link" itemprop="url">VCSA-503故障-证书到期</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-07-30 17:39:17" itemprop="dateCreated datePublished" datetime="2023-07-30T17:39:17+00:00">2023-07-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
-<li>登录vCenter的WEB界面，提示503报错；</li>
-<li>登录vCenter的管理界面(<a href="https://VC-IP:5480)，提示服务异常；">https://VC-IP:5480)，提示服务异常；</a></li>
-</ol>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
-<li>证书过期后未及时更新，导致服务异常；</li>
-</ol>
-<h2 id="检查方式1"><a href="#检查方式1" class="headerlink" title="检查方式1"></a>检查方式1</h2><p>登录vCenter的web界面，点击证书详情，可以看到证书到期时间；</p>
-<h2 id="检查方式2"><a href="#检查方式2" class="headerlink" title="检查方式2"></a>检查方式2</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查指令</span></span><br><span class="line"><span class="keyword">for</span> store <span class="keyword">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">&quot;[*] Store :&quot;</span> <span class="variable">$store</span>; /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store <span class="variable">$store</span> --text | grep -ie <span class="string">&quot;Alias&quot;</span> -ie <span class="string">&quot;Not After&quot;</span>;<span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
-
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>注意，以下操作执行前，请给VCSA虚拟机执行快照！！</p>
-<p>另外需关闭HA功能</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcha-destroy -f</span><br></pre></td></tr></table></figure>
-
-<p>启动必要服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#检查服务启动情况：</span></span><br><span class="line">service-control --status</span><br><span class="line"><span class="comment">#手动启动服务：</span></span><br><span class="line">service-control --start applmgmtd</span><br><span class="line">service-control --start vmafdd</span><br></pre></td></tr></table></figure>
-
-<h2 id="STS证书过期"><a href="#STS证书过期" class="headerlink" title="STS证书过期"></a>STS证书过期</h2><p>Center Single Sign-On Security Token Service (STS) 签名证书是内部 VMware 证书；</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> newsts</span><br><span class="line"><span class="built_in">cd</span> newsts</span><br><span class="line"><span class="built_in">pwd</span> </span><br><span class="line"><span class="comment">#resulting output: /root/newst</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 certool.cfg 文件复制到新目录中</span></span><br><span class="line"><span class="built_in">cp</span> /usr/lib/vmware-vmca/share/config/certool.cfg /root/newsts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开 certool.cfg 文件的副本并进行编辑，以便使用本地 Platform Services Controller 的 IP 地址和主机名。</span></span><br><span class="line">vim certool.cfg</span><br><span class="line"><span class="comment"># Template file for a CSR request</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Country is needed and has to be 2 characters</span></span><br><span class="line">Country = US</span><br><span class="line">Name = STS</span><br><span class="line">Organization = ExampleInc</span><br><span class="line">OrgUnit = ExampleInc Dev</span><br><span class="line">State = Indiana</span><br><span class="line">Locality = Indianapolis</span><br><span class="line">IPAddress = 10.0.1.32</span><br><span class="line">Email = chen@exampleinc.com</span><br><span class="line">Hostname = homecenter.exampleinc.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成密钥</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --server localhost --genkey --privkey=/root/newsts/sts.key --pubkey=/root/newsts/sts.pub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成证书</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --gencert --cert=/root/newsts/newsts.cer --privkey=/root/newsts/sts.key --config=/root/newsts/certool.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书转成pk12格式</span></span><br><span class="line">openssl pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> /root/newsts/newsts.cer -inkey /root/newsts/sts.key -certfile /var/lib/vmware/vmca/root.cer -name <span class="string">&quot;newstssigning&quot;</span> -passout pass:testpassword -out newsts.p12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书添加到JAVA密钥库</span></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importkeystore -srckeystore newsts.p12 -srcstoretype pkcs12 -srcstorepass testpassword -srcalias newstssigning -destkeystore root-trust.jks -deststoretype JKS -deststorepass testpassword -destkeypass testpassword</span><br><span class="line"></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importcert -keystore root-trust.jks -deststoretype JKS -storepass testpassword -keypass testpassword -file /var/lib/vmware/vmca/root.cer -<span class="built_in">alias</span> root-ca</span><br><span class="line"><span class="comment"># 出现提示时，键入 Yes 接受证书以将其添加到密钥库。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="根证书替换"><a href="#根证书替换" class="headerlink" title="根证书替换"></a>根证书替换</h2><p>需要先获取：</p>
-<ol>
-<li><a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
-<li>VCSA的FQDN；</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择4,Regenerate a new VMCA Root Certificate and replace all certificates。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="更换方式2，全部证书重置"><a href="#更换方式2，全部证书重置" class="headerlink" title="更换方式2，全部证书重置"></a>更换方式2，全部证书重置</h2><blockquote>
-<p>2024-08-16</p>
-</blockquote>
-<p>需要先获取：</p>
-<ol>
-<li><a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;</a>密码</li>
-<li>VCSA的FQDN；</li>
-<li>获取VCSA的FQDN、VCSA的hostname；</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/vmware-vmafd/bin/vmafd-cli get-pnid --server-name localhost</span><br><span class="line">/usr/lib/vmware-vmafd/bin/vecs-cli entry list --store MACHINE_SSL_CERT --text | grep -A1 Alternative</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择8,Reset all Certificates</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键字段！！以下两个字段需要先确认自身的FQDN后填写，不可乱填写</span></span><br><span class="line"><span class="comment"># IPAddress</span></span><br><span class="line"><span class="comment"># FQDN</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br></pre></td></tr></table></figure>
-
-<h1 id="后续待办"><a href="#后续待办" class="headerlink" title="后续待办"></a>后续待办</h1><ol>
-<li>【高优先级】证书监控；</li>
-<li>证书自动续签；</li>
-</ol>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>检查证书：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/82332">https://kb.vmware.com/s/article/82332</a><br>503报错相关处理步骤：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/67818?lang=zh_cn">https://kb.vmware.com/s/article/67818?lang=zh_cn</a><br>更换STS证书：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html#:~:text=%E7%94%B1%E4%BA%8E%20vCenter%20Single%20Sign-On%20Security%20Token%20Service%20%28STS%29,%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E6%98%AF%E5%86%85%E9%83%A8%20VMware%20%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%9B%A0%E6%AD%A4%E8%AF%B7%E5%8B%BF%E6%9B%BF%E6%8D%A2%E5%AE%83%EF%BC%8C%E9%99%A4%E9%9D%9E%E8%B4%B5%E5%85%AC%E5%8F%B8%E8%A6%81%E6%B1%82%E6%9B%BF%E6%8D%A2%E5%86%85%E9%83%A8%E8%AF%81%E4%B9%A6%E3%80%82%20%E5%A6%82%E6%9E%9C%E8%A6%81%E6%9B%BF%E6%8D%A2%E9%BB%98%E8%AE%A4%E7%9A%84%20STS%20%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%BF%85%E9%A1%BB%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%B9%B6%E5%B0%86%E5%85%B6%E6%B7%BB%E5%8A%A0%E5%88%B0%20Java%20%E5%AF%86%E9%92%A5%E5%BA%93%E3%80%82">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html#:~:text=%E7%94%B1%E4%BA%8E%20vCenter%20Single%20Sign-On%20Security%20Token%20Service%20%28STS%29,%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E6%98%AF%E5%86%85%E9%83%A8%20VMware%20%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%9B%A0%E6%AD%A4%E8%AF%B7%E5%8B%BF%E6%9B%BF%E6%8D%A2%E5%AE%83%EF%BC%8C%E9%99%A4%E9%9D%9E%E8%B4%B5%E5%85%AC%E5%8F%B8%E8%A6%81%E6%B1%82%E6%9B%BF%E6%8D%A2%E5%86%85%E9%83%A8%E8%AF%81%E4%B9%A6%E3%80%82%20%E5%A6%82%E6%9E%9C%E8%A6%81%E6%9B%BF%E6%8D%A2%E9%BB%98%E8%AE%A4%E7%9A%84%20STS%20%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%BF%85%E9%A1%BB%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%B9%B6%E5%B0%86%E5%85%B6%E6%B7%BB%E5%8A%A0%E5%88%B0%20Java%20%E5%AF%86%E9%92%A5%E5%BA%93%E3%80%82</a><br>重新生成新的VMCA根证书并替换所有证书：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-D944C044-B682-4427-90F8-55B8770F21AF.html">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-D944C044-B682-4427-90F8-55B8770F21AF.html</a><br>自动替换VCSA证书：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/2112281?lang=zh_cn">https://kb.vmware.com/s/article/2112281?lang=zh_cn</a><br>STS证书处理KB：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/79248?lang=zh_cn">https://kb.vmware.com/s/article/79248?lang=zh_cn</a><br>vCenter使用VMCA续订证书：续订证书时发生意外错误：<a target="_blank" rel="noopener" href="https://www.dinghui.org/vcenter-vmca-machine-cert.html">https://www.dinghui.org/vcenter-vmca-machine-cert.html</a><br>VCSA 7.0 证书过期后的修复工作：<a target="_blank" rel="noopener" href="https://ngx.hk/2023/01/10/vcsa-7-0%e8%af%81%e4%b9%a6%e8%bf%87%e6%9c%9f%e5%90%8e%e7%9a%84%e4%bf%ae%e5%a4%8d%e5%b7%a5%e4%bd%9c.html">https://ngx.hk/2023/01/10/vcsa-7-0%e8%af%81%e4%b9%a6%e8%bf%87%e6%9c%9f%e5%90%8e%e7%9a%84%e4%bf%ae%e5%a4%8d%e5%b7%a5%e4%bd%9c.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4f7b31ae/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/4f7b31ae/" class="post-title-link" itemprop="url">vCenter磁盘空间扩容</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-07-30 17:31:46" itemprop="dateCreated datePublished" datetime="2023-07-30T17:31:46+00:00">2023-07-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ol>
-<li>vCenter告警：Log Disk Exhaustion on vCenter；</li>
-<li>进入vCenter的5480端口界面，看到磁盘空间耗尽；</li>
-</ol>
-<h1 id="故障分析"><a href="#故障分析" class="headerlink" title="故障分析"></a>故障分析</h1><ol>
-<li>log增长，导致空间占满。</li>
-</ol>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="短期："><a href="#短期：" class="headerlink" title="短期："></a>短期：</h2><p>找到目标硬盘，执行扩容：</p>
-<ol>
-<li>虚拟化层，扩容目标硬盘；</li>
-<li>OS层，扩容目标空间；</li>
-</ol>
-<p>执行指令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpxd_servicecfg storage lvm autogrow</span><br></pre></td></tr></table></figure>
-
-<h2 id="长期："><a href="#长期：" class="headerlink" title="长期："></a>长期：</h2><ol>
-<li>设置日志保存周期；</li>
-<li>设置VCSA空间告警；</li>
-</ol>
-<h1 id="其他补充"><a href="#其他补充" class="headerlink" title="其他补充"></a>其他补充</h1><table>
-<thead>
-<tr>
-<th align="left">磁盘(VMDK)</th>
-<th align="left">默认大小（微型，具有默认存储大小）</th>
-<th align="left">挂载点</th>
-<th align="left">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">VMDK1</td>
-<td align="left">12 GB</td>
-<td align="left">&#x2F;(10 GB), &#x2F;boot (132 MB), SWAP (1 GB)</td>
-<td align="left">存储内核映像和引导加载程序配置的目录。</td>
-</tr>
-<tr>
-<td align="left">VMDK2</td>
-<td align="left">1.8 GB</td>
-<td align="left">&#x2F;tmp</td>
-<td align="left">用于存储 vCenter Server 中的服务生成或使用的临时文件的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK3</td>
-<td align="left">25 GB</td>
-<td align="left">SWAP</td>
-<td align="left">系统内存不足时用于交换到磁盘的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK4</td>
-<td align="left">25 GB</td>
-<td align="left">&#x2F;storage&#x2F;core</td>
-<td align="left">用于存储 vCenter Server 中 VPXD  进程的核心转储文件的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK5</td>
-<td align="left">10 GB</td>
-<td align="left">&#x2F;storage&#x2F;log</td>
-<td align="left">vCenter Server 和 Platform Services Controller 存储环境的所有日志的目录</td>
-</tr>
-<tr>
-<td align="left">VMDK6</td>
-<td align="left">10 GB</td>
-<td align="left">&#x2F;storage&#x2F;db</td>
-<td align="left">VMware Postgres 数据库存储位置</td>
-</tr>
-<tr>
-<td align="left">VMDK7</td>
-<td align="left">5 GB</td>
-<td align="left">&#x2F;storage&#x2F;dblog</td>
-<td align="left">VMware Postgres 数据库日志记录位置</td>
-</tr>
-<tr>
-<td align="left">VMDK8</td>
-<td align="left">10 GB</td>
-<td align="left">&#x2F;storage&#x2F;seat</td>
-<td align="left">VMware Postgres 的统计信息、事件、警报和任务 (SEAT) 目录</td>
-</tr>
-<tr>
-<td align="left">VMDK9</td>
-<td align="left">1 GB</td>
-<td align="left">&#x2F;storage&#x2F;netdump</td>
-<td align="left">VMware Netdump Collector 存储库，用于存储 ESXi 转储</td>
-</tr>
-<tr>
-<td align="left">VMDK10</td>
-<td align="left">10 GB</td>
-<td align="left">&#x2F;storage&#x2F;autodeploy</td>
-<td align="left">VMware Auto Deploy 存储库，存储用于 ESXi 主机无状态引导的</td>
-</tr>
-<tr>
-<td align="left">VMDK11</td>
-<td align="left">10 GB</td>
-<td align="left">&#x2F;storage&#x2F;imagebuilder</td>
-<td align="left">VMware Image Builder 存储库，用于存储 vSphere 映像配置文件、软件库和 VIB 软件包，例如驱动程序 VIB 和更新 VIB。</td>
-</tr>
-<tr>
-<td align="left">VMDK12</td>
-<td align="left">100 GB</td>
-<td align="left">&#x2F;storage&#x2F;updatemgr</td>
-<td align="left">VMware Update Manager 存储库，用于存储虚拟机和 ESXi 主机的修补程序和更新</td>
-</tr>
-<tr>
-<td align="left">VMDK13</td>
-<td align="left">50 GB</td>
-<td align="left">&#x2F;storage&#x2F;archive</td>
-<td align="left">VMware Postgres 数据库的预写日志记录 (WAL) 位置</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.dinghui.org/increasing-the-disk-space-for-the-vcenter-server-appliance.html">https://www.dinghui.org/increasing-the-disk-space-for-the-vcenter-server-appliance.html</a><br>Troubleshooting vCenter Appliance &#x2F;storage&#x2F;log directory is 80% or more full (83070): <a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/83070?lang=zh_cn">https://kb.vmware.com/s/article/83070?lang=zh_cn</a><br>vCenter Server Appliance disk space is full (76563)<br>:<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/76563">https://kb.vmware.com/s/article/76563</a></p>
 
       
     </div>

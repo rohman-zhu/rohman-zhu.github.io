@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">435</span>
+          <span class="site-state-item-count">437</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,373 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1453e4ad/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1453e4ad/" class="post-title-link" itemprop="url">[待办]-k8s</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-03 20:46:32" itemprop="dateCreated datePublished" datetime="2018-11-03T20:46:32+00:00">2018-11-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/53e79ffa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/53e79ffa/" class="post-title-link" itemprop="url">Ubuntu1404 在线升级到Ubuntu1604 附-Ubuntu源的区分</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-01 23:48:02" itemprop="dateCreated datePublished" datetime="2018-11-01T23:48:02+00:00">2018-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于不能变更系统内的操作，但又有升级系统的需求，例如一些软件的兼容或者驱动的兼容需要新版本的UBUNTU才能支持，在保留现有的服务并且不更改任何配置的情况下，将系统和内核都进行升级。</p>
+<p>要通过apt-get升级需要查看官网的ReleaseNotes ，看是否能够跨版本升级。</p>
+<h1 id="To-do-list"><a href="#To-do-list" class="headerlink" title="To-do list"></a>To-do list</h1><ul>
+<li>Ubuntu 1404 generic 升级至 Ubuntu 1604 4.4.0-138-generic【20181103完成】</li>
+</ul>
+<h1 id="操作过程"><a href="#操作过程" class="headerlink" title="操作过程"></a>操作过程</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">需要将sources.list的源更改一下。将1404 的 trusty 源 转换为 1604 的 xenial 源</span></span><br><span class="line">sed -i &quot;s#trustly#xenial#g&quot; /etc/apt/sources.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get dist-upgrade</span><br></pre></td></tr></table></figure>
+
+<h1 id="附：-Ubuntu各个版本的代号与翻译"><a href="#附：-Ubuntu各个版本的代号与翻译" class="headerlink" title="附： Ubuntu各个版本的代号与翻译"></a>附： Ubuntu各个版本的代号与翻译</h1><p>Ubuntu 发布版本的官方名称是 Ubuntu X.YY ，其中 X 表示年份（减去2000），YY 表示发布的月份。</p>
+<table>
+<thead>
+<tr>
+<th align="center">版本号</th>
+<th align="center">英文代号</th>
+<th align="center">中文翻译</th>
+<th align="center">发布时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">18.10</td>
+<td align="center">Bionic Beaver</td>
+<td align="center">仿生海狸</td>
+<td align="center">2018&#x2F;04</td>
+</tr>
+<tr>
+<td align="center">18.04</td>
+<td align="center">Bionic Beaver</td>
+<td align="center">仿生海狸</td>
+<td align="center">2018&#x2F;04</td>
+</tr>
+<tr>
+<td align="center">17.10</td>
+<td align="center">Artful Aardvark</td>
+<td align="center">机灵的土豚</td>
+<td align="center">2017&#x2F;10</td>
+</tr>
+<tr>
+<td align="center">17.04</td>
+<td align="center">Zesty Zapus</td>
+<td align="center">开心的跳鼠</td>
+<td align="center">2017&#x2F;04</td>
+</tr>
+<tr>
+<td align="center">16.10</td>
+<td align="center">Yakkety Yak</td>
+<td align="center">高原牦牛</td>
+<td align="center">2016&#x2F;10</td>
+</tr>
+<tr>
+<td align="center">16.04</td>
+<td align="center">LTS Xenial Xerus</td>
+<td align="center">好客的非洲地松鼠</td>
+<td align="center">2016&#x2F;4</td>
+</tr>
+<tr>
+<td align="center">15.10</td>
+<td align="center">Wily Werewolf</td>
+<td align="center">狡诈的狼人</td>
+<td align="center">2015&#x2F;10&#x2F;22</td>
+</tr>
+<tr>
+<td align="center">15.04</td>
+<td align="center">Vivid Vervet</td>
+<td align="center">活泼的小猴 2015&#x2F;04&#x2F;23</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">14.10</td>
+<td align="center">Utopic Unicorn</td>
+<td align="center">乌托邦独角兽</td>
+<td align="center">2014&#x2F;10&#x2F;23</td>
+</tr>
+<tr>
+<td align="center">14.04</td>
+<td align="center">LTS Trusty Tahr</td>
+<td align="center">值得信赖的塔尔羊</td>
+<td align="center">2014&#x2F;04&#x2F;18</td>
+</tr>
+<tr>
+<td align="center">13.10</td>
+<td align="center">Saucy Salamander</td>
+<td align="center">活泼的蝾螈</td>
+<td align="center">2013&#x2F;10&#x2F;17</td>
+</tr>
+<tr>
+<td align="center">13.04</td>
+<td align="center">Raring Ringtail</td>
+<td align="center">铆劲浣熊</td>
+<td align="center">2013&#x2F;04&#x2F;25</td>
+</tr>
+<tr>
+<td align="center">12.10</td>
+<td align="center">Quantal Quetzal</td>
+<td align="center">缤纷的绿咬鹃</td>
+<td align="center">2012&#x2F;10&#x2F;18</td>
+</tr>
+<tr>
+<td align="center">12.04</td>
+<td align="center">LTS Precise Pangolin</td>
+<td align="center">精准的穿山甲</td>
+<td align="center">2012&#x2F;04&#x2F;26</td>
+</tr>
+<tr>
+<td align="center">11.10</td>
+<td align="center">Oneiric Ocelot</td>
+<td align="center">有梦的虎猫</td>
+<td align="center">2011&#x2F;10&#x2F;13</td>
+</tr>
+<tr>
+<td align="center">11.04</td>
+<td align="center">Unity成为默认桌面环境 Natty Narwhal</td>
+<td align="center">敏捷的独角鲸</td>
+<td align="center">2011&#x2F;04&#x2F;28</td>
+</tr>
+<tr>
+<td align="center">10.10</td>
+<td align="center">Maverick Meerkat</td>
+<td align="center">标新立异的的狐獴</td>
+<td align="center">2010&#x2F;10&#x2F;10</td>
+</tr>
+<tr>
+<td align="center">10.04</td>
+<td align="center">LTS Lucid Lynx</td>
+<td align="center">清醒的猞猁</td>
+<td align="center">2010&#x2F;04&#x2F;29</td>
+</tr>
+<tr>
+<td align="center">9.10</td>
+<td align="center">Karmic Koala</td>
+<td align="center">幸运的无尾熊</td>
+<td align="center">2009&#x2F;10&#x2F;29</td>
+</tr>
+<tr>
+<td align="center">9.04</td>
+<td align="center">Jaunty Jackalope</td>
+<td align="center">活泼的兔子</td>
+<td align="center">2009&#x2F;04&#x2F;23</td>
+</tr>
+<tr>
+<td align="center">8.10</td>
+<td align="center">Intrepid Ibex</td>
+<td align="center">无畏的高地山羊</td>
+<td align="center">2008&#x2F;10&#x2F;30</td>
+</tr>
+<tr>
+<td align="center">8.06</td>
+<td align="center">官方查不到此版本发布信息 Haughty Husky</td>
+<td align="center">骄傲的哈士奇</td>
+<td align="center">2008&#x2F;06&#x2F;07</td>
+</tr>
+<tr>
+<td align="center">8.04</td>
+<td align="center">LTS Hardy Heron</td>
+<td align="center">坚强的苍鹭</td>
+<td align="center">2008&#x2F;04&#x2F;24</td>
+</tr>
+<tr>
+<td align="center">7.10</td>
+<td align="center">Gutsy Gibbon</td>
+<td align="center">勇敢的长臂猿</td>
+<td align="center">2007&#x2F;10&#x2F;18</td>
+</tr>
+<tr>
+<td align="center">7.04</td>
+<td align="center">Feisty Fawn</td>
+<td align="center">烦躁不安的小鹿</td>
+<td align="center">2007&#x2F;04&#x2F;19</td>
+</tr>
+<tr>
+<td align="center">6.10</td>
+<td align="center">Edgy Eft</td>
+<td align="center">尖利的小蜥蜴</td>
+<td align="center">2006&#x2F;10&#x2F;26</td>
+</tr>
+<tr>
+<td align="center">6.06</td>
+<td align="center">LTS Dapper Drake</td>
+<td align="center">整洁的公鸭</td>
+<td align="center">2006&#x2F;06&#x2F;01</td>
+</tr>
+<tr>
+<td align="center">5.10</td>
+<td align="center">Breezy Badger</td>
+<td align="center">活泼的獾</td>
+<td align="center">2005&#x2F;10&#x2F;13</td>
+</tr>
+<tr>
+<td align="center">5.04</td>
+<td align="center">Hoary Hedgehog</td>
+<td align="center">白发得刺猬</td>
+<td align="center">2005&#x2F;04&#x2F;08</td>
+</tr>
+<tr>
+<td align="center">4.10</td>
+<td align="center">初始发布版本 Warty Warthog</td>
+<td align="center">多疣的疣猪</td>
+<td align="center">2004&#x2F;10&#x2F;20</td>
+</tr>
+</tbody></table>
+<h2 id="查看当前版本代号"><a href="#查看当前版本代号" class="headerlink" title="查看当前版本代号"></a>查看当前版本代号</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如</span></span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 14.04.5 LTS</span><br><span class="line">Release:	14.04</span><br><span class="line">Codename:	trusty</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ubuntu-版本更新周期"><a href="#Ubuntu-版本更新周期" class="headerlink" title="Ubuntu 版本更新周期"></a>Ubuntu 版本更新周期</h2><p>Desktop 和 Server 版本更新的时间为 6个月</p>
+<h2 id="Ubuntu-的版本支持时间"><a href="#Ubuntu-的版本支持时间" class="headerlink" title="Ubuntu 的版本支持时间"></a>Ubuntu 的版本支持时间</h2><ul>
+<li>对于 desktop 版本和 server 版本，Ubuntu 会提供至少18个月的技术支持</li>
+<li>对于 LTS 版本（Long Term Suppot）长期支持版本，desktop 版的会提供至少 3年技术支持，server 版本的会提供至少 5 年即使支持</li>
+</ul>
+<h2 id="Ubuntu-的各个版本（最新发行版主要提供-Desktop-和-Server两种版本）"><a href="#Ubuntu-的各个版本（最新发行版主要提供-Desktop-和-Server两种版本）" class="headerlink" title="Ubuntu 的各个版本（最新发行版主要提供 Desktop 和 Server两种版本）"></a>Ubuntu 的各个版本（最新发行版主要提供 Desktop 和 Server两种版本）</h2><ul>
+<li>Desktop版本：desktop 是 live cd 的名字,什么是 live cd? live cd 是一个刻录在光盘上的操作系统，我们并不需要硬盘就可以直接在光盘上运行这个操作系统。里面也已经集成了很多软件，我们一般可以把这个系统安装到硬盘上，类似于ghost系统，安装速度会比较快。这个版本提供了向导的图形界面的方式，让你一步步来轻松地安装 Ubuntu (一般都安装这个系统的 32 位 i386 版本）</li>
+<li>Alternate版本：是一个最标准的安装版本，采用文本安装界面，里面有很多高级选项，可以安装 desktop ,也可以安装 server 版，适合比较高要求的人来安装，安装速度比 desktop 版慢，但是运行时的效率比 desktop 版本快</li>
+<li>Netbook版本：专门为上网本定制和优化，最近的版本采用了 Unity，为小屏幕提供了一种美观的用户界面，采用了大图标设计，让用户更容易寻找各种应用程序</li>
+<li>DVD版本：里面包括 Desktop 和 Alternate 两种安裝模式，同时集成更多的软件和完整的语言包，假如你没有联网可以选择下这个版本</li>
+<li>Minimal版本：安装 Ubuntu 的最小镜像版本</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>Ubuntu源的区分： <a target="_blank" rel="noopener" href="https://blog.csdn.net/feiniao8651/article/details/70159157">https://blog.csdn.net/feiniao8651/article/details/70159157</a></li>
+<li>Ubuntu源的代号：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhengmx100/article/details/78352773">https://blog.csdn.net/zhengmx100/article/details/78352773</a></li>
+<li>Ubuntu 1804 ReleaseNotes : <a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes?_ga=2.145883700.1807176416.1541224818-1321095893.1541224818">https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes?_ga=2.145883700.1807176416.1541224818-1321095893.1541224818</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1002,161 +1369,6 @@
     
     <div class="post-body" itemprop="articleBody">
           
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/cb5b1d66/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/cb5b1d66/" class="post-title-link" itemprop="url">[待办]搭建LVS</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-22 23:56:26" itemprop="dateCreated datePublished" datetime="2018-10-22T23:56:26+00:00">2018-10-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><ul>
-<li>OS：Ubuntu1604-4.4.0-131-generic</li>
-<li>LVS策略采用： RD</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/109f22b0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/109f22b0/" class="post-title-link" itemprop="url">服务器内存测试</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-18 23:23:39" itemprop="dateCreated datePublished" datetime="2018-10-18T23:23:39+00:00">2018-10-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>昨天给服务器多加 8 根内存条 ，用的是 双列内存条，单条16GB。 原本服务器已经有8条 16GB的单列内存条，共计 128 GB 的内存。新增 8 条内存条 ，理论上应该共计 256 GB。可是 最终仅有 240 GB ，相当于少了一条内存条。现在就记录一下排查过程，已经处理方法。 </p>
-
       
     </div>
 

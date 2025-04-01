@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">435</span>
+          <span class="site-state-item-count">437</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,246 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/fdb616f9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/fdb616f9/" class="post-title-link" itemprop="url">Kernal base optimization</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-01 22:50:25" itemprop="dateCreated datePublished" datetime="2017-10-01T22:50:25+00:00">2017-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="内核基础优化"><a href="#内核基础优化" class="headerlink" title="内核基础优化"></a>内核基础优化</h1><p>配置文件:</p>
+<ul>
+<li>路径 : etc&#x2F;sysctl.conf</li>
+<li>生效 : sysctl -p</li>
+</ul>
+<p>小提示:</p>
+<ul>
+<li>tip_1 : In ‘vim’ mode , use key (shift + g) turn to the end of the article.</li>
+<li>tip_2 : In ‘vim’ mode , use key (shift + insert) to paste content .</li>
+</ul>
+<h2 id="1-修改sysctl-conf文件"><a href="#1-修改sysctl-conf文件" class="headerlink" title="1.修改sysctl.conf文件"></a>1.修改sysctl.conf文件</h2><h3 id="Commonly-used-Web-server-high-concurrent-status"><a href="#Commonly-used-Web-server-high-concurrent-status" class="headerlink" title="[Commonly used] Web server high concurrent status"></a>[Commonly used] Web server high concurrent status</h3><ul>
+<li>net.ipv4.tcp_fin_timeout &#x3D; 2 默认是60秒</li>
+<li>net.ipv4.tcp_tw_reuse &#x3D; 1 表示开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接，默认为0，表示关闭；</li>
+<li>net.ipv4.tcp_tw_recyle &#x3D; 1 表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭。</li>
+</ul>
+<h4 id="原理-TCP-three-way-handshake"><a href="#原理-TCP-three-way-handshake" class="headerlink" title="[原理]TCP three-way-handshake"></a>[原理]TCP three-way-handshake</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  === &gt; syn</span><br><span class="line">&lt; === syn + ack</span><br><span class="line">  === &gt; ack</span><br></pre></td></tr></table></figure>
+
+<h5 id="What-is-SYN"><a href="#What-is-SYN" class="headerlink" title="What is SYN"></a>What is SYN</h5><p>全称是_Synchronize Sequence Numbers_,是TCP&#x2F;IP建立连接时使用的握手信号。</p>
+<h6 id="SYN-ATTACK"><a href="#SYN-ATTACK" class="headerlink" title="SYN ATTACK"></a>SYN ATTACK</h6><p>SYN攻击属于DDoS攻击的一种，它利用TCP协议缺陷，通过发送大量的半连接请求，耗费CPU和内存资源。SYN攻击除了能影响主机外，还可以危害路由器、防火墙等网络系统，事实上SYN攻击并不管目标是什么系统，只要这些系统打开TCP服务就可以实施。服务器接收到连接请求（syn&#x3D; j），将此信息加入未连接队列，并发送请求包给客户（syn&#x3D;k,ack&#x3D;j+1），此时进入SYN_RECV状态。当服务器未收到客户端的确认包时，重发请求包，一直到超时，才将此条目从未连接队列删除。配合IP欺骗，SYN攻击能达到很好的效果，通常，客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，由于源地址是不存在的，服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。</p>
+<h5 id="What-is-ACK"><a href="#What-is-ACK" class="headerlink" title="What is ACK"></a>What is ACK</h5><p>全称是_Acknowledgement Number_,即是确认字符，在数据通信中，接收站发给发送站的一种传输类控制字符。表示发来的数据已确认接收无误。</p>
+<h2 id="2-Hide-your-operated-system-version"><a href="#2-Hide-your-operated-system-version" class="headerlink" title="2.Hide your operated-system version"></a>2.Hide your operated-system version</h2><p>里面的默认内容是:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cat /etc/issue</span><br><span class="line">CentOS release 6.9 (Final)</span><br><span class="line">Kernel \r on an \m</span><br></pre></td></tr></table></figure>
+
+<p>修改方式是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># &gt;etc/issue</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Modify-login-shell-information"><a href="#3-Modify-login-shell-information" class="headerlink" title="3.Modify login shell information"></a>3.Modify login shell information</h2><ul>
+<li>Path : &#x2F;etc&#x2F;</li>
+<li>Create new file : &#x2F;etc&#x2F;motd</li>
+</ul>
+<h2 id="4-Locked-system-file"><a href="#4-Locked-system-file" class="headerlink" title="4.Locked system file"></a>4.Locked system file</h2><p>Some system files is so important that common user could not modify without permission.<br>Such as passwd,shadow,group….</p>
+</br>
+锁文件操作
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chattr +i /etc/passwd /etc/shadow /etc/group /etc/inittab</span><br></pre></td></tr></table></figure>
+
+</br>
+解锁文件
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#chattr -i /etc/passwd /etc/shadow /etc/group /etc/inittab</span><br></pre></td></tr></table></figure>
+
+</br>
+把重要命令藏起来
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$mv `which chattr` /home/roman</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Add-password-to-grup-shell"><a href="#5-Add-password-to-grup-shell" class="headerlink" title="5.Add password to grup-shell"></a>5.Add password to grup-shell</h2><p>Because we can change root’s password in boot-shell and enter ‘grup’ shell.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># /sbin/grub-md5-crypt</span><br><span class="line"># vim /boot/grub/menu.lst</span><br><span class="line"># 顶端添加一行代码</span><br><span class="line"># password --md5 [grub-md5-crypt产生的密码]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-Ban-other-terminal-ping-host-computer"><a href="#6-Ban-other-terminal-ping-host-computer" class="headerlink" title="6.Ban other terminal ping host computer"></a>6.Ban other terminal ping host computer</h2><p>添加语句到syscntl,禁止其他用户ping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo &quot;net.ipv4.icmp_echo_ignore_all=1&quot; &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<p>更新设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Fixed-bugs"><a href="#7-Fixed-bugs" class="headerlink" title="7.Fixed bugs"></a>7.Fixed bugs</h2><p>Update the software.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$yum install openssl openssh bash -y</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-Modify-yum-source"><a href="#8-Modify-yum-source" class="headerlink" title="8.Modify yum source"></a>8.Modify yum source</h2><h3 id="Download-command-–-wget"><a href="#Download-command-–-wget" class="headerlink" title="Download command – wget"></a>Download command – wget</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-O指令表示重新命名下载的文件</p>
+</blockquote>
+<h2 id="9-关于临时邮件处理"><a href="#9-关于临时邮件处理" class="headerlink" title="9.关于临时邮件处理"></a>9.关于临时邮件处理</h2><p>在CentOS5系列的系统会默认安装Sendmail服务，因此邮件临时寸放点的路径是&#x2F;var&#x2F;spool&#x2F;clientmqueue</p>
+</br>
+
+<p>在CentOS6默认情况下是没有安装Sendmail 服务，而是改装了Postfix，存放的路径在 &#x2F;var&#x2F;spool&#x2F;postfix&#x2F;maildrop&#x2F;。</p>
+<h3 id="9-1手动清理的方法"><a href="#9-1手动清理的方法" class="headerlink" title="9.1手动清理的方法"></a>9.1手动清理的方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Centos_5</span><br><span class="line"># find /var/spool/clientmqueue/ -type f | xargs rm -f</span><br><span class="line"></span><br><span class="line">Centos_6</span><br><span class="line"># find /var/spool/postfix/maildrop/ -type f | xargs rm -f</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2定时任务"><a href="#9-2定时任务" class="headerlink" title="9.2定时任务"></a>9.2定时任务</h3><p>将上面的命令携程脚本，做成定时任务。</p>
+<h3 id="9-3-关闭-selinux-和-iptables"><a href="#9-3-关闭-selinux-和-iptables" class="headerlink" title="9.3 关闭 selinux 和 iptables"></a>9.3 关闭 selinux 和 iptables</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">永久关闭 selinux</span></span><br><span class="line">sed -i &quot;s#enforcing#disabled#g&quot; /etc/selinux/config</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">永久关闭 防火墙</span></span><br><span class="line">chkconfig iptables off</span><br></pre></td></tr></table></figure>
+<h2 id="10-Summary"><a href="#10-Summary" class="headerlink" title="10.Summary"></a>10.Summary</h2><ol>
+<li>不用root用户管理，普通用户通过sudo授权管理。</li>
+<li>更改远程链接ssh服务端口，禁止root用户远程链接，改成只监听内网IP。</li>
+<li>定时自动跟新服务器时间，使其和互联网时间同步。</li>
+<li>配置yum更新源，从国内更新源下载安装软件包。</li>
+<li>关闭seLinux 以及 iptables。</li>
+<li>定时自动清理邮件目录垃圾文件，防止inodes节点被占满。</li>
+<li>精简保留必要的开机自启动服务（如crond,sshd,network,rsyslog）。</li>
+<li>Linux内核参数优化 &#x2F;etc&#x2F;sysctl.conf,执行sysctl -p 生效果。</li>
+<li>锁定关键系统文件如（&#x2F;etc&#x2F;passwd &#x2F;etc&#x2F;shadow &#x2F;etc&#x2F;group 、&#x2F;etc&#x2F;inittab等</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4f35a184/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/4f35a184/" class="post-title-link" itemprop="url">关于HEXO问题的解决方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-01 20:19:40" itemprop="dateCreated datePublished" datetime="2017-10-01T20:19:40+00:00">2017-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="使用-hexo-s-预览页面出现-“extends-partical…”问题"><a href="#使用-hexo-s-预览页面出现-“extends-partical…”问题" class="headerlink" title="使用 hexo -s 预览页面出现 “extends partical…”问题"></a>使用 hexo -s 预览页面出现 “extends partical…”问题</h1><p>更新使用新的主题，打开主界面显示以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">extends partial/layout</span><br><span class="line"></span><br><span class="line">block container</span><br><span class="line">    include mixins/post</span><br><span class="line">    +posts()</span><br><span class="line"></span><br><span class="line">block pagination</span><br><span class="line">    include mixins/paginator</span><br><span class="line">    +home()</span><br><span class="line"></span><br><span class="line">block copyright</span><br><span class="line">    include partial/copyright</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网络给出的解决方案是这样的，只需要添加依赖即可，亲测有效。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$npm install --save hexo-renderer-jade hexo-generator-feed hexo-generator-sitemap hexo-browsersync hexo-generator-archive</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.v2ex.com/amp/t/362017">原文地址</a></p>
+<p>PS : 至于是什么原因目前我还不知道，因为不是这个领域的人员，所以也不太清楚这到底是干什么的，见谅见谅。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1051,232 +1291,6 @@
 </ol>
 <p>获取的数据通过Handler类来传输,这就可以实现蓝牙聊天室了.</p>
 <p><a href="https://github.com/R0manJ/BlueToothTestDemo">项目地址</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bd1bdbe4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/bd1bdbe4/" class="post-title-link" itemprop="url">浅谈51单片机串口通讯</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-07-01 00:04:31" itemprop="dateCreated datePublished" datetime="2017-07-01T00:04:31+00:00">2017-07-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MCU/" itemprop="url" rel="index"><span itemprop="name">MCU</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在做一个单片机通过蓝牙与安卓通讯的案例,这里的案例就需要单片机部分就需要用到串口通讯部分,因此在这里进行记录.</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>关键字:</p>
-<ul>
-<li>RXD(ReceiveData)–P3^0</li>
-<li>TXD(TransmitData)–P3^1</li>
-<li>波特率</li>
-<li>串口中断</li>
-<li>SBUF</li>
-</ul>
-<h2 id="一-了解几个概念"><a href="#一-了解几个概念" class="headerlink" title="一.了解几个概念"></a>一.了解几个概念</h2><h3 id="波特率"><a href="#波特率" class="headerlink" title="波特率:"></a>波特率:</h3><p>简单的讲,就是单片机发送的数据的速度,单位是 <em>位&#x2F;秒</em> ,一般我们都用9600(8的倍数).在单片机中的通讯,波特率一定要设置好,这样才能跟其他设备进行通讯,可以说波特率就是实现双方通讯的保证.</p>
-<h3 id="SBUF"><a href="#SBUF" class="headerlink" title="SBUF :###"></a>SBUF :###</h3><p>这个是一个缓存寄存器,无论是发送还是接收都在同一个寄存器里面.</p>
-<h3 id="串口中断"><a href="#串口中断" class="headerlink" title="串口中断:"></a>串口中断:</h3><p>当单片机接收到信息的时候,就会执行接收中断,并把接收中断允许RI设置为1,代表接收完成,而所有接收过来的数据都会被保存SBUF里面.因此在接收完成后,需要通过软件的方式将RI设置为1;</p>
-<h3 id="TXD-RXD"><a href="#TXD-RXD" class="headerlink" title="TXD&#x2F;RXD:"></a>TXD&#x2F;RXD:</h3><p>这里就没有什么好讲的,RXD代表单片机的接收端,TXD代表单片机的发送端.</p>
-<p>一般的与外界设备的连接都是相反的;</p>
-<table>
-<thead>
-<tr>
-<th align="center">单片机</th>
-<th align="left">外界设备</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">TXD</td>
-<td align="left">RXD</td>
-</tr>
-<tr>
-<td align="center">RXD</td>
-<td align="left">TXD</td>
-</tr>
-<tr>
-<td align="center">当然,也有例外的时候,这里就不举例了.</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h2 id="二-程序部分"><a href="#二-程序部分" class="headerlink" title="二.程序部分"></a>二.程序部分</h2><p>这里可以用一个叫 “单片机精灵” 的软件来协助生成代码.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;reg51.h&gt;</span><br><span class="line"></span><br><span class="line">void InitUART(void)</span><br><span class="line">&#123;</span><br><span class="line">    TMOD = 0x20;</span><br><span class="line">    SCON = 0x50;</span><br><span class="line">    //设置定时器的工作方式</span><br><span class="line"></span><br><span class="line">    TH1 = 0xFD;</span><br><span class="line">    TL1 = TH1;</span><br><span class="line">    //设置定时器的值</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    PCON = 0x00; // 波特率不加倍</span><br><span class="line"></span><br><span class="line">    EA = 1; // 打开总中断</span><br><span class="line">    ES = 1; // 打开中断标志位</span><br><span class="line">    TR1 = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SendOneByte(unsigned char c)</span><br><span class="line">&#123;</span><br><span class="line">    SBUF = c;</span><br><span class="line">    while(!TI);</span><br><span class="line">    TI = 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitUART();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void UARTInterrupt(void) interrupt 4</span><br><span class="line">&#123;</span><br><span class="line">    if(RI)</span><br><span class="line">    &#123;</span><br><span class="line">        RI = 0;</span><br><span class="line">        //add your code here!</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">        TI = 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>总之要实现串口通讯,就必须设置好波特率,然后开启相应的中断就好了.<br>数据的读与写都是通过字节流的型式传送的.这个没有什么好说的.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b562b54a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/b562b54a/" class="post-title-link" itemprop="url">浅谈三极管</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-07-01 00:04:04" itemprop="dateCreated datePublished" datetime="2017-07-01T00:04:04+00:00">2017-07-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%94%B5%E5%AD%90/" itemprop="url" rel="index"><span itemprop="name">电子</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在电路中都能经常用三极管,三级管的作用有很多,可以当成一个开关或者放大器.但三级管也比较难以理解,因为这个小元器件上面有太多的概念,如PNP,NPN,包和电压,截至电压……我一看到这些就头大,可能是因为自己不愿意去多学吧,或者自己不愿意话太多的时间去动脑,因此我一直都没有学会怎么去应用三极管.可是,天无绝人之路,今天我就看到一个视屏讲解三极管,讲的内容非常少,但却很有用,在这里做一下总结,方便以后查看.</p>
-<h1 id="一-三极管的三个脚"><a href="#一-三极管的三个脚" class="headerlink" title="一 . 三极管的三个脚"></a>一 . 三极管的三个脚</h1><ul>
-<li>E 极: 表示发射极(Emitter),如果 <em>向外</em> 就是PNP型三极管,反之则是NPN型三极管. 这个方向也代表了电势降落的方向.</li>
-<li>B 极 : 表示基极(Basc),我们在这里不用想太多,就把这里当成开关或者阀门就好,</li>
-<li>C 极: 表示集电极(Collector).</li>
-</ul>
-<h1 id="二-用三极管来当开关"><a href="#二-用三极管来当开关" class="headerlink" title="二. 用三极管来当开关"></a>二. 用三极管来当开关</h1><blockquote>
-<p>三极管是常开状态 的开关</p>
-</blockquote>
-<p>我们就把三极管当成开关就好了,而这个开关的触发条件是这样的:</p>
-<ul>
-<li>NPN型三极管中 : 当B极是低电平的电压时,三极管处于开路(E与C之间);当B极是高电平时,三极管处于通路(E与C之间).</li>
-<li>PNP型三极管中 : 当B极是低电平的电压时,三极管处于通路(E与C之间);当B极是高电平时,三极管处于开路(E与C之间).</li>
-</ul>
-<p><img src="https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=3420af8568d0f703f2bf9d8e69933a58/f2deb48f8c5494ee4e2cf68b27f5e0fe99257e12.jpg" alt="两种型号"></p>
-<h1 id="三-三极管的三种封装型式"><a href="#三-三极管的三种封装型式" class="headerlink" title="三. 三极管的三种封装型式"></a>三. 三极管的三种封装型式</h1><ul>
-<li>SOT-23 , 这是一种贴片式的三极管,单独一脚的是发射机(E),左下角的一脚为基极(B),右下角是集电极(C)<br><img src="/" alt="SOT-23"></li>
-<li>TO-92 ,这种是一种直插式的三极管,平面的一边对着自己,从做左到右依次是,E,B,C.<br><img src="/" alt="TO-92"></li>
-</ul>
 
       
     </div>

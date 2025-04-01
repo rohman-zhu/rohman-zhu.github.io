@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">435</span>
+          <span class="site-state-item-count">437</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,201 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/269bf723/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/269bf723/" class="post-title-link" itemprop="url">ESXi-无法通过OVF创建虚拟机-提示只有管理此主机的服务器XX.XX.XX.XX才能访问此主机的资源设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-07 16:21:10" itemprop="dateCreated datePublished" datetime="2024-07-07T16:21:10+00:00">2024-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>登录ESXi后，无法通过OVF部署虚拟机，会提示“失败-只有管理此主机的服务器‘vCenter IP’才能访问此主机上的资源设置”。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>该ESXi已被vCenter接管，无法通过此ESXi去创建虚拟机，而需要通过vCenter部署虚拟机。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>核心就是先暂停ESXi与vCenter之间的通讯，可以参照以下方法：</p>
+<ol>
+<li>登录vCenter，选中目标ESXi，选择断开连接；</li>
+<li>登录目标ESXi，选择通过OVF部署。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c2d5fef5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c2d5fef5/" class="post-title-link" itemprop="url">VMware虚拟机支持使用AVX-512指令集</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-06-26 21:21:55" itemprop="dateCreated datePublished" datetime="2024-06-26T21:21:55+00:00">2024-06-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>用户的虚拟机内需要跑一个编译程序，该程序会调用到CPU 的AVX-512指令集。但是查看CPU信息，发现没有此指令集。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lscpu|grep avx</span><br></pre></td></tr></table></figure>
+
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>从硬件层到操作系统层逐一分析：</p>
+<ol>
+<li>硬件层面不支持：此款CPU并没有AVX指令集；</li>
+<li>虚拟化层不支持：虚拟化层Hypervisor屏蔽了AVX-512指令集；</li>
+<li>系统层不支持：操作系统内没有安装AVX相关的Kernel支持包或者依赖库；</li>
+</ol>
+<h1 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程"></a>排查过程</h1><h2 id="原因一，硬件层的问题"><a href="#原因一，硬件层的问题" class="headerlink" title="原因一，硬件层的问题"></a>原因一，硬件层的问题</h2><p>检查此CPU是否支持AVX-512，可以去英特尔官网查询到相关信息；</p>
+<h2 id="原因二，虚拟化层的问题"><a href="#原因二，虚拟化层的问题" class="headerlink" title="原因二，虚拟化层的问题"></a>原因二，虚拟化层的问题</h2><p>看看虚拟机版本是否过低，导致虚拟机无法使用AVX-512指令集。<br>本次有异常的虚拟机版本是11，而无异常的虚拟机版本是14；</p>
+<h2 id="原因三，操作系统层的问题"><a href="#原因三，操作系统层的问题" class="headerlink" title="原因三，操作系统层的问题"></a>原因三，操作系统层的问题</h2><p>没有安装对应的依赖包，不过目前测试来看，在虚拟机版本为14、15的情况下，Ubuntu18.04、Ubuntu20.04、CentOS7、Windows Server 2019均是支持AVX-512指令集的，并不需要额外安装。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1018,225 +1213,6 @@
 <h3 id="查询CPG对应的容量分配"><a href="#查询CPG对应的容量分配" class="headerlink" title="查询CPG对应的容量分配"></a>查询CPG对应的容量分配</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showspace -cpg [CPG_NAME]</span><br></pre></td></tr></table></figure>
 
 <h3 id="查询任务"><a href="#查询任务" class="headerlink" title="查询任务"></a>查询任务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">showtask</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询具体任务信息</span></span><br><span class="line">showtask -d [PID]</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7b93299d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/7b93299d/" class="post-title-link" itemprop="url">Windows Server 创建计划任务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-05-03 16:08:26" itemprop="dateCreated datePublished" datetime="2024-05-03T16:08:26+00:00">2024-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>任务1：创建自动化任务，到指定时间自动运行脚本；<br>任务2：通过远程下发指令，时间自动化创建自动任务；</p>
-<h1 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h1><h2 id="任务1操作实例-CLI操作界面"><a href="#任务1操作实例-CLI操作界面" class="headerlink" title="任务1操作实例-CLI操作界面"></a>任务1操作实例-CLI操作界面</h2><p>参考：</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1">https://learn.microsoft.com/zh-cn/powershell/module/psscheduledjob/register-scheduledjob?view=powershell-5.1</a></li>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps">https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtask?view=winserver2012r2-ps</a></li>
-</ol>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 叫什么：一个名为 TEST 的自动任务</span></span><br><span class="line"><span class="variable">$TASKNAME</span>=<span class="string">&quot;TEST&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 干什么：并执行 test.ps1 脚本</span></span><br><span class="line"><span class="variable">$TESTSCRIPT</span>=<span class="string">&quot;C:\test.ps1&quot;</span>;</span><br><span class="line"><span class="variable">$ACTION</span>=<span class="built_in">New-ScheduledTaskAction</span> <span class="literal">-Execute</span> <span class="string">&quot;Powershell&quot;</span> <span class="literal">-Argument</span> <span class="variable">$TESTCRIPT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 什么时候做：在每周三，晚上7:30执行；</span></span><br><span class="line"><span class="variable">$JOBTRIGGER</span>=<span class="built_in">New-JobTrigger</span> <span class="literal">-Weekly</span> <span class="literal">-At</span> <span class="string">&quot;9:00 PM&quot;</span> <span class="literal">-DaysOfWeek</span> Wednesday <span class="literal">-WeeksInterval</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 谁：拥有最高权限</span></span><br><span class="line"><span class="comment"># 有啥注意事项：无论有没有用户登录，都执行</span></span><br><span class="line"><span class="variable">$PRINCIPAL</span>=<span class="built_in">New-ScheduledTaskPrincipal</span> <span class="literal">-UserId</span> [<span class="type">USER</span>] <span class="literal">-LogonType</span> S4U</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建任务信息</span></span><br><span class="line"><span class="variable">$SCHEDULEDTASKOBJECT</span>=<span class="built_in">New-ScheduledTask</span> <span class="literal">-Action</span> <span class="variable">$ACTION</span> <span class="literal">-Trigger</span> <span class="variable">$JOBTRIGGER</span> <span class="literal">-Principal</span> <span class="variable">$PRINCIPAL</span></span><br><span class="line"><span class="comment"># 注册任务</span></span><br><span class="line"><span class="built_in">Register-ScheduledTask</span> <span class="literal">-TaskName</span> <span class="variable">$TASKNAME</span> <span class="literal">-InputObject</span> [<span class="type">SchedledTaskObjectName</span>];</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="任务1操作实例-GUI操作界面"><a href="#任务1操作实例-GUI操作界面" class="headerlink" title="任务1操作实例-GUI操作界面"></a>任务1操作实例-GUI操作界面</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lishidefengchen/p/4381565.html">https://www.cnblogs.com/lishidefengchen/p/4381565.html</a></p>
-<p>环境说明:</p>
-<ol>
-<li>Powershell 目录：C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe;</li>
-<li>脚本位置：C:\test.ps1;</li>
-</ol>
-<h3 id="运行“任务计划程序”"><a href="#运行“任务计划程序”" class="headerlink" title="运行“任务计划程序”"></a>运行“任务计划程序”</h3><ol>
-<li>windows + R;</li>
-<li>输入 taskschd.msc;</li>
-</ol>
-<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><p>常规页面：</p>
-<ol>
-<li>填写任务名称；</li>
-<li>勾选“不敢用户是否登录都要运行”</li>
-<li>勾选“使用最高权限运行”；【如果有涉及提权操作，则需要勾选】</li>
-<li>配置选择为对应的OS版本；</li>
-</ol>
-<p>触发器页面：</p>
-<ol>
-<li>新建；</li>
-<li>设置自动执行的频率与时间；</li>
-</ol>
-<p>操作页面：</p>
-<ol>
-<li>操作，选择“启动程序”；</li>
-<li>程序或脚本，输入“powershell”或者Powershell的绝对路径“C:\Windows\SysWOW64\WindowsPowerShell\v1.0\PowerShell.exe”；</li>
-<li>添加参数（可选）,输入脚本的绝对路径，用英文状态的双引号包裹；</li>
-</ol>
-<p>点击确定；</p>
-<h3 id="如何DEBUG"><a href="#如何DEBUG" class="headerlink" title="如何DEBUG"></a>如何DEBUG</h3><p>有可能任务运行会失败或者未按预期执行，可以选中任务，点击运行后，可以在“历史History”标签页中看到执行情况。<br>不过此时获取的信息还是比较有限，所以可以在脚本中增加 Start-Transcript 与 Stop-Transcript 指令，检查执行情况。</p>
-<h1 id="TASK-LOGON-TYPE-类型"><a href="#TASK-LOGON-TYPE-类型" class="headerlink" title="TASK_LOGON_TYPE 类型"></a>TASK_LOGON_TYPE 类型</h1><p>参考: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/api/taskschd/ne-taskschd-task_logon_type">https://learn.microsoft.com/en-us/windows/win32/api/taskschd/ne-taskschd-task_logon_type</a></p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef <span class="class"><span class="keyword">enum</span> _<span class="title">TASK_LOGON_TYPE</span></span> &#123;</span><br><span class="line">  TASK_LOGON_NONE = <span class="number">0</span>,</span><br><span class="line">  TASK_LOGON_PASSWORD = <span class="number">1</span>,</span><br><span class="line">  TASK_LOGON_S4U = <span class="number">2</span>,</span><br><span class="line">  TASK_LOGON_INTERACTIVE_TOKEN = <span class="number">3</span>,</span><br><span class="line">  TASK_LOGON_GROUP = <span class="number">4</span>,</span><br><span class="line">  TASK_LOGON_SERVICE_ACCOUNT = <span class="number">5</span>,</span><br><span class="line">  TASK_LOGON_INTERACTIVE_TOKEN_OR_PASSWORD = <span class="number">6</span></span><br><span class="line">&#125; TASK_LOGON_TYPE;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">TASK_LOGON_NONE</span><br><span class="line">Value: <span class="number">0</span></span><br><span class="line">The logon method is not specified. Used <span class="keyword">for</span> non<span class="literal">-NT</span> credentials.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_PASSWORD</span><br><span class="line">Value: <span class="number">1</span></span><br><span class="line">Use a password <span class="keyword">for</span> logging on the user. The password must be supplied at registration time.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_S4U</span><br><span class="line">Value: <span class="number">2</span></span><br><span class="line">The service will log the user on <span class="keyword">using</span> Service For User (S4U), and the task will run in a non-interactive desktop. When an S4U logon is used, no password is stored by the system and there is no access to either the network or to encrypted files.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_INTERACTIVE_TOKEN</span><br><span class="line">Value: <span class="number">3</span></span><br><span class="line">User must already be logged on. The task will be run only <span class="keyword">in</span> an existing interactive session.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_GROUP</span><br><span class="line">Value: <span class="number">4</span></span><br><span class="line"><span class="built_in">Group</span> activation. The groupId field specifies the <span class="built_in">group</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_SERVICE_ACCOUNT</span><br><span class="line">Value: <span class="number">5</span></span><br><span class="line">Indicates that a Local System, Local Service, or Network Service account is being used as a security context to run the task.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TASK_LOGON_INTERACTIVE_TOKEN_OR_PASSWORD</span><br><span class="line">Value: <span class="number">6</span></span><br><span class="line">Not <span class="keyword">in</span> use; currently identical to TASK_LOGON_PASSWORD.</span><br><span class="line"></span><br><span class="line">Windows <span class="number">10</span>, version <span class="number">1511</span>, Windows <span class="number">10</span>, version <span class="number">1507</span>, Windows <span class="number">8.1</span>, Windows Server <span class="number">2012</span> R2, Windows <span class="number">8</span>, Windows Server <span class="number">2012</span>, Windows Vista and Windows Server <span class="number">2008</span>:  First use the interactive token. <span class="keyword">If</span> the user is not logged on (no interactive token is available), then the password is used. The password must be specified when a task is registered. This flag is not recommended <span class="keyword">for</span> new tasks because it is less reliable than TASK_LOGON_PASSWORD.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d5bff2f1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/d5bff2f1/" class="post-title-link" itemprop="url">待补充-Windows Server 通过NTDLL设置注册表权限</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-04-23 00:49:16" itemprop="dateCreated datePublished" datetime="2024-04-23T00:49:16+00:00">2024-04-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="场景说明"><a href="#场景说明" class="headerlink" title="场景说明"></a>场景说明</h1><p>一般在重置 RDS 120天许可会用到，需要删除GracePeriod 注册表才可以恢复120天试用期；但是直接使用Powershell的Remove-Item属性是无法完成这个操作的，必须提权。</p>
 
       
     </div>

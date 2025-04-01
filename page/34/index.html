@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">435</span>
+          <span class="site-state-item-count">437</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,291 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a57385a9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/a57385a9/" class="post-title-link" itemprop="url">待补充-Boot Loader:Grub</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-17 23:03:01" itemprop="dateCreated datePublished" datetime="2018-11-17T23:03:01+00:00">2018-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>在BIOS 读完信息后，第一启动设备的MBR会去读取boot loader 。</li>
+<li>boot loader 具有菜单功能、直接加载内核文件 以及 控制权移交的功能等，系统必须要有 loader 才有办法加载该操作系统的内核。</li>
+<li>MBR 是整个硬盘的第一个 sector 内的一个块，充其量整个大小也才446bytes。</li>
+</ul>
+<p><img src="https://images0.cnblogs.com/blog/432441/201305/19135459-4ac4e5873a42476c95a02460464449d5.jpg" alt="启动顺序"></p>
+<p>测试环境：</p>
+<ul>
+<li>CentOS 6.9</li>
+</ul>
+<h1 id="TODO-LIST"><a href="#TODO-LIST" class="headerlink" title="TODO-LIST"></a>TODO-LIST</h1><ul>
+<li>两块硬盘，每一块硬盘都装有不同的系统，编写双系统启动grub引导文件。</li>
+<li>当从一块没有系统的硬盘（只装有grub的硬盘）启动，如何快速修复进入系统）[完成时间：2018-11-18]</li>
+<li>第二块盘上面的grub配置文件有误，如何快速进入系统[完成时间：2018-11-18]</li>
+<li>修复Ubuntu下的无法启动问题。</li>
+<li>修复采用LVM分区方式的Ubuntu无法启动问题。</li>
+</ul>
+<h1 id="Linux中的解决方案"><a href="#Linux中的解决方案" class="headerlink" title="Linux中的解决方案"></a>Linux中的解决方案</h1><p>Linux将boot loader的程序代码执行与设置值加载分成两个阶段（stage）</p>
+<h2 id="Stage-1-：-执行boot-loader-主程序"><a href="#Stage-1-：-执行boot-loader-主程序" class="headerlink" title="Stage 1 ： 执行boot loader 主程序"></a>Stage 1 ： 执行boot loader 主程序</h2><p>这个主程序必须安装在启动区 ， 即 MBR或者 boot sector 。 不过由于 MBR 实在太小了， 因此 MBR 或者 boot sector 通常仅安装 boot loader 的最小主程序 ， 并没有安装 loader 的相关配置文件。</p>
+<h2 id="Stage-2-：-主程序加载配置文件"><a href="#Stage-2-：-主程序加载配置文件" class="headerlink" title="Stage 2 ： 主程序加载配置文件"></a>Stage 2 ： 主程序加载配置文件</h2><p>通过boot loader加载所有配置文件与相关的环境参数文件（包括文件系统定义与主要配置文件menu.lst) , 一般在 &#x2F;boot 下面。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">与Grub有关的文件都放在 /boot/grub 中</span></span><br><span class="line">[root@OrigialCentOS ~]# ll /boot/grub/</span><br><span class="line">总用量 274</span><br><span class="line">-rw-r--r--. 1 root root     63 11月  9 2017 device.map  # grub 的设备对应文件</span><br><span class="line">-rw-r--r--. 1 root root  13428 11月  9 2017 e2fs_stage1_5 # ext2/ext3 文件系统的定义文件</span><br><span class="line">-rw-r--r--. 1 root root  12636 11月  9 2017 fat_stage1_5 # fat 文件系统的定义文件</span><br><span class="line">-rw-r--r--. 1 root root  11780 11月  9 2017 ffs_stage1_5 # ffs 文件系统的定义文件</span><br><span class="line">-rw-------. 1 root root    771 11月  9 2017 grub.conf # grub 在 Centos中的配置文件</span><br><span class="line">-rw-r--r--. 1 root root  11772 11月  9 2017 iso9660_stage1_5 # 光驱文件系统的定义文件</span><br><span class="line">-rw-r--r--. 1 root root  13284 11月  9 2017 jfs_stage1_5 # jfs 文件系统的定义文件</span><br><span class="line">lrwxrwxrwx. 1 root root     11 11月  9 2017 menu.lst -&gt; ./grub.conf # menu.lst 配置文件</span><br><span class="line">-rw-r--r--. 1 root root  11972 11月  9 2017 minix_stage1_5 # minix 文件系统定义文件</span><br><span class="line">-rw-r--r--. 1 root root  14428 11月  9 2017 reiserfs_stage1_5 # reiserfs 文件系统的定义文件</span><br><span class="line">-rw-r--r--. 1 root root   1341 11月 15 2010 splash.xpm.gz # 启动时 在 grub 下面的后台图示</span><br><span class="line">-rw-r--r--. 1 root root    512 11月  9 2017 stage1 # stage 1 的相关说明</span><br><span class="line">-rw-r--r--. 1 root root 126148 11月  9 2017 stage2 # stage 2 的相关说明</span><br><span class="line">-rw-r--r--. 1 root root  12040 11月  9 2017 ufs2_stage1_5 # ufs 的文件系统定义文件</span><br><span class="line">-rw-r--r--. 1 root root  11380 11月  9 2017 vstafs_stage1_5 # vstafs 的文件系统定义文件</span><br><span class="line">-rw-r--r--. 1 root root  13980 11月  9 2017 xfs_stage1_5 # xfs 文件系统的定义文件</span><br></pre></td></tr></table></figure>
+
+<p>上面中 ， 最重要的配置文件为 menu.lst 。（Red hat 定义为 &#x2F;boot&#x2F;grub.conf) </p>
+<h1 id="Grub"><a href="#Grub" class="headerlink" title="Grub"></a>Grub</h1><p>Grub 是目前使用最广泛的 Linux 引导装载程序 ， 有以下几个优点 ： </p>
+<ul>
+<li>认识与支持较多的文件系统 ， 并且可以使用该grub的主程序直接在文件系统中查询内核文件名。</li>
+<li>启动的时候，可以自行编辑与修改启动设置选项，类似bash的命令模式。</li>
+<li>可以动态查找配置文件，而不需要修改配置文件后重新安装 grub 。 只需要修改 &#x2F;boot&#x2F;grub&#x2F;menu.lst 后重启生效。</li>
+<li>安装在 MBR 的 grub 主要任务是加载内核文件，以让内核能够驱动整个系统的硬件。</li>
+<li>grub 与 硬盘分区代号<ul>
+<li>(hd0,0)</li>
+<li>硬盘代号以 () 括起</li>
+<li>硬盘以hd表示 ， 后面会接一组数字</li>
+<li>以“查找顺序”作为硬盘的编号，而不是依照硬盘扁平电缆的排序（重点！）</li>
+<li>第一个查找的硬盘编号为0号</li>
+<li>每块硬盘的第一个分区号为0</li>
+</ul>
+</li>
+<li>第一块硬盘的第一个逻辑分区的boot sector 代号为 (hd0,4)</li>
+</ul>
+<blockquote>
+<p>使用SATA 磁盘，加上使用逻辑分区，Linux当中的文件名为&#x2F;dev&#x2F;sda5 (1-4保留给 primary 和 extended 使用)。 对应grub 的磁盘代号为 （hd0，4） ， 注意因为代号是从0开始，所以是4，而不是5.</p>
+</blockquote>
+<h2 id="menu-lst-配置文件"><a href="#menu-lst-配置文件" class="headerlink" title="menu.lst 配置文件"></a>menu.lst 配置文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@OrigialCentOS ~]# cat /boot/grub/menu.lst </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub.conf generated by anaconda</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># Note that you do not have to rerun grub after making changes to this file</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NOTICE:  You have a /boot partition.  This means that</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">         all kernel and initrd paths are relative to /boot/, eg.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">         root (hd0,0)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">         kernel /vmlinuz-version ro root=/dev/sda3</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">         initrd /initrd-[generic-]version.img</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">boot=/dev/sda</span></span><br><span class="line">default=0 # 默认启动选项，使用第一个启动菜单（title）</span><br><span class="line">timeout=5 # 超时5s</span><br><span class="line">splashimage=(hd0,0)/grub/splash.xpm.gz # 后台图示所在的文件</span><br><span class="line">hiddenmenu # 读秒期间是否显示出完整菜单（默认隐藏）</span><br><span class="line">title CentOS 6 (2.6.32-696.el6.x86_64) # 第一个菜单的内容</span><br><span class="line">	root (hd0,0)</span><br><span class="line">	kernel /vmlinuz-2.6.32-696.el6.x86_64 ro root=UUID=4c170fc7-b150-4dde-8bb4-6987741f6fd1 rd_NO_LUKS rd_NO_LVM LANG=en_US.UTF-8 rd_NO_MD SYSFONT=latarcyrheb-sun16 crashkernel=auto  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM rhgb quiet</span><br><span class="line">	initrd /initramfs-2.6.32-696.el6.x86_64.img</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>default ， 默认从第几个菜单启动， 从0开始。</li>
+<li>timeout ，单位为s ， 设置为0表示直接使用 default值进行启动而不读秒；设置为 -1 表示进入菜单不读秒。</li>
+<li>title 后面是指定启动的内核文件或者是 boot loader 控制权。</li>
+<li>splashimage &#x3D; (hd0,0)&#x2F;grub&#x2F;splash.xpm.gz , 提供后台图示。</li>
+<li>hiddenmenu ， 如果要显示完整菜单，则注释掉此行。</li>
+<li>指定内核启动<ul>
+<li>先指定内核文件放置的分区 ，再读取文件（目录树），最后才加入文件的实际文件名和路径 （ kernel 与 initrd）</li>
+<li>root (hd0,0) 代表内核文件放在哪一个分区中<ul>
+<li>root 代表 的是内核文件放置的那个分区 ，而不是根目录 。</li>
+</ul>
+</li>
+<li>kernel kernel &#x2F;vmlinuz-2.6.32-696.el6.x86_64 ro root&#x3D;UUID&#x3D;4c170fc7-b150-4dde-8bb4-6987741f6fd1 rd_NO_LUKS rd_NO_LVM LANG&#x3D;en_US.UTF-8 rd_NO_MD SYSFONT&#x3D;latarcyrheb-sun16 crashkernel&#x3D;auto  KEYBOARDTYPE&#x3D;pc KEYTABLE&#x3D;us rd_NO_DM rhgb quiet<ul>
+<li>kernel 接的是内核的文件名 ， 文件名后面接的是内核的参数 。</li>
+<li>root&#x3D;UUID ， 指的是Linux的根目录在哪一个分区的意思。这里采用的UUID来挂载根目录。</li>
+<li>rhgb （redhat graphics boot） 为色彩显示 </li>
+<li>rd_NO_LVM 禁用LVM</li>
+<li>rd_NO_LUKS</li>
+<li>SYSFONT</li>
+<li>crashkernel</li>
+<li>rd_NO_DM</li>
+<li>quiet 是 安静模式 （屏幕不会输入内核检测信息）</li>
+</ul>
+</li>
+<li>initrd &#x2F;initramfs-2.6.32-696.el6.x86_64.img</li>
+</ul>
+</li>
+</ul>
+<h2 id="利用-chain-loader的方式转交控制权-，即-双系统的启动方式-。"><a href="#利用-chain-loader的方式转交控制权-，即-双系统的启动方式-。" class="headerlink" title="利用 chain loader的方式转交控制权 ，即 双系统的启动方式 。"></a>利用 chain loader的方式转交控制权 ，即 双系统的启动方式 。</h2><p>chain loader（引导装载程序的连接） 仅是 将控制权交给下一个boot loader而已 。</p>
+<ul>
+<li>预计要前往的boot sector 所在的分区代号。</li>
+<li>chain loader 在的那个分区的boot sector （一般为第一个扇区）</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">应用场景 ， 假设 Windows分区在dev/hda1 ，仅有一块硬盘</span> </span><br><span class="line">title Windows partition</span><br><span class="line">    root (hd0,0)</span><br><span class="line">    # 如果我的/dev/hda5 是安装Linux的分区，不想让Windows识别到这个分区。</span><br><span class="line">    hide (hd0,4)</span><br><span class="line">    # +1 可以认为是第一个扇区 ，即 boot sector</span><br><span class="line">    chainloader +1 </span><br><span class="line">    # 由于Windows的系统盘需要设置为活动（active）状态 ，并且 grub 默认会去检查该分区的文件系统</span><br><span class="line">    makeactive </span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<h1 id="initrd"><a href="#initrd" class="headerlink" title="initrd"></a>initrd</h1><p>initrd 启动过程中提供所需要的最重要内核模块，以便系统启动过程顺利完成。</p>
+<p>而需要 initrd 的原因：</p>
+<ul>
+<li>内核模块放置于 &#x2F;lib&#x2F;modules&#x2F;$(uname -r)&#x2F;kernel&#x2F;当中 ， 这些模块必须要根目录(&#x2F;)被挂在时才能够被读取。<ul>
+<li>如果内核本身不具备磁盘的驱动程序时，时无法挂载根目录的，也没有办法取得驱动程序。</li>
+<li>部分服务器的RAID驱动并没有集成到内核中，因此开机过程中会提示没有找到启动目录。</li>
+</ul>
+</li>
+<li>initrd 可以将&#x2F;lib&#x2F;modules&#x2F;…内的启动过程中一定需要的模块打包成一个文件（文件名为initrd）。<ul>
+<li>然后再启动时通过主机的int13 硬件功能 将该文件读取出来解压缩，并且initrd在内存内会仿真成根目录 。</li>
+<li>由于虚拟文件系统（Initial RAM Disk） 主要包含磁盘与文件系统的模块，所以内核最后才能对实际硬盘进行根目录挂载 操作。  </li>
+<li>initrd 内所包含的模块大多都与启动过程有关，而主要以文件系及硬盘模块（usb、SCSI等）为主的。</li>
+<li>一般需要initrd的时刻为<ul>
+<li>根目录所在的磁盘为 SATA 、 USB | SCSI 等连接接口</li>
+<li>根目录所在文件系统为LVM 、 RAID 等特殊格式</li>
+<li>根目录所在文件系统为非创痛LINUX “认识” 的文件系统</li>
+<li>其他必须在内核加载时系统的模块</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="mkinitrd"><a href="#mkinitrd" class="headerlink" title="mkinitrd"></a>mkinitrd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mkinitrd [-v] [--with=模块名称] initrd文件名 内核版本</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-v 显示mkinitrd 运行过程</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--with 模块名称 ： 指模块的名字 ，不需要写完整路径</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内核版本 ，当前的内核版本就写上 $(<span class="built_in">uname</span> -r)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="测试安装-grub"><a href="#测试安装-grub" class="headerlink" title="测试安装 grub"></a>测试安装 grub</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">grub-install [--root-directory=DIR] INSTALL_DEVICE</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--root-directory 为设置实际目录。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用grub-install默认会将grub所有的文件都复制到/boot/grub/*。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果想要更改目录，则需要使用这个参数。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">INSTALL_DEVICE 为安装的设备代号</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">案例1 ： 将 grub 安装在目前系统的MBR下面</span> </span><br><span class="line">grub-install /dev/hda</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">案例2 ： /home.test 为独立的 /dev/sdb1 , 将grub安装到 /dev/sdb1</span></span><br><span class="line">grub-install --root-directory=/home.test /dev/sdb1</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">Probing devices to guess BIOS drives. This may take a long time.</span><br><span class="line">Installation finished. No error reported.</span><br><span class="line">This is the contents of the device map /home.test/boot/grub/device.map.</span><br><span class="line">Check if this is correct or not. If any of the lines is incorrect,</span><br><span class="line">fix it and re-run the script `grub-install&#x27;.</span><br><span class="line"></span><br><span class="line">(fd0)	/dev/fd0</span><br><span class="line">(hd0)	/dev/sda</span><br><span class="line">(hd1)	/dev/sdb</span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+
+<p>这个在两个硬盘上的第一个分区都装有grub ， 需要从第二块硬盘上面启动的时候，才能生效。</p>
+<h2 id="第二块盘上面只有grub，如何快速进入系统"><a href="#第二块盘上面只有grub，如何快速进入系统" class="headerlink" title="第二块盘上面只有grub，如何快速进入系统"></a>第二块盘上面只有grub，如何快速进入系统</h2><p>因为第二快盘只有 grub ，开机启动只有grub shell ，是因为grub没有配置好所导致的问题，现在无法进入系统。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 正常情况下为：</span><br><span class="line"># 从有操作系统的磁盘启动 </span><br><span class="line"># Linux 显示 ： /dev/sda</span><br><span class="line"># grub 检测显示： hd0</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"># 故障情况</span><br><span class="line"># 修改启动顺序，从一块没有操作系统的磁盘启动</span><br><span class="line"># Linux 显示 ： /dev/sdb</span><br><span class="line"># grub 显示 ： hd0</span><br><span class="line"># 【正确的系统盘】在grub 显示为 ： hd1</span><br><span class="line"></span><br><span class="line">root (hd1,0)</span><br><span class="line"># kernel 参数中必须挂上root目录，否则系统无法启动 </span><br><span class="line">kernel/vmlinuz-2.6.32-696.el6.x86_64 ro root=UUID=4c170fc7-b150-4dde-8bb4-6987741f6fd1</span><br><span class="line"># 挂载内核模块</span><br><span class="line">initrd /initramfs-2.6.32-696.el6.x86_64.img</span><br><span class="line">boot</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二块盘上面的grub配置文件有误，如何快速进入系统"><a href="#第二块盘上面的grub配置文件有误，如何快速进入系统" class="headerlink" title="第二块盘上面的grub配置文件有误，如何快速进入系统"></a>第二块盘上面的grub配置文件有误，如何快速进入系统</h2><p>主要查看两点：</p>
+<ul>
+<li>路径（root ， kernel ， initrd）是否正确，是否选择有操作系统的boot sector</li>
+<li>kernel 中是否有选中root目录。（这个有报错提示的）<ul>
+<li>指定root目录三种方法：<ul>
+<li>LABEL方法：前提是要设置了label ， root&#x3D;LABEL&#x3D;myRoot</li>
+<li>UUID方法：前提是要知道UUID，root&#x3D;UUID&#x3D;…..</li>
+<li>指定分区 ： 前提是要知道根目录在哪一个分区 ,root&#x3D;&#x2F;dev&#x2F;sda3</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>《鸟哥的Linux私房菜（第三版）》</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1be89a35/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1be89a35/" class="post-title-link" itemprop="url">内核学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-15 22:43:10" itemprop="dateCreated datePublished" datetime="2018-11-15T22:43:10+00:00">2018-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>内核即Kernel ， 控制主机的所有硬件并提供系统所有的功能。一般Linux启动过程是利用开机管理程序加载这个内核文件来检测硬件 ， 在内核加载合适的驱动程序后，系统才能够正常启动。</p>
+<ul>
+<li>内核（Kernel）是一个文件 ，通常放置在 &#x2F;boot&#x2F;vmlinuz 中 ，一台Linux中可以有多个内核文件，只是开机的时候仅加载其中一个而已。</li>
+<li>内核模块（Kernel Module）通常是一些不常用的类似驱动程序的内容独立出内核，编译成模块，系统在运行过程中加载这个模块得到内核的支持。通常放在 &#x2F;lib&#x2F;modules&#x2F;$(uname -r)&#x2F;kernel&#x2F;当中。</li>
+<li>内核是通过源代码(Source Code)编译而成的，内核是直接被读入内存当中的。</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>《鸟哥的Linux私房菜（第三版）》</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -994,373 +1279,6 @@
 <li>Google-Authenticator wiki : <a href="https://github.com/google/google-authenticator/wiki">https://github.com/google/google-authenticator/wiki</a></li>
 <li>Linux-PAM : <a target="_blank" rel="noopener" href="http://www.linux-pam.org/">http://www.linux-pam.org/</a></li>
 <li>安装实例参考 ： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/kevingrace/p/7065255.html">https://www.cnblogs.com/kevingrace/p/7065255.html</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1453e4ad/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/1453e4ad/" class="post-title-link" itemprop="url">[待办]-k8s</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-11-03 20:46:32" itemprop="dateCreated datePublished" datetime="2018-11-03T20:46:32+00:00">2018-11-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/53e79ffa/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/53e79ffa/" class="post-title-link" itemprop="url">Ubuntu1404 在线升级到Ubuntu1604 附-Ubuntu源的区分</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-11-01 23:48:02" itemprop="dateCreated datePublished" datetime="2018-11-01T23:48:02+00:00">2018-11-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于不能变更系统内的操作，但又有升级系统的需求，例如一些软件的兼容或者驱动的兼容需要新版本的UBUNTU才能支持，在保留现有的服务并且不更改任何配置的情况下，将系统和内核都进行升级。</p>
-<p>要通过apt-get升级需要查看官网的ReleaseNotes ，看是否能够跨版本升级。</p>
-<h1 id="To-do-list"><a href="#To-do-list" class="headerlink" title="To-do list"></a>To-do list</h1><ul>
-<li>Ubuntu 1404 generic 升级至 Ubuntu 1604 4.4.0-138-generic【20181103完成】</li>
-</ul>
-<h1 id="操作过程"><a href="#操作过程" class="headerlink" title="操作过程"></a>操作过程</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">需要将sources.list的源更改一下。将1404 的 trusty 源 转换为 1604 的 xenial 源</span></span><br><span class="line">sed -i &quot;s#trustly#xenial#g&quot; /etc/apt/sources.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get dist-upgrade</span><br></pre></td></tr></table></figure>
-
-<h1 id="附：-Ubuntu各个版本的代号与翻译"><a href="#附：-Ubuntu各个版本的代号与翻译" class="headerlink" title="附： Ubuntu各个版本的代号与翻译"></a>附： Ubuntu各个版本的代号与翻译</h1><p>Ubuntu 发布版本的官方名称是 Ubuntu X.YY ，其中 X 表示年份（减去2000），YY 表示发布的月份。</p>
-<table>
-<thead>
-<tr>
-<th align="center">版本号</th>
-<th align="center">英文代号</th>
-<th align="center">中文翻译</th>
-<th align="center">发布时间</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">18.10</td>
-<td align="center">Bionic Beaver</td>
-<td align="center">仿生海狸</td>
-<td align="center">2018&#x2F;04</td>
-</tr>
-<tr>
-<td align="center">18.04</td>
-<td align="center">Bionic Beaver</td>
-<td align="center">仿生海狸</td>
-<td align="center">2018&#x2F;04</td>
-</tr>
-<tr>
-<td align="center">17.10</td>
-<td align="center">Artful Aardvark</td>
-<td align="center">机灵的土豚</td>
-<td align="center">2017&#x2F;10</td>
-</tr>
-<tr>
-<td align="center">17.04</td>
-<td align="center">Zesty Zapus</td>
-<td align="center">开心的跳鼠</td>
-<td align="center">2017&#x2F;04</td>
-</tr>
-<tr>
-<td align="center">16.10</td>
-<td align="center">Yakkety Yak</td>
-<td align="center">高原牦牛</td>
-<td align="center">2016&#x2F;10</td>
-</tr>
-<tr>
-<td align="center">16.04</td>
-<td align="center">LTS Xenial Xerus</td>
-<td align="center">好客的非洲地松鼠</td>
-<td align="center">2016&#x2F;4</td>
-</tr>
-<tr>
-<td align="center">15.10</td>
-<td align="center">Wily Werewolf</td>
-<td align="center">狡诈的狼人</td>
-<td align="center">2015&#x2F;10&#x2F;22</td>
-</tr>
-<tr>
-<td align="center">15.04</td>
-<td align="center">Vivid Vervet</td>
-<td align="center">活泼的小猴 2015&#x2F;04&#x2F;23</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">14.10</td>
-<td align="center">Utopic Unicorn</td>
-<td align="center">乌托邦独角兽</td>
-<td align="center">2014&#x2F;10&#x2F;23</td>
-</tr>
-<tr>
-<td align="center">14.04</td>
-<td align="center">LTS Trusty Tahr</td>
-<td align="center">值得信赖的塔尔羊</td>
-<td align="center">2014&#x2F;04&#x2F;18</td>
-</tr>
-<tr>
-<td align="center">13.10</td>
-<td align="center">Saucy Salamander</td>
-<td align="center">活泼的蝾螈</td>
-<td align="center">2013&#x2F;10&#x2F;17</td>
-</tr>
-<tr>
-<td align="center">13.04</td>
-<td align="center">Raring Ringtail</td>
-<td align="center">铆劲浣熊</td>
-<td align="center">2013&#x2F;04&#x2F;25</td>
-</tr>
-<tr>
-<td align="center">12.10</td>
-<td align="center">Quantal Quetzal</td>
-<td align="center">缤纷的绿咬鹃</td>
-<td align="center">2012&#x2F;10&#x2F;18</td>
-</tr>
-<tr>
-<td align="center">12.04</td>
-<td align="center">LTS Precise Pangolin</td>
-<td align="center">精准的穿山甲</td>
-<td align="center">2012&#x2F;04&#x2F;26</td>
-</tr>
-<tr>
-<td align="center">11.10</td>
-<td align="center">Oneiric Ocelot</td>
-<td align="center">有梦的虎猫</td>
-<td align="center">2011&#x2F;10&#x2F;13</td>
-</tr>
-<tr>
-<td align="center">11.04</td>
-<td align="center">Unity成为默认桌面环境 Natty Narwhal</td>
-<td align="center">敏捷的独角鲸</td>
-<td align="center">2011&#x2F;04&#x2F;28</td>
-</tr>
-<tr>
-<td align="center">10.10</td>
-<td align="center">Maverick Meerkat</td>
-<td align="center">标新立异的的狐獴</td>
-<td align="center">2010&#x2F;10&#x2F;10</td>
-</tr>
-<tr>
-<td align="center">10.04</td>
-<td align="center">LTS Lucid Lynx</td>
-<td align="center">清醒的猞猁</td>
-<td align="center">2010&#x2F;04&#x2F;29</td>
-</tr>
-<tr>
-<td align="center">9.10</td>
-<td align="center">Karmic Koala</td>
-<td align="center">幸运的无尾熊</td>
-<td align="center">2009&#x2F;10&#x2F;29</td>
-</tr>
-<tr>
-<td align="center">9.04</td>
-<td align="center">Jaunty Jackalope</td>
-<td align="center">活泼的兔子</td>
-<td align="center">2009&#x2F;04&#x2F;23</td>
-</tr>
-<tr>
-<td align="center">8.10</td>
-<td align="center">Intrepid Ibex</td>
-<td align="center">无畏的高地山羊</td>
-<td align="center">2008&#x2F;10&#x2F;30</td>
-</tr>
-<tr>
-<td align="center">8.06</td>
-<td align="center">官方查不到此版本发布信息 Haughty Husky</td>
-<td align="center">骄傲的哈士奇</td>
-<td align="center">2008&#x2F;06&#x2F;07</td>
-</tr>
-<tr>
-<td align="center">8.04</td>
-<td align="center">LTS Hardy Heron</td>
-<td align="center">坚强的苍鹭</td>
-<td align="center">2008&#x2F;04&#x2F;24</td>
-</tr>
-<tr>
-<td align="center">7.10</td>
-<td align="center">Gutsy Gibbon</td>
-<td align="center">勇敢的长臂猿</td>
-<td align="center">2007&#x2F;10&#x2F;18</td>
-</tr>
-<tr>
-<td align="center">7.04</td>
-<td align="center">Feisty Fawn</td>
-<td align="center">烦躁不安的小鹿</td>
-<td align="center">2007&#x2F;04&#x2F;19</td>
-</tr>
-<tr>
-<td align="center">6.10</td>
-<td align="center">Edgy Eft</td>
-<td align="center">尖利的小蜥蜴</td>
-<td align="center">2006&#x2F;10&#x2F;26</td>
-</tr>
-<tr>
-<td align="center">6.06</td>
-<td align="center">LTS Dapper Drake</td>
-<td align="center">整洁的公鸭</td>
-<td align="center">2006&#x2F;06&#x2F;01</td>
-</tr>
-<tr>
-<td align="center">5.10</td>
-<td align="center">Breezy Badger</td>
-<td align="center">活泼的獾</td>
-<td align="center">2005&#x2F;10&#x2F;13</td>
-</tr>
-<tr>
-<td align="center">5.04</td>
-<td align="center">Hoary Hedgehog</td>
-<td align="center">白发得刺猬</td>
-<td align="center">2005&#x2F;04&#x2F;08</td>
-</tr>
-<tr>
-<td align="center">4.10</td>
-<td align="center">初始发布版本 Warty Warthog</td>
-<td align="center">多疣的疣猪</td>
-<td align="center">2004&#x2F;10&#x2F;20</td>
-</tr>
-</tbody></table>
-<h2 id="查看当前版本代号"><a href="#查看当前版本代号" class="headerlink" title="查看当前版本代号"></a>查看当前版本代号</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如</span></span><br><span class="line">Distributor ID:	Ubuntu</span><br><span class="line">Description:	Ubuntu 14.04.5 LTS</span><br><span class="line">Release:	14.04</span><br><span class="line">Codename:	trusty</span><br></pre></td></tr></table></figure>
-
-<h2 id="Ubuntu-版本更新周期"><a href="#Ubuntu-版本更新周期" class="headerlink" title="Ubuntu 版本更新周期"></a>Ubuntu 版本更新周期</h2><p>Desktop 和 Server 版本更新的时间为 6个月</p>
-<h2 id="Ubuntu-的版本支持时间"><a href="#Ubuntu-的版本支持时间" class="headerlink" title="Ubuntu 的版本支持时间"></a>Ubuntu 的版本支持时间</h2><ul>
-<li>对于 desktop 版本和 server 版本，Ubuntu 会提供至少18个月的技术支持</li>
-<li>对于 LTS 版本（Long Term Suppot）长期支持版本，desktop 版的会提供至少 3年技术支持，server 版本的会提供至少 5 年即使支持</li>
-</ul>
-<h2 id="Ubuntu-的各个版本（最新发行版主要提供-Desktop-和-Server两种版本）"><a href="#Ubuntu-的各个版本（最新发行版主要提供-Desktop-和-Server两种版本）" class="headerlink" title="Ubuntu 的各个版本（最新发行版主要提供 Desktop 和 Server两种版本）"></a>Ubuntu 的各个版本（最新发行版主要提供 Desktop 和 Server两种版本）</h2><ul>
-<li>Desktop版本：desktop 是 live cd 的名字,什么是 live cd? live cd 是一个刻录在光盘上的操作系统，我们并不需要硬盘就可以直接在光盘上运行这个操作系统。里面也已经集成了很多软件，我们一般可以把这个系统安装到硬盘上，类似于ghost系统，安装速度会比较快。这个版本提供了向导的图形界面的方式，让你一步步来轻松地安装 Ubuntu (一般都安装这个系统的 32 位 i386 版本）</li>
-<li>Alternate版本：是一个最标准的安装版本，采用文本安装界面，里面有很多高级选项，可以安装 desktop ,也可以安装 server 版，适合比较高要求的人来安装，安装速度比 desktop 版慢，但是运行时的效率比 desktop 版本快</li>
-<li>Netbook版本：专门为上网本定制和优化，最近的版本采用了 Unity，为小屏幕提供了一种美观的用户界面，采用了大图标设计，让用户更容易寻找各种应用程序</li>
-<li>DVD版本：里面包括 Desktop 和 Alternate 两种安裝模式，同时集成更多的软件和完整的语言包，假如你没有联网可以选择下这个版本</li>
-<li>Minimal版本：安装 Ubuntu 的最小镜像版本</li>
-</ul>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>Ubuntu源的区分： <a target="_blank" rel="noopener" href="https://blog.csdn.net/feiniao8651/article/details/70159157">https://blog.csdn.net/feiniao8651/article/details/70159157</a></li>
-<li>Ubuntu源的代号：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhengmx100/article/details/78352773">https://blog.csdn.net/zhengmx100/article/details/78352773</a></li>
-<li>Ubuntu 1804 ReleaseNotes : <a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes?_ga=2.145883700.1807176416.1541224818-1321095893.1541224818">https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes?_ga=2.145883700.1807176416.1541224818-1321095893.1541224818</a></li>
 </ul>
 
       
