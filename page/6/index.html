@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">437</span>
+          <span class="site-state-item-count">438</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,96 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ad183cc1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ad183cc1/" class="post-title-link" itemprop="url">记录一次SAN存储控制器重启故障-VMware层影响</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-19 22:17:33" itemprop="dateCreated datePublished" datetime="2024-03-19T22:17:33+00:00">2024-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>SAN存储触发的告警为：控制 Offline 告警邮件，显示 Node 1 失败（Node unexpectedly offline ）;<br>虚拟化层触发的告警为：StorageConnectivityAlarm;</p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>SAN存储固件异常，导致控制器自行重启。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>升级SAN存储控制器固件至指定版本。</p>
+<h2 id="关于ESXi多路径排查过程"><a href="#关于ESXi多路径排查过程" class="headerlink" title="关于ESXi多路径排查过程"></a>关于ESXi多路径排查过程</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入ESXi Shell</span></span><br><span class="line"><span class="comment"># 查看VMware kernel日志 ，路径为 /var/log/vmkernel.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找关键字 3470， CmdSN  xxx from world xxx to dev &quot;xxxx&quot; failed </span></span><br><span class="line"><span class="comment"># 参考 ：https://blog.csdn.net/Pespi_Co1a/article/details/111191902</span></span><br><span class="line"><span class="comment"># 参考 ： https://kb.vmware.com/s/article/1029039?lang=zh_cn</span></span><br><span class="line"><span class="comment"># H:0x0 , D0x2 ,P:0x0</span></span><br><span class="line"><span class="comment"># Host ID</span></span><br><span class="line"><span class="comment"># 0x0 当主机端不存在任何错误时，返回此状态。</span></span><br><span class="line"><span class="comment"># 0x01 如果与LUN的连接丢失，将返回此状态。【发生在LUN不再从阵列端对主机可见，或者如果与阵列的物理连接已被移除，则会发生这种情况】【https://kb.vmware.com/s/article/1003433?lang=zh_cn】</span></span><br><span class="line"><span class="comment"># 0x02 当HBA驱动程序无法项设备发出命令时，将返回此状态。【发生在环境中丢弃了FCP帧】</span></span><br><span class="line"><span class="comment"># 0x03 当正在对阵列执行的命令超时时，将返回此状态。</span></span><br><span class="line"><span class="comment"># 0x04 驱动程序对发生故障的目标中止命令后，将返回此状态。【通常发生在硬件错误时；如果向发生故障的目标ID发送命令也会出现】</span></span><br><span class="line"><span class="comment"># 0x05 如果驱动程序必须对目标中止的命令，将返回此状态。【命令超时或帧中出现奇偶校验错误】</span></span><br><span class="line"><span class="comment"># 0x06 将为一般错误反馈此状态。【针对其他错误（如数据超限或不足）未涵盖的事件而发生】</span></span><br><span class="line"><span class="comment"># 0x07 当由于存储器错误已重置设备时，将返回此状态。【通常过时的HBA固件，或者可能是发生故障的HBA】</span></span><br><span class="line"><span class="comment"># 0x08 遗留错误，不会返回。</span></span><br><span class="line"><span class="comment"># 0x0a 遗留错误，不会返回。</span></span><br><span class="line"><span class="comment"># 0x0b HBA驱动程序返回 DID_REQUEUE 命令，将返回此状态。【在接受到这个状态时，将重新发出I/O命令】</span></span><br><span class="line"><span class="comment"># 0x0c 由于暂时性错误，将返回此状态。【I/O命令将重新加入阵列并重新发出】</span></span><br><span class="line"><span class="comment"># 0x0d 当HBA驱动程序尝试中止命令（随后会对iocb ring中的所有命令设置IOSTAT_LOCAL_REJECT状态）时，将返回此状态。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Vital Product Data(VPD)</span></span><br><span class="line"><span class="comment"># https://kb.vmware.com/s/article/1010244?lang=zh_cn</span></span><br><span class="line"><span class="comment"># https://kb.vmware.com/s/article/289902?lang=zh_cn</span></span><br><span class="line"><span class="comment"># https://www.t10.org/lists/2asc.htm</span></span><br><span class="line"><span class="comment"># 0x80 ,设备序列号</span></span><br><span class="line"><span class="comment"># 0x83 ,设备标志号</span></span><br><span class="line"><span class="comment"># 0x85 ,管理网络地址</span></span><br><span class="line"><span class="comment"># 存储设备重新枚举期间，VMware ESX/ESXi VMkernel 向目标发送 SCSI 报告 LUN 命令 (0xa0) 以检索 LUN 列表，向每个 LUN 发送 SCSI 查询命令 (0x12) 以确定设备类型（磁盘、CD-ROM、USB 等）、设备品牌和型号以及设备支持的功能。</span></span><br><span class="line"><span class="comment"># 如果 SCSI 设备不支持某个 VPD 页面 VPD，它在响应此类请求时可能会出现错误。尤其是，它可能会返回 SCSI 状态 2（检查状况），其中，感知密匙为 5（非法请求），附加感知代码 (ASC) 和附加感知代码标识符 (ASCQ) 设置为 0x20/0x0 或 0x24/0x0。</span></span><br><span class="line"><span class="comment"># 1. 本地存储设备通常不支持 VPD 页面 0x83，从而无法用于裸设备映射 (RDM)。页面 0x83 的内容用作设备的唯一标识符。</span></span><br><span class="line"><span class="comment"># 2. CD 或 DVD-ROM 设备通常不支持 VPD 页面 0x80、0x83 或 0x85。</span></span><br><span class="line"><span class="comment"># 3. 一些设备控制器不支持报告 LUN。如果不存在 LUN 0 或报告的 SCSI 版本为 2 或更低版本，ESX/ESXi 主机会对此控制器上的 LUN 进行迭代扫描。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找关键字 lpfc_els_rcv_rscn </span></span><br><span class="line"><span class="comment"># https://kb.vmware.com/s/article/2151839?lang=zh_CN</span></span><br><span class="line"><span class="comment"># lpfc为驱动程序</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># [恢复] 查找关键之 Device .... performance has improved . I/O latency reduced from xxxx microseconds to xxx microseconds.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [恢复] lpfc : lpfc_reportStats: xxxxx Compression log for fcp target 8 , path is ok ,IO errors: busy 9 , retry xxxxx,no_connect xx,fcperr xxxx ,tmo x;</span></span><br><span class="line"><span class="comment"># https://kb.vmware.com/s/article/76350</span></span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1123,100 +1213,6 @@
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看原版驱动</span></span><br><span class="line">lspci | grep net</span><br><span class="line"><span class="comment"># 可以看到所有网卡信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载驱动</span></span><br><span class="line">https://www.intel.cn/content/www/cn/zh/download/18026/intel-network-adapter-driver-for-pcie-40-gigabit-ethernet-network-connections-under-linux.html?wapkw=Intel(R)%20Ethernet%20Controller%20X710</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压驱动包</span></span><br><span class="line">tar vxf i40e-2.22.18.tar.gz</span><br><span class="line"><span class="comment"># 进入src目录</span></span><br><span class="line"><span class="built_in">cd</span> i40e-2.22.18/src/</span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">make install</span><br><span class="line"><span class="comment"># 更新内核文件</span></span><br><span class="line">modinfo i40e</span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">reboot</span><br><span class="line"><span class="comment"># 检查驱动</span></span><br><span class="line">ethtool -i [对应网口]</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xujiecnblogs/p/17401832.html">https://www.cnblogs.com/xujiecnblogs/p/17401832.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4abed311/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/4abed311/" class="post-title-link" itemprop="url">ESXI 安装ipmitools</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-02-05 00:12:25" itemprop="dateCreated datePublished" datetime="2024-02-05T00:12:25+00:00">2024-02-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="下载ipmitool-esxi-vib软件"><a href="#下载ipmitool-esxi-vib软件" class="headerlink" title="下载ipmitool-esxi-vib软件"></a>下载ipmitool-esxi-vib软件</h1><p><a target="_blank" rel="noopener" href="https://vswitchzero.files.wordpress.com/2019/08/ipmitool-esxi-vib-1.8.11-2.zip">https://vswitchzero.files.wordpress.com/2019/08/ipmitool-esxi-vib-1.8.11-2.zip</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># MD5值核验</span></span><br><span class="line">ipmitool-esxi-vib-1.8.11-2.zip = 444af4ce1dc68418583dba2926093980</span><br><span class="line">ipmitool-1.8.11-2-offline_bundle.zip = 44cb77cc8bd7f969b8e74eb33aec8d71</span><br><span class="line">ipmitool-1.8.11-2.x86_64.vib = 173db5b9f205d9c10d9458ff76d8954b</span><br></pre></td></tr></table></figure>
-
-<h1 id="上传VIB文件并安装"><a href="#上传VIB文件并安装" class="headerlink" title="上传VIB文件并安装"></a>上传VIB文件并安装</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改安装许可级别</span></span><br><span class="line">esxcli software acceptance <span class="built_in">set</span> --level=CommunitySupported</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装软件</span></span><br><span class="line">esxcli software vib install -v /tmp/ipmitool-1.8.11-2.x86_64.vib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行ipmitool指令</span></span><br><span class="line">/opt/ipmitool/ipmitool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载ipmitool指令</span></span><br><span class="line">esxcli software vib remove -n ipmitool</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://vswitchzero.com/ipmitool-vib/">https://vswitchzero.com/ipmitool-vib/</a></p>
 
       
     </div>
