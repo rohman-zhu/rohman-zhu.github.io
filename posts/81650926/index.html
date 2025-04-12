@@ -27,7 +27,7 @@
 <meta property="og:description" content="Bash 相关知识12345678910111213# Bash 变量区分大小写。STATE&#x3D;&quot;xxxx&quot;# 赋值有空格，需要使用双引号STATE&#x3D;&quot;xx xxx&quot;# 引用已声明的变量用$STATE&#x3D;&quot;PreValue&quot;NewSTATE&#x3D;&quot;New VALUE and $STATE&quot;# 接收交互输入read respon">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-30T15:02:45.000Z">
-<meta property="article:modified_time" content="2024-12-22T05:27:49.222Z">
+<meta property="article:modified_time" content="2025-04-12T05:58:24.167Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta name="twitter:card" content="summary">
@@ -199,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+      <time title="Modified: 2025-04-12 05:58:24" itemprop="dateModified" datetime="2025-04-12T05:58:24+00:00">2025-04-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
 
 <h1 id="设置IP"><a href="#设置IP" class="headerlink" title="设置IP"></a>设置IP</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip addr add [IP/掩码长度] dev [网卡]</span><br><span class="line">ip route add default via [网关]</span><br></pre></td></tr></table></figure>
 
-<h1 id="检查端口监听情况–tcpdump指令"><a href="#检查端口监听情况–tcpdump指令" class="headerlink" title="检查端口监听情况–tcpdump指令"></a>检查端口监听情况–tcpdump指令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 监听网卡</span></span><br><span class="line">tcpdump -i [网卡名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听指定主机</span></span><br><span class="line">tcpdump -i [网卡名] host [主机IP]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听 TCP端口</span></span><br><span class="line">tcpdump tcp port [端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听 UDP端口</span></span><br><span class="line">tcpdump udp port [端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听2个条件</span></span><br><span class="line"><span class="comment"># 同时筛选 主机 与 端口</span></span><br><span class="line">tcpdump -i [网卡] host [主机IP] and tcp port [端口]</span><br></pre></td></tr></table></figure>
+<h1 id="检查端口监听情况–tcpdump指令"><a href="#检查端口监听情况–tcpdump指令" class="headerlink" title="检查端口监听情况–tcpdump指令"></a>检查端口监听情况–tcpdump指令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 监听网卡</span></span><br><span class="line"><span class="comment"># -i 监听网卡</span></span><br><span class="line">tcpdump -i [网卡名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听指定主机</span></span><br><span class="line">tcpdump -i [网卡名] host [主机IP]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听 TCP端口</span></span><br><span class="line">tcpdump tcp port [端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听 UDP端口</span></span><br><span class="line">tcpdump udp port [端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听2个条件</span></span><br><span class="line"><span class="comment"># 同时筛选 主机 与 端口</span></span><br><span class="line">tcpdump -i [网卡] host [主机IP] and tcp port [端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 监听域名解析</span></span><br><span class="line">tcpdump -i [网卡] port 53</span><br><span class="line"><span class="comment"># 不要转化地址</span></span><br><span class="line">tcpdump -i [网卡] -n port 53</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="initramfs-下修改root目录"><a href="#initramfs-下修改root目录" class="headerlink" title="initramfs 下修改root目录"></a>initramfs 下修改root目录</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /mnt </span><br><span class="line"><span class="comment"># 挂载root目录</span></span><br><span class="line">mount /dev/[root设备]  /mnt</span><br><span class="line"><span class="built_in">chroot</span> /mnt</span><br></pre></td></tr></table></figure>
 
@@ -262,6 +262,7 @@
 <h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> dev [interface] &#123;up|down&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="列出软件安装"><a href="#列出软件安装" class="headerlink" title="列出软件安装"></a>列出软件安装</h1><h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dpkg --get-selections </span><br><span class="line">dpkg -l</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
