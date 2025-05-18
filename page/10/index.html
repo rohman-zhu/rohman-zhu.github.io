@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">438</span>
+          <span class="site-state-item-count">439</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,103 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5c632061/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/5c632061/" class="post-title-link" itemprop="url">记录32位的EXT4文件系统扩容故障</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-02-20 01:01:20" itemprop="dateCreated datePublished" datetime="2023-02-20T01:01:20+00:00">2023-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>原始需求为 32位的EXT4文件系统由16TB扩容至20TB，但因为扩容前未识别到目标文件系统是32位的EXT4文件系统，默认以为是64位的EXT4文件系统，最大上限为 64 ZiB；</p>
+<p>虚拟化层、LV层已经完成扩容，然而在 resize2fs 文件系统时，报错 “New size too large to be expressed in 32 bits” ;</p>
+<p>现在需要将扩容的4TB回收，重新组建vg与lv；</p>
+<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><p>变更目标：将目标vg中的4TB回收，并新建新的vg与lv；</p>
+<ol>
+<li>应用层（业务层）关闭；</li>
+<li>虚拟机拍摄内存快照；（注：一定要内存快照，避免虚拟机重启后无法开机）</li>
+<li>提前记录虚拟机相关信息；</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 环境中 /dev/sda,/dev/sdb,/dev/sdc,/dev/sde 为扩容磁盘编号，每一块盘1TB；</span></span><br><span class="line"><span class="comment"># 常规检查一下，记录pv\vg\lv</span></span><br><span class="line">pvs</span><br><span class="line">vgs</span><br><span class="line">lvs</span><br><span class="line"><span class="comment"># 检查一下条带情况,查看磁盘序号、条带大小、条带单位</span></span><br><span class="line">lvs -o +devices,stripes,stripe_size</span><br><span class="line"></span><br><span class="line"><span class="comment"># 记录磁盘序号与SCSI信号线序号</span></span><br><span class="line"><span class="comment"># 【此处有坑】一定要记录</span></span><br><span class="line"><span class="comment"># 重启OS后，可能目标磁盘序号会变成 /dev/sde,/dev/sdf,/dev/sdaa,/dev/sdac</span></span><br><span class="line"><span class="comment"># 本次案例中就出现重启OS后，导致磁盘盘符变更</span></span><br><span class="line"><span class="built_in">ls</span> -l /dev/disk/by-path/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 减少目标lv的大小，减少4TB，用参数-L -4T</span></span><br><span class="line"><span class="comment"># 注意，此步骤可能会损坏数据，一定要谨慎！</span></span><br><span class="line">lvs</span><br><span class="line">lvreduce -L -4T [目标LV卷]</span><br><span class="line">lvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 减少目标vg的大小</span></span><br><span class="line"><span class="comment"># 注意，这里一定要用vgreduce ,而不是vgremove！！</span></span><br><span class="line"><span class="comment"># 本次案例用 /dev/sda /dev/sdb /dev/sdc /dev/sde</span></span><br><span class="line"><span class="comment"># 如果不是目标磁盘序号，可能会提示&quot;Still in use&quot;</span></span><br><span class="line"><span class="comment"># 请结合 ll -l /dev/disk/by-path/里面的信息查看</span></span><br><span class="line">vgs</span><br><span class="line">vgreduce [目标vg卷] /dev/sda /dev/sdb /dev/sdc /dev/sde</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查已经移除的pv</span></span><br><span class="line">pvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建vg</span></span><br><span class="line">vgcreate [新的vg卷] /dev/sda /dev/sdb /dev/sdc /dev/sde</span><br><span class="line">vgs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建lv，条带卷，用关键参数 -i 指定条带数量为4 ， 用关键参数 -I（大写的i）指定条带单位大小为128K。</span></span><br><span class="line">lvcreat [新的lv卷] -i 4 -I 128K -l +100%free [新的vg卷]]</span><br><span class="line">lvs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 格式化目标卷</span></span><br><span class="line">mkfs.ext4 /dev/[新的vg卷]/[新的lv卷]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编写fstab，挂载目标卷</span></span><br><span class="line">[略]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 至此，进度完成至80%</span></span><br><span class="line"><span class="comment"># 因为原来的lv卷已完成缩容，实际上识别到的块数量是要比原先的少，例如由原来的100个块变成了80个块；</span></span><br><span class="line"><span class="comment"># 而原来我们对目标文件系统（目标lv卷）执行过resize2fs，其实系统上已经认准目标卷的块为100个，只是没有办法用；</span></span><br><span class="line"><span class="comment"># 如果不做处理，则目标lv卷则无法挂载；</span></span><br><span class="line"><span class="comment"># 检查文件系统的正确性</span></span><br><span class="line"><span class="comment"># -f   即使文件系统没有错误迹象，仍强制地检查正确性。</span></span><br><span class="line"><span class="comment"># 此动作也有可能损坏数据！！</span></span><br><span class="line">e2fsck -f [目标卷]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新resize目标文件系统</span></span><br><span class="line">resize2fs [目标卷]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启虚拟机</span></span><br><span class="line"><span class="comment"># 检查目标文件系统是否能正常挂载</span></span><br><span class="line">init 6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 至此，整个变更已完成；</span></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-28492246-id-3573117.html">http://blog.chinaunix.net/uid-28492246-id-3573117.html</a><br><a target="_blank" rel="noopener" href="https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout">https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1261,190 +1358,6 @@
 <li>HCIBench ova下载地址： <a target="_blank" rel="noopener" href="https://flings.vmware.com/hcibench?download_url=https://download3.vmware.com/software/vmw-tools/hcibench/HCIBench-2.8.0.ova">https://flings.vmware.com/hcibench?download_url=https%3A%2F%2Fdownload3.vmware.com%2Fsoftware%2Fvmw-tools%2Fhcibench%2FHCIBench-2.8.0.ova</a></li>
 <li>说明文档： <a target="_blank" rel="noopener" href="https://download3.vmware.com/software/vmw-tools/hcibench/hcibench_user_guide_2.5.pdf">https://download3.vmware.com/software/vmw-tools/hcibench/hcibench_user_guide_2.5.pdf</a></li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5b9a4c5c/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/5b9a4c5c/" class="post-title-link" itemprop="url">VCSA6.7升级至7.0实例记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-01-08 22:02:20" itemprop="dateCreated datePublished" datetime="2023-01-08T22:02:20+00:00">2023-01-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>需要将当前环境中的 VCSA 由 6.7 升级至 7.0 版本。</p>
-<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><table>
-<thead>
-<tr>
-<th align="left">任务项</th>
-<th align="left">详情</th>
-<th align="left">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">确认 VCSA 密码是否正确</td>
-<td align="left">root账户 与 <a href="mailto:&#97;&#x64;&#109;&#105;&#110;&#105;&#x73;&#116;&#114;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;">&#97;&#x64;&#109;&#105;&#110;&#105;&#x73;&#116;&#114;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;</a>账户</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">确认 VCSA 是否能正常访问</td>
-<td align="left"><a target="_blank" rel="noopener" href="https://vcsa/">https://VCSA</a> IP ; <a target="_blank" rel="noopener" href="https://vcsa/">https://VCSA</a> IP:5480</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">确认 VCSA 所在的宿主机能否访问</td>
-<td align="left">目标 ESXi 是否能直连访问；root账户是否正常</td>
-<td align="left">避免VCSA故障导致对虚拟机失控</td>
-</tr>
-<tr>
-<td align="left">确认 VCSA 所在宿主机的带外是否能访问</td>
-<td align="left">https:&#x2F;&#x2F;带外IP</td>
-<td align="left">若VCSA所在ESXi故障，可以从服务器带外访问控制</td>
-</tr>
-<tr>
-<td align="left">检查 VCSA 健康状态</td>
-<td align="left">磁盘是否写满？服务是否正常？证书是否过期？</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">备份当前 VCSA 所有信息</td>
-<td align="left">使用RVTools 导出所有信息</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">备份分布式交换机信息</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">备份 License 信息</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">克隆一份 VCSA 作备份</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">拍摄 VCSA 快照</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">准备镜像与补丁包</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">检查兼容性</td>
-<td align="left">分布式交换机版本、ESXi版本是否兼容</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">检查规划的IP防火墙是否开通</td>
-<td align="left">DST：ESXi TCP：443；DST：VCSA TCP：443,5480,22</td>
-<td align="left">到VCSA的22端口必须开启</td>
-</tr>
-<tr>
-<td align="left">执行升级</td>
-<td align="left">第一阶段为部署新虚拟机阶段；第二阶段为数据迁移</td>
-<td align="left">第一阶段执行安装包的vcsa-ui-installer\win32\installer.exe ; 第二阶段执行前，可以给新VCSA拍摄快照；</td>
-</tr>
-<tr>
-<td align="left">检查 VCSA 健康状态</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">检查关联业务是否正常</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">导入vSphere 7.0 License</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>ESXi兼容性问题 KB52883：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/52883">https://kb.vmware.com/s/article/52883</a><br>分布式交换机兼容性问题 KB52826：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/52826">https://kb.vmware.com/s/article/52826</a><br>VCSA 6.7 升级至 7.0 流程记录：<a target="_blank" rel="noopener" href="https://blog.csdn.net/z136370204/article/details/105346288">https://blog.csdn.net/z136370204/article/details/105346288</a><br>VMware 产品兼容性检查：<a target="_blank" rel="noopener" href="https://interopmatrix.vmware.com/Interoperability">https://interopmatrix.vmware.com/Interoperability</a><br>VMware 产品防火墙端口需求：<a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/">https://ports.esp.vmware.com</a></p>
 
       
     </div>

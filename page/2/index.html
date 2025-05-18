@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">438</span>
+          <span class="site-state-item-count">439</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,95 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8b301521/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/8b301521/" class="post-title-link" itemprop="url">Linux-History设置时间戳</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-03-13 12:24:21 / Modified: 12:48:31" itemprop="dateCreated datePublished" datetime="2025-03-13T12:24:21+00:00">2025-03-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>Linux的 history 指令下，虽然可以查看到历史操作记录，但是无法看到操作时间；需要设置一下环境变量，使 history 指令可以看到时间戳。</p>
+<h1 id="操作思路"><a href="#操作思路" class="headerlink" title="操作思路"></a>操作思路</h1><ol>
+<li>变更 HISTTIMEFORMAT 环境变量；[词组：hist-time-format]</li>
+</ol>
+<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑环境变量文件 /etc/bashrc 或者 /etc/profile 文件；</span></span><br><span class="line"><span class="comment"># /etc/profile:此文件为系统的每个用户设置环境信息,当第一个用户登录时,该文件被执行.并从/etc/profile.d目录的配置文件中搜集shell的设置.</span></span><br><span class="line"><span class="comment"># /etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取。有些linux版本中的/etc目录下已经没有了bashrc文件。</span></span><br><span class="line"></span><br><span class="line">vim /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加以下内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># HISTFILESIZE 定义在 .bash_history 中保存的记录总数；</span></span><br><span class="line"><span class="comment"># HISTSIZE 定义 history 命令输出的记录数；</span></span><br><span class="line"><span class="comment"># 默认只有1000条；</span></span><br><span class="line">HISTFILESIZE=10000</span><br><span class="line">HISTSZIE=4000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义USER_IP参数</span></span><br><span class="line"><span class="comment"># 2&gt;/dev/null 是将错误信息重定向至空设备文件；</span></span><br><span class="line"><span class="comment"># awk &#x27;&#123;print $NF&#125;&#x27; 表示用awk切割，输出最后一个域；输出第一个域则是1F；</span></span><br><span class="line"><span class="comment"># sed -e &#x27;s/[()]//g&#x27;,表示将[]替换为空；有[]表示任意括号中任意一个字符均做替换；</span></span><br><span class="line">USER_IP=`<span class="built_in">who</span> -u am i 2&gt;/dev/null | awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> | sed -e <span class="string">&#x27;s/[()]//g&#x27;</span>`</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -z <span class="variable">$USER_IP</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    USER_IP=`hostname`</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示格式</span></span><br><span class="line">HISTTIMEFORMAT=<span class="string">&quot;%F %T <span class="variable">$USER_IP</span>:`whoami` :&quot;</span></span><br><span class="line"><span class="built_in">export</span> HISTTIMEFORMAT</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/A___LEi/article/details/127661481">https://blog.csdn.net/A___LEi/article/details/127661481</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37886429/article/details/78520434">https://blog.csdn.net/m0_37886429/article/details/78520434</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1226,177 +1315,6 @@
 <li>在插件目录下找到 MetaTube，点击安装</li>
 <li>重启Jellyfin</li>
 <li>适用于中国大陆的存储库URL：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json%EF%BC%88%E5%8F%AF%E8%83%BD%E6%9C%89%E7%BC%93%E5%AD%98%EF%BC%89">https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json（可能有缓存）</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/888287f2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/888287f2/" class="post-title-link" itemprop="url">虚拟化环境中的存储性能测试工具HCIBench</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-09-22 18:07:05" itemprop="dateCreated datePublished" datetime="2024-09-22T18:07:05+00:00">2024-09-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>一般部署完虚拟化环境后，需要使用一些工具用于测试磁盘性能。<br>传统使用FIO，VDBench来测试性能，但在虚拟化环境中，官方有一个免费且方便的测试工具，可以一键部署，并下发测试任务；<br>对比传统的FIO、VDBench来测试，HCIBench不再需要我们申请虚拟机，部署测试节点、服务节点，且写好测试文件，HCIBench会纳管vCenter，从而实现自动部署测试节点。</p>
-<h1 id="FHCIBench-介绍"><a href="#FHCIBench-介绍" class="headerlink" title="FHCIBench 介绍"></a>FHCIBench 介绍</h1><p>本章节引用博客  <a target="_blank" rel="noopener" href="https://www.ethanzhang.xyz/">https://www.ethanzhang.xyz/</a></p>
-<p>官方推荐HCIBench作为vSAN的性能测试工具，其本质是对开源的性能测试工具Vdbench 和Fio以Photon guest VM为基础镜像进行重新打包。</p>
-<blockquote>
-<p>PhotonOS是VMware专为ESXi定制的容器操作系统</p>
-</blockquote>
-<p>然后虚拟机模版部署在vSphere平台上，利用RVC&#x2F;GOVC控制vCenter通过自动化脚本向vSphere平台部署用于基准性能测试的虚拟机，用于产生测试工作负载</p>
-<p>在各工作负载的虚拟机内，利用FIO&#x2F;VDBench开源工具进行基线测试，HCIBench控制虚拟机(Control VM)会不断收集相关信息，同时新添加的Grafana工具，以容器化部署的方式在Control VM中对外以可视化的形式提供服务。</p>
-<h2 id="FIO"><a href="#FIO" class="headerlink" title="FIO"></a>FIO</h2><p>FIO（Flexible I&#x2F;O Tester）是一个用于测试磁盘、文件系统、块设备和网络设备性能的工具。它可以模拟不同类型的I&#x2F;O负载，包括随机或顺序读写、混合读写、随机或顺序访问等</p>
-<p>FIO提供了丰富的选项和参数，可以对测试进行高度定制化配置，以满足各种应用场景和需求。FIO是开源软件，可在Linux、Unix、Windows等多种平台上运行</p>
-<h2 id="VDBench"><a href="#VDBench" class="headerlink" title="VDBench"></a>VDBench</h2><p>VDBench是一款基于Java编写的性能基准测试工具。它可以测试不同类型的存储设备，如磁盘，网络文件系统（NFS），网络附加存储（NAS）和存储区域网络（SAN）等</p>
-<p>VDBench的设计目标是测试存储系统的性能特征，如带宽和IOPS（每秒输入&#x2F;输出操作数）</p>
-<h2 id="HCIBench架构"><a href="#HCIBench架构" class="headerlink" title="HCIBench架构"></a>HCIBench架构</h2><p>下载地址：</p>
-<p>原地址：<a target="_blank" rel="noopener" href="https://flings.vmware.com/hcibench">https://flings.vmware.com/hcibench</a><br>新地址：<a href="https://github.com/vmware-labs/hci-benchmark-appliance">https://github.com/vmware-labs/hci-benchmark-appliance</a></p>
-<p>HCIBench专为针对vSphere中的共享或本地数据存储运行性能测试而设计，它使用Vdbench或Fio生成测试工作负载</p>
-<blockquote>
-<p>实际上HCIBench并没有包括Vdbench的二进制程序，如果需要以Vdbench的方式提供测试，在测试阶段会从Oracle网站进行在线下载</p>
-</blockquote>
-<p>HCIBench以开放虚拟化设备（OVA格式）的形式提供，用于安装在vSphere上，具体架构如下图所示</p>
-<p><img src="https://typorabyethancheung911.oss-cn-shanghai.aliyuncs.com/typoralimage-20230831181326290.png" alt="HCIBench Applicance"></p>
-<h3 id="包含以下组件"><a href="#包含以下组件" class="headerlink" title="包含以下组件"></a>包含以下组件</h3><h4 id="1、Ruby-vSphere-Console-RVC"><a href="#1、Ruby-vSphere-Console-RVC" class="headerlink" title="1、Ruby vSphere Console (RVC)"></a>1、Ruby vSphere Console (RVC)</h4><p>RVC是基于Ruby的一个vSphere命令行工具，他可以管理ESXi或者vCenter</p>
-<h4 id="2、GOVC"><a href="#2、GOVC" class="headerlink" title="2、GOVC"></a>2、GOVC</h4><p>GOVC是基于 VMware 官方govmomi库的一个 vSphere 命令行工具，使用它可以通过命令或脚本，实现对 VMware vSphere 系统的管理</p>
-<p>注意：</p>
-<p>从HCIBench2.6开始GOVC开始添加到Control VM中，HCIBench的核心引擎最终将从RVC转移到GOVC</p>
-<h4 id="3、Docker"><a href="#3、Docker" class="headerlink" title="3、Docker"></a>3、Docker</h4><p>​ 3.1 Graphite Container: 1.1.5-10</p>
-<p>​ 3.2 Grafana Container: 8.3.11</p>
-<p>​ 3.3 InfluxDB Container: 1.8.1-alpine</p>
-<h4 id="4、vSAN-Observer"><a href="#4、vSAN-Observer" class="headerlink" title="4、vSAN Observer"></a>4、vSAN Observer</h4><h4 id="5、Automation-bundle"><a href="#5、Automation-bundle" class="headerlink" title="5、Automation bundle"></a>5、Automation bundle</h4><h4 id="6、Configuration-files"><a href="#6、Configuration-files" class="headerlink" title="6、Configuration files"></a>6、Configuration files</h4><h4 id="7、Fio-binary-3-30"><a href="#7、Fio-binary-3-30" class="headerlink" title="7、Fio binary: 3.30"></a>7、Fio binary: 3.30</h4><h4 id="8、Photon-guest-VM-template-3-0"><a href="#8、Photon-guest-VM-template-3-0" class="headerlink" title="8、Photon guest VM template: 3.0"></a>8、Photon guest VM template: 3.0</h4><p>其中Photon guest VM template用于部署Guest VM产生工作负载</p>
-<h1 id="防火墙策略"><a href="#防火墙策略" class="headerlink" title="防火墙策略"></a>防火墙策略</h1><table>
-<thead>
-<tr>
-<th align="center">SRC</th>
-<th align="center">DST</th>
-<th align="center">TCP Port</th>
-<th align="center">UDP Port</th>
-<th align="center">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">HCIBench</td>
-<td align="center">vCenter</td>
-<td align="center">443</td>
-<td align="center">-</td>
-<td align="center">纳管vCenter，使HCIBench可以读取到VCSA信息并且做下发部署指令</td>
-</tr>
-<tr>
-<td align="center">HCIBench</td>
-<td align="center">ESXi Host</td>
-<td align="center">443</td>
-<td align="center">-</td>
-<td align="center">HCIBench 获取到ESXI Host用于检测目标ESXiHost信息</td>
-</tr>
-<tr>
-<td align="center">HCIBench</td>
-<td align="center">ESXi Host</td>
-<td align="center">22</td>
-<td align="center">-</td>
-<td align="center">若每次测试完毕后要清除数据，则需要开通此端口</td>
-</tr>
-<tr>
-<td align="center">Operator Machine</td>
-<td align="center">HCIBench</td>
-<td align="center">80,443,8443</td>
-<td align="center">-</td>
-<td align="center">用于访问HCIBenc的WEB界面，完成配置</td>
-</tr>
-</tbody></table>
-<h1 id="查看最终测试结果"><a href="#查看最终测试结果" class="headerlink" title="查看最终测试结果"></a>查看最终测试结果</h1><p><a target="_blank" rel="noopener" href="https://hcibenchip:8443/results">https://HCIBenchIP:8443/results</a></p>
-<h1 id="IO模型建议"><a href="#IO模型建议" class="headerlink" title="IO模型建议"></a>IO模型建议</h1><p>除了覆盖到以下测试项，如果未达到集群瓶颈，可以再增加资源进行压力测试，比如增加测试的虚拟机、测试的虚拟机配置提高，并增加每台虚拟机测试的进程；</p>
-<h2 id="必测项目–集群整体性能"><a href="#必测项目–集群整体性能" class="headerlink" title="必测项目–集群整体性能"></a>必测项目–集群整体性能</h2><ol>
-<li>块大小从4K到1024K均需要覆盖；</li>
-<li>顺序、随机均需要覆盖；</li>
-<li>100%读、100%写、70%读；</li>
-</ol>
-<h2 id="必测项目–单个虚拟机在此集群中能跑到的性能"><a href="#必测项目–单个虚拟机在此集群中能跑到的性能" class="headerlink" title="必测项目–单个虚拟机在此集群中能跑到的性能"></a>必测项目–单个虚拟机在此集群中能跑到的性能</h2><ol>
-<li>块大小从4K到1024K均需要覆盖；</li>
-<li>顺序、随机均需要覆盖；</li>
-<li>100%读、100%写、70%读；</li>
-</ol>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
-<li><a target="_blank" rel="noopener" href="https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing">https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</a></li>
 </ol>
 
       

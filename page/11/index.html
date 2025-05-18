@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">438</span>
+          <span class="site-state-item-count">439</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,190 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5b9a4c5c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/5b9a4c5c/" class="post-title-link" itemprop="url">VCSA6.7升级至7.0实例记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-08 22:02:20" itemprop="dateCreated datePublished" datetime="2023-01-08T22:02:20+00:00">2023-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>需要将当前环境中的 VCSA 由 6.7 升级至 7.0 版本。</p>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><table>
+<thead>
+<tr>
+<th align="left">任务项</th>
+<th align="left">详情</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">确认 VCSA 密码是否正确</td>
+<td align="left">root账户 与 <a href="mailto:&#97;&#x64;&#109;&#105;&#110;&#105;&#x73;&#116;&#114;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;">&#97;&#x64;&#109;&#105;&#110;&#105;&#x73;&#116;&#114;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#x2e;&#x6c;&#111;&#x63;&#x61;&#108;</a>账户</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">确认 VCSA 是否能正常访问</td>
+<td align="left"><a target="_blank" rel="noopener" href="https://vcsa/">https://VCSA</a> IP ; <a target="_blank" rel="noopener" href="https://vcsa/">https://VCSA</a> IP:5480</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">确认 VCSA 所在的宿主机能否访问</td>
+<td align="left">目标 ESXi 是否能直连访问；root账户是否正常</td>
+<td align="left">避免VCSA故障导致对虚拟机失控</td>
+</tr>
+<tr>
+<td align="left">确认 VCSA 所在宿主机的带外是否能访问</td>
+<td align="left">https:&#x2F;&#x2F;带外IP</td>
+<td align="left">若VCSA所在ESXi故障，可以从服务器带外访问控制</td>
+</tr>
+<tr>
+<td align="left">检查 VCSA 健康状态</td>
+<td align="left">磁盘是否写满？服务是否正常？证书是否过期？</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">备份当前 VCSA 所有信息</td>
+<td align="left">使用RVTools 导出所有信息</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">备份分布式交换机信息</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">备份 License 信息</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">克隆一份 VCSA 作备份</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">拍摄 VCSA 快照</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">准备镜像与补丁包</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">检查兼容性</td>
+<td align="left">分布式交换机版本、ESXi版本是否兼容</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">检查规划的IP防火墙是否开通</td>
+<td align="left">DST：ESXi TCP：443；DST：VCSA TCP：443,5480,22</td>
+<td align="left">到VCSA的22端口必须开启</td>
+</tr>
+<tr>
+<td align="left">执行升级</td>
+<td align="left">第一阶段为部署新虚拟机阶段；第二阶段为数据迁移</td>
+<td align="left">第一阶段执行安装包的vcsa-ui-installer\win32\installer.exe ; 第二阶段执行前，可以给新VCSA拍摄快照；</td>
+</tr>
+<tr>
+<td align="left">检查 VCSA 健康状态</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">检查关联业务是否正常</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">导入vSphere 7.0 License</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>ESXi兼容性问题 KB52883：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/52883">https://kb.vmware.com/s/article/52883</a><br>分布式交换机兼容性问题 KB52826：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/52826">https://kb.vmware.com/s/article/52826</a><br>VCSA 6.7 升级至 7.0 流程记录：<a target="_blank" rel="noopener" href="https://blog.csdn.net/z136370204/article/details/105346288">https://blog.csdn.net/z136370204/article/details/105346288</a><br>VMware 产品兼容性检查：<a target="_blank" rel="noopener" href="https://interopmatrix.vmware.com/Interoperability">https://interopmatrix.vmware.com/Interoperability</a><br>VMware 产品防火墙端口需求：<a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/">https://ports.esp.vmware.com</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1123,195 +1307,6 @@
 <p>补救措施：减小基准的工作集。或者，在体验基准时提高以下设置以增加为 vSAN LSOM 层预留的内存量。请注意，这些设置是针对每个磁盘组的。此外，我们不建议在生产群集上使用这些设置。可以通过 esxcli 更改这些设置（请参见 知识库文章 1038578），如下所示：</p>
 <p>&#x2F;LSOM&#x2F;blPLOGCacheLines，默认值为 128 K，增加至 512 K<br>&#x2F;LSOM&#x2F;blPLOGLsnCacheLines，默认值为 4 K，调整为 32 K<br>&#x2F;LSOM&#x2F;blLLOGCacheLines，默认值为 128，增加至 32 K</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/2150012?lang=zh_cn">https://kb.vmware.com/s/article/2150012?lang=zh_cn</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/609414da/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/609414da/" class="post-title-link" itemprop="url">vSAN8-OSA-ESA区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-12-19 23:13:14" itemprop="dateCreated datePublished" datetime="2022-12-19T23:13:14+00:00">2022-12-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="什么是OSA、ESA"><a href="#什么是OSA、ESA" class="headerlink" title="什么是OSA、ESA"></a>什么是OSA、ESA</h1><p>OSA：Original Storage Architecture<br>ESA：Express Storage Architecture</p>
-<h2 id="Original-Storage-Architecture"><a href="#Original-Storage-Architecture" class="headerlink" title="Original Storage Architecture"></a>Original Storage Architecture</h2><p>vSAN OSA 是在 vSAN 8 之前的 vSAN 版本架构基础上更新发展而来的，它同样使用双层架构，使用市场上广为存在，且通过兼容性验证的高速闪存 SSD 作为缓存层，加上 HDD 或 SSD 作为容量层的架构提供 HCI 集群存储资源。</p>
-<p>此次 vSAN 8 OSA 升级内容概述：</p>
-<ul>
-<li>对于全闪存配置的服务器，vSAN OSA 将缓存设备 (Cache) 的逻辑大小从 600GB*1 增加到 1.6TB。对于我们的许多已经拥有更大设备的客户而言，这意味着在其运行 OSA 的 vSAN 8集群中能够获得提高性能一致性水平的潜力。</li>
-<li>在使用带有 OSA 的 vSAN 8 运行 HCI Mesh*2 时，我们将支持相互连接的服务器和客户端集群的最大数量从 5 个增加到 10 个。</li>
-<li>在使用带有 OSA 的 vSAN 8 运行文件服务*3时，我们引入了多项增强功能，可改善日常操作和可用性。</li>
-</ul>
-<p>备注：</p>
-<ol>
-<li>在 vSAN 8 之前的版本中，vSAN 磁盘组中的缓冲设备的逻辑限制为 600GB。 在全闪存 vSAN 集群中，整个容量（最多 600GB）都保留用于写入缓冲。缓冲层充当缓存，用于存取尚未落盘到容量层的数据。虽然缓冲设备存在 600GB 的逻辑限制，但是相对于闪存刚面世时奇货可居的情况，现在大于 600GB 的设备已经很容易获得并且在大量的客户场景中广泛使用。得益于 vSAN 数据算法，大容量缓冲设备的优势，不仅体现在高压力并发时更好的存取效率，同时也提高闪存设备的写入耐久性。</li>
-<li>vSAN HCI Mesh 是一种独特的、基于软件的方法，用于解绑计算和存储资源。它允许一个或多个 vSphere 或 vSAN 集群从 vCenter 清单中的其他 vSAN 集群远程挂载数据存储。这种方法并不改变现有的 vSphere 或 HCI 架构，但支持从远程 vSAN 集群分享存储资源。</li>
-<li>vSAN 文件服务是指位于 vSAN 之上且可提供文件共享的层。目前支持 SMB、NFSv3 和 NFSv4.1 文件共享。vSAN 文件服务由 vSAN 分布式文件系统 (vDFS) 和存储服务平台组成，前者通过聚合 vSAN 对象来提供可扩展文件系统，后者提供弹性文件服务器端点和控制平面以用于部署、管理和监控。文件共享已集成到基于现有 vSAN 存储策略的管理功能中，并且是基于每个共享进行集成。vSAN 文件服务引入了直接在 vSAN 集群中托管文件共享的功能。</li>
-</ol>
-<blockquote>
-<p>写入缓存仅有600GB，大于600GB的空间，则会被保留用于数据冗余，并不会浪费。</p>
-</blockquote>
-<h2 id="Express-Storage-Architecture"><a href="#Express-Storage-Architecture" class="headerlink" title="Express Storage Architecture"></a>Express Storage Architecture</h2><p>vSAN ESA 是处理和存储数据的新架构。它作为 vSAN 中的一种可选架构，旨在实现全新级别的效率、可扩展性和性能。</p>
-<p>vSAN ESA 技术创新主要体现在两个方面：</p>
-<ul>
-<li>新的日志结构文件系统。vSAN 堆栈中的这个新层（称为 vSAN LFS）允许 vSAN 快速高效的获取新数据，同时为高效完整的条带写入准备数据，令 vSAN 能以高效且可扩展的方式存储元数据。</li>
-<li>优化的日志结构对象管理器和数据结构。该层是围绕新的高性能块引擎和键值存储构建的新设计，可以供大量有效数据进行写入，同时最大限度的减少元数据所需的开销。 新设计专为高效的实现上层 vSAN 将数据发送到设备而不会发生争用而构建，它是高度并行的，帮助在 ESA 中驱动以获得接近设备级的性能。</li>
-</ul>
-<p><img src="https://blogs.vmware.com/china/files/2022/09/02-01.png" alt="图 1. vSAN 通过技术创新更好的驱动硬件优化架构"></p>
-<p>ESA 不仅仅是在 vSAN 数据堆栈处理层中单纯的新增功能。它是 VMware 审视并重新思考如何在堆栈中更有效的处理数据的成果。我们已将一些数据服务移至 vSAN 堆栈的最顶层，以减少执行这些任务所需的资源。例如，数据现在在最高层进行压缩和加密，以最大限度的减少过程放大。校验和以创新的方式重复使用，从而最大程度的减少重复工作。我们的 LFS 以弹性、节省空间的方式写入数据，而不会影响性能。并且，它允许我们引入全新的原生快照引擎*。正是这些特性的组合成就了 vSAN ESA 超融合的与众不同！</p>
-<p><img src="https://blogs.vmware.com/china/files/2022/09/02-02-1.gif" alt="图 2. vSAN ESA 中经过优化的数据处理过程"></p>
-<p>备注：</p>
-<ul>
-<li><p>原生快照引擎： vSAN 8 ESA 的引入意味着 vSAN 现在可以以新颖有趣的方式管理数据。 构建新的原生快照功能是利用 ESA 功能支持我们客户需求和用例的好办法。因为，无论拍摄多少快照，用户都能够创建数据的时间点状态，从而对 VM 的性能影响最小。新的本机快照功能直接集成在 vSphere 中，并通过对 VADP 备份集成的持续支持，全面支持我们广泛的备份合作伙伴生态。</p>
-</li>
-<li><p>基于新的日志结构和优化的数据结构，vSAN ESA 提供的最值得关注的功能是使用 RAID-5&#x2F;6* 纠删码以节省空间的方式交付高弹性数据，而不会影响性能。与 RAID-1* 镜像相比，客户现在可以使用 RAID-5&#x2F;6 纠删码技术实现 RAID-1 级别的性能，该方案可提供最佳且可预测的空间节省水平。</p>
-</li>
-</ul>
-<p>消除对性能&#x2F;空间效率的权衡</p>
-<ul>
-<li>纠删码是一种以弹性和节省空间的方式存储数据的常用方法。使用这种类型的弹性数据存储方案需要进行容量和性能的权衡。因为以这种方式存储数据虽然能够获得存储容量的节省，但通常会需要更多性能的开销。虽然 vSAN 8 之前的版本在提高纠删码效率方面取得了长足进步，但管理员仍需要根据给定工作负载的情况来决定存储策略的选择：性能或空间效率。虽然存储策略允许进行实时在线的调整，但 vSAN 的用户不做选择，空间节省 &amp; 性能保证，可以都有！</li>
-</ul>
-<p>vSAN ESA 如何同时实现空间节省 &amp; 性能保证</p>
-<ul>
-<li>这个优势的核心关键在于 vSAN ESA 新的日志结构化文件系统 (vSAN LFS) 及其优化的数据结构。请注意，对“日志结构文件系统”指的并非传统的文件系统，例如 NTFS、ext4 等。而是指数据和元数据如何在存储中持久保存的方法。</li>
-</ul>
-<p>在图 3 中，我们展示了使用 RAID-6 分配 FTT&#x3D;2* 弹性级别的 VM 的数据路径。 vSAN LFS 将接收虚拟机传入的写入数据、合并这些数据、并将它们与元数据打包，然后将数据包写入与该特定对象相关联的持久日志。当持久日志接收到打包的数据时，它将向来宾虚拟机返回写确认，将延迟降至最低。</p>
-<p><img src="https://blogs.vmware.com/china/files/2022/09/02-03-1.gif" alt="图 3. vSAN 日志结构化文件系统"></p>
-<p>此持久日志位于称为“性能分支”的对象数据结构的处理分支上。此持久日志中的数据将作为组件存储在本地，同时以镜像方式跨多个主机存储。对于使用 RAID-5 分配 FTT&#x3D;1* 的对象，它会创建一个双向镜像。对于 RAID-6，则会创建一个三向镜像。</p>
-<p>备注：</p>
-<p>关于 vSAN RAID-1&#x2F;5&#x2F;6, FTT 的解释，请参考文档“vSAN 策略”的说明。</p>
-<ul>
-<li><p>随着持久日志中的数据累积，LFS 将获取这些大数据块并将它们写入对象数据结构中称为“容量分支”的另一个处理分支来为新的传入 I&#x2F;O 腾出空间。根据分配给对象的存储策略（RAID-5 或 RAID-6），它将数据作为完全对齐的完整条带写入发送。这种数据处理方式使得 CPU 和 I&#x2F;O 放大量最小，非常高效！</p>
-</li>
-<li><p>vSAN LFS 仅将数据负载写入容量分支上的完整条带写入。与该数据块关联的元数据被转换到元数据日志中，在那里可以快速访问并保留更长的时间。LFS 通过其他机制，使用称为 B-Tree 的多个数据树结构，可以更长时间的保留元数据。</p>
-</li>
-<li><p>在图 4 中，我们可以看到 RAID-6 对象是如何跨集群中的 vSAN 主机放置的。对象的性能分支中的组件将始终与同一对象的容量分支中的组件*存在于相同的主机上。组件是 vSAN 数据对象中包含的数据，这意味着管理员无需对其进行任何的管理。</p>
-</li>
-</ul>
-<p><img src="https://blogs.vmware.com/china/files/2022/09/02-04.png" alt="图 4. 使用 vSAN ESA 时 RAID-6 对象的组成"></p>
-<p>备注：</p>
-<p>关于 vSAN 对象和组件，请参阅博文“vSAN Objects and Components Revisited”说明。</p>
-<p>建议：当集群使用 vSAN ESA 时，配置向导将针对支持数据放置方案的所有集群类型和大小使用 RAID-5&#x2F;6 纠删码。双活延伸群集中的站点级别容差和 2 节点集群的主机级别容差仍需要 RAID-1 镜像。但是，延伸群集中满足规模需求的站点内数据容差仍可选择 RAID-5&#x2F;6 纠删码技术，以此提供兼具容量和性能保证的资源池环境。</p>
-<h1 id="硬件要求"><a href="#硬件要求" class="headerlink" title="硬件要求"></a>硬件要求</h1><table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"></td>
-<td align="center">vSAN 8.0 ESA</td>
-<td align="center">vSAN 8.0 OSA</td>
-</tr>
-<tr>
-<td align="center">每节点存储设备最低要求</td>
-<td align="center">4块盘</td>
-<td align="center">2块盘</td>
-</tr>
-<tr>
-<td align="center">支持的存储设备</td>
-<td align="center">经过 vSAN ESA 认证的NVMe 存储设备</td>
-<td align="center">经过 vSAN 认证的 SATA (非HDD), SAS, NVMe 存储设备</td>
-</tr>
-<tr>
-<td align="center">缓存设备的需求</td>
-<td align="center">无需</td>
-<td align="center">每个磁盘组 1 块经过认证的闪存设备</td>
-</tr>
-<tr>
-<td align="center">设计需要</td>
-<td align="center">目前需要是 ReadyNodes 服务器</td>
-<td align="center">ReadyNodes 服务器或者是经过 vSphere 认证的服务器 + 经过 vSAN认证的存储设备和配件</td>
-</tr>
-<tr>
-<td align="center">网络最低要求</td>
-<td align="center">25Gbps</td>
-<td align="center">10Gbps</td>
-</tr>
-</tbody></table>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>关于 vSAN 8 OSA &amp; ESA 的改进在很大程度上对用户是透明的，因此，vSAN 的用户所获得的管理和使用体验与以往 vSAN 的版本是基本相同的。同时，vSAN 8 在更近一步的简化管理的同时提高了性能和效率，借助 vSAN ESA，客户现在可以在不影响性能的情况下为其所有工作负载选择 RAID-5&#x2F;6，提高空间效率。而原有 vSAN 用户也能够通过升级 vSAN 8 来获得更多新的功能和性能提升。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>《VMware vSAN ESA &amp; OSA 区别与选择》<br><a target="_blank" rel="noopener" href="https://blogs.vmware.com/china/2022/09/23/vmware-vsan-esa-osa-%e5%8c%ba%e5%88%ab%e4%b8%8e%e9%80%89%e6%8b%a9/">https://blogs.vmware.com/china/2022/09/23/vmware-vsan-esa-osa-%e5%8c%ba%e5%88%ab%e4%b8%8e%e9%80%89%e6%8b%a9/</a></p>
-<p>《VMware vSAN OSA &amp; ESA 技术简介》<br><a target="_blank" rel="noopener" href="https://blogs.vmware.com/china/2022/09/13/vmware-vsan-osa-esa-%e6%8a%80%e6%9c%af%e7%ae%80%e4%bb%8b%ef%bf%bc/">https://blogs.vmware.com/china/2022/09/13/vmware-vsan-osa-esa-%e6%8a%80%e6%9c%af%e7%ae%80%e4%bb%8b%ef%bf%bc/</a></p>
-<p>《超融合不再需要缓存盘？vSAN 8 ESA 消除磁盘组浅析》<br><a target="_blank" rel="noopener" href="https://www.smartx.com/blog/2022/10/disks-vs-vmware/">https://www.smartx.com/blog/2022/10/disks-vs-vmware/</a></p>
 
       
     </div>
