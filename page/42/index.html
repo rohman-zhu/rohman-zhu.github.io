@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">441</span>
+          <span class="site-state-item-count">442</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,143 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/38882f58/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/38882f58/" class="post-title-link" itemprop="url">Linux开关机命令</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 17:30:02" itemprop="dateCreated datePublished" datetime="2017-10-05T17:30:02+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="系统电源操作"><a href="#系统电源操作" class="headerlink" title="系统电源操作"></a>系统电源操作</h1><h2 id="关机"><a href="#关机" class="headerlink" title="关机"></a>关机</h2><ul>
+<li>shutdown -h now</li>
+<li>shutdown -h +1 1分钟后关机</li>
+<li>init 0</li>
+<li>halt 立即停止系统，需要人工关闭电源。</li>
+<li>poweroff 立即停止系统，并且关闭电源。</li>
+</ul>
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><ul>
+<li>reboot </li>
+<li>shutdown -r now</li>
+<li>shutdown -r +1</li>
+<li>init 6</li>
+</ul>
+<h2 id="注销"><a href="#注销" class="headerlink" title="注销"></a>注销</h2><ul>
+<li>logout</li>
+<li>exit</li>
+<li>ctrl + d 快捷键</li>
+</ul>
+<h2 id="【快捷键】"><a href="#【快捷键】" class="headerlink" title="【快捷键】"></a>【快捷键】</h2><table>
+<thead>
+<tr>
+<th align="center">按键</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ctrl + a</td>
+<td align="center">光标移动到行首（ahead of line），相当于通常的Home键</td>
+</tr>
+<tr>
+<td align="center">ctrl + e</td>
+<td align="center">光标移动到行尾（end of line）</td>
+</tr>
+<tr>
+<td align="center">ctrl + c</td>
+<td align="center">取消当前行输入的命令</td>
+</tr>
+<tr>
+<td align="center">ctrl + d</td>
+<td align="center">登出</td>
+</tr>
+<tr>
+<td align="center">ctrl + l</td>
+<td align="center">清屏，相当于执行clear命令</td>
+</tr>
+<tr>
+<td align="center">ctrl + u</td>
+<td align="center">清除（剪切）光标之前的内容</td>
+</tr>
+<tr>
+<td align="center">ctrl + k</td>
+<td align="center">清除（剪切）光标之后的内容</td>
+</tr>
+<tr>
+<td align="center">ctrl + r</td>
+<td align="center">查找</td>
+</tr>
+<tr>
+<td align="center">ctrl + y</td>
+<td align="center">粘贴</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1264,113 +1401,6 @@
 </ul>
 <p>可以执行使用sudo命令的配置文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ visudo &lt; == 编辑文件，添加用户权限</span><br><span class="line">$ visudo -c &lt; == 检查语法文件</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3c25307c/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/3c25307c/" class="post-title-link" itemprop="url">CentOS_5_启动流程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-03 11:21:34" itemprop="dateCreated datePublished" datetime="2017-10-03T11:21:34+00:00">2017-10-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ol>
-<li><p>开机自检 （BIOS）</p>
-</li>
-<li><p>MBR 引导</p>
-</li>
-<li><p>GRUB菜单</p>
-</li>
-<li><p>加载内核（kernel）</p>
-</li>
-<li><p>运行 <em>INIT</em> 进行</p>
-</li>
-<li><p>读取 &#x2F;etc&#x2F;inittab 配置文件</p>
-</li>
-<li><p>执行 &#x2F;etc&#x2F;rc.d&#x2F;rc.sysinit 脚本</p>
-</li>
-<li><p>执行 &#x2F;etc&#x2F;rc.d&#x2F;rc 脚本</p>
-<ul>
-<li>&#x2F;etc&#x2F;rc0.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc1.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc2.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc3.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc4.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc5.d&#x2F;*</li>
-<li>&#x2F;etc&#x2F;rc5.d&#x2F;*</li>
-</ul>
-<blockquote>
-<p>根据运行级别选择运行的rc脚本</p>
-</blockquote>
-</li>
-<li><p>启动 mingetty 进程</p>
-</li>
-</ol>
-
       
     </div>
 
