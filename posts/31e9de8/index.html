@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="背景操纵vbs脚本去点击 NumberLock 键盘； 脚本123456789101112131415Dim intervalinterval &#x3D; 5 * 60 * 1000 - 1000Set wshShell &#x3D; WScript.CreateObject(&quot;WScript.Shell&quot;)wshShell.popup &quot;Tips:XXXXX&quot;for i &#x3D;">
+    <meta name="description" content="背景操纵vbs脚本去点击 NumberLock 键盘； 脚本间隔 interval 秒后，点击 NUM LOCK 键。 123456789101112131415Dim intervalinterval &#x3D; 5 * 60 * 1000 - 1000Set wshShell &#x3D; WScript.CreateObject(&quot;WScript.Shell&quot;)wshShell.popup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vbs脚本实例-NumberLock按键脚本">
 <meta property="og:url" content="http://github.com/rohman-zhu/posts/31e9de8/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="背景操纵vbs脚本去点击 NumberLock 键盘； 脚本123456789101112131415Dim intervalinterval &#x3D; 5 * 60 * 1000 - 1000Set wshShell &#x3D; WScript.CreateObject(&quot;WScript.Shell&quot;)wshShell.popup &quot;Tips:XXXXX&quot;for i &#x3D;">
+<meta property="og:description" content="背景操纵vbs脚本去点击 NumberLock 键盘； 脚本间隔 interval 秒后，点击 NUM LOCK 键。 123456789101112131415Dim intervalinterval &#x3D; 5 * 60 * 1000 - 1000Set wshShell &#x3D; WScript.CreateObject(&quot;WScript.Shell&quot;)wshShell.popup">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-07T10:43:20.000Z">
-<meta property="article:modified_time" content="2025-06-07T10:51:04.405Z">
+<meta property="article:modified_time" content="2025-06-07T11:37:30.467Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="脚本">
 <meta name="twitter:card" content="summary">
@@ -112,7 +112,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E8%AF%B4%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">脚本说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E"><span class="nav-number">2.1.1.</span> <span class="nav-text">函数声明</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E8%AF%B4%E6%98%8E"><span class="nav-number">2.1.</span> <span class="nav-text">脚本说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.1.2.</span> <span class="nav-text">循环语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#For-next-%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">For next 循环</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WScript-CreateObject-%E2%80%9CWScript-Shell%E2%80%9D-%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.1.3.</span> <span class="nav-text">WScript.CreateObject(“WScript.Shell”) 对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%8C%89%E9%94%AE-WScript-%E5%AF%B9%E8%B1%A1%EF%BC%8C%E7%82%B9%E5%87%BB%E6%8C%89%E9%94%AE"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">发送按键  WScript 对象，点击按键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E5%BE%85%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.4.</span> <span class="nav-text">等待函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -193,7 +193,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-06-07 10:43:20 / Modified: 10:51:04" itemprop="dateCreated datePublished" datetime="2025-06-07T10:43:20+00:00">2025-06-07</time>
+      <time title="Created: 2025-06-07 10:43:20 / Modified: 11:37:30" itemprop="dateCreated datePublished" datetime="2025-06-07T10:43:20+00:00">2025-06-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -215,9 +215,67 @@
     
     
     <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>操纵vbs脚本去点击 NumberLock 键盘；</p>
-<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><figure class="highlight vbs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> interval</span><br><span class="line">interval = <span class="number">5</span> * <span class="number">60</span> * <span class="number">1000</span> - <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Set</span> wshShell = WScript.<span class="built_in">CreateObject</span>(<span class="string">&quot;WScript.Shell&quot;</span>)</span><br><span class="line">wshShell.popup <span class="string">&quot;Tips:XXXXX&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i = <span class="number">0</span> <span class="keyword">to</span> <span class="number">420</span></span><br><span class="line">wshShell.SendKeys <span class="string">&quot;&#123;NUMLOCK&#125;&quot;</span></span><br><span class="line">WScript.sleep <span class="number">500</span></span><br><span class="line">wshShell.SendKeys <span class="string">&quot;&#123;NUMLOCK&#125;&quot;</span></span><br><span class="line">WScript.sleep <span class="number">500</span></span><br><span class="line">Wscript.sleep interval</span><br><span class="line"><span class="keyword">next</span> </span><br><span class="line"></span><br><span class="line">MsgBox <span class="string">&quot;Finished&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><p>间隔 interval 秒后，点击 NUM LOCK 键。</p>
+<figure class="highlight vbs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> interval</span><br><span class="line">interval = <span class="number">5</span> * <span class="number">60</span> * <span class="number">1000</span> - <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Set</span> wshShell = WScript.<span class="built_in">CreateObject</span>(<span class="string">&quot;WScript.Shell&quot;</span>)</span><br><span class="line">wshShell.popup <span class="string">&quot;Tips:XXXXX&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i = <span class="number">0</span> <span class="keyword">to</span> <span class="number">420</span></span><br><span class="line">wshShell.SendKeys <span class="string">&quot;&#123;NUMLOCK&#125;&quot;</span></span><br><span class="line">WScript.sleep <span class="number">500</span></span><br><span class="line">wshShell.SendKeys <span class="string">&quot;&#123;NUMLOCK&#125;&quot;</span></span><br><span class="line">WScript.sleep <span class="number">500</span></span><br><span class="line">Wscript.sleep interval</span><br><span class="line"><span class="keyword">next</span> </span><br><span class="line"></span><br><span class="line">MsgBox <span class="string">&quot;Finished&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="脚本说明"><a href="#脚本说明" class="headerlink" title="脚本说明"></a>脚本说明</h2><h3 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h3>
+<h2 id="脚本说明"><a href="#脚本说明" class="headerlink" title="脚本说明"></a>脚本说明</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>声明变量 ，需要使用 Dim、Public 或 Private 字段定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Dim variable</span><br><span class="line">Public variable</span><br><span class="line">Private variable</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><ol>
+<li>For…Next 语句 - 运行一段代码指定的次数</li>
+<li>For Each…Next 语句 - 针对集合中的每个项目或者数组中的每个元素来运行某段代码</li>
+<li>Do…Loop 语句 - 运行循环，当条件为 true 或者直到条件为 true 时</li>
+<li>While…Wend 语句 - 不要使用这个语句 - 请使用 Do…Loop 语句代替它</li>
+</ol>
+<h4 id="For-next-循环"><a href="#For-next-循环" class="headerlink" title="For next 循环"></a>For next 循环</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For counter = start To end [Step step]</span><br><span class="line">    [statements]</span><br><span class="line">    [Exit For]</span><br><span class="line">    [statements]</span><br><span class="line">Next</span><br></pre></td></tr></table></figure>
+
+<p>counter：用做循环计数器的数值变量。这个变量不能是数组元素或用户自定义类型的元素。<br>start：counter的初值。<br>end：counter的终值。<br>step：counter的步长。如果没有指定，则step的默认值为1。</p>
+<h3 id="WScript-CreateObject-“WScript-Shell”-对象"><a href="#WScript-CreateObject-“WScript-Shell”-对象" class="headerlink" title="WScript.CreateObject(“WScript.Shell”) 对象"></a>WScript.CreateObject(“WScript.Shell”) 对象</h3><p>Windows脚本宿主提供了一种便捷的方式，可以用于获取系统环境变量的访问、创建快捷方式、访问Windows的特殊文件夹，如Windows Desktop，以及添加或删除注册表条目。还可以使用Shell对象的功能创建更多的定制对话框以进行用户交互。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object=WScript.CreateObject(&quot;WScript.Shell&quot;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="发送按键-WScript-对象，点击按键"><a href="#发送按键-WScript-对象，点击按键" class="headerlink" title="发送按键  WScript 对象，点击按键"></a>发送按键  WScript 对象，点击按键</h4><p>sendkeys 方向活跃窗口发送一次或多次击键(仿佛来自键盘)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.SendKeys(string)</span><br></pre></td></tr></table></figure>
+
+<p>特殊功能按键</p>
+<table>
+<thead>
+<tr>
+<th align="center">说明</th>
+<th align="center">VBS值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Backspace</td>
+<td align="center">{BACKSPACE}, {BS}, or {BKSP}</td>
+</tr>
+<tr>
+<td align="center">Break</td>
+<td align="center">{BREAK}</td>
+</tr>
+<tr>
+<td align="center">Caps Lock</td>
+<td align="center">{CAPSLOCK}</td>
+</tr>
+<tr>
+<td align="center">Enter</td>
+<td align="center">{ENTER} or ~</td>
+</tr>
+<tr>
+<td align="center">F1</td>
+<td align="center">{F1}</td>
+</tr>
+<tr>
+<td align="center">Num Lock</td>
+<td align="center">{NUMLOCK}</td>
+</tr>
+</tbody></table>
+<h3 id="等待函数"><a href="#等待函数" class="headerlink" title="等待函数"></a>等待函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WScript.Sleep [毫秒为单位]</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/vbscript/vbscript-tutorial.html">https://www.runoob.com/vbscript/vbscript-tutorial.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/aademeng/articles/12638537.html">https://www.cnblogs.com/aademeng/articles/12638537.html</a></li>
+</ol>
+
     </div>
 
     
