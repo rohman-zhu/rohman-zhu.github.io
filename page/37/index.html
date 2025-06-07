@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">439</span>
+          <span class="site-state-item-count">440</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,172 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/99b24e64/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/99b24e64/" class="post-title-link" itemprop="url">初识LDAP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-07-15 23:58:26" itemprop="dateCreated datePublished" datetime="2018-07-15T23:58:26+00:00">2018-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这周末看了LDAP的相关文档，只是尝试根据官方说明文档搭建了一下这个应用。但对于该应用是否能够投入使用，以及搭建过程中是否出错，目前不得而知。因此，此篇文章只做简单的记录，后续还需要再验证。而之所以会想去了解 <em>LDAP</em> ，是因为在工作环境中会听到这个词汇，但我对于其具体作用却不得而知，所以才会利用空余时间去了解一下这一个应用。</p>
+<h1 id="理论部分"><a href="#理论部分" class="headerlink" title="理论部分"></a>理论部分</h1><h2 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h2><p>这里采用官方文档的介绍：</p>
+<p>LDAP stands for Lightweight Directory Access Protocol. As the name suggests, it is a lightweight protocol for accessing directory services, specifically X.500-based directory services. LDAP runs over TCP&#x2F;IP or other connection oriented transfer services. LDAP is an IETF Standard Track protocol and is specified in “Lightweight Directory Access Protocol (LDAP) Technical Specification Road Map” RFC4510.</p>
+<p> The LDAP information model is based on entries. An entry is a collection of attributes that has a globally-unique Distinguished Name (DN). The DN is used to refer to the entry unambiguously（ <em>不含糊地 adv</em> ）. Each of the entry’s attributes has a type and one or more values. The types are typically mnemonic( <em>有助于记忆的 adj</em> ) strings, like “cn” for common name, or “mail” for email address. The syntax of values depend on the attribute type. For example, a cn attribute might contain the value Babs Jensen. A mail attribute might contain the value “<a href="mailto:&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;">&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;</a>“. A jpegPhoto attribute would contain a photograph in the JPEG (binary) format.</p>
+<p>The LDAP search operation allows some portion of the directory to be searched for entries that match some criteria specified by a search filter. Information can be requested from each entry that matches the criteria（n. 标准）.</p>
+<p> In general, you should use a Directory server when you <em>require data to be centrally managed, stored and accessible via standards based methods</em>.</p>
+<p>从上述内容中，可以知道：</p>
+<ol>
+<li>LDAP是一个轻量级的目录访问协议，适用于目录服务的。（这里的目录，并不仅仅指我们说的文件夹）</li>
+<li>LDAP是可以运行在TCP&#x2F;IP 协议上。</li>
+<li>记录信息的单位是 Entry ，类似于数据库中的记录。</li>
+<li>信息存储是以树状形式存储的。（类似于DNS的多级域名解析）</li>
+<li>需要通过一些简单的方式集中管理、存储的数据，我们用LDAP。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">缩写</th>
+<th align="center">全称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">dc</td>
+<td align="center">domain Component</td>
+</tr>
+<tr>
+<td align="center">uid</td>
+<td align="center">user ID</td>
+</tr>
+<tr>
+<td align="center">ou</td>
+<td align="center">organization unit</td>
+</tr>
+<tr>
+<td align="center">cn</td>
+<td align="center">comman name</td>
+</tr>
+<tr>
+<td align="center">sn</td>
+<td align="center">surname</td>
+</tr>
+<tr>
+<td align="center">dn</td>
+<td align="center">distinguished name</td>
+</tr>
+<tr>
+<td align="center">rdn</td>
+<td align="center">relative distinguished name</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td align="center">country</td>
+</tr>
+<tr>
+<td align="center">o</td>
+<td align="center">organization</td>
+</tr>
+</tbody></table>
+<p>目前从文档中看到的四个特点是：</p>
+<ol>
+<li>采用标准协议</li>
+<li>树状结构表示数据</li>
+<li>静态数据查询快，但更新慢</li>
+<li>可采用 SASL 、 SSL 、 TLS 安全认证</li>
+</ol>
+<h2 id="DIT（-Directory-Information-Tree）"><a href="#DIT（-Directory-Information-Tree）" class="headerlink" title="DIT（ Directory Information Tree）"></a>DIT（ Directory Information Tree）</h2><h2 id="LDIF-（-LDAP-Data-Interchange-Format）"><a href="#LDIF-（-LDAP-Data-Interchange-Format）" class="headerlink" title="LDIF （ LDAP Data Interchange Format）"></a>LDIF （ LDAP Data Interchange Format）</h2><ul>
+<li>必须存在objectclass</li>
+<li>以空行分割不同的记录 ，类似于｛｝的作用。</li>
+</ul>
+<h2 id="Linux上安装LDAP"><a href="#Linux上安装LDAP" class="headerlink" title="Linux上安装LDAP"></a>Linux上安装LDAP</h2><ul>
+<li>Centos_6.9_minimal</li>
+<li>LDAP_2.4.46</li>
+<li>Berkeley_5.1</li>
+</ul>
+<p>由于我的Linux是最小化安装，因此还缺少一些必要的工具，类似于NTP服务、GCC编译等。所以在安装前，先执行以下指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">yum grouplist</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前系统是否有安装以下包</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Base</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Compatibility libraries</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Debugging Tools</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Development Tools</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Dial-up Networking Support</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Hardware monitoring utilities</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Performance Tools</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">yum groupinstall <span class="string">&quot;需要安装的包&quot;</span> -y</span></span><br></pre></td></tr></table></figure>
+
+<p>在安装前，需做好以下工作，避免产生不必要的错误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">SELINUX</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sed -i <span class="string">&quot;s#SELINUX=enforcing#SELINUX=disabled#g&quot;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">iptables</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/etc/init.d/iptables stop</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NTP</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/sbin/ntpdate time.windows.com</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加到定时任务</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">crontab -e</span></span><br><span class="line"></span><br><span class="line">*/5 * * * * /usr/sbin/ntpdate time.windows.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>采用编译安装，如果过程中出现“BerkeleyDB”未找到，需要指定相关目录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">Berkeley 安装</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">tar xf db-5.1.tar</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">cd</span> db-5.1/build_unix/</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">../dist/configure</span> </span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make &amp;&amp; make install</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">OpenLdap安装</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">tar openldap</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">cd</span> openldap</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./configure CPPFLAGS=<span class="string">&quot;-I/usr/local/BerkeleyDB.6.2/include&quot;</span> LDFLAGS=<span class="string">&quot;-L/usr/local/BerkeleyDB.6.2/lib&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一次安装openldap的时候，在已经安装了Berkeley的情况下依然出现 BerkeleyDB version incompatible withBDB&#x2F;HDB backends ， 查询了一下 <em>README</em> 文件后才知道，Openldap对DB版本有要求地。</p>
+</blockquote>
+<p>参考 : <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2016-05/130997.htm">https://www.linuxidc.com/Linux/2016-05/130997.htm</a></p>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>根据官方文档，编译安装启动方式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">/usr/local/libexec/slapd [option]</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">port:389</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">lsof -i:389</span></span><br></pre></td></tr></table></figure>
+
+<p>默认配置文件 ：  &#x2F;usr&#x2F;local&#x2F;etc&#x2F;openldap&#x2F;slapd.ldif</p>
+<h1 id="未完结"><a href="#未完结" class="headerlink" title="未完结"></a>未完结</h1>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1189,143 +1355,6 @@ sudo chown -R stack:stack /usr/local/lib/python2.7/dist-packages/
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extension_dir = &quot;拓展插件的路径&quot;</span><br><span class="line">extension = xx1.so</span><br><span class="line">extension = xx2.so</span><br></pre></td></tr></table></figure>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章内容主要是讲PHP的插件安装,安装一些功能性插件与优化插件,对于功能性插件如果不知道是否要使用,最好直接安装上,优化插件选择其中一个即可(如 Xcache ). </p>
 <p><a target="_blank" rel="noopener" href="http://www.tudou.com/programs/view/Ef8GkNnfm2w/">http://www.tudou.com/programs/view/Ef8GkNnfm2w/</a> 这个是PHP加速器压力测试过程讲解,视频是否还在?</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/85c04a2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/85c04a2/" class="post-title-link" itemprop="url">个人办公网络搭建</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-01-14 22:06:19" itemprop="dateCreated datePublished" datetime="2018-01-14T22:06:19+00:00">2018-01-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为学校的网络是校园天翼宽带类型(仅限正常使用1台PC+1台手机),然而我却拥有三台笔记本,多台移动端设备,因为笔记本有时候在做Linux实验,需要连接外网下载一些安装包,而移动端有时候又想下一点奇奇怪怪的应用…总之就是有时候会想到使用网络,如果仅靠天翼宽带的账户是不可能的.另一方面,这个该死的账户,不仅限制使用的客户端,有时候还很慢,严重影响体验.</p>
-<p>我手上有多张手机卡,里面都有30G的流量,因此,我就想利用手机的4G流量共享出来给其他设备使用.但! 我的另一个需求出现了,就是我需要所有设备都在局域网内,因为有时候需要两台设备联通共享数据或者有一台电脑作为云盘服务器,需要从里面下载或者上传资料.</p>
-<p>总结需求:</p>
-<ol>
-<li>所有设备都能上网.</li>
-<li>所有设备都在一个局域网.</li>
-</ol>
-<p>那么方案也想到了两个:</p>
-<ol>
-<li>手机开放热点,所有设备连接一个手机热点,因此所有设备都在一个局域网内.</li>
-<li>一台手机把4G网络共享给一个代理服务器,这个代理服务器一个网口连接局域网.其他设备都设置代理地址为这台代理服务器的即可.</li>
-</ol>
-<p>分析:</p>
-<ul>
-<li>方案一,比较考验手机的性能,我的手机是一台2016年使用的手机,如今有点小毛病,如果所有设备都连接这个手机的话,可能机器会受不了,因此不采用这个方案.</li>
-<li>方案二,需要手机共享网络给代理服务器,代理服务设置好相关的路由(外网IP,内网IP),其他设备设置好网络代理即可.</li>
-</ul>
-<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="理论-什么是代理服务器"><a href="#理论-什么是代理服务器" class="headerlink" title="理论:什么是代理服务器"></a>理论:什么是代理服务器</h3><p>代理服务器（Proxy Server）是一种重要的服务器安全功能，它的工作主要在开放系统互联(OSI)模型的会话层，从而起到防火墙的作用。代理服务器大多被用来连接INTERNET（国际互联网）和INTRANET（局域网）</p>
-<p><img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=485589dad63f8794c7f2407cb3726591/6c224f4a20a44623d3e7cf009a22720e0cf3d7a7.jpg" alt="代理服务器 Proxy Server"></p>
-<p>网络代理分类:</p>
-<ol>
-<li>在线代理(在线网页代理(Web Proxy Server)，是目前简单、高速、有效的访问国际网站的最佳途径，它的功能就是用户与Web服务器之间的一个中转站，当用户访问国际网站时候，通过代理服务器来访问目标网站，并缓存在代理服务器。这样一来如果当用户访问的站点之前有人访问过，用户将直接从代理服务器上读取信息，因此显著提高浏览速度与效率。另外，网页代理还能屏蔽恶意网页代码保护您的浏览器不受干扰。)</li>
-<li>HTTP代理 (同上利用HTTP协议通讯的方式，HTTP协议即超文本传输协议，是Internet上进行信息传输时使用最为广泛的一种非常简单的通信协议。部分局域网对协议进行了限制，只允许用户通过HTTP协议访问外部网站。)</li>
-<li>SOCKET4代理</li>
-<li>SOCKET5代理(被代理端与代理服务器通过“SOCK4&#x2F;5代理协议”进行通迅（具体协议内容可查看RFC文档）。SOCK4代理协议可以说是对HTTP代理协议的加强，它不仅是对HTTP协议进行代理，而是对所有向外的连接进行代理，是没有协议限制的。也就是说，只要你向外连接，它就给你代理，并不管你用的是什么协议，极大的弥补了HTTP代理协议的不足，使得很多在HTTP代理情况下无法使用的网络软件都可以使用了。（例如：OICQ、MSN等软件）SOCK5代理协议又对前一版进行了修改，增加了支持UDP代理及身份验证的功能。它不是“协议代理”，所以它会对所有的连接进行代理，而不管用的是什么协议。)</li>
-<li>VPN代理</li>
-</ol>
-<h3 id="理论-用什么软件做代理服务器"><a href="#理论-用什么软件做代理服务器" class="headerlink" title="理论: 用什么软件做代理服务器"></a>理论: 用什么软件做代理服务器</h3><h4 id="一-Squid"><a href="#一-Squid" class="headerlink" title="一.Squid"></a>一.Squid</h4><p>Squid 是一个高性能、开源的代理缓存服务器和 Web 缓存进程，支持 FTP、Internet Gopher、HTTPS 和 SSL 等多种协议。它通过一个非阻塞的、I&#x2F;O 事件驱动的单一进程处理所有的 IPV4 或 IPV6 协议请求。</p>
-<p>Squid 由一个主服务程序 squid，和 DNS 查询程序 dnsserver，另外还有一些可选的请求重写、执行认证程序组件，及一些管理和客户端工具构成。</p>
-<p>Squid 提供了丰富的访问控制、认证和日志环境， 用于开发 web 代理和内容服务网站应用。</p>
-<h4 id="二-Privoxy"><a href="#二-Privoxy" class="headerlink" title="二.Privoxy"></a>二.Privoxy</h4><p>Privoxy (Privacy Enhancing Proxy) 是一个非缓存类 Web 代理软件，它自带的高级过滤功能可以用来增强隐私保护、修改页面内容和 HTTP 头部信息、访问控制，以及去除广告和其它招人反感的互联网垃圾。Privoxy 的配置非常灵活，能充分定制已满足各种各样的需求和偏好。它支持单机和多用户网络两种模式。</p>
-<p>Privoxy 使用 action 规则来处理浏览器和远程站点间的数据流。</p>
-<h4 id="三-Varnish-Cache"><a href="#三-Varnish-Cache" class="headerlink" title="三.Varnish Cache"></a>三.Varnish Cache</h4><p>Varnish Cache 是一个为性能和灵活性而生的 web 加速器。它新颖的架构设计能带来显著的性能提升。根据你的架构，通常情况下它能加速响应速度300-1000倍。Varnish 将页面存储到内存，这样 web 服务器就无需重复地创建相同的页面，只需要在页面发生变化后重新生成。页面内容直接从内存中访问，当然比其他方式更快。</p>
-<p>此外 Varnish 能大大提升响应 web 页面的速度，用在任何应用服务器上都能使网站访问速度大幅度地提升。</p>
-<p>按经验，Varnish Cache 比较经济的配置是1-16GB内存+ SSD 固态硬盘。</p>
-<h4 id="四-Polipo"><a href="#四-Polipo" class="headerlink" title="四.Polipo"></a>四.Polipo</h4><p>Polipo 是一个开源的 HTTP 缓存代理，只需要非常低的资源开销。</p>
-<p>它监听来自浏览器的 web 页面请求，转发到 web 服务器，然后将服务器的响应转发到浏览器。在此过程中，它能优化和整形网络流量。从本质来讲 Polipo 与 WWWOFFLE 很相似，但其实现技术更接近于 Squid。</p>
-<p>Polipo 最开始的目标是作为一个兼容 HTTP&#x2F;1.1 的代理，理论它能在任何兼容 HTTP&#x2F;1.1 或更早的 HTTP&#x2F;1.0 的站点上运行。</p>
-<h4 id="五-Tinyproxy"><a href="#五-Tinyproxy" class="headerlink" title="五.Tinyproxy"></a>五.Tinyproxy</h4><p>Tinyproxy 是一个轻量级的开源 web 代理守护进程，其设计目标是快而小。它适用于需要完整 HTTP 代理特性，但系统资源又不足以运行大型代理的场景，比如嵌入式部署。</p>
-<p>Tinyproxy 对小规模网络非常有用，这样的场合下大型代理会使系统资源紧张，或有安全风险。Tinyproxy 的一个关键特性是其缓冲连接的理念。从效果上看， Tinyproxy 对服务器的响应进行了高速缓冲，然后按照客户端能够处理的最高速度进行响应。该特性极大的降低了网络延滞带来的问题。</p>
-<p>引自文章: <a target="_blank" rel="noopener" href="https://linux.cn/article-7119-1.html">https://linux.cn/article-7119-1.html</a></p>
-<blockquote>
-<p>这里我们用Squid,因为我就是用了他,其他的软件后续再测试.</p>
-</blockquote>
-<h3 id="动手-Squid安装与配置"><a href="#动手-Squid安装与配置" class="headerlink" title="动手:Squid安装与配置"></a>动手:Squid安装与配置</h3><p>代理服务器的地址: 192.168.1.89</p>
-<p>安装命令 : yum install squid</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正向代理 #</span></span><br><span class="line"><span class="comment"># 备份配置文件 #</span></span><br><span class="line"><span class="comment"># cp /etc/squid/squid.conf /etc/squid/squid.conf_bak</span></span><br><span class="line"><span class="comment"># vi /etc/squid.squid.conf</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ----------</span></span><br><span class="line"><span class="comment"># 允许所有用户使用代理</span></span><br><span class="line"><span class="comment"># 修改 http_access</span></span><br><span class="line">http_access allow all</span><br><span class="line"><span class="comment"># 修改端口</span></span><br><span class="line">http_port 192.168.1.89:3128</span><br><span class="line"><span class="comment"># ----------</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 检查配置参数是否有错误</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># squid -k parse</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 初始化缓存</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># squid -z</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># service squid start</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 检查端口是否开启</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># netstat -nlpl</span></span><br></pre></td></tr></table></figure>
-
-<p>摘自文章 : <a target="_blank" rel="noopener" href="http://blog.csdn.net/haohaojian/article/details/9078029">http://blog.csdn.net/haohaojian/article/details/9078029</a></p>
-<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><p>Windows中设置代理服务器:</p>
-<p>（IE5.0以上版本中设置代理：菜单栏“工具”-&gt;下拉菜单“Internet选项”-&gt;选项卡“连接”-&gt;在“局域网设置”中选中您目前 使用的连接，然后点击右侧的“设置”-&gt;在中间的“代理服务器”栏选中“使用代理服务器”-&gt;在“地址”和“端口”栏输入本站提供的HTTP代理服务器-&gt;确定-&gt;确定。</p>
-<p>Linux端配置:</p>
-<p>如果是浏览器的话,一般在设置-高级-代理,里面填写上相关的地址与端口即可.</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>配置成功,可以使用,但出现了以下几个小问题:</p>
-<ol>
-<li>squid代理开启的时候是成功的,但是在经过几个小时候,有时在半个小时后,就无法访问,要重新添加默认网关才可以访问.</li>
-<li>配置完代理HTTP访问的是可以使用了,那微信和QQ之类的软件要如何使用呢?</li>
-<li>FTP和socket代理要在哪里填写呢?</li>
-</ol>
-<blockquote>
-<p>只有跳出自己的舒适圈,人才会进步</p>
-</blockquote>
 
       
     </div>
