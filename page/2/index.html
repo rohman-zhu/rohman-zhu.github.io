@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">440</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,98 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e8e9b2d3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e8e9b2d3/" class="post-title-link" itemprop="url">Photon Linux进入单用户模式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-03-19 12:04:22 / Modified: 12:08:45" itemprop="dateCreated datePublished" datetime="2025-03-19T12:04:22+00:00">2025-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/Photon-Linux/" itemprop="url" rel="index"><span itemprop="name">Photon Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>场景1：忘记 Photon Linux 的root密码 ， （VMware的UAG就是用Photon Linux搭建的）。需要进入单用户模式重置root密码。</p>
+<p>场景2：Photon Linux的登界面中，提示root账户被锁定了，需要进入单用户模式解锁root账户。</p>
+<h1 id="操作步骤："><a href="#操作步骤：" class="headerlink" title="操作步骤："></a>操作步骤：</h1><ol>
+<li>重启操作系统；</li>
+<li>在启动引导界面，按 “e” ；</li>
+<li>在linux行中，删除 rootpartition 与 if 之间的内容；</li>
+<li>在 rootpartition 后面补充 rw init&#x3D;&#x2F;bin&#x2F;bash ；</li>
+<li>按 Ctrl + x 启动；</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ximenjianxue/article/details/108408506">https://blog.csdn.net/ximenjianxue/article/details/108408506</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1133,119 +1225,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f3a16578/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f3a16578/" class="post-title-link" itemprop="url">Bash-Shell常用脚本汇总</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-10-04 17:54:27" itemprop="dateCreated datePublished" datetime="2024-10-04T17:54:27+00:00">2024-10-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-03-30 05:40:33" itemprop="dateModified" datetime="2025-03-30T05:40:33+00:00">2025-03-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">脚本</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><p>注意：</p>
-<ol>
-<li>注意在Windows下编辑时，要切换“换行符”格式</li>
-</ol>
-<h2 id="迁移文件"><a href="#迁移文件" class="headerlink" title="迁移文件"></a>迁移文件</h2><h3 id="递归查询与将文件迁移到上级目录"><a href="#递归查询与将文件迁移到上级目录" class="headerlink" title="递归查询与将文件迁移到上级目录"></a>递归查询与将文件迁移到上级目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Version:v1</span></span><br><span class="line"><span class="comment"># Date:2024-10-04</span></span><br><span class="line"><span class="comment"># Description: 遍历目标目录下的文件；</span></span><br><span class="line"></span><br><span class="line">target_diectoryName=<span class="variable">$1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> check-<span class="function"><span class="title">targetfoler</span></span>()&#123;</span><br><span class="line">    <span class="comment"># local 定义为局部变量，避免在递归过程中值在传递过程中，发生变更</span></span><br><span class="line">    <span class="built_in">local</span> target_folder=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">local</span> dir_depth=<span class="variable">$2</span></span><br><span class="line">    <span class="built_in">local</span> is_move=<span class="variable">$3</span> <span class="comment"># 1 表示迁移；0 表示不迁移；</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current parent folder is &quot;</span><span class="variable">$target_folder</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current depth is &quot;</span><span class="variable">$dir_depth</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current is_move flag is &quot;</span><span class="variable">$is_move</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> `<span class="built_in">ls</span> <span class="variable">$target_folder</span>`</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> [ -d <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为目录</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span><span class="string">&quot; is a directory,continue to check&quot;</span></span><br><span class="line">                </span><br><span class="line">                check-targetfoler <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> $((<span class="variable">$dir_depth</span> +<span class="number">1</span> )) 1</span><br><span class="line">            <span class="keyword">elif</span> [ -f <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为文件</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span><span class="string">&quot; is a file&quot;</span> </span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        <span class="keyword">done</span>   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> move-<span class="function"><span class="title">filetoparentfolder</span></span>()&#123;</span><br><span class="line">    <span class="comment"># local 定义为局部变量，避免在递归过程中值在传递过程中，发生变更</span></span><br><span class="line">    <span class="built_in">local</span> target_folder=<span class="variable">$1</span></span><br><span class="line">    <span class="built_in">local</span> dir_depth=<span class="variable">$2</span></span><br><span class="line">    <span class="built_in">local</span> is_move=<span class="variable">$3</span> <span class="comment"># 1 表示迁移；0 表示不迁移；</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current parent folder is &quot;</span><span class="variable">$target_folder</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current depth is &quot;</span><span class="variable">$dir_depth</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Current is_move flag is &quot;</span><span class="variable">$is_move</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> `<span class="built_in">ls</span> <span class="variable">$target_folder</span>`</span><br><span class="line">        <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> [ -d <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为目录</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span><span class="string">&quot; is a directory,continue to check&quot;</span></span><br><span class="line">                </span><br><span class="line">                check-targetfoler <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> $((<span class="variable">$dir_depth</span> +<span class="number">1</span> )) 1</span><br><span class="line">            <span class="keyword">elif</span> [ -f <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="comment"># 目标为文件</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span><span class="string">&quot; is a file&quot;</span> </span><br><span class="line">                <span class="keyword">if</span> [ <span class="variable">$is_move</span> == 1 ]</span><br><span class="line">                <span class="keyword">then</span></span><br><span class="line">                    <span class="built_in">echo</span> <span class="variable">$target_folder</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span><span class="string">&quot; need to move&quot;</span></span><br><span class="line">                    <span class="comment"># 获取上级目录的信息</span></span><br><span class="line">                    <span class="built_in">local</span> parent_folder=awk -F/ <span class="string">&#x27;&#123;print $1&#125;&#x27;</span></span><br><span class="line">                    <span class="built_in">mv</span> <span class="variable">$target_foler</span><span class="string">&quot;/&quot;</span><span class="variable">$file</span> <span class="variable">$parent_folder</span><span class="string">&quot;/&quot;</span></span><br><span class="line">                <span class="keyword">fi</span></span><br><span class="line">            <span class="keyword">fi</span></span><br><span class="line">        <span class="keyword">done</span>   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 脚本的第一个参数为0 ， 这个跟Shell脚本有差异，Bash Shell脚本是 $1;Windows Shell 脚本是$args[0];</span></span><br><span class="line">move-filetoparentfolder <span class="variable">$target_diectoryName</span> 0 0</span><br></pre></td></tr></table></figure>
-
-<p>注意点：</p>
-<ol>
-<li>函数内的参数，要增加local变量，使参数变为局部变量，而不是全局变量；否则递归会失效；</li>
-<li>字符串切割，用awk -F指令，F后面要接切割字符，输出的时候是以1开始； awk -F&#x2F; ‘{print $1}’;</li>
-</ol>
-<h2 id="初始化服务器"><a href="#初始化服务器" class="headerlink" title="初始化服务器"></a>初始化服务器</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /bin/bash</span></span><br><span class="line"><span class="comment"># Description:Init servername and IP.</span></span><br><span class="line"><span class="comment"># Date:2025-03-30</span></span><br><span class="line"><span class="comment"># Version:v1</span></span><br><span class="line"><span class="comment"># ScriptName:server-init.sh</span></span><br><span class="line"><span class="comment"># Args:servername ip</span></span><br><span class="line"><span class="comment"># Example:bash server-init.sh test001 1.2.3.4</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Servername is <span class="variable">$1</span>&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ServerIP is <span class="variable">$2</span>&quot;</span></span><br><span class="line">hostname=<span class="variable">$1</span></span><br><span class="line">ip=<span class="variable">$2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">read</span> -n1 -p <span class="string">&quot;Is that information correct?(y/n)&quot;</span> KEY</span><br><span class="line"><span class="keyword">case</span> <span class="variable">$KEY</span> <span class="keyword">in</span></span><br><span class="line">Y | y)</span><br><span class="line">    hostnamectl set-hostname <span class="variable">$hostname</span>;</span><br><span class="line">    sed -i <span class="string">&quot;s/1.2.3.1/<span class="variable">$ip</span>/g&quot;</span> /etc/netplan/00-installer-config.yaml</span><br><span class="line">    gateway4=$(<span class="built_in">echo</span> <span class="variable">$ip</span> | awk -F <span class="string">&#x27;.&#x27;</span> <span class="string">&#x27;&#123;print $1&quot;.&quot;$2&quot;.&quot;$3&quot;.254&quot;&#125;&#x27;</span>)</span><br><span class="line">    sed -i <span class="string">&quot;s/1.2.3.2/<span class="variable">$gateway4</span>/g&quot;</span> /etc/netplan/00-installer-config.yaml</span><br><span class="line">    netplan apply</span><br><span class="line">    apt-mark hold linux-headers-generic</span><br><span class="line">    apt-mark hold linux-image-generic</span><br><span class="line">    ;;</span><br><span class="line">N | n)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;Cancel&quot;</span></span><br><span class="line">    ;;</span><br><span class="line">*)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;ERROR VALUE!&quot;</span></span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>脚本的输入参数是$1,$2</li>
-<li>读取指令是read，并赋值给末尾参数</li>
-<li>read的-p是显示友好提示</li>
-<li>read的-n[数字]，表示输入多少个字符结束，-n1表示读取到1个字符就退出</li>
-<li>case类似于多个switch条件判断语句</li>
-<li>两个分号;;表示退出case；</li>
-<li>case 与 esac 是一对，必须写入；</li>
-<li>awk -F ‘分隔符’ ‘{print 读取分割后的数组}’</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">440</span>
+          <span class="site-state-item-count">441</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,167 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/457a506a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/457a506a/" class="post-title-link" itemprop="url">Linux考题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-18 22:32:57" itemprop="dateCreated datePublished" datetime="2017-10-18T22:32:57+00:00">2017-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="考题"><a href="#考题" class="headerlink" title="考题"></a>考题</h1><h2 id="写出下列端口对应的服务"><a href="#写出下列端口对应的服务" class="headerlink" title="写出下列端口对应的服务"></a>写出下列端口对应的服务</h2><table>
+<thead>
+<tr>
+<th align="center">port</th>
+<th align="center">服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">21</td>
+<td align="center">ftp</td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="center">ssh</td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="center">smtp</td>
+</tr>
+<tr>
+<td align="center">3306</td>
+<td align="center">mysql</td>
+</tr>
+<tr>
+<td align="center">873</td>
+<td align="center">rsync</td>
+</tr>
+<tr>
+<td align="center">161</td>
+<td align="center">snmp</td>
+</tr>
+<tr>
+<td align="center">111</td>
+<td align="center">rpc</td>
+</tr>
+<tr>
+<td align="center">3389</td>
+<td align="center">windows的远程桌面</td>
+</tr>
+<tr>
+<td align="center">80</td>
+<td align="center">www&#x2F;http</td>
+</tr>
+<tr>
+<td align="center">443</td>
+<td align="center">https</td>
+</tr>
+<tr>
+<td align="center">110</td>
+<td align="center">pop3</td>
+</tr>
+<tr>
+<td align="center">53</td>
+<td align="center">dns</td>
+</tr>
+<tr>
+<td align="center">514</td>
+<td align="center">rsyslog</td>
+</tr>
+</tbody></table>
+<h2 id="6块-600G的SAS盘做RAID5后-计划装系统部署-mysql-从数据库提供读服务-做-RAID-5-后-给出分区方案-分区后如何不重启就能生效"><a href="#6块-600G的SAS盘做RAID5后-计划装系统部署-mysql-从数据库提供读服务-做-RAID-5-后-给出分区方案-分区后如何不重启就能生效" class="headerlink" title="6块 600G的SAS盘做RAID5后,计划装系统部署 mysql 从数据库提供读服务.做 RAID 5 后,给出分区方案,分区后如何不重启就能生效"></a>6块 600G的SAS盘做RAID5后,计划装系统部署 mysql 从数据库提供读服务.做 RAID 5 后,给出分区方案,分区后如何不重启就能生效</h2><ul>
+<li>分出</li>
+<li>6 * 600 G , 只能party来分区</li>
+</ul>
+<h2 id="已知-A-B-服务器的SSH服务的端口均为-52113-用户为root-密码是123456-现在想把A服务器的-etc目录拷贝到B服务器的-tmp目录-要求文件属性不能改变-且不需要交互手工输入密码-也不能使用SSH-KEY的方式-请通过expect加-scp-命令给出详细的操作命令或脚本"><a href="#已知-A-B-服务器的SSH服务的端口均为-52113-用户为root-密码是123456-现在想把A服务器的-etc目录拷贝到B服务器的-tmp目录-要求文件属性不能改变-且不需要交互手工输入密码-也不能使用SSH-KEY的方式-请通过expect加-scp-命令给出详细的操作命令或脚本" class="headerlink" title="已知 A &#x2F; B 服务器的SSH服务的端口均为 52113 ,用户为root,密码是123456,现在想把A服务器的&#x2F;etc目录拷贝到B服务器的&#x2F;tmp目录,要求文件属性不能改变,且不需要交互手工输入密码,也不能使用SSH KEY的方式,请通过expect加 scp 命令给出详细的操作命令或脚本"></a>已知 A &#x2F; B 服务器的SSH服务的端口均为 52113 ,用户为root,密码是123456,现在想把A服务器的&#x2F;etc目录拷贝到B服务器的&#x2F;tmp目录,要求文件属性不能改变,且不需要交互手工输入密码,也不能使用SSH KEY的方式,请通过expect加 scp 命令给出详细的操作命令或脚本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/expect</span><br><span class="line"></span><br><span class="line">set password &quot;123456&quot;</span><br><span class="line"></span><br><span class="line">swap scp /etc &quot;root@A:/tmp -p1024&quot;</span><br><span class="line"></span><br><span class="line">expect&#123;</span><br><span class="line">    &quot;yes/no&quot; $yes</span><br><span class="line">    &quot;*password&quot; $password</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何批量改文件名字"><a href="#如何批量改文件名字" class="headerlink" title="如何批量改文件名字"></a>如何批量改文件名字</h2><ul>
+<li>假设 文件名是 : stu_finished_1_Delete.jpg</li>
+<li>目标文件名是 : stu_finished_1.jpg</li>
+</ul>
+<h3 id="shell方式来更改"><a href="#shell方式来更改" class="headerlink" title="shell方式来更改"></a>shell方式来更改</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># f = stu_finished_Delete.jpg</span><br><span class="line"># mv $f `echo $f | sed &#x27;s#_Delete##g&#x27;`</span><br><span class="line"></span><br><span class="line"># 编写脚本</span><br><span class="line"># vim /server/scripts/rename.sh</span><br><span class="line"></span><br><span class="line">----------</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line">for f in `ls *Delete*.jpg`</span><br><span class="line">do</span><br><span class="line">    mv $f `echo $f | sed &#x27;s#_Delete$$g&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rename-命令"><a href="#rename-命令" class="headerlink" title="rename 命令"></a>rename 命令</h3><blockquote>
+<p>rename from to file</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rename &quot;_Delete&quot; &quot;&quot; *.jpg</span><br></pre></td></tr></table></figure>
+
+<h2 id="统计网站某一时间段所有IP的对应PVC数排序-打印出前10位"><a href="#统计网站某一时间段所有IP的对应PVC数排序-打印出前10位" class="headerlink" title="统计网站某一时间段所有IP的对应PVC数排序,打印出前10位"></a>统计网站某一时间段所有IP的对应PVC数排序,打印出前10位</h2><h2 id="DNS解析原理"><a href="#DNS解析原理" class="headerlink" title="DNS解析原理"></a>DNS解析原理</h2><h2 id="http通信原理"><a href="#http通信原理" class="headerlink" title="http通信原理"></a>http通信原理</h2><h2 id="TCP-IP的三次握手和四次断开"><a href="#TCP-IP的三次握手和四次断开" class="headerlink" title="TCP&#x2F;IP的三次握手和四次断开"></a>TCP&#x2F;IP的三次握手和四次断开</h2><h2 id="MySQL集群和高可用方案有哪些"><a href="#MySQL集群和高可用方案有哪些" class="headerlink" title="MySQL集群和高可用方案有哪些"></a>MySQL集群和高可用方案有哪些</h2><ul>
+<li>一主多从,一台从库用于备份,一台从库则给开发连接.</li>
+<li>级联</li>
+<li>双柱则用keepalive让两台服务器相互写数据</li>
+</ul>
+<h2 id="MySQL如何实现读写分离"><a href="#MySQL如何实现读写分离" class="headerlink" title="MySQL如何实现读写分离"></a>MySQL如何实现读写分离</h2><p>用MySQL_proxy</p>
+<h2 id="开发有一堆数据插入-如何防止插入的中文数据产生乱码"><a href="#开发有一堆数据插入-如何防止插入的中文数据产生乱码" class="headerlink" title="开发有一堆数据插入,如何防止插入的中文数据产生乱码"></a>开发有一堆数据插入,如何防止插入的中文数据产生乱码</h2><p>在客户端和服务端中把字符集都设置同一个字符集.</p>
+<h2 id="如何备份服务器"><a href="#如何备份服务器" class="headerlink" title="如何备份服务器"></a>如何备份服务器</h2><p>根据服务器的性能来查看,50G的数据量要用到4-5个小时</p>
+<h2 id="key-buffer-size参数作用-如何修改这个参数而不重启数据库"><a href="#key-buffer-size参数作用-如何修改这个参数而不重启数据库" class="headerlink" title="key_buffer_size参数作用,如何修改这个参数而不重启数据库"></a>key_buffer_size参数作用,如何修改这个参数而不重启数据库</h2><p>这是MyISAM引擎的缓存数据大小设置,在数据库中设置这个参数,然后再修改配置文件.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1728,147 +1889,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bba66a9b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/bba66a9b/" class="post-title-link" itemprop="url">Linux_正则表达式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-05 15:01:32" itemprop="dateCreated datePublished" datetime="2017-10-05T15:01:32+00:00">2017-10-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>为了处理大量的字符串而定义的一套规则和方法 ， 通过定义特殊符号的辅助，系统管理员可以快速过滤、替换、输出需要的字符串。</p>
-<h3 id="基础正则表达式（BRE）"><a href="#基础正则表达式（BRE）" class="headerlink" title="基础正则表达式（BRE）"></a>基础正则表达式（BRE）</h3><p>| 符号 | 意义 |<br>|:—–:|:—–:|<br>|. |单个任意的字符|<br>|* |重复前面任意0个或多个字符|<br>|^x |表示以x开头|<br>|$x |表示以x结尾|<br>|^$|表示空行|<br>||忽略正则表达式中特殊字符的原有含义|<br>|&lt;|从匹配正则表达 式的行开始|<br>|&gt;|到匹配正则表达式的行结束|<br>|[]|单个字符，如[A]即A符合要求|<br>|[ - ]|范围，如[A-Z]，即A、B、C一直到Z都符合要求 。|</p>
-<h3 id="拓展的正则表达式"><a href="#拓展的正则表达式" class="headerlink" title="拓展的正则表达式"></a>拓展的正则表达式</h3><p>用命令 egrep 或者 用grep命令带-E参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ egrep -o &quot;go+d&quot; ...txt</span><br><span class="line"></span><br><span class="line">$ grep -Eo &quot;go+d&quot; ...txt</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>+重复一个或一个以上前面的字符。</li>
-<li>？重复0个或一个0前面的字符。</li>
-<li>|用‘或’的方法查找多个符合的字符串。</li>
-<li>（）找出‘用户组’字符串。</li>
-</ol>
-<h3 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h3><ol>
-<li>Linux 正则表达式一般以行为单位处理。</li>
-<li>alias grep&#x3D;’grep –color&#x3D;auto’</li>
-<li>注意字符集，LC_ALL&#x3D;C<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ export LC_ALL=C</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><p>运用与bash界面中。</p>
-<table>
-<thead>
-<tr>
-<th align="center">符号</th>
-<th align="center">意义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">$</td>
-<td align="center">变量前面需要加的符号</td>
-</tr>
-<tr>
-<td align="center">&#x2F;</td>
-<td align="center">路径分隔符</td>
-</tr>
-<tr>
-<td align="center">&lt;</td>
-<td align="center">输入重定向</td>
-</tr>
-<tr>
-<td align="center">&lt;&lt;</td>
-<td align="center">追加重定向</td>
-</tr>
-<tr>
-<td align="center">｛｝</td>
-<td align="center">中间为命令区块组合或内容序列</td>
-</tr>
-<tr>
-<td align="center">！</td>
-<td align="center">逻辑非</td>
-</tr>
-<tr>
-<td align="center">&amp;&amp;</td>
-<td align="center">当前一个指令执行成功时，执行后一个指令</td>
-</tr>
-<tr>
-<td align="center">..</td>
-<td align="center">上一级目录</td>
-</tr>
-<tr>
-<td align="center">.</td>
-<td align="center">当前目录</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>||当前执行指令失败时，执行后一个指令|</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/40/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/42/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/40/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/42/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
