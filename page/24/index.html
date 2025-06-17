@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">442</span>
+          <span class="site-state-item-count">443</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">146</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,98 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1d80bbb3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1d80bbb3/" class="post-title-link" itemprop="url">一键获取Linux内存、CPU、磁盘IO等信息</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-17 23:53:23" itemprop="dateCreated datePublished" datetime="2020-12-17T23:53:23+00:00">2020-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="脚本内容"><a href="#脚本内容" class="headerlink" title="脚本内容"></a>脚本内容</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 获取要监控的本地服务器IP地址</span></span><br><span class="line">IP=`ifconfig | grep inet | grep -vE <span class="string">&#x27;inet6|127.0.0.1&#x27;</span> | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;IP地址：&quot;</span><span class="variable">$IP</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取cpu总核数</span></span><br><span class="line">cpu_num=`grep -c <span class="string">&quot;model name&quot;</span> /proc/cpuinfo`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;cpu总核数：&quot;</span><span class="variable">$cpu_num</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 1、获取CPU利用率</span></span><br><span class="line"><span class="comment">################################################</span></span><br><span class="line"><span class="comment">#us 用户空间占用CPU百分比</span></span><br><span class="line"><span class="comment">#sy 内核空间占用CPU百分比</span></span><br><span class="line"><span class="comment">#ni 用户进程空间内改变过优先级的进程占用CPU百分比</span></span><br><span class="line"><span class="comment">#id 空闲CPU百分比</span></span><br><span class="line"><span class="comment">#wa 等待输入输出的CPU时间百分比</span></span><br><span class="line"><span class="comment">#hi 硬件中断</span></span><br><span class="line"><span class="comment">#si 软件中断</span></span><br><span class="line"><span class="comment">#################################################</span></span><br><span class="line"><span class="comment"># 获取用户空间占用CPU百分比</span></span><br><span class="line">cpu_user=`top -b -n 1 | grep Cpu | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&quot;%&quot;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;用户空间占用CPU百分比：&quot;</span><span class="variable">$cpu_user</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取内核空间占用CPU百分比</span></span><br><span class="line">cpu_system=`top -b -n 1 | grep Cpu | awk <span class="string">&#x27;&#123;print $4&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&quot;%&quot;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;内核空间占用CPU百分比：&quot;</span><span class="variable">$cpu_system</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取空闲CPU百分比</span></span><br><span class="line">cpu_idle=`top -b -n 1 | grep Cpu | awk <span class="string">&#x27;&#123;print $8&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&quot;%&quot;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;空闲CPU百分比：&quot;</span><span class="variable">$cpu_idle</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取等待输入输出占CPU百分比</span></span><br><span class="line">cpu_iowait=`top -b -n 1 | grep Cpu | awk <span class="string">&#x27;&#123;print $10&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&quot;%&quot;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;等待输入输出占CPU百分比：&quot;</span><span class="variable">$cpu_iowait</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#2、获取CPU上下文切换和中断次数</span></span><br><span class="line"><span class="comment"># 获取CPU中断次数</span></span><br><span class="line">cpu_interrupt=`vmstat -n 1 1 | sed -n 3p | awk <span class="string">&#x27;&#123;print $11&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU中断次数：&quot;</span><span class="variable">$cpu_interrupt</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取CPU上下文切换次数</span></span><br><span class="line">cpu_context_switch=`vmstat -n 1 1 | sed -n 3p | awk <span class="string">&#x27;&#123;print $12&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU上下文切换次数：&quot;</span><span class="variable">$cpu_context_switch</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#3、获取CPU负载信息</span></span><br><span class="line"><span class="comment"># 获取CPU15分钟前到现在的负载平均值</span></span><br><span class="line">cpu_load_15min=`<span class="built_in">uptime</span> | awk <span class="string">&#x27;&#123;print $11&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&#x27;,&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU 15分钟前到现在的负载平均值：&quot;</span><span class="variable">$cpu_load_15min</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取CPU5分钟前到现在的负载平均值</span></span><br><span class="line">cpu_load_5min=`<span class="built_in">uptime</span> | awk <span class="string">&#x27;&#123;print $10&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&#x27;,&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU 5分钟前到现在的负载平均值：&quot;</span><span class="variable">$cpu_load_5min</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取CPU1分钟前到现在的负载平均值</span></span><br><span class="line">cpu_load_1min=`<span class="built_in">uptime</span> | awk <span class="string">&#x27;&#123;print $9&#125;&#x27;</span> | <span class="built_in">cut</span> -f 1 -d <span class="string">&#x27;,&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU 1分钟前到现在的负载平均值：&quot;</span><span class="variable">$cpu_load_1min</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取任务队列(就绪状态等待的进程数)</span></span><br><span class="line">cpu_task_length=`vmstat -n 1 1 | sed -n 3p | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;CPU任务队列长度：&quot;</span><span class="variable">$cpu_task_length</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#4、获取内存信息</span></span><br><span class="line"><span class="comment"># 获取物理内存总量</span></span><br><span class="line">mem_total=`free | grep Mem | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;物理内存总量：&quot;</span><span class="variable">$mem_total</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取操作系统已使用内存总量</span></span><br><span class="line">mem_sys_used=`free | grep Mem | awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;已使用内存总量(操作系统)：&quot;</span><span class="variable">$mem_sys_used</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取操作系统未使用内存总量</span></span><br><span class="line">mem_sys_free=`free | grep Mem | awk <span class="string">&#x27;&#123;print $4&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;剩余内存总量(操作系统)：&quot;</span><span class="variable">$mem_sys_free</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取应用程序已使用的内存总量</span></span><br><span class="line">mem_user_used=`free | sed -n 3p | awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;已使用内存总量(应用程序)：&quot;</span><span class="variable">$mem_user_used</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取应用程序未使用内存总量</span></span><br><span class="line">mem_user_free=`free | sed -n 3p | awk <span class="string">&#x27;&#123;print $4&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;剩余内存总量(应用程序)：&quot;</span><span class="variable">$mem_user_free</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取交换分区总大小</span></span><br><span class="line">mem_swap_total=`free | grep Swap | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;交换分区总大小：&quot;</span><span class="variable">$mem_swap_total</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取已使用交换分区大小</span></span><br><span class="line">mem_swap_used=`free | grep Swap | awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;已使用交换分区大小：&quot;</span><span class="variable">$mem_swap_used</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取剩余交换分区大小</span></span><br><span class="line">mem_swap_free=`free | grep Swap | awk <span class="string">&#x27;&#123;print $4&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;剩余交换分区大小：&quot;</span><span class="variable">$mem_swap_free</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#5、获取磁盘I/O统计信息</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;指定设备(/dev/sda)的统计信息&quot;</span></span><br><span class="line"><span class="comment"># 每秒向设备发起的读请求次数</span></span><br><span class="line">disk_sda_rs=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $4&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;每秒向设备发起的读请求次数：&quot;</span><span class="variable">$disk_sda_rs</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 每秒向设备发起的写请求次数</span></span><br><span class="line">disk_sda_ws=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $5&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;每秒向设备发起的写请求次数：&quot;</span><span class="variable">$disk_sda_ws</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 向设备发起的I/O请求队列长度平均值</span></span><br><span class="line">disk_sda_avgqu_sz=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $9&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;向设备发起的I/O请求队列长度平均值&quot;</span><span class="variable">$disk_sda_avgqu_sz</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 每次向设备发起的I/O请求平均时间</span></span><br><span class="line">disk_sda_await=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $10&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;每次向设备发起的I/O请求平均时间：&quot;</span><span class="variable">$disk_sda_await</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 向设备发起的I/O服务时间均值</span></span><br><span class="line">disk_sda_svctm=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $11&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;向设备发起的I/O服务时间均值：&quot;</span><span class="variable">$disk_sda_svctm</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 向设备发起I/O请求的CPU时间百分占比</span></span><br><span class="line">disk_sda_util=`iostat -kx | grep sda| awk <span class="string">&#x27;&#123;print $12&#125;&#x27;</span>`</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;向设备发起I/O请求的CPU时间百分占比：&quot;</span><span class="variable">$disk_sda_util</span></span><br></pre></td></tr></table></figure>
+
+<p>需要安装iostat</p>
+<ul>
+<li>CentOS中执行的指令是 yum install sysstat</li>
+<li>Ubuntu执行的指令是 apt-get install sysstat</li>
+</ul>
+<p>脚本执行完后输出的内容为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">IP地址：</span><br><span class="line">cpu总核数：1</span><br><span class="line">用户空间占用CPU百分比：0.0</span><br><span class="line">内核空间占用CPU百分比：0.0</span><br><span class="line">空闲CPU百分比：93.8</span><br><span class="line">等待输入输出占CPU百分比：wa,</span><br><span class="line">CPU中断次数：40</span><br><span class="line">CPU上下文切换次数：37</span><br><span class="line">CPU 15分钟前到现在的负载平均值：</span><br><span class="line">CPU 5分钟前到现在的负载平均值：0.05</span><br><span class="line">CPU 1分钟前到现在的负载平均值：0.04</span><br><span class="line">CPU任务队列长度：2</span><br><span class="line">物理内存总量：1865284</span><br><span class="line">已使用内存总量(操作系统)：120748</span><br><span class="line">剩余内存总量(操作系统)：1019692</span><br><span class="line">已使用内存总量(应用程序)：0</span><br><span class="line">剩余内存总量(应用程序)：4194300</span><br><span class="line">交换分区总大小：4194300</span><br><span class="line">已使用交换分区大小：0</span><br><span class="line">剩余交换分区大小：4194300</span><br><span class="line">指定设备(/dev/sda)的统计信息</span><br><span class="line">每秒向设备发起的读请求次数：0.36</span><br><span class="line">每秒向设备发起的写请求次数：0.43</span><br><span class="line">向设备发起的I/O请求队列长度平均值0.00</span><br><span class="line">每次向设备发起的I/O请求平均时间：0.67</span><br><span class="line">向设备发起的I/O服务时间均值：0.59</span><br><span class="line">向设备发起I/O请求的CPU时间百分占比：0.73</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1048,127 +1140,6 @@
 <td align="center">SP default credentials, meant for customers to use</td>
 </tr>
 </tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/247f465d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/247f465d/" class="post-title-link" itemprop="url">基于PXE的Ubuntu安装方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-11-29 23:37:58" itemprop="dateCreated datePublished" datetime="2020-11-29T23:37:58+00:00">2020-11-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><ol>
-<li>一批物理服务器，需要安装Ubuntu 18.04 ，并且有一些定制化的需求，例如内核、软件、驱动等。</li>
-<li>物理服务器支持PXE启动，并且系统管理员有限，没有多余的带宽来部署服务器。</li>
-</ol>
-<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><ol>
-<li>先将一台服务器按照需求安装好对应的功能，例如内核升级、驱动安装等，将服务器所有文件打包成镜像(ESP,boot,根目录)。</li>
-<li>在服务器同网段中部署一台PXE Server（包含 DHCP 、 TFTP 、WEB 、 NFS功能），并且部署可以通过PXE启动的镜像。（类似网络PE操作系统）</li>
-<li>客户端接入PXE Server，获取到分配的IP，进入PXE的预装系统，执行硬盘分区、系统还原等操作后，重建引导程序后重启。</li>
-</ol>
-<h1 id="需求拆分"><a href="#需求拆分" class="headerlink" title="需求拆分"></a>需求拆分</h1><h2 id="定制化的操作系统"><a href="#定制化的操作系统" class="headerlink" title="定制化的操作系统"></a>定制化的操作系统</h2><p>业务方需求：</p>
-<ol>
-<li>要以UEFI启动，因此需要ESP分区，vfat格式。</li>
-<li>文件系统要为XFS，因此boot分区要单独划分，并以 ext4 进行格式化。</li>
-<li>系统要为Ubuntu 18.04 ，并且执行一些定制化需求。</li>
-</ol>
-<blockquote>
-<p>TODO问题1：xfs格式与ext4格式存在冲突问题，会导致无法识别到文件系统，当前未明白原因。</p>
-</blockquote>
-<p>完成安装后，通过rsync进行备份打包</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rsync -aPpv --exclude=&#123;<span class="string">&quot;/mnt/*&quot;</span>,<span class="string">&quot;/sys/*&quot;</span>,<span class="string">&quot;/proc/*&quot;</span>,<span class="string">&quot;/dev/*&quot;</span>,<span class="string">&quot;/tmp/*&quot;</span>&#125; / /mnt/template/ | <span class="built_in">tee</span> /mnt/template/rsync.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># -a 执行完全备份</span></span><br><span class="line"><span class="comment"># -P 显示进程</span></span><br><span class="line"><span class="comment"># -p 保留文件属性</span></span><br><span class="line"><span class="comment"># -v 打印日志</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="部署PXE服务器"><a href="#部署PXE服务器" class="headerlink" title="部署PXE服务器"></a>部署PXE服务器</h2><ol>
-<li>基于Ubuntu 18.04搭建，需要安装的服务 apach2 、 nfs-kernel-server 、 dnsmasq 。</li>
-<li>制作启动镜像，需要重建kernel，避免无法通过pxe引导进入操作系统。</li>
-<li>模板还原的操作需要通过脚本执行。</li>
-</ol>
-<h3 id="部署细节"><a href="#部署细节" class="headerlink" title="部署细节"></a>部署细节</h3><p>关于nfs的镜像，需要给rw权限，避免在做LVM的时候无法写入</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/export</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line">/var/www/html/pxeos *(rw...)</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#检查共享列表</span></span><br><span class="line">exportfs -a</span><br></pre></td></tr></table></figure>
-
-<p>关于 DHCP与TFTP服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置文件</span></span><br><span class="line">vim /etc/dnsmasq.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>TODO问题列表：</p>
-<ol>
-<li>PXE引导的grub菜单是哪一个文件提供的，是pxelinux.cfg&#x2F;default , 还是 &#x2F;tftp&#x2F;grub&#x2F;grub.cfg ，暂时没有理清楚是哪一个文件导致引导不同。</li>
-<li>通过还原的服务器，已经重新做了grub.cfg文件、安装了refind启动程序；在启动的时候，直接进入grub，并且提示 unknow filesystem 。</li>
-</ol>
 
       
     </div>
