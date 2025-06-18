@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">443</span>
+          <span class="site-state-item-count">444</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,105 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/50f1b8a7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/50f1b8a7/" class="post-title-link" itemprop="url">指定DNS解析特定域名</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-22 00:22:57" itemprop="dateCreated datePublished" datetime="2021-02-22T00:22:57+00:00">2021-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>有一套存储是通过一个域名来对外提供服务，客户端需要通过域名来连接存储。</p>
+<p>虚拟机需要解析这个制定域名才能实现挂载存储，而这个域名需要使用存储自带的DNS才可以。<br>然而存储的DNS是在其局域网内，存储的DNS与业务网络并不相通，因此业务网络中的DNS无法实现转发DNS请求到存储的DNS上。</p>
+<p>因此虚拟机有这两个要求：</p>
+<ol>
+<li>正常情况下还是需要使用业务网络的DNS，即非存储的域名解析都要在业务网络DNS中执行。</li>
+<li>存储的域名解析则需要在存储的DNS中执行。</li>
+</ol>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><p>在Linux的DNS配置中增加轮询机制，使存储的域名解析请求到制定DNS。</p>
+<p>缺点：这种方式也会让正常业务的DNS解析请求到存储的DNS上，其次存储的域名解析还是有概率到正常业务网络的DNS上。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nameserver DNS1</span><br><span class="line">nameserver DNS2</span><br><span class="line"># 实现DNS轮询</span><br><span class="line">option rotate</span><br></pre></td></tr></table></figure>
+
+<h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><p>在Linux中安装dnsmasq，这个软件可以制定dns解析请求。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装dnsmasq</span></span><br><span class="line">apt-get install dnsmasq</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置dnsmasq</span></span><br><span class="line">vim /etc/dnsmasq.conf</span><br><span class="line"><span class="comment">#--</span></span><br><span class="line"><span class="comment"># 指定DNS解析请求</span></span><br><span class="line">server=/存储用的域名/制定DNS</span><br><span class="line"><span class="comment"># 指定通用的DNS请求文件</span></span><br><span class="line">resolv-file=/etc/dnsmasq-resolv.conf</span><br><span class="line"><span class="comment"># 表示严格按照resolv-file文件中的顺序从上到下进行DNS解析，直到第一个解析成功为止。</span></span><br><span class="line">strict-order</span><br><span class="line"><span class="comment"># 提供DNS服务</span></span><br><span class="line">listern-address=127.0.0.1</span><br><span class="line"><span class="comment">#--</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置全局DNS</span></span><br><span class="line">vim /etc/dnsmasq-resolv.conf</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line">nameserver 正常业务网络的DNS</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置Linux的DNS</span></span><br><span class="line">vim /etc/resolv.conf</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line">nameserver 127.0.0.1</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 停用本地的DNS服务，并关闭开机自启。</span></span><br><span class="line">systemctl stop systemd-resolved</span><br><span class="line">systemctl <span class="built_in">disable</span> systemd-resolved</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用dnsmasq，并开启开机自启。</span></span><br><span class="line">systemctl start dnsmasq</span><br><span class="line">systemctl <span class="built_in">enable</span> dnsmasq</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试业务</span></span><br><span class="line">nslookup 存储域名</span><br><span class="line">nslookup 业务域名</span><br></pre></td></tr></table></figure>
+
+<h2 id="方案三"><a href="#方案三" class="headerlink" title="方案三"></a>方案三</h2><p>业务网络与存储网络的DNS相通，则在业务网络的DNS中配置DNS转发请求。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1062,120 +1161,6 @@
 <h2 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h2><ol>
 <li>安装DFS命名空间。</li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/20e11fdd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/20e11fdd/" class="post-title-link" itemprop="url">PC的主频</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-01-10 23:25:29" itemprop="dateCreated datePublished" datetime="2021-01-10T23:25:29+00:00">2021-01-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="频率"><a href="#频率" class="headerlink" title="频率"></a>频率</h1><p>倍频与主频，主频就是CPU的时钟频率；倍频即主频与外频之比的倍数。主频、外频、倍频，其关系式：主频＝外频×倍频。</p>
-<h2 id="外频"><a href="#外频" class="headerlink" title="外频"></a>外频</h2><p>外频是CPU乃至整个计算机系统的基准频率，单位是MHz（兆赫兹）</p>
-<p>PC 平台的基础频率,100 MHz （Base Clock）</p>
-<p>PC内的所有设备根据这个基础频率工作。</p>
-<h2 id="倍频"><a href="#倍频" class="headerlink" title="倍频"></a>倍频</h2><p>随着技术进步，CPU的运算速度要远高于内存、硬盘灯其他设备，而由于其他产商的技术进步并未达到CPU的速度。因此CPU既保持着外频跟着其他设备进行通讯，又存在倍频是自身能够全速运行。</p>
-<blockquote>
-<p>同样内存也有倍频，例如内存的主频是2400HMz，则倍频是24.</p>
-</blockquote>
-<h3 id="内存外频异步工作"><a href="#内存外频异步工作" class="headerlink" title="内存外频异步工作"></a>内存外频异步工作</h3><p>历史原因，内存的频率可以比外频高33.33333的量级去运行。为了实现这个需求，会让内存存在不同的外频去运行，即内存速度转化比率Ratio（例如 100：133 或 100：100）。</p>
-<p>因此内存主频会有：</p>
-<ul>
-<li>2133 &#x3D; 133.33 x 16</li>
-<li>2666 &#x3D; 133.33 x 20</li>
-</ul>
-<h2 id="单位"><a href="#单位" class="headerlink" title="单位"></a>单位</h2><p>1 KHz &#x3D; 1 000 Hz<br>1 MHz &#x3D; 1 000 000 Hz<br>1 GHz &#x3D; 1 000 000 000 Hz （10亿赫兹）</p>
-<h2 id="超频"><a href="#超频" class="headerlink" title="超频"></a>超频</h2><p>前置条件：</p>
-<ol>
-<li>CPU不锁频率</li>
-<li>主板具备超频功能</li>
-<li>更好的主板电源散热（非决定因素）</li>
-</ol>
-<blockquote>
-<p>注：一般超频调整的是倍频，而不是外频。不稳定因素仅局限在CPU内。</p>
-</blockquote>
-<h2 id="显卡频率和主板基础频率"><a href="#显卡频率和主板基础频率" class="headerlink" title="显卡频率和主板基础频率"></a>显卡频率和主板基础频率</h2><p>结论：显卡频率和主板基础频率是没有直接关系的。</p>
-<p>显卡是通过PCIE通道与CPU直连 ，而PCIE是接在PCIE的控制器上（也就是北桥，现代北桥已集成到CPU内）。</p>
 
       
     </div>

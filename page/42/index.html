@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">443</span>
+          <span class="site-state-item-count">444</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,177 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a1a0ca6d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/a1a0ca6d/" class="post-title-link" itemprop="url">Linux定时任务</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-06 13:14:22" itemprop="dateCreated datePublished" datetime="2017-10-06T13:14:22+00:00">2017-10-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><h2 id="常用的软件"><a href="#常用的软件" class="headerlink" title="常用的软件"></a>常用的软件</h2><h3 id="1-crontab"><a href="#1-crontab" class="headerlink" title="1.crontab"></a>1.crontab</h3><p>适用于需要周期性执行的任务工作。例如：每5分钟一次服务器时间同步。</p>
+<h3 id="2-at"><a href="#2-at" class="headerlink" title="2.at"></a>2.at</h3><p>适合执行一次就结束的调度任务命令。若需要执行 at 命令， 还需要启动ige名为 atd 的服务才行。</p>
+<h3 id="3-anacron"><a href="#3-anacron" class="headerlink" title="3.anacron"></a>3.anacron</h3><p>适用于非 7 * 24 小时运行的服务器。</p>
+<h3 id="4-Crond"><a href="#4-Crond" class="headerlink" title="4.Crond"></a>4.Crond</h3><p><em>Crond</em> 是 Linux 系统中用来定期执行命令或者程序任务的一种软件或者服务。</p>
+<ul>
+<li>一般定时任务存放于 &#x2F;etc&#x2F;cron 下</li>
+<li>守护进程，即一直运行的。</li>
+<li>crontab</li>
+</ul>
+<h4 id="格式-："><a href="#格式-：" class="headerlink" title="格式 ："></a>格式 ：</h4><table>
+<thead>
+<tr>
+<th align="center">段</th>
+<th align="center">意义</th>
+<th align="center">取值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">第一段</td>
+<td align="center">代表分钟</td>
+<td align="center">00-59</td>
+</tr>
+<tr>
+<td align="center">第二段</td>
+<td align="center">代表小时</td>
+<td align="center">00-23</td>
+</tr>
+<tr>
+<td align="center">第三段</td>
+<td align="center">代表日，天</td>
+<td align="center">01-31</td>
+</tr>
+<tr>
+<td align="center">第四段</td>
+<td align="center">代表月份</td>
+<td align="center">01-12</td>
+</tr>
+<tr>
+<td align="center">第五段</td>
+<td align="center">代表星期，周</td>
+<td align="center">0-6 （0代表星期日）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>口诀 ： 分时日月周 命令<br>0-59&#x2F;1 等价于 *</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">样例：</span><br><span class="line">//1.</span><br><span class="line">* * * * * /usr/sbin/ntpdate</span><br><span class="line"></span><br><span class="line">//2.</span><br><span class="line">30 3，12 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天凌晨3点和中午12点半时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//3.</span><br><span class="line">30 */6 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每6个小时的半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 8-18/2 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天在 8点 到 18点之间，每隔两小时的 半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 21 * * * /application/apache/bin/apachect1 graceful</span><br><span class="line">每晚21:30 重启apache</span><br><span class="line"></span><br><span class="line">//5.</span><br><span class="line">45 4 1,10,22 * * /application/apache/bin/apachectl graceful</span><br><span class="line">表示每月的1，10，22日 在凌晨 4:45 重启 apache</span><br><span class="line"></span><br><span class="line">//6.</span><br><span class="line">10 1 * * 6,0 /application/apache/bin/apachectl graceful</span><br><span class="line">表示每一个星期六和星期天 的 凌晨 1:10 重启apache</span><br><span class="line"></span><br><span class="line">//7.</span><br><span class="line">0,30 18-23 * * * /application/apache/bin/apachectl graceful</span><br><span class="line">&gt;表示在每天的 18:00，18:30，19:00，19:30，20:00，20:30，21:00，21:30，22:00，22:30，23:00，23:30 重启apache</span><br><span class="line"></span><br><span class="line">&gt;表示在每天 18:00 到 23：00 之间每隔30分钟重启 apache。最后一次执行是23:30。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>周和日尽量不要同时使用</p>
+</blockquote>
+<h4 id="特殊符号的意义"><a href="#特殊符号的意义" class="headerlink" title="特殊符号的意义"></a>特殊符号的意义</h4><table>
+<thead>
+<tr>
+<th align="center">特殊符号</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">*</td>
+<td align="center">任意时间</td>
+</tr>
+<tr>
+<td align="center">-</td>
+<td align="center">表示一个时间范围</td>
+</tr>
+<tr>
+<td align="center">，</td>
+<td align="center">分隔时段</td>
+</tr>
+<tr>
+<td align="center">&#x2F;n</td>
+<td align="center">每间隔n个单位时间</td>
+</tr>
+</tbody></table>
+<h3 id="实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”"><a href="#实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”" class="headerlink" title="实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”"></a>实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ whereis echo</span><br><span class="line">echo: /usr/bin/echo /usr/share/man/man1/echo.1.gz /usr/share/man/man1p/echo.1p.gz</span><br><span class="line"></span><br><span class="line">$ crontab -e</span><br><span class="line">## print username to /server/log/roman...</span><br><span class="line">* * * * * /usr/bin/echo roman &gt;&gt; /server/log/roman</span><br><span class="line"></span><br><span class="line">$ crontab -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令"><a href="#实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令" class="headerlink" title="实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令"></a>实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 每隔一分钟打印一个+号到xxx.txt</span><br><span class="line">$ * * * * * echo &quot;+&quot; &gt;&gt; xxx.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。"><a href="#实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。" class="headerlink" title="实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。"></a>实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 1.到目标内容上级目录打包</span><br><span class="line"></span><br><span class="line">$ cd /etc</span><br><span class="line"></span><br><span class="line">// 2.打包的频率是分，包名必须精确到分</span><br><span class="line"></span><br><span class="line">$ tar zcvf /tmp/services_$(date +%F-%H).tar.gz ./services</span><br><span class="line"></span><br><span class="line">// 3. 确保命令行是正确的，然后写进脚本内.（将脚本放到 /server/scripts/ 文件夹）</span><br><span class="line">$ cd /server/scripts/</span><br><span class="line">$ vim tar.sh</span><br><span class="line"></span><br><span class="line">//如果直接在启动计划内添加命令，则需要将相关的符号进行转移</span><br><span class="line"></span><br><span class="line">//3.1 测试脚本</span><br><span class="line">$ /bin/sh /server/scripts/tar.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 4. 将脚本添加到定时任务中执行。</span><br><span class="line"></span><br><span class="line">// 5. 末尾添加错误输入或输出</span><br><span class="line">&gt; dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>定时任务需要加注释</li>
+<li>结尾不要有 &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 因为以及存在输出</li>
+<li>&#x2F;server&#x2F;log 目录必须存在才能出结果</li>
+<li>定时任务的路径一定要绝对路径</li>
+<li>crond 服务必须开启</li>
+</ul>
+<h2 id="工作中调试定时任务的方法"><a href="#工作中调试定时任务的方法" class="headerlink" title="工作中调试定时任务的方法"></a>工作中调试定时任务的方法</h2><ol>
+<li>增加执行任务频率调试任务。</li>
+<li>调整系统时间调试任务。</li>
+<li>通过脚本日志输出调试定时任务。</li>
+<li>注意一些命令带来的问题</li>
+<li>注意环境变量导致的定时任务故障</li>
+<li>通过 crond 定时任务服务日志调试定时任务 。 （&#x2F;var&#x2F;log&#x2F;cron)</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1268,98 +1439,6 @@
 <blockquote>
 <p>ls -l –time-style&#x3D;long-iso 显示的是修改时间</p>
 </blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f00716a2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f00716a2/" class="post-title-link" itemprop="url">yum_命令</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-03 11:49:29" itemprop="dateCreated datePublished" datetime="2017-10-03T11:49:29+00:00">2017-10-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="yum-linux里包管理"><a href="#yum-linux里包管理" class="headerlink" title="yum linux里包管理"></a>yum linux里包管理</h1><p><em>yum</em> 帮助解决以来问题</p>
-<ul>
-<li><p>下载 <em>tree</em> 包，然后调用 <em>rpm</em> 命令安装tree包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install tree(包名) -y</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看包组</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum grouplist</span><br><span class="line">$ yum groupinstall &#x27;grouplist&#x27;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查找</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum search &#x27;关键字&#x27;</span><br><span class="line">$ yum search all</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>移除</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove tree -y</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>升级</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum update -y</span><br></pre></td></tr></table></figure></li>
-</ul>
 
       
     </div>
