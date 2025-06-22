@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">144</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -379,7 +379,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2025-06-22 14:13:33" itemprop="dateModified" datetime="2025-06-22T14:13:33+00:00">2025-06-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -387,7 +387,11 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%85%E9%9A%9C/" itemprop="url" rel="index"><span itemprop="name">故障</span></a>
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
         </span>
     </span>
 
@@ -411,6 +415,7 @@
 <p>检测 WINRM 监听端口并修改：</p>
 <p>观察到 WINRM 的端口被改为 22443 ，导致BLAST协议的进程无法使用此端口；</p>
 <figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查端口</span></span><br><span class="line">winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改端口</span></span><br><span class="line"><span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="literal">-value</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
 
