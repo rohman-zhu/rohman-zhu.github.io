@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">444</span>
+          <span class="site-state-item-count">445</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,106 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7da23a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7da23a/" class="post-title-link" itemprop="url">毕业设计-日志一</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-07 22:04:16" itemprop="dateCreated datePublished" datetime="2018-04-07T22:04:16+00:00">2018-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="毕业设计（一）"><a href="#毕业设计（一）" class="headerlink" title="毕业设计（一）"></a>毕业设计（一）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经很久没有上传Git博客了，意志松懈了。如今已到4月这个充满话题的月份，希望没有《四月是你的谎言》的忧伤，开设新的专题，是记录我的毕业设计的过程，把所学所用的东西都记录下来，方便以后回顾复习。 </p>
+<h3 id="关于毕业设计"><a href="#关于毕业设计" class="headerlink" title="关于毕业设计"></a>关于毕业设计</h3><p>我们的课题是 智能机器狗 ， 要实现以下功能：</p>
+<ul>
+<li>语音控制照明电路中的开关，如开灯、关灯语音指令控制灯泡。</li>
+<li>模拟家庭宠物，能实现自由行动，自主避障。</li>
+<li>能简单交流、应答。</li>
+</ul>
+<p>关于语音识别模块，采用的是现成的模块（唯信电子 的M6模块,高配版458RMB） ， 而程序控制的芯片则采用STC89C51芯片 。 因为要像宠物狗一样，所以整个核心电路 与 要被控制的照明电路是分离的状态。因此控制部分的信号传输，采用无线蓝牙的型式来完成。 </p>
+<p><img src="https://img.alicdn.com/imgextra/i3/706012768/TB2ELFjbcnI8KJjSsziXXb8QpXa_!!706012768.jpg" alt="M6"></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此部分不会记录详细的、完整的知识点，只是记录我做了什么操作，并且期中遇到的难题，才会记录于此。</p>
+<p>OK，今天拿到了完整的模块，把对应的线都连接好，M6上面的 TXD 口 连接单片机的 P3.0（即是10#RXD管脚） 、 RXD 口 连接单片机P3.1（即11#TXD管脚）。但是我在电源上面我做了一个比较无知的决定，M6我采用的是手机充电器的供电，而单片机则是另外一套供电电路，因此会造成，两部分的电路中的电源不是相同的，这就会导致单片机在识别  <em>M6</em>  发送过来的信号时没法处理（因为没有参照电压）。</p>
+<blockquote>
+<p>两个电路必须共GND，单片机有效才能识别信号。<br>串口通信用的就是TXD和RXD。</p>
+</blockquote>
+<p>连接完电路后，就是测试语音模块的指令是否正常。在此之前，我用 <em>M6</em> 供应商提供的烧写软，写了如下指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 监听语句</span><br><span class="line">@WriteKeywords#开灯 001|关灯 002|放屁 003$</span><br><span class="line"></span><br><span class="line"># 应答语句</span><br><span class="line">@WriteFlashText#|001 马上开灯|002 马上关灯|003 噗噗噗$</span><br><span class="line"></span><br><span class="line"># 识别（唤醒）模式</span><br><span class="line">@AsrMode#0:按钮1:对话模式 2:大管家 3:自定义$</span><br><span class="line"></span><br><span class="line"># 自定义唤醒的关键词</span><br><span class="line">@wakeyword#小明同学$</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>原谅我的恶趣味…这里的指令必须按照编号顺序依次写入，不能隔着编号或者编号大于255 ， 如下：</p>
+</blockquote>
+<blockquote>
+<p>@WriteKeywords#开灯 001|关灯 002|放屁 009$</p>
+</blockquote>
+<p>有了之前写入的程序后，测试的结果就如预期。需要注意的是，因为默认为单字节输出（即一次输出8位），因此返回值是1-255（0x01-0xff).</p>
+<h2 id="后续展望"><a href="#后续展望" class="headerlink" title="后续展望"></a>后续展望</h2><p>下一步弄清楚中断的触发实质，在接收到语音控制的需求后，单片机在执行完参数能返回一个值代表是否执行成功，并且能被计算机记录统计。【时间，操作，是否完成】</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1365,87 +1465,6 @@
 </ul>
 <p>作业:<br>RAID,CPU温度</p>
 <p>U盘里面的PE系统</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e67e47d4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/e67e47d4/" class="post-title-link" itemprop="url">Nagios报警</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-12-09 14:57:14" itemprop="dateCreated datePublished" datetime="2017-12-09T14:57:14+00:00">2017-12-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Nagios监控报警"><a href="#Nagios监控报警" class="headerlink" title="Nagios监控报警"></a>Nagios监控报警</h1><p>报警的常用方式有这几种,邮件, <em>http短信网关</em> ,短信猫,电话语音报警,MSN,QQ,微信等.</p>
-<h2 id="短信报警实战配置"><a href="#短信报警实战配置" class="headerlink" title="短信报警实战配置"></a>短信报警实战配置</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 第一步添加联系人</span></span><br><span class="line">vi contact.cfg</span><br><span class="line"></span><br><span class="line">define contact&#123;</span><br><span class="line">    use generic</span><br><span class="line">    contact_name Rohman</span><br><span class="line">    email xx@126.com</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#==</span></span><br><span class="line"></span><br><span class="line">define contactgroup&#123;</span><br><span class="line">    contact_groupname admins</span><br><span class="line">    <span class="built_in">alias</span> centos_admins</span><br><span class="line">    members Rohman,Jack,John...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二步在command添加命令</span></span><br><span class="line"></span><br><span class="line">vi commands.cfg</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">    command_name notify-host-by-email</span><br><span class="line">    command_line xxxxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三步在联系人里面添加pager即电话</span></span><br><span class="line">define contact&#123;</span><br><span class="line">    use generic</span><br><span class="line">    contact_name Rohman</span><br><span class="line">    email xx@126.com</span><br><span class="line">    pager 18267232322</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第四步在调整联系人模板,联系人里面添加 host_notification_commands 命令</span></span><br><span class="line">define contact&#123;</span><br><span class="line">    ...</span><br><span class="line">    host_notification_commands notify-host-by-email</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第五步在hosts.cfg,service.cfg添加联系人组或者联系人</span></span><br><span class="line">define host&#123;</span><br><span class="line">    contact_groups xx</span><br><span class="line">    user xxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第六步开发报警脚本</span></span><br><span class="line"></span><br><span class="line">略</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第七步把脚本添加到command</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>短信网关要钱的 -.-</p>
-</blockquote>
 
       
     </div>
