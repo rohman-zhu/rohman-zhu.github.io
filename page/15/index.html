@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">444</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,97 +147,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/dc1287a2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/dc1287a2/" class="post-title-link" itemprop="url">Linux-GPU卡故障处理</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-09-14 00:18:39" itemprop="dateCreated datePublished" datetime="2022-09-14T00:18:39+00:00">2022-09-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>GPU机器学习的服务器经常容易出现显卡故障，需要更换。<br>本文将记录定位目标GPU卡的过程。</p>
-<h1 id="故障现象记录"><a href="#故障现象记录" class="headerlink" title="故障现象记录"></a>故障现象记录</h1><p>使用 nvidia-smi 会提示 ： Unable to determine the device handle for GPU XXXX:XX:XX.X GPU is lost . Reboot the system to recover this GPU.<br>使用 gpustat 会提示 :  Error on querying NVIDIA devices.<br>使用 lspci -vvs [故障GPU卡的总线地址] 会提示  Unknow header type 7f.</p>
-<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果nvidia-smi指令还可以用的情况下，但不提示某一张卡失效</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nvidia-smi查看是哪一张卡缺失；例如原来是8张卡，现在只显示7张卡；</span></span><br><span class="line">nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># lspci  | grep -i nvidia 结合nvidia-smi结果查看是哪一个bus地址丢失；</span></span><br><span class="line">lspci | grep -i nvidia</span><br><span class="line"></span><br><span class="line"><span class="comment"># dmidecode -t slot 查看目标bus地址的物理位置，一般会显示CPU【X】 Slot【X】</span></span><br><span class="line">dmidecode -t slot</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>番外</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查看pci插槽的速率</span><br><span class="line"></span><br><span class="line">lspci -vvvs [总线地址]</span><br><span class="line">lspci -vvvs [总线地址] | grep -i lnksta</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1115,6 +1024,147 @@
 <li>依从进入 安全设置–&gt; 本地策略 –&gt; 安全选项</li>
 </ol>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Braveliu/p/6759810.html">https://www.cnblogs.com/Braveliu/p/6759810.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/78abb069/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/78abb069/" class="post-title-link" itemprop="url">esxcli 常用指令记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-22 16:24:15" itemprop="dateCreated datePublished" datetime="2022-05-22T16:24:15+00:00">2022-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="网络测试"><a href="#网络测试" class="headerlink" title="网络测试"></a>网络测试</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示所有网卡 </span></span><br><span class="line">esxcli network nic list</span><br><span class="line"><span class="comment"># 关闭网卡 </span></span><br><span class="line">esxcli network nic down -n vmnic[X]</span><br><span class="line"><span class="comment"># 开启网卡 </span></span><br><span class="line">esxcli network nic up -n vmnic[X]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 https://kb.vmware.com/s/article/2006074</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用vmkernel网卡去ping </span></span><br><span class="line">vmkping -I  vmk0 [Target IP]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用巨帧</span></span><br><span class="line">vmkping -d -s 8972 x.x.x.x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 参考 ： https://kb.vmware.com/s/article/1003728?lang=zh_cn</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="负载查看"><a href="#负载查看" class="headerlink" title="负载查看"></a>负载查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">esxtop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用视图</span></span><br><span class="line">u=Disk Device</span><br><span class="line">d=Disk Adapter</span><br><span class="line">x=vSAN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其他视图</span></span><br><span class="line">c=CPU</span><br><span class="line">m=Memory</span><br><span class="line">n=Network</span><br><span class="line">p=Power Management</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装补丁"><a href="#安装补丁" class="headerlink" title="安装补丁"></a>安装补丁</h1><p>esxcli software vib update -d &#x2F;vmfs&#x2F;xxxxxxxx.zip<br>esxcli software vib install -d &#x2F;vmfs&#x2F;xxxxxxxx.zip</p>
+<h1 id="设置标准交换机模式"><a href="#设置标准交换机模式" class="headerlink" title="设置标准交换机模式"></a>设置标准交换机模式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">esxcli network vswitch standard policy failover <span class="built_in">set</span> -l [Policy] -v [vSwitch] -a vmnic[X],vmnic[X]</span><br><span class="line">esxcli network vswitch standard portgroup policy failover -<span class="built_in">set</span> -p <span class="string">&quot;Management Network&quot;</span> -l [Policy] -a vmnic[X],vmnic[X]</span><br></pre></td></tr></table></figure>
+
+<p>[Policy]有以下4种：</p>
+<p>explicit – according to the list<br>portid – based on the originating virtual port<br>mac – on source MAC-hash<br>iphash – based on IP-hash</p>
+<h1 id="版本查看"><a href="#版本查看" class="headerlink" title="版本查看"></a>版本查看</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmware -v</span><br></pre></td></tr></table></figure>
+
+<h1 id="存储连接状态"><a href="#存储连接状态" class="headerlink" title="存储连接状态"></a>存储连接状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">esxcli storage core device list -d=device_ID 命令。</span><br><span class="line"></span><br><span class="line">on- 设备已连接。</span><br><span class="line">dead- 设备已进入 APD 状态。APD 定时器已启动。</span><br><span class="line">dead <span class="built_in">timeout</span>- APD 超时已过期。</span><br><span class="line">not connected- 设备处于 PDL 状态。</span><br></pre></td></tr></table></figure>
+
+<h1 id="回收精简制备vmdk的空间"><a href="#回收精简制备vmdk的空间" class="headerlink" title="回收精简制备vmdk的空间"></a>回收精简制备vmdk的空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vmkfstools -K /vmfs/volume/xxxx/xxxx.vmdk</span><br><span class="line"><span class="comment"># -K|--punchzero  该选项会对所有清零块取消分配，只留下那些先前分配且包含有效数据的块。生成的虚拟磁盘为精简格式的虚拟磁盘。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="虚拟机相关操作"><a href="#虚拟机相关操作" class="headerlink" title="虚拟机相关操作"></a>虚拟机相关操作</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看虚拟机信息 </span></span><br><span class="line">esxcli vm process list</span><br><span class="line">vim-cmd vmsvc/getallvms</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结束虚拟机进程</span></span><br><span class="line">esxcli vm process <span class="built_in">kill</span> --<span class="built_in">type</span>[soft,hard,force] --world-id=[WorldNumber]</span><br><span class="line"><span class="comment"># 关闭虚拟机操作系统=soft</span></span><br><span class="line">vim-cmd vmsvc/power.shudown [WorldNumber]</span><br><span class="line"><span class="comment"># 强制关闭虚拟机=hard</span></span><br><span class="line">vim-cmd vmsvc/power.off [WorldNumber]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否有相关任务</span></span><br><span class="line">vim-cmd vmsvc/get.tasklist [WorldNumber]</span><br></pre></td></tr></table></figure>
+
+<h1 id="检查目标文件系统Inode情况"><a href="#检查目标文件系统Inode情况" class="headerlink" title="检查目标文件系统Inode情况"></a>检查目标文件系统Inode情况</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> -f /</span><br></pre></td></tr></table></figure>
+
+<h1 id="进入维护模式"><a href="#进入维护模式" class="headerlink" title="进入维护模式"></a>进入维护模式</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli system maintenanceMode Set --enabled [<span class="built_in">yes</span>/no]</span><br></pre></td></tr></table></figure>
+<h1 id="esxcfg命令列表"><a href="#esxcfg命令列表" class="headerlink" title="esxcfg命令列表"></a>esxcfg命令列表</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 防火墙</span></span><br><span class="line">esxcfg-firewall</span><br><span class="line"></span><br><span class="line"><span class="comment"># 路由表</span></span><br><span class="line">esxcfg-route</span><br><span class="line"></span><br><span class="line"><span class="comment"># vmkernel网卡</span></span><br><span class="line">esxcfg-vmknic</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前网卡信息</span></span><br><span class="line">esxcfg-vswif</span><br><span class="line"></span><br><span class="line"><span class="comment"># 虚拟机交换机</span></span><br><span class="line">esxcfg-vswitch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 物理网卡信息</span></span><br><span class="line">esxcfg-nics</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示HBA设备</span></span><br><span class="line">esxcfg-vmhbadevs</span><br></pre></td></tr></table></figure>
+
+<h1 id="VSAN磁盘组操作"><a href="#VSAN磁盘组操作" class="headerlink" title="VSAN磁盘组操作"></a>VSAN磁盘组操作</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除</span></span><br><span class="line">esxcli vsan storage remove -u [磁盘组UUID]</span><br><span class="line">esxcli vsan storage remove -s [缓存层 SSD NAAID]</span><br><span class="line">esxcli vsan storage remove -d [容量层 NNID]</span><br></pre></td></tr></table></figure>
+
+<h1 id="退出VSAN集群"><a href="#退出VSAN集群" class="headerlink" title="退出VSAN集群"></a>退出VSAN集群</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">esxcli vsan cluster get</span><br><span class="line">esxcli vsan cluster leave</span><br></pre></td></tr></table></figure>
+
+<p>VSAN相关指令：<a target="_blank" rel="noopener" href="https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vsan-monitoring.doc/GUID-7799D2D7-2513-4372-92EA-4A1FB510E012.html">https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vsan-monitoring.doc/GUID-7799D2D7-2513-4372-92EA-4A1FB510E012.html</a></p>
+<h1 id="输出日志"><a href="#输出日志" class="headerlink" title="输出日志"></a>输出日志</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm-support -w [指定路径]</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/1010705?lang=zh_CN">https://kb.vmware.com/s/article/1010705?lang=zh_CN</a></p>
+<h1 id="重启管理程序"><a href="#重启管理程序" class="headerlink" title="重启管理程序"></a>重启管理程序</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/hostd restart</span><br><span class="line">/etc/init.d/vpxa restart</span><br></pre></td></tr></table></figure>
+<p>Restarting the Management agents in ESXi (1003490):<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/1003490">https://kb.vmware.com/s/article/1003490</a></p>
+<h1 id="扩容空间"><a href="#扩容空间" class="headerlink" title="扩容空间"></a>扩容空间</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpxd_servicecfg storage lvm autogrow</span><br></pre></td></tr></table></figure>
+
+<h1 id="获取Dump日志"><a href="#获取Dump日志" class="headerlink" title="获取Dump日志"></a>获取Dump日志</h1><p>一般情况下，ESXi紫屏后会产生DUMP日志，一般放置在 &#x2F;var&#x2F;core 目录下，</p>
+<p>获取dump日志</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一般在/root/ , /var/core/目录中都能找到zdump文件</span></span><br><span class="line"><span class="comment"># 将zdump文件转为日志文件</span></span><br><span class="line">esxcfg-dumppart -L [vmkernel-zdump-filename]</span><br></pre></td></tr></table></figure>
+
+<p>参考： <a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/1006796?lang=zh_CN">https://kb.vmware.com/s/article/1006796?lang=zh_CN</a></p>
+<h1 id="配置-zdump-文件"><a href="#配置-zdump-文件" class="headerlink" title="配置 zdump 文件"></a>配置 zdump 文件</h1><p>参考：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/2081902">https://kb.vmware.com/s/article/2081902</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取当前配置</span></span><br><span class="line">esxcli system coredump file get</span><br></pre></td></tr></table></figure>
+<h1 id="查询文件锁定"><a href="#查询文件锁定" class="headerlink" title="查询文件锁定"></a>查询文件锁定</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmfsfilelockinfo -p [路径]</span><br></pre></td></tr></table></figure>
+
+<h1 id="VCSA指令-查看证书"><a href="#VCSA指令-查看证书" class="headerlink" title="VCSA指令-查看证书"></a>VCSA指令-查看证书</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> store <span class="keyword">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">&quot;[*] Store :&quot;</span> <span class="variable">$store</span>; /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store <span class="variable">$store</span> --text | grep -ie <span class="string">&quot;Alias&quot;</span> -ie <span class="string">&quot;Not After&quot;</span>;<span class="keyword">done</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>参考： <a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/82332">https://kb.vmware.com/s/article/82332</a></p>
+<h1 id="获取USB设备"><a href="#获取USB设备" class="headerlink" title="获取USB设备"></a>获取USB设备</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsusb</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li>存储相关：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.storage.doc/GUID-A5D85C33-A510-4A3E-8FC7-93E6BA0A048F.html</a></li>
+<li>关闭虚拟机电源： <a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/1004340?lang=zh_CN">https://kb.vmware.com/s/article/1004340?lang=zh_CN</a></li>
+<li>esxcfg命令：<a target="_blank" rel="noopener" href="https://blog.csdn.net/rrs123/article/details/77587702">https://blog.csdn.net/rrs123/article/details/77587702</a></li>
+</ul>
 
       
     </div>

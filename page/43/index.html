@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">444</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,144 +147,6 @@
     </div>
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a4b4101b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/a4b4101b/" class="post-title-link" itemprop="url">Linux文件系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-04 04:19:07" itemprop="dateCreated datePublished" datetime="2017-10-04T04:19:07+00:00">2017-10-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lhi</span><br><span class="line"></span><br><span class="line">2834587 -rw-r--r--    1 r0man  staff   1.7K 10  1 20:03 _config.yml</span><br><span class="line">7364288 -rw-r--r--    1 r0man  staff   174B 10  4 04:19 db.json</span><br><span class="line">2823389 drwxr-xr-x  436 r0man  staff    14K 10  1 20:00 node_modules</span><br><span class="line">7372948 -rw-r--r--    1 r0man  staff   631B 10  1 20:00 package.json</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="第一列"><a href="#第一列" class="headerlink" title="第一列"></a>第一列</h3><blockquote>
-<p>-i 表示显示INODE</p>
-</blockquote>
-<p>inode(index node)为索引节点。它是文件或者目录，在c磁盘里的唯一标识，linux读取文件首先要读取到这个索引节点。</p>
-<h3 id="第二列"><a href="#第二列" class="headerlink" title="第二列"></a>第二列</h3><p>第一个字符表示文件类型，普通文件为 ‘-‘ ， 目录为’d’ 。</p>
-<p>后面九个字符代表文件权限 ， （r（read） w（write） x（执行） -）</p>
-<p>第11个字符’.’ ,是跟seLinux相关的 ， 当seLinux开启的时候才会出现。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ 查看selinux的状态</span><br><span class="line">$ getenforce</span><br></pre></td></tr></table></figure>
-
-<h3 id="第三列"><a href="#第三列" class="headerlink" title="第三列"></a>第三列</h3><p>文件的硬链接数；硬链接是文件一个入口，就像硬盘挂载上，可以访问。</p>
-<h3 id="第四列"><a href="#第四列" class="headerlink" title="第四列"></a>第四列</h3><p>属主或用户 （Usr）<br><br/><br>对应权限位第2到第4为 用户权限位。</p>
-<h3 id="第五列"><a href="#第五列" class="headerlink" title="第五列"></a>第五列</h3><p>文件对应的属组或用户组。（Group）<br><br/><br>对应权限位第5到第7为 属组权限位。</p>
-<h3 id="第六列"><a href="#第六列" class="headerlink" title="第六列"></a>第六列</h3><p>表示文件或者目录的大小</p>
-<h3 id="第-七-，八，九-列"><a href="#第-七-，八，九-列" class="headerlink" title="第 七 ，八，九 列"></a>第 七 ，八，九 列</h3><p>表示文件被改动的时间</p>
-<h3 id="第十列"><a href="#第十列" class="headerlink" title="第十列"></a>第十列</h3><p>表示文件或者目录的名字</p>
-<h2 id="文件的INODE标识"><a href="#文件的INODE标识" class="headerlink" title="文件的INODE标识"></a>文件的INODE标识</h2><p>磁盘被格式化后，会被分成两个部分，分别是Inode 与 Block 。<br><br/></p>
-<p>Inode存放的是文件的属性信息，还有指向功能，唯独不包含文件名字；Block是用于存放数据的。<br><br/></p>
-<p>Block的大小一般有1k，2k，4k几种，其中引导分区为1k，其他普通分区4k。</p>
-<ul>
-<li>一个文件可能占用多个block，每读取一个block就会消耗一次磁盘I&#x2F;O。</li>
-<li>如果要提升IO性能，那么尽可能一次性读取尽量多的数据。</li>
-<li>block的色织也是在格式化分区的时候，mkfs.ext4 -b 2048 -l 256 &#x2F;dev&#x2F;sdb</li>
-</ul>
-<br/>
-
-<p>Inode是一串数字，不同的文件对应的inode在文件系统中是唯一的。<br><br/></p>
-<p>查看Inode大小</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ dumpe2fs /dev/sda3 | grep -i &quot;Inode size&quot;</span><br><span class="line"></span><br><span class="line">Inode       256</span><br></pre></td></tr></table></figure>
-<p>通过该命令查找这，默认单位是字节。</p>
-<blockquote>
-<p>-i 表示忽略匹配样式中的字符大小写。</p>
-</blockquote>
-<blockquote>
-<p>dumpe2fs 用于查看格式化后的磁盘信息的。</p>
-</blockquote>
-<br/>
-也可以通过df命令来查看挂载的磁盘inode情况。
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ df -i</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>df命令用于显示磁盘分区上的可使用的磁盘空间。默认显示单位为KB。可以利用该命令来获取硬盘被占用了多少空间，目前还剩下多少空间等信息。</p>
-</blockquote>
-<h2 id="Linux-文件类型"><a href="#Linux-文件类型" class="headerlink" title="Linux 文件类型"></a>Linux 文件类型</h2><ol>
-<li>纯文本（ASCII）：文件内容可以直接读取到数据。</li>
-<li>二进制文件（binary），linux可执行文件（命令）就属于这种格式。</li>
-<li>数据格式的文件（data），有些程序在运行的过程会读取某些特定格式的文件。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ 查看文件类型</span><br><span class="line">$ file /etc/hosts</span><br></pre></td></tr></table></figure>
-
-<p>-type指令参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-type c</span><br><span class="line">    File is of type c :</span><br><span class="line">    b block(buffered) special 块设备</span><br><span class="line">    c character (unbuffered ) special 字符设备</span><br><span class="line">    d directory 目录</span><br><span class="line">    p name pipe (FIFO) </span><br><span class="line">    f regular file (-) 普通文件</span><br><span class="line">    l symbolic link 符号链接</span><br><span class="line">    s 套接字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="各类时间戳"><a href="#各类时间戳" class="headerlink" title="各类时间戳"></a>各类时间戳</h2><ul>
-<li>Access ： 访问时间 -atime</li>
-<li>Modify ： 修改时间 ， 内容发生变化 -mtime</li>
-<li>Change ： 变化时间 ， 包含Modify ， 权限、属主 、 用户组 find</li>
-</ul>
-<blockquote>
-<p>ls -l –time-style&#x3D;long-iso 显示的是修改时间</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -1477,6 +1339,101 @@
 
 <p><a target="_blank" rel="noopener" href="https://www.v2ex.com/amp/t/362017">原文地址</a></p>
 <p>PS : 至于是什么原因目前我还不知道，因为不是这个领域的人员，所以也不太清楚这到底是干什么的，见谅见谅。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e2b145ff/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e2b145ff/" class="post-title-link" itemprop="url">商城样例--底部菜单</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-22 16:05:56" itemprop="dateCreated datePublished" datetime="2017-07-22T16:05:56+00:00">2017-07-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>接下俩一周将开启学习一个安卓商城样例的开发,今天的内容是一个底部的菜单–FragmentTabHost + Fragment</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>使用这个控件,先要在布局文件中创建这个控件,这个控件是v4包的,所以在布局文件中有以下部分</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/fg_container&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;0dp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">&quot;4&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v4.app.FragmentTabHost</span></span></span><br><span class="line"><span class="tag"></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;0dp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">&quot;1&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@android:id/tabhost&quot;</span></span></span><br><span class="line"><span class="tag">        &gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">&quot;@android:id/tabcontent&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">&quot;0dp&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">&quot;0dp&quot;</span></span></span><br><span class="line"><span class="tag">            &gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v4.app.FragmentTabHost</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>说明一下,FragmentTabHost这一部分是菜单底部的一个指示器,而上一级的FrameLayout这里作为我们呈现内容的容器,每一个菜单对应的内容将在这里展示.</p>
+<p>接下来,就是我们的代码部分,在代码中,我们需要做的就是fragmentTabHost.setup(Context context,Fragmentmanager fragmentmanager,int containerId);</p>
+<p>这里的containerId即是我们刚才说的容器ID,就是上面的FrameLayout.</p>
+<p>做完这些还不够,我们还要向指示器(fragmentTabHost)里面添加不同的菜单,以及每一个菜单对应的内容展示.所以有了以下的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TabHost.<span class="type">TabSpec</span> <span class="variable">tabSpec</span> <span class="operator">=</span> fragmentTabHost.newTabSpec(String TAG); <span class="comment">//这里是这个菜单的标签</span></span><br><span class="line">tabSpec.setIndicator(View view); <span class="comment">//这里是这个菜单的样式,可以自定义</span></span><br><span class="line">fragmentTabHost.addTab(tabSpec,tab.getFragment(),<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个控件还是比较简单的,但是为什么在FragmentTabHost这个布局控件里面要求TabWidget这个控件,为什么这里的id要是android:id&#x2F;…的型式?</p>
 
       
     </div>
