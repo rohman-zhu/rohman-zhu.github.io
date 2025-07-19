@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,146 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7a57e7ae/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7a57e7ae/" class="post-title-link" itemprop="url">Python学习笔记(二)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-18 17:54:04" itemprop="dateCreated datePublished" datetime="2017-11-18T17:54:04+00:00">2017-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Python-学习"><a href="#Python-学习" class="headerlink" title="Python 学习"></a>Python 学习</h1><h2 id="对集合的操作"><a href="#对集合的操作" class="headerlink" title="对集合的操作"></a>对集合的操作</h2><h3 id="切片Slice"><a href="#切片Slice" class="headerlink" title="切片Slice"></a>切片Slice</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一个集合L中有[1,2,3,4,5]这些元素,现在要把2与3取出来</span></span><br><span class="line">L[<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"><span class="comment">#L[n:z] 数组的下标从0开始的,这里表示取了第n个元素,到z-1个元素</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Python支持L[-1]取倒数第一个元素，那么它同样支持倒数切片</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#[1,2,3,4,5,6]</span></span><br><span class="line">&gt;&gt;&gt;L[-<span class="number">2</span>:-<span class="number">4</span>]</span><br><span class="line">[<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#间隔n个来取</span></span><br><span class="line">L[::n]</span><br></pre></td></tr></table></figure>
+
+<h3 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h3><p>Python内置的enumerate函数可以把一个list变成索引-元素对，这样就可以在for循环中同时迭代索引和元素本身：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> i,value <span class="keyword">in</span> <span class="built_in">enumerate</span>([<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>]):</span><br><span class="line">    <span class="built_in">print</span>(i,value)</span><br></pre></td></tr></table></figure>
+
+<p>通过collections模块的Iterable类型判断一个对象是否为可迭代对象:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> Iterable</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">isinstance</span>(<span class="string">&#x27;abc&#x27;</span>, Iterable) <span class="comment"># str是否可迭代</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">isinstance</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], Iterable) <span class="comment"># list是否可迭代</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">isinstance</span>(<span class="number">123</span>, Iterable) <span class="comment"># 整数是否可迭代</span></span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="生成列表"><a href="#生成列表" class="headerlink" title="生成列表"></a>生成列表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;[x*x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>)]</span><br><span class="line">[<span class="number">1</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">16</span>,<span class="number">25</span>,<span class="number">36</span>,<span class="number">49</span>,<span class="number">64</span>,<span class="number">81</span>,<span class="number">100</span>]</span><br><span class="line">&gt;&gt;&gt;[x*x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>) <span class="keyword">if</span> x%<span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line">[<span class="number">4</span>,<span class="number">46</span>,<span class="number">64</span>,<span class="number">100</span>]</span><br><span class="line">&gt;&gt;&gt;[m + n <span class="keyword">for</span> m <span class="keyword">in</span> <span class="string">&#x27;ABC&#x27;</span> <span class="keyword">for</span> n <span class="keyword">in</span> <span class="string">&#x27;XYZ&#x27;</span>]</span><br><span class="line">[<span class="string">&#x27;AX&#x27;</span>,<span class="string">&#x27;AY&#x27;</span>,<span class="string">&#x27;AZ&#x27;</span>,<span class="string">&#x27;BX&#x27;</span>,<span class="string">&#x27;BY&#x27;</span>,<span class="string">&#x27;BZ&#x27;</span>,<span class="string">&#x27;CX&#x27;</span>,<span class="string">&#x27;CY&#x27;</span>,<span class="string">&#x27;CZ&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;d = &#123;<span class="string">&#x27;x&#x27;</span>:<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;y&#x27;</span>:<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;z&#x27;</span>:<span class="string">&#x27;C&#x27;</span>&#125;</span><br><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> k , v <span class="keyword">in</span> d.items()</span><br><span class="line">    <span class="built_in">print</span>(k,<span class="string">&#x27;=&#x27;</span>,v)</span><br><span class="line">y=B</span><br><span class="line">x=A</span><br><span class="line">z=C</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#列表生产式也可以使用两个变量来生成list</span></span><br><span class="line">&gt;&gt;&gt;d=&#123;<span class="string">&#x27;X&#x27;</span>:<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>:<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;Z&#x27;</span>:<span class="string">&#x27;C&#x27;</span>&#125;</span><br><span class="line">&gt;&gt;&gt;[k+<span class="string">&#x27;=&#x27;</span>+v <span class="keyword">for</span> k ,v <span class="keyword">in</span> d.items()]</span><br><span class="line">[<span class="string">&#x27;Y=B&#x27;</span>,<span class="string">&#x27;X=A&#x27;</span>,<span class="string">&#x27;Z=C&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#把一个list中所有的字符串都变成小写的:</span></span><br><span class="line">&gt;&gt;&gt;L = [<span class="string">&#x27;Hello&#x27;</span>,<span class="string">&#x27;World&#x27;</span>,<span class="string">&#x27;Apple&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;[s.lower() <span class="keyword">for</span> s <span class="keyword">in</span> L]</span><br><span class="line">[<span class="string">&#x27;hello&#x27;</span>,<span class="string">&#x27;world&#x27;</span>,<span class="string">&#x27;apple&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:把一个list [‘Hello’,’World’,18,’Apple’,None]里面的字符串都变成小写的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;L=[<span class="string">&#x27;Hello&#x27;</span>,<span class="string">&#x27;World&#x27;</span>,<span class="number">18</span>,<span class="string">&#x27;Apple&#x27;</span>,<span class="literal">None</span>]</span><br><span class="line">&gt;&gt;&gt;[s.lower() <span class="keyword">for</span> s <span class="keyword">in</span> L <span class="keyword">if</span> isinsistance(s,<span class="built_in">str</span>)]</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成器generate"><a href="#生成器generate" class="headerlink" title="生成器generate"></a>生成器generate</h3><p>generate说白了就是省空间的list</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="comment">#List</span></span><br><span class="line">&gt;&gt;&gt;L=[x*x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#Generate</span></span><br><span class="line">&gt;&gt;&gt;g=(x*x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>))</span><br><span class="line">&gt;&gt;&gt;打印用<span class="built_in">next</span>()函数,很像iterator.<span class="built_in">next</span>() -.-</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">next</span>(g)</span><br><span class="line"><span class="number">0</span></span><br><span class="line">&gt;&gt;&gt;<span class="comment">#generator保存的是算法，每次调用next(g)，就计算出g的下一个元素的值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误。</span></span><br><span class="line">&gt;&gt;&gt;<span class="keyword">for</span> n <span class="keyword">in</span> g:</span><br><span class="line">    <span class="built_in">print</span>(n)</span><br><span class="line">&gt;&gt;&gt;<span class="comment">#一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:写一个杨辉三角.</p>
+<p><a target="_blank" rel="noopener" href='https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014317799226173f45ce40636141b6abc8424e12b5fb27000'>此处存疑</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">triangles</span>():</span><br><span class="line">    a=[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">yield</span> a</span><br><span class="line">        a=[<span class="built_in">sum</span>(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">zip</span>([<span class="number">0</span>+a,a+[<span class="number">0</span>]])]</span><br><span class="line"><span class="comment">#1</span></span><br><span class="line"><span class="comment">#11</span></span><br><span class="line"><span class="comment">#121</span></span><br><span class="line"><span class="comment">#1331</span></span><br><span class="line">n=<span class="number">0</span></span><br><span class="line">results=[]</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> triangles():</span><br><span class="line">    <span class="built_in">print</span>(t)</span><br><span class="line">    results.append()</span><br><span class="line">    n+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">10</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">results.append()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p>可以直接作用于for循环的数据类型有以下几种:</p>
+<ul>
+<li>一类是集合数据类型，如list、tuple、dict、set、str等；</li>
+<li>一类是generator，包括生成器和带yield的generator function。</li>
+</ul>
+<h2 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h2><h3 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h3><p>map()函数接收两个参数，一个是函数，一个是Iterable，map将传入的函数依次作用到序列的每个元素，并把结果作为新的Iterator返回。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">str</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]))</span><br><span class="line">[<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a>reduce()</h3><p>reduce把一个函数作用在一个序列[x1, x2, x3, …]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算，其效果就是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">def</span> <span class="title function_">fn</span>(<span class="params">x, y</span>):</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> x * <span class="number">10</span> + y</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>reduce(fn, [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>])</span><br><span class="line"><span class="number">13579</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h3><p>filter()接收一个函数和一个序列,filter()把传入的函数依次作用于每个元素，然后根据返回值是True还是False决定保留还是丢弃该元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_odd</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">list</span>(<span class="built_in">filter</span>(is_odd, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">15</span>]))</span><br><span class="line"><span class="comment"># 结果: [1, 5, 9, 15]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sorted"><a href="#sorted" class="headerlink" title="sorted()"></a>sorted()</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="comment">#sorted()函数也是一个高阶函数，它还可以接收一个key函数来实现自定义的排序，例如按绝对值大小排序：</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">sorted</span>([<span class="number">36</span>, <span class="number">5</span>, -<span class="number">12</span>, <span class="number">9</span>, -<span class="number">21</span>], key=<span class="built_in">abs</span>)</span><br><span class="line">[<span class="number">5</span>, <span class="number">9</span>, -<span class="number">12</span>, -<span class="number">21</span>, <span class="number">36</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:L &#x3D; [(‘Bob’, 75), (‘Adam’, 92), (‘Bart’, 66), (‘Lisa’, 88)],用sorted()分别对名字和成绩进行排序.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;L = [(<span class="string">&#x27;Bob&#x27;</span>, <span class="number">75</span>), (<span class="string">&#x27;Adam&#x27;</span>, <span class="number">92</span>), (<span class="string">&#x27;Bart&#x27;</span>, <span class="number">66</span>), (<span class="string">&#x27;Lisa&#x27;</span>, <span class="number">88</span>)]</span><br><span class="line">&gt;&gt;&gt;<span class="built_in">sorted</span>(L)</span><br><span class="line">[(<span class="string">&#x27;Adam&#x27;</span>, <span class="number">92</span>), (<span class="string">&#x27;Bart&#x27;</span>, <span class="number">66</span>), (<span class="string">&#x27;Bob&#x27;</span>, <span class="number">75</span>), (<span class="string">&#x27;Lisa&#x27;</span>, <span class="number">88</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sorted by score</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">def_num</span>(<span class="params">t</span>):</span><br><span class="line">    <span class="keyword">return</span> t[<span class="number">1</span>]</span><br><span class="line">L.sort(key=def_num)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Sorted by name</span></span><br><span class="line"><span class="comment"># Default:</span></span><br><span class="line">L.sort()</span><br><span class="line"><span class="comment"># Defined a function</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">def_name</span>(<span class="params">t</span>):</span><br><span class="line">    <span class="keyword">return</span> t[<span class="number">0</span>]</span><br><span class="line">L.sort(key=def_name)</span><br></pre></td></tr></table></figure>
+
+<h3 id="返回函数"><a href="#返回函数" class="headerlink" title="返回函数"></a>返回函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">lazy_sum</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sum</span>():</span><br><span class="line">        ax = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> args:</span><br><span class="line">            ax = ax + n</span><br><span class="line">        <span class="keyword">return</span> ax</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>闭包:</p>
+<p>注意到返回的函数在其定义内部引用了局部变量args，所以，当一个函数返回了一个函数后，其内部的局部变量还被新函数引用，所以，闭包用起来简单，实现起来可不容易。</p>
+<p>练习:利用闭包返回一个计数器函数，每次调用它返回递增整数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">createCounter</span>():</span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">counter</span>():</span><br><span class="line">        <span class="keyword">nonlocal</span> count</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line">    <span class="keyword">return</span> counter</span><br><span class="line"><span class="comment"># PS: nonlocal是在python3中才可以用,python2.7中没有,解决方法是用列表list来处理</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">createCounter</span>():</span><br><span class="line">    count = [<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">counter</span>():</span><br><span class="line">        count = count[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line">    <span class="keyword">return</span> counter</span><br></pre></td></tr></table></figure>
+
+<h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p>关键字lambda表示匿名函数，冒号前面的x表示函数参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;f = <span class="keyword">lambda</span> x : x*x</span><br><span class="line">&gt;&gt;&gt;f(<span class="number">5</span>)</span><br><span class="line"><span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>练习:用lambda改造下面函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_odd</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">L = <span class="built_in">list</span>(<span class="built_in">filter</span>(is_odd, <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">20</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">################</span></span><br><span class="line"></span><br><span class="line">L = <span class="built_in">list</span>(<span class="built_in">filter</span>(<span class="keyword">lambda</span> x : x%<span class="number">2</span> == <span class="number">1</span>,<span class="built_in">range</span>(<span class="number">1</span>,<span class="number">20</span>)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Decorator"><a href="#Decorator" class="headerlink" title="Decorator"></a>Decorator</h3><p>在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。</p>
+<p>&lt;a ‘href&#x3D;<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318435599930270c0381a3b44db991cd6d858064ac0000'%3E%E6%AD%A4%E5%A4%84%E5%AD%98%E7%96%91">https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318435599930270c0381a3b44db991cd6d858064ac0000&#39;&gt;此处存疑</a></a></p>
+<h3 id="Partial-function"><a href="#Partial-function" class="headerlink" title="Partial function"></a>Partial function</h3><p>简单总结functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1586,82 +1726,6 @@
 
 <h3 id="5-根据不同客户端返回响应内容"><a href="#5-根据不同客户端返回响应内容" class="headerlink" title="5.根据不同客户端返回响应内容"></a>5.根据不同客户端返回响应内容</h3><p>http_user_agent</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if($http_user_agent ~* &quot;MSIE&quot;)</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http://...;</span><br><span class="line">&#125;</span><br><span class="line">if($http_user_agent ~* &quot;Chrome&quot;)</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http://...;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/72a8feff/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/72a8feff/" class="post-title-link" itemprop="url">PHP相关过程的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-23 22:54:31" itemprop="dateCreated datePublished" datetime="2017-10-23T22:54:31+00:00">2017-10-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="错误或者问题集锦"><a href="#错误或者问题集锦" class="headerlink" title="错误或者问题集锦"></a>错误或者问题集锦</h1><h2 id="1-用curl命令出现”file-not-found”"><a href="#1-用curl命令出现”file-not-found”" class="headerlink" title="1.用curl命令出现”file not found”"></a>1.用curl命令出现”file not found”</h2><p>这里可能是php解析出了问题,或者是配置php节点.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~* \.(ph|php5)?$</span><br><span class="line">&#123;</span><br><span class="line">    fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">    fastcgi_index index.php;</span><br><span class="line">    include fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 

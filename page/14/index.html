@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,369 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e3ce5fb7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e3ce5fb7/" class="post-title-link" itemprop="url">LNMP-Zabbix-6.2.1-部署案例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-10-30 14:27:15" itemprop="dateCreated datePublished" datetime="2022-10-30T14:27:15+00:00">2022-10-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>Ubuntu-20.04</p>
+<p>MySQL-8.0.22<br>php-8.1.9<br>Nginx-1.22.0<br>zabbix-6.2.1</p>
+<blockquote>
+<p>弃用 MariaDB - 10.9.3，编译安装需要替换包中的工具；改用mysql8；<br>MySQL下载地址：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1799089">https://cloud.tencent.com/developer/article/1799089</a></p>
+</blockquote>
+<h1 id="部署记录"><a href="#部署记录" class="headerlink" title="部署记录"></a>部署记录</h1><h2 id="OS准备"><a href="#OS准备" class="headerlink" title="OS准备"></a>OS准备</h2><p>略</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 前置依赖</span></span><br><span class="line">apt-get install libxml2-dev libxml2 bzip2 libcurl-dev libfmt-dev</span><br><span class="line"></span><br><span class="line">bison</span><br><span class="line">libbison-dev</span><br><span class="line">zlib1g</span><br><span class="line">zlib1g-dev</span><br><span class="line">libcurl4-openssl-dev</span><br><span class="line">libarchive-dev</span><br><span class="line">boost-devel</span><br><span class="line">libboost-all-dev</span><br><span class="line">gcc</span><br><span class="line">gcc-c++</span><br><span class="line">libevent-dev</span><br><span class="line">libgnutls28-dev</span><br><span class="line">libaio-dev</span><br><span class="line">libssl-dev</span><br><span class="line">libxml2-dev</span><br><span class="line">build-essential</span><br><span class="line">libfmt-dev</span><br><span class="line">libncurses5-dev </span><br><span class="line">libncursesw5-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-MySQL8"><a href="#安装-MySQL8" class="headerlink" title="安装 MySQL8"></a>安装 MySQL8</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.22.tar.gz">https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-boost-8.0.22.tar.gz</a></p>
+<p>安装MySQL 8.0.22资料参考地址：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mhing/articles/14054727.html">https://www.cnblogs.com/mhing/articles/14054727.html</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">sudo</span> apt install build-essential cmake bison libncurses5-dev libssl-dev pkg-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/usr/local/mysql/data -DWITH_BOOST=boost -DFORCE_INSOURCE_BUILD=ON</span><br><span class="line"><span class="comment"># -DCMAKE_INSTALL_PREFIX： 指定安装路径</span></span><br><span class="line"><span class="comment"># -DMYSQL_DATADIR ： 指定数据存放路径</span></span><br><span class="line"><span class="comment"># -DMYSQL_UNIX_ADDR ：指定套间字路径</span></span><br><span class="line"><span class="comment"># -DDEFAULT_CHARSET ： 设置字符集</span></span><br><span class="line"><span class="comment"># -DDEFAULT_COLLATION ： 设置字符校验集</span></span><br><span class="line"><span class="comment"># -DWITH_BOOST ： 指定Boost扩展源码路径</span></span><br><span class="line"><span class="comment"># -DFORCE_INSOURCE_BUILD=ON ： 定义是否强制进行源内构建。建议使用源外构建，因为它们允许来自同一源的多个构建，并且可以通过删除构建目录来快速执行清理。</span></span><br><span class="line"><span class="comment"># 参数含义 https://dev.mysql.com/doc/refman/8.0/en/source-configuration-options.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="comment"># 编译速度慢的问题，可以使用 指令make -j [ CPU核数]</span></span><br><span class="line"><span class="comment"># https://blog.csdn.net/wangjingfei/article/details/4969942</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加用户</span></span><br><span class="line">groupadd mysql</span><br><span class="line">useradd -g mysql mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库-数据目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /usr/local/mysql/data</span><br><span class="line"><span class="built_in">chown</span> -R mysql:mysql /usr/local/mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化数据库</span></span><br><span class="line">/usr/local/mysql/bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data</span><br><span class="line"><span class="comment"># 初始密码在 mysqld.conf 配置的报错日志中 ，参数项为 log-error=</span></span><br><span class="line"><span class="comment"># 参考资料：https://blog.csdn.net/zonghua521/article/details/78198052</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑MySQL服务端的配置文件</span></span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">socket = /tmp/mysql.sock</span><br><span class="line">basedir = /usr/local/mysql</span><br><span class="line">datadir = /usr/local/mysql/data</span><br><span class="line"><span class="comment"># 编辑MySQL客户端配置文件</span></span><br><span class="line">/etc/mysql/mysql.conf.d/mysql.cnf</span><br><span class="line">[client]</span><br><span class="line">socket = /tmp/mysql.sock</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 配置服务项</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> +x /etc/init.d/mysqld</span><br><span class="line">update-rc.d mysqld defaults</span><br><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看服务是否已启动</span></span><br><span class="line">ps -aux|grep mysql</span><br><span class="line">lsof -i:3306</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置初始密码</span></span><br><span class="line"><span class="comment"># 登录MySQL数据库</span></span><br><span class="line"><span class="comment"># 以下为SQL指令</span></span><br><span class="line"><span class="comment"># mysql 旧版本的修改方法；</span></span><br><span class="line">use mysql;</span><br><span class="line">update user <span class="built_in">set</span> passowrd=password(<span class="string">&#x27;我是密码&#x27;</span>) <span class="built_in">where</span> user=<span class="string">&#x27;root&#x27;</span> and host=<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="comment"># MySQL 8.0的修改方法</span></span><br><span class="line"><span class="comment"># 参考https://blog.csdn.net/qq_38265784/article/details/80915098</span></span><br><span class="line">use mysql;</span><br><span class="line">alter user <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified with mysql_native_password by <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line">flush privileges;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看是否有其他用户；</span></span><br><span class="line"><span class="keyword">select</span> user from user;</span><br><span class="line"></span><br><span class="line">mysql.infoschema</span><br><span class="line">mysql.session</span><br><span class="line">mysql.sys</span><br><span class="line">root</span><br><span class="line"><span class="comment"># 参考：https://kalacloud.com/blog/how-to-list-all-users-in-mysql/</span></span><br><span class="line"><span class="comment"># 参考：https://www.linuxprobe.com/mysql-show-all-users.html</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="WEB服务器安装-Nginx-1-22-0"><a href="#WEB服务器安装-Nginx-1-22-0" class="headerlink" title="WEB服务器安装-Nginx-1.22.0"></a>WEB服务器安装-Nginx-1.22.0</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压Nginx文件</span></span><br><span class="line">tar xvf nginx-1.22.0.tar.gz</span><br><span class="line"><span class="comment"># 进入目录文件</span></span><br><span class="line">./configure --prefix=/usr/local/nginx</span><br><span class="line"><span class="comment"># 编译安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="comment"># 检测安装是否正确</span></span><br><span class="line">nginx -version</span><br><span class="line"><span class="comment"># 启动Nginx</span></span><br><span class="line">nginx</span><br><span class="line"><span class="comment"># 检测Nginx配置文件</span></span><br><span class="line">nginx -t</span><br><span class="line"><span class="comment"># 重新加载Nginx配置文件</span></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否能正常启动业务</span></span><br><span class="line">curl localhost</span><br></pre></td></tr></table></figure>
+
+<h2 id="PHP服务安装-php-8-1-9"><a href="#PHP服务安装-php-8-1-9" class="headerlink" title="PHP服务安装-php-8.1.9"></a>PHP服务安装-php-8.1.9</h2><table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="left">8.1.9版本参数</th>
+<th align="left">5.5.38版本参数</th>
+<th align="center">参数说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">prefix</td>
+<td align="left"></td>
+<td align="center">安装目录</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">with-config-file-path</td>
+<td align="left"></td>
+<td align="center">配置文件目录</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">with-bz2</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">with-curl</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">enable-ftp</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">enable-sockets</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">disable-ipv6</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">with-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">with-jpeg-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">with-png-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">with-freetype-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">enable-gd-native-ttf</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">with-iconv-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">enable-mbstring</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">enable-calendar</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">with-gettext</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">with-libxml-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">with-zlib</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">with-pdo-mysql&#x3D;mysqlnd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="left">with-mysqli&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="left">with-mysql&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="left">enable-dom</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="left">enable-xml</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">24</td>
+<td align="left">enable-fpm</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="left">with-libdir&#x3D;lib64</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">26</td>
+<td align="left">enable-bcmath</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">27</td>
+<td align="left">enable-mbstring</td>
+<td align="left">oniguruma是一个处理正则表达式的库，开启此功能需要这个库。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">28</td>
+<td align="left">with-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">29</td>
+<td align="left">with-libxml-dir&#x3D;?</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">30</td>
+<td align="left">with-apxs2&#x3D;?</td>
+<td align="left">Apache 相关服务</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">31</td>
+<td align="left">with-openssl</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="left">enable-gd</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="left">with-jpeg</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">34</td>
+<td align="left">with-webp</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="left">with-freetype</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">36</td>
+<td align="left">without-sqlite3</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">37</td>
+<td align="left">with-fpm-user</td>
+<td align="left">调用fpm的用户</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">38</td>
+<td align="left">with-fpm-group</td>
+<td align="left">调用fpm的组</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php-8.1.9 --with-config-file-path=/usr/local/php-8.1.9/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local  --with-openssl --enable-gd --with-jpeg --with-webp --with-freetype -without-sqlit3 --with-fpm-user=nginx --with-fpm-group=nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">make -j 4 &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cp</span> /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf</span><br><span class="line"><span class="built_in">cp</span> /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 www.conf</span></span><br><span class="line"><span class="comment"># 将启动的User修改为 nginx</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 php-fpm</span></span><br><span class="line">php-fpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测是否监听</span></span><br><span class="line">lsof -i:9000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证是否可以与Nginx结合使用</span></span><br><span class="line"><span class="comment"># 参考https://www.cnblogs.com/jiangxiaobo/p/10879457.html</span></span><br><span class="line"><span class="comment"># Nginx创建一个站点，加入配置文件</span></span><br><span class="line">location ~ .php$ &#123;</span><br><span class="line">root html;</span><br><span class="line">fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">fastcgi_index index.php;</span><br><span class="line">fastcgi_param SCRIPT_FILENAME $document_root<span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">include fastcgi_params;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 重启Nginx后</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 浏览器访问 localhost/index.php</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://osfere.com/linux/how-to-build-install-and-configure-latest-php-on-centos">https://osfere.com/linux/how-to-build-install-and-configure-latest-php-on-centos</a></p>
+</blockquote>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiangxiaobo/p/10879457.html">https://www.cnblogs.com/jiangxiaobo/p/10879457.html</a></p>
+</blockquote>
+<blockquote>
+<p>安装依赖 apt-get install libbz2-dev libpng-dev libwebp-dev libjpeg-dev libfreetype-dev libfreetype6-dev libonig-dev libsqlite3-dev</p>
+</blockquote>
+<h2 id="Zabbix服务安装-Zabbix-6-2-1"><a href="#Zabbix服务安装-Zabbix-6-2-1" class="headerlink" title="Zabbix服务安装-Zabbix-6.2.1"></a>Zabbix服务安装-Zabbix-6.2.1</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/zabbix --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装依赖 apt-get install libsnmp-dev</p>
+</blockquote>
+<p>初始化Zabbix</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database zabbix <span class="keyword">default</span> charset utf8;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> zabbix.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入zabbix初始化的数据库表格</span></span><br><span class="line"><span class="comment"># 需要数据库超级权限才可以导入</span></span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/mysql/schema.sql</span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/mysql/images.sql</span><br><span class="line">mysql -uroot zabbix -p &lt; ./database/myslq/data.sql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将安装包内的UI目录下的文件拷贝至 html文件内</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Nginx配置Zabbix_Server</span></span><br><span class="line">location ~*.\.(php|php5)$</span><br><span class="line">&#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">index index.html index.php;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Zabbix初始账户密码为 Admin\zabbix , 一定要尽快更改密码</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>post_max_size 要求是16M<br>max_execution_time 要求是 300<br>max_input_time 要求是 300</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">https://rohman-zhu.github.io/2017/12/09/ZABBIX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -996,108 +1359,6 @@
 <h1 id="软件安装汇总表"><a href="#软件安装汇总表" class="headerlink" title="软件安装汇总表"></a>软件安装汇总表</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">1</span>. .msi 格式</span><br><span class="line">msiexec.exe /i ActiveSync.msi /quiet /norestart </span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. .msp 格式</span><br><span class="line">msiexec.exe /p hotfix.msp /quiet /norestart</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. 系统运行库</span><br><span class="line">        ○ Visual C++ <span class="number">2008</span> (VC8)解压出来得到msi文件 (官方下载的是exe文件，通过.exe /?查询也是/Q，但部署/Q和/q均报错，所以用解压部署的方法)</span><br><span class="line">        ○ Visual C++ <span class="number">2009</span>(VC9).exe /q</span><br><span class="line">        ○ Visual C++ <span class="number">2010</span> (VC10).exe /q</span><br><span class="line">        ○ Microsoft .NET Framework <span class="number">1.1</span>解压出来得到msi文件 (官方下载的是exe文件，通过.exe /?查询也是/Q，但部署/Q和/q均报错，所以用解压部署的方法)</span><br><span class="line">        ○ Microsoft .NET Framework <span class="number">2.0</span>.exe /q</span><br><span class="line">        ○ Microsoft .NET Framework <span class="number">3.0</span>.exe /q</span><br><span class="line">        ○ Microsoft .NET Framework <span class="number">3.5</span>.exe /q</span><br><span class="line">        ○ Microsoft .NET Framework <span class="number">4.0</span>.exe /q</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. 系统常用</span><br><span class="line">        ○ Windows补丁，通常都是/quiet /norestart即可。如WindowsXP<span class="literal">-KB915865-v11-x86-CHS</span>.exe</span><br><span class="line">        ○ </span><br><span class="line">        ○ WinRAR.exe /S</span><br><span class="line">        ○ <span class="number">7</span><span class="literal">-ZIP</span>.exe /S</span><br><span class="line">        ○ Google拼音.exe /S</span><br><span class="line">        ○ 搜狗拼音.exe /S</span><br><span class="line">        ○ 驱动精灵<span class="number">2012</span>.exe /S</span><br><span class="line">        ○ CPU<span class="literal">-Z</span> v1.<span class="number">60</span> 官方中文安装版.exe /S</span><br><span class="line">        ○ Google Picasa v3.<span class="number">9.135</span>.<span class="number">93</span> 官方简体中文版.exe /S</span><br><span class="line">        ○ 迅雷看看播放器 v4.<span class="number">8.8</span>.<span class="number">966</span>.exe /S</span><br><span class="line">        ○ 网易有道桌面词典 <span class="number">5.0</span> 正式版.exe /S</span><br><span class="line">        ○ 微软雅黑字体<span class="keyword">for</span> XP.exe /Q</span><br><span class="line">        ○ VMware<span class="literal">-workstation-full-8</span>.<span class="number">0.2</span><span class="literal">-591240</span>.exe /silent /noSilentReboot</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>. 即时通讯</span><br><span class="line">        ○ 阿里旺旺淘宝买家版 <span class="number">2011</span> 正式版 SP1.exe /S</span><br><span class="line">        ○ 飞信 <span class="number">2012</span> 贺岁版 v4.<span class="number">7.0</span>.exe /S</span><br><span class="line">        ○ 腾讯 QQ <span class="number">2011</span> 正式版.exe /S</span><br><span class="line">        ○ 腾讯 TM <span class="number">2009</span> Beta v3.<span class="number">3</span>.exe /S</span><br><span class="line">        ○ 腾讯通 RTX <span class="number">2011</span> 正式版.exe /S</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>. 文字办公</span><br><span class="line">        ○ Office <span class="number">2003</span> Professional</span><br><span class="line">方法<span class="number">1</span>：</span><br><span class="line">对office2003原始安装光盘进行重新封装（也称：管理员安装方式），使其支持网络安装。运行原始安装光盘下的Setup.exe /a，然后输入序列号，选择一个文件夹作为office安装点。（如在硬盘上的d:\office）</span><br><span class="line"></span><br><span class="line">运行msiexec.exe /i Pro11.msi /quiet /norestart即可</span><br><span class="line">方法<span class="number">2</span>：</span><br><span class="line">Step3：制作定制安装的MST文件：运行office <span class="number">2003</span> resource kit工具的Custom Installation Wizard，创建一个对应的MST文件，存放在Office <span class="number">2003</span>目录下。（在setup和pro11.msi文件同一目录）</span><br><span class="line">msiexec.exe /a pro11.msi /p setup.msp</span><br><span class="line">        ○ Office <span class="number">2003</span> 兼容包</span><br><span class="line">FileFormatConverters.exe /quiet /norestart</span><br><span class="line"></span><br><span class="line">○ Office System <span class="number">2007</span> /Office System <span class="number">2010</span>  (包括Project/Visio)</span><br><span class="line">运行setup.exe /admin，用Office <span class="number">2007</span>自定义工具生成.msp文件（包含同意许可协议、序列号、注册信息、显示级别等内容），msp文件名字可随意取。(下图为：Auto_Office_2007.msp，其它的msp是Office <span class="number">2007</span> Service Pack <span class="number">3</span>运行/extract后解压出来的安装文件)</span><br><span class="line"></span><br><span class="line">将定制后的msp放到Office <span class="number">2007</span>/<span class="number">2010</span>的Updates目录后，运行根目录下的setup.exe 即可实现全自动安装（office <span class="number">2007</span>/<span class="number">2010</span>的Service Pack补丁包同样适用，放入Updates目录即可）</span><br><span class="line">另外要集成Office <span class="number">2007</span>或<span class="number">2010</span>的Service Pack，只需要运行Service Pack的exe安装程序后加/extract参数到Office 的Updates目录即可。</span><br><span class="line"></span><br><span class="line">        ○ Adobe PDF Reader v9.<span class="number">1</span>.exe /sAll</span><br><span class="line"></span><br><span class="line">        ○ Adobe Acrobat X Pro v10.<span class="number">1.0</span></span><br><span class="line">解压出来，得到msi文件，msiexec.exe /i AcroPro.msi /quiet /norestart</span><br><span class="line">        ○ Foxit PDF Reader v5.<span class="number">1.0</span>.<span class="number">1117</span>.exe /S</span><br><span class="line">        之前的版本是 <span class="literal">-i</span></span><br><span class="line"></span><br><span class="line">        ○ Foxmail.exe <span class="number">6.0</span>.exe /<span class="built_in">sp</span>- /verysilent /norestart</span><br><span class="line">        ○ Google金山词霸.exe  /S</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>. 网络与安全</span><br><span class="line">        ○ 微软TMG防火墙客户端</span><br><span class="line">msiexec.exe /i TMGClient.msi  ENABLE_AUTO_DETECT=<span class="number">1</span> REFRESH_WEB_PROXY=<span class="number">1</span> /quiet /norestart</span><br><span class="line">        ○ Adobe Flash Player ActiveX <span class="keyword">for</span> IE v11.<span class="number">3</span></span><br><span class="line"><span class="number">10</span>之前的版本好像是/S，之后的版本通过查询注册表得知静默安装是/install，卸载是<span class="literal">-maintain</span> activex</span><br><span class="line">        ○  IE <span class="number">8</span></span><br><span class="line">IE8<span class="literal">-WindowsXP-x86-CHS</span>.exe /quiet /<span class="built_in">update-no</span> /promptrestart</span><br><span class="line"></span><br><span class="line">        ○ Microsoft Security Essential (MSE)</span><br><span class="line">mseinstall_xp_v2.<span class="number">1.1116</span>.exe /s /q /o /runwgacheck</span><br><span class="line">        ○ <span class="number">360</span>安全卫士.exe  /S</span><br><span class="line">        ○ 超级兔子.exe  /S</span><br><span class="line">        ○ PPLive.exe /S</span><br><span class="line">        ○ 迅雷.exe  /S</span><br><span class="line"></span><br><span class="line"><span class="number">8</span>. 手机相关</span><br><span class="line">        ○ <span class="number">91</span>手机助手</span><br><span class="line">需要Microsoft .NET Framework <span class="number">2.0</span>，msiexec.exe /i netfs.msi  /quiet /norestart</span><br><span class="line"><span class="number">91</span>mobilesetup_v3.<span class="number">1.8</span>.<span class="number">583</span>.exe /<span class="built_in">sp</span>- /verysilent /norestart</span><br><span class="line">        ○  iTunes</span><br><span class="line">解压出来均是msi格式文件，只需要注意参考下面的安装顺序即可</span><br><span class="line">(<span class="number">1</span>) AppleApplicationSupport.msi</span><br><span class="line">(<span class="number">2</span>) AppleMobileDeviceSupport.msi<span class="string">&quot;</span></span><br><span class="line"><span class="string">(3) AppleSoftwareUpdate.msi&quot;</span></span><br><span class="line">(<span class="number">4</span>) Bonjour.msi<span class="string">&quot;</span></span><br><span class="line"><span class="string">(5) iTunes.msi&quot;</span></span><br><span class="line">        ○ Nokia 套件</span><br><span class="line">同理解压出来均是msi文件，顺序：</span><br><span class="line">(<span class="number">1</span>) Packages\CCD\Setup\Nokia_Connectivity_Cable_Driver.msi</span><br><span class="line">(<span class="number">2</span>) Packages\PCCS\Setup\PCCS.msi</span><br><span class="line">(<span class="number">3</span>) Packages\VC80_x86\Setup\VC80_x86_v2.msi  或 Packages\VC80_x64\Setup\VC80_x64_v2.msi</span><br><span class="line">(<span class="number">4</span>) Packages\Nokia_Suite\Setup\Nokia_Suite.msi</span><br><span class="line"></span><br><span class="line"><span class="number">9</span>. 设计类</span><br><span class="line">        ○ AutoCAD <span class="number">2004</span>/AuctoCAD <span class="number">2007</span></span><br><span class="line"></span><br><span class="line">找到AutoCAD\ACAD.msi文件,参数为</span><br><span class="line">msiexec.exe /i  acad.msi ACADSERIALPREFIX=&lt;序列号前缀:<span class="number">111</span>&gt; ACADSERIALNUMBER=&lt;序列号:<span class="number">20111111</span>&gt;  ACADFIRSTNAME=&lt;注册者姓&gt; ACADLASTNAME=&lt;注册者名&gt; ACADORGANIZATION=&lt;注册单位&gt;  ACADDEALER=&lt;经销商&gt;  ACADDEALERPHONE=&lt;经销商电话<span class="number">12345</span>&gt;  /quiet</span><br><span class="line"></span><br><span class="line">○ Google SketchUp v8.<span class="number">0.11752</span> 中文免费版</span><br><span class="line">解压得到msi</span><br><span class="line">○ CorelDraw 较老版本：</span><br><span class="line">Setup32.exe /silent（很少界面的静默安装）；新版本是MSI</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://auspbro.github.io/2017/09/25/Windows-%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85%E5%8F%82%E6%95%B0/">https://auspbro.github.io/2017/09/25/Windows-%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85%E5%8F%82%E6%95%B0/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/21e14044/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/21e14044/" class="post-title-link" itemprop="url">Connetion Server之间无法同步LDAP</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-09-15 00:23:19" itemprop="dateCreated datePublished" datetime="2022-09-15T00:23:19+00:00">2022-09-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>某一次开启windows 本地防火墙，把非常规的端口都禁用，导致标准服务器与副本服务器之间的LDAP复制异常：</p>
-<ul>
-<li>登录其中一个管理后台，所下发的设置，无法同步到另外一台服务器上面；</li>
-<li>VDM日志里面有大量LDAP复制错误，重复错误xx次；</li>
-<li>从一台服务器的管理后台，发起对另外一台服务器的备份时，任务无法执行；</li>
-</ul>
-<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>防火墙拦截了必要端口：</p>
-<p>TCP-135<br>TCP-389<br>TCP-动态端口<br>TCP-终结点</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="确认问题"><a href="#确认问题" class="headerlink" title="确认问题"></a>确认问题</h2><p>登录到目标服务器，以管理员身份打开powershell，执行指令</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">repadmin /showrepl localhost:<span class="number">389</span></span><br></pre></td></tr></table></figure>
-
-<p>以上指令会看到具体的报错信息，如RPC不可用、端口不可达；</p>
-<p>确定为本地防火墙拦截后，只需添加对应的防火墙端口放行即可。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/2091974">https://kb.vmware.com/s/article/2091974</a></p>
 
       
     </div>

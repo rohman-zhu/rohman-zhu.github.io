@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,90 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3692cf2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/3692cf2/" class="post-title-link" itemprop="url">交换机配置trunk</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-01-02 22:44:36" itemprop="dateCreated datePublished" datetime="2019-01-02T22:44:36+00:00">2019-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期会将看到交换机相关概念补充进此篇学习笔记中。</p>
+<h1 id="华为-配置接口GE0-0-1的链路类型为Trunk"><a href="#华为-配置接口GE0-0-1的链路类型为Trunk" class="headerlink" title="华为-配置接口GE0&#x2F;0&#x2F;1的链路类型为Trunk"></a>华为-配置接口GE0&#x2F;0&#x2F;1的链路类型为Trunk</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">system-view</span><br><span class="line">interface gigabitethernet 0/0/1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">缺省情况下,trunk类型接口只允许加入 VLAN 1</span></span><br><span class="line">port link-type trunk</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">让一个或多个VLAN的报文通过trunk接口, 需要加上[trunk allow-pass] [vlan]</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">放行一段连续的vlan号 ,vlan 10 到 vlan 30</span></span><br><span class="line">port trunk allow-pass vlan 10 to 30</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">放行一段不连续的vlan号</span></span><br><span class="line">port trunk allow-pass vlan 10 20 30</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">放行所有vlan</span></span><br><span class="line">port trunk allow-pass vlan all</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">默认是放通vlan1的</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">关闭vlan1</span></span><br><span class="line">undo trunk allow-pass vlan 1</span><br></pre></td></tr></table></figure>
+
+<h1 id="思科-配置接口GE0-0-1的链路类型为Trunk"><a href="#思科-配置接口GE0-0-1的链路类型为Trunk" class="headerlink" title="思科-配置接口GE0&#x2F;0&#x2F;1的链路类型为Trunk"></a>思科-配置接口GE0&#x2F;0&#x2F;1的链路类型为Trunk</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入配置模式</span></span><br><span class="line">configure terminal</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">指定一个端口或者进入一个端口的配置模式</span></span><br><span class="line">interface gigabitethernet 0/0/1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置该端口的模式</span></span><br><span class="line">switchport mode trunk</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">放行一段连续的vlan号 ,vlan 10 到 vlan 30</span></span><br><span class="line">swithport trunk allow vlan 10-30</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置允许访问的vlan</span></span><br><span class="line">switchport access vlan 5</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>思科配置trunk : <a target="_blank" rel="noopener" href="https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus5000/sw/configuration/guide/cli/CLIConfigurationGuide/AccessTrunk.html">https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus5000/sw/configuration/guide/cli/CLIConfigurationGuide/AccessTrunk.html</a></li>
+<li>华为交换机配置:<a target="_blank" rel="noopener" href="https://forum.huawei.com/enterprise/zh/thread-334821-1-1.html">https://forum.huawei.com/enterprise/zh/thread-334821-1-1.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1089,99 +1173,6 @@
 <li>网络基础：<a target="_blank" rel="noopener" href="https://r0manj.github.io/2017/10/10/Linux-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">https://r0manj.github.io/2017/10/10/Linux-%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/</a></li>
 <li>硬件防火墙的选择：<a target="_blank" rel="noopener" href="http://blog.51cto.com/hujiangtao/1930290">http://blog.51cto.com/hujiangtao/1930290</a></li>
 <li>知乎 防火墙性能对比 ： <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24514437">https://www.zhihu.com/question/24514437</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9e06b9c8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/9e06b9c8/" class="post-title-link" itemprop="url">U盘装Ubuntu1604-Server的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-12-04 21:41:11" itemprop="dateCreated datePublished" datetime="2018-12-04T21:41:11+00:00">2018-12-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>用软碟通制作 Ubuntu1604-Server 的启动盘，安装到自检的时候，会发现镜像没有挂载上去，安装完系统后发现系统没有GCC、MAKE，以及其他未知的系统问题。</p>
-<p>目前遇到的是：</p>
-<ul>
-<li>安装过程中会中断，提示“Failed to copy file from CD-ROM” 。</li>
-<li>安装完后系统没有 gcc 和 make。</li>
-</ul>
-<h1 id="实际操作"><a href="#实际操作" class="headerlink" title="实际操作"></a>实际操作</h1><h2 id="问题一-：安装中断的问题，提示无法从CD-ROM中复制文件"><a href="#问题一-：安装中断的问题，提示无法从CD-ROM中复制文件" class="headerlink" title="问题一 ：安装中断的问题，提示无法从CD-ROM中复制文件"></a>问题一 ：安装中断的问题，提示无法从CD-ROM中复制文件</h2><p>使用软碟通 Ultraiso 制作的启动盘都会有这个问题。</p>
-<p>解决方法是强行挂载 iso 镜像到 cdrom 下。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当出现错误提示的时候 ， “Failed to copy file from cd-rom , retry?<span class="string">&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 ctrl + alt + F2</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 Enter 键</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">卸载 usb 设备，重新挂载</span></span></span><br><span class="line">umount /dev/sdx4</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">挂载 usb 设备</span></span></span><br><span class="line">mount /dev/sdx4 /mnt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">把 usb 设备中的 iso 镜像挂载到 cdrom 上面。</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">U 盘中需要放置 ubuntu 的系统镜像文件。</span></span></span><br><span class="line">mount -o loop /mnt/ubuntu-16.04.5-server.iso /cdrom</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 ctrl + alt + F1 回到安装界面</span></span></span><br></pre></td></tr></table></figure>
-
-<h2 id="问题二-：安装完后没有-gcc-和-make"><a href="#问题二-：安装完后没有-gcc-和-make" class="headerlink" title="问题二 ：安装完后没有 gcc 和 make"></a>问题二 ：安装完后没有 gcc 和 make</h2><p>目前还不知道原因，默认安装完后，系统没有带 gcc 和 make ，同时又没有外网环境，只能挂载光盘源来安装。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">挂载系统的 iso 镜像到 /cdrom 下</span> </span><br><span class="line">mount -o loop /opt/ubuntu-16.04.5-server.iso /cdrom</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更改 apt 源文件</span></span><br><span class="line">vim /etc/apt/sources.list</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--- sources.list ---#</span></span><br><span class="line">deb file:///media/cdrom xenial main</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--- sources.list ---#</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新源后安装即可。</span></span><br><span class="line">apt-get update</span><br><span class="line">apt-get install gcc make</span><br></pre></td></tr></table></figure>
-<p><img src="https://img-blog.csdn.net/20171110214349379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHpkMTIzNjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="Linux版本"></p>
-<h1 id="Linux知识补充"><a href="#Linux知识补充" class="headerlink" title="Linux知识补充"></a>Linux知识补充</h1><h2 id="loop-设备"><a href="#loop-设备" class="headerlink" title="loop 设备"></a>loop 设备</h2><p>在类 UNIX 系统里，loop 设备是一种伪设备(pseudo-device)，或者也可以说是仿真设备。它能使我们像块设备一样访问一个文件。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>光盘中安装 gcc、make ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/hzd12368/article/details/78503315">https://blog.csdn.net/hzd12368/article/details/78503315</a></li>
-<li>Linux中的loop设备 ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/ustc_dylan/article/details/6878252">https://blog.csdn.net/ustc_dylan/article/details/6878252</a></li>
 </ul>
 
       

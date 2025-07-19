@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,174 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bc10d6a5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/bc10d6a5/" class="post-title-link" itemprop="url">VMware vSphere Update Manager使用记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-04-02 17:01:14" itemprop="dateCreated datePublished" datetime="2023-04-02T17:01:14+00:00">2023-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>ESXi 经常需要更新补丁，常规做法是将补丁包上传到目标存储存储卷里面，然后在目标ESXi内执行升级指令，并重启ESXi；</p>
+<p>常用指令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esxcli software vib update -d /vmfs/xxxxxxxx.zip</span><br></pre></td></tr></table></figure>
+<h1 id="什么是Lifecycle-Manager"><a href="#什么是Lifecycle-Manager" class="headerlink" title="什么是Lifecycle Manager"></a>什么是Lifecycle Manager</h1><p>生命周期管理是指安装软件、通过更新和升级维护软件，以及取消配置软件的过程。<br>在维护 vSphere 环境（特别是维护集群和主机）的情况下，生命周期管理是指在新主机上安装 ESXi 和固件以及在需要时更新或升级 ESXi 版本和固件等任务。</p>
+<p>vSphere Lifecycle Manager 是一项在 vCenter Server 中运行并使用嵌入式 vCenter Server PostgreSQL 数据库的服务。不需要进行额外的安装即可开始使用该功能。部署 vCenter Server Appliance 后，vSphere Lifecycle Manager 用户界面将在基于 HTML5 的 vSphere Client 中自动启用。</p>
+<p>vSphere Lifecycle Manager 包含以前 vSphere 版本中 Update Manager 提供的功能，并进行了增强，增加了在集群级别进行 ESXi 生命周期管理的新功能和选项。</p>
+<p>在低于 7.0 的 vSphere 版本中，您可以通过 Update Manager 使用基准和基准组执行主机修补和主机升级操作。从 vSphere 7.0 开始，vSphere Lifecycle Manager 引入了一种替代方法，可使用 vSphere Lifecycle Manager 映像管理环境中主机和集群的生命周期。此外，还可以使用 vSphere Lifecycle Manager 升级环境中虚拟机的虚拟机硬件和 VMware Tools 版本。</p>
+<p>vSphere Lifecycle Manager 可以在能够访问 Internet（直接访问或通过代理服务器访问均可）的环境中运作。也可以在无法访问 Internet 的安全网络中运作。在这种情况下，可以使用 Update Manager Download Service (UMDS) 将更新下载到 vSphere Lifecycle Manager 库，也可以手动导入更新。</p>
+<h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><p>这里可以用 vCenter 的 Lifecycle Manager 功能 ，来统一下发指令安装补丁；</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">合规性检查</td>
+<td align="center">扫描 ESXi 主机的操作，用于确定这些主机对附加到集群的基准或集群所用映像的合规性级别。合规性检查不会改变对象。</td>
+</tr>
+<tr>
+<td align="center">修复预检查</td>
+<td align="center">在修复之前执行的操作，用于确保集群的运行状况良好并且在修复过程中不会出现任何问题。</td>
+</tr>
+<tr>
+<td align="center">修复</td>
+<td align="center">将软件更新应用到集群中 ESXi 主机的操作。在修复过程中，会在主机上安装软件。修复会使不合规的主机符合附加到集群的基准或集群的映像。</td>
+</tr>
+<tr>
+<td align="center">正在转储</td>
+<td align="center">仅适用于使用基准或基准组管理的集群的操作。将修补程序或扩展转储到 ESXi 主机时，可以将修补程序和扩展 VIB 下载到主机，而不立即应用。转储使修补程序和扩展可在主机本地使用。</td>
+</tr>
+</tbody></table>
+<h2 id="相关术语"><a href="#相关术语" class="headerlink" title="相关术语"></a>相关术语</h2><table>
+<thead>
+<tr>
+<th align="center">术语</th>
+<th align="center">定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">VIB</td>
+<td align="center">元数据	描述 VIB 内容的 XML 文件 (descriptor.xml)。它还包含依赖项信息、文本描述、系统要求和有关公</td>
+</tr>
+<tr>
+<td align="center">独立 VIB</td>
+<td align="center">未包含在公告或组件中的 VIB。</td>
+</tr>
+</tbody></table>
+<p>vSphere Lifecycle Manager 不使用各个 VIB。VIB 必须进一步打包为更高级别的构造。</p>
+<h2 id="基础映像（镜像）"><a href="#基础映像（镜像）" class="headerlink" title="基础映像（镜像）"></a>基础映像（镜像）</h2><p>基础映像是 VMware 在每个 ESXi 版本中提供的 ESXi 映像。基础映像是完整且可引导服务器的组件集合。基础映像具有用户可读的名称和唯一版本（随 ESXi 的每个主要版本或次要版本更新）。</p>
+<p>基础映像的版本与 ESXi 版本相对应，并使用以下命名格式：</p>
+<ul>
+<li>正式发布版本：7.0</li>
+<li>更新版本：7.0 U1、7.0 U2</li>
+<li>修补程序版本：7.0 a、7.0 b</li>
+<li>安全修补程序版本：7.0 sa、7.0 sb</li>
+<li>更新后的修补程序版本：7.0 U1 a、7.0 U1 sa、7.0 b、7.0 sb</li>
+</ul>
+<p>基础映像托管在 VMware 联机库中并可供使用。此外，还可以从 my.vmware.com 下载包含 ESXi 版本的 ESXi 安装程序 ISO 文件和脱机包（ZIP 文件）。</p>
+<h3 id="映像一般有什么？"><a href="#映像一般有什么？" class="headerlink" title="映像一般有什么？"></a>映像一般有什么？</h3><p>vSphere Lifecycle Manager 映像可以包含以下四个元素：</p>
+<p>ESXi 基础映像： </p>
+<ul>
+<li>基础映像包含 VMware ESXi Server 的映像，以及引导服务器所需的驱动程序和适配器等附加组件。基础映像是 vSphere Lifecycle Manager 映像中的唯一必需元素。所有其他元素是可选元素。</li>
+</ul>
+<p>供应商加载项：</p>
+<ul>
+<li>供应商加载项是 OEM 创建和分发的软件组件集合。供应商加载项可以包含驱动程序、修补程序和解决方案。</li>
+</ul>
+<p>固件和驱动程序加载项：</p>
+<ul>
+<li>固件和驱动程序加载项是一种特殊类型的供应商加载项，旨在帮助执行固件更新过程。固件和驱动程序加载项包含特定服务器类型的固件和相应驱动程序。要将固件和驱动程序加载项添加到映像中，您必须安装相应集群中的主机所对应的硬件供应商提供的硬件支持管理器插件。</li>
+</ul>
+<p>独立组件：</p>
+<ul>
+<li>组件是映像中的最小离散单元。添加到映像中的独立组件包含第三方软件，例如，驱动程序或适配器。</li>
+</ul>
+<h2 id="网络需求"><a href="#网络需求" class="headerlink" title="网络需求"></a>网络需求</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SRC: ESXi</span><br><span class="line">DST: vCenter </span><br><span class="line">TCP: 9084</span><br></pre></td></tr></table></figure>
+
+<p>如果vCenter使用的是FQDN，则ESXi需要配置 DNS ；</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>关于 vSphere Lifecycle Manager ：  <a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere-lifecycle-manager.doc/GUID-74295A37-E8BB-4EB9-BFBA-47B78F0C570D.html">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere-lifecycle-manager.doc/GUID-74295A37-E8BB-4EB9-BFBA-47B78F0C570D.html</a></li>
+<li>安装包： <a target="_blank" rel="noopener" href="https://my.vmware.com/">https://my.vmware.com</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -978,97 +1146,6 @@
 <li>检查底层存储卷情况；</li>
 </ol>
 <h2 id="【待补充】POWERCLI指令"><a href="#【待补充】POWERCLI指令" class="headerlink" title="【待补充】POWERCLI指令"></a>【待补充】POWERCLI指令</h2><h1 id="参考资源"><a href="#参考资源" class="headerlink" title="参考资源"></a>参考资源</h1><p>设置路径选择策略：  <a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-37F97D1C-4E4F-460B-ACF9-04D1347959CC.html">https://docs.vmware.com/cn/VMware-vSphere/6.5/com.vmware.vsphere.storage.doc/GUID-37F97D1C-4E4F-460B-ACF9-04D1347959CC.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3d1e6c35/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/3d1e6c35/" class="post-title-link" itemprop="url">记录一个ESXi无法使用存储卷的故障</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-02-08 23:43:48" itemprop="dateCreated datePublished" datetime="2023-02-08T23:43:48+00:00">2023-02-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>目标ESXi上面有很多SAN存储卷，但是部分存储卷不可用，显示不可访问；<br>从ESXi Shell中查看到，&#x2F;vmfs&#x2F;volume 只有几个卷可以访问，不可访问的卷未在目标目录中显示。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>目标卷SAN存储路径都正常，可以看到路径数符合预期；<br>在存储界面中，看到不可访问的几个存储卷，显示的是“已卸载”、“未连接”</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>选中目标卷，右键，选择挂载，把未挂载的ESXi勾选上即可。</p>
 
       
     </div>

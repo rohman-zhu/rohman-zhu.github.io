@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,111 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e26fdfb3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e26fdfb3/" class="post-title-link" itemprop="url">机房停电-vSAN集群相关处理想法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-03-05 20:31:49" itemprop="dateCreated datePublished" datetime="2022-03-05T20:31:49+00:00">2022-03-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>异地的机房停电，无法远程处理服务器、交换机设备问题。现场有IT人员，但是无PC可以操作，并且无相关经验。</p>
+<h1 id="一些想法"><a href="#一些想法" class="headerlink" title="一些想法"></a>一些想法</h1><p>若当地IT人员无处理经验，则需要远程指导现场人员处理。<br>从处理方式上面，最好还是从GUI界面操作，其次的方法才是从 ESXi Shell进入。<br>从运维方式上面，除了增加远端跳板机，还需要增加本地跳板机。</p>
+<p>以上两个方法存在的问题：</p>
+<ul>
+<li>均需要交付给当地人员管理员账户。【此处存在信安问题，一定要走报备】</li>
+<li>GUI界面需要接入现场的业务交换机。【此处存在信安问题，并且交换机端需要提前配置】</li>
+</ul>
+<h2 id="GUI界面操作方式"><a href="#GUI界面操作方式" class="headerlink" title="GUI界面操作方式"></a>GUI界面操作方式</h2><ol>
+<li>笔记本接入业务交换机，并配置与vCenter同网段的IP。</li>
+<li>进入vCenter，关闭所有虚拟机（除了vCenter）后，将vSAN节点的ESXi进入维护模式。（选择“不迁移数据”）</li>
+<li>所有vSAN节点进入维护模式后，再其关机。</li>
+<li>最后进入带有vCenter的ESXi，关闭vCenter，再将ESXi进入维护模式后关机。 </li>
+<li>关机后的服务器，需要将电源移除。</li>
+</ol>
+<p>注： 本次场景中vCenter是VCSA。</p>
+<h2 id="CLI界面操作方式"><a href="#CLI界面操作方式" class="headerlink" title="CLI界面操作方式"></a>CLI界面操作方式</h2><ol>
+<li>给物理服务器接入显示器，进入ESXi Shell 。</li>
+<li>指令关闭虚拟机，确保所有vSAN节点上的虚拟机关机后，再进入维护模式。</li>
+<li>所有节点进入维护模式后，再关机。</li>
+<li>关机后的服务器，需要将电源移除。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1058,104 +1163,6 @@
 <li>修改完成后，需要将No.4与No.5修改回来。</li>
 </ol>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/91xueit/1750008">https://blog.51cto.com/91xueit/1750008</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/78f5dcd7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/78f5dcd7/" class="post-title-link" itemprop="url">Windows查找账户被禁用的脚本</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-30 02:28:40" itemprop="dateCreated datePublished" datetime="2021-11-30T02:28:40+00:00">2021-11-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-06-22 14:01:59" itemprop="dateModified" datetime="2025-06-22T14:01:59+00:00">2025-06-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/Powershell/" itemprop="url" rel="index"><span itemprop="name">Powershell</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>收集一个目录下所有文件夹名，收集这些以AD命名的文件夹名，确认这些用户是否被禁用了。</p>
-<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><p>收集账户名</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-ChildItem</span> D:\ | <span class="built_in">select</span> name &gt;&gt; Account.list</span><br></pre></td></tr></table></figure>
-
-<p>处理账户</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Content</span> D:\Account.list | <span class="built_in">ForEach-Object</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$_</span> &gt; accountInfo.temp</span><br><span class="line">  net user <span class="variable">$_</span> /domain | findstr <span class="string">&quot;Account&quot;</span> | findstr <span class="string">&quot;No&quot;</span> &gt;&gt; acountInfo.temp</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>( <span class="variable">$</span>(<span class="built_in">Get-Content</span> accountInfo.temp).Length <span class="operator">-eq</span> <span class="number">2</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment"># Work Here!</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：如果powershell的出来的是乱码，则需要将页面编码改成UTF-8，临时生效的指令为 chcp 65001 。</p>
-</blockquote>
 
       
     </div>

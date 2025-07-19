@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">445</span>
+          <span class="site-state-item-count">446</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,96 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8603796a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/8603796a/" class="post-title-link" itemprop="url">Docker实例-Compose记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-06-22 14:53:27 / Modified: 15:55:24" itemprop="dateCreated datePublished" datetime="2025-06-22T14:53:27+00:00">2025-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/Compose/" itemprop="url" rel="index"><span itemprop="name">Compose</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Docker-实例备份"><a href="#Docker-实例备份" class="headerlink" title="Docker 实例备份"></a>Docker 实例备份</h1><h2 id="jellyfin-与-metatube"><a href="#jellyfin-与-metatube" class="headerlink" title="jellyfin 与 metatube"></a>jellyfin 与 metatube</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.2&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">    <span class="attr">jellyfin:</span></span><br><span class="line">        <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">jellyfin/jellyfin:latest</span></span><br><span class="line">        <span class="attr">container_name:</span> <span class="string">jellyfin_tv</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;xxx:8096&quot;</span></span><br><span class="line">        <span class="attr">volumes:</span></span><br><span class="line">        <span class="bullet">-</span> [<span class="string">path</span>][<span class="string">path</span>]<span class="string">/jellyfin/config:/config</span></span><br><span class="line">        <span class="bullet">-</span> [<span class="string">path</span>][<span class="string">path</span>]<span class="string">/jellyfin/cache:/cache</span></span><br><span class="line">        <span class="bullet">-</span> [<span class="string">path</span>][<span class="string">path</span>]<span class="string">:/media</span></span><br><span class="line">        <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">        <span class="attr">network_mode:</span> <span class="string">bridge</span></span><br><span class="line">        <span class="attr">extra_hosts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;api.themoviedb.org:79.127.213.216&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;api.thetvdb.org:192.241.234.54&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;image.tmdb.org:13.224.222.63&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">&quot;image.thetvdb.org:192.241.234.54&quot;</span>         </span><br><span class="line">    <span class="attr">api_metatube:</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">ghcr.io/metatube-community/metatube-server:latest</span></span><br><span class="line">        <span class="attr">container_name:</span> <span class="string">api_metatube</span></span><br><span class="line">        <span class="attr">volumes:</span></span><br><span class="line">        <span class="bullet">-</span> [<span class="string">path</span>][<span class="string">path</span>]<span class="string">/metatube/config:/config</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">xxx:8080</span></span><br><span class="line">        <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">        <span class="attr">network_mode:</span> <span class="string">bridge</span></span><br><span class="line">        <span class="attr">environment:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">DSN=/config/metatube.db</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">TOKEN=xxxx</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">REQUEST_TIMEOUT=10</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="metatube"><a href="#metatube" class="headerlink" title="metatube"></a>metatube</h3><p>Jellyfin插件：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json">https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json</a></p>
+<p>参考：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://liuhouliang.com/post/jellyfin_metatube/">https://liuhouliang.com/post/jellyfin_metatube/</a></li>
+<li><a target="_blank" rel="noopener" href="https://metatube-community.github.io/wiki/server-deployment/#docker-compose">https://metatube-community.github.io/wiki/server-deployment/#docker-compose</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -988,86 +1078,6 @@
 <blockquote>
 <p>发现 有环路情况。</p>
 </blockquote>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ad068cdf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/ad068cdf/" class="post-title-link" itemprop="url">记一次Ubuntu因自动更新导致的业务故障[待更新]</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2025-04-01 16:51:58 / Modified: 16:53:57" itemprop="dateCreated datePublished" datetime="2025-04-01T16:51:58+00:00">2025-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>业务出现大批量告警</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>查询日志有相关更新记录，新安装的Ubuntu OS默认均会做自动更新，导致关键业务被自动更新</p>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1>
       
     </div>
