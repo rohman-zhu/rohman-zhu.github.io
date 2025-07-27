@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-07-27 05:28:19 / Modified: 06:10:24" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
+      <time title="Created: 2025-07-27 05:28:19 / Modified: 06:26:33" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -208,7 +208,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h1><h2 id="端口转发功能"><a href="#端口转发功能" class="headerlink" title="端口转发功能"></a>端口转发功能</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>iptables承当边界防火墙功能，负责处理内外的端口转发。</p>
+          <h1 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h1><h2 id="端口转发功能"><a href="#端口转发功能" class="headerlink" title="端口转发功能"></a>端口转发功能</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>iptables承当边界防火墙功能，负责处理内外的流量转发，核心就需要在FORWARD表中做配置。</p>
+<p><img src="https://www.zsythink.net/wp-content/uploads/2017/02/021217_0051_6.png" alt="防火墙流量图"></p>
 <table>
 <thead>
 <tr>
@@ -238,6 +239,9 @@
 <ol start="2">
 <li>配置防火墙策略</li>
 </ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于iptables此时的角色为&quot;网络防火墙&quot;，所以需要在filter表中的FORWARD链中设置规则。</span></span><br><span class="line"><span class="comment"># 可以使用&quot;白名单机制&quot;，先添加一条默认拒绝的规则，然后再为需要放行的报文设置规则。</span></span><br><span class="line"><span class="comment"># 配置规则时需要考虑&quot;方向问题&quot;，针对请求报文与回应报文，考虑报文的源地址与目标地址，源端口与目标端口等。</span></span><br><span class="line"><span class="comment"># 指令1：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --dport [目的端口] -j [判断]</span></span><br><span class="line"><span class="comment"># 指令2：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --sport [源端口] -j [判断]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式一，转发192.168.1.0/24的所有TCP、UDP请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式二，仅转发192.168.1.1 到 192.168.1.2的TCP-22请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.1 -d 192.168.1.2 -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -s 192.168.1.2 -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>Linux常用的指令: <a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/posts/81650926">https://rohman-zhu.github.io/posts/81650926</a></li>
 <li>iptables，流量转发：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1663">https://www.zsythink.net/archives/1663</a></li>
