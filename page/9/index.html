@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">446</span>
+          <span class="site-state-item-count">447</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">144</span>
+        <span class="site-state-item-count">145</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,139 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/aae56061/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/aae56061/" class="post-title-link" itemprop="url">VCSA-503故障-证书到期</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-07-30 17:39:17" itemprop="dateCreated datePublished" datetime="2023-07-30T17:39:17+00:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
+<li>登录vCenter的WEB界面，提示503报错；</li>
+<li>登录vCenter的管理界面(<a href="https://VC-IP:5480)，提示服务异常；">https://VC-IP:5480)，提示服务异常；</a></li>
+</ol>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
+<li>证书过期后未及时更新，导致服务异常；</li>
+</ol>
+<h2 id="检查方式1"><a href="#检查方式1" class="headerlink" title="检查方式1"></a>检查方式1</h2><p>登录vCenter的web界面，点击证书详情，可以看到证书到期时间；</p>
+<h2 id="检查方式2"><a href="#检查方式2" class="headerlink" title="检查方式2"></a>检查方式2</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查指令</span></span><br><span class="line"><span class="keyword">for</span> store <span class="keyword">in</span> $(/usr/lib/vmware-vmafd/bin/vecs-cli store list | grep -v TRUSTED_ROOT_CRLS); <span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">&quot;[*] Store :&quot;</span> <span class="variable">$store</span>; /usr/lib/vmware-vmafd/bin/vecs-cli entry list --store <span class="variable">$store</span> --text | grep -ie <span class="string">&quot;Alias&quot;</span> -ie <span class="string">&quot;Not After&quot;</span>;<span class="keyword">done</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>注意，以下操作执行前，请给VCSA虚拟机执行快照！！</p>
+<p>另外需关闭HA功能</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcha-destroy -f</span><br></pre></td></tr></table></figure>
+
+<p>启动必要服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#检查服务启动情况：</span></span><br><span class="line">service-control --status</span><br><span class="line"><span class="comment">#手动启动服务：</span></span><br><span class="line">service-control --start applmgmtd</span><br><span class="line">service-control --start vmafdd</span><br></pre></td></tr></table></figure>
+
+<h2 id="STS证书过期"><a href="#STS证书过期" class="headerlink" title="STS证书过期"></a>STS证书过期</h2><p>Center Single Sign-On Security Token Service (STS) 签名证书是内部 VMware 证书；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> newsts</span><br><span class="line"><span class="built_in">cd</span> newsts</span><br><span class="line"><span class="built_in">pwd</span> </span><br><span class="line"><span class="comment">#resulting output: /root/newst</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 certool.cfg 文件复制到新目录中</span></span><br><span class="line"><span class="built_in">cp</span> /usr/lib/vmware-vmca/share/config/certool.cfg /root/newsts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开 certool.cfg 文件的副本并进行编辑，以便使用本地 Platform Services Controller 的 IP 地址和主机名。</span></span><br><span class="line">vim certool.cfg</span><br><span class="line"><span class="comment"># Template file for a CSR request</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Country is needed and has to be 2 characters</span></span><br><span class="line">Country = US</span><br><span class="line">Name = STS</span><br><span class="line">Organization = ExampleInc</span><br><span class="line">OrgUnit = ExampleInc Dev</span><br><span class="line">State = Indiana</span><br><span class="line">Locality = Indianapolis</span><br><span class="line">IPAddress = 10.0.1.32</span><br><span class="line">Email = chen@exampleinc.com</span><br><span class="line">Hostname = homecenter.exampleinc.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成密钥</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --server localhost --genkey --privkey=/root/newsts/sts.key --pubkey=/root/newsts/sts.pub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成证书</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --gencert --cert=/root/newsts/newsts.cer --privkey=/root/newsts/sts.key --config=/root/newsts/certool.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书转成pk12格式</span></span><br><span class="line">openssl pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> /root/newsts/newsts.cer -inkey /root/newsts/sts.key -certfile /var/lib/vmware/vmca/root.cer -name <span class="string">&quot;newstssigning&quot;</span> -passout pass:testpassword -out newsts.p12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书添加到JAVA密钥库</span></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importkeystore -srckeystore newsts.p12 -srcstoretype pkcs12 -srcstorepass testpassword -srcalias newstssigning -destkeystore root-trust.jks -deststoretype JKS -deststorepass testpassword -destkeypass testpassword</span><br><span class="line"></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importcert -keystore root-trust.jks -deststoretype JKS -storepass testpassword -keypass testpassword -file /var/lib/vmware/vmca/root.cer -<span class="built_in">alias</span> root-ca</span><br><span class="line"><span class="comment"># 出现提示时，键入 Yes 接受证书以将其添加到密钥库。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="根证书替换"><a href="#根证书替换" class="headerlink" title="根证书替换"></a>根证书替换</h2><p>需要先获取：</p>
+<ol>
+<li><a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
+<li>VCSA的FQDN；</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择4,Regenerate a new VMCA Root Certificate and replace all certificates。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="更换方式2，全部证书重置"><a href="#更换方式2，全部证书重置" class="headerlink" title="更换方式2，全部证书重置"></a>更换方式2，全部证书重置</h2><blockquote>
+<p>2024-08-16</p>
+</blockquote>
+<p>需要先获取：</p>
+<ol>
+<li><a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;</a>密码</li>
+<li>VCSA的FQDN；</li>
+<li>获取VCSA的FQDN、VCSA的hostname；</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/vmware-vmafd/bin/vmafd-cli get-pnid --server-name localhost</span><br><span class="line">/usr/lib/vmware-vmafd/bin/vecs-cli entry list --store MACHINE_SSL_CERT --text | grep -A1 Alternative</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择8,Reset all Certificates</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键字段！！以下两个字段需要先确认自身的FQDN后填写，不可乱填写</span></span><br><span class="line"><span class="comment"># IPAddress</span></span><br><span class="line"><span class="comment"># FQDN</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br></pre></td></tr></table></figure>
+
+<h1 id="后续待办"><a href="#后续待办" class="headerlink" title="后续待办"></a>后续待办</h1><ol>
+<li>【高优先级】证书监控；</li>
+<li>证书自动续签；</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>检查证书：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/82332">https://kb.vmware.com/s/article/82332</a><br>503报错相关处理步骤：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/67818?lang=zh_cn">https://kb.vmware.com/s/article/67818?lang=zh_cn</a><br>更换STS证书：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html#:~:text=%E7%94%B1%E4%BA%8E%20vCenter%20Single%20Sign-On%20Security%20Token%20Service%20%28STS%29,%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E6%98%AF%E5%86%85%E9%83%A8%20VMware%20%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%9B%A0%E6%AD%A4%E8%AF%B7%E5%8B%BF%E6%9B%BF%E6%8D%A2%E5%AE%83%EF%BC%8C%E9%99%A4%E9%9D%9E%E8%B4%B5%E5%85%AC%E5%8F%B8%E8%A6%81%E6%B1%82%E6%9B%BF%E6%8D%A2%E5%86%85%E9%83%A8%E8%AF%81%E4%B9%A6%E3%80%82%20%E5%A6%82%E6%9E%9C%E8%A6%81%E6%9B%BF%E6%8D%A2%E9%BB%98%E8%AE%A4%E7%9A%84%20STS%20%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%BF%85%E9%A1%BB%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%B9%B6%E5%B0%86%E5%85%B6%E6%B7%BB%E5%8A%A0%E5%88%B0%20Java%20%E5%AF%86%E9%92%A5%E5%BA%93%E3%80%82">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html#:~:text=%E7%94%B1%E4%BA%8E%20vCenter%20Single%20Sign-On%20Security%20Token%20Service%20%28STS%29,%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E6%98%AF%E5%86%85%E9%83%A8%20VMware%20%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%9B%A0%E6%AD%A4%E8%AF%B7%E5%8B%BF%E6%9B%BF%E6%8D%A2%E5%AE%83%EF%BC%8C%E9%99%A4%E9%9D%9E%E8%B4%B5%E5%85%AC%E5%8F%B8%E8%A6%81%E6%B1%82%E6%9B%BF%E6%8D%A2%E5%86%85%E9%83%A8%E8%AF%81%E4%B9%A6%E3%80%82%20%E5%A6%82%E6%9E%9C%E8%A6%81%E6%9B%BF%E6%8D%A2%E9%BB%98%E8%AE%A4%E7%9A%84%20STS%20%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%EF%BC%8C%E5%BF%85%E9%A1%BB%E7%94%9F%E6%88%90%E4%B8%80%E4%B8%AA%E6%96%B0%E8%AF%81%E4%B9%A6%E5%B9%B6%E5%B0%86%E5%85%B6%E6%B7%BB%E5%8A%A0%E5%88%B0%20Java%20%E5%AF%86%E9%92%A5%E5%BA%93%E3%80%82</a><br>重新生成新的VMCA根证书并替换所有证书：<a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-D944C044-B682-4427-90F8-55B8770F21AF.html">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-D944C044-B682-4427-90F8-55B8770F21AF.html</a><br>自动替换VCSA证书：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/2112281?lang=zh_cn">https://kb.vmware.com/s/article/2112281?lang=zh_cn</a><br>STS证书处理KB：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/79248?lang=zh_cn">https://kb.vmware.com/s/article/79248?lang=zh_cn</a><br>vCenter使用VMCA续订证书：续订证书时发生意外错误：<a target="_blank" rel="noopener" href="https://www.dinghui.org/vcenter-vmca-machine-cert.html">https://www.dinghui.org/vcenter-vmca-machine-cert.html</a><br>VCSA 7.0 证书过期后的修复工作：<a target="_blank" rel="noopener" href="https://ngx.hk/2023/01/10/vcsa-7-0%e8%af%81%e4%b9%a6%e8%bf%87%e6%9c%9f%e5%90%8e%e7%9a%84%e4%bf%ae%e5%a4%8d%e5%b7%a5%e4%bd%9c.html">https://ngx.hk/2023/01/10/vcsa-7-0%e8%af%81%e4%b9%a6%e8%bf%87%e6%9c%9f%e5%90%8e%e7%9a%84%e4%bf%ae%e5%a4%8d%e5%b7%a5%e4%bd%9c.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1164,108 +1297,6 @@
 <figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 查询</span><br><span class="line">localcli hardware ipmi sel get</span><br><span class="line"></span><br><span class="line"># 清理日志</span><br><span class="line">localcli hardware ipmi sel clear</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/5201351/p/16867372.html">https://www.cnblogs.com/5201351/p/16867372.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/60b86ef5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/60b86ef5/" class="post-title-link" itemprop="url">Linux内核启动顺序修改</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-04-05 15:13:07" itemprop="dateCreated datePublished" datetime="2023-04-05T15:13:07+00:00">2023-04-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>OS经常会安装新版本内核，而OS对内核版本有强关联，需要指定特定版本内核启动才可以。</p>
-<h1 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h1><p>总的来说有两种方式：</p>
-<ol>
-<li>修改grub菜单，指定特定版本内核；</li>
-<li>删除非必要内核，关闭内核自动更新；</li>
-</ol>
-<h2 id="修改Grub菜单"><a href="#修改Grub菜单" class="headerlink" title="修改Grub菜单"></a>修改Grub菜单</h2><h3 id="CentOS-6"><a href="#CentOS-6" class="headerlink" title="CentOS 6"></a>CentOS 6</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/grub.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在grub.conf文件中决定开机使用哪个内核版本做启动的参数是default，默认值为0，代表从最新的内核启动。</span></span><br><span class="line"><span class="comment"># 代表启动的内核版本从上往下依次是0、1、2等。</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="CentOS-7"><a href="#CentOS-7" class="headerlink" title="CentOS 7"></a>CentOS 7</h3><p>使用grub2作为引导程序；</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、执行如下命令，查看系统内部有多少个内核。</span></span><br><span class="line"><span class="built_in">cat</span> /boot/grub2/grub.cfg | grep menuentry</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、参考如下命令，配置从默认内核启动。内核名称根据系统内部查到的实际名称来替换。</span></span><br><span class="line">grub2-set-default <span class="string">&#x27;CentOS Linux (3.10.0-123.9.3.el7.x86_64) 7 (Core)&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3、执行如下命令，确认配置成功。</span></span><br><span class="line">grub2-editenv list</span><br></pre></td></tr></table></figure>
-
-<h3 id="CentOS-8"><a href="#CentOS-8" class="headerlink" title="CentOS 8"></a>CentOS 8</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、执行下述命令查看默认内核</span></span><br><span class="line">grubby --default-kernel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行下述命令查看所有内核</span></span><br><span class="line">grubby --info=ALL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、设置需要设置的启动的默认的内核</span></span><br><span class="line">rubby --set-default /boot/vmlinuz-4.18.0-80.11.2.el8_0.x86_64</span><br></pre></td></tr></table></figure>
-
-<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、 查看当前内核的启动顺序</span></span><br><span class="line"><span class="built_in">cat</span> /boot/grub/grub.cfg |grep menuentry</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、修改grub文件</span></span><br><span class="line"><span class="comment"># 假设要修改为3.13.0-166内核启动, 修改文件/etc/default/grub</span></span><br><span class="line"></span><br><span class="line">vim /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=0 修改为</span><br><span class="line">GRUB_DEFAULT=<span class="string">&quot;Advanced options for Ubuntu&gt;Ubuntu, with Linux 3.13.0-166-generic&quot;</span></span><br><span class="line"><span class="comment">#注意GRUB_DEFAULT不要有多余的空格，导致无法正确识别</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新修改后的grub后执行下</span></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_14757092/2631074">https://blog.51cto.com/u_14757092/2631074</a></p>
 
       
     </div>
