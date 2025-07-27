@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-07-27 05:28:19 / Modified: 06:37:52" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
+      <time title="Created: 2025-07-27 05:28:19 / Modified: 08:03:41" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -208,7 +208,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h1><h2 id="端口转发功能"><a href="#端口转发功能" class="headerlink" title="端口转发功能"></a>端口转发功能</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>iptables承当边界防火墙功能，负责处理内外的流量转发，核心就需要在FORWARD表中做配置。</p>
+          <h1 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h1><h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查，查询规则</span></span><br><span class="line"><span class="comment"># 查询防火墙策略</span></span><br><span class="line">iptables -L </span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询防火墙策略，显示ip信息</span></span><br><span class="line">iptables -nL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询防火墙策略，并详细展示</span></span><br><span class="line">iptables -nvL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据某一表格，查询防火墙策略,且显示行号</span></span><br><span class="line">iptables -nL -t [表] --line-number</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 增，增加规则</span></span><br><span class="line"><span class="comment"># 在指定表的指定链的尾部添加一条规则，-A选项表示在对应链的末尾添加规则，省略-t选项时，表示默认操作filter表中的规则</span></span><br><span class="line"><span class="comment"># iptables -t 表名 -A 链名 匹配条件 -j 动作</span></span><br><span class="line">iptables -t filter -A INPUT -s 192.168.1.146 -j DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在指定表的指定链的首部添加一条规则，-I选型表示在对应链的开头添加规则</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -I 链名 匹配条件 -j 动作</span></span><br><span class="line">iptables -t filter -I INPUT -s 192.168.1.146 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在指定表的指定链的指定位置添加一条规则</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -I 链名 规则序号 匹配条件 -j 动作</span></span><br><span class="line">iptables -t filter -I INPUT 5 -s 192.168.1.146 -j REJECT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置指定表的指定链的默认策略（默认动作），并非添加规则。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -P 链名 动作</span></span><br><span class="line">iptables -t filter -P FORWARD ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删，删除规则</span></span><br><span class="line"><span class="comment"># 按照规则序号删除规则，删除指定表的指定链的指定规则，-D选项表示删除对应链中的规则。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -D 链名 规则序号</span></span><br><span class="line">iptables -t filter -D INPUT 3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按照具体的匹配条件与动作删除规则，删除指定表的指定链的指定规则。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -D 链名 匹配条件 -j 动作</span></span><br><span class="line">iptables -t filter -D INPUT -s 192.168.1.146 -j DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 【高危】删除指定表的指定链中的所有规则，-F选项表示清空对应链中的规则，执行时需三思。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -F 链名</span></span><br><span class="line">iptables -t filter -F INPUT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 【高危】删除指定表中的所有规则，执行时需三思。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -F</span></span><br><span class="line">iptables -t filter -F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改，修改规则</span></span><br><span class="line"><span class="comment"># 修改指定表中指定链的指定规则，-R选项表示修改对应链中的规则，使用-R选项时要同时指定对应的链以及规则对应的序号，并且规则中原本的匹配条件不可省略。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -R 链名 规则序号 规则原本的匹配条件 -j 动作</span></span><br><span class="line">iptables -t filter -R INPUT 3 -s 192.168.1.146 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改指定表的指定链的默认策略（默认动作），并非修改规则，可以使用如下命令。</span></span><br><span class="line"><span class="comment"># 命令语法：iptables -t 表名 -P 链名 动作</span></span><br><span class="line">iptables -t filter -P FORWARD ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>保存规则：</p>
+<p>保存规则命令如下，表示将iptables规则保存至&#x2F;etc&#x2F;sysconfig&#x2F;iptables文件中，如果对应的操作没有保存，那么当重启iptables服务以后</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">service iptables save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重定向保存</span></span><br><span class="line">iptables-save &gt; /etc/sysconfig/iptables</span><br><span class="line"><span class="comment"># 装载规则</span></span><br><span class="line">iptables-restore &lt; /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
+
+<h2 id="端口转发功能"><a href="#端口转发功能" class="headerlink" title="端口转发功能"></a>端口转发功能</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>iptables承当边界防火墙功能，负责处理内外的流量转发，核心就需要在FORWARD表中做配置。</p>
 <p><img src="https://www.zsythink.net/wp-content/uploads/2017/02/021217_0051_6.png" alt="防火墙流量图"></p>
 <table>
 <thead>
@@ -241,6 +247,62 @@
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于iptables此时的角色为&quot;网络防火墙&quot;，所以需要在filter表中的FORWARD链中设置规则。</span></span><br><span class="line"><span class="comment"># 可以使用&quot;白名单机制&quot;，先添加一条默认拒绝的规则，然后再为需要放行的报文设置规则。</span></span><br><span class="line"><span class="comment"># 配置规则时需要考虑&quot;方向问题&quot;，针对请求报文与回应报文，考虑报文的源地址与目标地址，源端口与目标端口等。</span></span><br><span class="line"><span class="comment"># 指令1：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --dport [目的端口] -j [判断]</span></span><br><span class="line"><span class="comment"># 指令2：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --sport [源端口] -j [判断]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式一，转发192.168.1.0/24的所有TCP、UDP请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式二，仅转发192.168.1.1 到 192.168.1.2的TCP-22请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.1 -d 192.168.1.2 -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -s 192.168.1.2 -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
 
+<h2 id="NAT-功能（Network-Address-Translation）"><a href="#NAT-功能（Network-Address-Translation）" class="headerlink" title="NAT 功能（Network Address Translation）"></a>NAT 功能（Network Address Translation）</h2><p>当网络内部的主机向网络外部主机发送报文时，报文会经过防火墙或路由器，当报文经过防火墙或路由器时，将报文的源IP修改为防火墙或者路由器的IP地址，当其他网络中的主机收到这些报文时，显示的源IP地址则是路由器或者防火墙的。</p>
+<p>通过地址转化，起到隐藏网络内部主机IP的作用，当网络内部主机的报文经过路由器时，路由器会维护一张NAT表，表中记录了报文来自于哪个内部主机的哪个进程（内部主机IP+端口），当报文经过路由器时，路由器会将报文的内部主机源IP替换为路由器的IP地址，把源端口也映射为某个端口，NAT表会把这种对应关系记录下来。</p>
+<p><img src="https://www.zsythink.net/wp-content/uploads/2017/05/051517_1411_1.png" alt="源与目的访问示意图"></p>
+<p>于是，外部主机收到报文时，源IP与源端口显示的都是路由的IP与端口，当外部网络中的主机进行回应时，外部主机将响应报文发送给路由器，路由器根据刚才NAT表中的映射记录，将响应报文中的目标IP与目标端口再改为内部主机的IP与端口号，然后再将响应报文发送给内部网络中的主机。整个过程中，外部主机都不知道内部主机的IP地址，内部主机还能与外部主机通讯，于是起到了隐藏网络内主机IP的作用。</p>
+<p>整个响应过程会包含 SNAT、DNAT ，“整个过程”被称为SNAT，因为 “整个过程”的前半段使用了SNAT，如果上述“整个过程”的前半段使用了DNAT，则整个过程被称为DNAT，也就是说，整个过程被称为SNAT还是DNAT，取决于整个过程的前半段使用了SNAT还是DNAT。</p>
+<p>实验室环境：</p>
+<table>
+<thead>
+<tr>
+<th align="center">外网区域</th>
+<th align="center">边界区域</th>
+<th align="center">内网区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">A,192.168.1.1</td>
+<td align="center">B,192.168.1.254，192.169.1.254</td>
+<td align="center">C，192.169.1.1，网关指向192.169.1.254</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">D，192.169.1.2 ，网关指向192.169.1.254</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>需Linux主机开启核心转发功能。</p>
+</blockquote>
+<h3 id="SNAT，Source-Network-Address-Translation"><a href="#SNAT，Source-Network-Address-Translation" class="headerlink" title="SNAT，Source Network Address Translation"></a>SNAT，Source Network Address Translation</h3><p>内部网络的报文发送出去时，报文的源IP会被修改；</p>
+<p>常见场景：</p>
+<ol>
+<li>局域网内的多个终端共享一个出口IP，通过同一个出口IP访问互联网。</li>
+<li>隐藏访问源地址；</li>
+</ol>
+<p>实验路径： 内网区域 –&gt; 边界区域 –&gt; 外网区域</p>
+<h4 id="边界防火墙iptables配置方式"><a href="#边界防火墙iptables配置方式" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将所有来自192.169.1.0/24 的请求源，改为出口IP 192.168.1.254 。</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.169.1.0/24 -j SNAT --to-source 192.168.1.254</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t 表示操作nat表</span></span><br><span class="line"><span class="comment"># -A POSTROUTING 表示将SNAT规则添加到POSTROUTING链的末尾。</span></span><br><span class="line"><span class="comment"># 在centos7中，SNAT规则只能存在于POSTROUTING链与INPUT链中；</span></span><br><span class="line"><span class="comment"># 在centos6中，SNAT规则只能存在于POSTROUTING链中。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -j SNAT ，表示SNAT动作，对匹配到的报文进行处理，对匹配到的报文进行源地址转换。</span></span><br><span class="line"><span class="comment"># --to-source 192.168.1.254 ，表示将匹配到的报文的源IP修改为192.168.1.254 。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>为什么SNAT规则必须定义在POSTROUTING链中?</p>
+</blockquote>
+<p>我们可以这样认为，POSTROUTING链是iptables中报文发出的最后一个”关卡”，我们应该在报文马上发出之前，修改报文的源地址，否则就再也没有机会修改报文的源地址了，在centos7中，SNAT规则也可以定义在INPUT链中，我们可以这样理解，发往本机的报文经过INPUT链以后报文就到达了本机，如果再不修改报文的源地址，就没有机会修改了。</p>
+<h5 id="如果192-168-1-254是一个动态地址，可以怎么修改？"><a href="#如果192-168-1-254是一个动态地址，可以怎么修改？" class="headerlink" title="如果192.168.1.254是一个动态地址，可以怎么修改？"></a>如果192.168.1.254是一个动态地址，可以怎么修改？</h5><p>假设外网IP是通过DHCP服务自动分配的，有可能不再是192.168.1.254 ，则可以使用 <em>MASQUERADE</em> 来配置， 该指令可以动态地将源地址转化为可用的IP地址；对比下来 SNAT需要将报文地址指向为固定IP， MASQUERADE 则不需要明确指定IP而是指定网卡。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将所有来自192.169.1.0/24 的请求源，改为出口网卡eno1 。</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.169.1.0/24 -o eno1 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="DNAT，Destination-Network-Address-Translation"><a href="#DNAT，Destination-Network-Address-Translation" class="headerlink" title="DNAT，Destination Network Address Translation"></a>DNAT，Destination Network Address Translation</h3><p>外部网络的报文响应时，响应报文的目标IP会再次被修改；</p>
+<p>常见场景：</p>
+<ol>
+<li>对外发布服务，需要挂载同一个地址发布，隐藏服务器的真实IP；</li>
+</ol>
+<p>实验路径： 外网区域 –&gt; 边界区域 –&gt; 内网区域</p>
+<h4 id="边界防火墙iptables配置方式-1"><a href="#边界防火墙iptables配置方式-1" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一步，配置DNAT</span></span><br><span class="line"><span class="comment"># 将所有访问192.168.1.254:22的请求，转化为访问192.169.1.1:22</span></span><br><span class="line">iptables -t nat -I PREROUTING -d 192.168.1.254 -p tcp --dport 22 -j DNAT --to-destination 192.169.1.1:22</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t nat -I PREROUTING , 表示在nat表中的PREROUTING链中配置DNAT规则，DNAT规则只配置在PREROUTING链与OUTPUT链中。</span></span><br><span class="line"><span class="comment"># -d 192.168.1.254 -p tcp --dport 22,表示报文的目标地址为公网IP地址，目标端口为tcp的22号端口；</span></span><br><span class="line"><span class="comment"># -j DNAT --to-destination 192.169.1.1:22 ，表示对符合报文进行DNAT，将目的地址与目的端口修改为192.169.1.1:22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二部，配置SNAT</span></span><br><span class="line"><span class="comment"># 将所有来自192.169.1.1:22的回包，转化为192.168.1.254</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br></pre></td></tr></table></figure>
+
+<h3 id="本机的端口映射，redirect"><a href="#本机的端口映射，redirect" class="headerlink" title="本机的端口映射，redirect"></a>本机的端口映射，redirect</h3><p>比如将本机的80端口映射到本机的8080端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将访问本机80端口的请求转化为8080端口访问</span></span><br><span class="line">iptables -t nat -A PREROUTING -p tcp –dport 80 -j REDIRECT –to-ports 8080</span><br><span class="line"><span class="comment"># REDIRECT规则只能定义在PREROUTING链或者OUTPUT链中。</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="iptables处理动作扩展"><a href="#iptables处理动作扩展" class="headerlink" title="iptables处理动作扩展"></a>iptables处理动作扩展</h2><h3 id="拒绝，reject"><a href="#拒绝，reject" class="headerlink" title="拒绝，reject"></a>拒绝，reject</h3><p>-j REJECT 可以设置提示信息，对方被拒绝时，会提示对方为什么会被拒绝。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--reject-with 可以带如下参数：</span><br><span class="line"></span><br><span class="line">icmp-net-unreachable</span><br><span class="line">icmp-host-unreachable</span><br><span class="line">icmp-port-unreachable,</span><br><span class="line">icmp-proto-unreachable</span><br><span class="line">icmp-net-prohibited</span><br><span class="line">icmp-host-pro-hibited</span><br><span class="line">icmp-admin-prohibited</span><br></pre></td></tr></table></figure>
 
@@ -254,6 +316,8 @@
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>Linux常用的指令: <a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/posts/81650926">https://rohman-zhu.github.io/posts/81650926</a></li>
 <li>iptables，流量转发：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1663">https://www.zsythink.net/archives/1663</a></li>
+<li>iptables，NAT：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1764">https://www.zsythink.net/archives/1764</a></li>
+<li>iptables，规则操作说明：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1517">https://www.zsythink.net/archives/1517</a></li>
 </ul>
 
       
