@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2a7c241/" class="post-title-link" itemprop="url">Linux-iptables学习记录</a>
+          <a href="/posts/2a7c241/" class="post-title-link" itemprop="url">Linux-iptables学习记录[待更新]</a>
         </h2>
 
         <div class="post-meta-container">
@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-07-27 05:28:19 / Modified: 08:03:41" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
+      <time title="Created: 2025-07-27 05:28:19 / Modified: 16:24:42" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -247,6 +247,8 @@
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于iptables此时的角色为&quot;网络防火墙&quot;，所以需要在filter表中的FORWARD链中设置规则。</span></span><br><span class="line"><span class="comment"># 可以使用&quot;白名单机制&quot;，先添加一条默认拒绝的规则，然后再为需要放行的报文设置规则。</span></span><br><span class="line"><span class="comment"># 配置规则时需要考虑&quot;方向问题&quot;，针对请求报文与回应报文，考虑报文的源地址与目标地址，源端口与目标端口等。</span></span><br><span class="line"><span class="comment"># 指令1：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --dport [目的端口] -j [判断]</span></span><br><span class="line"><span class="comment"># 指令2：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --sport [源端口] -j [判断]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式一，转发192.168.1.0/24的所有TCP、UDP请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式二，仅转发192.168.1.1 到 192.168.1.2的TCP-22请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.1 -d 192.168.1.2 -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -s 192.168.1.2 -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
 
+<h3 id="注意-FORWARD-链"><a href="#注意-FORWARD-链" class="headerlink" title="注意 FORWARD 链"></a>注意 FORWARD 链</h3><p>默认情况下 FORWARD 链的策略是 ACCEPT，所有流量都放通；</p>
+<p>如果改为默认禁止，则需要按需放通策略，进出方向各一条策略，均需要配置；</p>
 <h2 id="NAT-功能（Network-Address-Translation）"><a href="#NAT-功能（Network-Address-Translation）" class="headerlink" title="NAT 功能（Network Address Translation）"></a>NAT 功能（Network Address Translation）</h2><p>当网络内部的主机向网络外部主机发送报文时，报文会经过防火墙或路由器，当报文经过防火墙或路由器时，将报文的源IP修改为防火墙或者路由器的IP地址，当其他网络中的主机收到这些报文时，显示的源IP地址则是路由器或者防火墙的。</p>
 <p>通过地址转化，起到隐藏网络内部主机IP的作用，当网络内部主机的报文经过路由器时，路由器会维护一张NAT表，表中记录了报文来自于哪个内部主机的哪个进程（内部主机IP+端口），当报文经过路由器时，路由器会将报文的内部主机源IP替换为路由器的IP地址，把源端口也映射为某个端口，NAT表会把这种对应关系记录下来。</p>
 <p><img src="https://www.zsythink.net/wp-content/uploads/2017/05/051517_1411_1.png" alt="源与目的访问示意图"></p>
@@ -313,6 +315,8 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I FORWARD -s 192.168.1.1 -j LOG</span><br></pre></td></tr></table></figure>
 
 <p>符合报文的请求都会被记录到日志文件中，ubuntu可以查询 &#x2F;var&#x2F;log&#x2F;syslog ， CentOS可以查询 &#x2F;var&#x2F;log&#x2F;messages;</p>
+<h2 id="常用策略"><a href="#常用策略" class="headerlink" title="常用策略"></a>常用策略</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将通用策略配置为：默认禁用</span></span><br><span class="line">iptables -P INPUT -j DROP</span><br><span class="line">iptables -P FORWARD -j DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对于INPUT链的配置如下：</span></span><br><span class="line"><span class="comment">## 配置ssh策略，例如放通192.168.1.1的ssh访问请求</span></span><br><span class="line">iptables -A INPUT -s 192.168.1.1 -p tcp --dport 22 -j ACCEPT</span><br><span class="line"><span class="comment">## 配置ssh策略，例如放通从本机去访问192.168.1.1的ssh访问请求</span></span><br><span class="line">iptables -A INPUT -s 192.168.1.1 -p tcp --sport 22 -j ACCEPT</span><br><span class="line"><span class="comment">## 配置DNS服务,注意是源IP</span></span><br><span class="line">iptables -A INPUT -p udp --sport 53 -j ACCEPT</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>Linux常用的指令: <a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/posts/81650926">https://rohman-zhu.github.io/posts/81650926</a></li>
 <li>iptables，流量转发：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1663">https://www.zsythink.net/archives/1663</a></li>

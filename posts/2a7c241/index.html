@@ -21,7 +21,7 @@
 
     <meta name="description" content="iptables常用指令1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556# 查，查询规则# 查询防火墙策略iptables -L # 查询防火墙策略，显示ip信息iptables -nL# 查询防火墙策略，并详细展示iptables -nvL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux-iptables学习记录">
+<meta property="og:title" content="Linux-iptables学习记录[待更新]">
 <meta property="og:url" content="http://github.com/rohman-zhu/posts/2a7c241/index.html">
 <meta property="og:site_name" content="诺曼实验室">
 <meta property="og:description" content="iptables常用指令1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556# 查，查询规则# 查询防火墙策略iptables -L # 查询防火墙策略，显示ip信息iptables -nL# 查询防火墙策略，并详细展示iptables -nvL">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2017/02/021217_0051_6.png">
 <meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2017/05/051517_1411_1.png">
 <meta property="article:published_time" content="2025-07-27T05:28:19.000Z">
-<meta property="article:modified_time" content="2025-07-27T08:03:41.228Z">
+<meta property="article:modified_time" content="2025-07-27T16:24:42.657Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="iptables">
 <meta name="twitter:card" content="summary">
@@ -39,10 +39,10 @@
 <link rel="canonical" href="http://github.com/rohman-zhu/posts/2a7c241/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/2a7c241/","path":"posts/2a7c241/","title":"Linux-iptables学习记录"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/2a7c241/","path":"posts/2a7c241/","title":"Linux-iptables学习记录[待更新]"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Linux-iptables学习记录 | 诺曼实验室</title>
+<title>Linux-iptables学习记录[待更新] | 诺曼实验室</title>
   
 
 
@@ -115,7 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iptables"><span class="nav-number">1.</span> <span class="nav-text">iptables</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.</span> <span class="nav-text">端口转发功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">实现方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT-%E5%8A%9F%E8%83%BD%EF%BC%88Network-Address-Translation%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">NAT 功能（Network Address Translation）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SNAT%EF%BC%8CSource-Network-Address-Translation"><span class="nav-number">1.3.1.</span> <span class="nav-text">SNAT，Source Network Address Translation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99iptables%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">边界防火墙iptables配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C192-168-1-254%E6%98%AF%E4%B8%80%E4%B8%AA%E5%8A%A8%E6%80%81%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%80%8E%E4%B9%88%E4%BF%AE%E6%94%B9%EF%BC%9F"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">如果192.168.1.254是一个动态地址，可以怎么修改？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNAT%EF%BC%8CDestination-Network-Address-Translation"><span class="nav-number">1.3.2.</span> <span class="nav-text">DNAT，Destination Network Address Translation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99iptables%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">边界防火墙iptables配置方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E7%9A%84%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%EF%BC%8Credirect"><span class="nav-number">1.3.3.</span> <span class="nav-text">本机的端口映射，redirect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iptables%E5%A4%84%E7%90%86%E5%8A%A8%E4%BD%9C%E6%89%A9%E5%B1%95"><span class="nav-number">1.4.</span> <span class="nav-text">iptables处理动作扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%EF%BC%8Creject"><span class="nav-number">1.4.1.</span> <span class="nav-text">拒绝，reject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%EF%BC%8Clog"><span class="nav-number">1.4.2.</span> <span class="nav-text">日志，log</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iptables"><span class="nav-number">1.</span> <span class="nav-text">iptables</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.</span> <span class="nav-text">端口转发功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F-FORWARD-%E9%93%BE"><span class="nav-number">1.2.3.</span> <span class="nav-text">注意 FORWARD 链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT-%E5%8A%9F%E8%83%BD%EF%BC%88Network-Address-Translation%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">NAT 功能（Network Address Translation）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SNAT%EF%BC%8CSource-Network-Address-Translation"><span class="nav-number">1.3.1.</span> <span class="nav-text">SNAT，Source Network Address Translation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99iptables%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">边界防火墙iptables配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C192-168-1-254%E6%98%AF%E4%B8%80%E4%B8%AA%E5%8A%A8%E6%80%81%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%80%8E%E4%B9%88%E4%BF%AE%E6%94%B9%EF%BC%9F"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">如果192.168.1.254是一个动态地址，可以怎么修改？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNAT%EF%BC%8CDestination-Network-Address-Translation"><span class="nav-number">1.3.2.</span> <span class="nav-text">DNAT，Destination Network Address Translation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E9%98%B2%E7%81%AB%E5%A2%99iptables%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">边界防火墙iptables配置方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%9C%BA%E7%9A%84%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%EF%BC%8Credirect"><span class="nav-number">1.3.3.</span> <span class="nav-text">本机的端口映射，redirect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iptables%E5%A4%84%E7%90%86%E5%8A%A8%E4%BD%9C%E6%89%A9%E5%B1%95"><span class="nav-number">1.4.</span> <span class="nav-text">iptables处理动作扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%EF%BC%8Creject"><span class="nav-number">1.4.1.</span> <span class="nav-text">拒绝，reject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%EF%BC%8Clog"><span class="nav-number">1.4.2.</span> <span class="nav-text">日志，log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AD%96%E7%95%A5"><span class="nav-number">1.5.</span> <span class="nav-text">常用策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -179,12 +179,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Linux-iptables学习记录 | 诺曼实验室">
+      <meta itemprop="name" content="Linux-iptables学习记录[待更新] | 诺曼实验室">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Linux-iptables学习记录
+          Linux-iptables学习记录[待更新]
         </h1>
 
         <div class="post-meta-container">
@@ -196,7 +196,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-07-27 05:28:19 / Modified: 08:03:41" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
+      <time title="Created: 2025-07-27 05:28:19 / Modified: 16:24:42" itemprop="dateCreated datePublished" datetime="2025-07-27T05:28:19+00:00">2025-07-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,6 +256,8 @@
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于iptables此时的角色为&quot;网络防火墙&quot;，所以需要在filter表中的FORWARD链中设置规则。</span></span><br><span class="line"><span class="comment"># 可以使用&quot;白名单机制&quot;，先添加一条默认拒绝的规则，然后再为需要放行的报文设置规则。</span></span><br><span class="line"><span class="comment"># 配置规则时需要考虑&quot;方向问题&quot;，针对请求报文与回应报文，考虑报文的源地址与目标地址，源端口与目标端口等。</span></span><br><span class="line"><span class="comment"># 指令1：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --dport [目的端口] -j [判断]</span></span><br><span class="line"><span class="comment"># 指令2：iptables -I FORWARD -s [源地址] -d [目的地址] -p [协议] --sport [源端口] -j [判断]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式一，转发192.168.1.0/24的所有TCP、UDP请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p tcp -j ACCEPT</span><br><span class="line"></span><br><span class="line">iptables -I FORWARD -s 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.0/24 -p udp -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置方式二，仅转发192.168.1.1 到 192.168.1.2的TCP-22请求；</span></span><br><span class="line">iptables -I FORWARD -s 192.168.1.1 -d 192.168.1.2 -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -s 192.168.1.2 -p tcp --sport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
 
+<h3 id="注意-FORWARD-链"><a href="#注意-FORWARD-链" class="headerlink" title="注意 FORWARD 链"></a>注意 FORWARD 链</h3><p>默认情况下 FORWARD 链的策略是 ACCEPT，所有流量都放通；</p>
+<p>如果改为默认禁止，则需要按需放通策略，进出方向各一条策略，均需要配置；</p>
 <h2 id="NAT-功能（Network-Address-Translation）"><a href="#NAT-功能（Network-Address-Translation）" class="headerlink" title="NAT 功能（Network Address Translation）"></a>NAT 功能（Network Address Translation）</h2><p>当网络内部的主机向网络外部主机发送报文时，报文会经过防火墙或路由器，当报文经过防火墙或路由器时，将报文的源IP修改为防火墙或者路由器的IP地址，当其他网络中的主机收到这些报文时，显示的源IP地址则是路由器或者防火墙的。</p>
 <p>通过地址转化，起到隐藏网络内部主机IP的作用，当网络内部主机的报文经过路由器时，路由器会维护一张NAT表，表中记录了报文来自于哪个内部主机的哪个进程（内部主机IP+端口），当报文经过路由器时，路由器会将报文的内部主机源IP替换为路由器的IP地址，把源端口也映射为某个端口，NAT表会把这种对应关系记录下来。</p>
 <p><img src="https://www.zsythink.net/wp-content/uploads/2017/05/051517_1411_1.png" alt="源与目的访问示意图"></p>
@@ -322,6 +324,8 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I FORWARD -s 192.168.1.1 -j LOG</span><br></pre></td></tr></table></figure>
 
 <p>符合报文的请求都会被记录到日志文件中，ubuntu可以查询 &#x2F;var&#x2F;log&#x2F;syslog ， CentOS可以查询 &#x2F;var&#x2F;log&#x2F;messages;</p>
+<h2 id="常用策略"><a href="#常用策略" class="headerlink" title="常用策略"></a>常用策略</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将通用策略配置为：默认禁用</span></span><br><span class="line">iptables -P INPUT -j DROP</span><br><span class="line">iptables -P FORWARD -j DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对于INPUT链的配置如下：</span></span><br><span class="line"><span class="comment">## 配置ssh策略，例如放通192.168.1.1的ssh访问请求</span></span><br><span class="line">iptables -A INPUT -s 192.168.1.1 -p tcp --dport 22 -j ACCEPT</span><br><span class="line"><span class="comment">## 配置ssh策略，例如放通从本机去访问192.168.1.1的ssh访问请求</span></span><br><span class="line">iptables -A INPUT -s 192.168.1.1 -p tcp --sport 22 -j ACCEPT</span><br><span class="line"><span class="comment">## 配置DNS服务,注意是源IP</span></span><br><span class="line">iptables -A INPUT -p udp --sport 53 -j ACCEPT</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>Linux常用的指令: <a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/posts/81650926">https://rohman-zhu.github.io/posts/81650926</a></li>
 <li>iptables，流量转发：<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/1663">https://www.zsythink.net/archives/1663</a></li>
