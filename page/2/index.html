@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,99 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6125f555/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/6125f555/" class="post-title-link" itemprop="url">Jellyfin刮削异常处理记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-04-12 04:15:01 / Modified: 04:59:48" itemprop="dateCreated datePublished" datetime="2025-04-12T04:15:01+00:00">2025-04-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>我的Jellyfin应用是通过Docker部署的，Jellyfin里面的硬盘无法被刮削，手动搜索也无法出现硬盘相关信息；<br>宿主机上面的hosts文件已经添加对应解析，且已确认该域名解析没有异常；但 Jellyfin 依旧无法解析。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>在 <a target="_blank" rel="noopener" href="https://dnschecker.org/">https://dnschecker.org/</a> 中查询以下域名记录，并确认中国区可用的解析记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">api.themoviedb.org 108.139.200.113</span><br><span class="line">api.thetvdb.org 192.241.234.54</span><br><span class="line">image.tmdb.org 169.150.207.216</span><br><span class="line">image.thetvdb.org 192.241.234.54</span><br></pre></td></tr></table></figure>
+
+<p>并修改到宿主机的Hosts文件中去本地解析依旧无反应；所以在宿主机中发起抓包，想看看整个流量是怎么走的：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 -nt -s 500 port domain</span><br></pre></td></tr></table></figure>
+
+<p>通过抓包记录，发现每当我在Jellyfin发起刮削时，发现域名 api.themoviedb.org 解析请求会向DNS服务器 114.114.114.114 发起解析请求，而DNS又返回一个错误的结果，那这个就跟我预想的不太一样，正常应该是优先本地解析才对，而不应该是向DNS请求解析。</p>
+<p>所以核心的原因是，docker内发起解析请求时，会优先到docker内的hosts文件查询，如果没有的话，再去DNS服务器请求解析，而不会去请求宿主机的hosts文件。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>修改docker中的hosts文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 hosts 文件复制到本地</span></span><br><span class="line">docker <span class="built_in">cp</span> Jellyfin:/etc/hosts ./hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改hosts文件，将目标记录添加进hosts文件</span></span><br><span class="line"><span class="built_in">cat</span> &gt;&gt; hosts &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string"># 2025-04-12</span></span><br><span class="line"><span class="string">108.139.200.113 api.themoviedb.org</span></span><br><span class="line"><span class="string">192.241.234.54 api.thetvdb.org</span></span><br><span class="line"><span class="string">169.150.207.216 image.tmdb.org</span></span><br><span class="line"><span class="string">192.241.234.54 image.thetvdb.org</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">cp</span> ./hosts Jellyfin:/etc/hosts</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -366,7 +459,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-13 08:44:53" itemprop="dateModified" datetime="2025-04-13T08:44:53+00:00">2025-04-13</time>
+      <time title="Modified: 2025-05-18 09:14:09" itemprop="dateModified" datetime="2025-05-18T09:14:09+00:00">2025-05-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -567,7 +660,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-03-26 11:43:54 / Modified: 15:09:43" itemprop="dateCreated datePublished" datetime="2025-03-26T11:43:54+00:00">2025-03-26</time>
+      <time title="Created: 2025-03-26 11:43:54 / Modified: 15:57:05" itemprop="dateCreated datePublished" datetime="2025-03-26T11:43:54+00:00">2025-03-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1100,100 +1193,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1e8f9c78/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/1e8f9c78/" class="post-title-link" itemprop="url">Docker实例-Wallabag部署</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2024-12-30 09:55:08 / Modified: 11:03:54" itemprop="dateCreated datePublished" datetime="2024-12-30T09:55:08+00:00">2024-12-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>使用 Docker 部署 Wallabag 。</p>
-<h1 id="Docker-Compose-编写"><a href="#Docker-Compose-编写" class="headerlink" title="Docker-Compose 编写"></a>Docker-Compose 编写</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wallabag/wallabag:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">wallabag-1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;[映射端口]:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/data:/var/www/wallabag/data</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/images:/var/www/wallabag/web/assets/images</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">SYMFONY__ENV__DOMAIN_NAME=&quot;http://[IP]:[映射端口]&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>编写完毕后，执行docker-compose up -d</p>
-<h2 id="细节说明"><a href="#细节说明" class="headerlink" title="细节说明"></a>细节说明</h2><h3 id="参数-SYMFONY-ENV-DOMAIN-NAME-说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；"><a href="#参数-SYMFONY-ENV-DOMAIN-NAME-说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；" class="headerlink" title="参数 SYMFONY__ENV__DOMAIN_NAME 说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；"></a>参数 SYMFONY__ENV__DOMAIN_NAME 说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；</h3><p>可以通过浏览器的F12看到，如果没有写URL，则会出现很多404；</p>
-<h3 id="如何备份？"><a href="#如何备份？" class="headerlink" title="如何备份？"></a>如何备份？</h3><p>将data、images目录拷贝出来，并且设置权限为 65534 ， Docker才能正常读取；</p>
-<h3 id="如何保存缓存图片"><a href="#如何保存缓存图片" class="headerlink" title="如何保存缓存图片"></a>如何保存缓存图片</h3><ol>
-<li>选择内部设置</li>
-<li>进入杂项；</li>
-<li>本地缓存图片选择1</li>
-</ol>
-<p>参照：<a target="_blank" rel="noopener" href="https://www.bilibili.com/opus/1003990631705477145">https://www.bilibili.com/opus/1003990631705477145</a></p>
-<h3 id="部署反向代理"><a href="#部署反向代理" class="headerlink" title="部署反向代理"></a>部署反向代理</h3><ol>
-<li>Nginx里面指向 本地Docker的IP；并配置一个域名；</li>
-<li>在wallabag的域名写上反向代理域名；</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1241,6 +1240,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 

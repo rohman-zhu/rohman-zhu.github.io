@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,173 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1c7c5ca8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1c7c5ca8/" class="post-title-link" itemprop="url">Windows活动目录学习</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-01-31 16:08:24" itemprop="dateCreated datePublished" datetime="2021-01-31T16:08:24+00:00">2021-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">域</td>
+<td align="center">用来描述一种系统架构，和“工作组”相对应，由工作组升级二来的高级架构，在域架构中，可以实现统一化管理。</td>
+</tr>
+<tr>
+<td align="center">活动目录</td>
+<td align="center">微软提供的目录服务器（查询、身份验证），活动目录的核心包含了活动目录数据库，在活动目录数据库中包含了域中的所有对象（用户，计算机，组）</td>
+</tr>
+<tr>
+<td align="center">域控制器</td>
+<td align="center">在域架构中用来管理客户端的服务器，是域架构的核心，每个域控制器上包含了活动目录数据库。</td>
+</tr>
+</tbody></table>
+<h2 id="组策略"><a href="#组策略" class="headerlink" title="组策略"></a>组策略</h2><p>Question：组策略中的设置“计算机管理”和“用户管理”管理对象分别是什么？<br>Answer：</p>
+<ul>
+<li>计算机管理，对应的是活动目录下的计算机</li>
+<li>用户管理，对应的是活动目录下的用户</li>
+</ul>
+<h2 id="DC部署流程"><a href="#DC部署流程" class="headerlink" title="DC部署流程"></a>DC部署流程</h2><ol>
+<li>创建Windows Server，将服务器加入现有的域。（如果当前不存在域控，可忽略）</li>
+<li>安装域控相关的服务器。（Active Directory 、 Domain Server等）</li>
+<li>将服务器提升为域控制器。</li>
+</ol>
+<p>注：</p>
+<ol>
+<li>作为域控的服务器文件系统需要为NTFS。</li>
+<li>不需要提前安装DNS服务，因为安装过程中会自动安装DNS服务。</li>
+</ol>
+<h3 id="域控问题"><a href="#域控问题" class="headerlink" title="域控问题"></a>域控问题</h3><p>【功能级别】林功能级别和域功能级别是什么意思？</p>
+<ul>
+<li>“林”功能级别，控制的是整个林中的域控制器的操作系统版本。</li>
+<li>“域”功能级别，控制的是整个域中的域控制器的操作系统版本。</li>
+</ul>
+<p>【域名申请】公网域名为rohman.cn ， 域名要为rohman.cn还是rohman.local？</p>
+<p>如果域名使用rohman.cn ，公网上对外发布的服务器域名为crm.rohman.cn时，内网需要单独添加解析，否则会无法查询到此记录。</p>
+<h2 id="关于-netlogon-、-sysvol"><a href="#关于-netlogon-、-sysvol" class="headerlink" title="关于 netlogon 、 sysvol"></a>关于 netlogon 、 sysvol</h2><p>sysvol ： 组策略模板文件脚本文件。<br>netlog</p>
+<h2 id="关于域是一个安全边界"><a href="#关于域是一个安全边界" class="headerlink" title="关于域是一个安全边界"></a>关于域是一个安全边界</h2><table>
+<thead>
+<tr>
+<th align="center">Domain</th>
+<th align="center">Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">rohman.cn</td>
+<td align="center">父域</td>
+</tr>
+<tr>
+<td align="center">pz.rohman.cn</td>
+<td align="center">为rohman.cn的子域</td>
+</tr>
+<tr>
+<td align="center">sg.rohman.cn</td>
+<td align="center">为rohman.cn的子域</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>子域与父域是信任关系。</p>
+</blockquote>
+<p>父域的管理员 rohman.cn&#x2F;rohman.zhu 无法管理两个子域，仅有读取权限。</p>
+<h2 id="关于域是管理边界"><a href="#关于域是管理边界" class="headerlink" title="关于域是管理边界"></a>关于域是管理边界</h2><h2 id="关于域是一个复制单元"><a href="#关于域是一个复制单元" class="headerlink" title="关于域是一个复制单元"></a>关于域是一个复制单元</h2><ol>
+<li>域中的DC的数据库是相互复制的（目的是为了确保多个副本）</li>
+<li>同一个站点中，默认15s复制一次。不同站点的复制频率则取决于站点链路的频率。</li>
+<li>复制类型有两种：多主复制、单主复制。</li>
+</ol>
+<p>活动目录数据库有三个逻辑分区：Domain ， Configuration ， Schema ；同一个域中的DC，三个分区都会数据同步；如果不是同一个域，则只同步Configuration 、 Schema分区。</p>
+<h2 id="目录树与目录林"><a href="#目录树与目录林" class="headerlink" title="目录树与目录林"></a>目录树与目录林</h2><p>目录树类似于一个内家庭不同家庭成员分支。<br>目录林类似于一个家族内的不同家庭分支。</p>
+<h2 id="物理结构"><a href="#物理结构" class="headerlink" title="物理结构"></a>物理结构</h2><p>站点表示的是一个物理区域。</p>
+<h3 id="站点"><a href="#站点" class="headerlink" title="站点"></a>站点</h3><p>好处：可以让当地的服务器寻找当地的DC去验证。只有在本地站点出现故障的情况下，才会去其他站点做验证。</p>
+<p>【站点同步】</p>
+<p>默认触发：默认情况下，站点是180分钟发起一次同步。<br>手动触发：“Active Domain站点和服务” 选中对应站点的NTDS Setting选中链路，右键-立即复制</p>
+<p>验证成功的前提条件：</p>
+<ol>
+<li>输入DC中存在的账户，并且是正确的账户与密码。</li>
+<li>DC中能找到当前登录的计算机。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1031,92 +1198,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6adc01eb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/6adc01eb/" class="post-title-link" itemprop="url">Linux操作系统的CIS设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-23 23:08:26" itemprop="dateCreated datePublished" datetime="2020-12-23T23:08:26+00:00">2020-12-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>需要设置与信息安全相关的选项，以满足公司的信息安全规范。</p>
-<h1 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h1><p><a target="_blank" rel="noopener" href="https://downloads.cisecurity.org/#/">https://downloads.cisecurity.org/#/</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/22/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/24/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1164,6 +1245,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 

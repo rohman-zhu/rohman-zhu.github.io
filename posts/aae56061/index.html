@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="故障现象 登录vCenter的WEB界面，提示503报错； 登录vCenter的管理界面(https:&#x2F;&#x2F;VC-IP:5480)，提示服务异常；  原因分析 证书过期后未及时更新，导致服务异常；  检查方式1登录vCenter的web界面，点击证书详情，可以看到证书到期时间； 检查方式212# 检查指令for store in $(&#x2F;usr&#x2F;lib&#x2F;vmware-vmafd&#x2F;bin&#x2F;vecs-cl">
+    <meta name="description" content="故障现象 登录vCenter的WEB界面，提示503报错； 登录vCenter的管理界面(5480入口) ，提示服务异常；  原因分析 证书过期后未及时更新，导致服务异常；  检查方式1登录vCenter的web界面，点击证书详情，可以看到证书到期时间； 检查方式212# 检查指令for store in $(&#x2F;usr&#x2F;lib&#x2F;vmware-vmafd&#x2F;bin&#x2F;vecs-cli store lis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VCSA-503故障-证书到期">
 <meta property="og:url" content="http://github.com/rohman-zhu/posts/aae56061/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="故障现象 登录vCenter的WEB界面，提示503报错； 登录vCenter的管理界面(https:&#x2F;&#x2F;VC-IP:5480)，提示服务异常；  原因分析 证书过期后未及时更新，导致服务异常；  检查方式1登录vCenter的web界面，点击证书详情，可以看到证书到期时间； 检查方式212# 检查指令for store in $(&#x2F;usr&#x2F;lib&#x2F;vmware-vmafd&#x2F;bin&#x2F;vecs-cl">
+<meta property="og:description" content="故障现象 登录vCenter的WEB界面，提示503报错； 登录vCenter的管理界面(5480入口) ，提示服务异常；  原因分析 证书过期后未及时更新，导致服务异常；  检查方式1登录vCenter的web界面，点击证书详情，可以看到证书到期时间； 检查方式212# 检查指令for store in $(&#x2F;usr&#x2F;lib&#x2F;vmware-vmafd&#x2F;bin&#x2F;vecs-cli store lis">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-30T17:39:17.000Z">
-<meta property="article:modified_time" content="2024-12-22T05:27:48.679Z">
+<meta property="article:modified_time" content="2025-08-03T08:56:07.173Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="故障">
 <meta name="twitter:card" content="summary">
@@ -125,7 +125,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -136,7 +136,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -199,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2025-08-03 08:56:07" itemprop="dateModified" datetime="2025-08-03T08:56:07+00:00">2025-08-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -226,7 +226,7 @@
     
     <div class="post-body" itemprop="articleBody"><h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
 <li>登录vCenter的WEB界面，提示503报错；</li>
-<li>登录vCenter的管理界面(<a href="https://VC-IP:5480)，提示服务异常；">https://VC-IP:5480)，提示服务异常；</a></li>
+<li>登录vCenter的管理界面(5480入口) ，提示服务异常；</li>
 </ol>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
 <li>证书过期后未及时更新，导致服务异常；</li>
@@ -246,7 +246,7 @@
 
 <h2 id="根证书替换"><a href="#根证书替换" class="headerlink" title="根证书替换"></a>根证书替换</h2><p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
+<li><a href="mailto:&#97;&#100;&#x6d;&#105;&#110;&#x69;&#x73;&#x74;&#x72;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#x70;&#x68;&#x65;&#x72;&#101;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;">&#97;&#100;&#x6d;&#105;&#110;&#x69;&#x73;&#x74;&#x72;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#x70;&#x68;&#x65;&#x72;&#101;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;</a>密码</li>
 <li>VCSA的FQDN；</li>
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择4,Regenerate a new VMCA Root Certificate and replace all certificates。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -256,7 +256,7 @@
 </blockquote>
 <p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;</a>密码</li>
+<li><a href="mailto:&#97;&#100;&#x6d;&#105;&#110;&#x69;&#115;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#104;&#x65;&#114;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#100;&#x6d;&#105;&#110;&#x69;&#115;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#104;&#x65;&#114;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
 <li>VCSA的FQDN；</li>
 <li>获取VCSA的FQDN、VCSA的hostname；</li>
 </ol>
@@ -347,6 +347,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 

@@ -125,7 +125,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -136,7 +136,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -214,7 +214,7 @@
     <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这周末看了LDAP的相关文档，只是尝试根据官方说明文档搭建了一下这个应用。但对于该应用是否能够投入使用，以及搭建过程中是否出错，目前不得而知。因此，此篇文章只做简单的记录，后续还需要再验证。而之所以会想去了解 <em>LDAP</em> ，是因为在工作环境中会听到这个词汇，但我对于其具体作用却不得而知，所以才会利用空余时间去了解一下这一个应用。</p>
 <h1 id="理论部分"><a href="#理论部分" class="headerlink" title="理论部分"></a>理论部分</h1><h2 id="LDAP"><a href="#LDAP" class="headerlink" title="LDAP"></a>LDAP</h2><p>这里采用官方文档的介绍：</p>
 <p>LDAP stands for Lightweight Directory Access Protocol. As the name suggests, it is a lightweight protocol for accessing directory services, specifically X.500-based directory services. LDAP runs over TCP&#x2F;IP or other connection oriented transfer services. LDAP is an IETF Standard Track protocol and is specified in “Lightweight Directory Access Protocol (LDAP) Technical Specification Road Map” RFC4510.</p>
-<p> The LDAP information model is based on entries. An entry is a collection of attributes that has a globally-unique Distinguished Name (DN). The DN is used to refer to the entry unambiguously（ <em>不含糊地 adv</em> ）. Each of the entry’s attributes has a type and one or more values. The types are typically mnemonic( <em>有助于记忆的 adj</em> ) strings, like “cn” for common name, or “mail” for email address. The syntax of values depend on the attribute type. For example, a cn attribute might contain the value Babs Jensen. A mail attribute might contain the value “<a href="mailto:&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;">&#98;&#97;&#98;&#115;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#101;&#46;&#99;&#111;&#x6d;</a>“. A jpegPhoto attribute would contain a photograph in the JPEG (binary) format.</p>
+<p> The LDAP information model is based on entries. An entry is a collection of attributes that has a globally-unique Distinguished Name (DN). The DN is used to refer to the entry unambiguously（ <em>不含糊地 adv</em> ）. Each of the entry’s attributes has a type and one or more values. The types are typically mnemonic( <em>有助于记忆的 adj</em> ) strings, like “cn” for common name, or “mail” for email address. The syntax of values depend on the attribute type. For example, a cn attribute might contain the value Babs Jensen. A mail attribute might contain the value “<a href="mailto:&#98;&#x61;&#98;&#x73;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#109;">&#98;&#x61;&#98;&#x73;&#x40;&#x65;&#120;&#97;&#x6d;&#112;&#108;&#x65;&#46;&#99;&#x6f;&#109;</a>“. A jpegPhoto attribute would contain a photograph in the JPEG (binary) format.</p>
 <p>The LDAP search operation allows some portion of the directory to be searched for entries that match some criteria specified by a search filter. Information can be requested from each entry that matches the criteria（n. 标准）.</p>
 <p> In general, you should use a Directory server when you <em>require data to be centrally managed, stored and accessible via standards based methods</em>.</p>
 <p>从上述内容中，可以知道：</p>
@@ -380,6 +380,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 

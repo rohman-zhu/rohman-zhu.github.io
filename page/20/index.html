@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,182 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/becc3f34/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/becc3f34/" class="post-title-link" itemprop="url">VCSA磁盘说明</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-07 19:33:14" itemprop="dateCreated datePublished" datetime="2021-11-07T19:33:14+00:00">2021-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="VMDK说明"><a href="#VMDK说明" class="headerlink" title="VMDK说明"></a>VMDK说明</h1><table>
+<thead>
+<tr>
+<th align="center">磁盘(VMDK)</th>
+<th align="center">默认大小（微型，具有默认存储大小）</th>
+<th align="center">挂载点</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">VMDK1</td>
+<td align="center">12 GB</td>
+<td align="center">&#x2F; (10 GB) &#x2F;boot (132 MB) SWAP (1 GB)</td>
+<td align="center">存储内核映像和引导加载程序配置的目录。</td>
+</tr>
+<tr>
+<td align="center">VMDK2</td>
+<td align="center">1.8 GB</td>
+<td align="center">&#x2F;tmp</td>
+<td align="center">用于存储 vCenter Server 中的服务生成或使用的临时文件的目录</td>
+</tr>
+<tr>
+<td align="center">VMDK3</td>
+<td align="center">25 GB</td>
+<td align="center">SWAP</td>
+<td align="center">系统内存不足时用于交换到磁盘的目录</td>
+</tr>
+<tr>
+<td align="center">VMDK4</td>
+<td align="center">25 GB</td>
+<td align="center">&#x2F;storage&#x2F;core</td>
+<td align="center">用于存储 vCenter Server 中 VPXD  进程的核心转储文件的目录</td>
+</tr>
+<tr>
+<td align="center">VMDK5</td>
+<td align="center">10 GB</td>
+<td align="center">&#x2F;storage&#x2F;log</td>
+<td align="center">vCenter Server 和 Platform Services Controller 存储环境的所有日志的目录</td>
+</tr>
+<tr>
+<td align="center">VMDK6</td>
+<td align="center">10 GB</td>
+<td align="center">&#x2F;storage&#x2F;db</td>
+<td align="center">VMware Postgres 数据库存储位置</td>
+</tr>
+<tr>
+<td align="center">VMDK7</td>
+<td align="center">5 GB</td>
+<td align="center">&#x2F;storage&#x2F;dblog</td>
+<td align="center">VMware Postgres 数据库日志记录位置</td>
+</tr>
+<tr>
+<td align="center">VMDK8</td>
+<td align="center">10 GB</td>
+<td align="center">&#x2F;storage&#x2F;seat</td>
+<td align="center">VMware Postgres 的统计信息、事件、警报和任务 (SEAT) 目录</td>
+</tr>
+<tr>
+<td align="center">VMDK9</td>
+<td align="center">1 GB</td>
+<td align="center">&#x2F;storage&#x2F;netdump</td>
+<td align="center">VMware Netdump Collector 存储库，用于存储 ESXi 转储</td>
+</tr>
+<tr>
+<td align="center">VMDK10</td>
+<td align="center">10 GB</td>
+<td align="center">&#x2F;storage&#x2F;autodeploy</td>
+<td align="center">VMware Auto Deploy 存储库，存储用于 ESXi 主机无状态引导的 thinpackage</td>
+</tr>
+<tr>
+<td align="center">VMDK11</td>
+<td align="center">10 GB</td>
+<td align="center">&#x2F;storage&#x2F;imagebuilder</td>
+<td align="center">VMware Image Builder 存储库，用于存储 vSphere 映像配置文件、软件库和 VIB 软件包，例如驱动程序 VIB 和更新 VIB。</td>
+</tr>
+<tr>
+<td align="center">VMDK12</td>
+<td align="center">100 GB</td>
+<td align="center">&#x2F;storage&#x2F;updatemgr</td>
+<td align="center">VMware Update Manager 存储库，用于存储虚拟机和 ESXi 主机的修补程序和更新</td>
+</tr>
+<tr>
+<td align="center">VMDK13</td>
+<td align="center">50 GB</td>
+<td align="center">&#x2F;storage&#x2F;archive</td>
+<td align="center">VMware Postgres 数据库的预写日志记录 (WAL) 位置</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -892,20 +1068,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自行搭建的VCSA在某天突然使用<a href="mailto:&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#x73;&#x74;&#114;&#x61;&#116;&#x6f;&#x72;&#64;&#x76;&#x73;&#112;&#104;&#x65;&#114;&#101;&#46;&#x6c;&#111;&#x63;&#x61;&#108;">&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#x73;&#x74;&#114;&#x61;&#116;&#x6f;&#x72;&#64;&#x76;&#x73;&#112;&#104;&#x65;&#114;&#101;&#46;&#x6c;&#111;&#x63;&#x61;&#108;</a>登录了，随后检查出以下问题：</p>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自行搭建的VCSA在某天突然使用<a href="mailto:&#97;&#100;&#x6d;&#105;&#x6e;&#x69;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#x70;&#104;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#x63;&#97;&#108;">&#97;&#100;&#x6d;&#105;&#x6e;&#x69;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#x70;&#104;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#x63;&#97;&#108;</a>登录了，随后检查出以下问题：</p>
 <ol>
-<li>无法再使用<a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#x73;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#64;&#x73;&#x70;&#x68;&#101;&#x72;&#x65;&#46;&#x6c;&#111;&#x61;&#x63;&#x6c;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#x73;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#64;&#x73;&#x70;&#x68;&#101;&#x72;&#x65;&#46;&#x6c;&#111;&#x61;&#x63;&#x6c;</a>登录VCSA或者VCSA IP:5480 控制台；</li>
-<li><a href="mailto:&#x61;&#x64;&#109;&#105;&#110;&#105;&#115;&#116;&#114;&#x61;&#x74;&#111;&#114;&#64;&#x76;&#x73;&#x70;&#x68;&#x65;&#114;&#101;&#x2e;&#108;&#111;&#99;&#97;&#108;">&#x61;&#x64;&#109;&#105;&#110;&#105;&#115;&#116;&#114;&#x61;&#x74;&#111;&#114;&#64;&#x76;&#x73;&#x70;&#x68;&#x65;&#114;&#101;&#x2e;&#108;&#111;&#99;&#97;&#108;</a> 疑似被锁定或者过期无法登陆，输入正确的密码后，还是提示请输入密码；</li>
+<li>无法再使用<a href="mailto:&#x61;&#100;&#x6d;&#105;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#x73;&#112;&#x68;&#101;&#x72;&#101;&#x2e;&#x6c;&#111;&#97;&#x63;&#108;">&#x61;&#100;&#x6d;&#105;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#x73;&#112;&#x68;&#101;&#x72;&#101;&#x2e;&#x6c;&#111;&#97;&#x63;&#108;</a>登录VCSA或者VCSA IP:5480 控制台；</li>
+<li><a href="mailto:&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#x65;&#x72;&#101;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;">&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#x65;&#x72;&#101;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;</a> 疑似被锁定或者过期无法登陆，输入正确的密码后，还是提示请输入密码；</li>
 <li>root账户密码忘记，无法从控制台登录VCSA，进入SHELL执行操作指令；</li>
 <li>关键服务无法启动，vpxd服务无法启用；</li>
-<li><a href="mailto:&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#118;&#115;&#x70;&#x68;&#101;&#114;&#x65;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;">&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#118;&#115;&#x70;&#x68;&#101;&#114;&#x65;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;</a>登录提示SSL报错；</li>
+<li><a href="mailto:&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#115;&#116;&#x72;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#99;&#x61;&#x6c;">&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#115;&#116;&#x72;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#99;&#x61;&#x6c;</a>登录提示SSL报错；</li>
 <li>VCSA提示504错误；</li>
 </ol>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>以上有诸多问题，最主要的原因是因为VCSA内部的证书过期，导致相关依赖的服务无法启动。</p>
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>重要提示：以下的复原操作，请先拍摄快照！</p>
 <h2 id="忘记root密码"><a href="#忘记root密码" class="headerlink" title="忘记root密码"></a>忘记root密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入虚拟机Console界面</span></span><br><span class="line"><span class="comment"># 重启VCSA，在虚拟机界面，按 e</span></span><br><span class="line"><span class="comment"># 在linux这行最后增加 init=/bin/bash</span></span><br><span class="line"><span class="comment"># 进入单用户界面</span></span><br><span class="line"><span class="comment"># password root</span></span><br><span class="line"><span class="comment"># reboot -f</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="忘记-x61-100-x6d-105-x6e-x69-x73-x74-x72-x61-116-x6f-114-x40-x76-x73-x70-x68-101-114-x65-x2e-108-111-x63-x61-108-密码"><a href="#忘记-x61-100-x6d-105-x6e-x69-x73-x74-x72-x61-116-x6f-114-x40-x76-x73-x70-x68-101-114-x65-x2e-108-111-x63-x61-108-密码" class="headerlink" title="忘记&#x61;&#100;&#x6d;&#105;&#x6e;&#x69;&#x73;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#x76;&#x73;&#x70;&#x68;&#101;&#114;&#x65;&#x2e;&#108;&#111;&#x63;&#x61;&#108;密码"></a>忘记<a href="mailto:&#x61;&#100;&#x6d;&#105;&#x6e;&#x69;&#x73;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#x76;&#x73;&#x70;&#x68;&#101;&#114;&#x65;&#x2e;&#108;&#111;&#x63;&#x61;&#108;">&#x61;&#100;&#x6d;&#105;&#x6e;&#x69;&#x73;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#x76;&#x73;&#x70;&#x68;&#101;&#114;&#x65;&#x2e;&#108;&#111;&#x63;&#x61;&#108;</a>密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入 VCSA Shell</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置密码需要开启的服务</span></span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指令</span></span><br><span class="line">/usr/lib/vmware-vmdir/bin/vdcadmintool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择3</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="忘记-x61-100-109-105-x6e-x69-x73-116-114-97-x74-111-114-x40-118-115-x70-104-101-114-x65-46-x6c-x6f-x63-97-x6c-密码"><a href="#忘记-x61-100-109-105-x6e-x69-x73-116-114-97-x74-111-114-x40-118-115-x70-104-101-114-x65-46-x6c-x6f-x63-97-x6c-密码" class="headerlink" title="忘记&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;密码"></a>忘记<a href="mailto:&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;">&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;</a>密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入 VCSA Shell</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置密码需要开启的服务</span></span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指令</span></span><br><span class="line">/usr/lib/vmware-vmdir/bin/vdcadmintool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择3</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="重置STS证书"><a href="#重置STS证书" class="headerlink" title="重置STS证书"></a>重置STS证书</h2><p>STS&#x3D;Security Token Service</p>
 <p>操作过程：</p>
@@ -1092,103 +1268,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a2eccc9a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/a2eccc9a/" class="post-title-link" itemprop="url">实例-如何快速找到Datastore内的模板【待补充】</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-08 23:36:40" itemprop="dateCreated datePublished" datetime="2021-08-08T23:36:40+00:00">2021-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>现有环境中有一套vCenter因特殊原因，无法继续使用。现需要重新搭建一台vCenter，将现有的ESXI全迁移至新的vCenter中。由于迁移过程中，未记录原来环境中的模板，导致模板未在新的vCenter中注册。</p>
-<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ol>
-<li>找到这些模板</li>
-<li>将模板注册到vCenter中</li>
-<li>将模板迁移至指定目录</li>
-</ol>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>将虚拟机转换成模板时，将创建 .vmtx 文件。.vmtx 文件将替换虚拟机配置文件（.vmx 文件），所以可以搜索一下vmtx文件，即可以找到所有模板机。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /vmfs/volumes/</span><br><span class="line">find -iname <span class="string">&quot;.vmtx&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-<p><a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-CEFF6D89-8C19-4143-8C26-4B6D6734D2CB.html">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-CEFF6D89-8C19-4143-8C26-4B6D6734D2CB.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/21/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1236,6 +1315,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 

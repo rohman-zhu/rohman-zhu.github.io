@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">447</span>
+          <span class="site-state-item-count">448</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-count">147</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,96 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5c673c3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/5c673c3/" class="post-title-link" itemprop="url">CentOS7无法启动故障</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-08-27 23:08:01" itemprop="dateCreated datePublished" datetime="2023-08-27T23:08:01+00:00">2023-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-06-22 14:14:50" itemprop="dateModified" datetime="2025-06-22T14:14:50+00:00">2025-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>服务器在开机时会出现Log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[FAILED] Failed to start Security Auditing Service.</span><br><span class="line">[FAILED] Failed to start Journal Service.</span><br></pre></td></tr></table></figure>
+
+<p>使用正确的密码却无法登录服务器，一直提示Login incorrect.</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>服务器开启了 selinux</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/selinux/config</span><br><span class="line"></span><br><span class="line">将selinux改为disabled</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -192,7 +282,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2025-08-03 08:56:07" itemprop="dateModified" datetime="2025-08-03T08:56:07+00:00">2025-08-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -220,7 +310,7 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
 <li>登录vCenter的WEB界面，提示503报错；</li>
-<li>登录vCenter的管理界面(<a href="https://VC-IP:5480)，提示服务异常；">https://VC-IP:5480)，提示服务异常；</a></li>
+<li>登录vCenter的管理界面(5480入口) ，提示服务异常；</li>
 </ol>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><ol>
 <li>证书过期后未及时更新，导致服务异常；</li>
@@ -240,7 +330,7 @@
 
 <h2 id="根证书替换"><a href="#根证书替换" class="headerlink" title="根证书替换"></a>根证书替换</h2><p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#x64;&#109;&#x69;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#112;&#104;&#x65;&#x72;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
+<li><a href="mailto:&#97;&#100;&#x6d;&#105;&#110;&#x69;&#x73;&#x74;&#x72;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#x70;&#x68;&#x65;&#x72;&#101;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;">&#97;&#100;&#x6d;&#105;&#110;&#x69;&#x73;&#x74;&#x72;&#97;&#x74;&#111;&#x72;&#64;&#118;&#x73;&#x70;&#x68;&#x65;&#x72;&#101;&#x2e;&#x6c;&#x6f;&#x63;&#97;&#x6c;</a>密码</li>
 <li>VCSA的FQDN；</li>
 </ol>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成脚本路径：</span></span><br><span class="line"><span class="comment"># LINUX版本的VCSA：/usr/lib/vmware-vmca/bin/certificate-manager</span></span><br><span class="line"><span class="comment"># WINDOWS版本的VCSA：C:\Program Files\VMware\vCenter Server\vmcad\certificate-manager.bat</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择4,Regenerate a new VMCA Root Certificate and replace all certificates。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据提示，输入指定信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">service-control --stop --all</span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line">service-control --start --all</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -250,7 +340,7 @@
 </blockquote>
 <p>需要先获取：</p>
 <ol>
-<li><a href="mailto:&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;">&#97;&#x64;&#x6d;&#105;&#x6e;&#105;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#111;&#99;&#97;&#108;</a>密码</li>
+<li><a href="mailto:&#97;&#100;&#x6d;&#105;&#110;&#x69;&#115;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#104;&#x65;&#114;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;">&#97;&#100;&#x6d;&#105;&#110;&#x69;&#115;&#x74;&#x72;&#x61;&#116;&#x6f;&#114;&#x40;&#118;&#x73;&#112;&#104;&#x65;&#114;&#x65;&#x2e;&#108;&#111;&#99;&#97;&#x6c;</a>密码</li>
 <li>VCSA的FQDN；</li>
 <li>获取VCSA的FQDN、VCSA的hostname；</li>
 </ol>
@@ -1220,101 +1310,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1ecd22e9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/1ecd22e9/" class="post-title-link" itemprop="url">ESXi-其他主机硬件对象告警</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-04-05 22:08:12" itemprop="dateCreated datePublished" datetime="2023-04-05T22:08:12+00:00">2023-04-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>ESXi出现告警，显示“其他主机硬件对象的状态”告警；</p>
-<p>到 ESXi 的 监控–硬件运行状况–警示和告警中，有“System Management Software 1 SEL  Fullness” ;</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>SLE &#x3D; Esxi System Event Log , 是ESXi的事件日志，这里表示ESXi的事件记录已经满了，需要清理一下。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>进入ESXi Shell，执行指令</p>
-<figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 查询</span><br><span class="line">localcli hardware ipmi sel get</span><br><span class="line"></span><br><span class="line"># 清理日志</span><br><span class="line">localcli hardware ipmi sel clear</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/5201351/p/16867372.html">https://www.cnblogs.com/5201351/p/16867372.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1362,6 +1357,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
 
 
 
