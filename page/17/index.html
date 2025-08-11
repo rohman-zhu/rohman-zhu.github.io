@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">448</span>
+          <span class="site-state-item-count">449</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">147</span>
+        <span class="site-state-item-count">148</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,139 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c4e4d78a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c4e4d78a/" class="post-title-link" itemprop="url">疫情期间VDI小结</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-03-20 22:53:04" itemprop="dateCreated datePublished" datetime="2022-03-20T22:53:04+00:00">2022-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>略</p>
+<h1 id="分类小结"><a href="#分类小结" class="headerlink" title="分类小结"></a>分类小结</h1><h2 id="场景分配"><a href="#场景分配" class="headerlink" title="场景分配"></a>场景分配</h2><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">配置</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">常规用户</td>
+<td align="center">4C8G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">轻度编译用户</td>
+<td align="center">4C16G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">重度编译用户</td>
+<td align="center">8C16G</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">超重度编译用户</td>
+<td align="center">16C32G</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>以上4中用户类型中，若资源条件允许，应让“轻度编译用户”类型作为常规用户，当下的个人PC配置环境基本是16G内存起步。如果内存分配过小，用户在实际使用的时候很容易出现“Out of memory”的错误。</p>
+<p>以上环境的单核基础频率是2.1GHz，也就是说一个重度用户对CPU的需求为16.8GHz左右。同一个任务下，4C要比8C多耗时40分钟左右。</p>
+<h2 id="业务总结"><a href="#业务总结" class="headerlink" title="业务总结"></a>业务总结</h2><h3 id="使用场景评估"><a href="#使用场景评估" class="headerlink" title="使用场景评估"></a>使用场景评估</h3><p>需要清楚用户的访问链路，思考几个问题：</p>
+<ol>
+<li>用户的访问链路应该是怎么样的？</li>
+<li>是否会与其他的远程工具冲突，如原本在外网就有解析的入口，是否会与VPN冲突？</li>
+<li>私有云的出口网络带宽是否能支撑用户的访问需求？带宽需求大概是多少？</li>
+<li>是否可以清楚监控到对应节点的负载情况？</li>
+<li>用户的核心需求是什么？是远程桌面？还是VDI？</li>
+</ol>
+<blockquote>
+<p>No.5非常重要，避免资源浪费，用户也许不清楚自己需要什么，更多情况下就是什么资源都会申请，这无疑会增加运维人员与支持人员的工作量。</p>
+</blockquote>
+<h3 id="信息安全侧评估"><a href="#信息安全侧评估" class="headerlink" title="信息安全侧评估"></a>信息安全侧评估</h3><p>需要明确信息安全红线，确保数据进出方向，对于敏感策略一定要设置有监控。所有的部署方案、防火墙策略申请应有审批报备。</p>
+<h2 id="效率总结"><a href="#效率总结" class="headerlink" title="效率总结"></a>效率总结</h2><h3 id="管理侧"><a href="#管理侧" class="headerlink" title="管理侧"></a>管理侧</h3><p>对于 VMware Horizon View 中的 RDS 桌面部署，基本上都是在Chrome浏览器中用鼠标点击授权，这个重复性的操作可以用Python3+Selenuim+Chrome来做自动化点击部署。</p>
+<h3 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h3><p>对于初始化RDSH服务器，可以使用 Windows + Openssh + Ansible 来批量部署。</p>
+<p>RDSH服务器均为Windows服务器，在上面安装Openssh，并配置允许Ansible账户来部署。</p>
+<p>Ansible侧则是需要写好相应的脚本批量下发即可，这里要注意Ansible服务器的配置，避免跑的任务太多导致CPU爆满。</p>
+<h3 id="基础架构侧"><a href="#基础架构侧" class="headerlink" title="基础架构侧"></a>基础架构侧</h3><p>底层资源要充足，在紧急时候能够提供所需资源，这个需要与业务方商谈，让其做相关预算。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -989,101 +1122,6 @@
 <td align="center">vMotion端口</td>
 </tr>
 </tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e9d2ed5d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/e9d2ed5d/" class="post-title-link" itemprop="url">Horizon Client提示远程桌面已断开</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-01-04 22:27:26" itemprop="dateCreated datePublished" datetime="2022-01-04T22:27:26+00:00">2022-01-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>用户端使用VMware Horizon Client登录后，打开其中发布的VDI或者RDSH应用，提示“远程桌面已断开”。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><h2 id="原因一–服务端防火墙拦截"><a href="#原因一–服务端防火墙拦截" class="headerlink" title="原因一–服务端防火墙拦截"></a>原因一–服务端防火墙拦截</h2><p>服务端的防火墙拦截，例如连接服务器与Horizon View Agent之间防火墙拦截、安全服务器或UAG与Horizon View Agent之间的防火墙拦截。</p>
-<p>使用Blast网关或者PCoIP网关的情况下，防火墙如下：</p>
-<p>SRC:UAG\Connection Server\Security Server<br>DST:Horizon View Agent<br>TCP:22443(Blast)\4172(PCoIP)<br>UDP:2443(Blast)\4172(PCoIP)</p>
-<p>检测方法，可以使用WEB端访问，如果可以访问，则说明Blast协议所需的防火墙已开通。</p>
-<h2 id="原因二–客户端异常"><a href="#原因二–客户端异常" class="headerlink" title="原因二–客户端异常"></a>原因二–客户端异常</h2><p>本地客户端VMware Horizon View Client有异常，需要卸载重装。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="原因一-–-申请防火墙即可。"><a href="#原因一-–-申请防火墙即可。" class="headerlink" title="原因一 – 申请防火墙即可。"></a>原因一 – 申请防火墙即可。</h2><h2 id="原因二-–-卸载客户端重装。"><a href="#原因二-–-卸载客户端重装。" class="headerlink" title="原因二 – 卸载客户端重装。"></a>原因二 – 卸载客户端重装。</h2><p>需要将原来Horizon View里面的文件均删除，如AppData中的文件夹。</p>
 
       
     </div>
