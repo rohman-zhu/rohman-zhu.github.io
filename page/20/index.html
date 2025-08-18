@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">449</span>
+          <span class="site-state-item-count">450</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,124 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c9255afc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c9255afc/" class="post-title-link" itemprop="url">vSphere虚拟机快照说明整理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-07 22:19:42" itemprop="dateCreated datePublished" datetime="2021-11-07T22:19:42+00:00">2021-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><h2 id="快照文件"><a href="#快照文件" class="headerlink" title="快照文件"></a>快照文件</h2><p>快照由存储在受支持的存储设备上的文件组成。“执行快照”操作会创建 .vmdk、-delta.vmdk、.vmsd 和.vmsn 文件。默认情况下，第一个以及所有增量磁盘与基本 .vmdk 文件存储在一起。.vmsd 和 .vmsn 文件存储在虚拟机目录中。</p>
+<h3 id="增量磁盘文件"><a href="#增量磁盘文件" class="headerlink" title="增量磁盘文件"></a>增量磁盘文件</h3><p>客户机操作系统可以写入的 .vmdk 文件。增量磁盘表示虚拟磁盘的当前状况和上次生成快照时存在的状况之间的差异。生成快照时，将保留虚拟磁盘的状况，从而阻止客户机操作系统写入，并会创建增量磁盘或子磁盘。<br>增量磁盘有两个文件。一个是包含虚拟磁盘相关信息（例如几何结构和父子关系信息）的较小的描述符文件。另一个是包含原始数据的对应文件。</p>
+<p>构成增量磁盘的文件称为子磁盘或重做日志。</p>
+<h3 id="平面文件"><a href="#平面文件" class="headerlink" title="平面文件"></a>平面文件</h3><p>-flat.vmdk 文件，组成基本磁盘的两个文件之一。平面磁盘包含基本磁盘的原始数据。该文件在数据存储浏览器中不显示为单个文件。<br>数据库文件</p>
+<p>.vmsd 文件，包含虚拟机的快照信息，并且是快照管理器的主要信息源。该文件包含行条目，这些条目定义了快照之间以及每个快照的子磁盘之间的关系。<br>内存文件</p>
+<p>.vmsn 文件，包含虚拟机的活动状况。通过捕获虚拟机的内存状况，可恢复到已打开虚拟机状况。使用非内存快照，仅能恢复到已关闭虚拟机状况。创建内存快照需要的时间比创建非内存快照需要的时间长。ESXi 主机将内存写入磁盘所需的时间取决于配置虚拟机使用的内存量。<br>执行快照操作会创建 .vmdk、-delta.vmdk、vmsd 和 vmsn 文件。</p>
+<h2 id="快照限制"><a href="#快照限制" class="headerlink" title="快照限制"></a>快照限制</h2><p><a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-53F65726-A23B-4CF0-A7D5-48E584B88613.html">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-53F65726-A23B-4CF0-A7D5-48E584B88613.html</a></p>
+<p>注意：</p>
+<ol>
+<li>无法对有裸磁盘的虚拟机快照。</li>
+<li>快照可能会对虚拟机的性能产生负面影响。性能降低基于快照或快照树保持原位的时间、树的深度以及执行快照后虚拟机及其客户机操作系统发生更改的程度。另外，还可能会看到打开虚拟机电源所花费的时间变长。不要永久从快照运行生产虚拟机。</li>
+</ol>
+<h2 id="快照作用"><a href="#快照作用" class="headerlink" title="快照作用"></a>快照作用</h2><p>可以执行一个或多个虚拟机快照，以捕获不同特定时间的设置状况、磁盘状况和内存状况。执行快照时，还可以静默虚拟机文件，并从快照中排除虚拟机磁盘。</p>
+<p>执行快照时，虚拟机上正在执行的其他活动可能会影响恢复到该快照的快照过程。从存储角度而言，执行快照的最佳时间是在未产生大量 I&#x2F;O 负载时。从服务角度而言，执行快照的最佳时间是在虚拟机中没有应用程序与其他计算机通信时。如果虚拟机正在与其他计算机通信，特别是在生产环境中，最可能出现问题。例如，如果执行快照时虚拟机正在从网络中的服务器下载文件，虚拟机会继续下载文件，同时就其进度与服务器进行通信。如果恢复为此快照，虚拟机与服务器之间的通信将受到干扰，且文件传输失败。可以创建一个内存快照或静默虚拟机中的文件系统，具体取决于要执行的任务。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li>拍摄快照会对存储有大量IO。</li>
+<li>拍摄快照期间，不要有与其他服务器的通讯服务。避免恢复后，业务中断。</li>
+<li>需要快照还原的虚拟机，磁盘模式需要设置为“独立-非持久”。</li>
+</ol>
+<p>从属：快照中包含该从属磁盘。<br>独立-持久：更改将立即并永久写入磁盘，持久磁盘不受快照影响。<br>即对虚拟机创建快照时，不对该磁盘的数据进行快照。使用快照还原虚拟机时，不对该磁盘的数据进行还原。</p>
+<p>独立-非持久：关闭电源或恢复快照后，丢弃对该磁盘的更改。</p>
+<p>若选择“独立-持久”或“独立-非持久”，则对虚拟机创建快照时，不对该磁盘的数据进行快照。使用快照还原虚拟机时，不对该磁盘的数据进行还原。<br>如果快照后，该磁盘被解绑定且未绑定其他虚拟机，则快照恢复的虚拟机会重新绑定该磁盘，但磁盘数据不进行还原。</p>
+<h2 id="内存快照"><a href="#内存快照" class="headerlink" title="内存快照"></a>内存快照</h2><p>生成快照的默认选择。捕获虚拟机内存状况时，快照会保留虚拟机的实时状况。内存快照可以创建某一精确时间点的快照（例如，升级仍在运行的软件）。生成了内存快照后，如果升级未按预期完成，或软件不符合您的预期，则可将虚拟机恢复到其以前的状态。<br>捕获内存状况时，虚拟机的文件无需静默。如果未捕获内存状况，快照就不会保存虚拟机的实时状况，除非静默磁盘，否则磁盘就是崩溃一致的。</p>
+<h2 id="静默快照"><a href="#静默快照" class="headerlink" title="静默快照"></a>静默快照</h2><p>当静默虚拟机时，VMware Tools 会静默虚拟机的文件系统。静默操作可确保快照磁盘表示客户机文件系统的一致状况。静默快照适用于自动备份或定期备份。例如，如果您无法识别虚拟机的活动，但希望恢复为多个最近的备份，则可以静默文件。<br>如果虚拟机电源已关闭或 VMware Tools 不可用，则Quiesce参数将不可用。您无法静默包含大容量磁盘的虚拟机。</p>
+<p>当静默虚拟机时，VMware Tools 会静默虚拟机中的文件系统。静默操作会暂停或更改虚拟机上正在运行的进程的状况，尤其是在恢复操作期间可能会修改存储在磁盘上的信息的进程。</p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>崩溃一致快照(crash-consistent snapshot)：是 VMware 虚拟机的默认快照类型，相当于电脑突然断电时磁盘的状态，闪存中的数据会丢失。</p>
+<p>文件系统一致快照(file-system-consistent snapshot): 快照时间点之前，虚拟机的文件系统被冻结，内存中的脏数据刷盘，快照完成后，文件系统解冻。这样的快照能够保证文件系统的一致性，即内存中的数据不会丢失。</p>
+<p>应用一致性(application-consistent snapshot)：快照时间点前，虚拟机上运行的应用被冻结，内存中应用的所有脏数据刷盘，快照完成后，应用被解冻，这样的快照能够保证指定应用的数据是完整的，但不会保证文件系统也是完全一致的。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-64B866EF-7636-401C-A8FF-2B4584D9CA72.html">https://docs.vmware.com/cn/VMware-vSphere/7.0/com.vmware.vsphere.vm_admin.doc/GUID-64B866EF-7636-401C-A8FF-2B4584D9CA72.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://imgki.com/amp/151.html">https://imgki.com/amp/151.html</a><br>快照扫盲：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jmilkfan-fanguiju/p/7532224.html">https://www.cnblogs.com/jmilkfan-fanguiju/p/7532224.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1085,111 +1203,6 @@
 <h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入目录</span></span><br><span class="line"><span class="built_in">cd</span> /dev/disk/by-path</span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line"><span class="built_in">ls</span> -l</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/find_zh/article/details/106156928">https://blog.csdn.net/find_zh/article/details/106156928</a><br><a target="_blank" rel="noopener" href="https://support.huawei.com/enterprise/zh/doc/EDOC1000041337/75f2d44b">https://support.huawei.com/enterprise/zh/doc/EDOC1000041337/75f2d44b</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43778969/article/details/84389865">https://blog.csdn.net/weixin_43778969/article/details/84389865</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/fd036253/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/fd036253/" class="post-title-link" itemprop="url">VCSA证书过期导致vCenter服务异常-【待补充】</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-09-25 23:16:27" itemprop="dateCreated datePublished" datetime="2021-09-25T23:16:27+00:00">2021-09-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自行搭建的VCSA在某天突然使用<a href="mailto:&#97;&#100;&#x6d;&#105;&#x6e;&#x69;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#x70;&#104;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#x63;&#97;&#108;">&#97;&#100;&#x6d;&#105;&#x6e;&#x69;&#115;&#116;&#114;&#x61;&#x74;&#x6f;&#x72;&#x40;&#x76;&#x73;&#x70;&#104;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#x63;&#97;&#108;</a>登录了，随后检查出以下问题：</p>
-<ol>
-<li>无法再使用<a href="mailto:&#x61;&#100;&#x6d;&#105;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#x73;&#112;&#x68;&#101;&#x72;&#101;&#x2e;&#x6c;&#111;&#97;&#x63;&#108;">&#x61;&#100;&#x6d;&#105;&#x6e;&#105;&#115;&#x74;&#114;&#97;&#x74;&#111;&#x72;&#x40;&#x73;&#112;&#x68;&#101;&#x72;&#101;&#x2e;&#x6c;&#111;&#97;&#x63;&#108;</a>登录VCSA或者VCSA IP:5480 控制台；</li>
-<li><a href="mailto:&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#x65;&#x72;&#101;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;">&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x69;&#115;&#116;&#x72;&#97;&#x74;&#111;&#x72;&#x40;&#x76;&#x73;&#112;&#104;&#x65;&#x72;&#101;&#x2e;&#x6c;&#111;&#99;&#x61;&#x6c;</a> 疑似被锁定或者过期无法登陆，输入正确的密码后，还是提示请输入密码；</li>
-<li>root账户密码忘记，无法从控制台登录VCSA，进入SHELL执行操作指令；</li>
-<li>关键服务无法启动，vpxd服务无法启用；</li>
-<li><a href="mailto:&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#115;&#116;&#x72;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#99;&#x61;&#x6c;">&#97;&#x64;&#109;&#105;&#x6e;&#x69;&#115;&#116;&#x72;&#x61;&#x74;&#111;&#x72;&#64;&#x76;&#x73;&#112;&#x68;&#x65;&#x72;&#x65;&#46;&#x6c;&#111;&#99;&#x61;&#x6c;</a>登录提示SSL报错；</li>
-<li>VCSA提示504错误；</li>
-</ol>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>以上有诸多问题，最主要的原因是因为VCSA内部的证书过期，导致相关依赖的服务无法启动。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>重要提示：以下的复原操作，请先拍摄快照！</p>
-<h2 id="忘记root密码"><a href="#忘记root密码" class="headerlink" title="忘记root密码"></a>忘记root密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入虚拟机Console界面</span></span><br><span class="line"><span class="comment"># 重启VCSA，在虚拟机界面，按 e</span></span><br><span class="line"><span class="comment"># 在linux这行最后增加 init=/bin/bash</span></span><br><span class="line"><span class="comment"># 进入单用户界面</span></span><br><span class="line"><span class="comment"># password root</span></span><br><span class="line"><span class="comment"># reboot -f</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="忘记-x61-100-109-105-x6e-x69-x73-116-114-97-x74-111-114-x40-118-115-x70-104-101-114-x65-46-x6c-x6f-x63-97-x6c-密码"><a href="#忘记-x61-100-109-105-x6e-x69-x73-116-114-97-x74-111-114-x40-118-115-x70-104-101-114-x65-46-x6c-x6f-x63-97-x6c-密码" class="headerlink" title="忘记&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;密码"></a>忘记<a href="mailto:&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;">&#x61;&#100;&#109;&#105;&#x6e;&#x69;&#x73;&#116;&#114;&#97;&#x74;&#111;&#114;&#x40;&#118;&#115;&#x70;&#104;&#101;&#114;&#x65;&#46;&#x6c;&#x6f;&#x63;&#97;&#x6c;</a>密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入 VCSA Shell</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置密码需要开启的服务</span></span><br><span class="line">service-control --start vmafdd</span><br><span class="line">service-control --start vmdird</span><br><span class="line">service-control --start vmcad</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指令</span></span><br><span class="line">/usr/lib/vmware-vmdir/bin/vdcadmintool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择3</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="重置STS证书"><a href="#重置STS证书" class="headerlink" title="重置STS证书"></a>重置STS证书</h2><p>STS&#x3D;Security Token Service</p>
-<p>操作过程：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录（非必要）</span></span><br><span class="line"><span class="built_in">mkdir</span> /root/newsts</span><br><span class="line"><span class="built_in">cd</span> /root/newsts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制自签证书至目标目录</span></span><br><span class="line"><span class="built_in">cp</span> /usr/lib/vmware-vmca/share/config/certool.cfg /root/newsts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑复制过来的副本证书文件，输入VCSA的IP与主机名</span></span><br><span class="line"><span class="comment">#------certool.cfg---------#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Template file for a CSR request</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Country is needed and has to be 2 characters</span></span><br><span class="line">Country = US</span><br><span class="line">Name = STS</span><br><span class="line">Organization = ExampleInc</span><br><span class="line">OrgUnit = ExampleInc Dev</span><br><span class="line">State = Indiana</span><br><span class="line">Locality = Indianapolis</span><br><span class="line">IPAddress = VCSA的IP</span><br><span class="line">Email = chen@exampleinc.com</span><br><span class="line">Hostname = VCSA的主机名</span><br><span class="line"><span class="comment">#------certool.cfg---------#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成秘钥</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --server localhost --genkey --privkey=/root/newsts/sts.key --pubkey=/root/newsts/sts.pub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成证书</span></span><br><span class="line">/usr/lib/vmware-vmca/bin/certool --gencert --cert=/root/newsts/newsts.cer --privkey=/root/newsts/sts.key --config=/root/newsts/certool.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书转成PK12格式</span></span><br><span class="line">openssl pkcs12 -<span class="built_in">export</span> -<span class="keyword">in</span> /root/newsts/newsts.cer -inkey /root/newsts/sts.key -certfile /var/lib/vmware/vmca/root.cer -name <span class="string">&quot;newstssigning&quot;</span> -passout pass:changeme -out newsts.p12</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将证书导入 JAVA 秘钥库（JKS）</span></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importkeystore -srckeystore newsts.p12 -srcstoretype pkcs12 -srcstorepass changeme -srcalias newstssigning -destkeystore root-trust.jks -deststoretype JKS -deststorepass testpassword -destkeypass testpassword</span><br><span class="line"></span><br><span class="line">/usr/java/jre-vmware/bin/keytool -v -importcert -keystore root-trust.jks -deststoretype JKS -storepass testpassword -keypass testpassword -file /var/lib/vmware/vmca/root.cer -<span class="built_in">alias</span> root-ca</span><br><span class="line"></span><br><span class="line"><span class="comment"># 出现交互式提示的时候，输入YES</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="重置所有证书（机器证书-解决方案证书）"><a href="#重置所有证书（机器证书-解决方案证书）" class="headerlink" title="重置所有证书（机器证书+解决方案证书）"></a>重置所有证书（机器证书+解决方案证书）</h2><p>注意，如果STS证书没有先替换，则无法执行替换所有证书，解决方案的证书均会回滚。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>VCSA中刷新STS证书： <a target="_blank" rel="noopener" href="https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html">https://docs.vmware.com/cn/VMware-vSphere/6.7/com.vmware.psc.doc/GUID-497233EA-AEF9-464B-A9C3-CCAEEA90C801.html</a></p>
 
       
     </div>
