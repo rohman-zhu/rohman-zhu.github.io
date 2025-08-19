@@ -519,7 +519,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-08-19 06:47:30" itemprop="dateModified" datetime="2025-08-19T06:47:30+00:00">2025-08-19</time>
+      <time title="Modified: 2025-08-19 07:00:48" itemprop="dateModified" datetime="2025-08-19T07:00:48+00:00">2025-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -549,10 +549,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>需要指令关机。</p>
-<h1 id="vSAN集群下线"><a href="#vSAN集群下线" class="headerlink" title="vSAN集群下线"></a>vSAN集群下线</h1><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+          <h1 id="需求一：集群安全开关机"><a href="#需求一：集群安全开关机" class="headerlink" title="需求一：集群安全开关机"></a>需求一：集群安全开关机</h1><p>需要指令关机。</p>
+<h2 id="vSAN集群下线"><a href="#vSAN集群下线" class="headerlink" title="vSAN集群下线"></a>vSAN集群下线</h2><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h1 id="vSAN集群上线"><a href="#vSAN集群上线" class="headerlink" title="vSAN集群上线"></a>vSAN集群上线</h1><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="vSAN集群上线"><a href="#vSAN集群上线" class="headerlink" title="vSAN集群上线"></a>vSAN集群上线</h2><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="需求二：vSAN集群从原本的vCenter迁移至新vCenter"><a href="#需求二：vSAN集群从原本的vCenter迁移至新vCenter" class="headerlink" title="需求二：vSAN集群从原本的vCenter迁移至新vCenter"></a>需求二：vSAN集群从原本的vCenter迁移至新vCenter</h1><ol>
+<li>集群上的虚拟机迁移完毕，使集群清空；</li>
+<li>将集群中的ESXi进入维护模式；</li>
+<li>关闭集群的自动发现功能</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vSAN 6.6及以上版本，运行以下命令忽略成员更新</span></span><br><span class="line">esxcfg-advcfg -s 1 /VSAN/IgnoreClusterMemberListUpdates</span><br><span class="line"></span><br><span class="line"><span class="comment"># vSAN 6.6及以上版本，运行以下命令开启成员更新</span></span><br><span class="line">esxcfg-advcfg -s 0 /VSAN/IgnoreClusterMemberListUpdates</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>将 vSAN 群集从一个 vCenter Server 移至另一个 vCenter Server ： <a target="_blank" rel="noopener" href="http://njlanhome.com/technology/618.html">http://njlanhome.com/technology/618.html</a><br>【VMware vSAN】使用命令行从vSAN集群中移除ESXi主机并加入到新的vSAN集群。：  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/juniormu/p/17985012">https://www.cnblogs.com/juniormu/p/17985012</a></p>
 
       
     </div>
