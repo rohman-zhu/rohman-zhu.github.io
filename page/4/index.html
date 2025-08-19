@@ -1004,7 +1004,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2025-08-19 04:17:45" itemprop="dateModified" datetime="2025-08-19T04:17:45+00:00">2025-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1038,6 +1038,10 @@
 <h2 id="基于vmk抓包"><a href="#基于vmk抓包" class="headerlink" title="基于vmk抓包"></a>基于vmk抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抓取 vmk0 的数据包，并保存在 test.zip</span></span><br><span class="line">pktcap-uw --vmk vmk0 -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
 
 <h2 id="基于虚拟机端口抓包"><a href="#基于虚拟机端口抓包" class="headerlink" title="基于虚拟机端口抓包"></a>基于虚拟机端口抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 找到虚拟机端口 ，虚拟机名为 testdemo,输出的包为 test.zip</span></span><br><span class="line">net-stats -l | grep testdemo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抓虚拟机所需的端口</span></span><br><span class="line">pktcap-uw --switchport [testdemo nic port] --ip [需要过滤的IP] -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="持续抓包"><a href="#持续抓包" class="headerlink" title="持续抓包"></a>持续抓包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pktcap-uw --switchport [vm nic port] -o - | tcpdump-uw -r - [过滤条件]</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 

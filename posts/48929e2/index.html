@@ -27,7 +27,7 @@
 <meta property="og:description" content="抓包过程 登录ESXi Shell 使用 pktcap-uw 抓包 使用 tcpdump-uw 解包  基于vmk抓包12345# 抓取 vmk0 的数据包，并保存在 test.zippktcap-uw --vmk vmk0 -o test.zip# 解包tcpdump-uw -enr test.zip  基于虚拟机端口抓包12345678# 找到虚拟机端口 ，虚拟机名为 testdemo,输出的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-08T23:26:51.000Z">
-<meta property="article:modified_time" content="2024-12-22T05:27:48.990Z">
+<meta property="article:modified_time" content="2025-08-19T04:17:45.144Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="default">
 <meta name="twitter:card" content="summary">
@@ -112,7 +112,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">抓包过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Evmk%E6%8A%93%E5%8C%85"><span class="nav-number">1.1.</span> <span class="nav-text">基于vmk抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AB%AF%E5%8F%A3%E6%8A%93%E5%8C%85"><span class="nav-number">1.2.</span> <span class="nav-text">基于虚拟机端口抓包</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8C%85%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">抓包过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Evmk%E6%8A%93%E5%8C%85"><span class="nav-number">1.1.</span> <span class="nav-text">基于vmk抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AB%AF%E5%8F%A3%E6%8A%93%E5%8C%85"><span class="nav-number">1.2.</span> <span class="nav-text">基于虚拟机端口抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E6%8A%93%E5%8C%85"><span class="nav-number">1.2.1.</span> <span class="nav-text">持续抓包</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -199,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2025-08-19 04:17:45" itemprop="dateModified" datetime="2025-08-19T04:17:45+00:00">2025-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,6 +232,10 @@
 <h2 id="基于vmk抓包"><a href="#基于vmk抓包" class="headerlink" title="基于vmk抓包"></a>基于vmk抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抓取 vmk0 的数据包，并保存在 test.zip</span></span><br><span class="line">pktcap-uw --vmk vmk0 -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
 
 <h2 id="基于虚拟机端口抓包"><a href="#基于虚拟机端口抓包" class="headerlink" title="基于虚拟机端口抓包"></a>基于虚拟机端口抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 找到虚拟机端口 ，虚拟机名为 testdemo,输出的包为 test.zip</span></span><br><span class="line">net-stats -l | grep testdemo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抓虚拟机所需的端口</span></span><br><span class="line">pktcap-uw --switchport [testdemo nic port] --ip [需要过滤的IP] -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="持续抓包"><a href="#持续抓包" class="headerlink" title="持续抓包"></a>持续抓包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pktcap-uw --switchport [vm nic port] -o - | tcpdump-uw -r - [过滤条件]</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
