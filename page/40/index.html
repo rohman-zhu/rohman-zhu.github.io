@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">450</span>
+          <span class="site-state-item-count">451</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,164 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/baf6444b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/baf6444b/" class="post-title-link" itemprop="url">NOSQL之Memcached缓存服务实战</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-24 14:16:13" itemprop="dateCreated datePublished" datetime="2017-11-24T14:16:13+00:00">2017-11-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h1><p>Memcached 是 开源的,支持高性能,高并发的分布式内存缓存系统.有 <em>服务端</em> 与 <em>客户端</em> .</p>
+<p>作用:</p>
+<p>通过自身内存中缓存关系型数据库的查询结果,减少数据库自身被访问的次数,以提高动态web应用的速度,提高网站架构的并发能力和可拓展性.</p>
+<p>类似的软件:</p>
+<ul>
+<li>Memcached (纯内存型)</li>
+<li>Redis&#x2F;Memcachedb (可持久存储,即可以使用内存,也可以使用磁盘存储)</li>
+<li>Squid&#x2F;Nginx (内存或内存加磁盘缓存)</li>
+</ul>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li>协议简单</li>
+<li>支持 epoll&#x2F;kqueue异步I&#x2F;O模型,使用libevent作为事件处理通知机制.</li>
+<li>key&#x2F;value键值数据类型</li>
+<li>全内存缓存,效率高</li>
+</ol>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动Memcached</span></span><br><span class="line"><span class="comment"># memcached -m 16m -p 11211 -d -u root -c 8192</span></span><br><span class="line"><span class="comment"># -m指定缓存大小,-p指定端口 -d指定为daemon运行 , -c 指定并发数(默认1024)</span></span><br></pre></td></tr></table></figure>
+
+<p>memcached相关语法:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;command&gt; &lt;key&gt; &lt;flags&gt; &lt;exptime&gt; &lt;bytes&gt; \r\n</span></span><br><span class="line"><span class="comment"># &lt;datablock&gt;\r\n</span></span><br><span class="line"><span class="comment"># &lt;status&gt;\r\n</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">相关参数</th>
+<th align="center">意思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">command</td>
+<td align="center">set无论如何都要进行写入数据,会覆盖老数据;add 只有对应数据不存在时才会添加数据;replace只有数据存在时进行替换数据;append往后追加数据 : append &lt;key&gt; datablock&lt;status&gt;?;prepend 往前追加:prepend &lt;key&gt; datablock&lt;status&gt;;cas按版本号更改</td>
+</tr>
+<tr>
+<td align="center">key</td>
+<td align="center">普通字符串,要求小于250个字符,不包含空格和控制字符</td>
+</tr>
+<tr>
+<td align="center">flags</td>
+<td align="center">客户端用来表示数据格式的数值,如json,xml,压缩等</td>
+</tr>
+<tr>
+<td align="center">exptime</td>
+<td align="center">存活时间为s,0为永远,小于30天,60*60*24*30为秒数,大于30天为unixtime</td>
+</tr>
+<tr>
+<td align="center">bytes</td>
+<td align="center">byte字节数,不包含\r\n,根据长度截取 存&#x2F;取 的字符串,可以是0,即为存空串</td>
+</tr>
+<tr>
+<td align="center">datablock</td>
+<td align="center">文本行,以\r\n结尾,可以包含\r或者\n</td>
+</tr>
+<tr>
+<td align="center">status</td>
+<td align="center">STORED &#x2F; NOT_STORED &#x2F; EXISTS &#x2F; NOT_FOUND &#x2F; ERROR &#x2F; CLIENT_ERROR &#x2F; SERVER_ERROR 服务端会关闭连接以修复</td>
+</tr>
+</tbody></table>
+<h2 id="PHP环境下安装memcache客户端"><a href="#PHP环境下安装memcache客户端" class="headerlink" title="PHP环境下安装memcache客户端"></a>PHP环境下安装memcache客户端</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PHP的插件要执行phpize</span></span><br><span class="line"><span class="comment"># /aaplication/php/bin/phpize</span></span><br><span class="line"><span class="comment"># cd memcahe-2.2.7</span></span><br><span class="line"><span class="comment"># ./configure --enable-memcache --with-php-config=/application/php/bin/php-config</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+
+<p>相关文章 : <code>http://www.jb51.net/article/70158.htm</code></p>
+<h2 id="Memcache内存管理机制"><a href="#Memcache内存管理机制" class="headerlink" title="Memcache内存管理机制"></a>Memcache内存管理机制</h2><h3 id="Malloc内存管理机制"><a href="#Malloc内存管理机制" class="headerlink" title="Malloc内存管理机制"></a>Malloc内存管理机制</h3><p>Memory Allocation , 动态内存分配 , 使用场景一般在于无法知道内存具体位置的时候,却想要班定真正的内存空间.</p>
+<p>通过动态内存分配后,对使用完的内存用free回收.</p>
+<blockquote>
+<p>容易产生内存碎片并降低操作系统对内存的管理效率.加重操作系统内存管理器的负担,甚至,会导致操作系统比memcached进程本身还慢.</p>
+</blockquote>
+<h3 id="Slab内存管理机制"><a href="#Slab内存管理机制" class="headerlink" title="Slab内存管理机制"></a>Slab内存管理机制</h3><p>Slab Allocation</p>
+<ol>
+<li>提前将内存分配为1MB的若干个slab,再针对slab进行小对箱填充chunk,避免大量重复的初始化和清理,减轻了内存管理组的负担.(chunk类似block用于存放数据)</li>
+</ol>
+<p>slab尾部剩余空间:</p>
+<p>如果不足一个chunk,则会浪费内存空间.</p>
+<blockquote>
+<p>规划slab大小 &#x3D; chunk大小 * n整数</p>
+</blockquote>
+<h2 id="memcache-对-对象检测机制"><a href="#memcache-对-对象检测机制" class="headerlink" title="memcache 对 对象检测机制"></a>memcache 对 对象检测机制</h2><ol>
+<li>不主动检测item对象是否过期,而是在get时才会检查item对象是否过期以及是否应该删除.</li>
+<li>当删除item对象时,一般不释放内存空间,而是作为标记删除,将指针放入slot回收插槽,下次分配的时候直接使用.</li>
+<li>当内存空间满的时候,才会根据LRU算法把最近最少使用的item对象删除.</li>
+<li>数据存入可以设定过期时间,但数据过期后不会立即删除,而是在get时才会检查item对象是否过期以及是否应该删除.</li>
+<li>如果不希望系统使用LRU算法清除数据,可以使用-M参数.</li>
+</ol>
+<blockquote>
+<p>Least Recently Used的缩写，即最近最久未使用，常用于页面置换算法，是为虚拟页式存储管理服务的。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1596,192 +1754,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/239f14e0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/239f14e0/" class="post-title-link" itemprop="url">SQL语句详解</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-09 17:20:39" itemprop="dateCreated datePublished" datetime="2017-11-09T17:20:39+00:00">2017-11-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Structure-Query-Language"><a href="#Structure-Query-Language" class="headerlink" title="Structure Query Language"></a>Structure Query Language</h1><p>一般分为三类:</p>
-<ol>
-<li>DDL(Data Definition Language) – 数据定义语言(CREAT,EALTER,DROP),管理基础数据,例如:库,表;</li>
-<li>DCL(Data Control Language) – 数据控制语言(GRANT,REVOKE,COMMIT,ROLLBACK),用户授权,权限回收,数据提交回滚</li>
-<li>DML(Data Manipulation Language) – 数据操作语言 (SELECT,INSERT,DELETE,UPDATE),针对数据库里的表与记录</li>
-</ol>
-<h2 id="常见应用"><a href="#常见应用" class="headerlink" title="常见应用"></a>常见应用</h2><h3 id="1-创建数据库"><a href="#1-创建数据库" class="headerlink" title="1. 创建数据库"></a>1. 创建数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">create database &lt;DatabaseName&gt;;</span><br><span class="line"></span><br><span class="line">* 创建指定字符集的数据库:</span><br><span class="line"></span><br><span class="line">create database &lt;DatabaseName&gt; CHARACTER SET [Charset] [Description] [Default collattion];</span><br><span class="line"></span><br><span class="line">* 查看字符集</span><br><span class="line"></span><br><span class="line">show character set;</span><br></pre></td></tr></table></figure>
-
-<p>默认使用utf-8</p>
-<h3 id="2-删除数据库"><a href="#2-删除数据库" class="headerlink" title="2.删除数据库"></a>2.删除数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">drop database &lt;databaseName&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-连接数据库"><a href="#3-连接数据库" class="headerlink" title="3.连接数据库"></a>3.连接数据库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use &lt;databaseName&gt;</span><br><span class="line"></span><br><span class="line">不切换数据库,用 database.table</span><br><span class="line"></span><br><span class="line">例如:</span><br><span class="line"></span><br><span class="line">select user,host from mysql.user</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-授权"><a href="#4-授权" class="headerlink" title="4.授权"></a>4.授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">命令 : 授权命令 对应权限 目标 用户名和客户机 密码</span><br><span class="line"></span><br><span class="line">mysql&gt; grant all on *.* to &#x27;&#x27;@&#x27;localhost&#x27; identified by &#x27;12345&#x27;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-为表创建索引"><a href="#5-为表创建索引" class="headerlink" title="5.为表创建索引"></a>5.为表创建索引</h3><p>加快语句查询速度.</p>
-<h4 id="5-1-主键索引"><a href="#5-1-主键索引" class="headerlink" title="5.1 主键索引"></a>5.1 主键索引</h4><p>一个表只能有一个主键索引列,可以有多个普通列索引.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">在建表的时候添加</span><br><span class="line"></span><br><span class="line"># 主键索引</span><br><span class="line">primary key(列名)</span><br><span class="line"></span><br><span class="line"># 普通索引</span><br><span class="line">Key index_name(列名)</span><br><span class="line"></span><br><span class="line">mysql &gt; alter table [table_name] [add|drop] index_name(ColumName);</span><br><span class="line"></span><br><span class="line"># 指定某一个列中的前几个字符,例如 student 表的name varchar(20)</span><br><span class="line">mysql &gt; create index index_name to student(name(8))</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>PRI为主键索引的标识</li>
-<li>MUL为普通索引的标识</li>
-</ul>
-<h4 id="5-2-联合索引"><a href="#5-2-联合索引" class="headerlink" title="5.2 联合索引"></a>5.2 联合索引</h4><p>具有前缀特性,举个例子</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 有三个字段 A B C</span><br><span class="line"></span><br><span class="line"># 创建联合索引 index(A,B,C)</span><br><span class="line"></span><br><span class="line">那么在查询的时候,索引的位置只能是以下三种情况:</span><br><span class="line"></span><br><span class="line">A</span><br><span class="line"></span><br><span class="line">A B</span><br><span class="line"></span><br><span class="line">A B C</span><br><span class="line"></span><br><span class="line">===============以下情况则不允许出现================</span><br><span class="line"></span><br><span class="line">A C</span><br><span class="line"></span><br><span class="line">B C</span><br><span class="line"></span><br><span class="line">C</span><br></pre></td></tr></table></figure>
-
-<p>因此,我们创建的时候,要考虑到以下因素:</p>
-<blockquote>
-<p>经常用于条件查询的字段,放在前面,例如经常查 学号(A),再查年龄(B),那么创建联合索引就可以是index(A,B)</p>
-</blockquote>
-<h4 id="5-3唯一索引"><a href="#5-3唯一索引" class="headerlink" title="5.3唯一索引"></a>5.3唯一索引</h4><h4 id="5-4-关于索引的相关问题"><a href="#5-4-关于索引的相关问题" class="headerlink" title="5.4 关于索引的相关问题"></a>5.4 关于索引的相关问题</h4><h5 id="1-既然索引可以加快查询速度-那么就给所有列都添加索引-可以吗"><a href="#1-既然索引可以加快查询速度-那么就给所有列都添加索引-可以吗" class="headerlink" title="1.既然索引可以加快查询速度,那么就给所有列都添加索引,可以吗"></a>1.既然索引可以加快查询速度,那么就给所有列都添加索引,可以吗</h5><p>因为索引占系统空间,而且更新数据库也需要更新索引数据,因此索引并不是越多越好.例如,几百行的小表上无需建立索引,更新频繁,读取比较少的表要少建立索引.</p>
-<h5 id="2-需要在哪些列上创建索引"><a href="#2-需要在哪些列上创建索引" class="headerlink" title="2.需要在哪些列上创建索引"></a>2.需要在哪些列上创建索引</h5><ul>
-<li>索引一定要创建在where后的条件列上,而不是select后的选择数据列上.</li>
-<li>索引建立在_唯一值_多的大表上的列建立索引.(只有男&#x2F;女的列上不适合建立索引)</li>
-</ul>
-<h3 id="6-用explain优化SQL语句查询"><a href="#6-用explain优化SQL语句查询" class="headerlink" title="6.用explain优化SQL语句查询"></a>6.用explain优化SQL语句查询</h3><ol>
-<li>抓慢查询: a. show full prcesslist;(现场抓) b.分析慢查询日志.(配置文件中添加long_query_time &#x3D;1 log-slow-queries &#x3D; &#x2F;..&#x2F;..&#x2F;xx.log log_queries_not_using_indexes)</li>
-<li>explain语句检查索引执行情况</li>
-<li>对需要建索引的列建立索引.</li>
-</ol>
-<h3 id="7-profile功能对SQL语句进行优化"><a href="#7-profile功能对SQL语句进行优化" class="headerlink" title="7.profile功能对SQL语句进行优化"></a>7.profile功能对SQL语句进行优化</h3><h3 id="8-增删表的字段"><a href="#8-增删表的字段" class="headerlink" title="8.增删表的字段"></a>8.增删表的字段</h3><p>alter table table_name add 字段 类型 其他;</p>
-<h3 id="9-中文数据乱码问题"><a href="#9-中文数据乱码问题" class="headerlink" title="9.中文数据乱码问题"></a>9.中文数据乱码问题</h3><p>设置好以下字符集(UTF-8):</p>
-<ul>
-<li>Linux 客户端字符集</li>
-<li>Linux 服务端字符集</li>
-<li>数据库 客户端字符集</li>
-<li>数据库 服务端字符集</li>
-<li>具体数据库的字符集</li>
-<li>表的字符集</li>
-<li>PHP&#x2F;Java程序字符集</li>
-</ul>
-<h4 id="9-1-解决方法"><a href="#9-1-解决方法" class="headerlink" title="9.1 解决方法"></a>9.1 解决方法</h4><h5 id="临时生效-set-names-字符集"><a href="#临时生效-set-names-字符集" class="headerlink" title="临时生效:set names 字符集"></a>临时生效:set names 字符集</h5><p>相当于</p>
-<p>SET character_set_client &#x3D; 字符集<br>SET character_set_results &#x3D; 字符集<br>SET character_setconnection &#x3D; 字符集</p>
-<p>查看字符集更改</p>
-<p>show variable like “character%”</p>
-<h5 id="永久生效-mysql-–default-character-set-utf8"><a href="#永久生效-mysql-–default-character-set-utf8" class="headerlink" title="永久生效 :mysql –default-character-set &#x3D; utf8"></a>永久生效 :mysql –default-character-set &#x3D; utf8</h5><p>登录数据库的时候指定字符集</p>
-<h5 id="配置文件-my-cnf更改mysqld标签下面"><a href="#配置文件-my-cnf更改mysqld标签下面" class="headerlink" title="配置文件:my.cnf更改mysqld标签下面"></a>配置文件:my.cnf更改mysqld标签下面</h5><p>在 [mysqld] 下边添加: init_connect &#x3D; ‘SET NAMES 字符集’</p>
-<blockquote>
-<p>客户端字符集更改,默认配置文件在&#x2F;etc&#x2F;my.cnf</p>
-</blockquote>
-<h5 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h5><p>在配置文件中修改[mysqld]标签下的参数,相当于在登录mysql后,修改了以下两个参数:</p>
-<ul>
-<li>character_set_database | gbk</li>
-<li>character_set_server | gbk</li>
-</ul>
-<p>客户端[mysql]修改后,相当于登录mysql后,修改了以下两个参数:</p>
-<ul>
-<li>character_set_database</li>
-<li>character_set_results</li>
-<li>character_set_client</li>
-</ul>
-<p>另外,数据有中文与英文,建议用”utf-8”字符集.</p>
-<h3 id="10-MySQL日志"><a href="#10-MySQL日志" class="headerlink" title="10.MySQL日志"></a>10.MySQL日志</h3><h4 id="10-1错误日志"><a href="#10-1错误日志" class="headerlink" title="10.1错误日志"></a>10.1错误日志</h4><ol>
-<li>在配置文件中的 [mysqld_safe] 的 log-error 设置</li>
-<li>启动命令添加 –log-error</li>
-</ol>
-<h4 id="10-2查询日志"><a href="#10-2查询日志" class="headerlink" title="10.2查询日志"></a>10.2查询日志</h4><p>在数据库中,用命令查看相关命令show variables like ‘general_log%’</p>
-<p>更改(临时生效),set global general_log_file&#x3D;”全路径”</p>
-<p>在配置文件中添加 general-log-file&#x3D;”全路径”</p>
-<h4 id="10-3慢查询日志"><a href="#10-3慢查询日志" class="headerlink" title="10.3慢查询日志"></a>10.3慢查询日志</h4><p>这里面记录查询时间超过指定时间的语句</p>
-<p>log-slow-queries&#x3D;”全路径”</p>
-<p>使用mysqlsla分析慢查询,定时发给相关人员邮箱.</p>
-<h4 id="10-4二进制日志"><a href="#10-4二进制日志" class="headerlink" title="10.4二进制日志"></a>10.4二进制日志</h4><p>在配置文件中,把 log_bin 打开开关, log-bin &#x3D; “全路径”</p>
-<p>作用:</p>
-<ol>
-<li>记录更改的SQL语句</li>
-<li>主从复制</li>
-<li>做增量备份</li>
-</ol>
-<p>三种模式:</p>
-<h5 id="1-Row-Level"><a href="#1-Row-Level" class="headerlink" title="1. Row Level"></a>1. Row Level</h5><p>优点 : 记录了每一个SQL执行语句的细节.<br>缺点 : 性能不足.</p>
-<h5 id="2-Statement-Level-默认"><a href="#2-Statement-Level-默认" class="headerlink" title="2. Statement Level(默认)"></a>2. Statement Level(默认)</h5><p>优点 : 提高效率<br>缺点 : 简略记录SQL语句,会导致从库无法执行执行.(例如使用了一些特殊功能的语句)</p>
-<h5 id="3-Mixed"><a href="#3-Mixed" class="headerlink" title="3. Mixed"></a>3. Mixed</h5><p>会分析SQL语句,根据情况选择Statement或者Row模式.</p>
-<blockquote>
-<p>如果对数据库要求较多,则选择Mixed</p>
-</blockquote>
-<h3 id="11-恢复数据库source命令"><a href="#11-恢复数据库source命令" class="headerlink" title="11.恢复数据库source命令"></a>11.恢复数据库source命令</h3><p>source 备份文件的全路径</p>
-<h3 id="12-mysqlbinlog命令"><a href="#12-mysqlbinlog命令" class="headerlink" title="12.mysqlbinlog命令"></a>12.mysqlbinlog命令</h3><p>主要用于增量恢复,原本是二进制的内容解析成SQL语句.</p>
-<ul>
-<li>参数 :-d 指定对应的库</li>
-</ul>
-<ol>
-<li>条件: 全备份与全备后的binlog</li>
-<li>关键点 : G点 ,确定全备份之后时刻binlog文件及位置</li>
-<li>恢复时尽量对外停止服务</li>
-</ol>
-<blockquote>
-<p>如果不能停止对外服务,要怎么做?</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/39/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/41/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/39/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/41/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
