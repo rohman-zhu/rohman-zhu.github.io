@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">451</span>
+          <span class="site-state-item-count">452</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,148 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/eda2d482/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/eda2d482/" class="post-title-link" itemprop="url">LVS集群以及keepalive高可用实战</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-21 19:31:08" itemprop="dateCreated datePublished" datetime="2018-01-21T19:31:08+00:00">2018-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="负载均衡LVS-Keepalive"><a href="#负载均衡LVS-Keepalive" class="headerlink" title="负载均衡LVS,Keepalive#"></a>负载均衡LVS,Keepalive#</h1><h2 id="APR-Address-Resolution-Protocol-地址解析协议"><a href="#APR-Address-Resolution-Protocol-地址解析协议" class="headerlink" title="APR (Address Resolution Protocol) 地址解析协议"></a>APR (Address Resolution Protocol) 地址解析协议</h2><blockquote>
+<p>通过IP地址,获取主机的MAC地址</p>
+</blockquote>
+<p>查看ARP:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Windows &amp;&amp; Linux</span><br><span class="line">arp -a</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>有arp缓存表可以加速ARP的解析速度.</li>
+<li>给恶意黑客带来攻击服务器主机的风险(ARP欺骗)</li>
+</ol>
+<blockquote>
+<p>ARP属于三层协议</p>
+</blockquote>
+<h3 id="ARP欺骗原理"><a href="#ARP欺骗原理" class="headerlink" title="ARP欺骗原理"></a>ARP欺骗原理</h3><p>ARP攻击就是通过伪造IP地址和MAC地址对(IP-MAC),实现ARP欺骗.</p>
+<p>解决方法 : </p>
+<ul>
+<li>记录正确网关地址</li>
+</ul>
+<h3 id="高可用服务器对-切换时ARP缓存问题"><a href="#高可用服务器对-切换时ARP缓存问题" class="headerlink" title="高可用服务器对 切换时ARP缓存问题"></a>高可用服务器对 切换时ARP缓存问题</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/sbin/arping -I eth0 -c 3 -s 10.0.-.162 10.0.0.253</span><br><span class="line">/sbin/arping -U -I eth0 10.0.0.162</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器等设备迁移时-要考虑ARP缓存的问题"><a href="#路由器等设备迁移时-要考虑ARP缓存的问题" class="headerlink" title="路由器等设备迁移时,要考虑ARP缓存的问题"></a>路由器等设备迁移时,要考虑ARP缓存的问题</h3><p>同上一个问题.</p>
+<h2 id="LVS-Linux-Virtual-Server"><a href="#LVS-Linux-Virtual-Server" class="headerlink" title="LVS (Linux Virtual Server)"></a>LVS (Linux Virtual Server)</h2><p>负载均衡主要功能</p>
+<ol>
+<li>减少用户等待相应时间,系统处理能力得到大幅度提高.</li>
+<li>单个负载的运算分担到多台节点设备上做并行处理.</li>
+<li>7*24的服务保证</li>
+</ol>
+<p>LVS:</p>
+<ol>
+<li>实现调度的工具IPVS</li>
+<li>管理工具 IPVSADM</li>
+<li>keepalived 实现管理及高可用</li>
+</ol>
+<p>术语:</p>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">缩写</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">虚拟IP地址</td>
+<td align="center">VIP</td>
+<td align="center">VIP为Director用于向客户端计算机提供服务的IP地址</td>
+</tr>
+<tr>
+<td align="center">真实IP地址</td>
+<td align="center">RIP</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">客户端主机IP</td>
+<td align="center">CIP</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Director的IP地址</td>
+<td align="center">DIP</td>
+<td align="center">用于连接内外网络的IP 地址,物理网卡上的IP 地址.</td>
+</tr>
+</tbody></table>
+<h3 id="四种工作模式"><a href="#四种工作模式" class="headerlink" title="四种工作模式"></a>四种工作模式</h3><h4 id="DR模式-Director-Router"><a href="#DR模式-Director-Router" class="headerlink" title="DR模式(Director Router)"></a>DR模式(Director Router)</h4><p>通过改写请求报文的目标MAC地址,通过LVS发送给服务器,服务器将结果返回给客户端.</p>
+<blockquote>
+<p>请求过程: CIP -&gt; VIP -&gt; 更改 VIP:MAC -&gt; VIP:RMAC(真实服务器的MAC) -&gt; CIP -&gt; VIP -&gt; L0绑定VIP,并且抑制ARP</p>
+</blockquote>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1474,110 +1616,6 @@
 <p>本地监控,一般选择NRPE(被动模式);</p>
 <p>对于web服务,数据库这种对外提供服务的监控,一般选择主动模式.</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/575937de/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/575937de/" class="post-title-link" itemprop="url">NOSQL之Redis持久化存储</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-24 19:20:07" itemprop="dateCreated datePublished" datetime="2017-11-24T19:20:07+00:00">2017-11-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>先说NOSQL,全称时指No only structure query language.</p>
-<p>Redis (Remote Dictionary Server)是一个基于key-value键值对的持久化数据存储系统.</p>
-<ul>
-<li>redis支持的数据存储类型更丰富,包括string,list,set,zset(有序集合).</li>
-<li>redis还支持master-slave(主从同步).</li>
-<li>性能很高,支持超过100K+每秒的读写频率(数据常规的是几百的读写).</li>
-<li>Redis所有的操作都有原子性的,同时Redis还支持对几个操作全并后的原子性执行.</li>
-<li>Redis还支持public&#x2F;subscribe,通知,key过期等特性</li>
-</ul>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="传统的MySQL-Memcached网站架构的局限"><a href="#传统的MySQL-Memcached网站架构的局限" class="headerlink" title="传统的MySQL+Memcached网站架构的局限"></a>传统的MySQL+Memcached网站架构的局限</h3><p>当业务数据量的不断增加,memcache也需要不断扩容,扩容和维护工作占据大量的运维时间.</p>
-<ol>
-<li>增加运维时间.</li>
-<li>Memcache与MySQL的数据存在一致性问题.</li>
-<li>Memcache数据命中率低或者宕机,会导致大量访问直接穿透数据库,导致MySQL无法支撑访问.</li>
-<li>跨机房与cache同步一致性问题.</li>
-</ol>
-<p>Redis的最佳应用场景:</p>
-<ol>
-<li>全部数据是in-memory.</li>
-<li>作为Memcached的替代品来使用.</li>
-<li>当需要除了key-value之外的更多数据类型支持时,使用Redis更合适.</li>
-<li>当存储的数据不能被剔除时,使用Redis更合适.</li>
-</ol>
-<p>参考文章:<code>http://blog.nosqlfan.com/html/2235.html</code></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h3><p><code>https://redis.io</code></p>
-<p>常规编译安装即可.</p>
-<p>添加环境变量,&#x2F;redis&#x2F;bin&#x2F;*</p>
-<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>原本的配置文件在源安装文件的根目录下,把该文件复制到软件安装的根目录下</p>
-<h3 id="客户端安装"><a href="#客户端安装" class="headerlink" title="客户端安装"></a>客户端安装</h3><p>类似memcache客户端安装</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd phpredis-master</span></span><br><span class="line"><span class="comment"># /application/php/bin/phpize</span></span><br><span class="line"><span class="comment"># ./configure -with-php-config=/application/php/bin/php-config</span></span><br><span class="line"><span class="comment"># make</span></span><br><span class="line"><span class="comment"># make install</span></span><br><span class="line"><span class="comment"># echo &quot;extension = redis.so&quot; &gt;&gt; /application/php/lib/php.ini</span></span><br></pre></td></tr></table></figure>
       
     </div>
 

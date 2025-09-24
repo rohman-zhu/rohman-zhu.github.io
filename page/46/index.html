@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">451</span>
+          <span class="site-state-item-count">452</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,424 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d704995f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d704995f/" class="post-title-link" itemprop="url">GIT学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-06-11 15:14:37" itemprop="dateCreated datePublished" datetime="2017-06-11T15:14:37+00:00">2017-06-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/GIT%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">GIT学习笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="设置GIT的配置信息"><a href="#设置GIT的配置信息" class="headerlink" title="设置GIT的配置信息"></a>设置GIT的配置信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+<h1 id="—以下内容后不需要联网-本地操作即可—"><a href="#—以下内容后不需要联网-本地操作即可—" class="headerlink" title="—以下内容后不需要联网,本地操作即可—"></a>—以下内容后不需要联网,本地操作即可—</h1><br>
+<br>
+<br>
+<br>
+
+
+<h1 id="创建一个空的文件夹作为本地仓库"><a href="#创建一个空的文件夹作为本地仓库" class="headerlink" title="创建一个空的文件夹作为本地仓库"></a>创建一个空的文件夹作为本地仓库</h1><p>打开CMD 或者 Terminal 命令行控制窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir LearnGit</span><br><span class="line">$ cd LearnGit</span><br><span class="line">$ pwd</span><br><span class="line">\...\LearnGit\</span><br></pre></td></tr></table></figure>
+<p>注解:</p>
+<ol>
+<li>mkdir + ‘directory_name’ 是创建文件夹命令.</li>
+<li>cd + ‘directory_name’ 是进入指定文件夹命令.</li>
+<li>pwd 是显示当前路径的命令.</li>
+<li>cd + ‘..’是返回上级目录.</li>
+</ol>
+<h1 id="使当前文件夹作为GIT仓库"><a href="#使当前文件夹作为GIT仓库" class="headerlink" title="使当前文件夹作为GIT仓库"></a>使当前文件夹作为GIT仓库</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+<p>注解:</p>
+<ol>
+<li>ls 显示当前目录下的可见文件与文件夹</li>
+<li>ls -ah 显示当前目录下所有隐藏文件夹</li>
+</ol>
+<h1 id="添加文件到仓库"><a href="#添加文件到仓库" class="headerlink" title="添加文件到仓库"></a>添加文件到仓库</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add &lt;file&gt; [&lt;file2&gt;]</span><br><span class="line"></span><br><span class="line">$ git commit - m &quot;本次提交的版本说明,这样就能从历史记录中找到改动记录&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改本地文件"><a href="#修改本地文件" class="headerlink" title="修改本地文件"></a>修改本地文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vim readme.txt</span><br><span class="line">//添加内容</span><br></pre></td></tr></table></figure>
+
+<p>查看Git仓库的状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br></pre></td></tr></table></figure>
+
+<p>会发现一下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line"># On branch master</span><br><span class="line"># Changes not staged for commit:</span><br><span class="line">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line">#</span><br><span class="line">#    modified:   readme.txt</span><br><span class="line">#</span><br><span class="line">no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>modified 表示有修改的地方.上面的命令告诉我们，readme.txt被修改过了，但还没有准备提交的修改。</p>
+<p>如果我们要看哪里修改了,可以输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git diff &quot;被修改的文件&quot;</span><br></pre></td></tr></table></figure>
+
+<p>会出现以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git diff readme.txt </span><br><span class="line">diff --git a/readme.txt b/readme.txt</span><br><span class="line">index 46d49bf..9247db6 100644</span><br><span class="line">--- a/readme.txt</span><br><span class="line">+++ b/readme.txt</span><br><span class="line">@@ -1,2 +1,2 @@</span><br><span class="line">-Git is a version control system.</span><br><span class="line">+Git is a distributed version control system.</span><br><span class="line"> Git is free software.</span><br></pre></td></tr></table></figure>
+
+<p> 注解:</p>
+<ol>
+<li>“-“表示删除的内容</li>
+<li>“+”表示增加的内容</li>
+</ol>
+<h1 id="查看提交日志"><a href="#查看提交日志" class="headerlink" title="查看提交日志"></a>查看提交日志</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log </span><br></pre></td></tr></table></figure>
+
+<p>会出现以下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">commit f86e14f9b45add275f9008dcbb3c72eb4e39eef3 (HEAD -&gt; master)</span><br><span class="line">Author: R0manJ &lt;zhur0ngjian@126.com&gt;</span><br><span class="line">Date:   Fri Jun 9 08:51:49 2017 +0800</span><br><span class="line"></span><br><span class="line">    add a statement</span><br><span class="line"></span><br><span class="line">commit 1d5282852e4e6b967c2fbf8c06dec5f125afdce3</span><br><span class="line">Author: R0manJ &lt;zhur0ngjian@126.com&gt;</span><br><span class="line">Date:   Fri Jun 9 08:49:57 2017 +0800</span><br><span class="line"></span><br><span class="line">    add 2 files</span><br><span class="line"></span><br><span class="line">commit 31497a8b6e1503181fd39591d35c016c37b895df</span><br><span class="line">Author: R0manJ &lt;zhur0ngjian@126.com&gt;</span><br><span class="line">Date:   Fri Jun 9 08:48:41 2017 +0800</span><br><span class="line"></span><br><span class="line">    wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p>我总共提交了3次,所以这里就会出现3个日志,并且每一个提交都有描述,如”add a statement”.</p>
+<hr>
+<h3 id="以下是简化输出日志信息的方法"><a href="#以下是简化输出日志信息的方法" class="headerlink" title="以下是简化输出日志信息的方法"></a>以下是简化输出日志信息的方法</h3><p>输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log --pretty=oneline</span><br></pre></td></tr></table></figure>
+
+<p>会看到:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f86e14f9b45add275f9008dcbb3c72eb4e39eef3 (HEAD -&gt; master) add a statement</span><br><span class="line">1d5282852e4e6b967c2fbf8c06dec5f125afdce3 add 2 files</span><br><span class="line">31497a8b6e1503181fd39591d35c016c37b895df wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p><em>注解:</em></p>
+<p>看到的一大串类似3628164…882e1e0的是commit id（版本号），和SVN不一样，Git的commit id不是1，2，3……递增的数字，而是一个SHA1计算出来的一个非常大的数字，用十六进制表示，而且你看到的commit id和我的肯定不一样，以你自己的为准。为什么commit id需要用这么一大串数字表示呢？因为Git是分布式的版本控制系统，后面我们还要研究多人在同一个版本库里工作，如果大家都用1，2，3……作为版本号，那肯定就冲突了。</p>
+<h1 id="返回之前的版本"><a href="#返回之前的版本" class="headerlink" title="返回之前的版本"></a>返回之前的版本</h1><ul>
+<li><p>首先要知道当前是什么版本</p>
+<p>  在Git中，用HEAD表示当前版本，也就是最新的提交3628164…882e1e0（注意我的提交ID和你的肯定不一样），上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。</p>
+</li>
+<li><p>使用 git reset 命令恢复之前的版本</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard HEAD^</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="撤销恢复"><a href="#撤销恢复" class="headerlink" title="撤销恢复"></a>撤销恢复</h1><p>需要记得之前的 <em>commit id</em> ,再用命令 “git reset” 命令.</p>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset --hard f86e14f9b45add275f9008dcbb3c72eb4e39eef3</span><br></pre></td></tr></table></figure>
+</code></pre>
+<blockquote>
+<p>这个图片是 <em>廖雪峰</em> 的GIT教程里面的,链接为:<a target="_blank" rel="noopener" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013744142037508cf42e51debf49668810645e02887691000">http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013744142037508cf42e51debf49668810645e02887691000</a></p>
+</blockquote>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384907584977fc9d4b96c99f4b5f8e448fbd8589d0b2000/0" alt="版本控制_HEAD"></p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384907594057a873c79f14184b45a1a66b1509f90b7a000/0" alt="版本控制_HEADN"></p>
+<p>其实就是将 <em>HEAD</em> 指向的内容改一下而已</p>
+<h1 id="记录每次Git操作命令"><a href="#记录每次Git操作命令" class="headerlink" title="记录每次Git操作命令"></a>记录每次Git操作命令</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$git reflog</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="GIT的文件结构"><a href="#GIT的文件结构" class="headerlink" title="GIT的文件结构"></a>GIT的文件结构</h1><h2 id="工作区（Working-Directory）"><a href="#工作区（Working-Directory）" class="headerlink" title="工作区（Working Directory）"></a>工作区（Working Directory）</h2><p>就是你在电脑里能看到的目录，比如我的learngit文件夹就是一个工作区：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/0013849082162373cc083b22a2049c4a47408722a61a770000/0" alt="工作区"></p>
+<h2 id="版本库（Repository）"><a href="#版本库（Repository）" class="headerlink" title="版本库（Repository）"></a>版本库（Repository）</h2><p>工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。</p>
+<p>Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。</p>
+<br>
+
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0" alt="版本库"></p>
+<h1 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -- readme.txt</span><br></pre></td></tr></table></figure>
+
+<p><em>注解</em>:<br>把readme.txt文件在工作区的修改全部撤销，这里有两种情况：</p>
+<p>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；</p>
+<p>一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。</p>
+<h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//确认要删除的文件请求</span><br><span class="line">$ rm test.txt</span><br><span class="line">//提交请求</span><br><span class="line">$git commit -m &quot;Remove test.txt&quot;</span><br><span class="line">//撤销删除并且恢复到最新的版本</span><br><span class="line">$git checkout --test.txt</span><br></pre></td></tr></table></figure>
+
+<br>
+<br>
+
+<br>
+<br>
+
+<h1 id="——-以下内容是需要联网操作——"><a href="#——-以下内容是需要联网操作——" class="headerlink" title="——-以下内容是需要联网操作——-"></a>——-以下内容是需要联网操作——-</h1><br>
+<br>
+
+<br>
+<br>
+
+<p>请自行注册GitHub账号。由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以，需要一点设置：</p>
+<h1 id="第1步-：创建SSH-Key。"><a href="#第1步-：创建SSH-Key。" class="headerlink" title="第1步 ：创建SSH Key。"></a>第1步 ：创建SSH Key。</h1><blockquote>
+<p>在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>接下来会让你设置密码,这个密码是用于上传文件到仓库时用到.</p>
+<br>
+
+<p>输入完后,可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p>
+<h1 id="第2步-在GITHUB中添加SSH-KEY"><a href="#第2步-在GITHUB中添加SSH-KEY" class="headerlink" title="第2步 : 在GITHUB中添加SSH KEY"></a>第2步 : 在GITHUB中添加SSH KEY</h1><p>登陆GitHub，打开“Account settings”，“SSH Keys”页面：</p>
+<p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384908342205cc1234dfe1b541ff88b90b44b30360da000/0" alt="添SSH_KEY"></p>
+<p>为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。</p>
+<p>当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。</p>
+<p>最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。</p>
+<br>
+<br>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">1、删除文件命令</span><br><span class="line"></span><br><span class="line">rm -f 文件名</span><br><span class="line"></span><br><span class="line">将会强行删除文件，且无提示</span><br><span class="line"></span><br><span class="line">2、删除文件夹以及文件夹中的所有文件命令：</span><br><span class="line"></span><br><span class="line">rm -rf  目录名字</span><br><span class="line"></span><br><span class="line">其中：</span><br><span class="line"></span><br><span class="line">-r：向下递归删除</span><br><span class="line"></span><br><span class="line">-f：直接强行删除，且没有任何提示</span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">使用rm -rf要格外注意，linux中没有回收站，慎重操作。</span><br></pre></td></tr></table></figure>
+
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li><p>ERROR:Your push would publish a private email address.</p>
+<ul>
+<li>出现这个问题,只用将Github账号中的邮箱设置为公开的即可</li>
+</ul>
+</li>
+<li><p>ERROR:Permission denied (publickey).</p>
+<ul>
+<li>这个问题主要是因为自定义了ssh的路径的,暂时无解……</li>
+<li>在生成ssh的时候,路径就按照默认的即可</li>
+<li>一般默认的会生成3个文件,分别是 id_rsa  ,  id_rsa.pub  ,  knowhost</li>
+</ul>
+</li>
+</ol>
+<h2 id="远程仓库的操作"><a href="#远程仓库的操作" class="headerlink" title="远程仓库的操作"></a>远程仓库的操作</h2><ul>
+<li><p>删除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm &quot;仓库名&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建仓库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add &quot;仓库名&quot; &quot;ssh&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提交文件到仓库</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$git push origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="克隆-下载-仓库文件"><a href="#克隆-下载-仓库文件" class="headerlink" title="克隆(下载)仓库文件"></a>克隆(下载)仓库文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone &quot;ssh地址&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="分支的意义"><a href="#分支的意义" class="headerlink" title="分支的意义"></a>分支的意义</h1><blockquote>
+<p>摘抄自廖雪峰老师叫教学网站</p>
+</blockquote>
+<p>分支就是科幻电影里面的平行宇宙，当你正在电脑前努力学习Git的时候，另一个你正在另一个平行宇宙里努力学习SVN。</p>
+<p>如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，结果，你既学会了Git又学会了SVN！</p>
+<p>分支在实际中有什么用呢？假设你准备开发一个新功能，但是需要两周才能完成，第一周你写了50%的代码，如果立刻提交，由于代码还没写完，不完整的代码库会导致别人不能干活了。如果等代码全部写完再一次提交，又存在丢失每天进度的巨大风险。</p>
+<p>现在有了分支，就不用怕了。你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作。</p>
+<p>其他版本控制系统如SVN等都有分支管理，但是用过之后你会发现，这些版本控制系统创建和切换分支比蜗牛还慢，简直让人无法忍受，结果分支功能成了摆设，大家都不去用。</p>
+<p>但Git的分支是与众不同的，无论创建、切换和删除分支，Git在1秒钟之内就能完成！无论你的版本库是1个文件还是1万个文件。</p>
+<h1 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h1><p>每次提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。</p>
+<p>一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/0013849087937492135fbf4bbd24dfcbc18349a8a59d36d000/0" alt="master分支"></p>
+<p>当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD指向dev，就表示当前分支在dev上：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384908811773187a597e2d844eefb11f5cf5d56135ca000/0" alt="dev分支"></p>
+<p>你看，Git创建一个分支很快，因为除了增加一个dev指针，改改HEAD的指向，工作区的文件都没有任何变化！</p>
+<p>不过，从现在开始，对工作区的修改和提交就是针对dev分支了，比如新提交一次后，dev指针往前移动一步，而master指针不变：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/0013849088235627813efe7649b4f008900e5365bb72323000/0" alt="在新提交"></p>
+<p>假如我们在dev上的工作完成了，就可以把dev合并到master上。Git怎么合并呢？最简单的方法，就是直接把master指向dev的当前提交，就完成了合并：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/00138490883510324231a837e5d4aee844d3e4692ba50f5000/0" alt="合并分支"></p>
+<p>所以Git合并分支也很快！就改改指针，工作区内容也不变！</p>
+<p>合并完分支后，甚至可以删除dev分支。删除dev分支就是把dev指针给删掉，删掉后，我们就剩下了一条master分支：</p>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384908867187c83ca970bf0f46efa19badad99c40235000/0" alt="最终分支"></p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="创建分支-1"><a href="#创建分支-1" class="headerlink" title="创建分支"></a>创建分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$git checkout -b &quot;分支名&quot;</span><br></pre></td></tr></table></figure>
+
+<p><em>注解:</em></p>
+<ul>
+<li><p>git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git branch &quot;分支名&quot;</span><br><span class="line">$ git checkout &quot;分支名&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git checkout 命令相当于指定当前分支</p>
+</li>
+</ul>
+<h3 id="查看当前分支"><a href="#查看当前分支" class="headerlink" title="查看当前分支"></a>查看当前分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch</span><br></pre></td></tr></table></figure>
+
+<p><em>注解 :</em></p>
+<p>git branch命令会列出所有分支，当前分支前面会标一个*号。</p>
+<h3 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge &quot;分支名&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果主分支没有更新,而其他分支有更新,则可以快速合并,但在实际开发中,会遇到主分支与其他分支同时都更新了,这时就无法快速合并.</p>
+</blockquote>
+<p><img src="http://www.liaoxuefeng.com/files/attachments/001384909115478645b93e2b5ae4dc78da049a0d1704a41000/0" alt="分支的冲突"></p>
+<blockquote>
+<p>Git用&lt;&lt;&lt;&lt;&lt;&lt;&lt;，&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;，&gt;&gt;&gt;&gt;&gt;&gt;&gt;标记出不同分支的内容，我们修改如下后保存.</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add readme.txt </span><br><span class="line">$ git commit -m &quot;conflict fixed&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://www.liaoxuefeng.com/files/attachments/00138490913052149c4b2cd9702422aa387ac024943921b000/0" alt="修改过后的分支"></p>
+<h3 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -d &quot;分支名&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fast-Forward-模式合并"><a href="#Fast-Forward-模式合并" class="headerlink" title="Fast Forward 模式合并"></a>Fast Forward 模式合并</h3><h3 id="禁用Fast-Forward-模式合并"><a href="#禁用Fast-Forward-模式合并" class="headerlink" title="禁用Fast Forward 模式合并"></a>禁用Fast Forward 模式合并</h3><p>通常，合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。</p>
+<p>如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m &quot;merge with no-ff&quot; &quot;分支名&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>团队开发分支如下:<br><img src="http://www.liaoxuefeng.com/files/attachments/001384909239390d355eb07d9d64305b6322aaf4edac1e3000/0" alt="团队开发"></li>
+</ul>
+<h2 id="在提交前-保存当前工作分支"><a href="#在提交前-保存当前工作分支" class="headerlink" title="在提交前,保存当前工作分支"></a>在提交前,保存当前工作分支</h2><blockquote>
+<p>应用场景:<br>你当前在dev分支上工作,可是发现了master分支上面有一个急需修复的bug!</p>
+</blockquote>
+<p>我们的解决思路是这样的:</p>
+<ol>
+<li><p>创建一个新的分支</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b issue-01</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>完成修改并提交</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git add &quot;文件名&quot;</span><br><span class="line">$ git commit -m &quot;修复完xxx&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>回到master分支,合并 <em>issue-01</em> 分支</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git merge --no-ff -m&quot;修复了一个BUG&quot; issue-01</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除 <em>issue-01</em> 分支</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -d issue-01</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>可是!这里就要求我们把手头上的工作做完,才去修复,这样就会比较麻烦.</p>
+<p>因此,Git提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git stash</span><br></pre></td></tr></table></figure>
+
+<p>查看到当前的工作空间:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git stash list</span><br></pre></td></tr></table></figure>
+
+<p>恢复当前的工作空间有两种方法:</p>
+<ol>
+<li><p>这个方法会保存stash,需要用 <em>git stash drop</em> 方法删除</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  git stash apply</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用这个方法的话,不仅恢复当前工作空间,并且删除stash</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git stash pop</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="开发新功能"><a href="#开发新功能" class="headerlink" title="开发新功能"></a>开发新功能</h2><p>建立分支名字为” _feature-xxx “</p>
+<h1 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h1><ul>
+<li><p>创建标签</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag &quot;tag_name&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建带文字说明的标签</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -a v0.1 -m &quot;version 0.1 released&quot; 3628164</span><br></pre></td></tr></table></figure>
+
+<p>  <em>注解 :</em><br>  用-a指定标签名，-m指定说明文字.</p>
+</li>
+<li><p>创建一个带私钥的标签</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -s v0.2 -m &quot;signed version 0.2 released&quot; fec145a</span><br></pre></td></tr></table></figure>
+<p>  <em>注解 :</em> 通过-s用私钥签名一个标签</p>
+</li>
+<li><p>查看标签</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看标签的具体信息</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git show &quot;tag_name&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除标签</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -d &quot;tag_name&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送标签到远程仓库</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin &lt;tagname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>  <em>注解 :</em> 这里的” origin “ 是一个远程仓库的名字,这个名字可以自定义的. </p>
+</li>
+<li><p>一次性把所有标签全部推送到远程仓库上</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin --tags</span><br></pre></td></tr></table></figure>
+<p>  <em>注解 :</em> 这里的” origin “ 是一个远程仓库的名字,这个名字可以自定义的. </p>
+</li>
+<li><p>删除远程仓库上面的标签</p>
+<blockquote>
+<p>如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：</p>
+</blockquote>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -d v0.9</span><br><span class="line">Deleted tag &#x27;v0.9&#x27; (was 6224937)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>然后，从远程删除。删除命令也是push，但是格式如下：</p>
+</blockquote>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin :refs/tags/v0.9</span><br><span class="line">To git@github.com:michaelliao/learngit.git</span><br><span class="line">- [deleted]         v0.9</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>如果忘记打标签,事后要补上怎么办?</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git tag &quot;tag_name&quot; &quot;commit_id&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h1><p>有没有经常敲错命令？比如git status？status这个单词真心不好记。</p>
+<p>如果敲git st就表示git status那就简单多了，当然这种偷懒的办法我们是极力赞成的。</p>
+<p>我们只需要敲一行命令，告诉Git，以后st就表示status：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.st status</span><br></pre></td></tr></table></figure>
+
+<p>再例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.co checkout</span><br><span class="line">$ git config --global alias.ci commit</span><br><span class="line">$ git config --global alias.br branch</span><br></pre></td></tr></table></figure>
+
+<p><em>注解 :</em> –global参数是全局参数，也就是这些命令在这台电脑的所有Git仓库下都有用。如果不加，那只针对当前的仓库起作用。</p>
+<br>
+
+
+<p>在撤销修改一节中，我们知道，命令git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区。既然是一个unstage操作，就可以配置一个unstage别名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.unstage &#x27;reset HEAD&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>当你敲入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git unstage test.py</span><br></pre></td></tr></table></figure>
+
+<p>实际上Git执行的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git reset HEAD test.py</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>跟环境变量很像</p>
+</blockquote>
+<blockquote>
+<p>每个仓库的Git配置文件都放在.git&#x2F;config文件中.</p>
+</blockquote>
+<blockquote>
+<p>而当前用户的Git配置文件放在用户主目录下的一个隐藏文件.gitconfig中.</p>
+</blockquote>
+<br>
+
+<h1 id="搭建本地Git服务器-略"><a href="#搭建本地Git服务器-略" class="headerlink" title="搭建本地Git服务器(略)"></a>搭建本地Git服务器(略)</h1><p>GitHub就是一个免费托管开源代码的远程仓库。但是对于某些视源代码如生命的商业公司来说，既不想公开源代码，又舍不得给GitHub交保护费，那就只能自己搭建一台Git服务器作为私有仓库使用。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
