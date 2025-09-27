@@ -832,7 +832,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-09-27 15:09:32" itemprop="dateModified" datetime="2025-09-27T15:09:32+00:00">2025-09-27</time>
+      <time title="Modified: 2025-09-27 15:12:11" itemprop="dateModified" datetime="2025-09-27T15:12:11+00:00">2025-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -859,7 +859,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>有大部分客户端Linux都存有Server端的公钥，Server端需要通过ssh免密对客户端下发命令，但由于是第一次登录，每一次ssh到目标客户端都需要输入yes。</p>
-<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/expect</span><br><span class="line"># 遍历目标服务器范围</span><br><span class="line">for &#123; set i 0 &#125; &#123; i&lt;3 &#125; &#123; incr i &#125; &#123;</span><br><span class="line">  ssh username@192.168.1.$i</span><br><span class="line">  expect &quot;yes/no&quot;</span><br><span class="line">  send &quot;yes\r&quot;</span><br><span class="line">  expect &quot;$*&quot;</span><br><span class="line">  send &quot;exit\r&quot;</span><br><span class="line">&#125;</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/expect</span><br><span class="line"># 遍历目标服务器范围</span><br><span class="line">for &#123; set i 0 &#125; &#123; i&lt;3 &#125; &#123; incr i &#125; &#123;</span><br><span class="line">  set host &quot;192.168.1.$i&quot;</span><br><span class="line"></span><br><span class="line">  ssh username@$host</span><br><span class="line">  </span><br><span class="line">  expect &quot;yes/no&quot;</span><br><span class="line">  send &quot;yes\r&quot;</span><br><span class="line">  expect &quot;$*&quot;</span><br><span class="line">  send &quot;exit\r&quot;</span><br><span class="line">&#125;</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
 
       
     </div>
