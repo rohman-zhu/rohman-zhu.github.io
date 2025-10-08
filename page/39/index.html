@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,101 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/214c3c32/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/214c3c32/" class="post-title-link" itemprop="url">UEFI与GUID下的双系统引导</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-02-14 23:10:20" itemprop="dateCreated datePublished" datetime="2018-02-14T23:10:20+00:00">2018-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="UEFI与GUID下的双系统引导"><a href="#UEFI与GUID下的双系统引导" class="headerlink" title="UEFI与GUID下的双系统引导"></a>UEFI与GUID下的双系统引导</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经好多个星期没有写博文了,今天借着在公司实习过程中学习到的新技能,在这里秀一波. 事情是这样的,现在很多人都会去装双系统(Linux+Windows居多),如果采用Legacy的启动方式,则不适用于本教材,对于这种启动方式,自然有相对应的引导方法,下次再记录.本文记录的是UEFI+GUID模式的引导.</p>
+<h2 id="设置BIOS与转换硬盘分区表为GUID"><a href="#设置BIOS与转换硬盘分区表为GUID" class="headerlink" title="设置BIOS与转换硬盘分区表为GUID"></a>设置BIOS与转换硬盘分区表为GUID</h2><p>首先是要对BIOS进行设置,在BIOS启动引导项内,选择”UEFI”模式.</p>
+<p>如果硬盘分区列表不是GUID(GPT),则需要将硬盘的分区列表整体转化为GUID,这个需要在PE内,使用Diskgenius这个软件来实现,转换前,需要把所有数据做好备份,因为需要删除整个分区列表,这个是没办法的事情.</p>
+<h2 id="硬盘空间安排"><a href="#硬盘空间安排" class="headerlink" title="硬盘空间安排"></a>硬盘空间安排</h2><ul>
+<li>100 G 作为windows10 的系统盘(包含ESP和MSR)</li>
+<li>100 G 作为Linux的系统盘</li>
+<li>300 G 作为数据盘</li>
+</ul>
+<h2 id="安装Windows10系统"><a href="#安装Windows10系统" class="headerlink" title="安装Windows10系统"></a>安装Windows10系统</h2><p>自行分配好硬盘空间,安装windows10的时候,会自动划分ESP分区(必要)和MSR(非必要),安装就没有什么好说的了.</p>
+<h2 id="安装Linux系统"><a href="#安装Linux系统" class="headerlink" title="安装Linux系统"></a>安装Linux系统</h2><p>在100G的空间内,做一下安排:</p>
+<ul>
+<li>200MB 的 &#x2F;boot 节点</li>
+<li>两倍于物理内存的 swap 分区</li>
+<li>剩余空间分配给 &#x2F; 节点</li>
+</ul>
+<h2 id="制作引导"><a href="#制作引导" class="headerlink" title="制作引导"></a>制作引导</h2><p>本文使用的是rEFInd 这个开源的软件(官网:<a target="_blank" rel="noopener" href="http://www.rodsbooks.com/refind/">http://www.rodsbooks.com/refind/</a>).</p>
+<p><img src="http://www.rodsbooks.com/refind/refind.png" alt="引导界面效果如下"></p>
+<p>下载地址:<a target="_blank" rel="noopener" href="http://www.rodsbooks.com/refind/getting.html">http://www.rodsbooks.com/refind/getting.html</a></p>
+<p>目前我只试验过在Linux下执行安装脚本后,直接运行即可.</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>写到文章最后个人感觉难点在于 UEFI+GPT 这种方式的理解上面 , 另一方面 , 如果之前使用的是MBR,并且存放着大量的资料(几百个G的资料 - - ),这时候就要迁移资料再转变分区列表格式 . 另外 rEFInd 这个开源的引导软件,真的可以做到傻瓜式操作…在Linux下直接运行安装脚本即可,其实后续还有很多可玩的地方,比如…自定义界面??(这个后面再试试)现在是大年三十的凌晨啦,那么先晚安啦~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1414,207 +1509,6 @@
 <blockquote>
 <p>听师兄说这个用的很少了,所以这个章节作为了解,以后有需求或者再查阅相关文档就好了.</p>
 </blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/54dd7c63/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/54dd7c63/" class="post-title-link" itemprop="url">Linux之监控</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-25 15:16:25" itemprop="dateCreated datePublished" datetime="2017-11-25T15:16:25+00:00">2017-11-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><h2 id="监控系统需要监控的方面"><a href="#监控系统需要监控的方面" class="headerlink" title="监控系统需要监控的方面"></a>监控系统需要监控的方面</h2><ol>
-<li>本地资源:负载uptime,CPU(top,sar),磁盘(df),内存(free),IO(iostat),RAID,温度,passwd文件的变化,本地所有文件的指纹.</li>
-<li>网络服务:端口,URL,DB,丢包,进程数,网络流量.</li>
-<li>其他设备: 路由器,交换机端口流量, 打印机,Windows等</li>
-<li>业务数据:用户登录次数,用户登录网站次数,输入验证码失败的次数,某一个API接口流量并发,电商网站订单,支付交易的数量.</li>
-</ol>
-<h2 id="监控工具-Nagios"><a href="#监控工具-Nagios" class="headerlink" title="监控工具 Nagios"></a>监控工具 Nagios</h2><h3 id="介绍与优势"><a href="#介绍与优势" class="headerlink" title="介绍与优势"></a>介绍与优势</h3><p><em>Nagios</em> 是一款开源的网络以及服务的监控工具.可以监控windows,linux,unix等系统的主机各种状态信息,交换机,路由器等网络设备,主机端口以及URL服务等,根据不同古战级别发送警告信息(邮件,微信,短信等)给管理员.</p>
-<blockquote>
-<p>windows可以作为被监控的主机,但不能作为监控服务器.</p>
-</blockquote>
-<p>官网地址:<code>https://www.nagios.org</code></p>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
-<li>监控网络服务(SMTP,POP3,HTTP,TCP,PING等)</li>
-<li>监控主机资源(CPU,负载,IO状态,虚拟及正事内存以及磁盘利用率等)</li>
-<li>简单的插件设计模式使得用户可以方便定制符合自己的服务的检测方法.</li>
-<li>并行服务检查机制.</li>
-<li>具有定义网络分层结构的能力,用 <em>parent</em> 主机来定义网络主机间的关系,这种关系可以用来发现和明晰主机宕机或不可达的状态.</li>
-<li>当服务或主机问题产生与解决后将警告发给联系人.</li>
-<li>支持分布式检查机制</li>
-</ol>
-<h3 id="Nagios监控系统构成"><a href="#Nagios监控系统构成" class="headerlink" title="Nagios监控系统构成"></a>Nagios监控系统构成</h3><ol>
-<li>主程序:Nagios(服务端软件)</li>
-<li>插件程序(nagio-plugins)</li>
-<li>附件插件(NRPE,NSClient,NSCA,NDOUtils)</li>
-</ol>
-<h4 id="几个附加程序"><a href="#几个附加程序" class="headerlink" title="几个附加程序"></a>几个附加程序</h4><h5 id="NRPE-半被动模式"><a href="#NRPE-半被动模式" class="headerlink" title="NRPE:半被动模式"></a>NRPE:半被动模式</h5><ul>
-<li>存在位置 : NRPE软件工作于被监控端,操作系统为 Linux \ Unix</li>
-<li>NRPE作用 : 用于在被监控的远程 Linux&#x2F;Unix 主机上执行脚本插件获取数据回传给服务器端,以实现对这些主机资源的监控.</li>
-<li>存在形式 : 守护进程(agent)模式,开启的端口5666</li>
-<li>本地资源 : 负载uptime,CPU(top,sar),内存(free,swap),IO(iostat),RAID级别,本地所有文件指纹识别监控.</li>
-</ul>
-<h5 id="NSClient-半被动模式"><a href="#NSClient-半被动模式" class="headerlink" title="NSClient++:半被动模式"></a>NSClient++:半被动模式</h5><ul>
-<li>存在位置 : 用于被监控端为windows系统的服务</li>
-<li>作用 : 功能相当于Linux下的NRPE.</li>
-</ul>
-<blockquote>
-<p>用于监控Windows主机时,安装再windows主机上的组件.</p>
-</blockquote>
-<h5 id="NSCA-纯被动模式的监控"><a href="#NSCA-纯被动模式的监控" class="headerlink" title="NSCA:纯被动模式的监控"></a>NSCA:纯被动模式的监控</h5><ul>
-<li>位置:NSCA需要同时安装再nagios的服务端和客户端(被监控端).</li>
-<li>作用: 用于让被监控的远程Linux&#x2F;Unix主机主动将监控到的信息发给Nagios服务器.</li>
-</ul>
-<h3 id="Nagios监控的简单原理"><a href="#Nagios监控的简单原理" class="headerlink" title="Nagios监控的简单原理"></a>Nagios监控的简单原理</h3><h4 id="NRPE-运行原理"><a href="#NRPE-运行原理" class="headerlink" title="NRPE 运行原理"></a>NRPE 运行原理</h4><p>NRPE放在被监控的主机上面.</p>
-<p>Nagios -&gt; check_nrpe |—–&gt;| NRPE -&gt; {check_disk,check_load,…} -&gt; Local Resources and Services</p>
-<ul>
-<li>端口:5666</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="服务端安装"><a href="#服务端安装" class="headerlink" title="服务端安装"></a>服务端安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.配置yum源</span></span><br><span class="line"><span class="comment"># 2.调整字符集</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export LC_ALL=C&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 3.关闭防火墙 &amp; selinux</span></span><br><span class="line">chkconfig iptables off</span><br><span class="line">setenfore 0</span><br><span class="line">vi /etc/selinux/config</span><br><span class="line"><span class="comment"># 4.定时任务--时间同步</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;*/10 * * * * /usr/sbin/ntpdata pool.ntp.org &gt; /dev/null 2&gt;&amp;1&#x27;</span> &gt;&gt;/var/spool</span><br><span class="line"></span><br><span class="line">crontab -l</span><br><span class="line"><span class="comment"># 5.install gcc and lamp env etc</span></span><br><span class="line"></span><br><span class="line">yum install unzip</span><br><span class="line">yum install gcc glibc-common -y</span><br><span class="line">yum install gd gd-devel -y</span><br><span class="line">yum install httpd php php-gd -y</span><br><span class="line">yum install mysql* -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.添加用户和组</span></span><br><span class="line">useradd -m nagios</span><br><span class="line">useradd apache</span><br><span class="line">useradd nagcmd</span><br><span class="line"></span><br><span class="line">usermod -a -G nagcmd nagios</span><br><span class="line">usermod -a -G nagcmd nagcmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.download and install nagios</span></span><br><span class="line">解压忽略(3.5版本)</span><br><span class="line">./configure --with-command-group=nagcmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.1安装</span></span><br><span class="line">[3.5版本的]</span><br><span class="line">make install-init</span><br><span class="line">make install-config</span><br><span class="line">make install-commandmode</span><br><span class="line">make install-webconf</span><br><span class="line"></span><br><span class="line">[新版本]</span><br><span class="line"><span class="comment">#make all</span></span><br><span class="line"><span class="comment">#make install</span></span><br><span class="line"><span class="comment">#make install-init</span></span><br><span class="line"><span class="comment">#make install-commandmode</span></span><br><span class="line"><span class="comment">#make install-webconf</span></span><br><span class="line"><span class="comment">#make install-config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 8 config web</span></span><br><span class="line">htpasswd -cb /usr/local/nagios/etc/htpasswd.users username passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9 install nagios-plugins</span></span><br><span class="line">yum install perl-devel</span><br><span class="line"><span class="comment"># nagios-plugins-1.4.16</span></span><br><span class="line">./configure --with-nagios-user=nagios --with-nagios-group=nagios --enable-perl-modules</span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 install NRPE</span></span><br><span class="line"><span class="comment"># include check_nrpe command</span></span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">make install</span><br><span class="line">make install-plugin</span><br><span class="line">make install-daemon</span><br><span class="line">make install-daemon-config</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="客户端安装"><a href="#客户端安装" class="headerlink" title="客户端安装"></a>客户端安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.配置yum源</span></span><br><span class="line"><span class="comment"># 2.调整字符集</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export LC_ALL = C&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment"># 3.关闭防火墙 &amp; selinux</span></span><br><span class="line">chkconfig iptables off</span><br><span class="line">setenfore 0</span><br><span class="line">vi /etc/selinux/config</span><br><span class="line"><span class="comment"># 4.定时任务--时间同步</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;*/10 * * * * /usr/sbin/ntpdata pool.ntp.org &gt; /dev/null 2&gt;&amp;1&#x27;</span> &gt;&gt;/var/spool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.添加nagios用户</span></span><br><span class="line">useradd -m nagios</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.install nagios-plugins</span></span><br><span class="line">./configure --prefix=/usr/local/nagios --enable-prel-modules --enable-redhat-pthread-workaround</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7.install nrpe</span></span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">make install-plugin</span><br><span class="line">make install-daemon</span><br><span class="line">make install-daemon-config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8.install soft for iostat</span></span><br><span class="line">yum install sysstat -y</span><br><span class="line"><span class="comment"># 把相关的的软件复制到/nagios/libexec</span></span><br><span class="line"><span class="comment"># 修改权限</span></span><br><span class="line"><span class="built_in">chmod</span> 755 /libexec/check_memory.pl</span><br><span class="line"><span class="built_in">chmod</span> 755 /libexec/check_iostat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9.Modify nrpe.configure</span></span><br><span class="line"><span class="comment"># No.79</span></span><br><span class="line">vi ./nrpe.conf +79</span><br><span class="line"><span class="comment">#----</span></span><br><span class="line">allowhost=x.x.x.x(target host)</span><br><span class="line"><span class="comment"># del 199-203</span></span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th align="center">配置文件</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">cgi.cfg</td>
-<td align="center">控制 CGI 访问的配置文件</td>
-</tr>
-<tr>
-<td align="center">nagios.cfg</td>
-<td align="center">Nagios 主配置文件</td>
-</tr>
-<tr>
-<td align="center">resource.cfg</td>
-<td align="center">变量定义文件，又称为资源文件，在此文件中定义变量，以便由其他配置文件引用，如$USER1$</td>
-</tr>
-<tr>
-<td align="center">objects</td>
-<td align="center">objects 是一个目录，在此目录下有很多配置文件模板，用于定义 Nagios 对象</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;commands.cfg</td>
-<td align="center">命令定义配置文件，其中定义的命令可以被其他配置文件引用</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;contacts.cfg</td>
-<td align="center">定义联系人和联系人组的配置文件</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;localhost.cfg</td>
-<td align="center">定义监控本地主机的配置文件</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;printer.cfg</td>
-<td align="center">定义监控打印机的一个配置文件模板，默认没有启用此文件</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;switch.cfg</td>
-<td align="center">监控路由器的一个配置文件模板，默认没有启用此文件</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;templates.cfg</td>
-<td align="center">定义主机和服务的一个模板配置文件，可以在其他配置文件中引用</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;timeperiods.cfg</td>
-<td align="center">定义 Nagios 监控时间段的配置文件</td>
-</tr>
-<tr>
-<td align="center">objects&#x2F;windows.cfg</td>
-<td align="center">监控 Windows 主机的一个配置文件模板，默认没有启用此文件</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>备注:Nagios 在配置方面非常灵活，默认的配置文件并不是必需的。可以使用这些默认的配置文件，也可以创建自己的配置文件，然后在主配置文件 nagios.cfg 中引用即可。</p>
-</blockquote>
-<p>主要配置:</p>
-<ul>
-<li>host.cfg</li>
-<li>service.cfg</li>
-</ul>
-<h4 id="配置主机服务"><a href="#配置主机服务" class="headerlink" title="配置主机服务"></a>配置主机服务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ./objects/</span><br><span class="line">vi ./hosts.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment">#----</span></span><br><span class="line">define host&#123;</span><br><span class="line">    <span class="comment"># use 模板名字</span></span><br><span class="line">    use linux-server</span><br><span class="line">    host_name client</span><br><span class="line">    <span class="built_in">alias</span>   client2</span><br><span class="line">    address 10.0.0.8</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">    command_name check_nrpe</span><br><span class="line">    command_line $USER$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#----</span></span><br></pre></td></tr></table></figure>
-
-<p>流程:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在nagios.cfg添加:</span></span><br><span class="line">cfg_file=/usr/local/nagios/etc/objects/host.cfg</span><br><span class="line">cfg_file=/usr/local/nagios/etc/objects/service.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成host.cfg文件</span></span><br><span class="line"><span class="built_in">head</span> -50 localhost.cfg &gt; hosts.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑hosts.cfg增加被监控的主机</span></span><br><span class="line">define host &#123;</span><br><span class="line">    use     linux-server</span><br><span class="line">    host_name   webxxx</span><br><span class="line">    <span class="built_in">alias</span>       webxxx2</span><br><span class="line">    address     192.168.1.x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define hostgroup&#123;</span><br><span class="line">    hostgroup_name      linux-servers</span><br><span class="line">    <span class="built_in">alias</span>               linux-servers2</span><br><span class="line">    members             web-xxx</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置service.cfg配置文件</span></span><br><span class="line">define service&#123;</span><br><span class="line">    use     generic-service</span><br><span class="line">    host_name   web-xxx</span><br><span class="line">    service_description Disk Partition</span><br><span class="line">    check_command   check_nrpe!check_disk</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查语法</span></span><br><span class="line">/etc/init.d/nagios checkfonfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改访问权限</span></span><br><span class="line">vim ./nagios/etc/cgi.cfg</span><br><span class="line">nagiosadmin-&gt;user</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启nagios</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="监控模式定义以及监控模式"><a href="#监控模式定义以及监控模式" class="headerlink" title="监控模式定义以及监控模式"></a>监控模式定义以及监控模式</h3><ul>
-<li>主动模式</li>
-<li>被动模式</li>
-</ul>
-<p>本地监控,一般选择NRPE(被动模式);</p>
-<p>对于web服务,数据库这种对外提供服务的监控,一般选择主动模式.</p>
 
       
     </div>

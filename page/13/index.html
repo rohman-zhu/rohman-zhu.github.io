@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,136 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d4a4a9b9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d4a4a9b9/" class="post-title-link" itemprop="url">远程桌面RDP负载记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-12-27 15:02:01" itemprop="dateCreated datePublished" datetime="2022-12-27T15:02:01+00:00">2022-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="业务描述"><a href="#业务描述" class="headerlink" title="业务描述"></a>业务描述</h1><p>使用MSTSC（远程桌面）工具到其他PC，也就是基于RDP协议去远程。<br>一台RDSH（Remote Desktop Session Host）配置为16C32G，单核主频为2.49GHz 。</p>
+<p>业务主要特征：</p>
+<ul>
+<li>与本地显示器的分辨率有关，本地显示器的分辨率越高，RDSH对CPU的要求就越高；</li>
+<li>跟远程投射的画面变化量有关，屏幕变化量越大，RDSH对CPU的要求就越高；</li>
+</ul>
+<h1 id="业务负载记录"><a href="#业务负载记录" class="headerlink" title="业务负载记录"></a>业务负载记录</h1><h2 id="资源机RDSH记录"><a href="#资源机RDSH记录" class="headerlink" title="资源机RDSH记录"></a>资源机RDSH记录</h2><p>XX月XX日 15:04 </p>
+<ul>
+<li>用户数：22</li>
+<li>CPU负载：90%</li>
+<li>RAM负载：50%</li>
+</ul>
+<p>描述：远程会有卡顿感。如果远程到目标端是多层RDP嵌套，则会更加卡顿。</p>
+<h2 id="安全服务器记录"><a href="#安全服务器记录" class="headerlink" title="安全服务器记录"></a>安全服务器记录</h2><p>安全服务器配置4C8G；</p>
+<p>XX月XX日 16:03</p>
+<p>新增加RDSH后，卡顿感明显；检查链路上的前端节点。</p>
+<ul>
+<li>用户总数：220</li>
+<li>CPU负载：100%</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：80Mbps；</li>
+</ul>
+<blockquote>
+<p>描述：用户数量达到 200 左右时， 安全服务器节点的CPU应该扩容至8C。</p>
+</blockquote>
+<p>xx月xx日 16:36</p>
+<p>安全服务器配置为8C16G；</p>
+<ul>
+<li>用户总数：241</li>
+<li>CPU负载：</li>
+<li>RAM负载：50%</li>
+<li>网络流量负载：</li>
+</ul>
+<h1 id="改进措施"><a href="#改进措施" class="headerlink" title="改进措施"></a>改进措施</h1><h2 id="用户侧"><a href="#用户侧" class="headerlink" title="用户侧"></a>用户侧</h2><p>要对用户做分类，根据用户实际业务场景对CPU使用情况由高到低分为重型用户、轻型用户、常规用户。</p>
+<p>重型用户在申请使用的环节就要识别出来，并把重型用户要归到高配的RDSH，避免其工作影响其他轻型用户、常规用户使用；</p>
+<h2 id="资源侧"><a href="#资源侧" class="headerlink" title="资源侧"></a>资源侧</h2><ol>
+<li>优化监控项；</li>
+<li>优化部署流程；</li>
+</ol>
+<h3 id="优化监控项"><a href="#优化监控项" class="headerlink" title="优化监控项"></a>优化监控项</h3><p>主要的问题：</p>
+<ol>
+<li>未能及时识别到告警的节点在链路中承担的角色，例如：告警信息只有IP信息，不清楚其为重要的安全服务器角色。</li>
+<li>告警等级不准确，例如：该为2级告警的信息被定义为3级告警。</li>
+<li>监控信息查看不方便，没有做信息聚合，例如：需要查看CPU使用率与用户数结合。</li>
+<li>没有办法及时评估整体负载情况。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1174,110 +1304,6 @@
 <li>zabbix密码重置：<br><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_13045706/3835020">https://blog.51cto.com/u_13045706/3835020</a></li>
 <li>在线生成Bcrypt密码<br><a target="_blank" rel="noopener" href="https://www.bejson.com/encrypt/bcrpyt_encode/">https://www.bejson.com/encrypt/bcrpyt_encode/</a></li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7f42b08b/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/7f42b08b/" class="post-title-link" itemprop="url">转载-VMLINUZ*-GENERIC和*-GENERIC.EFI.SIGNED之间的区别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-11-14 00:27:58" itemprop="dateCreated datePublished" datetime="2022-11-14T00:27:58+00:00">2022-11-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>在&#x2F;boot ，有两个vmlinuz内核文件：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmlinuz-4.8.0-37-generic vmlinuz-4.8.0-37-generic.efi.signed </span><br></pre></td></tr></table></figure>
-
-<h1 id="这两个内核文件有什么区别？"><a href="#这两个内核文件有什么区别？" class="headerlink" title="这两个内核文件有什么区别？"></a>这两个内核文件有什么区别？</h1><p>谁签了第二个（如果确实签名，顾名思义），我的UEFI &#x2F; BIOS如何知道信任并使用*-generic.efi.signed而不是*-generic ？</p>
-<p>文件名以.efi.signed结尾的内核由Canonical签名，用于安全启动。<br>但是，大多数计算机的固件都不信任Canonical的签名; 只有借助Shim程序（ ESP上的shimx64.efi二进制文件），签名内核才会受到信任。</p>
-<p>为了详细说明，启用了安全启动的Ubuntu签名组件的加载路径如下所示：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EFI -&gt; Shim -&gt; GRUB 2 -&gt; Kernel -&gt; Kernel modules </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>EFI信任Shim，因为它已经由Microsoft签署，其密钥嵌入在固件中。</li>
-<li>Shim修补了EFI的安全启动子系统，并包含Canonical的公钥。 Shim信任GRUB 2，因为它已经使用Canonical的私钥签名。</li>
-<li>GRUB 2调用EFI的安全启动系统（现在由Shim修补）来validation内核，该内核也使用Canonical的私钥进行签名。</li>
-<li>内核validation内核模块是否由Canonical的私钥或安全启动链中的其他密钥签名。</li>
-</ul>
-<p>在IIRC，Ubuntu 15.10之前，Ubuntu的GRUB 2没有在内核上强制执行安全启动策略，内核也没有在内核模块上强制实施安全启动策略。 不过最近收紧了。 AFAIK，没有计划要求签署普通的系统二进制文件。</p>
-<p>我不知道为什么在Ubuntu中有一个未签名的内核文件。 即使在不支持安全启动的系统（包括纯BIOS计算机）上，签名文件也能正常工作。 因此，未签名的文件是多余的，AFAIK。</p>
-<p>请注意，Shim以后的每个组件都可以以未签名的forms获得，或者它们的签名被剥离。 如果你自己构建Shim，你可以用自己的或者你想要的任何其他公钥替换Canonical的公钥。 （大多数主要发行版都有自己的Shim二进制文件，其中嵌入了自己的密钥。）从源代码构建Shim是没有意义的，除非你让微软签署它，这需要花费100美元并且需要付出很多努力。 如果您需要自己签名，将密钥添加为机器所有者密钥（MOK）比重建Shim并让Microsoft签名更容易。 您还可以调整EFI直接支持的密钥集，这样可以避免使用Shim。 因此，你可以改变很多关于所有这些部分如何组合在一起的东西。 有关如何管理安全启动的更多详细信息，请参阅我的安全启动 主页和完全控制安全启动的页面 。</p>
-<p>签名版本用于UEFI安全启动。 它已使用非对称加密签名。 意味着解密它的密钥与用于加密密钥的密钥不同。 BIOS只有一个公钥，可以validation签名是否正确（未被篡改）。 创建此类签名的私钥是秘密的，因此您无法自己创建它。 这就是为什么BIOS信任它并允许它开始。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://ubuntu.dovov.com/23100/vmlinuz-generic%e5%92%8c-generic-efi-signed%e4%b9%8b%e9%97%b4%e7%9a%84%e5%8c%ba%e5%88%ab.html">https://ubuntu.dovov.com/23100/vmlinuz-generic%e5%92%8c-generic-efi-signed%e4%b9%8b%e9%97%b4%e7%9a%84%e5%8c%ba%e5%88%ab.html</a></p>
-<p>有关详细信息： https ： &#x2F;&#x2F;wiki.ubuntu.com&#x2F;SecurityTeam&#x2F;SecureBoot</p>
 
       
     </div>

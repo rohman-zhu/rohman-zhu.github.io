@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,127 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/247f465d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/247f465d/" class="post-title-link" itemprop="url">基于PXE的Ubuntu安装方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-11-29 23:37:58" itemprop="dateCreated datePublished" datetime="2020-11-29T23:37:58+00:00">2020-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><ol>
+<li>一批物理服务器，需要安装Ubuntu 18.04 ，并且有一些定制化的需求，例如内核、软件、驱动等。</li>
+<li>物理服务器支持PXE启动，并且系统管理员有限，没有多余的带宽来部署服务器。</li>
+</ol>
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><ol>
+<li>先将一台服务器按照需求安装好对应的功能，例如内核升级、驱动安装等，将服务器所有文件打包成镜像(ESP,boot,根目录)。</li>
+<li>在服务器同网段中部署一台PXE Server（包含 DHCP 、 TFTP 、WEB 、 NFS功能），并且部署可以通过PXE启动的镜像。（类似网络PE操作系统）</li>
+<li>客户端接入PXE Server，获取到分配的IP，进入PXE的预装系统，执行硬盘分区、系统还原等操作后，重建引导程序后重启。</li>
+</ol>
+<h1 id="需求拆分"><a href="#需求拆分" class="headerlink" title="需求拆分"></a>需求拆分</h1><h2 id="定制化的操作系统"><a href="#定制化的操作系统" class="headerlink" title="定制化的操作系统"></a>定制化的操作系统</h2><p>业务方需求：</p>
+<ol>
+<li>要以UEFI启动，因此需要ESP分区，vfat格式。</li>
+<li>文件系统要为XFS，因此boot分区要单独划分，并以 ext4 进行格式化。</li>
+<li>系统要为Ubuntu 18.04 ，并且执行一些定制化需求。</li>
+</ol>
+<blockquote>
+<p>TODO问题1：xfs格式与ext4格式存在冲突问题，会导致无法识别到文件系统，当前未明白原因。</p>
+</blockquote>
+<p>完成安装后，通过rsync进行备份打包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rsync -aPpv --exclude=&#123;<span class="string">&quot;/mnt/*&quot;</span>,<span class="string">&quot;/sys/*&quot;</span>,<span class="string">&quot;/proc/*&quot;</span>,<span class="string">&quot;/dev/*&quot;</span>,<span class="string">&quot;/tmp/*&quot;</span>&#125; / /mnt/template/ | <span class="built_in">tee</span> /mnt/template/rsync.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># -a 执行完全备份</span></span><br><span class="line"><span class="comment"># -P 显示进程</span></span><br><span class="line"><span class="comment"># -p 保留文件属性</span></span><br><span class="line"><span class="comment"># -v 打印日志</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="部署PXE服务器"><a href="#部署PXE服务器" class="headerlink" title="部署PXE服务器"></a>部署PXE服务器</h2><ol>
+<li>基于Ubuntu 18.04搭建，需要安装的服务 apach2 、 nfs-kernel-server 、 dnsmasq 。</li>
+<li>制作启动镜像，需要重建kernel，避免无法通过pxe引导进入操作系统。</li>
+<li>模板还原的操作需要通过脚本执行。</li>
+</ol>
+<h3 id="部署细节"><a href="#部署细节" class="headerlink" title="部署细节"></a>部署细节</h3><p>关于nfs的镜像，需要给rw权限，避免在做LVM的时候无法写入</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/export</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line">/var/www/html/pxeos *(rw...)</span><br><span class="line"><span class="comment">#---</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#检查共享列表</span></span><br><span class="line">exportfs -a</span><br></pre></td></tr></table></figure>
+
+<p>关于 DHCP与TFTP服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置文件</span></span><br><span class="line">vim /etc/dnsmasq.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>TODO问题列表：</p>
+<ol>
+<li>PXE引导的grub菜单是哪一个文件提供的，是pxelinux.cfg&#x2F;default , 还是 &#x2F;tftp&#x2F;grub&#x2F;grub.cfg ，暂时没有理清楚是哪一个文件导致引导不同。</li>
+<li>通过还原的服务器，已经重新做了grub.cfg文件、安装了refind启动程序；在启动的时候，直接进入grub，并且提示 unknow filesystem 。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1061,112 +1182,6 @@
 <blockquote>
 <p>右键 Grace Period ，选择“权限” ， 添加everyone 权限后，将其删除。</p>
 </blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6e187a73/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/6e187a73/" class="post-title-link" itemprop="url">Linux下dmidecode命令获取硬件信息</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-05-30 21:44:32" itemprop="dateCreated datePublished" datetime="2020-05-30T21:44:32+00:00">2020-05-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="dmidecode"><a href="#dmidecode" class="headerlink" title="dmidecode"></a>dmidecode</h1><p>dmidecode在 Linux 系统下获取有关硬件方面的信息。dmidecode 遵循 SMBIOS&#x2F;DMI 标准，以一种可读的方式dump出机器的DMI(Desktop Management Interface)信息, 其输出的信息包括 BIOS、系统、主板、处理器、内存、缓存等等, 既可以得到当前的配置，也可以得到系统支持的最大配置，比如说支持的最大内存数等。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Debian/Ubuntu</span></span><br><span class="line">aptitude install dmidecode</span><br><span class="line"><span class="comment"># Fedora</span></span><br><span class="line">yum installl dmidecode</span><br><span class="line"><span class="comment"># Arch Linux</span></span><br><span class="line">pacman -S dmidecode</span><br><span class="line"><span class="comment"># Gentoo</span></span><br><span class="line">emerge -av dmidecode</span><br></pre></td></tr></table></figure>
-
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、查看内存槽数、那个槽位插了内存，大小是多少</span></span><br><span class="line">dmidecode|grep -P -A5 <span class="string">&quot;Memory\s+Device&quot;</span>|grep Size|grep -v Range</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、查看最大支持内存数</span></span><br><span class="line"></span><br><span class="line">dmidecode|grep -P <span class="string">&#x27;Maximum\s+Capacity&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3、查看槽位上内存的速率，没插就是unknown。</span></span><br><span class="line"></span><br><span class="line">dmidecode|grep -A16 <span class="string">&quot;Memory Device&quot;</span>|grep <span class="string">&#x27;Speed&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出格式：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Handle 0×0002</span><br><span class="line">DMI <span class="built_in">type</span> 2, 8 bytes</span><br><span class="line">Base Board Information</span><br><span class="line">Manufacturer:Intel</span><br><span class="line">Product Name: C440GX+</span><br><span class="line">Version: 727281-0001</span><br><span class="line">Serial Number: INCY92700942</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>recode id(handle): DMI表中的记录标识符，这是唯一的,比如上例中的Handle 0×0002。</li>
-<li>dmi type id: 记录的类型，譬如说:BIOS，Memory，上例是type 2，即”Base Board Information”</li>
-<li>recode size: DMI表中对应记录的大小，上例为8 bytes.（不包括文本信息，所有实际输出的内容比这个size要更大。）<br>记录头之后就是记录的值：</li>
-<li>decoded values: 记录值可以是多行的，比如上例显示了主板的制造商(manufacturer)、model、version以及serial Number。</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最简单的的显示全部dmi信息：</span></span><br><span class="line"><span class="comment">#这样将输出所有的dmi信息，你可能会被一大堆的信息吓坏，通常可以使用下面的方法。</span></span><br><span class="line">dmidecode</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.更精简的信息显示：</span></span><br><span class="line"><span class="comment"># -q(–quite) 只显示必要的信息，这个很管用哦。</span></span><br><span class="line"></span><br><span class="line">dmidecode -q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.显示指定类型的信息：</span></span><br><span class="line"><span class="comment"># 通常我只想查看某类型，比如CPU，内存或者磁盘的信息而不是全部的。这可以使用-t(–type TYPE)来指定信息类型：</span></span><br><span class="line"><span class="comment"># (显示bios和processor)</span></span><br><span class="line">dmidecode -t 0,4 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 通过关键字查询信息</span></span><br><span class="line">dmidecode -s system-serial-number</span><br><span class="line"><span class="comment">#-s (–string keyword)支持的keyword包括：bios-vendor,bios-version, bios-release-date,system-manufacturer, system-product-name, system-version, system-serial-number,baseboard-manu-facturer,baseboard-product-name, baseboard-version, baseboard-serial-number, baseboard-asset-tag,chassis-manufacturer, chas-sis-version, chassis-serial-number, chassis-asset-tag,processor-manufacturer, processor-version.</span></span><br></pre></td></tr></table></figure>
-
-<p>Type Information</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">0 BIOS</span><br><span class="line">1 System</span><br><span class="line">2 Base Board</span><br><span class="line">3 Chassis</span><br><span class="line">4 Processor</span><br><span class="line">5 Memory Controller</span><br><span class="line">6 Memory Module</span><br><span class="line">7 Cache</span><br><span class="line">8 Port Connector</span><br><span class="line">9 System Slots</span><br><span class="line">10 On Board Devices</span><br><span class="line">11 OEM Strings</span><br><span class="line">12 System Configuration Options</span><br><span class="line">13 BIOS Language</span><br><span class="line">14 Group Associations</span><br><span class="line">15 System Event Log</span><br><span class="line">16 Physical Memory Array</span><br><span class="line">17 Memory Device</span><br><span class="line">18 32-bit Memory Error</span><br><span class="line">19 Memory Array Mapped Address</span><br><span class="line">20 Memory Device Mapped Address</span><br><span class="line">21 Built-in Pointing Device</span><br><span class="line">22 Portable Battery</span><br><span class="line">23 System Reset</span><br><span class="line">24 Hardware Security</span><br><span class="line">25 System Power Controls</span><br><span class="line">26 Voltage Probe</span><br><span class="line">27 Cooling Device</span><br><span class="line">28 Temperature Probe</span><br><span class="line">29 Electrical Current Probe</span><br><span class="line">30 Out-of-band Remote Access</span><br><span class="line">31 Boot Integrity Services</span><br><span class="line">32 System Boot</span><br><span class="line">33 64-bit Memory Error</span><br><span class="line">34 Management Device</span><br><span class="line">35 Management Device Component</span><br><span class="line">36 Management Device Threshold Data</span><br><span class="line">37 Memory Channel</span><br><span class="line">38 IPMI Device</span><br><span class="line">39 Power Supply</span><br></pre></td></tr></table></figure>
-
-<h1 id="实例：-查看当前服务器支持可扩容的内存"><a href="#实例：-查看当前服务器支持可扩容的内存" class="headerlink" title="实例： 查看当前服务器支持可扩容的内存"></a>实例： 查看当前服务器支持可扩容的内存</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看当前内存大小</span></span><br><span class="line">free </span><br><span class="line"><span class="built_in">cat</span> /proc/meminfo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用dmidecode</span></span><br><span class="line">dmidecode -t 16 | grep Maximum</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看内存插槽</span></span><br><span class="line">dmidecode -t 17</span><br><span class="line">dmidecode -t 17 | grep Size</span><br><span class="line"><span class="comment"># 如果Size为No Module Installed 表示该插槽当前未有插入内存。</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="http://www.ttlsa.com/linux/the-linux-dmidecode-command-to-get-the-hardware-information/">http://www.ttlsa.com/linux/the-linux-dmidecode-command-to-get-the-hardware-information/</a></p>
 
       
     </div>

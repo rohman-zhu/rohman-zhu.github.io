@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,123 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/61d1add5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/61d1add5/" class="post-title-link" itemprop="url">Linux之kickstart无人值守系统装系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-14 15:48:16" itemprop="dateCreated datePublished" datetime="2017-11-14T15:48:16+00:00">2017-11-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="无人值守装系统-PXE-APACHE-DHCP-TFTP-KICKSTART"><a href="#无人值守装系统-PXE-APACHE-DHCP-TFTP-KICKSTART" class="headerlink" title="无人值守装系统(PXE+APACHE+DHCP+TFTP+KICKSTART)"></a>无人值守装系统(PXE+APACHE+DHCP+TFTP+KICKSTART)</h1><ul>
+<li>DHCP_Server 用于给客户端提供IP地址以及PXE文件的位置.</li>
+<li>Web_Server 存放系统镜像以及kickstart的配置文件.</li>
+<li>TFTP_Server 存放PXE文件以及相关的启动文件</li>
+</ul>
+<hr>
+<p>相关IP地址:</p>
+<ul>
+<li>DHCP_Server:192.168.1.2</li>
+<li>Web_Server:192.168.1.3</li>
+<li>TFTP_Server:192.168.1.4</li>
+</ul>
+<h2 id="1-1-什么是PXE"><a href="#1-1-什么是PXE" class="headerlink" title="1.1 什么是PXE"></a>1.1 什么是PXE</h2><p>PXE(preboot execute environment，预启动执行环境)是由Intel公司开发的最新技术，工作于Client&#x2F;Server的网络模式，支持工作站通过网络从远端服务器下载映像，并由此支持通过网络启动操作系统，</p>
+<p>在启动过程中，终端要求服务器分配IP地址，再用TFTP（trivial file transfer protocol）或MTFTP(multicast trivial file transfer protocol)协议下载一个启动软件包到本机内存中执行，由这个启动软件包完成终端（客户端）基本软件设置，从而引导预先安装在服务器中的终端操作系统。</p>
+<h2 id="1-2-PXE工作过程"><a href="#1-2-PXE工作过程" class="headerlink" title="1.2 PXE工作过程"></a>1.2 PXE工作过程</h2><p><img src="http://images.cnitblog.com/blog/370046/201406/152331547498487.jpg" alt="PXE工作原理示意图"></p>
+<p>PXE客户端 (发送UDP广播请求)-&gt; DHCP服务 (DHCP服务器提供信息) -&gt; PXE客户端 (请求下载启动文件)-&gt; TFTP服务 (响应并提供文件)-&gt; PXE 客户端 (请求下载自动应答文件) -&gt; Http服务 (客户端安装操作系统) -&gt; PXE客户端</p>
+<h3 id="1-2-1-获取相关的pxe程序"><a href="#1-2-1-获取相关的pxe程序" class="headerlink" title="1.2.1 获取相关的pxe程序"></a>1.2.1 获取相关的pxe程序</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 安装syslinux</span><br><span class="line"># syslinux是一个引导加载程序,而且兼容各种介质.syslinux是一个小型的Linux操作系统,目的是简化首次安装Linux的时间,并建立维护或者其他特殊用途的启动盘</span><br><span class="line"># yum install syslinux</span><br><span class="line"></span><br><span class="line"># 将Linux的pxe文件复制到TFTP文件夹中(TFTP下面会讲到安装,默认启动的路径在/var/lib/tftpboot/)</span><br><span class="line"># cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 将iso镜像中的/image/pxeboot/initrd.img和vmlinux复制到/var/lib/tftpboot/下</span><br><span class="line"># scp -P22 root@192.168.1.3:/var/www/html/cdrom/images/pxeboot/&#123;initrd.im,gvmlinuz&#125; /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 复制iso镜像中的/isolinux/*.msg 到 /var/lib/tftpboot/文件夹中</span><br><span class="line"># cp /var/www/html/cdrom/isolinux/*.msg /var/lib/tftpboot/</span><br><span class="line"></span><br><span class="line"># 在/var/lib/tftpboot/中创建一个pxelinux.cfg目录</span><br><span class="line"># mkdir /var/lib/tftpboot/pxelinux.cfg</span><br><span class="line"></span><br><span class="line"># 将iso镜像中的/isolinux目录中的isolinux.cfg复制到pxelinux.cfg目录下,同时改名为default</span><br><span class="line"># cp /var/www/html/cdrom/isolinux/isolinux.cfg /var/lib/tftpboot/pxelinux.cfg/default</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改default文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 设置启动的是&#x27;label ks&#x27;中的内容</span><br><span class="line">default ks</span><br><span class="line"># 显示 &#x27;boot:&#x27;提示符.为&#x27;0&#x27;时则不显示,将会直接启动&#x27;default&#x27;参数中指定的内容.</span><br><span class="line">prompt 1</span><br><span class="line">#在用户输入之前的超时时间,单位为0.1秒</span><br><span class="line">timeout 6</span><br><span class="line"># 显示某个文件的内容,注意文件的路径.</span><br><span class="line"># 默认是在/var/lib/tftpboot/目录下</span><br><span class="line"># 也可以指定其他的全路径下的msg文件</span><br><span class="line">display boot.msg</span><br><span class="line"></span><br><span class="line"># &#x27;label&#x27;指定在&#x27;boot&#x27;提示符下输入的关键字,比如boot:linux[ENTER],这个会启动&#x27;label linux&#x27;下标记的kernel和initrd.img文件</span><br><span class="line">label linux</span><br><span class="line">    # kernel 参数指定要启动的内核</span><br><span class="line">    kernel vmlinuz</span><br><span class="line">    # append指定追加给内核的参数,能够在grub里使用的追加给内核的参数.</span><br><span class="line">    append initrd=initrd.img</span><br><span class="line">label ks</span><br><span class="line">    kernel vmlinuz</span><br><span class="line">    #指定ks.cfg文件</span><br><span class="line">    append ks=http://192.168.1.3/ks.cfg initrd=initrd.img</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Linux初始RAM磁盘（initrd）是在系统引导过程中挂载的一个临时根文件系统，用来支持两阶段的引导过程。initrd文件中包含了各种可执行程序和驱动程序，它们可以用来挂载实际的根文件系统，然后再将这个 initrd RAM磁盘卸载，并释放内存。在很多嵌入式Linux系统中，initrd 就是最终的根文件系统。</p>
+</blockquote>
+<h2 id="2-DHCP服务器安装"><a href="#2-DHCP服务器安装" class="headerlink" title="2. DHCP服务器安装"></a>2. DHCP服务器安装</h2><p>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议）是一个局域网的网络协议，使用UDP协议工作， 主要有两个用途：给内部网络或网络服务供应商自动分配IP地址，给用户或者内部网络管理员作为对所有计算机作中央管理的手段.</p>
+<p>在本次案例中,DHCP服务器用于给客户机分配IP地址以及TFTP服务器的IP地址.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 安装DHCP服务</span><br><span class="line"># yum -y install dhcp</span><br><span class="line"></span><br><span class="line"># 复制配置模板文件到DHCP的配置目录中</span><br><span class="line"># cp -f /usr/share/doc/dhcp-4.1.1/dhcpd.conf/sample /etc/dhcp/dhcpd.conf</span><br><span class="line"></span><br><span class="line"># 修改/etc/dhcp/dhcp.conf配置文件,内容如下:</span><br><span class="line"># vi /etc/dhcp/dhcp.conf</span><br><span class="line"># ---</span><br><span class="line">ddns-update-style interim;</span><br><span class="line">ignore client-updates;</span><br><span class="line"># pxelinux启动文件位置;</span><br><span class="line">filename &quot;pxelinux.0&quot;;</span><br><span class="line"># TFTP Server的IP地址;</span><br><span class="line">next-server 192.168.1.4;</span><br><span class="line"></span><br><span class="line">subnet 192.168.1.0 netmask 255.255.255.0&#123;</span><br><span class="line">    option routers 192.168.1.4;</span><br><span class="line">    option subnet-mask 255.255.255.0;</span><br><span class="line"></span><br><span class="line">    range dynamic-bootp 192.168.1.100 192.168.1.200;</span><br><span class="line">    default-lease-time 21600;</span><br><span class="line">    max-lease-time 43000;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 启动DHCP服务</span><br><span class="line"># /etc/init.d/dhcpd start</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里有可能会出现客户机无法找到ip地址,需要关闭防火墙和selinux.</p>
+</blockquote>
+<h2 id="3-TFTP-Server-安装与配置"><a href="#3-TFTP-Server-安装与配置" class="headerlink" title="3.TFTP_Server 安装与配置"></a>3.TFTP_Server 安装与配置</h2><p>TFTP（Trivial File Transfer Protocol,简单文件传输协议）是TCP&#x2F;IP协议族中的一个用来在客户机与服务器之间进行简单文件传输的协议，提供不复杂、开销不大的文件传输服务。端口号为69。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 安装tftp-server</span><br><span class="line"># yum install tftp-server -y</span><br><span class="line"></span><br><span class="line"># 编辑tftp服务的配置</span><br><span class="line"># vi /etc/xinetd.d/tftp</span><br><span class="line"># ---</span><br><span class="line">service tftp</span><br><span class="line">&#123;</span><br><span class="line">    socket_type = dgram</span><br><span class="line">    protocol = udp</span><br><span class="line">    wait = yes</span><br><span class="line">    user = root</span><br><span class="line">    server = /usr/sbin/in.tftpd</span><br><span class="line">    server_args = -s /var/lib/tftpboot</span><br><span class="line">    disable = no</span><br><span class="line">    per_source = 11</span><br><span class="line">    cps = 100 2</span><br><span class="line">    flags = IPv4</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line"># /etc/init.d/xinetd restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-安装HTTP服务"><a href="#4-安装HTTP服务" class="headerlink" title="4. 安装HTTP服务"></a>4. 安装HTTP服务</h2><p>可以用 <em>Apache</em> 或者 <em>Nginx</em> , 具体安装教程在以往的文章中由详细记录.</p>
+<blockquote>
+<p>创建一个站点目录挂载光盘镜像.</p>
+</blockquote>
+<h2 id="6-创建ks-cfg"><a href="#6-创建ks-cfg" class="headerlink" title="6.创建ks.cfg"></a>6.创建ks.cfg</h2><h3 id="6-1-语法"><a href="#6-1-语法" class="headerlink" title="6.1 语法"></a>6.1 语法</h3><ul>
+<li>命令段</li>
+<li>脚本段</li>
+</ul>
+<h3 id="6-2-定制配置文件"><a href="#6-2-定制配置文件" class="headerlink" title="6.2 定制配置文件"></a>6.2 定制配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#platform=x86, AMD64, or Intel EM64T</span><br><span class="line">#version=DEVEL</span><br><span class="line"># Firewall configuration</span><br><span class="line">firewall --disabled</span><br><span class="line"># Install OS instead of upgrade</span><br><span class="line">install</span><br><span class="line"># Use network installation</span><br><span class="line">url --url=http://192.168.1.3/cdrom/</span><br><span class="line">#这个选项告诉安装程序：到服务器192.168.1.3 的HTTP根目录下的cdrom 文件夹下寻找安装介质</span><br><span class="line"># Root password</span><br><span class="line">rootpw --iscrypted $1$vsvtP./e$6PVMNfJd.shq2LgFJjYfA1</span><br><span class="line"># System authorization information</span><br><span class="line">auth  --useshadow  --enablemd5</span><br><span class="line"># Use graphical install</span><br><span class="line">graphical</span><br><span class="line">firstboot --disable</span><br><span class="line"># System keyboard</span><br><span class="line">keyboard us</span><br><span class="line"># System language</span><br><span class="line">lang en_US</span><br><span class="line"># SELinux configuration</span><br><span class="line">selinux --disabled</span><br><span class="line"># Installation logging level</span><br><span class="line">logging --level=info</span><br><span class="line"># Reboot after installation</span><br><span class="line">reboot</span><br><span class="line"># System timezone</span><br><span class="line">timezone  --isUtc Asia/Shanghai</span><br><span class="line"># Network information</span><br><span class="line">network  --bootproto=dhcp --device=eth0 --onboot=on</span><br><span class="line"># System bootloader configuration</span><br><span class="line"># Redhat system</span><br><span class="line"># key --skip</span><br><span class="line"></span><br><span class="line">bootloader --append=&quot;rhgb quiet&quot; --location=mbr --driveorder=sda</span><br><span class="line"></span><br><span class="line"># Clear the Master Boot Record</span><br><span class="line">zerombr</span><br><span class="line"># Partition clearing information</span><br><span class="line">clearpart --all --initlabel</span><br><span class="line"># Disk partitioning information</span><br><span class="line">part /boot --fstype=&quot;ext4&quot; --size=200</span><br><span class="line">part swap --fstype=&quot;swap&quot; --size=1024</span><br><span class="line">part / --fstype=&quot;ext4&quot; --size=8192</span><br><span class="line">part /home --fstype=&quot;ext4&quot; --size=2048</span><br><span class="line"></span><br><span class="line">%packages</span><br><span class="line">@base</span><br><span class="line"></span><br><span class="line">%end</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1451,203 +1568,6 @@
 <li>MySQL MHA</li>
 </ul>
 <h5 id="强制关闭数据方法"><a href="#强制关闭数据方法" class="headerlink" title="强制关闭数据方法"></a>强制关闭数据方法</h5><p>尽量不用 killall , pkill,kill</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bc1709b2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/bc1709b2/" class="post-title-link" itemprop="url">Web服务之Nginx</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-20 19:06:50" itemprop="dateCreated datePublished" datetime="2017-10-20T19:06:50+00:00">2017-10-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><p>这是一个web服务架,Linux + Apache + MySQL + PHP</p>
-<blockquote>
-<p>实现WWW服务的常用Web软件 : nginx 和 apache(静态Web软件)</p>
-</blockquote>
-<p>流行的Web组合:</p>
-<ul>
-<li>LAMP &#x3D; Linux + Apache + MySQL + PHP</li>
-<li>LNMP &#x3D; Linux + Nginx + MySQL +PHP</li>
-</ul>
-<h2 id="Nginx-读-Engine-x"><a href="#Nginx-读-Engine-x" class="headerlink" title="Nginx(读:Engine x)"></a>Nginx(读:Engine x)</h2><p>www服务软件,由俄罗斯人开发,开源,性能很高,C语言开发的(780K)</p>
-<p>Nginx本身是一款静态(html,js,css等)的www软件,不能解析动态的PHP,JSP,DO.</p>
-<p>最大特点:</p>
-<ol>
-<li>配置简单,灵活,轻量</li>
-<li>静态小文件(1M) , 支持高并发,同时占用的资源很少.3W并发,10个进程,内存150M.</li>
-<li>支持的平台 : Unix,Linux,windows</li>
-<li>支持epoll模型,使得Nginx可以支持高并发(Apache使用的是select模型)</li>
-<li>支持rewrite模块</li>
-<li>支持HTTP限速</li>
-<li>支持虚拟主机</li>
-<li>…等等</li>
-</ol>
-<p>并发参考值:</p>
-<ul>
-<li>Nginx 1-3W访问量</li>
-<li>php 300-800访问量</li>
-<li>DB 300-800访问量</li>
-</ul>
-<p>Nginx服务从大方向的功能:</p>
-<ol>
-<li>www web服务,邮件服务,邮件代理</li>
-<li>负载均衡(反向代理proxy)</li>
-<li>web cache(web缓存),相当于squid</li>
-</ol>
-<h3 id="应用场合"><a href="#应用场合" class="headerlink" title="应用场合"></a>应用场合</h3><ol>
-<li>提供静态服务(图片.视频服务),另一个lighttpd.</li>
-<li>提供动态服务 , nginx + fastcgi的方式运行PHP,jsp.</li>
-<li>提供反向代理(proxy)服务,或者称负载均衡.</li>
-<li>缓存业务,类似Squid,Varnish,ats.</li>
-</ol>
-<h3 id="支持虚拟主机"><a href="#支持虚拟主机" class="headerlink" title="支持虚拟主机"></a>支持虚拟主机</h3><p>一个Server标签就是一个虚拟主机.</p>
-<ol>
-<li>基于域名和虚拟主机.通过域名来区分虚拟主机</li>
-<li>基于端口的虚拟主机.</li>
-<li>基于IP的虚拟主机.(几乎不用)</li>
-</ol>
-<h3 id="安装Nignx"><a href="#安装Nignx" class="headerlink" title="安装Nignx"></a>安装Nignx</h3><h4 id="安装PCRE"><a href="#安装PCRE" class="headerlink" title="安装PCRE"></a>安装PCRE</h4><p>Perl Compatiable Regular Expressions</p>
-<p>安装方式:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># wget http://sourceforge.net/projects/pcre/files/pcre.tar</span><br><span class="line"># tar vxf pcre.tar</span><br><span class="line"># cd pcre/</span><br><span class="line"># ./configure</span><br><span class="line"># make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># ----------------</span><br><span class="line"></span><br><span class="line"># yum install pcre pcre-devel -y</span><br><span class="line"></span><br><span class="line"># -----------安装open sll</span><br><span class="line"></span><br><span class="line"># yum install opensll-devel -y</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装Nignx服务"><a href="#安装Nignx服务" class="headerlink" title="安装Nignx服务"></a>安装Nignx服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># rpm -qa nginx</span><br><span class="line"># wget [nignx url]</span><br><span class="line"># ./configure</span><br><span class="line"># make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"># 创建用户</span><br><span class="line"># useradd nginx /sbin/nologin</span><br><span class="line"># ----检查---</span><br><span class="line"># id nginx</span><br></pre></td></tr></table></figure>
-
-<h5 id="如果出现-Another-app-is-currently-holding-the-yum-lock"><a href="#如果出现-Another-app-is-currently-holding-the-yum-lock" class="headerlink" title="如果出现 Another app is currently holding the yum lock"></a>如果出现 Another app is currently holding the yum lock</h5><p>可以进行强制关闭进程</p>
-<blockquote>
-<p>rm -f &#x2F;var&#x2F;run&#x2F;yum.pid</p>
-</blockquote>
-<h4 id="Ngnix-配置站点"><a href="#Ngnix-配置站点" class="headerlink" title="Ngnix 配置站点"></a>Ngnix 配置站点</h4><h5 id="添加站点信息到-ngnix-conf-nginx-conf"><a href="#添加站点信息到-ngnix-conf-nginx-conf" class="headerlink" title="添加站点信息到&#x2F;ngnix&#x2F;conf&#x2F;nginx.conf"></a>添加站点信息到&#x2F;ngnix&#x2F;conf&#x2F;nginx.conf</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">html&#123;</span><br><span class="line">    server&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name xx.xxx.xxx;</span><br><span class="line">        location \ &#123;</span><br><span class="line">            root html/xxx;</span><br><span class="line">            index xxx.html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="在ngnix-html中创建站点"><a href="#在ngnix-html中创建站点" class="headerlink" title="在ngnix&#x2F;html中创建站点"></a>在ngnix&#x2F;html中创建站点</h4><p>mkdir &#x2F;ngnix&#x2F;html&#x2F;xxxx&#x2F;</p>
-<h4 id="添加域名到hosts文件"><a href="#添加域名到hosts文件" class="headerlink" title="添加域名到hosts文件"></a>添加域名到hosts文件</h4><p>echo “xx.xx.xx.xx(ip) xxx.xxx.xxx(域名)” &gt; &#x2F;etc&#x2F;hosts</p>
-<h3 id="关于Ngnix的相关操作"><a href="#关于Ngnix的相关操作" class="headerlink" title="关于Ngnix的相关操作"></a>关于Ngnix的相关操作</h3><h4 id="1-规范配置文件"><a href="#1-规范配置文件" class="headerlink" title="1.规范配置文件"></a>1.规范配置文件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># vim conf/nginx.conf</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"></span><br><span class="line"># 在http节点里面用include</span><br><span class="line">http</span><br><span class="line">&#123;</span><br><span class="line">    include extra/htmt.conf</span><br><span class="line">    include extra/blog.conf</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># --------------------</span><br><span class="line"># 创建目录</span><br><span class="line"># mkdir /nginx/extra/</span><br><span class="line"># touch /nginx/extra/html.conf</span><br><span class="line"># 把原来的server节点复制进去</span><br><span class="line"># sed -n &#x27;26,33p&#x27; nginx.conf.base-name &gt; extra/html.conf</span><br><span class="line"># 检查语法</span><br><span class="line"># /ngnix/sbin/ngnix -t</span><br><span class="line"># 重启</span><br><span class="line"># /ngix/sbin/ngnix -s reload</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-别名的配置"><a href="#2-别名的配置" class="headerlink" title="2.别名的配置"></a>2.别名的配置</h4><p>虚拟主机的别名配置,主要在server_name里面添加,同时要在DNS里面添加域名</p>
-<h4 id="3-Ngnix的状态"><a href="#3-Ngnix的状态" class="headerlink" title="3.Ngnix的状态"></a>3.Ngnix的状态</h4><p>–with-http-stub_status_mode;</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 增加一个虚拟主机</span><br><span class="line"># vim extra/status.conf</span><br><span class="line"></span><br><span class="line">#---------------</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name status.etiantian.org;</span><br><span class="line">    location / &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 需要包含进配置文件</span><br><span class="line"># 检查语法</span><br><span class="line"># 添加进DNS服务器</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-错误日志配置"><a href="#4-错误日志配置" class="headerlink" title="4.错误日志配置"></a>4.错误日志配置</h4><p>放在Main区块中全局配置 , 格式如下:</p>
-<blockquote>
-<p>error_log file level</p>
-</blockquote>
-<ul>
-<li>level : debug | info | notice | warm | error | crit | alert | emerg</li>
-</ul>
-<p>少用debug与info这两个都会打印出所有日志,会增加磁盘的负担.</p>
-<h3 id="Ngnix的访问日志"><a href="#Ngnix的访问日志" class="headerlink" title="Ngnix的访问日志"></a>Ngnix的访问日志</h3><ul>
-<li>log_format 用于定义记录日志的格式</li>
-<li>access_log 访问log 格式: access_log logs&#x2F;access.log combined</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">Ngnix日志变量</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">$remote_addr</td>
-<td align="center">记录访问网站的客户端地址</td>
-</tr>
-<tr>
-<td align="center">$http_x_forwarded_for</td>
-<td align="center">当前有代理服务器时,设置web节点记录客户端地址的配置,此参数生效的前提是代理服务器上也要进行相关的x_forwarded_for设置.</td>
-</tr>
-<tr>
-<td align="center">$remote_user</td>
-<td align="center">远程客户端用户名称</td>
-</tr>
-<tr>
-<td align="center">$time_local</td>
-<td align="center">记录访问时间与时区</td>
-</tr>
-<tr>
-<td align="center">$request</td>
-<td align="center">用户的http请求起始行信息</td>
-</tr>
-<tr>
-<td align="center">$status</td>
-<td align="center">http状态码,记录请求返回的状态</td>
-</tr>
-<tr>
-<td align="center">$body_bytes_sents</td>
-<td align="center">服务器发送给客户端的响应body字节数</td>
-</tr>
-<tr>
-<td align="center">$http_referer</td>
-<td align="center">记录此次请求是从哪一个链接访问过来的,可以根据referer进行防盗链设置.</td>
-</tr>
-<tr>
-<td align="center">$http_user_agent</td>
-<td align="center">记录客户端访问信息,例如:浏览器or手机客户端等</td>
-</tr>
-</tbody></table>
 
       
     </div>

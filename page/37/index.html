@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,102 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d7de778f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d7de778f/" class="post-title-link" itemprop="url">浪潮服务器在Ubuntu1404安装万兆网卡驱动</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-30 22:28:27" itemprop="dateCreated datePublished" datetime="2018-10-30T22:28:27+00:00">2018-10-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><ul>
+<li>服务器 ： Inspur SM5224M4</li>
+<li>网卡 ： 板载X552网卡（10 GbE）</li>
+<li>OS ： Ubuntu-14.04-3.13.0-24-generic</li>
+</ul>
+<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有网卡信息</span></span><br><span class="line">ifconfig -a</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只有两个千兆网卡的信息</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有网卡的pci信息</span></span><br><span class="line">lspci | grep net</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">发现系统只识别到两个网卡的信息，另外两个万兆网卡的信息都不显示。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">因此可以断定网卡驱动没有安装。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>去浪潮的官网查询驱动，发现没有支持Ubuntu系统的驱动。浪潮官方技术支持提出，该服务器没有经过Ubuntu1404的兼容性测试，因此也无法提供该技术支持服务，但能提供安装包，他们也是去英特尔官网下载。</p>
+<p>根据网卡型号，去英特尔官方下载驱动，也没有看到支持Ubuntu1404的驱动，最低支持Ubuntu1604的驱动。 但是看到有兼容内核的列表，看到匹配度极高的驱动下载完后，都会报编译错误。</p>
+<p>最终无奈只能将系统升级至Ubuntu-1604-4.4.0-138-generic ， 发现完美兼容该驱动。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>从服务器上架服役，到发现问题已经过去半个月，之前由于没有使用万兆网卡，所以没有发现驱动问题，如今所有业务必须停掉，用于服务器升级系统。</p>
+<p>因此，以后服务器上架前，需要做以下检查：</p>
+<ul>
+<li>确认配件是否齐全，配置是否跟需求单一致。（如是否有冗余电源、是否有万兆网卡等）</li>
+<li>确认操作系统的兼容性。</li>
+</ul>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><ul>
+<li>浪潮官网驱动支持：<a target="_blank" rel="noopener" href="http://www.inspur.com/eportal/ui?struts.portlet.action=/portlet/download-front!toView.action&pageId=2367231&index=0&product_id=3768&type=0&productName=SA5224M4">http://www.inspur.com/eportal/ui?struts.portlet.action=/portlet/download-front!toView.action&amp;pageId=2367231&amp;index=0&amp;product_id=3768&amp;type=0&amp;productName=SA5224M4</a></li>
+<li>Intel 驱动支持：<a target="_blank" rel="noopener" href="https://downloadcenter.intel.com/zh-cn/download/27159/Ethernet--PCIe-Linux-">https://downloadcenter.intel.com/zh-cn/download/27159/Ethernet--PCIe-Linux-</a></li>
+<li>系统升级教程：<a target="_blank" rel="noopener" href="https://r0manj.github.io/2018/11/01/Ubuntu1404-%E5%9C%A8%E7%BA%BF%E5%8D%87%E7%BA%A7%E5%88%B0Ubuntu1604/">https://r0manj.github.io/2018/11/01/Ubuntu1404-%E5%9C%A8%E7%BA%BF%E5%8D%87%E7%BA%A7%E5%88%B0Ubuntu1604/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1119,102 +1215,6 @@
 <li>Logical Volume（LV）</li>
 </ul>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/2c09c9d9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/2c09c9d9/" class="post-title-link" itemprop="url">Linux下挂载nas</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-16 00:23:14" itemprop="dateCreated datePublished" datetime="2018-10-16T00:23:14+00:00">2018-10-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul>
-<li>NAS服务器 ： 10.10.1.1</li>
-<li>NAS文件路径： volume&#x2F;ftp</li>
-<li>Linux主机 ： 10.10.2.1</li>
-<li>Linux版本 ： Ubuntu 14.04 LTS</li>
-<li>Linux内核 ： 3.13.0-24-generic</li>
-<li>登录用户 user:user</li>
-</ul>
-<p>需要创建一个Linux服务器用于备份，因此挂载一个3T空间的NAS服务器文件目录,并开启 ftp 服务。</p>
-<h1 id="实现记录"><a href="#实现记录" class="headerlink" title="实现记录"></a>实现记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">apt-get install nfs-common -y</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> <span class="built_in">chown</span> user:root /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mount -t nfs 10.10.1.1:/volume/ftp /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">df</span> -h</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vim /etc/fstab</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">/etc/fstab:static file system information.</span></span><br><span class="line">10.10.1.1:/volume/ftp /mnt/nas nfs defaults 0 0</span><br><span class="line">:wq</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">apt-get install openssh-server openssh-client -y</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ps -e | grep ssh</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">netstat -ano | grep 22</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vim /etc/ssh/sshd_config</span></span><br><span class="line"></span><br><span class="line">Subsystem sftp internal-sftp</span><br><span class="line">Match Group sftp</span><br><span class="line">    ChrootDirectory /mnt/nas/</span><br><span class="line">    ForceCommand internal-sftp</span><br><span class="line">    AllowTcpForwarding no</span><br><span class="line">:wq</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">service ssh restart</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">/etc/init.d/ssd restart</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ps -e | grep ssd</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">netstat -ano | grep ssh</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">groupadd sftp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">useradd -g sftp -s /bin/false mysftp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">chown</span> root:sftp /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">chmod</span> 755 /mnt/nas</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="命令笔记"><a href="#命令笔记" class="headerlink" title="命令笔记"></a>命令笔记</h1><ul>
-<li>df -h：查看磁盘占用情况</li>
-<li>df -T：查看所有磁盘的文件系统类型(type)</li>
-<li>fdisk -l：查看所有被系统识别的磁盘</li>
-<li>mount -t type device dir：挂载device到dir</li>
-<li>ChrootDirectory设置的目录&#x2F;sftp&#x2F;sftpuser1的所有者必须是root,并且该目录的上级目录&#x2F;sftp的所有者也必须是root.</li>
-</ul>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
-<li>&#x2F;bin&#x2F;false 和 &#x2F;sbin&#x2F;nologin 的区别在哪里？</li>
-</ul>
-
       
     </div>
 

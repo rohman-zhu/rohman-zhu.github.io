@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">452</span>
+          <span class="site-state-item-count">453</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">148</span>
+        <span class="site-state-item-count">150</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,97 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d5690523/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d5690523/" class="post-title-link" itemprop="url">Linux权限</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 21:27:23" itemprop="dateCreated datePublished" datetime="2017-10-05T21:27:23+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>文件和目录都设置有权限的概念，可以通过 ls -l 查看 ， 权限分为三种类型，分别是：</p>
+<ul>
+<li>用户权限</li>
+<li>组权限</li>
+<li>其他用户权限</li>
+</ul>
+<h3 id="umask的作用"><a href="#umask的作用" class="headerlink" title="umask的作用"></a>umask的作用</h3><p>可以理解成屏蔽权限的命令，可以通过 umask 查看被屏蔽的权限是什么。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">设置umask为051</span><br><span class="line">$ umask 051</span><br></pre></td></tr></table></figure>
+
+<p>看后三位即可，由前到后分别是 用户权限，组权限，其他用户权限。</p>
+<p>默认创建的目录，权限是755 ； 文件的权限是 644 。而计算公式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">默认文件的全部权限位666</span><br><span class="line">umask权限             -</span><br><span class="line">如果umask上面的数字为基数 +1</span><br><span class="line">--------------------------</span><br><span class="line">最终结果为文件创建后的权限</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"></span><br><span class="line">$ touch test</span><br><span class="line">$ umask</span><br><span class="line">0022</span><br><span class="line"></span><br><span class="line">6   6   6</span><br><span class="line">0   2   2       -</span><br><span class="line">------------------</span><br><span class="line">6   4   4</span><br><span class="line"></span><br><span class="line">改变umask</span><br><span class="line">$ umask 032</span><br><span class="line">$ touch test2</span><br><span class="line"></span><br><span class="line">6   6   6  </span><br><span class="line">0   3   2       -</span><br><span class="line">    1           +</span><br><span class="line">-----------------</span><br><span class="line">6   4   4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>想用永久设置umask生效，则将umask设置到 profiles 文件里面。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1270,137 +1361,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum update -y</span><br></pre></td></tr></table></figure></li>
 </ul>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b0d26231/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/b0d26231/" class="post-title-link" itemprop="url">LINUX目录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-03 11:31:55" itemprop="dateCreated datePublished" datetime="2017-10-03T11:31:55+00:00">2017-10-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="常规目录"><a href="#常规目录" class="headerlink" title="常规目录"></a>常规目录</h1><ul>
-<li>&#x2F;usr&#x2F;local&#x2F;</li>
-</ul>
-<p>用户安装的软件都会放在这里，相当于Windows系统的软件默认安装路径(c:\program file)</p>
-<ul>
-<li>&#x2F;usr&#x2F;src&#x2F;</li>
-</ul>
-<p>内核源码存放目录</p>
-<ul>
-<li>&#x2F;var&#x2F;</li>
-</ul>
-<p>存放可变数据的路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/var/log 日志文件</span><br><span class="line">/var/secure</span><br><span class="line">/var/messages</span><br><span class="line">/var/spool/cron/root &lt; == 定时任务所在的路径</span><br><span class="line"></span><br><span class="line">$ 查看定时任务：</span><br><span class="line">$ crontab -l</span><br><span class="line">$ cat /var/spool/cron/root</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&#x2F;proc&#x2F;</li>
-</ul>
-<p>显示主机信息的虚拟路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/proc/meninfo 内存信息</span><br><span class="line"></span><br><span class="line">/proc/cupinfo CPU信息</span><br><span class="line"></span><br><span class="line">/proc/interrupt CPU中断信息</span><br><span class="line"></span><br><span class="line">/proc/loadavg 负载</span><br><span class="line"></span><br><span class="line">/proc/mounts 设备挂载信息</span><br></pre></td></tr></table></figure>
-
-<p>内核优化也会将结果写进proc里面去</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ 修改操作</span><br><span class="line"></span><br><span class="line">$ vim /etc/sysct1.conf</span><br><span class="line"></span><br><span class="line">$ cat/proc/sys/net/ipv4/tcp_tw_reuse</span><br></pre></td></tr></table></figure>
-
-<p>对本路径里面的文件进行修改并不会永久生效，当机器重启后，所有修改都会丢失。</p>
-<h1 id="其他重要目录"><a href="#其他重要目录" class="headerlink" title="其他重要目录"></a>其他重要目录</h1><ul>
-<li>&#x2F;etc&#x2F;inittab</li>
-</ul>
-<p>设置系统启动时，init进程将把系统设置成什么样的运行级别，以及加载相关级别对应启动文件</p>
-<ul>
-<li>&#x2F;etc&#x2F;profile.d</li>
-</ul>
-<p>登录后执行的脚本所在地</p>
-<ul>
-<li>&#x2F;etc&#x2F;motd</li>
-</ul>
-<p>登录后显示的字符串</p>
-<ul>
-<li>&#x2F;etc&#x2F;xxxx-release</li>
-</ul>
-<p>系统版本，红帽的为 redhat-release , Cent的为centos-release</p>
-<ul>
-<li>&#x2F;etc&#x2F;passwd</li>
-</ul>
-<p>账号信息文件</p>
-<ul>
-<li>&#x2F;etc&#x2F;shadow</li>
-</ul>
-<p>密码信息文件</p>
-<ul>
-<li>&#x2F;etc&#x2F;gshadow</li>
-</ul>
-<p>组密码信息文件</p>
-<ul>
-<li>&#x2F;etc&#x2F;sudoers</li>
-</ul>
-<p>可以执行使用sudo命令的配置文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ visudo &lt; == 编辑文件，添加用户权限</span><br><span class="line">$ visudo -c &lt; == 检查语法文件</span><br></pre></td></tr></table></figure>
       
     </div>
 
