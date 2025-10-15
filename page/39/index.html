@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">453</span>
+          <span class="site-state-item-count">454</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,94 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ccd25e08/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ccd25e08/" class="post-title-link" itemprop="url">让存放着PE系统的U盘也可以存储大文件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-02-15 00:06:12" itemprop="dateCreated datePublished" datetime="2018-02-15T00:06:12+00:00">2018-02-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="U盘设置-Exfat-NTFS-FAT32-PE-OS-Install"><a href="#U盘设置-Exfat-NTFS-FAT32-PE-OS-Install" class="headerlink" title="U盘设置 Exfat &#x2F; NTFS + FAT32( PE + OS_Install)"></a>U盘设置 Exfat &#x2F; NTFS + FAT32( PE + OS_Install)</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>手上有太多U盘了,现在容量基本都是16G,但是我身为一个IT人士(修电脑的),随身肯定会带着各种系统的启动盘或者PE系统.然而在这么一个过程中,如果做成PE系统,目前我所测试的软件PE制作工具(大白菜,老毛桃,微PE等),把U盘制作为启动盘都会将U盘转化为FAT32的格式,在这种格式下,单个文件不能超过4G.因此,本文主要是让U盘既能正常存储文件,也能作为启动盘.</p>
+<blockquote>
+<p>FAT32分区内无法存放大于4GB的单个文件，且性能不佳，易产生磁盘碎片。</p>
+</blockquote>
+<h2 id="制作启动盘"><a href="#制作启动盘" class="headerlink" title="制作启动盘"></a>制作启动盘</h2><p>先是将ISO文件写入U盘中,例如 Windows10.iso 写入U盘 , 然后用 Diskgenius 将U盘备份到镜像文件,默认后缀名字是pmf . </p>
+<h2 id="Diskgenius重新给U盘分区"><a href="#Diskgenius重新给U盘分区" class="headerlink" title="Diskgenius重新给U盘分区"></a>Diskgenius重新给U盘分区</h2><ul>
+<li>Diskgenius删除整个U盘分区. </li>
+<li>先建立第一个分区(ExFat或NTFS),再建立第二个分区(略大于一个启动盘镜像文件即可,FAT32)</li>
+<li>用 Diskgenius 将先前备份的pmf文件恢复到U盘的第二个分区.</li>
+</ul>
+<h2 id="Ubuntu中使用ExFat"><a href="#Ubuntu中使用ExFat" class="headerlink" title="Ubuntu中使用ExFat"></a>Ubuntu中使用ExFat</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install exfat-fuse exfat-utils</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过这种方法就可以让U盘做出更大的作用了,既能存储大文件,又能快速检测电脑.是不是很实在呢? 新年快乐啦~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1357,157 +1445,6 @@
 
 <blockquote>
 <p>短信网关要钱的 -.-</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/37f542d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/37f542d/" class="post-title-link" itemprop="url">监控Nagios部署</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-12-02 16:42:52" itemprop="dateCreated datePublished" datetime="2017-12-02T16:42:52+00:00">2017-12-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Nagios部署实战"><a href="#Nagios部署实战" class="headerlink" title="Nagios部署实战"></a>Nagios部署实战</h1><p>最近看了4,5天的nagios教程,翻阅了很多资料,尝试着去部署一遍,每次都在用rrdtool和pnp4nagios呈现图表界面出错(“Please check the documentation for information about the following error.”),今天完完整整按照一篇文章来搭建Nagios监控,结果成功了,这里写一下笔记总结.</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
-<li>力荐 <code>https://www.cnblogs.com/5201351/p/4328393.html</code></li>
-<li>参考 <code>https://www.cnblogs.com/Leo_wl/p/6338041.html</code></li>
-<li>参考 <code>https://www.ibm.com/developerworks/cn/linux/1309_luojun_nagios/</code></li>
-</ul>
-<h2 id="开始实战"><a href="#开始实战" class="headerlink" title="开始实战"></a>开始实战</h2><h3 id="软件版本以及下载地址"><a href="#软件版本以及下载地址" class="headerlink" title="软件版本以及下载地址"></a>软件版本以及下载地址</h3><ul>
-<li>Nagios 3.5.1</li>
-<li>rrdtool 1.3.8</li>
-<li>pnp4nagios 0.6.21</li>
-</ul>
-<p>下载地址:</p>
-<ul>
-<li>Nagios : <code>https://www.nagios.org/downloads/nagios-core/thanks/?skip=1&amp;t=1511299844</code></li>
-<li>Nagios-plugins : <code>https://www.nagios.org/downloads/nagios-plugins/</code></li>
-<li>rrdtool :  <code>https://oss.oetiker.ch/rrdtool/pub/?M=D</code></li>
-<li>pnp4nagios : <code>https://sourceforge.net/p/pnp4nagios/code/ci/0.6.21/tarball</code></li>
-</ul>
-<h3 id="安装Nagios"><a href="#安装Nagios" class="headerlink" title="安装Nagios"></a>安装Nagios</h3><p>先安装依赖</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc make -y</span><br><span class="line"><span class="comment">#glibc是GNU发布的libc库，即c运行库。glibc是linux系统中最底层的api，几乎其它任何运行库都会依赖于glibc。glibc除了封装linux操作系统所提供的系统服务外，它本身也提供了许多其它一些必要功能服务的实现。</span></span><br><span class="line">yum install glibc glibc-common -y</span><br><span class="line">yum install httpd php -y</span><br><span class="line"><span class="comment">#GD库是php处理图形的扩展库，GD库提供了一系列用来处理图片的API，使用GD库可以处理图片，或者生成图片，也可以给图片加水印。</span></span><br><span class="line">yum install gd gd-devel -y</span><br></pre></td></tr></table></figure>
-
-<p>添加nagios用户,nagcmd组,将nagios和apache用户加进nagcmd组中</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd nagios</span><br><span class="line">groupadd nagcmd</span><br><span class="line">usermod -a -G nagcmd nagios</span><br><span class="line">usermod -a -G nagcmd apache</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>-a Add the user to the supplementary group(s). Use only with the -G option.</p>
-</blockquote>
-<p>源码安装nagios</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nagios-3.5.1</span><br><span class="line">./configure --with-command-group=nagcmd</span><br><span class="line"><span class="comment">#编译所有源码</span></span><br><span class="line">make all</span><br><span class="line"><span class="comment">#安装主程序,CGIs,网页文件,会生成bin,libexec,sbin,share,var目录</span></span><br><span class="line">make install</span><br><span class="line"><span class="comment">#安装etc配置目录</span></span><br><span class="line">make install-config</span><br><span class="line"><span class="comment">#安装nagios启动脚本</span></span><br><span class="line">make install-init</span><br><span class="line"><span class="comment">#为nagios网站添加安装httpd配置文件</span></span><br><span class="line">make install-webconf</span><br><span class="line"><span class="comment">#外部命令访问nagios 配置文件的权限,为./var/rw设置为0775,改所有组为nagcmd</span></span><br><span class="line">make install-commandmode</span><br></pre></td></tr></table></figure>
-
-<p>Nagios插件包:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-nagios-user=nagios --with-nagios-group=nagcmd</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-
-<p>为 <em>nagios</em> 网站设置密码:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</span><br><span class="line">New password:</span><br><span class="line">Re-<span class="built_in">type</span> new password:</span><br><span class="line">Adding password <span class="keyword">for</span> user nagiosadmin</span><br></pre></td></tr></table></figure>
-
-<p>到这里为止,第一部安装,到此为止.</p>
-<h3 id="RRDTOOL-PNP4Nagios"><a href="#RRDTOOL-PNP4Nagios" class="headerlink" title="RRDTOOL + PNP4Nagios"></a>RRDTOOL + PNP4Nagios</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install perl rrdtool php-gd perl-Time-HiRes rrdtool-perl -y</span><br><span class="line">./configure --prefix=/usr/local/pnp4nagios --with-rrdtool=/usr/bin/rrdtool --with-nagios-user=nagios --with-nagios-group=nagios</span><br><span class="line">make all</span><br><span class="line">make fullinstall</span><br></pre></td></tr></table></figure>
-
-<p>配置pnp4nagios软件,需要修改pnp4nagios&#x2F;etc目录,以及pages , check_commands目录下的所有文件后缀.</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/pnp4nagios/etc</span><br><span class="line"><span class="built_in">mv</span> misccommands.cfg-sample misccommands.cfg</span><br><span class="line"><span class="built_in">mv</span> nagios.cfg-sample nagios.cfg</span><br><span class="line"><span class="built_in">mv</span> rra.cfg-sample rra.cfg</span><br><span class="line"><span class="built_in">mv</span> pages/web_traffic.cfg-sample pages/web_traffic.cfg</span><br><span class="line"><span class="built_in">cd</span> check_commands/</span><br><span class="line"><span class="built_in">mv</span> check_all_local_disks.cfg-sample check_all_local_disks.cfg</span><br><span class="line"><span class="built_in">mv</span> check_nrpe.cfg-sample check_nrpe.cfg</span><br><span class="line"><span class="built_in">mv</span> check_nwstat.cfg-sample check_nwstat.cfg</span><br></pre></td></tr></table></figure>
-
-<p>启动npcd服务:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/npcd restart</span><br><span class="line"><span class="comment">#启动httpd</span></span><br><span class="line">/etc/init.d/httpd restart</span><br></pre></td></tr></table></figure>
-
-<p>检测是否成功配置:</p>
-<p>浏览器输入网址: <code>http://&lt;Nagios地址&gt;/nagios</code></p>
-<p>如果显示成功,则根据页面底部提示把install.php文件改名或者移除.</p>
-<h3 id="nagios与pnp4nagios结合"><a href="#nagios与pnp4nagios结合" class="headerlink" title="nagios与pnp4nagios结合"></a>nagios与pnp4nagios结合</h3><p>在 &#x2F;usr&#x2F;local&#x2F;nagios&#x2F;etc&#x2F;objects&#x2F;commands.cfg 修改 process-host-perfdata 和 process-service-perfdata</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">        command_name    process-host-perfdata</span><br><span class="line">        command_line    /usr/bin/perl /usr/local/pnp4nagios/libexec/process_perfdata.pl -d HOSTPERFDATA</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">define <span class="built_in">command</span>&#123;</span><br><span class="line">        command_name    process-service-perfdata</span><br><span class="line">        command_line    /usr/bin/perl /usr/local/pnp4nagios/libexec/process_perfdata.pl</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>定义模板,编辑&#x2F;usr&#x2F;local&#x2F;nagios&#x2F;etc&#x2F;objects&#x2F;templates.cfg,加入如下内容:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">define host &#123;</span><br><span class="line">        name       hosts-pnp</span><br><span class="line">        register      0</span><br><span class="line">        action_url    /pnp4nagios/index.php/graph?host=$HOSTNAME$&amp;srv=_HOST_</span><br><span class="line">        process_perf_data               1</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">define service &#123;</span><br><span class="line">        name       srv-pnp</span><br><span class="line">        register      0</span><br><span class="line">        action_url  /pnp4nagios/index.php/graph?host=$HOSTNAME$&amp;srv=$SERVICEDESC$</span><br><span class="line">        process_perf_data               1</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改nagios配置文件&#x2F;usr&#x2F;local&#x2F;nagios&#x2F;etc&#x2F;nagios.cfg</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process_performance_data=1                          //默认为0</span><br><span class="line">host_perfdata_command=process-host-perfdata         //默认前面有注释符#</span><br><span class="line">service_perfdata_command=process-service-perfdata   //默认前面有注释符#</span><br></pre></td></tr></table></figure>
-
-<p>对需要图标显示的服务站点,添加 srv-pnp 模板</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define service&#123;    <span class="comment"># 添加监控sda1磁盘</span></span><br><span class="line">        use     srv-service</span><br><span class="line">        host_name       192.168.0.28</span><br><span class="line">        service_description     check_disk_hda1</span><br><span class="line">        check_command           check_nrpe!check_hda1</span><br><span class="line">        max_check_attempts 5</span><br><span class="line">        normal_check_interval 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="客户端操作"><a href="#客户端操作" class="headerlink" title="客户端操作"></a>客户端操作</h3><p>由于客户端是被监视的,所以只需要安装 <em>nrpe</em> 和 <em>nagios-plugins</em> 这个软件就好了.同时修改一下nrpe的配置文件,添加允许的服务器监控.</p>
-<blockquote>
-<p>Yum安装的话,要添加epel拓展源</p>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release -y</span><br><span class="line">yum install nrpe -y</span><br><span class="line">yum install nagios-plugins-all -y</span><br><span class="line"></span><br><span class="line">vi /etc/nagios/nrpe.cfg</span><br><span class="line">---</span><br><span class="line">allowhosts=x.x.x.x</span><br><span class="line">dont_blame_nrpe=1</span><br><span class="line">---</span><br><span class="line">/etc/init.d/nrpe start</span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>以上操作都是对版本有要求的,可能在nagios4.3.4里面的图形显示会出些问题,一直无法生产画面,网络上面的解决方案都是说使用bulk的模式就不会有问题了,可是一直都没有解决.(待解决吧).</p>
-<p>另外再写一下几个关键的配置:</p>
-<ol>
-<li>安装Nagios的时候,有make install-webconfig,这个可以配置apache的节点,省去自己配置的麻烦.</li>
-<li>Nagios的权限问题,这个是要通过htpasswd来生产用户与密码,然后再修改httpd的配置文件,将认证文件导向htpasswd.users.</li>
-<li>监控任何一台机器,先要定义host节点(主机名字,主机地址),再定义监控的服务(PING…)</li>
-</ol>
-<blockquote>
-<p>听师兄说这个用的很少了,所以这个章节作为了解,以后有需求或者再查阅相关文档就好了.</p>
 </blockquote>
 
       

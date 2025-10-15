@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">453</span>
+          <span class="site-state-item-count">454</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,173 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b6b408f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/b6b408f/" class="post-title-link" itemprop="url">宿舍书桌照明系统改造</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-07-12 12:02:20" itemprop="dateCreated datePublished" datetime="2017-07-12T12:02:20+00:00">2017-07-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MCU/" itemprop="url" rel="index"><span itemprop="name">MCU</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文章标题略显夸张,其实没有没有改造什么照明电路,只是用单片机区控制几个LED灯珠与台灯的开关,再给单片机添加一个单片机蓝牙通讯模块,这样就可以实现用手机蓝牙控制灯的开关.</p>
+<ul>
+<li>这里的蓝牙通讯其实不难,在单片机端,要弄明白串口通信就好了.</li>
+<li>在安卓端里面,是通过SOCKET与固定UUID与单片机连接.</li>
+</ul>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>分两部分来写正文,分别是单片机端 和 安卓端</p>
+<h2 id="一-单片机端"><a href="#一-单片机端" class="headerlink" title="一. 单片机端"></a>一. 单片机端</h2><p>我用的蓝牙模块是HC-06(在淘宝均价在17块左右),这个蓝牙模块在百度上有很多指令集.</p>
+<p>来自百度文库的资料:</p>
+<hr>
+<h2 id="第一步-给蓝牙上电"><a href="#第一步-给蓝牙上电" class="headerlink" title="第一步 给蓝牙上电"></a>第一步 给蓝牙上电</h2><p>给hc-06上电之后，hc-06的指示灯会一直闪一直闪，这个时候就标志着进入AT模式了</p>
+<h2 id="第二部-蓝牙配对"><a href="#第二部-蓝牙配对" class="headerlink" title="第二部 蓝牙配对"></a>第二部 蓝牙配对</h2><p>我只用了电脑和单片机之间传输数据，所以只讲电脑这一块儿。首先你得电脑得有蓝牙（没有就去买）。然后打开电脑蓝牙-&gt;添加设备。这个时候电脑就会自动搜索蓝牙设备，蓝牙设备收到后配对就好。一般hc-06的名称就是hc-06了，配对密码是1234。</p>
+<h2 id="第三步-有线串口连接"><a href="#第三步-有线串口连接" class="headerlink" title="第三步 有线串口连接"></a>第三步 有线串口连接</h2><p>买一根串口线，串口转usb也成，将单片机和电脑连接起来，假设使用的是stm32f103的USART1。</p>
+<h2 id="第四步-蓝牙引脚连接"><a href="#第四步-蓝牙引脚连接" class="headerlink" title="第四步 蓝牙引脚连接"></a>第四步 蓝牙引脚连接</h2><p>Stm32f103的USART1的A9、A10引脚分别是Tx和Rx脚。此时将hc-06的Rx连接A9，Tx连接A10。</p>
+<h2 id="第五步打开串口调试助手"><a href="#第五步打开串口调试助手" class="headerlink" title="第五步	打开串口调试助手"></a>第五步	打开串口调试助手</h2><p>找到有线串口线对应的端口，将波特率设置为与hc-06波特率一致（首次修改为9600），8位数据位，1位结束位，无校验。然后打开串口。</p>
+<h2 id="第六步-输入指令"><a href="#第六步-输入指令" class="headerlink" title="第六步 输入指令"></a>第六步 输入指令</h2><p>首先输入AT（无空格回车），然后串口助手会返回OK，修改波特率时输入AT+BAUDx（x为波特率编号），串口助手会返回OKnnnn（nnnn是你的波特率）。注意，在这之后你若还有其他要修改的，必须先关掉串口助手，然后修改端口波特率为你刚刚设置的波特率，然后再打开串口继续操作。</p>
+<p>另给检测蓝牙模块是否正常的方法：</p>
+<ol>
+<li>给蓝牙模块供电</li>
+<li>蓝牙配对</li>
+<li>打开串口助手，设置波特率9600，数据位8位，结束位1位，校验位无</li>
+<li>将蓝牙的TXD和RXD短接</li>
+<li>随意发送一个数据，串口助手将回显同样的数据</li>
+</ol>
+<p>再附指令表：</p>
+<ol>
+<li>测试通信<br>发送：AK<br>返回：OK</li>
+<li>修改波特率额</li>
+</ol>
+<p>发送：AK+BAUD8<br>返回：OK115200</p>
+<p>波特率标号对应表：</p>
+<ul>
+<li>1———1200 </li>
+<li>2———2400 </li>
+<li>3———4800 </li>
+<li>4———9600(默认)</li>
+<li>5———19200 </li>
+<li>6———38400 </li>
+<li>7———57600 </li>
+<li>8———115200 </li>
+<li>9———230400 </li>
+<li>A———460800 </li>
+<li>B———921600 </li>
+<li>C———1382400</li>
+</ul>
+<ol start="3">
+<li>改蓝牙名称</li>
+</ol>
+<ul>
+<li>发送：AT+NAMEname</li>
+<li>返回：OKname</li>
+</ul>
+<ol start="4">
+<li>改配对密码</li>
+</ol>
+<ul>
+<li>发送：AT+PINxxx</li>
+<li>返回：OKsetpin</li>
+</ul>
+<hr>
+<p>在单片机里面无非就是设置串口通信的函数会比较难,计时器方面会比较难,但是用 “单片机精灵”生成就好了,串口通信的函数就会自动生成.</p>
+<p>另一方面,要注意main函数如果没有设置死循环,那么将会从头到尾不断循环.</p>
+<p><a href = "https://github.com/R0manJ/iDesk/blob/master/智能桌面单片机程序.c">详细代码看Github–iDesk–智能桌面单片机程序.c</a></p>
+<h2 id="二-安卓端"><a href="#二-安卓端" class="headerlink" title="二. 安卓端"></a>二. 安卓端</h2><p>在安卓端无非是使用蓝牙跟单片机的蓝牙通讯,那么就要用到Socket连接,再通过输入输出流操作数据传送.</p>
+<p>需要注意的是Socket的连接是阻塞操作,因此要通过子线程来操作.</p>
+<p>因为要实现的是蓝牙的串口通信,所以UUID是固定的(“00001101-0000-1000-8000-00805F9B34FB”)</p>
+<p>蓝牙操作的流程大概是这样:</p>
+<p>BluetoothAdapter -&gt; BluetoothDevice -&gt; BluetoothSocket -&gt;connect -&gt;getInputStream &amp;&amp; getOutputStream</p>
+<p>其中涉及到单片机传回的数据要处理并显示到界面上,那么就通过安卓的Handler消息处理机制来跟新UI.</p>
+<p><a href ="https://github.com/R0manJ/iDesk/tree/master/app/src/main/java/com/rjstudio/idesk">详细代码看GitHub项目</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个小样例做完后还留下一些小问题:<br></p>
+<ul>
+<li>在安卓中:</li>
+</ul>
+<ol>
+<li>在activity结束后,线程是如何关闭的? 我获取的Socket资源与inputstream,outputStream 怎么在线程结束后关闭?</li>
+<li>还没有做数据回传操作,如何通过广播开启蓝牙给单片机发送指令?</li>
+</ol>
+<ul>
+<li>在单片机中:</li>
+</ul>
+<ol>
+<li>单片机的功率是多少?</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1125,207 +1292,6 @@
 <li>如果卡在单片机握手什么的，直接重启一下单片机。</li>
 </ul>
 <p>（其实就是跟普通的下载流程一样的，这里没什么可以说的）</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3f08da7f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/3f08da7f/" class="post-title-link" itemprop="url">有关Fragment的相关问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-06-28 12:26:18" itemprop="dateCreated datePublished" datetime="2017-06-28T12:26:18+00:00">2017-06-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>写笔记前先扯一下蛋,明天(2017-06-29 14:00 信息楼103)要参加A+认证考试.而到现在为止,本人还没有看多少题.本人最近都是在根据题库做一个背题的APP,就当作练练手.从上星期六(2017-06-26)立项到现在,历时4天,终于弄出了以下玩意:</p>
-<p><img src="/sourc/images/20170628_mainpager.png" alt="img"><br><img src="/sourc/images/20170628_testPager.png" alt="img"><br><img src="/images/20170628_rememberPager.jpeg" alt="img"><br><img src="/images/20170628_recordPager.jpeg" alt="img"></p>
-<h3 id="用到了一下几个控件"><a href="#用到了一下几个控件" class="headerlink" title="用到了一下几个控件:"></a>用到了一下几个控件:</h3><ul>
-<li>ViewPager(主要)<h4 id="viewpager用的适配器-FragmentAdapter"><a href="#viewpager用的适配器-FragmentAdapter" class="headerlink" title="viewpager用的适配器: FragmentAdapter"></a>viewpager用的适配器: FragmentAdapter</h4></li>
-<li>DrawerLayout</li>
-<li>CheckBox</li>
-<li>Button</li>
-<li>ListView</li>
-</ul>
-<h3 id="APP构思"><a href="#APP构思" class="headerlink" title="APP构思"></a>APP构思</h3><ol>
-<li>编码题库TXT文件 txt -&gt; xml</li>
-<li>解析题库XML文件 xml -&gt; 题目类</li>
-<li>编辑题目类,有 题号&#x2F;题目内容&#x2F;选项A内容&#x2F;选项B内容&#x2F;选项C内容&#x2F;选项D内容&#x2F;正确答案,一个类共7个项内容,并且设置相应的操作函数.</li>
-<li>加载题库数据到Viewpager…</li>
-</ol>
-<p>最终实现流程:<br>编码XML -&gt; 解析XML -&gt; 封装类到集合 -&gt; 根据集合封装Fragment -&gt; 给Viewpager设置适配器</p>
-<h3 id="出现大的问题"><a href="#出现大的问题" class="headerlink" title="出现大的问题"></a>出现大的问题</h3><ol>
-<li>因为本APP有三种模式,其中错题模式的页面内容是跟另外两个模式不一样的,适配器的数据(Fragment集需要更变)更变后,页面没变化.</li>
-<li>在 <em>测试模式</em> 和 <em>背题模式</em> 中,不同的是Fragment中的题目答案是否有显示,而在页面中要让一个TextView显示,Fragment必须是要加载到Activity中,未加载的Fragment是不能设置TextView显示.</li>
-</ol>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>留到下文再写.</li>
-<li>在每一个题目的Fragment中设置一个用于表示 <em>是否显示参数</em> (boolean isVisible),如果要显示则,通过fragment集合获取指定的fragment的这个参数(isVisible),设置为 <em>true</em> ;然后在onCreateView()中加入这段逻辑:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TestViewAnswer.setVisibility(isVisible);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>话说回来,因为我用到的Viewpager控件采用的是FragmentAdapter这个适配器,因此用的是有关Fragment的相关内容.</p>
-<h2 id="Fragment"><a href="#Fragment" class="headerlink" title="Fragment"></a>Fragment</h2><h3 id="一-什么是Fragment"><a href="#一-什么是Fragment" class="headerlink" title="一.什么是Fragment"></a>一.什么是Fragment</h3><p>Fragment是一个类似Activity组件,跟Activity一样的也有生命周期.<br><img src="http://img.my.csdn.net/uploads/201211/29/1354170699_6619.png" alt="Fragment生命周期"></p>
-<p>由图中可以看到,Fragment被加载的时候,会多一个onCreateView方法.而且每一次再加载的时候都是调用onCreateView方法.</p>
-<h3 id="二-使用Fragment-加载Fragment"><a href="#二-使用Fragment-加载Fragment" class="headerlink" title="二.使用Fragment(加载Fragment)"></a>二.使用Fragment(加载Fragment)</h3><h4 id="方法一-静态添加"><a href="#方法一-静态添加" class="headerlink" title="方法一: 静态添加"></a>方法一: 静态添加</h4><p>这个方法其实跟自定义控件一样,需要java文件与xml布局文件.</p>
-<ol>
-<li><p>正常设置布局</p>
-</li>
-<li><p>编写java文件 ,类继承自Fragment,并重写以对应的方法.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override  </span><br><span class="line">   public View onCreateView(LayoutInflater inflater, ViewGroup container,  </span><br><span class="line">           Bundle savedInstanceState)  </span><br><span class="line">   &#123;  </span><br><span class="line">       return inflater.inflate(R.layout.fragment_content, container, false);  </span><br><span class="line">       //这里相当于加载了fragment的布局文件</span><br><span class="line">   &#125;  </span><br></pre></td></tr></table></figure></li>
-<li><p>在MainActivity中也需要编写两个文件,只需编写布局文件就好了</p>
- <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//这里是MainActivity的布局文件</span><br><span class="line">&lt;fragment</span><br><span class="line">    android:id=&quot;@+id/id_fragment_content&quot;  </span><br><span class="line">    android:name=&quot;fragment放置的包名&quot;  </span><br><span class="line">    android:layout_width=&quot;fill_parent&quot;  </span><br><span class="line">    android:layout_height=&quot;fill_parent&quot; /&gt;  </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="方法二-动态添加"><a href="#方法二-动态添加" class="headerlink" title="方法二 : 动态添加"></a>方法二 : 动态添加</h4><p>这个方法是通过 FragmentManager的一个事务对象来实现的 ( <em>FragmentTransaction</em> ),常用方法有add,remove,replace, 最后都要用commit方法提交.</p>
-<ol>
-<li><p>replace()</p>
-<ul>
-<li>这里需要设置两个参数(被替换的布局文件id,将要替换的fragment);</li>
-<li>设置完后提交,FragmentTransaction.commit();</li>
-</ul>
-</li>
-</ol>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>Fragment常用的三个类：</p>
-<ul>
-<li>android.app.Fragment 主要用于定义Fragment</li>
-<li>android.app.FragmentManager 主要用于在Activity中操作Fragment</li>
-<li>android.app.FragmentTransaction 保证一些列Fragment操作的原子性，熟悉事务这个词，一定能明白~</li>
-</ul>
-<hr>
-<ul>
-<li><p>获取FragmentManager的方法是getFragmentManager(),而在v4中是用getSupportFragmentManager();</p>
-</li>
-<li><p>操作事务的对象是 FragmentManager.beginTransaction();</p>
-</li>
-<li><p>transaction.add() ;往Activity中添加一个Fragment</p>
-</li>
-<li><p>transaction.remove() ; 从Activity中移除一个Fragment，如果被移除的Fragment没有添加到回退栈（回退栈后面会详细说），这个Fragment实例将会被销毁。</p>
-</li>
-<li><p>transaction.replace()<br>使用另一个Fragment替换当前的，实际上就是remove()然后add()的合体</p>
-</li>
-<li><p>transaction.hide()<br>隐藏当前的Fragment，仅仅是设为不可见，并不会销毁</p>
-</li>
-<li><p>transaction.show()<br>显示之前隐藏的Fragment</p>
-</li>
-<li><p>detach()<br>会将view从UI中移除,和remove()不同,此时fragment的状态依然由FragmentManager维护。</p>
-</li>
-<li><p>attach()<br>重建view视图，附加到UI上并显示。</p>
-</li>
-<li><p>transatcion.commit()&#x2F;&#x2F;提交一个事务</p>
-</li>
-<li><p>注意：常用Fragment的哥们，可能会经常遇到这样Activity状态不一致：State loss这样的错误。主要是因为：commit方法一定要在Activity.onSaveInstance()之前调用。</p>
-</li>
-<li><p>a、比如：我在FragmentA中的EditText填了一些数据，当切换到FragmentB时，如果希望会到A还能看到数据，则适合你的就是hide和show；也就是说，希望保留用户操作的面板，你可以使用hide和show，当然了不要使劲在那new实例，进行下非null判断。</p>
-</li>
-<li><p>b、再比如：我不希望保留用户操作，你可以使用remove()，然后add()；或者使用replace()这个和remove,add是相同的效果。</p>
-</li>
-<li><p>c、remove和detach有一点细微的区别，在不考虑回退栈的情况下，remove会销毁整个Fragment实例，而detach则只是销毁其视图结构，实例并不会被销毁。那么二者怎么取舍使用呢？如果你的当前Activity一直存在，那么在不希望保留用户操作的时候，你可以优先使用detach。</p>
-</li>
-</ul>
-<h3 id="关于回退栈"><a href="#关于回退栈" class="headerlink" title="关于回退栈"></a>关于回退栈</h3><ul>
-<li>如果不添加事务到回退栈，前一个Fragment实例会被销毁。这里很明显，我们调用tx.addToBackStack(null);将当前的事务添加到了回退栈，所以FragmentOne实例不会被销毁，但是视图层次依然会被销毁，即会调用onDestoryView和onCreateView.</li>
-</ul>
-<h2 id="ViewPager"><a href="#ViewPager" class="headerlink" title="ViewPager"></a>ViewPager</h2><p>我用的是FragmentAdapter,也就是说,这个Viewpager里面放的是Fragment,这个控件会在当前页中,预先加载position - 1 页 和 position + 1页.</p>
-<h3 id="FragmentAdapter"><a href="#FragmentAdapter" class="headerlink" title="FragmentAdapter"></a>FragmentAdapter</h3><ul>
-<li>构造函数中必须需要传入一个FragmentManager参数.</li>
-<li>将显示的页面,需要传入一个Fragment集合</li>
-</ul>
-<hr>
-<p>方法说明:</p>
-<ul>
-<li>public Fragment getItem()</li>
-</ul>
-<ol>
-<li>该类中新增的一个虚函数。函数的目的为生成新的 Fragment 对象。重载该函数时需要注意这一点。在需要时，该函数将被 instantiateItem() 所调用。</li>
-<li>如果需要向 Fragment 对象传递相对静态的数据时，我们一般通过 Fragment.setArguments() 来进行，这部分代码应当放到 getItem()。它们只会在新生成 Fragment 对象时执行一遍。</li>
-<li>如果需要在生成 Fragment 对象后，将数据集里面一些动态的数据传递给该 Fragment，那么，这部分代码不适合放到 getItem() 中。因为当数据集发生变化时，往往对应的 Fragment 已经生成，如果传递数据部分代码放到了 getItem() 中，这部分代码将不会被调用。这也是为什么很多人发现调用 PagerAdapter.notifyDataSetChanged() 后，getItem() 没有被调用的一个原因。</li>
-</ol>
-<ul>
-<li><p>public Object instantiateItem()</p>
-<p>  在每次 ViewPager 需要一个用以显示的 Object 的时候，该函数都会被 ViewPager.addNewItem() 调用。</p>
-</li>
-</ul>
-<ol>
-<li>函数中判断一下要生成的 Fragment 是否已经生成过了，如果生成过了，就使用旧的，旧的将被 Fragment.attach()；如果没有，就调用 getItem() 生成一个新的，新的对象将被 FragmentTransation.add()。</li>
-<li>FragmentPagerAdapter 会将所有生成的 Fragment 对象通过 FragmentManager 保存起来备用，以后需要该 Fragment 时，都会从 FragmentManager 读取，而不会再次调用 getItem() 方法。</li>
-<li>如果需要在生成 Fragment 对象后，将数据集中的一些数据传递给该 Fragment，这部分代码应该放到这个函数的重载里。在我们继承的子类中，重载该函数，并调用 FragmentPagerAdapter.instantiateItem() 取得该函数返回 Fragment 对象，然后，我们该 Fragment 对象中对应的方法，将数据传递过去，然后返回该对象。</li>
-<li>否则，如果将这部分传递数据的代码放到 getItem()中，在 PagerAdapter.notifyDataSetChanged() 后，这部分数据设置代码将不会被调用。</li>
-</ol>
-<ul>
-<li><p>public void notifyDataSetChanged()</p>
-<p>  在数据集发生变化的时候，一般 Activity 会调用 PagerAdapter.notifyDataSetChanged()，以通知 PagerAdapter，而 PagerAdapter 则会通知在自己这里注册过的所有 DataSetObserver。其中之一就是在 ViewPager.setAdapter() 中注册过的 PageObserver。PageObserver 则进而调用 ViewPager.dataSetChanged()，从而导致 ViewPager 开始触发更新其内含 View 的操作。</p>
-</li>
-</ul>
-<p>参考资料:<a href=http://m.blog.csdn.net/shaoyezhangliwei/article/details/52488179>CSDN</a></p>
 
       
     </div>

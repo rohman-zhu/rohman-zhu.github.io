@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">453</span>
+          <span class="site-state-item-count">454</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,272 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/47aea328/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/47aea328/" class="post-title-link" itemprop="url">Linux之数据库</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-21 11:09:37" itemprop="dateCreated datePublished" datetime="2017-10-21T11:09:37+00:00">2017-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="1-数据库种类"><a href="#1-数据库种类" class="headerlink" title="1.数据库种类"></a>1.数据库种类</h2><h3 id="1-1关系型数据库"><a href="#1-1关系型数据库" class="headerlink" title="1.1关系型数据库"></a>1.1关系型数据库</h3><p>本质上是一张二维表,每一个字段都有对应的记录</p>
+<blockquote>
+<p>常用的MySQL,Oracle,db2,MariaDB</p>
+</blockquote>
+<h3 id="1-2非关系型数据库"><a href="#1-2非关系型数据库" class="headerlink" title="1.2非关系型数据库"></a>1.2非关系型数据库</h3><ul>
+<li>特点: 读写更多的是和磁盘打交道,数据一致性,安全.(高效,高性能)</li>
+<li>缺点:速度慢</li>
+</ul>
+<blockquote>
+<p>常用的 memcached ,redis</p>
+</blockquote>
+<h2 id="2-安装MySql"><a href="#2-安装MySql" class="headerlink" title="2.安装MySql"></a>2.安装MySql</h2><p>这里采用的是二进制文件安装. 下载MySQL-5.58.xxx.tar并传送到Linux下;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># tar xvf MySQL.tar</span><br><span class="line"></span><br><span class="line"># 将目录移到/Application或者/usr/local/下</span><br><span class="line"># mv MySQL /usr/local/MySQL</span><br><span class="line"></span><br><span class="line"># 执行安装脚本</span><br><span class="line"># /usr/local/MySQL/bin/mysql_install_db</span><br><span class="line"></span><br><span class="line"># 添加命令到环境中</span><br><span class="line"># vim /etc/profile</span><br><span class="line"></span><br><span class="line">#-------------------</span><br><span class="line">PATH=&quot;/usr/local/MySQL/bin:$PATH&quot;</span><br><span class="line">#--------------------</span><br><span class="line">#source /etc/profile</span><br><span class="line"></span><br><span class="line"># 将服务添加至/init.d/中</span><br><span class="line"># cp /usr/local/mysql/support-files/mysql.server /etc/init.d/</span><br><span class="line"></span><br><span class="line"># 启动服务</span><br><span class="line"># /etc/init.d/mysql.server start</span><br><span class="line"></span><br><span class="line"># 检查是否启动了</span><br><span class="line"># lsof -i:3306</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1Mysql的配置文件"><a href="#2-1Mysql的配置文件" class="headerlink" title="2.1Mysql的配置文件"></a>2.1Mysql的配置文件</h3><p>&#x2F;etc&#x2F;my.cnf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/storage/db/mysql</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">socket=/storage/db/mysql/mysql.sock</span><br></pre></td></tr></table></figure>
+
+<p>如果没有设置client标签和mysql标签,则在连接数据库的时候,系统会找不到socket文件报错.</p>
+<h2 id="3-MySQL相关指令"><a href="#3-MySQL相关指令" class="headerlink" title="3.MySQL相关指令"></a>3.MySQL相关指令</h2><ul>
+<li>显示所有数据库 show databases;</li>
+<li>查看表格 show tables;</li>
+<li>查看用户列表 select user,host from mysql.user;</li>
+<li>查看当前用户 select user();</li>
+<li>查看当前所在库 select database();</li>
+<li>删除数据库 drop database 库名;</li>
+<li>删除用户 drop user ‘用户‘@’主机’;</li>
+<li>添加用户 grante all on [database] to [userName] identified by ‘password’</li>
+<li>远程连接需要添加参数 -h 主机ip</li>
+</ul>
+<h2 id="4-数据库备份"><a href="#4-数据库备份" class="headerlink" title="4.数据库备份"></a>4.数据库备份</h2><p>mysqldump:</p>
+<ul>
+<li>-A 备份所有库</li>
+<li>-B 备份多个库,并添加use 库名: create database库等功能</li>
+<li>-x 锁表,会影响读写,尽量晚上执行.</li>
+<li>|gzip 压缩效率高</li>
+<li>.sql.gz 表示ssql语句数据,.gz是压缩包</li>
+</ul>
+<p>例如: mysqldump -uroot -poldboyg123 -B -A –events -x | gzip&gt;&#x2F;opt&#x2F;bak_$(date +%F).sql.gz</p>
+<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><ul>
+<li>Nginx机器为 172.16.177.133</li>
+<li>数据库机器为 172.16.177.132</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># mysqldump -uroot -poldboy123 -B -A| gzip &gt;bak_$(date+ %F).sql.gz</span><br><span class="line"></span><br><span class="line"># 已经创建了备份文件</span><br><span class="line"># 把备份文件送到目标机器</span><br><span class="line"></span><br><span class="line"># 在其含有该备份文件的目录下</span><br><span class="line"># gzip -d bak_****.sql.gz</span><br><span class="line"># 会得到一个sql文件</span><br><span class="line"># 利用输入重定向写入sql语句</span><br><span class="line"># mysql -uroot -pxxxx &lt; bak_*****.sql</span><br><span class="line"></span><br><span class="line"># 完成备份</span><br><span class="line"></span><br><span class="line"># 给Nginx用户授权</span><br><span class="line"># mysql</span><br><span class="line"></span><br><span class="line">#-------------</span><br><span class="line"></span><br><span class="line">mysql &gt; grant delect,select,update,insert,drop on wordpress to wordpress@&#x27;172.16.177.%&#x27; identified by &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">意思是所有172.16.177网段过来的机器都能访问</span><br><span class="line"></span><br><span class="line">#-------------</span><br><span class="line"></span><br><span class="line">#### 修改Nginxz主机里面 blog 节点的php配置信息 ###</span><br><span class="line">### 172.16.177.133 ###</span><br><span class="line"># 略...</span><br><span class="line">### 配置host文件</span><br><span class="line"># echo &quot;172.16.177.132 database.server.org&quot; &gt;&gt; /etc/hosts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-遇到的问题"><a href="#5-遇到的问题" class="headerlink" title="5.遇到的问题"></a>5.遇到的问题</h2><h3 id="Can’t-connect-to-local-MySQL-server-through-socket-‘-tmp-mysql-sock’-2"><a href="#Can’t-connect-to-local-MySQL-server-through-socket-‘-tmp-mysql-sock’-2" class="headerlink" title="Can’t connect to local MySQL server through socket ‘&#x2F;tmp&#x2F;mysql.sock’(2)"></a>Can’t connect to local MySQL server through socket ‘&#x2F;tmp&#x2F;mysql.sock’(2)</h3><p>这个可能是因为服务没有启动,或者是因为配置文件的路径没有修改好.</p>
+<h3 id="没有设置mysql的root密码"><a href="#没有设置mysql的root密码" class="headerlink" title="没有设置mysql的root密码"></a>没有设置mysql的root密码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;use mysql;</span><br><span class="line">mysql&gt;update user set password=password(&#x27;newpassword&#x27;) where user=&#x27;root&#x27;;</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line"></span><br><span class="line">## 将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-MySQL进阶"><a href="#6-MySQL进阶" class="headerlink" title="6.MySQL进阶"></a>6.MySQL进阶</h2><h3 id="6-1-多实例"><a href="#6-1-多实例" class="headerlink" title="6.1 多实例"></a>6.1 多实例</h3><ul>
+<li>简单理解这个概念:同一套mysql程序,不同的”my.cnf,启动程序,端口”.</li>
+<li>优势:有效利用服务器资源,节约服务器资源,</li>
+<li>适用:并发访问不是特别大的业务</li>
+</ul>
+<h4 id="6-1-2-安装"><a href="#6-1-2-安装" class="headerlink" title="6.1.2.安装"></a>6.1.2.安装</h4><ol>
+<li>ncurses-devel # 依赖库</li>
+<li>libaio-devel  # 依赖库</li>
+<li>cmake # 软件</li>
+<li>tree , dos2unix</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.5.58 \ 指定安装目录</span><br><span class="line">-DMYSQL_DATADIR=/application/mysql-5.5.58/data \ 指定数据存放路径</span><br><span class="line">-DMYSQL_UNIX_ADDR=/application/mysql-5.5.58/tmp/mysql.sock \ 指定套间字路径</span><br><span class="line">-DDEFAULT_CHARSET=utf8 \ 指定默认字符集</span><br><span class="line">-DDEFAULT_COLLATION=utf9_general_ci \ 设置字符校验集</span><br><span class="line">-DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \</span><br><span class="line">-DENABLED_LOCAL_INFILE=ON \</span><br><span class="line">-DWITH_INNOBASE_STORAGE_ENGINE=1 \ 安装INNOBASE存储引擎</span><br><span class="line">-DWITH_FEDERATED_STORAGE_ENGINE=1 \ 安装BLACKHOLE存储引擎</span><br><span class="line">-DWITH_BLACKHOLE_STORAGE_ENGINE=1 \ 安装BLACKHOLE存储引擎</span><br><span class="line">-DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \  不启用或不编译EXAMPLE存储引擎</span><br><span class="line">-DWITHOUT_PARTITION_STORAGE_ENGINE=1 \</span><br><span class="line">-DWITH_FAST_MUTEXES=1 \</span><br><span class="line">-DWITH_ZLIB=bundled \</span><br><span class="line">-DENABLED_LOCAL_INFILE=1 \</span><br><span class="line">-DWITH_READLINE=1 \</span><br><span class="line">-DWITH_EMBEDDED_SERVER=1 \</span><br><span class="line">-DWITH_DEBUG=0</span><br></pre></td></tr></table></figure>
+
+<p>最终也是要make &amp;&amp; make install</p>
+<h4 id="6-1-3-配置"><a href="#6-1-3-配置" class="headerlink" title="6.1.3.配置"></a>6.1.3.配置</h4><p>创建数据文件夹3306,3307</p>
+<ul>
+<li>&#x2F;application&#x2F;mysql&#x2F;data&#x2F;3306</li>
+<li>&#x2F;application&#x2F;mysql&#x2F;data&#x2F;3307</li>
+</ul>
+<p>分别在数据文件夹里面写配置文件</p>
+<blockquote>
+<p>我们采用的独立配置文件和Sock来启动实例,所以要编写好配置文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 其中的一个节点,需要主要的几项</span><br><span class="line">[mysql]</span><br><span class="line">basedir=/application/mysql</span><br><span class="line">datadir=/data/3307</span><br><span class="line">port=</span><br><span class="line">socket=</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意好以上几点的路径即可<br>这里采用直直接复制根目录下的&#x2F;support-files&#x2F;mysql-small.cnf<br>注意:socket非常重要,因为要通过socket来启动或关闭程序,并且socket是通过程序启动后生成的.</p>
+</blockquote>
+<h4 id="6-1-4-启动多实例"><a href="#6-1-4-启动多实例" class="headerlink" title="6.1.4 启动多实例"></a>6.1.4 启动多实例</h4><p>因为是多实例,所以启动要根据配置文件来启动.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># ./bin/mysql_safe --defaults-file=/data/3306/my.cnf</span><br><span class="line"># 检查是否启动</span><br><span class="line"># lsof -i:3306</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-1-5链接数据库"><a href="#6-1-5链接数据库" class="headerlink" title="6.1.5链接数据库"></a>6.1.5链接数据库</h4><p>根据sock文件来链接数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mysql -S /data/3306/mysql.sock</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-1-6关闭数据库"><a href="#6-1-6关闭数据库" class="headerlink" title="6.1.6关闭数据库"></a>6.1.6关闭数据库</h4><p>这里是通过mysqladmin与sock来关闭数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -S /data/3306/mysql.sock shutdown</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-1-7小结"><a href="#6-1-7小结" class="headerlink" title="6.1.7小结"></a>6.1.7小结</h4><p>官方给出的多实例样例,是将所有实例都写在一个配置文件中,这样会增加耦合度,不符合运维思想,而这里的做法是通过将配置文件分离出来,因此关键步骤也在配置文件上面,同时要设置好权限.多实例是为了解决硬件资源不足的情况,但现在实际生产环境中已经没有什么应用的机会,因为现在机器硬件都很充足,没必要去多实例.本次案例中的操作可以用脚本实现开关数据库程序,把 mysql_safe 与 msqladmin 都整合到一个脚本文件中.</p>
+<h3 id="6-2-主从复制"><a href="#6-2-主从复制" class="headerlink" title="6.2 主从复制"></a>6.2 主从复制</h3><ul>
+<li>常用:主要是一主多从.</li>
+<li>不建议双写.</li>
+</ul>
+<p>原理: MySQL的主从复制是一个异步的复制过程,从 Master -&gt; Slave .</p>
+<h4 id="6-2-1过程"><a href="#6-2-1过程" class="headerlink" title="6.2.1过程"></a>6.2.1过程</h4><ul>
+<li>用户写入数据到数据库的同时,还要写进binlog(增量文件,格式mysql-bin.000001,默认1.1G,存放更改的内容是insert,update,delete,create,drop,alter),索引文件mysql-index;</li>
+<li>用户的数据配置文件要添加’开关’,即是my.cnf中的 log-bin &#x3D; “文件名”要打开.</li>
+<li>从库(slave)要开启两个线程,IO线程,SQL,master.info记录要从哪里获取内容,以及relay.00000x</li>
+</ul>
+<h4 id="6-2-2过程"><a href="#6-2-2过程" class="headerlink" title="6.2.2过程"></a>6.2.2过程</h4><ol>
+<li>授权一个用户用于备份同步.</li>
+<li>Master:备份开始前-&gt;锁表-&gt;拿主库的位置点-&gt;binlog文件名字-&gt;对应pos-&gt;解锁</li>
+<li>Slave:通过命令行change master,修改master.info信息,连接主库-&gt;binlog文件以及文件里的位置</li>
+<li>Master:binlog内容,主库IO读到的文件,位置点</li>
+<li>Slave:记录主库发过来的内容到relay-log,SQL线程读取relay-log中的SQL语句,执行数据库操作.</li>
+</ol>
+<h5 id="6-2-2-1-案例"><a href="#6-2-2-1-案例" class="headerlink" title="6.2.2.1 案例"></a>6.2.2.1 案例</h5><ul>
+<li>主库:3306</li>
+<li>从库:3307</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 在Master主库的配置文件中中开启binlog</span><br><span class="line"># vim /data/3306/my.cnf</span><br><span class="line"># 在数据库中是否开启该功能</span><br><span class="line"># mysql</span><br><span class="line">&gt; show variables;</span><br><span class="line">&gt; show variables like &quot;log_bin&quot;;</span><br><span class="line">&gt; show variables like &quot;server_id&quot;;</span><br><span class="line"># 创建授权用户</span><br><span class="line">&gt; grant replication slave on *.* to rep@&#x27;172.16.177/%&#x27; identified by &#x27;123456&#x27;</span><br><span class="line"># 刷新权限</span><br><span class="line">&gt; reflush privileges;</span><br><span class="line"># 锁表(不能进行操作)</span><br><span class="line">&gt;flush table with read lock;</span><br><span class="line">&gt; show master status;</span><br><span class="line"># 看binlog位置节点</span><br><span class="line"># mysqldump -uxx -pxx -S xx/mysql.sock -A -B -x --events |gzip&gt;./bak_$(date +%F).sql.gz</span><br><span class="line"># --master-data=2表示注释binlog节点位置 , -x锁表</span><br><span class="line"># mysqldump -u -p -A -B -F --master-data=2 -x --events|gzip &gt; ./bak_$(date +%F).sql.gz</span><br><span class="line"></span><br><span class="line">#还原</span><br><span class="line">#获取sql文件,用输入重定向</span><br><span class="line"># mysql -u -p -S &lt; ./bak_$(date +%F).sql</span><br></pre></td></tr></table></figure>
+
+<p>登陆从库配置同步参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;CHANGE MASTER TO</span><br><span class="line">&gt;MASTER_HOST=&quot;x.x.x.x&quot;, --主库的IP</span><br><span class="line">&gt;MASTER_PORT=3306, --主库的端口</span><br><span class="line">&gt;MASTER_USER=&#x27;rep&#x27;,</span><br><span class="line">&gt;MASTER_PASSWORD=&#x27;123456&#x27;, --用于复制的用户密码</span><br><span class="line">&gt;MASTER_LOG_FILE=&#x27;mysql-bin.00008&#x27;, --这里是show master status时查看到的二进制文件名称,注意不能多空格.</span><br><span class="line">&gt; MASTER_LOG_POS=342; --这里是show master status 时看到的二进制日志偏移量,注意不能有空格.</span><br><span class="line"># 打开开关</span><br><span class="line">&gt;start slave;</span><br></pre></td></tr></table></figure>
+
+<h5 id="6-2-2-2-问题"><a href="#6-2-2-2-问题" class="headerlink" title="6.2.2.2 问题"></a>6.2.2.2 问题</h5><ol>
+<li>在数据库中无法show master status; –配置文件中bin-log功能没有开启</li>
+<li>服务器不能正常启动; –确定配置文件没有错误 , rm -rf 把pid删除,重新开启;</li>
+</ol>
+<h4 id="6-2-3小结"><a href="#6-2-3小结" class="headerlink" title="6.2.3小结"></a>6.2.3小结</h4><ol>
+<li>主从复制是异步的,逻辑的SQL语句备份.</li>
+<li>同步时,主库有一个IO线程,从库有两个线程:IO线程,SQL.</li>
+<li>实现主从复制的必要条件,主库要开启binlog功能.</li>
+<li>binlog文件只记录对数据库有更改的SQL语句(来自主数据库内容的更变).</li>
+</ol>
+<h3 id="6-3-4-主从复制的相关问题"><a href="#6-3-4-主从复制的相关问题" class="headerlink" title="6.3.4 主从复制的相关问题"></a>6.3.4 主从复制的相关问题</h3><h4 id="从库记录bin-log"><a href="#从库记录bin-log" class="headerlink" title="从库记录bin-log"></a>从库记录bin-log</h4><p>应用场景:</p>
+<ol>
+<li>双主互为主从场景</li>
+<li>级联复制</li>
+</ol>
+<p>实现方式:</p>
+<p>在从库的配置文件中加入以下的配置:</p>
+<ul>
+<li>log-bin &#x3D; &#x2F;data&#x2F;3307&#x2F;mysql-bin</li>
+<li>log-slave-update #必须要有这个参数</li>
+<li>expire_logs_day &#x3D; 7 # 相当于 find &#x2F;data&#x2F;3307&#x2F; -type f -name “mysql-bin.000*” -mitime +7 | xargs rm -f</li>
+</ul>
+<h4 id="级联复制"><a href="#级联复制" class="headerlink" title="级联复制"></a>级联复制</h4><p>方案: 3306 -&gt; 3307 -&gt; 3308</p>
+<h4 id="双主复制"><a href="#双主复制" class="headerlink" title="双主复制"></a>双主复制</h4><p>两种方案:</p>
+<ol>
+<li>让表的ID自增,然后让主库1 写 1,3,5…的数据,主2 写 2,4,6…的数据</li>
+<li>不让表的ID自增,然后通过WEB端城区去seq服务器取ID,写入双主.</li>
+</ol>
+<h5 id="6-3-4-1-1方案一"><a href="#6-3-4-1-1方案一" class="headerlink" title="6.3.4.1.1方案一"></a>6.3.4.1.1方案一</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">在主库一,增加以下两个参数:</span><br><span class="line">auto\_increment_increment = 2 #自增ID的间隔</span><br><span class="line">auto\_increment_offset = 1 #ID的初始位置.</span><br><span class="line">log-slave-updates</span><br><span class="line">log-bin</span><br><span class="line">expire\_logs_days = 7</span><br><span class="line"></span><br><span class="line">在主库二,增加以下参数:</span><br><span class="line">auto\_increment_increment = 2 #自增ID的间隔</span><br><span class="line">auto\_increment_offset = 2 #ID的初始位置.</span><br><span class="line">log-slave-updates</span><br><span class="line">log-bin</span><br><span class="line">expire\_logs_days = 7</span><br></pre></td></tr></table></figure>
+
+<h4 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h4><p>软件:</p>
+<ul>
+<li>MySQL-proxy</li>
+<li>Amoeba</li>
+</ul>
+<h4 id="主从复制延迟"><a href="#主从复制延迟" class="headerlink" title="主从复制延迟"></a>主从复制延迟</h4><ol>
+<li>从库过多导致复制延迟.(3-5为宜)</li>
+<li>从库硬件比主库差会导致复制延迟.</li>
+<li>慢SQL语句过多.</li>
+<li>网络延迟.</li>
+<li>主从复制模式设计有问题.(利用程序实现多线程)</li>
+<li>主库读写压力大导致复制延迟.(架构的前端添加buffer以及缓存层)</li>
+</ol>
+<h4 id="主库MASTER-宕机-灾难恢复"><a href="#主库MASTER-宕机-灾难恢复" class="headerlink" title="主库MASTER 宕机(灾难恢复)"></a>主库MASTER 宕机(灾难恢复)</h4><p>建立虚拟IP地址,由VIP提供服务</p>
+<h5 id="方法1-半同步从库-谷歌半同步插件-5-5自带"><a href="#方法1-半同步从库-谷歌半同步插件-5-5自带" class="headerlink" title="方法1 半同步从库(谷歌半同步插件 5.5自带)"></a>方法1 半同步从库(谷歌半同步插件 5.5自带)</h5><p>主库插入数据后,同时写到S1,成功返回.</p>
+<ul>
+<li>优点:两台库同时写入数据</li>
+<li>缺点:写入会慢,网络不稳定,主库持续等待.</li>
+</ul>
+<p>解决措施:</p>
+<ol>
+<li>连不上S1的时候自动转为异步.</li>
+<li>设置10秒超时,超过10秒转为异步.</li>
+<li>S1网络,硬件要好,不提供服务,只等接管.</li>
+</ol>
+<h5 id="方法2-S1只做同步的从库"><a href="#方法2-S1只做同步的从库" class="headerlink" title="方法2 S1只做同步的从库"></a>方法2 S1只做同步的从库</h5><h5 id="方法3-把S1切换为MASTER"><a href="#方法3-把S1切换为MASTER" class="headerlink" title="方法3 把S1切换为MASTER"></a>方法3 把S1切换为MASTER</h5><h6 id="如果主库可以提供SSH链接-BINLOG数据没有丢失"><a href="#如果主库可以提供SSH链接-BINLOG数据没有丢失" class="headerlink" title="如果主库可以提供SSH链接,BINLOG数据没有丢失"></a>如果主库可以提供SSH链接,BINLOG数据没有丢失</h6><ol>
+<li>调配为read-only.授权用户select变成增删改查,开启binlog.</li>
+<li>登陆数据库 reset master</li>
+<li>重启数据库,提升S1为MASTER.</li>
+<li>把主库的BINLOG文件补全到所有从库:CHANGE MASTER TO ,MASTER_LOG_FILE&#x3D;’xxxx’,MASTER_LOG_POS&#x3D;xxx;</li>
+</ol>
+<h6 id="如果主库连接补上"><a href="#如果主库连接补上" class="headerlink" title="如果主库连接补上"></a>如果主库连接补上</h6><ol>
+<li>半同步从库提升为主库,半同步数据,补全到所有从库.</li>
+<li>rm -f master.info master-relay.*</li>
+<li>提升S1为主库MASTER</li>
+<li>主库宕机,没有事先指定从库为主库.</li>
+</ol>
+<p>步骤:</p>
+<ol>
+<li>登陆所有从库,show processlist;</li>
+<li>查看所有从库,master.info的信息;</li>
+<li>选取POS最大的为主库</li>
+</ol>
+<p>工具:</p>
+<ul>
+<li>MySQL+HA+DRBD</li>
+<li>MySQL-MMM</li>
+<li>MySQL MHA</li>
+</ul>
+<h5 id="强制关闭数据方法"><a href="#强制关闭数据方法" class="headerlink" title="强制关闭数据方法"></a>强制关闭数据方法</h5><p>尽量不用 killall , pkill,kill</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1907,177 +2173,6 @@ HTTP权威指南(前4章)
 <p>主要问题可以分3类去思考 ： 线路问题 ， 机房业务问题，外部问题。</p>
 </blockquote>
 </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a1a0ca6d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/a1a0ca6d/" class="post-title-link" itemprop="url">Linux定时任务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-06 13:14:22" itemprop="dateCreated datePublished" datetime="2017-10-06T13:14:22+00:00">2017-10-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h1><h2 id="常用的软件"><a href="#常用的软件" class="headerlink" title="常用的软件"></a>常用的软件</h2><h3 id="1-crontab"><a href="#1-crontab" class="headerlink" title="1.crontab"></a>1.crontab</h3><p>适用于需要周期性执行的任务工作。例如：每5分钟一次服务器时间同步。</p>
-<h3 id="2-at"><a href="#2-at" class="headerlink" title="2.at"></a>2.at</h3><p>适合执行一次就结束的调度任务命令。若需要执行 at 命令， 还需要启动ige名为 atd 的服务才行。</p>
-<h3 id="3-anacron"><a href="#3-anacron" class="headerlink" title="3.anacron"></a>3.anacron</h3><p>适用于非 7 * 24 小时运行的服务器。</p>
-<h3 id="4-Crond"><a href="#4-Crond" class="headerlink" title="4.Crond"></a>4.Crond</h3><p><em>Crond</em> 是 Linux 系统中用来定期执行命令或者程序任务的一种软件或者服务。</p>
-<ul>
-<li>一般定时任务存放于 &#x2F;etc&#x2F;cron 下</li>
-<li>守护进程，即一直运行的。</li>
-<li>crontab</li>
-</ul>
-<h4 id="格式-："><a href="#格式-：" class="headerlink" title="格式 ："></a>格式 ：</h4><table>
-<thead>
-<tr>
-<th align="center">段</th>
-<th align="center">意义</th>
-<th align="center">取值范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">第一段</td>
-<td align="center">代表分钟</td>
-<td align="center">00-59</td>
-</tr>
-<tr>
-<td align="center">第二段</td>
-<td align="center">代表小时</td>
-<td align="center">00-23</td>
-</tr>
-<tr>
-<td align="center">第三段</td>
-<td align="center">代表日，天</td>
-<td align="center">01-31</td>
-</tr>
-<tr>
-<td align="center">第四段</td>
-<td align="center">代表月份</td>
-<td align="center">01-12</td>
-</tr>
-<tr>
-<td align="center">第五段</td>
-<td align="center">代表星期，周</td>
-<td align="center">0-6 （0代表星期日）</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>口诀 ： 分时日月周 命令<br>0-59&#x2F;1 等价于 *</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">样例：</span><br><span class="line">//1.</span><br><span class="line">* * * * * /usr/sbin/ntpdate</span><br><span class="line"></span><br><span class="line">//2.</span><br><span class="line">30 3，12 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天凌晨3点和中午12点半时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//3.</span><br><span class="line">30 */6 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每6个小时的半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 8-18/2 * * * /bin/sh /scripts/oldboy.sh</span><br><span class="line">每天在 8点 到 18点之间，每隔两小时的 半点时刻，执行 /scripts/oldboy.sh 脚本</span><br><span class="line"></span><br><span class="line">//4.</span><br><span class="line">30 21 * * * /application/apache/bin/apachect1 graceful</span><br><span class="line">每晚21:30 重启apache</span><br><span class="line"></span><br><span class="line">//5.</span><br><span class="line">45 4 1,10,22 * * /application/apache/bin/apachectl graceful</span><br><span class="line">表示每月的1，10，22日 在凌晨 4:45 重启 apache</span><br><span class="line"></span><br><span class="line">//6.</span><br><span class="line">10 1 * * 6,0 /application/apache/bin/apachectl graceful</span><br><span class="line">表示每一个星期六和星期天 的 凌晨 1:10 重启apache</span><br><span class="line"></span><br><span class="line">//7.</span><br><span class="line">0,30 18-23 * * * /application/apache/bin/apachectl graceful</span><br><span class="line">&gt;表示在每天的 18:00，18:30，19:00，19:30，20:00，20:30，21:00，21:30，22:00，22:30，23:00，23:30 重启apache</span><br><span class="line"></span><br><span class="line">&gt;表示在每天 18:00 到 23：00 之间每隔30分钟重启 apache。最后一次执行是23:30。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>周和日尽量不要同时使用</p>
-</blockquote>
-<h4 id="特殊符号的意义"><a href="#特殊符号的意义" class="headerlink" title="特殊符号的意义"></a>特殊符号的意义</h4><table>
-<thead>
-<tr>
-<th align="center">特殊符号</th>
-<th align="center">意义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">*</td>
-<td align="center">任意时间</td>
-</tr>
-<tr>
-<td align="center">-</td>
-<td align="center">表示一个时间范围</td>
-</tr>
-<tr>
-<td align="center">，</td>
-<td align="center">分隔时段</td>
-</tr>
-<tr>
-<td align="center">&#x2F;n</td>
-<td align="center">每间隔n个单位时间</td>
-</tr>
-</tbody></table>
-<h3 id="实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”"><a href="#实践-1-每分钟打印一次自己的名字拼音到“-server-log-自己命名的文件”" class="headerlink" title="实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”"></a>实践 1 : 每分钟打印一次自己的名字拼音到“&#x2F;server&#x2F;log&#x2F;自己命名的文件”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ whereis echo</span><br><span class="line">echo: /usr/bin/echo /usr/share/man/man1/echo.1.gz /usr/share/man/man1p/echo.1p.gz</span><br><span class="line"></span><br><span class="line">$ crontab -e</span><br><span class="line">## print username to /server/log/roman...</span><br><span class="line">* * * * * /usr/bin/echo roman &gt;&gt; /server/log/roman</span><br><span class="line"></span><br><span class="line">$ crontab -l</span><br></pre></td></tr></table></figure>
-
-<h3 id="实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令"><a href="#实践-2-：每隔一分钟，打印一个-号到-xxx-txt-，请给出crontab完整命令" class="headerlink" title="实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令"></a>实践 2 ：每隔一分钟，打印一个 + 号到 xxx.txt ，请给出crontab完整命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 每隔一分钟打印一个+号到xxx.txt</span><br><span class="line">$ * * * * * echo &quot;+&quot; &gt;&gt; xxx.txt</span><br></pre></td></tr></table></figure>
-
-<h3 id="实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。"><a href="#实践-3-：-每隔-2-个小时将系统的-etc-services-文件打包备份到-tmp-下。" class="headerlink" title="实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。"></a>实践 3 ： 每隔 2 个小时将系统的&#x2F;etc&#x2F;services 文件打包备份到 &#x2F;tmp 下。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 1.到目标内容上级目录打包</span><br><span class="line"></span><br><span class="line">$ cd /etc</span><br><span class="line"></span><br><span class="line">// 2.打包的频率是分，包名必须精确到分</span><br><span class="line"></span><br><span class="line">$ tar zcvf /tmp/services_$(date +%F-%H).tar.gz ./services</span><br><span class="line"></span><br><span class="line">// 3. 确保命令行是正确的，然后写进脚本内.（将脚本放到 /server/scripts/ 文件夹）</span><br><span class="line">$ cd /server/scripts/</span><br><span class="line">$ vim tar.sh</span><br><span class="line"></span><br><span class="line">//如果直接在启动计划内添加命令，则需要将相关的符号进行转移</span><br><span class="line"></span><br><span class="line">//3.1 测试脚本</span><br><span class="line">$ /bin/sh /server/scripts/tar.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 4. 将脚本添加到定时任务中执行。</span><br><span class="line"></span><br><span class="line">// 5. 末尾添加错误输入或输出</span><br><span class="line">&gt; dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li>定时任务需要加注释</li>
-<li>结尾不要有 &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1 因为以及存在输出</li>
-<li>&#x2F;server&#x2F;log 目录必须存在才能出结果</li>
-<li>定时任务的路径一定要绝对路径</li>
-<li>crond 服务必须开启</li>
-</ul>
-<h2 id="工作中调试定时任务的方法"><a href="#工作中调试定时任务的方法" class="headerlink" title="工作中调试定时任务的方法"></a>工作中调试定时任务的方法</h2><ol>
-<li>增加执行任务频率调试任务。</li>
-<li>调整系统时间调试任务。</li>
-<li>通过脚本日志输出调试定时任务。</li>
-<li>注意一些命令带来的问题</li>
-<li>注意环境变量导致的定时任务故障</li>
-<li>通过 crond 定时任务服务日志调试定时任务 。 （&#x2F;var&#x2F;log&#x2F;cron)</li>
 </ol>
 
       

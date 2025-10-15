@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">453</span>
+          <span class="site-state-item-count">454</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,108 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b5836897/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/b5836897/" class="post-title-link" itemprop="url">vSAN写入带宽实测记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-12-27 17:03:16" itemprop="dateCreated datePublished" datetime="2022-12-27T17:03:16+00:00">2022-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-08-19 06:46:27" itemprop="dateModified" datetime="2025-08-19T06:46:27+00:00">2025-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/vSAN/" itemprop="url" rel="index"><span itemprop="name">vSAN</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h1><p>SAN存储传入vSAN存储。</p>
+<p>虚拟机大小25GB<br>走万兆网络</p>
+<p>登录ESXi，使用指令esxtop获取数据；按u\d\x切换视图，vSAN使用x视图。</p>
+<p>vSAN的物理瓶颈<br>SATA总线，6Gbps，大概0.7GB&#x2F;s<br>网络瓶颈，10Gbps，大概1.25GB&#x2F;s</p>
+<h1 id="数据记录"><a href="#数据记录" class="headerlink" title="数据记录"></a>数据记录</h1><h2 id="1台虚拟机迁移"><a href="#1台虚拟机迁移" class="headerlink" title="1台虚拟机迁移"></a>1台虚拟机迁移</h2><p>源ESXi<br>读取速率：50-100MB&#x2F;s<br>耗时：5min<br>传输数据量：25GB<br>速率修正：85MB&#x2F;s</p>
+<h2 id="2台虚拟机"><a href="#2台虚拟机" class="headerlink" title="2台虚拟机"></a>2台虚拟机</h2><p>源ESxi<br>读取速率：200MB&#x2F;s</p>
+<h2 id="3台虚拟机"><a href="#3台虚拟机" class="headerlink" title="3台虚拟机"></a>3台虚拟机</h2><p>目的ESXi<br>写入速度可达到300MB&#x2F;s 至 400MB&#x2F;s</p>
+<h2 id="6台虚拟机"><a href="#6台虚拟机" class="headerlink" title="6台虚拟机"></a>6台虚拟机</h2><p>目的ESXi<br>写入速度480MB&#x2F;s</p>
+<h2 id="7台虚拟机"><a href="#7台虚拟机" class="headerlink" title="7台虚拟机"></a>7台虚拟机</h2><p>目的ESXi<br>写入速度600MB&#x2F;s 至 1000MB&#x2F;s</p>
+<h2 id="8个虚拟机"><a href="#8个虚拟机" class="headerlink" title="8个虚拟机"></a>8个虚拟机</h2><p>目的ESXi<br>写入速度700MB&#x2F;s 至 1000MB&#x2F;s</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1203,107 +1305,6 @@
           <h1 id="常用VMware相关的业务系统防火墙端口查询"><a href="#常用VMware相关的业务系统防火墙端口查询" class="headerlink" title="常用VMware相关的业务系统防火墙端口查询"></a>常用VMware相关的业务系统防火墙端口查询</h1><p>在线地址 ： <a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/">https://ports.esp.vmware.com/</a></p>
 <p>可以下载端口地址表；</p>
 <p>Horizon ：<a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/home/Horizon">https://ports.esp.vmware.com/home/Horizon</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5cb784f7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/5cb784f7/" class="post-title-link" itemprop="url">LNMP-Zabbix管理员账户密码重置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-11-24 00:06:38" itemprop="dateCreated datePublished" datetime="2022-11-24T00:06:38+00:00">2022-11-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Zabbix业务系统默认的密码忘记了，现在持有服务器的登录权限以及数据库权限，需要登录进数据库重置密码。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="Zabbix-5-0-以前的版本"><a href="#Zabbix-5-0-以前的版本" class="headerlink" title="Zabbix 5.0 以前的版本"></a>Zabbix 5.0 以前的版本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 密码转md5</span></span><br><span class="line"><span class="built_in">echo</span> -n <span class="string">&#x27;NEW PASSWORD&#x27;</span> | openssl md5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录进数据库</span></span><br><span class="line">mysql -u root -p</span><br><span class="line"><span class="comment"># 输入数据库密码</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*切换数据库*/</span></span><br><span class="line">use zabbix;</span><br><span class="line"><span class="comment">/*查询数据库内的表*/</span></span><br><span class="line"><span class="keyword">show</span> tables;</span><br><span class="line"><span class="comment">/*查询用户列表*/</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users;</span><br><span class="line"><span class="comment">/*更新密码*/</span></span><br><span class="line"><span class="keyword">update</span> users <span class="keyword">set</span> passwd<span class="operator">=</span><span class="string">&#x27;NEW PASSWORD[MD5]&#x27;</span> <span class="keyword">where</span> userid <span class="operator">=</span><span class="string">&#x27;1&#x27;</span>;</span><br><span class="line"><span class="comment">/*刷新权限*/</span></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Zabbix-5-0-以后的版本"><a href="#Zabbix-5-0-以后的版本" class="headerlink" title="Zabbix 5.0 以后的版本"></a>Zabbix 5.0 以后的版本</h2><p>5.0后需要使用Bcrypt密码加密，而不能使用MD5加密的密文；</p>
-<blockquote>
-<p>bcrypt，是一个跨平台的文件加密工具。由它加密的文件可在所有支持的操作系统和处理器上进行转移。它的口令必须是8至56个字符，并将在内部被转化为448位的密钥。bcrypt 使用的是布鲁斯·施内尔在1993年发布的 Blowfish 加密算法。具体来说，bcrypt 使用保罗·柯切尔的算法实现。随 bcrypt 一起发布的源代码对原始版本作了略微改动。</p>
-</blockquote>
-<p>在线工具：<a target="_blank" rel="noopener" href="https://www.bejson.com/encrypt/bcrpyt_encode/">https://www.bejson.com/encrypt/bcrpyt_encode/</a></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*切换数据库*/</span></span><br><span class="line">use zabbix;</span><br><span class="line"><span class="comment">/*查询数据库内的表*/</span></span><br><span class="line"><span class="keyword">show</span> tables;</span><br><span class="line"><span class="comment">/*查询用户列表*/</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> users;</span><br><span class="line"><span class="comment">/*更新密码*/</span></span><br><span class="line"><span class="keyword">update</span> users <span class="keyword">set</span> passwd<span class="operator">=</span><span class="string">&#x27;NEW PASSWORD[Bcrypt]&#x27;</span> <span class="keyword">where</span> userid <span class="operator">=</span><span class="string">&#x27;1&#x27;</span>;</span><br><span class="line"><span class="comment">/*刷新权限*/</span></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>自 5.0 Zabbix 从md5哈希算法切换到bcrypt：<br><a target="_blank" rel="noopener" href="https://www.zabbix.com/forum/zabbix-troubleshooting-and-problems/410430-reset-admin-password-for-zabbix-lts-5-0">https://www.zabbix.com/forum/zabbix-troubleshooting-and-problems/410430-reset-admin-password-for-zabbix-lts-5-0</a></li>
-<li>zabbix密码重置：<br><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_13045706/3835020">https://blog.51cto.com/u_13045706/3835020</a></li>
-<li>在线生成Bcrypt密码<br><a target="_blank" rel="noopener" href="https://www.bejson.com/encrypt/bcrpyt_encode/">https://www.bejson.com/encrypt/bcrpyt_encode/</a></li>
-</ul>
 
       
     </div>
