@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">454</span>
+          <span class="site-state-item-count">455</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,126 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/697d10de/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/697d10de/" class="post-title-link" itemprop="url">服务器上架笔记(1)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-18 22:47:32" itemprop="dateCreated datePublished" datetime="2018-10-18T22:47:32+00:00">2018-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天完成了几台服务器的上架任务（包括安装系统），期间的操作流程在此做一下记录。因有保密性要求，这里就不列出服务器的型号与业务。仅是将今天所学到的一些规范和注意事项做一下记录。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="确认服务器配置"><a href="#确认服务器配置" class="headerlink" title="确认服务器配置"></a>确认服务器配置</h2><p>由于服务器到运维人员手上时，该服务器已经历过多手转换，期间又有多个人对接谈判，因此，该服务器的配置是否还是你当初的所要求的，这里需要留一个问好。</p>
+<blockquote>
+<p>这个服务器的配置是我需要的吗？</p>
+</blockquote>
+<p>先确认最明显的几点：</p>
+<ul>
+<li>是否带冗余电源。</li>
+<li>是否有配备RAID阵列卡。</li>
+<li>RAID阵列卡是什么型号的。</li>
+<li>网卡、网口是否满足需求，是要四口的？还是2口？</li>
+<li>光口的网卡是什么类型的，40G？10G？HBA？</li>
+<li>硬盘多少G。</li>
+<li>随机配备的光模块确认清楚，是否都齐全。</li>
+<li>确认拓展卡槽是什么类型的 ， PCIex8 ？ PCIex16 ？ ML2 ？</li>
+<li>电源是否都为PDU专用，规格是什么？是不是C13-14？</li>
+</ul>
+<h2 id="网络线路确认"><a href="#网络线路确认" class="headerlink" title="网络线路确认"></a>网络线路确认</h2><ul>
+<li>存储用的是哪几个口，分配什么IP ？</li>
+<li>业务用的是哪几个口，分配什么IP ？</li>
+<li>带外管理用的是什么IP ？</li>
+<li>服务器本身管理用的是什么网口 ？</li>
+<li>采用什么样的接线方式 ？ 交叉 ？ 为什么？</li>
+</ul>
+<h2 id="服务器发热量确认"><a href="#服务器发热量确认" class="headerlink" title="服务器发热量确认"></a>服务器发热量确认</h2><p>确认主要发热的模块是哪一些？<br>重新规划各个阵列卡的位置，确保有效散热。</p>
+<h2 id="确认U槽与理线"><a href="#确认U槽与理线" class="headerlink" title="确认U槽与理线"></a>确认U槽与理线</h2><ul>
+<li>服务器占几U ？</li>
+<li>怎么摆放 ？</li>
+<li>确定要用什么电源线 ？ </li>
+<li>标签要写什么 ？</li>
+<li>服务器名称写什么 ？</li>
+</ul>
+<h1 id="上架"><a href="#上架" class="headerlink" title="上架"></a>上架</h1><p>面对十几公斤的服务器，一定要两个人合作上架，避免出现事故。</p>
+<h1 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h1><p>确定需要安装什么版本的系统，采用什么方式安装。 </p>
+<ul>
+<li>ESXi ？ Custom ？</li>
+<li>Ubuntu 1404 server LTS ？</li>
+<li>Ubuntu 1604 server LTS ？</li>
+<li>CentOS 6 ？ CentOS 7 ？</li>
+<li>Windows Server 2012 ？</li>
+</ul>
+<h1 id="经验小结"><a href="#经验小结" class="headerlink" title="经验小结"></a>经验小结</h1><ul>
+<li>对于一个业务用两个网口（A ， B） ， 如果条件允许，请将两个口分散在两块不同的网卡上面，避免一块网卡损坏时，导致这个业务全部中断。</li>
+<li>对于电源线的接法，也采用交叉的方式去接 。 例如 A服务器两块电源 A1 、 A2 对饮接到 PDU1 、 PDU 2； 而B服务器两块电源 B1 、 B2 则对应接到 PDU2 、 PDU1 。 这样就可以使负载更加分散，避免单路PDU负载过高。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1203,106 +1323,6 @@ sudo chown -R stack:stack /usr/local/lib/python2.7/dist-packages/
 <li>电机能够自由转动。</li>
 <li>蓝牙模块和语音模块不会冲突。</li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7da23a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/7da23a/" class="post-title-link" itemprop="url">毕业设计-日志一</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-04-07 22:04:16" itemprop="dateCreated datePublished" datetime="2018-04-07T22:04:16+00:00">2018-04-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="毕业设计（一）"><a href="#毕业设计（一）" class="headerlink" title="毕业设计（一）"></a>毕业设计（一）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经很久没有上传Git博客了，意志松懈了。如今已到4月这个充满话题的月份，希望没有《四月是你的谎言》的忧伤，开设新的专题，是记录我的毕业设计的过程，把所学所用的东西都记录下来，方便以后回顾复习。 </p>
-<h3 id="关于毕业设计"><a href="#关于毕业设计" class="headerlink" title="关于毕业设计"></a>关于毕业设计</h3><p>我们的课题是 智能机器狗 ， 要实现以下功能：</p>
-<ul>
-<li>语音控制照明电路中的开关，如开灯、关灯语音指令控制灯泡。</li>
-<li>模拟家庭宠物，能实现自由行动，自主避障。</li>
-<li>能简单交流、应答。</li>
-</ul>
-<p>关于语音识别模块，采用的是现成的模块（唯信电子 的M6模块,高配版458RMB） ， 而程序控制的芯片则采用STC89C51芯片 。 因为要像宠物狗一样，所以整个核心电路 与 要被控制的照明电路是分离的状态。因此控制部分的信号传输，采用无线蓝牙的型式来完成。 </p>
-<p><img src="https://img.alicdn.com/imgextra/i3/706012768/TB2ELFjbcnI8KJjSsziXXb8QpXa_!!706012768.jpg" alt="M6"></p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>此部分不会记录详细的、完整的知识点，只是记录我做了什么操作，并且期中遇到的难题，才会记录于此。</p>
-<p>OK，今天拿到了完整的模块，把对应的线都连接好，M6上面的 TXD 口 连接单片机的 P3.0（即是10#RXD管脚） 、 RXD 口 连接单片机P3.1（即11#TXD管脚）。但是我在电源上面我做了一个比较无知的决定，M6我采用的是手机充电器的供电，而单片机则是另外一套供电电路，因此会造成，两部分的电路中的电源不是相同的，这就会导致单片机在识别  <em>M6</em>  发送过来的信号时没法处理（因为没有参照电压）。</p>
-<blockquote>
-<p>两个电路必须共GND，单片机有效才能识别信号。<br>串口通信用的就是TXD和RXD。</p>
-</blockquote>
-<p>连接完电路后，就是测试语音模块的指令是否正常。在此之前，我用 <em>M6</em> 供应商提供的烧写软，写了如下指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 监听语句</span><br><span class="line">@WriteKeywords#开灯 001|关灯 002|放屁 003$</span><br><span class="line"></span><br><span class="line"># 应答语句</span><br><span class="line">@WriteFlashText#|001 马上开灯|002 马上关灯|003 噗噗噗$</span><br><span class="line"></span><br><span class="line"># 识别（唤醒）模式</span><br><span class="line">@AsrMode#0:按钮1:对话模式 2:大管家 3:自定义$</span><br><span class="line"></span><br><span class="line"># 自定义唤醒的关键词</span><br><span class="line">@wakeyword#小明同学$</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>原谅我的恶趣味…这里的指令必须按照编号顺序依次写入，不能隔着编号或者编号大于255 ， 如下：</p>
-</blockquote>
-<blockquote>
-<p>@WriteKeywords#开灯 001|关灯 002|放屁 009$</p>
-</blockquote>
-<p>有了之前写入的程序后，测试的结果就如预期。需要注意的是，因为默认为单字节输出（即一次输出8位），因此返回值是1-255（0x01-0xff).</p>
-<h2 id="后续展望"><a href="#后续展望" class="headerlink" title="后续展望"></a>后续展望</h2><p>下一步弄清楚中断的触发实质，在接收到语音控制的需求后，单片机在执行完参数能返回一个值代表是否执行成功，并且能被计算机记录统计。【时间，操作，是否完成】</p>
 
       
     </div>
