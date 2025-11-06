@@ -288,7 +288,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+      <time title="Modified: 2025-11-06 07:43:10" itemprop="dateModified" datetime="2025-11-06T07:43:10+00:00">2025-11-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -314,7 +314,12 @@
 <li>安装SDK，或者直接在DDC中打开powershell</li>
 <li>加载SDK，使用指令 asnp citrix*</li>
 </ol>
-<h2 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-BrokerUser</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">asnp</span> citrix*</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-BrokerUser</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取交付组的用户清单</span></span><br><span class="line"><span class="built_in">Get-BrokerAccessPolicyRule</span> | <span class="built_in">Select-Object</span> <span class="literal">-Property</span> IncludedUsers;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除交付组的授权"><a href="#删除交付组的授权" class="headerlink" title="删除交付组的授权"></a>删除交付组的授权</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-BrokerAccessPolicyRule</span> | <span class="built_in">Set-BrokerAccessPolicyRule</span> <span class="literal">-RemoveInludedUsers</span> <span class="string">&quot;domain\user&quot;</span></span><br></pre></td></tr></table></figure>
+
 
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
