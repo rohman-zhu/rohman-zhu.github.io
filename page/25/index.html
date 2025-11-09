@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">455</span>
+          <span class="site-state-item-count">456</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,106 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/a1fa4b96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/a1fa4b96/" class="post-title-link" itemprop="url">Ubuntu内核降级实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-21 23:28:22" itemprop="dateCreated datePublished" datetime="2020-12-21T23:28:22+00:00">2020-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux降级内核"><a href="#Linux降级内核" class="headerlink" title="Linux降级内核"></a>Linux降级内核</h1><h2 id="检测当前内核版本"><a href="#检测当前内核版本" class="headerlink" title="检测当前内核版本"></a>检测当前内核版本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> –r</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装目标内核包"><a href="#安装目标内核包" class="headerlink" title="安装目标内核包"></a>安装目标内核包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新apt</span></span><br><span class="line">apt-get update</span><br><span class="line"><span class="comment"># 检测已安装的内核包</span></span><br><span class="line">dpkg –-list | grep 4.15.0-119</span><br><span class="line"></span><br><span class="line"><span class="comment"># 目标版本是4.15.0-29-generic</span></span><br><span class="line"><span class="comment"># 主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="comment"># 主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="comment"># linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="comment"># linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="comment"># linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。</span></span><br><span class="line"></span><br><span class="line">apt install linux-image-4.15.0-29-generic  linux-headers-4.15.0-29 linux-headers-4.15.0-29-generic -y</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除旧版内核"><a href="#删除旧版内核" class="headerlink" title="删除旧版内核"></a>删除旧版内核</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#旧版本内核为4.4.0-137 、 4.15.0-119</span></span><br><span class="line">apt remove *image-4.4.0-137*</span><br><span class="line">apt remove *headers-4.4.0-137*</span><br><span class="line"></span><br><span class="line">apt remove *4.15.0-119*</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新grub"><a href="#更新grub" class="headerlink" title="更新grub"></a>更新grub</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>内核删除后一定要检查grub.cfg文件；<br>被删除的内核不能为当前正在加载的内核；<br>删除内核前，不能锁定内核；</p>
+</blockquote>
+<h2 id="防止用户自行升级内核"><a href="#防止用户自行升级内核" class="headerlink" title="防止用户自行升级内核"></a>防止用户自行升级内核</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-mark hold linux-image-generic</span><br><span class="line">apt-mark hold linux-headers-generic</span><br></pre></td></tr></table></figure>
+
+<p>如果要升级内核，再执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-mark unhold linux-image-generic</span><br><span class="line">apt-mark unhold linux-headers-generic</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1055,101 +1155,6 @@
 
 <p>可以在邮箱服务器执行 test-serverhealth 查看正常运行的服务是否符合。</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/441b7247/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/441b7247/" class="post-title-link" itemprop="url">3PAR存储指令之showpd</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-05 21:15:03" itemprop="dateCreated datePublished" datetime="2020-12-05T21:15:03+00:00">2020-12-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">SAN存储</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">showpd</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">SYNTAX</span><br><span class="line"></span><br><span class="line">    showpd [options] [&lt;PD_ID&gt; ...]</span><br><span class="line"></span><br><span class="line">    showpd -listcols</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line"></span><br><span class="line">    -listcols               List columns available to be shown with -showcols.</span><br><span class="line"></span><br><span class="line">    -showcols &lt;column&gt;[,&lt;column&gt;...]</span><br><span class="line"></span><br><span class="line">                            Explicitly select columns to show.</span><br><span class="line"></span><br><span class="line">    -i                      Show inventory (inquiry) information.</span><br><span class="line"></span><br><span class="line">    -e                      Show disk environmental and error information.</span><br><span class="line"></span><br><span class="line">    -c                      Show chunklet usage information.</span><br><span class="line"></span><br><span class="line">    -state                  Show detailed state information.</span><br><span class="line"></span><br><span class="line">    -s                      Show detailed state information.</span><br><span class="line"></span><br><span class="line">    -path                   Show current and saved path information for disks.</span><br><span class="line"></span><br><span class="line">    -space                  Show disk capacity usage information (in MB).</span><br><span class="line"></span><br><span class="line">    -sortcol &lt;col&gt;[,&lt;dir&gt;][:&lt;col&gt;[,&lt;dir&gt;]...]</span><br><span class="line"></span><br><span class="line">        Sorts command output based on column number (&lt;col&gt;).</span><br><span class="line"></span><br><span class="line">    -failed                 Show only failed physical disks.</span><br><span class="line"></span><br><span class="line">    -degraded               Show only degraded disks</span><br><span class="line"></span><br><span class="line">    -p &lt;pattern&gt;            Show disks matching &lt;pattern&gt;</span><br><span class="line"></span><br><span class="line">    -nodes &lt;node_list&gt;      Specifies the node list.</span><br><span class="line"></span><br><span class="line">    -slots &lt;slot_list&gt;      Specifies the slot list.</span><br><span class="line"></span><br><span class="line">    -ports &lt;port_list&gt;      Specifies the port list.</span><br><span class="line"></span><br><span class="line">    -w &lt;world-wide_name&gt;    Specifies the WWN of the physical disk.</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-
-<p>现实序号0至1行的记录</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showpd -c - 1</span><br></pre></td></tr></table></figure>
       
     </div>
 

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">455</span>
+          <span class="site-state-item-count">456</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,173 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d015da31/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d015da31/" class="post-title-link" itemprop="url">Linux 磁盘管理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-11 19:15:13" itemprop="dateCreated datePublished" datetime="2017-10-11T19:15:13+00:00">2017-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux-磁盘管理"><a href="#Linux-磁盘管理" class="headerlink" title="Linux 磁盘管理"></a>Linux 磁盘管理</h1><h2 id="查看计算机相关硬件参数"><a href="#查看计算机相关硬件参数" class="headerlink" title="查看计算机相关硬件参数"></a>查看计算机相关硬件参数</h2><blockquote>
+<p>free 查看内存</p>
+</blockquote>
+<p>提示：</p>
+<ul>
+<li>linux系统的特性是将系统不用的物理内存缓存起来。</li>
+<li>系统真正可用内存是 ‘buffers&#x2F;cache’ 栏目下显示大小。</li>
+<li>buffers 为写入缓冲去，sync将缓冲区数据写入磁盘。</li>
+<li>cache 为读取数据的缓存区。</li>
+<li>网络门户架构都会用缓存技术，来让用户写入读取尽可能不接触磁盘。</li>
+</ul>
+<h2 id="相关名词翻译"><a href="#相关名词翻译" class="headerlink" title="相关名词翻译"></a>相关名词翻译</h2><table>
+<thead>
+<tr>
+<th align="center">英文</th>
+<th align="center">中文</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Disk</td>
+<td align="center">磁盘</td>
+</tr>
+<tr>
+<td align="center">Head</td>
+<td align="center">磁头</td>
+</tr>
+<tr>
+<td align="center">Sector</td>
+<td align="center">扇区</td>
+</tr>
+<tr>
+<td align="center">Track</td>
+<td align="center">磁道</td>
+</tr>
+<tr>
+<td align="center">Cylinder</td>
+<td align="center">柱面</td>
+</tr>
+<tr>
+<td align="center">Units</td>
+<td align="center">单元块</td>
+</tr>
+<tr>
+<td align="center">Block</td>
+<td align="center">数据块</td>
+</tr>
+<tr>
+<td align="center">Inode</td>
+<td align="center">索引节点</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>一个磁盘有两个盘面，一个盘面对应一个磁头</p>
+</li>
+<li><p>‘0’磁道非常重要，系统的引导程序就在0柱面0磁道1扇区的前446Bytes。</p>
+</li>
+</ul>
+<h3 id="磁道"><a href="#磁道" class="headerlink" title="磁道"></a>磁道</h3><p>是以主轴为中心的同心圆型轨迹，由外到内0，1，2，3编号。</p>
+<h3 id="柱面"><a href="#柱面" class="headerlink" title="柱面"></a>柱面</h3><p>不同盘面上面的相同半径磁道的集合。</p>
+<h3 id="扇区"><a href="#扇区" class="headerlink" title="扇区"></a>扇区</h3><p>磁道的单元（磁道的 1&#x2F;n )，从1开始编号。</p>
+<blockquote>
+<p>一个扇区主要有两部分内容 ： 存放数据地点的标识符和存储数据的数据段。</p>
+</blockquote>
+<h4 id="关于突然断电关机导致磁盘损坏"><a href="#关于突然断电关机导致磁盘损坏" class="headerlink" title="关于突然断电关机导致磁盘损坏"></a>关于突然断电关机导致磁盘损坏</h4><p>突然断电，导致磁头手臂没有正常停放在 ‘停放区’</p>
+<h2 id="容量计算"><a href="#容量计算" class="headerlink" title="容量计算"></a>容量计算</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p> 磁盘容量 &#x3D; （（512B * 扇区数 ） * 磁道数量） * 磁头数</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">磁盘容量 = 柱面数 * 柱面大小</span><br><span class="line">        = 磁道数 * 磁道大小 * 磁头数</span><br><span class="line"></span><br><span class="line"># echo &quot;512*32*102*64&quot; | bc</span><br><span class="line"></span><br><span class="line"># echo $((512*32*102*64))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h2><h3 id="分区-：修改分区表"><a href="#分区-：修改分区表" class="headerlink" title="分区 ：修改分区表"></a>分区 ：修改分区表</h3><ul>
+<li>fdisk （小于2T）</li>
+<li>parted</li>
+</ul>
+<h4 id="格式化-：-创建文件系统"><a href="#格式化-：-创建文件系统" class="headerlink" title="格式化 ： 创建文件系统"></a>格式化 ： 创建文件系统</h4><ul>
+<li>mkfs -t 文件系统类型 &#x2F;dev&#x2F;sdb1</li>
+<li>tune2fs -c -l &#x2F;dev&#x2F;sdb1</li>
+</ul>
+<h4 id="挂载-：-为文件系统制动访问入口"><a href="#挂载-：-为文件系统制动访问入口" class="headerlink" title="挂载 ： 为文件系统制动访问入口"></a>挂载 ： 为文件系统制动访问入口</h4><ul>
+<li>mount -t 文件系统类型 &#x2F;dev&#x2F;sdb1 &#x2F;mnt</li>
+</ul>
+<h4 id="设置开机自动挂载"><a href="#设置开机自动挂载" class="headerlink" title="设置开机自动挂载"></a>设置开机自动挂载</h4><p>修改 &#x2F;etc&#x2F;fstab 文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">挂载设备 挂载点 文件系统类型 选项 备份 检查</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试挂载"><a href="#测试挂载" class="headerlink" title="测试挂载"></a>测试挂载</h4><ul>
+<li>mount -a 加载fstab进行挂载测试</li>
+</ul>
+<h4 id="检查挂载情况"><a href="#检查挂载情况" class="headerlink" title="检查挂载情况"></a>检查挂载情况</h4><ul>
+<li>df -h -i</li>
+<li>cat &#x2F;proc&#x2F;mounts</li>
+</ul>
+<h4 id="检查磁盘与目录的容量"><a href="#检查磁盘与目录的容量" class="headerlink" title="检查磁盘与目录的容量"></a>检查磁盘与目录的容量</h4><ul>
+<li>df 列出文件系统的整体磁盘使用量。</li>
+<li>评估文件系统的磁盘使用量 。（常用于评估目录所占容量）</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1426,118 +1593,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">临时更换语言</span><br><span class="line">$ LANG = 语言名称</span><br><span class="line"></span><br><span class="line">修改默认语言</span><br><span class="line">$ vim /etc/sysconfig/il8n</span><br><span class="line">LANG = 语言名臣</span><br></pre></td></tr></table></figure>
 <p>修改完后重启</p>
 </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/28cdca0e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/28cdca0e/" class="post-title-link" itemprop="url">Liunx系统链接的概念</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-04 05:58:31" itemprop="dateCreated datePublished" datetime="2017-10-04T05:58:31+00:00">2017-10-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在linux系统中，链接可分为两种，一种是硬链接（Hard Link），另一种是软链接或者符号链接（Symbolic Link or Soft link）。<br><br/><br>两种链接都是通过ln命令来创建的。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">硬链接</span><br><span class="line">$ ln 源文件 目标文件</span><br><span class="line"></span><br><span class="line">软链接</span><br><span class="line">$ ln -s 源文件 目标文件</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>硬链接用于数据备份，防止数据误删</p>
-</blockquote>
-<p>静态删除数据： 删除链接，但block依然保留，所以文件依然存在。</p>
-<h3 id="硬链接小结"><a href="#硬链接小结" class="headerlink" title="硬链接小结"></a>硬链接小结</h3><ol>
-<li>具有相同inode 节点号的多个文件是互为硬链接文件。</li>
-<li>伤处硬链接文件或者删除源文件任意之一，文件实体并未被删除。</li>
-<li>只有删除了源文件以及所有对应的硬链接文件，文件实体才会被删除。</li>
-<li>当所有的硬链接文件以及源文件被删除后，再存放新的数据会占用这个文件的空间。或者磁盘fsck检查的时候，删除的数据也会被系统回收。</li>
-<li>硬链接文件就是文件的另一个入口。</li>
-<li>可以通过给文件设置硬链接文件，来防止重要文件被误删。</li>
-<li>通过执行命令“ ln 源文件 硬链接文件”，即可创建硬链接。</li>
-<li>硬链接文件可以用rm 命令删除。</li>
-<li>对于静态文件（没有进程正在调用的文件）来讲，当硬链接数为0（i_link),文件就被删除。 i_link的查看方法（ls -l 结果的第三列就是）。</li>
-</ol>
-<h3 id="软链接小结"><a href="#软链接小结" class="headerlink" title="软链接小结"></a>软链接小结</h3><ol>
-<li>软链接类似windows的快捷方式。（可以通过readlink查看其指向）</li>
-<li>软连接类似一个文本文件，里面存放的是源文件的路径，指向源文件实体。</li>
-<li>删除源文件，软链接文件依然存在，但是无法访问指向的源文件路径内容。</li>
-<li>失效的时候一般是白字红底闪烁提示。</li>
-<li>执行命令 “ ln -s 源文件 软链接文件”，即可穿件软链接。</li>
-<li>软链接和源文件不是同类型的文件，也是不同的文件。inode号也不同。</li>
-<li>删除软链接文件可以用 rm 命令。</li>
-</ol>
-<h3 id="软链接-与-硬链接-区别"><a href="#软链接-与-硬链接-区别" class="headerlink" title="软链接 与 硬链接 区别"></a>软链接 与 硬链接 区别</h3><p>在linux 系统中，链接分两种 ： 一种被称为 硬链接（Hard Link） ，另一种被称为符号链接或软链接 （ Symbolic Link）</p>
-<ol>
-<li>默认不带参数情况下，ln命令创建的是硬链接，带 -s 参数的ln命令创建的是软链接。</li>
-<li>硬链接文件与源文件的inode节点号相同，而软链接文件的inode节点号与源文件的不同。</li>
-<li>ln命令不能对目录创建硬链接，但可以创建软链接，对目录的软链接会经常被用到。</li>
-<li>删除软链接文件，对源文件以及硬链接文件无任何影响。</li>
-<li>删除文件的硬链接文件，对源文件以及软链接文件无任何影响。</li>
-<li>删除链接文件的源文件，对硬链接文件无影响，会导致其软链接失效（红底白字闪烁）</li>
-<li>同时删除源文件以及其硬链接文件，整个文件才会被真正删除。</li>
-<li>很多硬件设备中的快照功能，使用的就类似硬链接的原理。<br>9。 软链接可以跨文件系统，硬链接不可以跨文件系统。</li>
 </ol>
 
       
