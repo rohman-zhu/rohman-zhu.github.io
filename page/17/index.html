@@ -119,18 +119,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">456</span>
+          <span class="site-state-item-count">457</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,114 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ee047264/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ee047264/" class="post-title-link" itemprop="url">OS内使用ipmitools指令修改服务器BMC的IP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-05-22 16:46:35" itemprop="dateCreated datePublished" datetime="2022-05-22T16:46:35+00:00">2022-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>不能重启服务器的前提下，需要修改BMC的IP。</p>
+<h1 id="设置方法"><a href="#设置方法" class="headerlink" title="设置方法"></a>设置方法</h1><p>带外IP，可以在操作系统内更改；带外都是基于ipmi的，所以都可以用ipmitools去修改。主要流程为：</p>
+<ol>
+<li>设置IP</li>
+<li>设置网关</li>
+<li>重启bmc生效</li>
+</ol>
+<h1 id="Windows-操作系统下的操作"><a href="#Windows-操作系统下的操作" class="headerlink" title="Windows 操作系统下的操作"></a>Windows 操作系统下的操作</h1><p>Windows用ipmiutil指令</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示当前BMC的网络设置</span></span><br><span class="line">ipmiutil lan</span><br><span class="line"><span class="comment"># 设置 IP</span></span><br><span class="line">ipmiutil lan <span class="literal">-e</span> <span class="literal">-I</span> x.x.x.x</span><br><span class="line"><span class="comment"># 设置 子网掩码</span></span><br><span class="line">ipmiutil lan <span class="literal">-e</span> <span class="literal">-S</span> x.x.x.x</span><br><span class="line"><span class="comment"># 设置 默认网关</span></span><br><span class="line">ipmiutil lan <span class="literal">-e</span> <span class="literal">-G</span> x.x.x.x </span><br><span class="line"><span class="comment"># 重启BMC</span></span><br><span class="line">ipmiutil reset <span class="literal">-k</span></span><br></pre></td></tr></table></figure>
+<h1 id="Linux-操作系统下的操作"><a href="#Linux-操作系统下的操作" class="headerlink" title="Linux 操作系统下的操作"></a>Linux 操作系统下的操作</h1><p>Linux用ipmitools指令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示当前BMC的网络设置</span></span><br><span class="line">ipmitool lan <span class="built_in">print</span> 1</span><br><span class="line"><span class="comment"># 设置 IP</span></span><br><span class="line">ipmitool lan <span class="built_in">set</span> 1 ipaddr x.x.x.x</span><br><span class="line"><span class="comment"># 设置 子网掩码</span></span><br><span class="line">ipmitool lan <span class="built_in">set</span> 1 netmask x.x.x.x</span><br><span class="line"><span class="comment"># 设置 默认网关</span></span><br><span class="line">ipmitool lan <span class="built_in">set</span> 1 defgw ipaddr x.x.x.x</span><br><span class="line"><span class="comment"># 重启BMC</span></span><br><span class="line">ipmitool bmc reset cold</span><br></pre></td></tr></table></figure>
+
+<p>如果出现异常“Could not open device at &#x2F;dev&#x2F;ipmi0 or &#x2F;dev&#x2F;ipmi&#x2F;0 or &#x2F;dev&#x2F;ipmidev&#x2F;0: No such file or directory”,可以执行以下指令:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载以下模块</span></span><br><span class="line">modprobe ipmi_watchdog</span><br><span class="line">modprobe ipmi_poweroff</span><br><span class="line">modprobe ipmi_devintf</span><br><span class="line">modprobe ipmi_si  加载该模块如果没有不影响ipmi的使用（与系统版本有关）</span><br><span class="line">modprobe ipmi_msghandler  加载该模块如果没有不影响ipmi的使用</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>包下载地址：<a target="_blank" rel="noopener" href="http://ipmiutil.sourceforge.net/">http://ipmiutil.sourceforge.net/</a></li>
+<li>Linux与Windows指令参考：<a target="_blank" rel="noopener" href="https://portal.nutanix.com/page/documents/kbs/details?targetId=kA0600000008T3jCAE">https://portal.nutanix.com/page/documents/kbs/details?targetId=kA0600000008T3jCAE</a></li>
+<li>Linux下IPMI指令异常： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/samuel610/p/10868804.html">https://www.cnblogs.com/samuel610/p/10868804.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1547,112 +1655,6 @@
 <li>重启服务器；</li>
 <li>重新执行应用程序；【未验证过】</li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6c32a91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/6c32a91/" class="post-title-link" itemprop="url">vSAN集群上下线指令总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-03-05 21:00:36" itemprop="dateCreated datePublished" datetime="2022-03-05T21:00:36+00:00">2022-03-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-08-19 07:03:35" itemprop="dateModified" datetime="2025-08-19T07:03:35+00:00">2025-08-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/vSAN/" itemprop="url" rel="index"><span itemprop="name">vSAN</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求一：集群安全开关机"><a href="#需求一：集群安全开关机" class="headerlink" title="需求一：集群安全开关机"></a>需求一：集群安全开关机</h1><p>需要指令关机。</p>
-<h2 id="vSAN集群下线"><a href="#vSAN集群下线" class="headerlink" title="vSAN集群下线"></a>vSAN集群下线</h2><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="vSAN集群上线"><a href="#vSAN集群上线" class="headerlink" title="vSAN集群上线"></a>vSAN集群上线</h2><figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="需求二：vSAN集群从原本的vCenter迁移至新vCenter"><a href="#需求二：vSAN集群从原本的vCenter迁移至新vCenter" class="headerlink" title="需求二：vSAN集群从原本的vCenter迁移至新vCenter"></a>需求二：vSAN集群从原本的vCenter迁移至新vCenter</h1><ol>
-<li>集群上的虚拟机迁移完毕，使集群清空；</li>
-<li>将集群中的ESXi进入维护模式；</li>
-<li>关闭集群的自动发现功能</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入维护模式</span></span><br><span class="line">esxcli system maintenanceMode <span class="built_in">set</span> -e <span class="literal">true</span> -m noAction</span><br><span class="line">esxcli system maintenanceMode get</span><br><span class="line"></span><br><span class="line"><span class="comment"># vSAN 6.6及以上版本，运行以下命令忽略成员更新</span></span><br><span class="line">esxcfg-advcfg -s 1 /VSAN/IgnoreClusterMemberListUpdates</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除磁盘组</span></span><br><span class="line">esxcli vsan storage list | grep <span class="string">&quot;VSAN Disk Group UUID&quot;</span></span><br><span class="line">esxcli vsan storage list | grep <span class="string">&quot;VSAN Disk Group Name&quot;</span></span><br><span class="line"></span><br><span class="line">esxcli vsan storage remove -u <span class="string">&quot;VSAN Disk Group UUID&quot;</span></span><br><span class="line">esxcli vsan storage remove -s <span class="string">&quot;VSAN Disk Group Name&quot;</span></span><br><span class="line"></span><br><span class="line">esxcli vsan storage list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将主机退出vSAN集群</span></span><br><span class="line">esxcli vsan cluster leave</span><br><span class="line">esxcli vsan cluster get</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># vSAN 6.6及以上版本，运行以下命令开启成员更新</span></span><br><span class="line">esxcfg-advcfg -s 0 /VSAN/IgnoreClusterMemberListUpdates</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>将 vSAN 群集从一个 vCenter Server 移至另一个 vCenter Server ： <a target="_blank" rel="noopener" href="http://njlanhome.com/technology/618.html">http://njlanhome.com/technology/618.html</a><br>【VMware vSAN】使用命令行从vSAN集群中移除ESXi主机并加入到新的vSAN集群。：  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/juniormu/p/17985012">https://www.cnblogs.com/juniormu/p/17985012</a></p>
 
       
     </div>

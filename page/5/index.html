@@ -119,18 +119,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">456</span>
+          <span class="site-state-item-count">457</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">150</span>
+        <span class="site-state-item-count">151</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,105 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/48929e2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/48929e2/" class="post-title-link" itemprop="url">esxcli catch patch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-09-08 23:26:51" itemprop="dateCreated datePublished" datetime="2024-09-08T23:26:51+00:00">2024-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-08-19 04:17:45" itemprop="dateModified" datetime="2025-08-19T04:17:45+00:00">2025-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="抓包过程"><a href="#抓包过程" class="headerlink" title="抓包过程"></a>抓包过程</h1><ol>
+<li>登录ESXi Shell</li>
+<li>使用 pktcap-uw 抓包</li>
+<li>使用 tcpdump-uw 解包</li>
+</ol>
+<h2 id="基于vmk抓包"><a href="#基于vmk抓包" class="headerlink" title="基于vmk抓包"></a>基于vmk抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抓取 vmk0 的数据包，并保存在 test.zip</span></span><br><span class="line">pktcap-uw --vmk vmk0 -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于虚拟机端口抓包"><a href="#基于虚拟机端口抓包" class="headerlink" title="基于虚拟机端口抓包"></a>基于虚拟机端口抓包</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 找到虚拟机端口 ，虚拟机名为 testdemo,输出的包为 test.zip</span></span><br><span class="line">net-stats -l | grep testdemo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 抓虚拟机所需的端口</span></span><br><span class="line">pktcap-uw --switchport [testdemo nic port] --ip [需要过滤的IP] -o test.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包</span></span><br><span class="line">tcpdump-uw -enr test.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="持续抓包"><a href="#持续抓包" class="headerlink" title="持续抓包"></a>持续抓包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pktcap-uw --switchport [vm nic port] -o - | tcpdump-uw -r - [过滤条件]</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1125,101 +1224,6 @@
 <h2 id="Addendums"><a href="#Addendums" class="headerlink" title="Addendums"></a>Addendums</h2><p>To clarify, it is the working-set that is trimmed to 32 MiB, not the private working set. So, the 32 MiB number includes code as well as data, for what it’s worth.</p>
 <p>Also, after posting this I was playing around and found that when I reset the process with PROCESS_MODE_BACKGROUND_END this causes the working set to be trimmed. That’s harmless, but weird. Why would taking the process out of background mode cause the working set to be trimmed as if the process had called EmptyWorkingSet?</p>
 <p>A twitter user posted a bit of history and a tool (untested!) to list working-set state for processes on the system.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/269bf723/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/269bf723/" class="post-title-link" itemprop="url">ESXi-无法通过OVF创建虚拟机-提示只有管理此主机的服务器XX.XX.XX.XX才能访问此主机的资源设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-07 16:21:10" itemprop="dateCreated datePublished" datetime="2024-07-07T16:21:10+00:00">2024-07-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>登录ESXi后，无法通过OVF部署虚拟机，会提示“失败-只有管理此主机的服务器‘vCenter IP’才能访问此主机上的资源设置”。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>该ESXi已被vCenter接管，无法通过此ESXi去创建虚拟机，而需要通过vCenter部署虚拟机。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>核心就是先暂停ESXi与vCenter之间的通讯，可以参照以下方法：</p>
-<ol>
-<li>登录vCenter，选中目标ESXi，选择断开连接；</li>
-<li>登录目标ESXi，选择通过OVF部署。</li>
-</ol>
 
       
     </div>
