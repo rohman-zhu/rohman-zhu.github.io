@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">457</span>
+          <span class="site-state-item-count">458</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,269 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7b00986b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7b00986b/" class="post-title-link" itemprop="url">LNMP-zabbix-3.4.5-实战</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-07 09:34:36" itemprop="dateCreated datePublished" datetime="2018-01-07T09:34:36+00:00">2018-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本次使用的电脑是上初中时,在淘宝买的二手电脑(NEC VY20M&#x2F;W-5),当时只是买来打打dota,配置如下表:</p>
+<table>
+<thead>
+<tr>
+<th align="center">组件</th>
+<th align="center">型号</th>
+<th align="center">价格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CPU</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">内存</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">显卡</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">主板</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">硬盘</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>如今这台电脑的性能已经过于老旧了,因此想把它做成Linux服务器,平时做做文件存储之类的工作,或者家庭点播平台之类的活(这些后续再说…).</p>
+<p>目前这条电脑没有发现损坏的地方(扬声器和显示屏完好无损).</p>
+<p>下面是这台电脑的应用程序清单:</p>
+<table>
+<thead>
+<tr>
+<th align="center">软件类型</th>
+<th align="center">名称</th>
+<th align="center">版本号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">操作系统</td>
+<td align="center">Linux_Centos</td>
+<td align="center">centos7</td>
+</tr>
+<tr>
+<td align="center">数据库</td>
+<td align="center">MySQL</td>
+<td align="center">mysql-5.5.58</td>
+</tr>
+<tr>
+<td align="center">Web应用</td>
+<td align="center">Nginx</td>
+<td align="center">nginx-1.</td>
+</tr>
+<tr>
+<td align="center">监控服务端</td>
+<td align="center">Zabbix</td>
+<td align="center">zabbix-3.4.5</td>
+</tr>
+<tr>
+<td align="center">PHP</td>
+<td align="center">PHP</td>
+<td align="center">php-5.5.38</td>
+</tr>
+</tbody></table>
+<p>软件下载地址:</p>
+<ul>
+<li>Nginx : <a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">http://nginx.org/en/download.html</a></li>
+<li>Mysql : <a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/community/">https://downloads.mysql.com/archives/community/</a></li>
+<li>Zabbix : <a target="_blank" rel="noopener" href="https://www.zabbix.com/download">https://www.zabbix.com/download</a></li>
+<li>PHP : <a target="_blank" rel="noopener" href="http://php.net/releases/">http://php.net/releases/</a></li>
+</ul>
+<h2 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h2><h3 id="安装系统-略"><a href="#安装系统-略" class="headerlink" title="安装系统.(略)"></a>安装系统.(略)</h3><h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 网络 #</span></span><br><span class="line"><span class="comment"># 添加IP到局域网内 #</span></span><br><span class="line"><span class="comment"># ifconfig enp2s0 192.168.1.89 netmask 255.255.255.0 gateway</span></span><br><span class="line"><span class="comment"># 添加默认网关 #</span></span><br><span class="line"><span class="comment"># echo &quot;GATEWAY=192.168.1.1&quot; &gt;&gt; /etc/sysconfig/network</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭Selinux #</span></span><br><span class="line"><span class="comment"># sed -i &quot;s#enforcing#disabled#g&quot; /etc/selinux/config</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭防火墙 #</span></span><br><span class="line"><span class="comment"># systemctl stop firewalld.server</span></span><br><span class="line"><span class="comment"># systemctl disable firewalld.server</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 合上笔记本后不休眠 #</span></span><br><span class="line"><span class="comment"># 方法一 : 追加</span></span><br><span class="line"><span class="comment"># echo &#x27;HandleLidSwitch=ignore&#x27; &gt;&gt; /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 方法二 : 替换</span></span><br><span class="line"><span class="comment"># sed -i &#x27;s##\HandleLidSwitch=hibernate#HandleLidSwitch=ignore#g&#x27; /etc/systemd/logind.conf</span></span><br><span class="line"><span class="comment"># 生效</span></span><br><span class="line"><span class="comment"># systemctl restart systemd-logind</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置国内源 #</span></span><br><span class="line"><span class="comment"># cd /etc/yum.repos.d/</span></span><br><span class="line"><span class="comment"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加网卡的时候出现’不允许的操作’,需要提升权限操作.</p>
+</blockquote>
+<h4 id="etc-systemd-logind-conf"><a href="#etc-systemd-logind-conf" class="headerlink" title="&#x2F;etc&#x2F;systemd&#x2F;logind.conf"></a>&#x2F;etc&#x2F;systemd&#x2F;logind.conf</h4><ul>
+<li>HandlePowerKey：按下电源键后的动作</li>
+<li>HandleSleepKey：按下挂起键后的动作</li>
+<li>HandleHibernateKey: 按下休眠键后的动作</li>
+<li>HandleLidSwitch：合上笔记本盖后待机</li>
+</ul>
+<p>值:</p>
+<ul>
+<li>ignore（什么都不做）</li>
+<li>poweroff（关机）</li>
+<li>reboot（重新启动）</li>
+<li>halt（关机，和poweroff有什么区别，需要手动断开电源？）</li>
+<li>suspend（待机挂起）</li>
+<li>hibernate（休眠）</li>
+</ul>
+<h3 id="安装Nginx-1-6"><a href="#安装Nginx-1-6" class="headerlink" title="安装Nginx-1.6"></a>安装Nginx-1.6</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装nginx #</span></span><br><span class="line"><span class="comment"># 解压 &amp;&amp; 安装 (略)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 提示没有PCRE库 #</span></span><br><span class="line"><span class="comment"># yum install pcre pcre-devel -y</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里也有一个坑要注意一下:</p>
+<p>本部电脑连接了两个网卡,一个连接局域网的网卡enp2s0,另一个是通过手机分享出来的网卡.</p>
+<ul>
+<li>局域网 IP:192.168.1.89 Gateway:192.168.1.1</li>
+<li>广域网 IP:192.168.42.xx Gateway:192.168.42.129</li>
+</ul>
+<p>解决方法是通过路由表设置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># route add default gw 192.168.42.129</span></span><br><span class="line"><span class="comment"># route add -net 192.168.1.0/24 gw 192.168.1.1 enp2s0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Mysql数据库"><a href="#安装Mysql数据库" class="headerlink" title="安装Mysql数据库"></a>安装Mysql数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压源码复制到/usr/local/ #</span></span><br><span class="line"><span class="comment"># 运行安装脚本 ./support_files/mysql_install --user=mysql --datadir=/usr/local/mysql/data/mysql</span></span><br><span class="line"><span class="comment"># 添加命令到profile #</span></span><br><span class="line"><span class="comment"># 复制启动脚本到/etc/init.d #</span></span><br></pre></td></tr></table></figure>
+
+<p>遇坑:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#x27;/var/log/mariadb/mariadb.log&#x27;, however file don&#x27;t exists. Create writable for user &#x27;mysql&#x27;.</span><br><span class="line"> ERROR! The server quit without updating PID file (/var/lib/mysql/sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
+
+<p> 手动创建日志文件,并更改所有组.</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180107 15:11:06 mysqld_safe error: log-error set to &#x27;/var/log/mariadb/mariadb.log&#x27;, however file don&#x27;t exists. Create writable for user &#x27;mysql&#x27;.</span><br><span class="line">ERROR! The server quit without updating PID file (/var/lib/mysql/sunday.nec.com.pid).</span><br></pre></td></tr></table></figure>
+
+<p> 可能存在僵尸线程,关闭掉即可.</p>
+<h3 id="安装PHP-5-5-58"><a href="#安装PHP-5-5-58" class="headerlink" title="安装PHP-5.5.58"></a>安装PHP-5.5.58</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ./configure --prefix=/usr/local/php-5.5.38 --with-config-file-path=/usr/local/php-5.5.38/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --enable-gd-native-ttf --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-mysql=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"><span class="comment"># 在php主目录下</span></span><br><span class="line"><span class="comment"># cp php.ini-production   /application/php/lib/php.ini</span></span><br><span class="line"><span class="comment">#在软件目录下的etc文件夹内</span></span><br><span class="line"><span class="comment"># cp php-fpm.conf.default  ./php-fpm.conf</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>遇坑:80端口拒绝访问,这个是防火墙问题,在centos7,防火墙是firewall</p>
+</li>
+<li><p>gd 负责画图的库</p>
+</li>
+</ul>
+<h3 id="安装ZABBIX-3-4-5"><a href="#安装ZABBIX-3-4-5" class="headerlink" title="安装ZABBIX-3.4.5"></a>安装ZABBIX-3.4.5</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压安装 #</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/usr/local/zabbix-3.4.5/ --enable-server --enable-agent --with-mysql --with-net-snmp --with-libcurl --with-lixbml2</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加用户 #</span></span><br><span class="line"><span class="comment"># useradd zabbix</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>初始化数据库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql -uroot -p</span></span><br><span class="line">mysql&gt;create database zabbix default charset utf8;</span><br><span class="line">mysql&gt;create user zabbix@<span class="string">&#x27;localhost&#x27;</span> identified by <span class="string">&#x27;503428761&#x27;</span>;</span><br><span class="line">mysql&gt;grant all on zabbix.* to zabbix@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">mysql&gt;flush privileges;</span><br><span class="line">mysql&gt;quit;</span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/schema.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/mysql/images.sql</span></span><br><span class="line"><span class="comment">#mysql -uroot zabbix &lt; ./database/myslq/data.sql</span></span><br></pre></td></tr></table></figure>
+
+<p>配置Zabbix_server</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成配置文件 #</span></span><br><span class="line"><span class="comment"># mkdir /etc/zabbix</span></span><br><span class="line"><span class="comment"># cp ./config/zabbix_server.conf /etc/zabbix</span></span><br><span class="line"><span class="comment"># vim /etc/zabbix/zabbix_server.conf</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=zabbix</span><br><span class="line">DBPassword=503428761</span><br><span class="line">DBPort=3306</span><br></pre></td></tr></table></figure>
+
+<p>在Nignx中添加前段文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir /usr/local/nginx/html/monitor.r0hman.com/zabbix -p</span></span><br><span class="line"><span class="comment"># cp -rp ./frontends/php/* /usr/local/nginx/html/monitor.r0hman.com/zabbix</span></span><br><span class="line"><span class="comment"># chown -R nginx:nginx /usr/local/nginx/html/monitor.r0hman.com/</span></span><br></pre></td></tr></table></figure>
+
+<p>在Nignx文件中添加节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name monitor.r0hman.com;</span><br><span class="line">    access_log logs/monitor.r0hman.com;</span><br><span class="line">    index index.html index.php;</span><br><span class="line">    root html/monitor.r0hman.com;</span><br><span class="line"></span><br><span class="line">    location \</span><br><span class="line">    &#123;</span><br><span class="line">       try_files <span class="variable">$uri</span> /index.php?<span class="variable">$args</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~*.\.(php|php5)$</span><br><span class="line">    &#123;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">        fastcgi_index index.php;</span><br><span class="line">        include fastcgi.conf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改PHP的配置文件</p>
+<p>在浏览器中打开 monitor.r0hman.com,按照流程逐渐输入即可.如果遇到什么问题,则去查看日志,任何问题的解决方案都是在日志上面的.</p>
+<p>遇坑:</p>
+<ol>
+<li>到最后一步,可能会遇到无法生存配置文件,这个是因为php没有写入权限.原因是因为php-fpm的写入用户是nobody,而&#x2F;monitor.rohman.com&#x2F;站点下的目录文件下的conf文件夹是有写入权限限制的.</li>
+<li>20170109目前出现了一个坑,更改了nginx和php的用户(从nobody变为nginx),zabbix的安装界面就不能继续了…这个是php-fpm的用户组出问题了,默认为nobody没有问题</li>
+<li>php中提示UTC 与 其他时区冲突,修改php的配置文件即可</li>
+<li>zabbix中提示”server is not running”,这个是网站的php配置出现问题,修改一下servername和地址即可.</li>
+</ol>
+<h3 id="监视第一台客户端"><a href="#监视第一台客户端" class="headerlink" title="监视第一台客户端"></a>监视第一台客户端</h3><p>客户端地址:192.168.1.88</p>
+<p>服务端地址:192.168.1.89</p>
+<p>网址:monitor.rohman.com&#x2F;zabbix</p>
+<p>客户端需要安装 <em>zabbix_agentd</em>,并且配置 zabbix_agentd.conf 文件.</p>
+<blockquote>
+<p>注意 : zabbix_agentd.conf文件的路径是这样的 &#x2F;zabbix-3.4.5&#x2F;etc&#x2F;zabbix_agentd.conf,然而在启动zabbix_agentd的时候,如果没有制定配置文件,则zabbix会选用 &#x2F;usr&#x2F;local&#x2F;etc&#x2F;zabbix_agentd.conf的配置文件.</p>
+</blockquote>
+<p>在 zabbix_agentd.conf 中要修改的几个地方 :</p>
+<ul>
+<li>Hostname , 这个属性跟server端网页配置主机的hostname相对应.(见图一)</li>
+<li>Server , 这个填写的地址即是server端的地址.</li>
+<li>ServerActive , 这个也是填写server端的地址.</li>
+</ul>
+<p><img src="http://www.ttlsa.com/wp-content/uploads/2014/04/zabbix-monitor-server-01.jpg" alt="图一"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Server 与 ServerActive 的区别 #</span><br><span class="line"></span><br><span class="line">### Option: Server</span><br><span class="line">#       List of comma delimited IP addresses, optionally in CIDR notation, or hostnames of Zabbix servers.</span><br><span class="line">#       Incoming connections will be accepted only from the hosts listed here.</span><br><span class="line">#       If IPv6 support is enabled then &#x27;127.0.0.1&#x27;, &#x27;::127.0.0.1&#x27;, &#x27;::ffff:127.0.0.1&#x27; are treated equally and &#x27;::/0&#x27; will allow any IPv4 or IPv6 address.</span><br><span class="line">#       &#x27;0.0.0.0/0&#x27; can be used to allow any IPv4 address.</span><br><span class="line">#       Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.domain</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># Server=</span><br><span class="line"></span><br><span class="line">### Option: ServerActive</span><br><span class="line">#       List of comma delimited IP:port (or hostname:port) pairs of Zabbix servers for active checks.</span><br><span class="line">#       If port is not specified, default port is used.</span><br><span class="line">#       IPv6 addresses must be enclosed in square brackets if port for that host is specified.</span><br><span class="line">#       If port is not specified, square brackets for IPv6 addresses are optional.</span><br><span class="line">#       If this parameter is not specified, active checks are disabled.</span><br><span class="line">#       Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]</span><br><span class="line">#</span><br><span class="line"># Mandatory: no</span><br><span class="line"># Default:</span><br><span class="line"># ServerActive=</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过以上两段话的对比,可以得知,Server设置完,只是被动接受目标server的请求,而 ServerActive 则设置的是主动模式.</p>
+<blockquote>
+<p>主动：agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server&#x2F;proxy<br>被动：server向agent请求获取监控项的数据，agent返回数据。</p>
+</blockquote>
+<p>主动模式的流程:</p>
+<ul>
+<li>设置ServerActive&#x3D;ServerIP</li>
+<li>Agent向Server建立一个TCP连接</li>
+<li>Agent请求需要检测的数据列表</li>
+<li>Server响应Agent，发送一个Items列表</li>
+<li>Agent允许响应</li>
+<li>TCP连接完成本次会话关闭</li>
+<li>Agent开始周期性地收集数据</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1414,148 +1677,6 @@
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="什么是ORM"><a href="#什么是ORM" class="headerlink" title="什么是ORM"></a>什么是ORM</h3><p>对象关系映射（英语：(Object Relational Mapping，简称ORM，或O&#x2F;RM，或O&#x2F;R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换[1]  。从效果上说，它其实是创建了一个可在编程语言里使用的–“虚拟对象数据库”。<br>面向对象是从软件工程基本原则（如耦合、聚合、封装）的基础上发展起来的，而关系数据库则是从数学理论发展而来的，两套理论存在显著的区别。为了解决这个不匹配的现象，对象关系映射技术应运而生。<br>对象关系映射（Object-Relational Mapping）提供了概念性的、易于理解的模型化数据的方法。ORM方法论基于三个核心原则： 简单：以最基本的形式建模数据。 传达性：数据库结构被任何人都能理解的语言文档化。 精确性：基于数据模型创建正确标准化的结构。 典型地，建模者通过收集来自那些熟悉应用程序但不熟练的数据建模者的人的信息开发信息模型。建模者必须能够用非技术企业专家可以理解的术语在概念层次上与数据结构进行通讯。建模者也必须能以简单的单元分析信息，对样本数据进行处理。ORM专门被设计为改进这种联系。<br>简单的说：ORM相当于中继数据。具体到产品上，例如ADO.NET Entity Framework。DLINQ中实体类的属性[Table]就算是一种中继数据。</p>
 <h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p><code>https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432339034336cbf72acd43354d72831461e3871d9f2e000</code></p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/fee7288a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/fee7288a/" class="post-title-link" itemprop="url">Python学习笔记(四)</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-11-20 09:12:19" itemprop="dateCreated datePublished" datetime="2017-11-20T09:12:19+00:00">2017-11-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Python-学习笔记-四"><a href="#Python-学习笔记-四" class="headerlink" title="Python 学习笔记 四"></a>Python 学习笔记 四</h1><h2 id="错误-调试"><a href="#错误-调试" class="headerlink" title="错误&#x2F;调试"></a>错误&#x2F;调试</h2><p>在操作系统提供的调用中，返回错误码非常常见。比如打开文件的函数open()，成功时返回文件描述符（就是一个整数），出错时返回-1。</p>
-<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;try...&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> Error <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;except&#x27;</span>,e)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;finally...&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;End&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>由于没有错误发生，所以except语句块不会被执行，但是finally如果有，则一定会被执行（可以没有finally语句）。</p>
-</blockquote>
-<p>Python的错误其实也是class，所有的错误类型都继承自 <em>BaseException</em> ，所以在使用except时需要注意的是，它不但捕获该类型的错误，还把其子类也“一网打尽”。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    pass</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(Exception e)</span><br><span class="line">&#123;</span><br><span class="line">    System.out.println(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。</p>
-<p>Python内置的logging模块可以非常容易地记录错误信息：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    logging.exception(e)</span><br></pre></td></tr></table></figure>
-
-<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p>断言:</p>
-<p>凡是用print()来辅助查看的地方，都可以用断言（assert）来替代：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">s</span>):</span><br><span class="line">    n = <span class="built_in">int</span>(s</span><br><span class="line">    <span class="keyword">assert</span> n != <span class="number">0</span> , <span class="string">&#x27;n is zero&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>/n</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    foo(<span class="string">&#x27;0&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>assert的意思是，表达式n !&#x3D; 0应该是True，否则，根据程序运行的逻辑，后面的代码肯定会出错。</p>
-<p>如果断言失败，assert语句本身就会抛出AssertionError</p>
-<h2 id="IO编程"><a href="#IO编程" class="headerlink" title="IO编程"></a>IO编程</h2><p>IO编程中，Stream（流）是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动。Input Stream就是数据从外面（磁盘、网络）流进内存，Output Stream就是数据从内存流到外面去。对于浏览网页来说，浏览器和新浪服务器之间至少需要建立两根水管，才可以既能发数据，又能收数据。</p>
-<h3 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h3><p>以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;/Users/michel/test.text&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"><span class="comment">#读取成功,调用read()方法就可以一次读完全部能容</span></span><br><span class="line">f.read()</span><br><span class="line"><span class="comment">#最后有一步是关闭文件,释放资源</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
-
-<p>标示符’r’表示读，这样，我们就成功地打开了一个文件。</p>
-<ul>
-<li><p>调用read()会一次性读取文件的全部内容，如果文件有10G，内存就爆了，所以，要保险起见，可以反复调用read(size)方法，每次最多读取size个字节的内容。</p>
-</li>
-<li><p>调用readline()可以每次读取一行内容，调用readlines()一次读取所有内容并按行返回list.</p>
-</li>
-</ul>
-<p>设置字符编码:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;/Users/michael/gbk.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line">f.read()</span><br></pre></td></tr></table></figure>
-
-<p>写文件:</p>
-<p>写文件和读文件是一样的，唯一区别是调用open()函数时，传入标识符’w’或者’wb’表示写文本文件或写二进制文件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>f = <span class="built_in">open</span>(<span class="string">&#x27;/Users/michael/test.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.write(<span class="string">&#x27;Hello, world!&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.close()</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>当我们写文件时，操作系统往往不会立刻把数据写入磁盘，而是放到内存缓存起来，空闲的时候再慢慢写入。只有调用close()方法时，操作系统才保证把没有写入的数据全部写入磁盘。忘记调用close()的后果是数据可能只写了一部分到磁盘，剩下的丢失了。</p>
-</blockquote>
-<h3 id="StringIO-ByteIO"><a href="#StringIO-ByteIO" class="headerlink" title="StringIO &amp; ByteIO"></a>StringIO &amp; ByteIO</h3><p>这个不是对文件操作,而是对内存中的流来操作</p>
-<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。</p>
-<p>有些进程还不止同时干一件事，比如Word，它可以同时进行打字、拼写检查、打印等事情。在一个进程内部，要同时干多件事，就需要同时运行多个“子任务”，我们把进程内的这些“子任务”称为线程（Thread）。</p>
-<h3 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h3><p>Unix&#x2F;Linux操作系统提供了一个fork()系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
-<p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Process (%s) start ...&#x27;</span> % os.getpid())</span><br><span class="line"><span class="comment"># Only works on Unix/Linux/Mac</span></span><br><span class="line">pid = os.fork()</span><br><span class="line"><span class="keyword">if</span> pid == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;child,parentpid is (%s)&#x27;</span> % os.getppid)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Parent&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>小结:</p>
-<ul>
-<li>Unix&#x2F;Linux下,可以用fork()调用实现多进程</li>
-<li>要实现跨平台,可以使用multiprocessing</li>
-<li>进程间通信是通过Queue,pipes实现的</li>
-</ul>
-<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，threading是高级模块，对_thread进行了封装。绝大多数情况下，我们只需要使用threading这个高级模块。</p>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><ul>
-<li>用\d可以匹配一个数字</li>
-<li>\w可以匹配一个字母或数字</li>
-<li>.可以匹配任意字符</li>
-<li>用*表示任意个字符（包括0个）</li>
-<li>用+表示至少一个字符</li>
-<li>用?表示0个或1个字符</li>
-<li>用{n}表示n个字符</li>
-<li>用{n,m}表示n-m个字符</li>
-<li>要做更精确地匹配，可以用[]表示范围</li>
-<li>^表示行的开头，^\d表示必须以数字开头</li>
-<li>$表示行的结束，\d$表示必须以数字结束。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匹配010 - 12345</span></span><br><span class="line">正则表达式: \d&#123;<span class="number">3</span>&#125;\-\d&#123;<span class="number">5</span>&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
