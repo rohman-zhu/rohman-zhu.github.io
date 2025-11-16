@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">459</span>
+          <span class="site-state-item-count">460</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,212 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/686fc3bb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/686fc3bb/" class="post-title-link" itemprop="url">黑群晖折腾记录_下载器_流媒体</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-10-02 16:01:59" itemprop="dateCreated datePublished" datetime="2024-10-02T16:01:59+00:00">2024-10-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/NAS%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">NAS存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今年生日狮子送我一个黑群晖设备(她还不知道NAS是什么，但一查小红书看到是中年男人三宝，头牌就是Synology群晖，她差点就奔着群晖买，赶紧被我叫停了，那么贵的东西；我点名要买黑群晖，在此谢谢狮子！)；拿到设备后，在对NAS做一些简单的测试，我梳理了一下需求，主要分为：</p>
+<ol>
+<li>数据备份：存储遵循3+2+1原则，即3份数据副本，2份在本地（分不同存储设备），1份在云上；</li>
+<li>下载器: 充当下载器，可以使用迅雷、百度云，主要的需求来自这两个下载器，未来可能还会有其他的下载器的需求；</li>
+<li>私人影院: 家里有投影、IPad、还有一些手机终端，想看存储中的影片，排除传统的SAMBA协议去读取远端磁盘中的文件，想搭建一个流服务器，并实现刮片；</li>
+</ol>
+<p>基于上述三个需求，我会记录我在折腾过程中的一些思考与实操过程；</p>
+<h1 id="实操记录"><a href="#实操记录" class="headerlink" title="实操记录"></a>实操记录</h1><h2 id="需求一，数据备份【待更新】"><a href="#需求一，数据备份【待更新】" class="headerlink" title="需求一，数据备份【待更新】"></a>需求一，数据备份【待更新】</h2><p>老实讲，我对黑群晖还是有一点抵触，因为我不确定这个东西是否有后门，我不太确认里面是否有其他进程在窃取内网中的数据，目前我所采取的策略是对这个设备目前是0信任。</p>
+<blockquote>
+<p>举证原则，谁质疑谁举证？怎么证明黑群晖是不安全的？</p>
+</blockquote>
+<p>还有一个问题，如果系统崩溃了，上面的数据怎么恢复？我还没有实操恢复操作系统的过程。</p>
+<h2 id="需求二，下载器"><a href="#需求二，下载器" class="headerlink" title="需求二，下载器"></a>需求二，下载器</h2><h3 id="百度云"><a href="#百度云" class="headerlink" title="百度云"></a>百度云</h3><p>我尝试过在DSM的套件中心，直接搜索“百度网盘”、“百度网盘 DSM7.2”下载安装，这两个看起来还是Docker的形式运行，安装完成后；通过NAS端口转发，跳转到百度云的扫码登录界面。</p>
+<p>当我完成安装后，界面成功跳转到百度云的登录界面时，扫码登录一直失败，会提示“登录失败，每个群晖账号在同一群晖设备只能绑定一个百度网盘账号”。无论怎么操作都是这个提示，我估计是因为黑群晖安装的方式，原群晖SN与MAC地址已经有百度网盘登录，我无法再此使用此方式登录。</p>
+<p>于是方案上面转到了下面两种，分别是使用 DSM 原生的云同步工具”Cloud Sync” ，或者 第三方 Docker 封装方案（来自 johnshine-baidunetdisk-crossover-vnc-1）;</p>
+<h4 id="Cloud-Sync"><a href="#Cloud-Sync" class="headerlink" title="Cloud Sync"></a>Cloud Sync</h4><ol>
+<li>套件中心搜索 “Cloud Sync”,安装此套件；</li>
+<li>打开此套件，点击添加，选择百度云;</li>
+<li>授权DSM访问百度云；</li>
+<li>本地路径、远程路径需要选择正确；【远程路径我觉得应该指定某一个路径，而不是拖库下来】</li>
+<li>同步方向，我这里选择单向传输，只选择”仅下载远程更改”；</li>
+<li>启用一致性检查；</li>
+</ol>
+<p>设置完毕后，百度云上面的东西如果需要传输到本地，则在百度云中，将文件放入指定的目录中，内网的NAS会自动去同步文件，将文件拉取到本地。</p>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限，而且我百度云也有会员，速率上面我觉得还可以。</p>
+</blockquote>
+<blockquote>
+<p>这里的玩法还可以改一下，方向改为上传，则可以将加密数据定期上传至百度云。</p>
+</blockquote>
+<h4 id="第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1"><a href="#第三方-Docker-封装-，-来自-johnshine-baidunetdisk-crossover-vnc-1" class="headerlink" title="第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1"></a>第三方 Docker 封装 ， 来自 johnshine-baidunetdisk-crossover-vnc-1</h4><ol>
+<li>需要安装Docker管理器，套件中心搜索”Container Manager”;【DSM6 以前好像是叫Docker】</li>
+<li>进入”Container Manager”的注册表，搜索baidunetdisk；【2024-07，国内Docker已经被封禁了，已经没有办法通过此方式搜索，唉~一声长叹】</li>
+<li>下载离线版本的Docker镜像，</li>
+<li>进入”Container Mangaer”中，进入”映像”，依次点击 操作&#x2F;导入&#x2F;从文件添加&#x2F;从本地设备 ，导入刚才下载好的离线镜像；</li>
+<li>镜像导入进入后，在”Container Mangaer”中，进入”容器”，点击新增；</li>
+<li>映像选择刚刚的镜像”Johnshine&#x2F;baidunetdisk-crossover-vnc”,勾选 “启动自动重新启动”，点击下一步；</li>
+<li>端口设置中，本地端口的映射需要填写，可以自定义填写，我这里就默认填写为 5901,6080；</li>
+<li>存储空间设置，需要添加一个文件夹，用于映射NAS本地路径与Docker中的文件路径，主要是给百度网盘下载文件存储用的，需要创建一个映射关系；</li>
+<li>Docker创建完后，打开浏览器，直接访问 NAS_IP:6080 , 登录进去访问即可；</li>
+</ol>
+<blockquote>
+<p>实际看到速率在 4.4MBps ， 已经达到我的家用带宽上限。</p>
+</blockquote>
+<p>这里有一个安全问题，只要登录后，同网段访问此百度网盘路径，无论什么客户端均能访问，这个非常危险。</p>
+<p>这里需要添加一个VNC密码，环境变量为 vnc_password ，值就设置为密码。</p>
+<blockquote>
+<p>vnc_password 参数，参考 :<a target="_blank" rel="noopener" href="https://www.modb.pro/db/127326">https://www.modb.pro/db/127326</a></p>
+</blockquote>
+<h2 id="需求三，流服务器"><a href="#需求三，流服务器" class="headerlink" title="需求三，流服务器"></a>需求三，流服务器</h2><h3 id="Jellyfin"><a href="#Jellyfin" class="headerlink" title="Jellyfin"></a>Jellyfin</h3><p>可以直接在套件中心搜索，Jellyfin 点击安装；</p>
+<h4 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h4><ol>
+<li>权限，Jellyfin 仅需要只读权限即可；</li>
+<li>刮削插件如果没有就绪，可以先不要开启，否则会影响扫描；</li>
+</ol>
+<h5 id="套件中心部署"><a href="#套件中心部署" class="headerlink" title="套件中心部署"></a>套件中心部署</h5><p>直接在DSM的套件中心搜索，Jellyfin默认安装即可；</p>
+<p>安装完毕后在浏览器中输入 [IP]:8096 ，进入初始化界面；</p>
+<h5 id="Docker方式部署-Jellyfin"><a href="#Docker方式部署-Jellyfin" class="headerlink" title="Docker方式部署 Jellyfin"></a>Docker方式部署 Jellyfin</h5><p>好像有一个比较出名的镜像，是 nyanmisaka&#x2F;jellyfin ，是一个大佬封装的docker镜像，里面集成了驱动；不过我本次还是先用官方镜像部署吧；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取镜像</span></span><br><span class="line">docker pull dockerproxy.cn/jellyfin/jellyfin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin -p 8096:8096 \</span><br><span class="line">-v /home/rohman/docker/jellyfin/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin/media:/media \</span><br><span class="line">--device=/dev/dri:/dev/dri \</span><br><span class="line">dockerproxy.cn/jellyfin/jellyfin:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker run -d --name=jellyfin-n -p 8097:8096 \</span><br><span class="line">--net=host \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/config:/config \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/cache:/cache \</span><br><span class="line">-v /home/rohman/docker/jellyfin-ny/media:/media \</span><br><span class="line">dockerproxy.cn/nyanmisaka/jellyfin:latest</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>media 目录，仅需要只读权限即可；</p>
+</blockquote>
+<h6 id="设置刮片源解析"><a href="#设置刮片源解析" class="headerlink" title="设置刮片源解析"></a>设置刮片源解析</h6><p>数据源 api.themoviedb.org<br>数据源 api.thetvdb.org<br>图片源 image.tmdb.org<br>图片源 image.thetvdb.org</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://www.itdog.cn/ping">https://www.itdog.cn/ping</a> ,检测这四个域名可用的解析地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 更新时间 2024-10-04</span><br><span class="line"></span><br><span class="line"># api.themoviedb.org 解析地址为</span><br><span class="line">3.167.212.66 api.themoviedb.org</span><br><span class="line">18.172.31.15 api.themoviedb.org</span><br><span class="line"></span><br><span class="line"># api.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line">192.241.234.54 api.thetvdb.org</span><br><span class="line"></span><br><span class="line"># image.tmdb.org 解析地址为</span><br><span class="line">143.244.50.89 image.tmdb.org </span><br><span class="line">143.244.50.83 image.tmdb.org </span><br><span class="line"></span><br><span class="line"># image.thetvdb.org 解析地址为</span><br><span class="line">192.241.234.54 image.thetvdb.org</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置媒体库"><a href="#设置媒体库" class="headerlink" title="设置媒体库"></a>设置媒体库</h5><p>关于电影，选择类型要选择“电影”；</p>
+<p>关于电视剧，选择类型要选择“节目”；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 目录结构为</span><br><span class="line">tvshows/</span><br><span class="line">├── 苍兰诀.2022</span><br><span class="line">│   ├── backdrop.jpg</span><br><span class="line">│   ├── folder.jpg</span><br><span class="line">│   ├── logo.png</span><br><span class="line">│   ├── Season.1</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E01.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E02.nfo</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.mp4</span><br><span class="line">│   │   ├── 苍兰诀.2022.S01E03.nfo</span><br><span class="line">│   │   ├── folder.jpg</span><br><span class="line">│   │   ├── metadata</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E01.jpg</span><br><span class="line">│   │   │   ├── 苍兰诀.2022.S01E02.jpg</span><br><span class="line">│   │   │   └── 苍兰诀.2022.S01E03.jpg</span><br><span class="line">│   │   └── season.nfo</span><br><span class="line">│   └── tvshow.nfo </span><br></pre></td></tr></table></figure>
+
+<h4 id="MetaTube-部署"><a href="#MetaTube-部署" class="headerlink" title="MetaTube 部署"></a>MetaTube 部署</h4><p>MetaTube 本质上一个爬虫软件，可以集成到Jellyfin里面，为影片抓取文本与海报信息；</p>
+<blockquote>
+<p>参考: <a target="_blank" rel="noopener" href="https://metatube-community.github.io/README_ZH/">https://metatube-community.github.io/README_ZH/</a></p>
+</blockquote>
+<p>本次采用Docker安装，Docker在国内已经很难打开了，需要使用代理：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 亲测可用 ，https://dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 使用方式一，在拉取时，增加字段dockerproxy.cn</span></span><br><span class="line"><span class="comment"># 如 docker pull whyour/qinglong:latest 变更为 docker pull dockerproxy.cn/whyour/qinglong:latest</span></span><br><span class="line"><span class="comment"># 方式二，未实测</span></span><br><span class="line"><span class="comment"># 修改文件 /etc/docker/daemon.json（如果不存在则创建）</span></span><br><span class="line"><span class="comment"># 修改此文件，添加 ：&#123;&quot;registry-mirrors&quot;: [&quot;https://dockerproxy.cn&quot;]&#125;</span></span><br><span class="line"><span class="comment"># sudo systemctl daemon-reload #重载systemd管理守护进程配置文件</span></span><br><span class="line"><span class="comment"># sudo systemctl restart docker #重启 Docker 服务</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站二：https://www.rainbond.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站三：https://docker.udayun.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站四：https://docker.211678.top/</span></span><br></pre></td></tr></table></figure>
+
+<p>部署MetaTube插件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取MetaTube的Docker镜像</span></span><br><span class="line">docker pull dockerproxy.cn/metatube/metatube-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Docker</span></span><br><span class="line"><span class="comment"># 内存模式</span></span><br><span class="line">docker run -d -p 8080:8080 --name metatube metatube/metatube-server:latest</span><br><span class="line"><span class="comment"># 数据库模式</span></span><br><span class="line">docker run -d -p 8080:8080 -v <span class="variable">$PWD</span>/config:/config --name metatube metatube/metatube-server:latest -dsn /config/metatube.db --TOKEN [Token]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署完成后，端口映射为8080，仅需要使用服务器地址+端口即可验证是否成功部署</span></span><br><span class="line">curl [IP]:8080</span><br><span class="line"><span class="comment"># 返回以下值，代表部署成功</span></span><br><span class="line"><span class="comment"># &#123;&quot;data&quot;:&#123;&quot;app&quot;:&quot;metatube&quot;,&quot;version&quot;:&quot;v1.2.7-43f17e0&quot;&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要更新MetaTube时,需要将Docker关闭，移除后重新部署；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop metatube</span><br><span class="line">docker <span class="built_in">rm</span> metatube</span><br></pre></td></tr></table></figure>
+<h5 id="添加中文字幕"><a href="#添加中文字幕" class="headerlink" title="添加中文字幕"></a>添加中文字幕</h5><p>参考：<a target="_blank" rel="noopener" href="https://metatube-community.github.io/wiki/chinese-subtitle/">https://metatube-community.github.io/wiki/chinese-subtitle/</a></p>
+<p>MetaTube 插件对于以下几种情况，会自动为影片添加中文字幕标签：</p>
+<p>视频以-C或-ch后缀结尾，例如某堂下载的中字资源，视频目录下存在.chi，.chs，.cht，.zh，.zh-cn等结尾的字幕文件；</p>
+<blockquote>
+<p>这是影片文件的命名规范之一。</p>
+</blockquote>
+<h5 id="查看数据源"><a href="#查看数据源" class="headerlink" title="查看数据源"></a>查看数据源</h5><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://metatube-community.github.io/wiki/metadata-providers/">https://metatube-community.github.io/wiki/metadata-providers/</a></p>
+</blockquote>
+<p>可以在 &#x2F;v1&#x2F;providers 的 API endpoint 下查看所有后端开启的刮削源。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;actor_providers&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;AV-LEAGUE&quot;</span>: <span class="string">&quot;https://www.av-league.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Gfriends&quot;</span>: <span class="string">&quot;https://github.com/gfriends/gfriends&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;movie_providers&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;10musume&quot;</span>: <span class="string">&quot;https://www.10musume.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;1Pondo&quot;</span>: <span class="string">&quot;https://www.1pondo.tv/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AIRAV&quot;</span>: <span class="string">&quot;https://www.airav.wiki/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;ARZON&quot;</span>: <span class="string">&quot;https://www.arzon.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AVBASE&quot;</span>: <span class="string">&quot;https://www.avbase.net/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;AVE&quot;</span>: <span class="string">&quot;https://www.aventertainments.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;C0930&quot;</span>: <span class="string">&quot;https://www.c0930.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Caribbeancom&quot;</span>: <span class="string">&quot;https://www.caribbeancom.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;CaribbeancomPR&quot;</span>: <span class="string">&quot;https://www.caribbeancompr.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;DAHLIA&quot;</span>: <span class="string">&quot;https://dahlia-av.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;DUGA&quot;</span>: <span class="string">&quot;https://duga.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FALENO&quot;</span>: <span class="string">&quot;https://faleno.jp/top/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FANZA&quot;</span>: <span class="string">&quot;https://www.dmm.co.jp/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;FC2&quot;</span>: <span class="string">&quot;https://adult.contents.fc2.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Gcolle&quot;</span>: <span class="string">&quot;https://gcolle.net/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Getchu&quot;</span>: <span class="string">&quot;https://dl.getchu.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;H0930&quot;</span>: <span class="string">&quot;https://www.h0930.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;H4610&quot;</span>: <span class="string">&quot;https://www.h4610.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;HEYZO&quot;</span>: <span class="string">&quot;https://www.heyzo.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;HeyDouga&quot;</span>: <span class="string">&quot;https://www.heydouga.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;JAV321&quot;</span>: <span class="string">&quot;https://www.jav321.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;JavBus&quot;</span>: <span class="string">&quot;https://www.javbus.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;KIN8&quot;</span>: <span class="string">&quot;https://www.kin8tengoku.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MGS&quot;</span>: <span class="string">&quot;https://www.mgstage.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MURAMURA&quot;</span>: <span class="string">&quot;https://www.muramura.tv/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;MYWIFE&quot;</span>: <span class="string">&quot;https://mywife.cc/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;PACOPACOMAMA&quot;</span>: <span class="string">&quot;https://www.pacopacomama.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Pcolle&quot;</span>: <span class="string">&quot;https://www.pcolle.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;SOD&quot;</span>: <span class="string">&quot;https://ec.sod.co.jp/prime/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;TOKYO-HOT&quot;</span>: <span class="string">&quot;https://my.tokyo-hot.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;XXX-AV&quot;</span>: <span class="string">&quot;https://www.xxx-av.com/&quot;</span>,</span><br><span class="line">      <span class="string">&quot;fc2hub&quot;</span>: <span class="string">&quot;https://javten.com/&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="调整刮削源优先级"><a href="#调整刮削源优先级" class="headerlink" title="调整刮削源优先级"></a>调整刮削源优先级</h6><p>现在通过设置环境变量即可手动修改 MetaTube Server 的刮削源优先级。</p>
+<p>例如：</p>
+<ul>
+<li>将AVBASE的优先级设置为 1000：export MT_MOVIE_PROVIDER_PRIORITY_AVBASE&#x3D;1000</li>
+<li>将GFriends的优先级设置为 99：export MT_ACTOR_PROVIDER_PRIORITY_GFRIENDS&#x3D;99</li>
+<li>将ARZON从刮削源中移除（设置为 0）：export MT_MOVIE_PROVIDER_PRIORITY_ARZON&#x3D;0</li>
+</ul>
+<blockquote>
+<p>注意：刮削源名称以及默认优先级请参考 provider 目录下的具体刮削源中的 Name 和 Priority 字段。 优先级通常应当设置在 1000 ± 10 范围以保证最佳刮削排序质量。</p>
+</blockquote>
+<h5 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h5><p>影片名主要格式为 [字母]-[番号] ， 可以不区分大小写，但要区分下划线-与_ ,这里使用的是-；</p>
+<p>如果要添加中文字符，则需要加 -C;</p>
+<h4 id="Jellyfin-中安装MetaTube插件"><a href="#Jellyfin-中安装MetaTube插件" class="headerlink" title="Jellyfin 中安装MetaTube插件"></a>Jellyfin 中安装MetaTube插件</h4><ol>
+<li>进入 Jellyfin 控制台 &gt; 插件 &gt; 存储库，点击添加</li>
+<li>输入存储库名称：MetaTube</li>
+<li>输入存储库URL：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json">https://raw.githubusercontent.com/metatube-community/jellyfin-plugin-metatube/dist/manifest.json</a></li>
+<li>在插件目录下找到 MetaTube，点击安装</li>
+<li>重启Jellyfin</li>
+<li>适用于中国大陆的存储库URL：<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json%EF%BC%88%E5%8F%AF%E8%83%BD%E6%9C%89%E7%BC%93%E5%AD%98%EF%BC%89">https://cdn.jsdelivr.net/gh/metatube-community/jellyfin-plugin-metatube@dist/manifest.json（可能有缓存）</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1483,106 +1689,6 @@
 
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/ganzy/6926601">https://blog.51cto.com/ganzy/6926601</a><br><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-acl?view=powershell-7.4">https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-acl?view=powershell-7.4</a></p>
 <h2 id="来自-https-www-codenong-com-3282656"><a href="#来自-https-www-codenong-com-3282656" class="headerlink" title="来自 https://www.codenong.com/3282656/"></a>来自 <a target="_blank" rel="noopener" href="https://www.codenong.com/3282656/">https://www.codenong.com/3282656/</a></h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关于NTFS各个目录范围设置列举：</span></span><br><span class="line"></span><br><span class="line">    ╔═════════════╦═════════════╦═══════════════════════════════╦════════════════════════╦══════════════════╦═══════════════════════╦═════════════╦═════════════╗</span><br><span class="line">    ║             ║ folder only ║ folder, sub<span class="literal">-folders</span> and files ║ folder and sub<span class="literal">-folders</span> ║ folder and files ║ sub<span class="literal">-folders</span> and files ║ sub<span class="literal">-folders</span> ║    files    ║</span><br><span class="line">    ╠═════════════╬═════════════╬═══════════════════════════════╬════════════════════════╬══════════════════╬═══════════════════════╬═════════════╬═════════════╣</span><br><span class="line">    ║ Propagation ║ none        ║ none                          ║ none                   ║ none             ║ InheritOnly           ║ InheritOnly ║ InheritOnly ║</span><br><span class="line">    ║ Inheritance ║ none        ║ Container|Object              ║ Container              ║ Object           ║ Container|Object      ║ Container   ║ Object      ║</span><br><span class="line">    ╚═════════════╩═════════════╩═══════════════════════════════╩════════════════════════╩══════════════════╩═══════════════════════╩═════════════╩═════════════╝</span><br><span class="line"></span><br><span class="line"><span class="comment"># folder only</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::None</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::None</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># folder, sub-folders and files</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ContainerInherit <span class="operator">-bor</span> [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ObjectInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::None</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># folder and sub-folders </span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ContainerInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::None</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># folder and files</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ObjectInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::None</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># sub-folders and files</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ContainerInherit <span class="operator">-bor</span> [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ObjectInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::InheritOnly</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># sub-folders</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ContainerInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::InheritOnly</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># files</span></span><br><span class="line">    <span class="variable">$INHERITANCE_FLAG</span> = [<span class="type">System.Security.AccessControl.InheritanceFlags</span>]::ObjectInherit</span><br><span class="line">    <span class="variable">$PROPAGATION_FLAG</span> = [<span class="type">System.Security.AccessControl.PropagationFlags</span>]::InheritOnly</span><br><span class="line">    <span class="variable">$ACCESS_RULE</span>=<span class="built_in">New-Object</span> System.Security.AccessControl.FileSystemAccessRule(<span class="variable">$TARGET_USER</span>,<span class="variable">$ACL_BASE_PERMISSION_FULLCONTROL</span>,<span class="variable">$INHERITANCE_FLAG</span>,<span class="variable">$PROPAGATION_FLAG</span>,<span class="variable">$ACL_ACCESS_CONTROL_TYPE_DENY</span>);</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/25c47bd6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/25c47bd6/" class="post-title-link" itemprop="url">VCSA中虚拟机迁移按钮是灰色的</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-07-21 22:31:59" itemprop="dateCreated datePublished" datetime="2024-07-21T22:31:59+00:00">2024-07-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>在VCSA中，选中目标虚拟机做迁移动作时，虚拟机的Migrate选项是灰色的，不可点击的。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>虚拟机处于备份状态中，无法进行vMotion。或者备份已经结束了，但虚拟机的状态未自动恢复正常。<br>在虚拟机备份完成后，没有移除 vCenter Server 数据库 vpx_disabled_methods 表中的条目时，可能会出现此问题。</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li>确定目标虚拟机的ID，vm-xxxxx;</li>
-<li>WEB 浏览器打开这个地址:<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;ExamplevCenterFQDNorIP&gt; 替换 为 VCSA 地址；</span></span><br><span class="line">https://&lt;ExamplevCenterFQDNorIP&gt;/mob/?moid=AuthorizationManager&amp;method=enableMethods</span><br></pre></td></tr></table></figure></li>
-<li>使用 SSO 账户登录；</li>
-<li>在 entity 的 VALUE 框中，将 MOID 替换为 虚拟机的ID；</li>
-<li>在 method 的 VALUE框中；<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">填入 &lt;method&gt; RelocateVM_Task &lt;/method&gt; ；</span><br></pre></td></tr></table></figure></li>
-<li>点击调用方法 Invoke Method;</li>
-<li>刷新浏览器，重新执行虚拟机vMotion；</li>
-</ol>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://knowledge.broadcom.com/external/article?legacyId=1029926">https://knowledge.broadcom.com/external/article?legacyId=1029926</a><br><a target="_blank" rel="noopener" href="https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html">https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/avenjan/article/details/135113397">https://blog.csdn.net/avenjan/article/details/135113397</a></p>
-
       
     </div>
 
