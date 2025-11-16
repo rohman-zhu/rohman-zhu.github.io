@@ -469,7 +469,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-11-09 15:52:05" itemprop="dateModified" datetime="2025-11-09T15:52:05+00:00">2025-11-09</time>
+      <time title="Modified: 2025-11-16 13:43:05" itemprop="dateModified" datetime="2025-11-16T13:43:05+00:00">2025-11-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -498,7 +498,8 @@
 <li>通过Windows Firewall Rule进行更精细化的管理；</li>
 </ol>
 <p>但在Tinywall中，可以看到这个策略“Tinywall Compat[DDK2cx]”，这个策略写的是放通 any to any，也就是全放开，所有的策略会优先匹配的这里；后续再怎么设置允许策略+允许的远端服务器IP，都不会生效；<br>所以核心诉求1实现了，但核心诉求2却无法实现；</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>Windows策略是拒绝优先，在同时存在Allow策略与Deny策略的时候，会优先执行Deny策略，我可以利用这个特性，设置拒绝策略，并限制范围；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启本地防火墙</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 
