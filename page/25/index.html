@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">458</span>
+          <span class="site-state-item-count">459</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,90 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/45d10d8b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/45d10d8b/" class="post-title-link" itemprop="url">Linux之fstab列表参数</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-24 09:27:05" itemprop="dateCreated datePublished" datetime="2020-12-24T09:27:05+00:00">2020-12-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="etc-fstab"><a href="#etc-fstab" class="headerlink" title="&#x2F;etc&#x2F;fstab"></a>&#x2F;etc&#x2F;fstab</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">一般配置6个参数  ：&lt;file system&gt;，&lt;mount point&gt;，&lt;type&gt;，&lt;options&gt;，&lt;dump&gt;，&lt;pass&gt;</span><br><span class="line"></span><br><span class="line">file system</span><br><span class="line">文件系统，参考默认的fstab来看，这里只需要把硬盘的UUID正确配置即可；可以通过指令blkid，查看硬盘的UUID；</span><br><span class="line"></span><br><span class="line">mount point</span><br><span class="line">挂载路径，最终硬盘会被挂载到配置的这个路径下，但是这个路径必须先存在，提前创建好这个路径即可；</span><br><span class="line"></span><br><span class="line">type</span><br><span class="line">硬盘的文件系统类型，相应的有ntfs，ext4，fat，vfat等等，这里要根据实际情况设置，同样的也可以通过指令blkid，查看硬盘的TYPE；</span><br><span class="line"></span><br><span class="line">options</span><br><span class="line"></span><br><span class="line">dump</span><br><span class="line">这个参数用来检查文件系统以多快频率进行备份，系统将认为其值为0，则不需要进行备份；</span><br><span class="line"></span><br><span class="line">pass</span><br><span class="line">这个参数用来决定在启动时需要被fsck扫描的文件系统的顺序，根文件系统&quot;/&quot;对应该字段的值应该为1，其他的应该逐渐递增，如果设置为0则表示不扫描。</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1047,99 +1131,6 @@
     <div class="post-body" itemprop="articleBody">
           <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>开机卡在“A start job is running for wait for network to be Configured”两分多钟。</p>
 <h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/systemd/system/network-online.target.wants/</span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> ./</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改本目录下的文件</span></span><br><span class="line"><span class="comment">#在[Service]下添加TimeoutStartSec=2sec</span></span><br><span class="line">vi ./xxxxx</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=2sec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/81a1fadb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/81a1fadb/" class="post-title-link" itemprop="url">Exchange迁移用户邮箱</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-07 23:20:46" itemprop="dateCreated datePublished" datetime="2020-12-07T23:20:46+00:00">2020-12-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/Exchange/" itemprop="url" rel="index"><span itemprop="name">Exchange</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>一个用户的邮箱需要迁移到其他的后端服务器上。</p>
-<h1 id="操作指令"><a href="#操作指令" class="headerlink" title="操作指令"></a>操作指令</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Mailbox</span> <span class="literal">-id</span> zhurongjian@<span class="number">126</span>.com | <span class="built_in">New-MoveRequest</span> <span class="literal">-targetDataBase</span> wangyiMail<span class="literal">-DAG</span></span><br></pre></td></tr></table></figure>
-
-<p>如果不能迁移，提示有迁移任务存在。可以检查一下：</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检测当前的移动队列</span></span><br><span class="line"><span class="built_in">Get-MoveRequest</span> | <span class="built_in">Get-MoveRequestStatistics</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消队列</span></span><br><span class="line"><span class="built_in">Remove-MoveRequest</span> <span class="literal">-identity</span> zhurongjian@<span class="number">126</span>.com</span><br></pre></td></tr></table></figure>
-
       
     </div>
 

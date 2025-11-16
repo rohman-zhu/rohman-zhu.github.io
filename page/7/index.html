@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">458</span>
+          <span class="site-state-item-count">459</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,110 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/de3b0569/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/de3b0569/" class="post-title-link" itemprop="url">HPE-SAN存储热备盘比例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-04 23:39:36" itemprop="dateCreated datePublished" datetime="2024-05-04T23:39:36+00:00">2024-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">SAN存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>做SAN存储扩容时，需要供应商做扩容方案。对应的硬件所堆积出来的硬件可用容量到底怎么计算的？这里面有几个问题：</p>
+<ol>
+<li>裸容量是多少？</li>
+<li>可用容量是多少？</li>
+<li>热备盘比例是多少？</li>
+</ol>
+<h1 id="可查资料"><a href="#可查资料" class="headerlink" title="可查资料"></a>可查资料</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Spare rate</span><br><span class="line">A key parameter in the spare policy is the spare rate. The spare rate is a target amount of space to set aside for sparing expressed relative to the number of disks of a given type in the system. A spare rate of 24, for example, sets target spare space equal to the size of one drive for every 24 drives in the array.</span><br><span class="line">The spare rate is defined based on the hardware configuration in the array as follows:</span><br><span class="line">• Spare rate = 40 if there are any magazines present in the array (e.g., 10,000)</span><br><span class="line">• Spare rate = 24 for all others such as 7400/7400c, 7450/7450c, etc.</span><br><span class="line"></span><br><span class="line">Sparing algorithms defined</span><br><span class="line">The spare option is set for the entire array and applied to each disk type (SSD, FC, NL) in the following way.</span><br><span class="line">• Default: Roughly 2.5 percent with minimums</span><br><span class="line">Small configurations (e.g., 7000’s with less than 48 disks, 10000’s with less than 80 disks) have a spare space target equal to the size of two of the largest drives of the type being spared.</span><br><span class="line">• Minimal: Roughly 2.5 percent without minimums</span><br><span class="line">Minimal is the same as default except for small configurations. When the configuration is small, minimal will only set aside spare space equal to one of the largest drives (compared to two for default) of the type being sized.</span><br><span class="line">• Maximal: One disk’s worth in every cage</span><br><span class="line">Spare space is calculated as the space of the largest drive of the drive type being sized for each disk cage.</span><br><span class="line">• Custom: Implemented manually by the administrator using the createspare, showspare, and removespare commands.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>默认比例为 2.5%；最大比例为 12%；</p>
+</blockquote>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333">https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1280,100 +1384,6 @@
 <h2 id="报错3-服务器端ping客户端时提示：-ping-sendmsg-Destination-address-required"><a href="#报错3-服务器端ping客户端时提示：-ping-sendmsg-Destination-address-required" class="headerlink" title="报错3: 服务器端ping客户端时提示： ping: sendmsg: Destination address required"></a>报错3: 服务器端ping客户端时提示： ping: sendmsg: Destination address required</h2><p>一般是服务器端更改配置后，客户端未重新连接，客户端重新连接即可</p>
 <h2 id="报错4-启动wireguard时报错：-Error-Unknown-device-type-Unable-to-access-interface-Protocol-not-supported-或执行-modprobe-wireguard-命令报错：-modprobe-FATAL-Module-wireguard-not-found-in-directory"><a href="#报错4-启动wireguard时报错：-Error-Unknown-device-type-Unable-to-access-interface-Protocol-not-supported-或执行-modprobe-wireguard-命令报错：-modprobe-FATAL-Module-wireguard-not-found-in-directory" class="headerlink" title="报错4: 启动wireguard时报错： Error: Unknown device type. Unable to access interface: Protocol not supported 或执行 modprobe wireguard 命令报错： modprobe: FATAL: Module wireguard not found in directory"></a>报错4: 启动wireguard时报错： Error: Unknown device type. Unable to access interface: Protocol not supported 或执行 modprobe wireguard 命令报错： modprobe: FATAL: Module wireguard not found in directory</h2><p>这个错误通常是因为升级内核导致的，wireguard的内核模块安装在旧版内核上，新内核没有wireguard模块，解决方法是卸载旧版内核、旧版kernel-header、旧版kernel-devel等,重新安装wireguard即可。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>WireGuard 安装说明： <a target="_blank" rel="noopener" href="https://www.wireguard.com/install/">https://www.wireguard.com/install/</a><br>使用 WireGuard 无缝接入内网: <a target="_blank" rel="noopener" href="https://devld.me/2020/07/27/wireguard-setup/">https://devld.me/2020/07/27/wireguard-setup/</a><br><a target="_blank" rel="noopener" href="https://blog.d0zingcat.dev/p/vpn-connect-work-home/">https://blog.d0zingcat.dev/p/vpn-connect-work-home/</a><br><a target="_blank" rel="noopener" href="https://opswill.com/articles/wireguard-howtos.html">https://opswill.com/articles/wireguard-howtos.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e0587402/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/e0587402/" class="post-title-link" itemprop="url">vRops指标-数据存储卷</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-03-19 23:14:41" itemprop="dateCreated datePublished" datetime="2024-03-19T23:14:41+00:00">2024-03-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><p>数据存储卷：设备：所有实例的汇总：</p>
-<ol>
-<li>物理设备延迟(ms)</li>
-<li>总延迟(ms)</li>
-<li>内核延迟(ms)</li>
-</ol>
-<h1 id="数据存储卷的仪表盘"><a href="#数据存储卷的仪表盘" class="headerlink" title="数据存储卷的仪表盘"></a>数据存储卷的仪表盘</h1><p>仪表板–主页–性能–数据存储性能</p>
-<blockquote>
-<p>可以查看各个存储卷的性能以及虚拟机性能详情。</p>
-</blockquote>
 
       
     </div>
