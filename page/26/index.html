@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,101 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ab2683b3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ab2683b3/" class="post-title-link" itemprop="url">Linux的openssl升级</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-09 23:51:58" itemprop="dateCreated datePublished" datetime="2020-12-09T23:51:58+00:00">2020-12-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>由于 OpenSSL 存在安全漏洞，官方建议升级至 OpenSSL 1.1.1 i 版本。</p>
+<h1 id="升级操作"><a href="#升级操作" class="headerlink" title="升级操作"></a>升级操作</h1><p>去官网下载安装包。</p>
+<h2 id="CentOS的编译安装"><a href="#CentOS的编译安装" class="headerlink" title="CentOS的编译安装"></a>CentOS的编译安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译安装需要提前安装好 gcc 和 make</span></span><br><span class="line">yum install gcc make</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入解压openssl目录</span></span><br><span class="line">tar xvf ./openssl-1.1.1i.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入解压后的目录</span></span><br><span class="line"><span class="built_in">cd</span> ./openssl-1.1.1i</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行配置文件，安装在 /usr/local/openssl</span></span><br><span class="line">./config --prefix=/usr/local/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行编译并安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将原本的openssl删除或重命名</span></span><br><span class="line">whereis openssl</span><br><span class="line"><span class="built_in">mv</span> /usr/bin/openssl /usr/bin/openssl.old</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建新版openssl的软连接</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/bin/openssl /usr/bin/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证openssl是否可用</span></span><br><span class="line">openssl version</span><br></pre></td></tr></table></figure>
+
+<p>如果不可以用，可能是libssl.so.1.1 和 libcrypto.so.1.1 依赖出现问题，可以参照一下以下指令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先要确认依赖的位置</span></span><br><span class="line">ldd /usr/local/openssl/bin/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建依赖的软连接</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libssl.so.1.1 /usr/lib64/libssl.so.1.1</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ubuntu-18-04-Ubuntu-20-04"><a href="#Ubuntu-18-04-Ubuntu-20-04" class="headerlink" title="Ubuntu 18.04 , Ubuntu 20.04"></a>Ubuntu 18.04 , Ubuntu 20.04</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译安装需要提前安装好 gcc 和 make</span></span><br><span class="line">apt-get install gcc make</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入解压openssl目录</span></span><br><span class="line">tar xvf ./openssl-1.1.1i.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入解压后的目录</span></span><br><span class="line"><span class="built_in">cd</span> ./openssl-1.1.1i</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行配置文件，安装在 /usr/local/openssl</span></span><br><span class="line">./config --prefix=/usr/local/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行编译并安装</span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将原本的openssl删除或重命名</span></span><br><span class="line">whereis openssl</span><br><span class="line"><span class="built_in">mv</span> /usr/bin/openssl /usr/bin/openssl.old</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建新版openssl的软连接</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/bin/openssl /usr/bin/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证openssl是否可用</span></span><br><span class="line">openssl version</span><br></pre></td></tr></table></figure>
+
+<p>如果不可以用，可能是libssl.so.1.1 和 libcrypto.so.1.1 依赖出现问题，可以参照一下以下指令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先要确认依赖的位置</span></span><br><span class="line">ldd /usr/local/openssl/bin/openssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建依赖的软连接</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libssl.so.1.1 /usr/lib/libssl.so.1.1</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/openssl/lib/libcrypto.so.1.1 /usr/lib/libcrypto.so.1.1</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1052,101 +1147,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/332656a6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/332656a6/" class="post-title-link" itemprop="url">记一次光模块导致的故障</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-11-25 00:31:49" itemprop="dateCreated datePublished" datetime="2020-11-25T00:31:49+00:00">2020-11-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ul>
-<li>OS做Bond始终无法与交换机协商成功。</li>
-<li>OS单独的网口配置完成后，无法ping通网关。</li>
-<li>交换机上面能看到端口启用，但是无法看到协商成功的表述或者MAC地址。</li>
-<li>光模块外观看到发射光信号正常。</li>
-<li>OS上面看到接口是linked的状态。</li>
-</ul>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>间接原因: 跟换模块后恢复<br>根本原因：未知</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>更换其他模块使用即可。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/25/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/27/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/25/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/27/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="实验背景有一台虚拟机，带有两张网卡，分别为内网功能与外网功能；现做一下实验，以实现内网通讯或外网通讯； 虚拟机网络配置如下    IP 网卡名 作用    1.0.0.1 ens19 用于访问外网，跟宿主机同一个网段   2.0.0.1 ens18 用于访问内网，跟内部服务的服务器一个网段   参与实验的角色：  带有双网卡的试验机（虚拟机）； 虚拟机所在的宿主机；  访问外网实验期望用 1.0.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PVE-虚拟机网络实验记录">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/52af3966/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="实验背景有一台虚拟机，带有两张网卡，分别为内网功能与外网功能；现做一下实验，以实现内网通讯或外网通讯； 虚拟机网络配置如下    IP 网卡名 作用    1.0.0.1 ens19 用于访问外网，跟宿主机同一个网段   2.0.0.1 ens18 用于访问内网，跟内部服务的服务器一个网段   参与实验的角色：  带有双网卡的试验机（虚拟机）； 虚拟机所在的宿主机；  访问外网实验期望用 1.0.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-30T04:39:25.000Z">
+<meta property="article:modified_time" content="2025-11-30T14:33:41.183Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="TODO">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/52af3966/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/52af3966/","path":"posts/52af3966/","title":"PVE-虚拟机网络实验记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PVE-虚拟机网络实验记录 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">实验背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E5%AE%9E%E9%AA%8C"><span class="nav-number">1.1.</span> <span class="nav-text">访问外网实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E5%A6%82%E6%B2%A1%E6%9C%89%E8%AE%BE%E7%BD%AE%E7%BD%91%E5%85%B3"><span class="nav-number">1.1.1.</span> <span class="nav-text">假如没有设置网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E5%A6%82%E5%8F%AA%E6%9C%89%E5%87%BA%E5%8C%85%EF%BC%8C%E6%B2%A1%E6%9C%89%E5%9B%9E%E5%8C%85"><span class="nav-number">1.1.2.</span> <span class="nav-text">假如只有出包，没有回包</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">461</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">151</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/52af3966/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PVE-虚拟机网络实验记录 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PVE-虚拟机网络实验记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-11-30 04:39:25 / Modified: 14:33:41" itemprop="dateCreated datePublished" datetime="2025-11-30T04:39:25+00:00">2025-11-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/PVE/" itemprop="url" rel="index"><span itemprop="name">PVE</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="实验背景"><a href="#实验背景" class="headerlink" title="实验背景"></a>实验背景</h1><p>有一台虚拟机，带有两张网卡，分别为内网功能与外网功能；现做一下实验，以实现内网通讯或外网通讯；</p>
+<p>虚拟机网络配置如下</p>
+<table>
+<thead>
+<tr>
+<th align="center">IP</th>
+<th align="center">网卡名</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1.0.0.1</td>
+<td align="center">ens19</td>
+<td align="center">用于访问外网，跟宿主机同一个网段</td>
+</tr>
+<tr>
+<td align="center">2.0.0.1</td>
+<td align="center">ens18</td>
+<td align="center">用于访问内网，跟内部服务的服务器一个网段</td>
+</tr>
+</tbody></table>
+<p>参与实验的角色：</p>
+<ol>
+<li>带有双网卡的试验机（虚拟机）；</li>
+<li>虚拟机所在的宿主机；</li>
+</ol>
+<h2 id="访问外网实验"><a href="#访问外网实验" class="headerlink" title="访问外网实验"></a>访问外网实验</h2><p>期望用 1.0.0.1 跟外部通讯，可以实现apt下载或DNS解析之类的服务；</p>
+<p>在试验机中发起ping 8.8.8.8；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p>在宿主机中监听icmp流量；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump icmp -n</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如没有设置网关"><a href="#假如没有设置网关" class="headerlink" title="假如没有设置网关"></a>假如没有设置网关</h3><p>试验机 ping 8.8.8.8 ，不存在默认路由，则会出现</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping: connect: Network is unreachable</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：添加网关或者添加路由策略；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加网关</span></span><br><span class="line">ip route add 0.0.0.0/0 via [gateway]</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如只有出包，没有回包"><a href="#假如只有出包，没有回包" class="headerlink" title="假如只有出包，没有回包"></a>假如只有出包，没有回包</h3><p>解决完网关问题后，试验机 ping 8.8.8.8 ， 依旧无法ping通，在宿主机中抓包，可以看到试验机的ip在ping 8.8.8.8，但没有回包；</p>
+<p>可能是路由器的问题，我将试验机改成DHCP后，即可与外网通讯；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置成DHCP后，看到虚拟机的路由策略有如下几个：</span></span><br><span class="line">ip route show</span><br><span class="line"><span class="comment"># 有如下记录</span></span><br><span class="line">default via [默认网关] dev ens18 proto dhcp src [dhcp后获取的IP] metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line">[默认网关] devens18 proto dhcp scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">default via 1.0.0.254 dev ens18 proto dhcp src 1.0.0.1 metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br><span class="line">1.0.0.254 devens18 proto dhcp scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br></pre></td></tr></table></figure>
+
+<p>结果发现是坑爹的路由器，不能配置1.0.0.1的IP，最低为10.0.0.2；</p>
+<p>解决方法：将试验机改为1.0.0.2即可解决问题；</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TODO/" rel="tag"># TODO</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/daff1950/" rel="prev" title="Photon Linux编写iptables策略并持久化保存">
+                  <i class="fa fa-angle-left"></i> Photon Linux编写iptables策略并持久化保存
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

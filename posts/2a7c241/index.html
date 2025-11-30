@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2017/02/021217_0051_6.png">
 <meta property="og:image" content="https://www.zsythink.net/wp-content/uploads/2017/05/051517_1411_1.png">
 <meta property="article:published_time" content="2025-07-27T05:28:19.000Z">
-<meta property="article:modified_time" content="2025-08-03T08:33:12.524Z">
+<meta property="article:modified_time" content="2025-11-30T14:33:29.886Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="iptables">
 <meta name="twitter:card" content="summary">
@@ -128,13 +128,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -202,7 +202,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-08-03 08:33:12" itemprop="dateModified" datetime="2025-08-03T08:33:12+00:00">2025-08-03</time>
+      <time title="Modified: 2025-11-30 14:33:29" itemprop="dateModified" datetime="2025-11-30T14:33:29+00:00">2025-11-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -323,8 +323,11 @@
 <li>对外发布服务，需要挂载同一个地址发布，隐藏服务器的真实IP；</li>
 </ol>
 <p>实验路径： 外网区域 –&gt; 边界区域 –&gt; 内网区域</p>
-<h4 id="边界防火墙iptables配置方式-1"><a href="#边界防火墙iptables配置方式-1" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一步，配置DNAT</span></span><br><span class="line"><span class="comment"># 将所有访问192.168.1.254:22的请求，转化为访问192.169.1.1:22</span></span><br><span class="line">iptables -t nat -I PREROUTING -d 192.168.1.254 -p tcp --dport 22 -j DNAT --to-destination 192.169.1.1:22</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t nat -I PREROUTING , 表示在nat表中的PREROUTING链中配置DNAT规则，DNAT规则只配置在PREROUTING链与OUTPUT链中。</span></span><br><span class="line"><span class="comment"># -d 192.168.1.254 -p tcp --dport 22,表示报文的目标地址为公网IP地址，目标端口为tcp的22号端口；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -j DNAT --to-destination 192.169.1.1:22 ，表示对符合报文进行DNAT，将目的地址与目的端口修改为192.169.1.1:22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二部，配置SNAT【不一定需要，看实际环境再决定，例如在同一个网关中，则不需要】</span></span><br><span class="line"><span class="comment"># 将所有来自192.169.1.1:22的回包，转化为192.168.1.254</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br></pre></td></tr></table></figure>
+<h4 id="边界防火墙iptables配置方式-1"><a href="#边界防火墙iptables配置方式-1" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一步，配置DNAT</span></span><br><span class="line"><span class="comment"># 将所有访问192.168.1.254:22的请求，转化为访问192.169.1.1:22</span></span><br><span class="line">iptables -t nat -I PREROUTING -d 192.168.1.254 -p tcp --dport 22 -j DNAT --to-destination 192.169.1.1:22</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t nat -I PREROUTING , 表示在nat表中的PREROUTING链中配置DNAT规则，DNAT规则只配置在PREROUTING链与OUTPUT链中。</span></span><br><span class="line"><span class="comment"># -d 192.168.1.254 -p tcp --dport 22,表示报文的目标地址为公网IP地址，目标端口为tcp的22号端口；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -j DNAT --to-destination 192.169.1.1:22 ，表示对符合报文进行DNAT，将目的地址与目的端口修改为192.169.1.1:22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二部，配置SNAT【不一定需要，看实际环境再决定，例如在同一个网关中，则不需要】</span></span><br><span class="line"><span class="comment"># 将所有来自192.169.1.1:22的回包，转化为192.168.1.254</span></span><br><span class="line">[2025-11-30勘误][错误] iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br><span class="line">[2025-11-30勘误][修正] iptables -t nat -A POSTROUTING -d 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>2025-11-30:上文说到的 “iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT –to-source 192.168.1.254”是错误的，比如192.168.1.1 访问192.168.1.254:22 的请求会转发至 192.169.1.1:22 ；192.169.1.1收到此请求后，会直接丢给192.168.1.1，但是192.168.1.1是直接访问192.168.1.254的，自然无法接收到此回包；因此SNAT策略无法命中，正确的写法应该是将”-s”变更为”-d”;</p>
+</blockquote>
 <h4 id="FORWARD表配置方式"><a href="#FORWARD表配置方式" class="headerlink" title="FORWARD表配置方式"></a>FORWARD表配置方式</h4><p>在DNAT策略编写完成后，访问 192.168.1.254:22 的流量，会经由DNAT策略变更为访问 192.169.1.1:22 的流量；此流量会进入 FORWARD 表 ，进行转发；因此FORWARD表要做好限制，避免权限扩大。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初级写法</span></span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -p tcp --dport 22 -j ACCEPT</span><br><span class="line"><span class="comment"># 此策略下发后，虽然能让DNAT的流量访问顺利通过；但是也使所有经由192.168.1.254的访问流量，可以自动转发至 192.168.1.1 22，即可以直接访问 192.168.1.1:22；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 而我只想转发DNAT的流量;可以基于connstrack模块，增加对DNAT流量的判断，可以这么写</span></span><br><span class="line">iptbales -I FORWARD -d 192.168.1.1 -m connstrack --ctstate DNAT -j ACCEPT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从安全性方面可以进一步设置，对于22端口的访问，仅允许DNAT流量，其他的流量全部拦截：</span></span><br><span class="line"><span class="comment"># 1. 默认策略为拦截</span></span><br><span class="line">iptables -P FORWARD DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 所有连接状态为连接才允许放通，这就使回包策略也放通了</span></span><br><span class="line">iptables -I FORWARE -m conntrack --ctstate ESTABLISHED -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 仅放通DNAT的22端口流量</span></span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -p tcp --dport 22 -m conntrack --ctstate DNAT -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 拒绝所有直接访问的流量</span></span><br><span class="line">iptables -A FORWARD -d 192.168.1.1 -p tcp --dport 22 -j DROP</span><br></pre></td></tr></table></figure>
 

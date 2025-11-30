@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,118 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e455ff7e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/e455ff7e/" class="post-title-link" itemprop="url">Vmware给Linux虚拟机热添加硬盘并创建LVM分区实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-07 22:46:14" itemprop="dateCreated datePublished" datetime="2018-11-07T22:46:14+00:00">2018-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一般情况下，虚拟机肯定会有硬盘扩容的需求，而且大多数生产环境下，机器还不允许关机添加。目前遇到可以热添加的是Vmware的虚拟机，用的scsi硬盘，因此做一下操作记录，以便复习。</p>
+<h1 id="操作记录"><a href="#操作记录" class="headerlink" title="操作记录"></a>操作记录</h1><p>在Vmware的控制面板上，添加scsi硬盘即可。</p>
+<p>进入Linux系统则需要扫描scsi硬件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输入以下指令</span></span><br><span class="line">echo &quot;- - -&quot; &gt; /sys/class/scsi_host/host*/scan</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">这里 - - - 之间有两个空格</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">host* 不会生效，目前不知道原因</span></span><br></pre></td></tr></table></figure>
+
+<p>改进版扫描脚本v1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">hostNumber=0</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">因为 scsi_host 文件夹下又33个host文件夹</span></span><br><span class="line">while [ $hostNumber -l 33]</span><br><span class="line">do</span><br><span class="line">    echo &quot;$hostNumber. host has been scaned.&quot;</span><br><span class="line">    echo &quot;- - -&quot; &gt; /sys/class/scsi_host/host$hostNumber/scan</span><br><span class="line">    hostNumber=$(( hostNumber + 1 ))</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>给脚本添加执行权限即可。</p>
+<p>运行脚本后，扫描到新添加的硬盘 sdb ，接下来开始创建LVM分区</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---fdisk---</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建分区</span></span><br><span class="line">n</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">选择主分区</span></span><br><span class="line">p</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">分区编号，默认为1</span></span><br><span class="line">1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">起始扇区 ，默认即可</span></span><br><span class="line">回车</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">结束扇区，默认即可</span></span><br><span class="line">回车</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更改分区类型</span></span><br><span class="line">t</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">选择需要更改的分区</span></span><br><span class="line">1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">改为 LVM 类型</span></span><br><span class="line">8e</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">写入分区表</span></span><br><span class="line">w</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---fdisk---</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 pv</span></span><br><span class="line">pvcreate /dev/sdb1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 vg</span></span><br><span class="line">vgcreate vg-data /dev/sdb1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建 lv</span></span><br><span class="line">lvcreate -n lv-data -l 100%VG vg-data</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">格式化lv</span></span><br><span class="line">mkfs.ext4 /dev/vg-data/lv-data</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">挂载lv</span></span><br><span class="line">mount /dev/vg-data/lv-data /data</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改 fstab 列表</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---fstab---</span></span><br><span class="line">/dev/mapper/vg-data-lv-data /data ext4 default 0 0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---fstab---</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h1><h2 id="Linux系统SCSI磁盘扫描机制解析及命令详细介绍"><a href="#Linux系统SCSI磁盘扫描机制解析及命令详细介绍" class="headerlink" title="Linux系统SCSI磁盘扫描机制解析及命令详细介绍"></a>Linux系统SCSI磁盘扫描机制解析及命令详细介绍</h2><p>Linux系统提供多重机制以重新扫描SCSI总线并重认系统中加入的SCSI设备。<br>在2.4内核方案中，由于动态LUN扫描机制不具备一致性，往往需要中断I&#x2F;O。<br>在2.6内核里，LUN扫描有了显著改进并添加了动态LUN扫描机制。<br>Linux目前缺乏像drvconfig或ioscan那样允许动态SCSI通道重配的命令。</p>
+<p>Linux主机对磁盘设备进行重新配置的方式包括：</p>
+<ul>
+<li>重启系统</li>
+<li>卸载并重新加载HBA驱动模块</li>
+<li>echo &#x2F;proc下的SCSI设备列表</li>
+<li>通过&#x2F;sys下的属性设置运行SCSI扫描</li>
+<li>通过HBA厂商脚本运行SCSI扫描</li>
+</ul>
+<h3 id="系统重启"><a href="#系统重启" class="headerlink" title="系统重启"></a>系统重启</h3><p>重启主机是检测新添加磁盘设备的可靠方式。在所有I&#x2F;O停止之后方可重启主机，同时静态或以模块方式连接磁盘驱动。系统初始化时会扫描PCI总线，因此挂载其上的SCSI host adapter会被扫描到，并生成一个PCI device。之后扫描软件会为该PCI device加载相应的驱动程序。加载SCSI host驱动时，其探测函数会初始化SCSI host，注册中断处理函数，最后调用scsi_scan_host函数扫描scsi host adapter所管理的所有scsi总线。</p>
+<h3 id="重新加载HBA驱动"><a href="#重新加载HBA驱动" class="headerlink" title="重新加载HBA驱动"></a>重新加载HBA驱动</h3><p>通常情况下，HBA驱动在系统中以模块形式加载。从而允许模块被卸载并重新加载，在该过程中SCSI扫描函数得以调用。通常，在卸载HBA驱动之前，SCSI设备的所有I&#x2F;O都应该停止，卸载文件系统，多路径服务应用也需停止。如果有代理或HBA应用帮助模块，也应当中止。</p>
+<p>命令示例：<br>例如，rac节点上某台服务器执行fdisk –l命令看不到共享磁盘，可尝试执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 卸载驱动</span></span><br><span class="line">modprobe -r lpfc</span><br><span class="line"><span class="comment"># 加载驱动</span></span><br><span class="line">modprobe lpfc</span><br></pre></td></tr></table></figure>
+
+<h3 id="proc下SCSI扫描"><a href="#proc下SCSI扫描" class="headerlink" title="&#x2F;proc下SCSI扫描"></a>&#x2F;proc下SCSI扫描</h3><p>2.4内核中，&#x2F;proc文件系统提供了可用SCSI设备的列表。如果系统中SCSI设备重新配置，那么所有这些改变通过echo &#x2F;proc接口反映到SCSI设备中。添加一个设备，主机，channel，target ID，以及磁盘设备的LUN编号会被添加到&#x2F;proc&#x2F;scsi&#x2F;，需指定scsi编号。</p>
+<p>命令示例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0：主机ID</span></span><br><span class="line"><span class="comment"># 1：channel ID</span></span><br><span class="line"><span class="comment"># 2：target ID</span></span><br><span class="line"><span class="comment"># 3：LUN编号</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;scsi add-single-device 0 1 2 3&quot;</span> &gt; /proc/scsi/scsi</span><br></pre></td></tr></table></figure>
+
+<p>该命令会将新磁盘设备添加到&#x2F;proc&#x2F;scsi&#x2F;scsi文件中。如果没有找到相应文件，需为&#x2F;dev路径下新增磁盘设备创建设备文件名。<br>如果要删除一个磁盘设备，使用适当的主机，channel，target ID及LUN编号运行如下格式命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0：主机ID</span></span><br><span class="line"><span class="comment"># 1：channel ID</span></span><br><span class="line"><span class="comment"># 2：target ID</span></span><br><span class="line"><span class="comment"># 3：LUN编号</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;scsi remove-single-device 0 1 2 3&quot;</span> &gt; /proc/scsi/scsi</span><br></pre></td></tr></table></figure>
+
+<h3 id="sys下SCSI扫描"><a href="#sys下SCSI扫描" class="headerlink" title="&#x2F;sys下SCSI扫描"></a>&#x2F;sys下SCSI扫描</h3><p>2.6内核中，HBA驱动将SCAN功能导出至&#x2F;sys目录下，可用来重新扫描该接口下的SCSI磁盘设备。命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /sys/class/scsi_host/host4/</span><br><span class="line"><span class="built_in">ls</span> -al scan</span><br><span class="line"><span class="built_in">echo</span> ‘- - -’ &gt; scan</span><br><span class="line"><span class="comment"># ‘- - -’代表channel，target和LUN编号。以上命令会导致hba4下所有channel，target以及可见LUN被扫描。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RHEL5 或SUSE10：</span></span><br><span class="line"><span class="built_in">echo</span> ‘- - -’ &gt; /sys/class/scsi_host/host0/scan</span><br><span class="line"><span class="comment">#/sys/class/scsi_host/ 下面有几个host 就扫描几次</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># RHEL4 或SUSE9：</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt;&gt; /sys/class/scsi_host/host0/issue_lip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同样是/sys/class/scsi_host/ 下面有几个host 就执行几次</span></span><br><span class="line"><span class="built_in">echo</span> ‘- - -’ &gt;&gt; /sys/class/scsi_host/host0/scan</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.jb51.net/LINUXjishu/67115.html">https://www.jb51.net/LINUXjishu/67115.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1149,188 +1261,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5a167b4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/5a167b4/" class="post-title-link" itemprop="url">KVM-变更篇</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-27 22:02:02" itemprop="dateCreated datePublished" datetime="2018-10-27T22:02:02+00:00">2018-10-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="实验环境信息"><a href="#实验环境信息" class="headerlink" title="实验环境信息"></a>实验环境信息</h1><ul>
-<li>OS:CentOS-6.9-Server-Minimal</li>
-<li>CPU:2u</li>
-<li>Memory:4GB</li>
-<li>运行在 Vmware Fusion 专业版 8.0.0</li>
-<li>开启虚拟化管理程序</li>
-</ul>
-<h1 id="To-Do-list"><a href="#To-Do-list" class="headerlink" title="To-Do list"></a>To-Do list</h1><ul>
-<li>为VM的磁盘扩容<ul>
-<li>Windows 扩容<ul>
-<li>修改XML，添加IDE硬盘。[完成时间：20181103]</li>
-<li>修改XML文件，添加virtio硬盘。</li>
-<li>使用attach-disk，添加硬盘。[完成时间：20181104]</li>
-</ul>
-</li>
-<li>Linux 扩容<ul>
-<li>Ubuntu</li>
-<li>Centos [完成时间:20181104]</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>为VM的内存扩容[完成时间：20181104]</li>
-<li>调整VM的CPU资源[完成时间：20181104]</li>
-<li>任意挂载ISO镜像，重装系统。 [完成时间：20181104]</li>
-<li>更改网卡连接模式</li>
-</ul>
-<h1 id="变更操作"><a href="#变更操作" class="headerlink" title="变更操作"></a>变更操作</h1><h2 id="修改-XML-文件"><a href="#修改-XML-文件" class="headerlink" title="修改 XML 文件"></a>修改 XML 文件</h2><p>一般需要修改XML的，无非是重新加载 ISO 镜像 或者 内存变更 、 硬盘变更 等资源的变更。</p>
-<p>操作基本都是在VM关机的情况下进行，而基本流程分为以下三步：</p>
-<ol>
-<li>修改xml文件，即 virsh edit (VM-Name)</li>
-<li>再启动VM</li>
-</ol>
-<blockquote>
-<p>网络变更，可以在不关机的情况下更改吗？ 类似于Vsphere更改交换机与连接模式那样？</p>
-</blockquote>
-<p>接下来都是XML内容的变更与讲解</p>
-<h3 id="修改启动项"><a href="#修改启动项" class="headerlink" title="修改启动项"></a>修改启动项</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">os</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">type</span> <span class="attr">arch</span>=<span class="string">&#x27;x86_64&#x27;</span> <span class="attr">machine</span>=<span class="string">&#x27;pc-i440fx-2.8&#x27;</span>&gt;</span>hvm<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">   //type参数指定了虚拟机操作系统的类型，内容：hvm表明该OS被设计为直接运行在裸金属上面，需要全虚拟化，</span><br><span class="line">   //而linux(一个不好的名字)指OS支 持XEN3hypervisor的客户端ABI，</span><br><span class="line">   //type同样有两个可选参数：arch指定虚拟机的CPU构架，machine指定机器的类型。</span><br><span class="line">   <span class="tag">&lt;<span class="name">boot</span> <span class="attr">dev</span>=<span class="string">&#x27;hd&#x27;</span>/&gt;</span></span><br><span class="line">   //dev属性的值可以是：fd、hd、cdrom、network，它经常被用来指定下一次启动。boot的元素可以被设置多个用来建立一个启动优先规则。</span><br><span class="line">   <span class="tag">&lt;<span class="name">bootmenu</span> <span class="attr">enable</span>=<span class="string">&#x27;yes&#x27;</span> <span class="attr">timeout</span>=<span class="string">&#x27;0&#x27;</span>/&gt;</span></span><br><span class="line">   //这里的timeout设置无效。</span><br><span class="line">   <span class="tag">&lt;<span class="name">bios</span> <span class="attr">useserial</span>=<span class="string">&#x27;yes&#x27;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;/<span class="name">os</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="以修改XML文件的方式添加硬盘"><a href="#以修改XML文件的方式添加硬盘" class="headerlink" title="以修改XML文件的方式添加硬盘"></a>以修改XML文件的方式添加硬盘</h3><p>使用 virsh attach-disk 去添加硬盘，见后面的命令说明。</p>
-<p>由于IDE不支持热插拔，但其他的方式因为 IO 不支持，所以需要我暂时用 IDE 的连接方式创建硬盘，完整过程如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建一个新的磁盘，格式为qcow2 ， 大小为2GB</span></span><br><span class="line">qemu-img create -f qcow2 /opt/windows.disk2.qcow2 2G</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加进WindowsServer的XML文件,虚拟机名为windows ， 命令格式为 virsh edit [domain]</span></span><br><span class="line">virsh edit windows</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在Driver标签内，添加以下内容。</span></span><br><span class="line">&lt;disk type=&#x27;file&#x27; device=&#x27;disk&#x27;&gt;</span><br><span class="line">      &lt;driver name=&#x27;qemu&#x27; type=&#x27;qcow2&#x27; cache=&#x27;none&#x27;/&gt;</span><br><span class="line">      &lt;source file=&#x27;/opt/windows.qcow2.disk2&#x27;/&gt;</span><br><span class="line">      &lt;target dev=&#x27;hdb&#x27; bus=&#x27;ide&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;drive&#x27; controller=&#x27;0&#x27; bus=&#x27;0&#x27; target=&#x27;0&#x27; unit=&#x27;1&#x27;/&gt;</span><br><span class="line">&lt;/disk&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加进windows虚拟机的硬盘并不会马上显示，需要重新格式化</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">以下为在windows的CMD界面中操作命令</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入windows专用的分区工具</span></span><br><span class="line">diskpart</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">----- DISKPART SHELL -----</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看当前系统有多少块磁盘</span></span><br><span class="line">list disk</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可以看到多了一块磁盘 ， disk 1</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入 磁盘 1 ，需要对磁盘1 进行分区操作</span></span><br><span class="line">select disk 2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清除磁盘 [To-Do] 这个步骤是否必要？</span></span><br><span class="line">clean</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建分区 ， 创建主分区</span></span><br><span class="line">create partition primary</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">[To-Do]active 的意义是?</span></span><br><span class="line">active</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">格式化分区</span></span><br><span class="line">format fs=ntfs label=&quot;Disk2&quot; quick</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">挂载至系统</span></span><br><span class="line">assign</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Widows系统-以attach-disk的方式添加硬盘"><a href="#Widows系统-以attach-disk的方式添加硬盘" class="headerlink" title="Widows系统 以attach-disk的方式添加硬盘"></a>Widows系统 以attach-disk的方式添加硬盘</h3><p>采用 virsh attach-disk 添加的硬盘，需要安装virtio驱动。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">virsh attach-disk [domain] [<span class="built_in">source</span>] [target]</span></span><br><span class="line">virsh attach-disk windows /opt/source.img vda</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">需要在Windows中安装驱动</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Linux系统-以attach-disk的方式添加硬盘"><a href="#Linux系统-以attach-disk的方式添加硬盘" class="headerlink" title="Linux系统 以attach-disk的方式添加硬盘"></a>Linux系统 以attach-disk的方式添加硬盘</h3><p>添加的时候要指定好参数，否则会因为格式不对而导致硬盘无法读写。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">virsh attach-disk --domain linux --source /opt/test.img --target vdd --driver qemu --subdriver qcow2 --sourcetype file --cache none --config --persistent</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--subdriver qcow2 指定磁盘类型</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--config 写入xml文件，永久生效</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--persistent 在线添加，立刻生效</span></span><br></pre></td></tr></table></figure>
-<h4 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h4><ul>
-<li><p>Windows Server 2012 R2 加载virtio的硬盘会提示 ， “由于管理员设置的策略，该磁盘处于脱机状态“<br>  * </p>
-</li>
-<li><p>如果bus不同，可能会导致虚拟机无法启动，IDE的bus区分是怎么的？ Unit是如何？</p>
-<ul>
-<li>[To-Do]</li>
-</ul>
-</li>
-<li><p>采用attach-disk添加，默认的扫描设置是扫描所有的磁盘，由于多路径的问题，多块磁盘前面的元数据信息是一致的，导致PV信息相同，会报“Found duplicate PC….:using &#x2F;dev&#x2F;…. not &#x2F;dev&#x2F;….</p>
-<ul>
-<li>[To-Do]暂时无解决方法，如可立即生效则会导致PV出现这个问题，并且无法添加进lvm，建议还是关机修改xml文件或者使用attach-disk后，不要立即生效，重启虚拟机即可。</li>
-</ul>
-</li>
-<li><p>Requested operation is not valid: cannot do live update a device on inactive domain</p>
-<ul>
-<li>虚拟机启动了才可以添加。</li>
-</ul>
-</li>
-<li><p>unsupported configuration: disk bus ‘ide’ cannot be hotplugged.</p>
-<ul>
-<li>只能通过关机修改xml文件去添加 ide 硬盘。</li>
-</ul>
-</li>
-<li><p>Windows的Vm，以virtio方式连接的硬盘，无法格式化与修改。在DISKPART中显示为脱机状态。</p>
-<ul>
-<li>需要将硬盘初始化，并且设置为联机状体。</li>
-<li>可以通过diskpart<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">DISKPART&gt; </span><span class="language-bash">san</span></span><br><span class="line"><span class="meta prompt_">DISKPART&gt; </span><span class="language-bash">san policy=onlineall</span></span><br><span class="line"><span class="meta prompt_">DISKPART&gt;</span><span class="language-bash">list disk</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">选中脱机状态的磁盘</span></span><br><span class="line"><span class="meta prompt_">DISKPART&gt; </span><span class="language-bash"><span class="keyword">select</span> disk 1</span></span><br><span class="line"><span class="meta prompt_">DISKPART&gt;</span><span class="language-bash">attributes disk clear <span class="built_in">readonly</span></span></span><br><span class="line">online disk 1</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li>可以在【计算机管理】中，跳到磁盘管理，对问题磁盘右键，选择初始化。</li>
-</ul>
-</li>
-</ul>
-<h4 id="命令说明"><a href="#命令说明" class="headerlink" title="命令说明"></a>命令说明</h4><ul>
-<li>virsh edit</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">edit domain</span><br><span class="line">           Edit the XML configuration file for a domain, which will affect the</span><br><span class="line">           next boot of the guest.</span><br><span class="line"></span><br><span class="line">           This is equivalent to:</span><br><span class="line"></span><br><span class="line">            virsh dumpxml --inactive --security-info domain &gt; domain.xml</span><br><span class="line">            vi domain.xml (or make changes with your other text editor)</span><br><span class="line">            virsh define domain.xml</span><br><span class="line"></span><br><span class="line">           except that it does some error checking.</span><br><span class="line"></span><br><span class="line">           The editor used can be supplied by the $VISUAL or $EDITOR</span><br><span class="line">           environment variables, and defaults to &quot;vi&quot;.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>virsh attach-disk</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">attach-disk domain source target [[[--live] [--config] | [--current]] |</span><br><span class="line">       [--persistent]] [--driver driver] [--subdriver subdriver] [--cache</span><br><span class="line">       cache] [--type type] [--mode mode] [--sourcetype sourcetype] [--serial</span><br><span class="line">       serial] [--shareable] [--rawio] [--address address] [--multifunction]</span><br><span class="line"></span><br><span class="line">           Attach a new disk device to the domain.  </span><br><span class="line">           source is path for the files and devices. </span><br><span class="line">           target controls the bus or device under which the disk is exposed to the guest OS. It indicates the &quot;logical&quot; device name.  </span><br><span class="line">           driver can be file, tap or phy for the Xen hypervisor depending on the kind of access; or qemu for the QEMU emulator.</span><br><span class="line"></span><br><span class="line">           Further details to the driver can be passed using subdriver. For</span><br><span class="line">           Xen subdriver can be aio, while for QEMU subdriver should match the</span><br><span class="line">           format of the disk source, such as raw or qcow2.  Hypervisor</span><br><span class="line">           default will be used if subdriver is not specified.  However, the</span><br><span class="line">           default may not be correct, esp. for QEMU as for security reasons</span><br><span class="line">           it is configured not to detect disk formats.  type can indicate</span><br><span class="line">           lun, cdrom or floppy as alternative to the disk default, although</span><br><span class="line">           this use only replaces the media within the existing virtual cdrom</span><br><span class="line">           or floppy device; consider using update-device for this usage</span><br><span class="line">           instead.  mode can specify the two specific mode readonly or</span><br><span class="line">           shareable.  sourcetype can indicate the type of source (block|file)</span><br><span class="line">           cache can be one of &quot;default&quot;, &quot;none&quot;, &quot;writethrough&quot;, &quot;writeback&quot;,</span><br><span class="line">           &quot;directsync&quot; or &quot;unsafe&quot;.  serial is the serial of disk device.</span><br><span class="line">           shareable indicates the disk device is shareable between domains.</span><br><span class="line">           rawio indicates the disk needs rawio capability.  address is the</span><br><span class="line">           address of disk device in the form of pci:domain.bus.slot.function,</span><br><span class="line">           scsi:controller.bus.unit or ide:controller.bus.unit.  multifunction</span><br><span class="line">           indicates specified pci address is a multifunction pci device</span><br><span class="line">           address.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>DISKPART</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-san 显示或者设置当前的操作系统的SAN策略</span><br><span class="line">-san policy=onlineall</span><br><span class="line">-attributes 操纵卷或磁盘的属性</span><br></pre></td></tr></table></figure>
-<h3 id="修改内存"><a href="#修改内存" class="headerlink" title="修改内存"></a>修改内存</h3><p>直接修改XML文件中的memory标签值即可。这个允许操作宿主机的物理资源。（例如，宿主机只有2GB的内存，但VM分配了3GB的内存）</p>
-<h3 id="修改CPU资源"><a href="#修改CPU资源" class="headerlink" title="修改CPU资源"></a>修改CPU资源</h3><p>直接修改XML文件中的vcpu标签即可。</p>
-<h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><ul>
-<li>kvm的xml文件详解：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mrwuzs/p/8037058.html">https://www.cnblogs.com/mrwuzs/p/8037058.html</a></li>
-<li>官方xml文档：<a target="_blank" rel="noopener" href="https://libvirt.org/formatdomain.html">https://libvirt.org/formatdomain.html</a></li>
-<li>官网安装virtio，亲测centos6，无法使用dnf安装 ： <a target="_blank" rel="noopener" href="https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html">https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html</a></li>
-<li>安装virtio ： <a target="_blank" rel="noopener" href="http://blog.51cto.com/tryingstuff/1954531">http://blog.51cto.com/tryingstuff/1954531</a></li>
-<li>windows-kvm常见问题 ：<a target="_blank" rel="noopener" href="http://blog.51cto.com/zh888/1175476">http://blog.51cto.com/zh888/1175476</a></li>
-<li>硬盘添加实例：<a target="_blank" rel="noopener" href="https://blog.csdn.net/chengxuyuanyonghu/article/details/42144079">https://blog.csdn.net/chengxuyuanyonghu/article/details/42144079</a></li>
-<li>Windows的diskpart使用实例-创建：<a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/363872ec22e1336e4ba16f85.html">https://jingyan.baidu.com/article/363872ec22e1336e4ba16f85.html</a></li>
-<li>diskpart实例，较为详细：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kkfloat/article/details/5959205">https://blog.csdn.net/kkfloat/article/details/5959205</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/36/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/38/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/36/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/38/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

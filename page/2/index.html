@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,145 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7146a6a0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7146a6a0/" class="post-title-link" itemprop="url">IOS17不完美降级-iPad6降级记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-09-21 08:07:23 / Modified: 10:42:18" itemprop="dateCreated datePublished" datetime="2025-09-21T08:07:23+00:00">2025-09-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2018年买的iPad 6（型号：A1893），在25年不小心由IOS14更新至IOS17，使用起来非常卡，日常看B站视频都会卡顿，于是我一直在寻找方法降级，哪怕不完美降级也好；<br>终于在网上找到 turdus 降级方案，中文互联网有人说是 乌鸦 或者 乌鸫 本质上都是同一个东西，在这方面有一个UP主做的比较全面，把工具包集成到同一个脚本工具内，并免费发布；（小红书上很多人靠这个吃饭，不完美降级一次 95块，连工具包的名字都不改…）</p>
+<h2 id="前置条件："><a href="#前置条件：" class="headerlink" title="前置条件："></a>前置条件：</h2><ol>
+<li>待刷入的固件下载：来自爱思助手；</li>
+<li>工具包：玄烨苹果（<a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303%EF%BC%89%EF%BC%8CUP%E4%B8%BB%E5%B7%B2%E7%BB%8F%E5%B0%81%E8%A3%85%E4%BA%86%E5%B7%A5%E5%85%B7%E5%8C%85%E4%B8%BA1.0.4%E7%89%88%E6%9C%AC%EF%BC%9B">https://dkxuanye.cn/?p=11303），UP主已经封装了工具包为1.0.4版本；</a></li>
+<li>设备准备：一台Intel的MacBook（核心是要Intel+MACOS） 、 一根稳健的Light数据线、一台待刷机的 iPad；</li>
+<li>学习 iPad 怎么进入DFU模式；</li>
+<li>提前将 iPad 的数据做好备份；（数据无价，如果有重要数据一定要提前备份）</li>
+</ol>
+<h2 id="刷机流程"><a href="#刷机流程" class="headerlink" title="刷机流程"></a>刷机流程</h2><ol>
+<li>确定设备是否在turdus merula的支持范围内，A9、A10芯片的设备才支持；</li>
+<li>下载对应设备的固件，将固件放置在工具包目录中；</li>
+<li>确定设备完成数据备份后，将设备进入 DFU模式 模式，准备刷机；</li>
+<li>将设备连接PC，执行工具包，执行刷机；</li>
+<li>刷机完成后，再次将设备进入DFU模式，并执行工具包，进行引导开机；</li>
+</ol>
+<h2 id="MAC-OS下的刷机实操"><a href="#MAC-OS下的刷机实操" class="headerlink" title="MAC OS下的刷机实操"></a>MAC OS下的刷机实操</h2><ol>
+<li>MAC电脑要关闭系统完整性保护，在Mac的Recovery模式下，打开终端，输入 csrutil disable ；【这个东西会影响软件运行，可能会导致工具的一些脚本无法运行，参照<a target="_blank" rel="noopener" href="https://sspai.com/post/55066%E3%80%91">https://sspai.com/post/55066】</a></li>
+<li>设备先从爱思助手进入恢复模式，再进入DFU模式，DFU模式需要自己手动操作；【核心还是需要进入DFU模式】</li>
+<li>下载固件包，放置到软件工具的目录下；【这个要将固件与工具一起存放才可以运行工具】</li>
+<li>运行软件Dk_turdus merula，是一；</li>
+<li>输入6;【“开始刷机降级”】</li>
+<li>提示SEP和Baseband的时候，输入1，回车；</li>
+<li>清空手机数据提示时，输入YES，回车；</li>
+<li>将设备进入DFU模式；</li>
+<li>接入MAC，打开软件，输入7，开始引导；</li>
+<li>正常引导；</li>
+</ol>
+<h2 id="附：各个IOS版本测试记录"><a href="#附：各个IOS版本测试记录" class="headerlink" title="附：各个IOS版本测试记录"></a>附：各个IOS版本测试记录</h2><p>设备：iPad6(2018) , 型号A1893<br>OS：ios 17</p>
+<table>
+<thead>
+<tr>
+<th align="center">IOS 版本</th>
+<th align="center">是否能成功刷入</th>
+<th align="center">是否能激活</th>
+<th align="center">镜像说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">12.4.1</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">iPad6出厂自带的OS，流畅度最高，但没有深色模式之类的；大部分软件已经不支持在此版本下运行了，比如微信最低就要求IOS14</td>
+</tr>
+<tr>
+<td align="center">13.7.17</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">iPad OS的第一个版本，流畅度高，已有深色模式；</td>
+</tr>
+<tr>
+<td align="center">14.8</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">增加了Apple Pay ，有深色模式；自带壁纸是图标会小一些；支持Apple pencil；总体会有点卡</td>
+</tr>
+</tbody></table>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li>系统完整性保护： <a target="_blank" rel="noopener" href="https://sspai.com/post/55066">https://sspai.com/post/55066</a></li>
+<li>实操教程： <a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303">https://dkxuanye.cn/?p=11303</a></li>
+<li>视频教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -561,7 +700,7 @@ pie
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-08-03 08:33:12" itemprop="dateModified" datetime="2025-08-03T08:33:12+00:00">2025-08-03</time>
+      <time title="Modified: 2025-11-30 14:33:29" itemprop="dateModified" datetime="2025-11-30T14:33:29+00:00">2025-11-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -683,8 +822,11 @@ pie
 <li>对外发布服务，需要挂载同一个地址发布，隐藏服务器的真实IP；</li>
 </ol>
 <p>实验路径： 外网区域 –&gt; 边界区域 –&gt; 内网区域</p>
-<h4 id="边界防火墙iptables配置方式-1"><a href="#边界防火墙iptables配置方式-1" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一步，配置DNAT</span></span><br><span class="line"><span class="comment"># 将所有访问192.168.1.254:22的请求，转化为访问192.169.1.1:22</span></span><br><span class="line">iptables -t nat -I PREROUTING -d 192.168.1.254 -p tcp --dport 22 -j DNAT --to-destination 192.169.1.1:22</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t nat -I PREROUTING , 表示在nat表中的PREROUTING链中配置DNAT规则，DNAT规则只配置在PREROUTING链与OUTPUT链中。</span></span><br><span class="line"><span class="comment"># -d 192.168.1.254 -p tcp --dport 22,表示报文的目标地址为公网IP地址，目标端口为tcp的22号端口；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -j DNAT --to-destination 192.169.1.1:22 ，表示对符合报文进行DNAT，将目的地址与目的端口修改为192.169.1.1:22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二部，配置SNAT【不一定需要，看实际环境再决定，例如在同一个网关中，则不需要】</span></span><br><span class="line"><span class="comment"># 将所有来自192.169.1.1:22的回包，转化为192.168.1.254</span></span><br><span class="line">iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br></pre></td></tr></table></figure>
+<h4 id="边界防火墙iptables配置方式-1"><a href="#边界防火墙iptables配置方式-1" class="headerlink" title="边界防火墙iptables配置方式"></a>边界防火墙iptables配置方式</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一步，配置DNAT</span></span><br><span class="line"><span class="comment"># 将所有访问192.168.1.254:22的请求，转化为访问192.169.1.1:22</span></span><br><span class="line">iptables -t nat -I PREROUTING -d 192.168.1.254 -p tcp --dport 22 -j DNAT --to-destination 192.169.1.1:22</span><br><span class="line"></span><br><span class="line"><span class="comment"># -t nat -I PREROUTING , 表示在nat表中的PREROUTING链中配置DNAT规则，DNAT规则只配置在PREROUTING链与OUTPUT链中。</span></span><br><span class="line"><span class="comment"># -d 192.168.1.254 -p tcp --dport 22,表示报文的目标地址为公网IP地址，目标端口为tcp的22号端口；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -j DNAT --to-destination 192.169.1.1:22 ，表示对符合报文进行DNAT，将目的地址与目的端口修改为192.169.1.1:22</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二部，配置SNAT【不一定需要，看实际环境再决定，例如在同一个网关中，则不需要】</span></span><br><span class="line"><span class="comment"># 将所有来自192.169.1.1:22的回包，转化为192.168.1.254</span></span><br><span class="line">[2025-11-30勘误][错误] iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br><span class="line">[2025-11-30勘误][修正] iptables -t nat -A POSTROUTING -d 192.169.1.1 -j SNAT --to-source 192.168.1.254</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>2025-11-30:上文说到的 “iptables -t nat -A POSTROUTING -s 192.169.1.1 -j SNAT –to-source 192.168.1.254”是错误的，比如192.168.1.1 访问192.168.1.254:22 的请求会转发至 192.169.1.1:22 ；192.169.1.1收到此请求后，会直接丢给192.168.1.1，但是192.168.1.1是直接访问192.168.1.254的，自然无法接收到此回包；因此SNAT策略无法命中，正确的写法应该是将”-s”变更为”-d”;</p>
+</blockquote>
 <h4 id="FORWARD表配置方式"><a href="#FORWARD表配置方式" class="headerlink" title="FORWARD表配置方式"></a>FORWARD表配置方式</h4><p>在DNAT策略编写完成后，访问 192.168.1.254:22 的流量，会经由DNAT策略变更为访问 192.169.1.1:22 的流量；此流量会进入 FORWARD 表 ，进行转发；因此FORWARD表要做好限制，避免权限扩大。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初级写法</span></span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -p tcp --dport 22 -j ACCEPT</span><br><span class="line"><span class="comment"># 此策略下发后，虽然能让DNAT的流量访问顺利通过；但是也使所有经由192.168.1.254的访问流量，可以自动转发至 192.168.1.1 22，即可以直接访问 192.168.1.1:22；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 而我只想转发DNAT的流量;可以基于connstrack模块，增加对DNAT流量的判断，可以这么写</span></span><br><span class="line">iptbales -I FORWARD -d 192.168.1.1 -m connstrack --ctstate DNAT -j ACCEPT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从安全性方面可以进一步设置，对于22端口的访问，仅允许DNAT流量，其他的流量全部拦截：</span></span><br><span class="line"><span class="comment"># 1. 默认策略为拦截</span></span><br><span class="line">iptables -P FORWARD DROP</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 所有连接状态为连接才允许放通，这就使回包策略也放通了</span></span><br><span class="line">iptables -I FORWARE -m conntrack --ctstate ESTABLISHED -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 仅放通DNAT的22端口流量</span></span><br><span class="line">iptables -I FORWARD -d 192.168.1.1 -p tcp --dport 22 -m conntrack --ctstate DNAT -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 拒绝所有直接访问的流量</span></span><br><span class="line">iptables -A FORWARD -d 192.168.1.1 -p tcp --dport 22 -j DROP</span><br></pre></td></tr></table></figure>
 
@@ -1197,85 +1339,8 @@ pie
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/419d16d2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/419d16d2/" class="post-title-link" itemprop="url">ls</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-06-07 11:48:44" itemprop="dateCreated datePublished" datetime="2025-06-07T11:48:44+00:00">2025-06-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,133 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/52af3966/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/52af3966/" class="post-title-link" itemprop="url">PVE-虚拟机网络实验记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-11-30 04:39:25 / Modified: 14:33:41" itemprop="dateCreated datePublished" datetime="2025-11-30T04:39:25+00:00">2025-11-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/PVE/" itemprop="url" rel="index"><span itemprop="name">PVE</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="实验背景"><a href="#实验背景" class="headerlink" title="实验背景"></a>实验背景</h1><p>有一台虚拟机，带有两张网卡，分别为内网功能与外网功能；现做一下实验，以实现内网通讯或外网通讯；</p>
+<p>虚拟机网络配置如下</p>
+<table>
+<thead>
+<tr>
+<th align="center">IP</th>
+<th align="center">网卡名</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1.0.0.1</td>
+<td align="center">ens19</td>
+<td align="center">用于访问外网，跟宿主机同一个网段</td>
+</tr>
+<tr>
+<td align="center">2.0.0.1</td>
+<td align="center">ens18</td>
+<td align="center">用于访问内网，跟内部服务的服务器一个网段</td>
+</tr>
+</tbody></table>
+<p>参与实验的角色：</p>
+<ol>
+<li>带有双网卡的试验机（虚拟机）；</li>
+<li>虚拟机所在的宿主机；</li>
+</ol>
+<h2 id="访问外网实验"><a href="#访问外网实验" class="headerlink" title="访问外网实验"></a>访问外网实验</h2><p>期望用 1.0.0.1 跟外部通讯，可以实现apt下载或DNS解析之类的服务；</p>
+<p>在试验机中发起ping 8.8.8.8；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p>在宿主机中监听icmp流量；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump icmp -n</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如没有设置网关"><a href="#假如没有设置网关" class="headerlink" title="假如没有设置网关"></a>假如没有设置网关</h3><p>试验机 ping 8.8.8.8 ，不存在默认路由，则会出现</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping: connect: Network is unreachable</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：添加网关或者添加路由策略；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加网关</span></span><br><span class="line">ip route add 0.0.0.0/0 via [gateway]</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如只有出包，没有回包"><a href="#假如只有出包，没有回包" class="headerlink" title="假如只有出包，没有回包"></a>假如只有出包，没有回包</h3><p>解决完网关问题后，试验机 ping 8.8.8.8 ， 依旧无法ping通，在宿主机中抓包，可以看到试验机的ip在ping 8.8.8.8，但没有回包；</p>
+<p>可能是路由器的问题，我将试验机改成DHCP后，即可与外网通讯；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置成DHCP后，看到虚拟机的路由策略有如下几个：</span></span><br><span class="line">ip route show</span><br><span class="line"><span class="comment"># 有如下记录</span></span><br><span class="line">default via [默认网关] dev ens18 proto dhcp src [dhcp后获取的IP] metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line">[默认网关] devens18 proto dhcp scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">default via 1.0.0.254 dev ens18 proto dhcp src 1.0.0.1 metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br><span class="line">1.0.0.254 devens18 proto dhcp scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br></pre></td></tr></table></figure>
+
+<p>结果发现是坑爹的路由器，不能配置1.0.0.1的IP，最低为10.0.0.2；</p>
+<p>解决方法：将试验机改为1.0.0.2即可解决问题；</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1036,147 +1163,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7146a6a0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/7146a6a0/" class="post-title-link" itemprop="url">IOS17不完美降级-iPad6降级记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2025-09-21 08:07:23 / Modified: 10:42:18" itemprop="dateCreated datePublished" datetime="2025-09-21T08:07:23+00:00">2025-09-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2018年买的iPad 6（型号：A1893），在25年不小心由IOS14更新至IOS17，使用起来非常卡，日常看B站视频都会卡顿，于是我一直在寻找方法降级，哪怕不完美降级也好；<br>终于在网上找到 turdus 降级方案，中文互联网有人说是 乌鸦 或者 乌鸫 本质上都是同一个东西，在这方面有一个UP主做的比较全面，把工具包集成到同一个脚本工具内，并免费发布；（小红书上很多人靠这个吃饭，不完美降级一次 95块，连工具包的名字都不改…）</p>
-<h2 id="前置条件："><a href="#前置条件：" class="headerlink" title="前置条件："></a>前置条件：</h2><ol>
-<li>待刷入的固件下载：来自爱思助手；</li>
-<li>工具包：玄烨苹果（<a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303%EF%BC%89%EF%BC%8CUP%E4%B8%BB%E5%B7%B2%E7%BB%8F%E5%B0%81%E8%A3%85%E4%BA%86%E5%B7%A5%E5%85%B7%E5%8C%85%E4%B8%BA1.0.4%E7%89%88%E6%9C%AC%EF%BC%9B">https://dkxuanye.cn/?p=11303），UP主已经封装了工具包为1.0.4版本；</a></li>
-<li>设备准备：一台Intel的MacBook（核心是要Intel+MACOS） 、 一根稳健的Light数据线、一台待刷机的 iPad；</li>
-<li>学习 iPad 怎么进入DFU模式；</li>
-<li>提前将 iPad 的数据做好备份；（数据无价，如果有重要数据一定要提前备份）</li>
-</ol>
-<h2 id="刷机流程"><a href="#刷机流程" class="headerlink" title="刷机流程"></a>刷机流程</h2><ol>
-<li>确定设备是否在turdus merula的支持范围内，A9、A10芯片的设备才支持；</li>
-<li>下载对应设备的固件，将固件放置在工具包目录中；</li>
-<li>确定设备完成数据备份后，将设备进入 DFU模式 模式，准备刷机；</li>
-<li>将设备连接PC，执行工具包，执行刷机；</li>
-<li>刷机完成后，再次将设备进入DFU模式，并执行工具包，进行引导开机；</li>
-</ol>
-<h2 id="MAC-OS下的刷机实操"><a href="#MAC-OS下的刷机实操" class="headerlink" title="MAC OS下的刷机实操"></a>MAC OS下的刷机实操</h2><ol>
-<li>MAC电脑要关闭系统完整性保护，在Mac的Recovery模式下，打开终端，输入 csrutil disable ；【这个东西会影响软件运行，可能会导致工具的一些脚本无法运行，参照<a target="_blank" rel="noopener" href="https://sspai.com/post/55066%E3%80%91">https://sspai.com/post/55066】</a></li>
-<li>设备先从爱思助手进入恢复模式，再进入DFU模式，DFU模式需要自己手动操作；【核心还是需要进入DFU模式】</li>
-<li>下载固件包，放置到软件工具的目录下；【这个要将固件与工具一起存放才可以运行工具】</li>
-<li>运行软件Dk_turdus merula，是一；</li>
-<li>输入6;【“开始刷机降级”】</li>
-<li>提示SEP和Baseband的时候，输入1，回车；</li>
-<li>清空手机数据提示时，输入YES，回车；</li>
-<li>将设备进入DFU模式；</li>
-<li>接入MAC，打开软件，输入7，开始引导；</li>
-<li>正常引导；</li>
-</ol>
-<h2 id="附：各个IOS版本测试记录"><a href="#附：各个IOS版本测试记录" class="headerlink" title="附：各个IOS版本测试记录"></a>附：各个IOS版本测试记录</h2><p>设备：iPad6(2018) , 型号A1893<br>OS：ios 17</p>
-<table>
-<thead>
-<tr>
-<th align="center">IOS 版本</th>
-<th align="center">是否能成功刷入</th>
-<th align="center">是否能激活</th>
-<th align="center">镜像说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">12.4.1</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">iPad6出厂自带的OS，流畅度最高，但没有深色模式之类的；大部分软件已经不支持在此版本下运行了，比如微信最低就要求IOS14</td>
-</tr>
-<tr>
-<td align="center">13.7.17</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">iPad OS的第一个版本，流畅度高，已有深色模式；</td>
-</tr>
-<tr>
-<td align="center">14.8</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">增加了Apple Pay ，有深色模式；自带壁纸是图标会小一些；支持Apple pencil；总体会有点卡</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
-<li>系统完整性保护： <a target="_blank" rel="noopener" href="https://sspai.com/post/55066">https://sspai.com/post/55066</a></li>
-<li>实操教程： <a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303">https://dkxuanye.cn/?p=11303</a></li>
-<li>视频教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

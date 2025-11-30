@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">460</span>
+          <span class="site-state-item-count">461</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,145 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bba66a9b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/bba66a9b/" class="post-title-link" itemprop="url">Linux_正则表达式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 15:01:32" itemprop="dateCreated datePublished" datetime="2017-10-05T15:01:32+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>为了处理大量的字符串而定义的一套规则和方法 ， 通过定义特殊符号的辅助，系统管理员可以快速过滤、替换、输出需要的字符串。</p>
+<h3 id="基础正则表达式（BRE）"><a href="#基础正则表达式（BRE）" class="headerlink" title="基础正则表达式（BRE）"></a>基础正则表达式（BRE）</h3><p>| 符号 | 意义 |<br>|:—–:|:—–:|<br>|. |单个任意的字符|<br>|* |重复前面任意0个或多个字符|<br>|^x |表示以x开头|<br>|$x |表示以x结尾|<br>|^$|表示空行|<br>||忽略正则表达式中特殊字符的原有含义|<br>|&lt;|从匹配正则表达 式的行开始|<br>|&gt;|到匹配正则表达式的行结束|<br>|[]|单个字符，如[A]即A符合要求|<br>|[ - ]|范围，如[A-Z]，即A、B、C一直到Z都符合要求 。|</p>
+<h3 id="拓展的正则表达式"><a href="#拓展的正则表达式" class="headerlink" title="拓展的正则表达式"></a>拓展的正则表达式</h3><p>用命令 egrep 或者 用grep命令带-E参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ egrep -o &quot;go+d&quot; ...txt</span><br><span class="line"></span><br><span class="line">$ grep -Eo &quot;go+d&quot; ...txt</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>+重复一个或一个以上前面的字符。</li>
+<li>？重复0个或一个0前面的字符。</li>
+<li>|用‘或’的方法查找多个符合的字符串。</li>
+<li>（）找出‘用户组’字符串。</li>
+</ol>
+<h3 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h3><ol>
+<li>Linux 正则表达式一般以行为单位处理。</li>
+<li>alias grep&#x3D;’grep –color&#x3D;auto’</li>
+<li>注意字符集，LC_ALL&#x3D;C<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ export LC_ALL=C</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><p>运用与bash界面中。</p>
+<table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$</td>
+<td align="center">变量前面需要加的符号</td>
+</tr>
+<tr>
+<td align="center">&#x2F;</td>
+<td align="center">路径分隔符</td>
+</tr>
+<tr>
+<td align="center">&lt;</td>
+<td align="center">输入重定向</td>
+</tr>
+<tr>
+<td align="center">&lt;&lt;</td>
+<td align="center">追加重定向</td>
+</tr>
+<tr>
+<td align="center">｛｝</td>
+<td align="center">中间为命令区块组合或内容序列</td>
+</tr>
+<tr>
+<td align="center">！</td>
+<td align="center">逻辑非</td>
+</tr>
+<tr>
+<td align="center">&amp;&amp;</td>
+<td align="center">当前一个指令执行成功时，执行后一个指令</td>
+</tr>
+<tr>
+<td align="center">..</td>
+<td align="center">上一级目录</td>
+</tr>
+<tr>
+<td align="center">.</td>
+<td align="center">当前目录</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>||当前执行指令失败时，执行后一个指令|</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1249,310 +1388,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b360c266/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/b360c266/" class="post-title-link" itemprop="url">Linux学习中遇到的题目</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-02 21:28:20" itemprop="dateCreated datePublished" datetime="2017-10-02T21:28:20+00:00">2017-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="企业面试题-或者-课程练习题目"><a href="#企业面试题-或者-课程练习题目" class="headerlink" title="企业面试题 或者 课程练习题目"></a>企业面试题 或者 课程练习题目</h1><h2 id="如何查询-file-txt-文件-第20行到第30行的内容"><a href="#如何查询-file-txt-文件-第20行到第30行的内容" class="headerlink" title="如何查询 file.txt 文件 第20行到第30行的内容"></a>如何查询 file.txt 文件 第20行到第30行的内容</h2><p>查询一个xx.txt 20 - 30 行的内容</p>
-<ul>
-<li>M1:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># head -30 xx.txt | tail -11</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>M2：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># sed -n &#x27;20,30p&#x27; xx.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何过滤出已知目录（-home-，子目录下所有的一级目录"><a href="#如何过滤出已知目录（-home-，子目录下所有的一级目录" class="headerlink" title="如何过滤出已知目录（&#x2F;home&#x2F;)，子目录下所有的一级目录"></a>如何过滤出已知目录（&#x2F;home&#x2F;)，子目录下所有的一级目录</h2><p><em>M1:</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ls -l | grep &quot;^d&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-正则表达式"><a href="#【知识点】-正则表达式" class="headerlink" title="【知识点】 正则表达式"></a>【知识点】 正则表达式</h3><p>一些特殊的符号表示一些特殊的作用和功能</p>
-<table>
-<thead>
-<tr>
-<th align="center">符号</th>
-<th align="center">意义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">.</td>
-<td align="center">单个任意的字符</td>
-</tr>
-<tr>
-<td align="center">*</td>
-<td align="center">重复前面任意0个或多个字符</td>
-</tr>
-<tr>
-<td align="center">^x</td>
-<td align="center">表示以x开头</td>
-</tr>
-<tr>
-<td align="center">$x</td>
-<td align="center">表示以x结尾</td>
-</tr>
-</tbody></table>
-<p><em>M2:</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | grep /</span><br><span class="line"># ls -lF | grep &quot;/$&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-ls-F-指令"><a href="#【知识点】-ls-F-指令" class="headerlink" title="【知识点】 ls -F 指令"></a>【知识点】 ls -F 指令</h3><blockquote>
-<p>在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“&#x2F;”表示目录，“@”表示符号链接，“|”表示命令管道FIFO，“&#x3D;”表示sockets套接字。当文件为普通文件时，不输出任何标识符；</p>
-</blockquote>
-<p><em>M2.1 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lp | grep /</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-ls-p-指令"><a href="#【知识点】-ls-p-指令" class="headerlink" title="【知识点】 ls -p 指令"></a>【知识点】 ls -p 指令</h3><blockquote>
-<p>-p 指令表示给目录文件加上 ‘&#x2F;‘</p>
-</blockquote>
-<p><em>M3 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># find ./ -type d maxdepth 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】find的两个参数"><a href="#【知识点】find的两个参数" class="headerlink" title="【知识点】find的两个参数"></a>【知识点】find的两个参数</h3><blockquote>
-<p>-maxdepth&lt;目录层级&gt;：设置最大目录层级；</p>
-</blockquote>
-<p><em>M4 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tree -Ld 1</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-tree的参数"><a href="#【知识点】-tree的参数" class="headerlink" title="【知识点】 tree的参数"></a>【知识点】 tree的参数</h3><p>tree指令是用于显示目录树结构</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#安装</span><br><span class="line"># rpm -qa tree</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>-L 表示层数<br>-d b表示目录</p>
-</blockquote>
-<p><em>M5 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | awl &#x27;/^d/&#x27;</span><br></pre></td></tr></table></figure>
-
-<p><em>M6 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lF | sed -n &#x27;/^d/p&#x27;</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何切换会上一个路径"><a href="#如何切换会上一个路径" class="headerlink" title="如何切换会上一个路径"></a>如何切换会上一个路径</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd /temp</span><br><span class="line"># cd -</span><br></pre></td></tr></table></figure>
-
-<p>因为在环境变量中（‘env’）会存放着这个就路径的数据。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OLDPWD=/tmp</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何快速查找并显示到当前页面"><a href="#如何快速查找并显示到当前页面" class="headerlink" title="如何快速查找并显示到当前页面"></a>如何快速查找并显示到当前页面</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># ls -lrt</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-ls-的参数"><a href="#【知识点】-ls-的参数" class="headerlink" title="【知识点】 ls 的参数"></a>【知识点】 ls 的参数</h3><ul>
-<li>-r : 以文件名反序排列并输出目录内容列表；</li>
-<li>-t : 以文件修改时间排序。</li>
-<li>–color&#x3D;auto ,让查看的文件类型以不同的颜色显示。</li>
-</ul>
-<h3 id="如何将查找内容显示行号"><a href="#如何将查找内容显示行号" class="headerlink" title="如何将查找内容显示行号"></a>如何将查找内容显示行号</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#过滤内容</span><br><span class="line"># grep -n xxx.txt</span><br><span class="line"></span><br><span class="line">cat内容</span><br><span class="line"># cat -n xxx.txt</span><br><span class="line"></span><br><span class="line"># nl xxx.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="如何对不同开机启动级别设置自启服务？"><a href="#如何对不同开机启动级别设置自启服务？" class="headerlink" title="如何对不同开机启动级别设置自启服务？"></a>如何对不同开机启动级别设置自启服务？</h2><p>用 chkconfig 命令 以sshd为例子</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --level 35 sshd on</span><br><span class="line"></span><br><span class="line"># chkconfig --list sshd</span><br></pre></td></tr></table></figure>
-
-<h3 id="【知识点】-chkconfig-指令"><a href="#【知识点】-chkconfig-指令" class="headerlink" title="【知识点】 chkconfig 指令"></a>【知识点】 chkconfig 指令</h3><p>chkconfig管理脚本的要求。</p>
-<ol>
-<li>需要通过 &#x2F;etc&#x2F;init.d&#x2F;xxxx restart 格式正常重启服务。</li>
-<li>脚本开头需要如下两行。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig: 35 56 24</span><br><span class="line"># description : xxx linux test.</span><br></pre></td></tr></table></figure>
-
-<h2 id="解释一下Linux的1-6开机级别"><a href="#解释一下Linux的1-6开机级别" class="headerlink" title="解释一下Linux的1-6开机级别"></a>解释一下Linux的1-6开机级别</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0. 关机模式</span><br><span class="line">1. 单用户</span><br><span class="line">2. 无NFS的多用户模式</span><br><span class="line">3. 文本模式（完整的多用户模式）</span><br><span class="line">4. 未使用</span><br><span class="line">5. 图形模式</span><br><span class="line">6. 重启模式</span><br></pre></td></tr></table></figure>
-
-<h2 id="etc-目录为linux系统的默认的配置文件及服务启动命令的目录-，需要进行打包"><a href="#etc-目录为linux系统的默认的配置文件及服务启动命令的目录-，需要进行打包" class="headerlink" title="&#x2F;etc 目录为linux系统的默认的配置文件及服务启动命令的目录 ，需要进行打包"></a>&#x2F;etc 目录为linux系统的默认的配置文件及服务启动命令的目录 ，需要进行打包</h2><p>tar zcvf 路径【筐】 目标【苹果】</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar zcvf etc.gz /etc</span><br></pre></td></tr></table></figure>
-
-<h3 id="关于tar指令的参数"><a href="#关于tar指令的参数" class="headerlink" title="关于tar指令的参数"></a>关于tar指令的参数</h3><ul>
-<li>-c或–create：建立新的备份文件；</li>
-<li>-z或–gzip或–ungzip：通过gzip指令处理备份文件；</li>
-<li>-v或–verbose：显示指令执行过程；</li>
-<li>-f&lt;备份文件&gt;或–file&#x3D;&lt;备份文件&gt;：指定备份文件；</li>
-<li>-t或–list：列出备份文件的内容；</li>
-<li>-X,  –exclude-from  FILE ;</li>
-<li>-x或–extract或–get：从备份文件中还原文件；</li>
-</ul>
-<h2 id="etc目录为linux系统的默认的配置文件及服务启动命令的目录-，现需要进行打包（排除server目录）"><a href="#etc目录为linux系统的默认的配置文件及服务启动命令的目录-，现需要进行打包（排除server目录）" class="headerlink" title="&#x2F;etc目录为linux系统的默认的配置文件及服务启动命令的目录 ，现需要进行打包（排除server目录）##"></a>&#x2F;etc目录为linux系统的默认的配置文件及服务启动命令的目录 ，现需要进行打包（排除server目录）##</h2><p><em>M1 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar zcvf etc.gz --exclude=&quot;etc/server&quot; /etc</span><br></pre></td></tr></table></figure>
-
-<p><em>M2 :</em></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># touch exclude.list</span><br><span class="line"># echo /etc/server &gt;&gt; exclude.list</span><br><span class="line"># tar zcvfX etc.gz exclude.list /etc</span><br></pre></td></tr></table></figure>
-
-<h2 id="解压etc-gz-文件"><a href="#解压etc-gz-文件" class="headerlink" title="解压etc.gz 文件"></a>解压etc.gz 文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tar xf etc.gz /home</span><br></pre></td></tr></table></figure>
-
-<h2 id="取xxx-txt内容中的第3，第6列"><a href="#取xxx-txt内容中的第3，第6列" class="headerlink" title="取xxx.txt内容中的第3，第6列"></a>取xxx.txt内容中的第3，第6列</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># awk &#x27;&#123;print $3 &quot; &quot;$6&#125;&#x27; xxx.txt</span><br><span class="line"></span><br><span class="line"># cut -d&quot; &quot; -f3,6 xxx.txt</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>cut 是简单的取列的命令， -d指定分隔符，-f数字，取第几列的内容。</p>
-</blockquote>
-<h2 id="如果向磁盘写入数据提示如下错误-：-No-space-left-on-device，通过-df-h查看磁盘空间发现没满，请问可能是什么原因？"><a href="#如果向磁盘写入数据提示如下错误-：-No-space-left-on-device，通过-df-h查看磁盘空间发现没满，请问可能是什么原因？" class="headerlink" title="如果向磁盘写入数据提示如下错误 ： No space left on device，通过 df -h查看磁盘空间发现没满，请问可能是什么原因？"></a>如果向磁盘写入数据提示如下错误 ： No space left on device，通过 df -h查看磁盘空间发现没满，请问可能是什么原因？</h2><p>可能是inode数量被消耗尽了。</p>
-</br>
-
-<p>用 df -i 查看是否消耗尽了inode数量。</p>
-</br>
-
-<p>企业工作中邮件临时队列&#x2F;bar&#x2F;spool&#x2F;clientmquene这里很容易被大量小文件占满，导致”No space left on device”的错误。 clientmquene 目录只有安装了 sendmail服务，才会有。</p>
-<blockquote>
-<p>centOS5.8默认就会安装sendmail，centOS6.6默认就没有安装sendmail.</p>
-</blockquote>
-<h2 id="一个100M（100-000-K）-的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个"><a href="#一个100M（100-000-K）-的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个" class="headerlink" title="一个100M（100 000 K） 的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个"></a>一个100M（100 000 K） 的磁盘分区，分别写入1K的文件或写入1M的文件，分别可以写多少个</h2><ol>
-<li>默认风趣常规情况下，对大文件来讲inode是足够的。而block数量消耗的会更快，BLOCK为4k的情况，1M的文件不会有磁盘浪费情况，所以文件数量大概为 100 &#x2F; 1 &#x3D; 100 个。</li>
-<li>对于小文件 0.1 k ，inode 会消耗的更快。默认分区的时候block数量是大于inode数量的。</li>
-</ol>
-<p>【知识点】</p>
-<ul>
-<li>该题目是考察文件系统inode 和 block 的知识。</li>
-<li>Inode 是存放文件属性信息的 （也包含指向文件实体的指针），默认大小是128byte（c58），256（c64）。</li>
-<li>block 是存放文件实际内容的，默认大小 1K（boot）或者 4K（非系统分区默认给4K）。</li>
-<li>默认较大分区常规企业真实场景情况下，inode数量是足够的，而block数量晓得会更快。</li>
-</ul>
-<h2 id="为什么查询到目录至少有两个硬链接"><a href="#为什么查询到目录至少有两个硬链接" class="headerlink" title="为什么查询到目录至少有两个硬链接"></a>为什么查询到目录至少有两个硬链接</h2><p>因为每一目录都有 .&#x2F; 自身一个链接，..&#x2F;上级目录的链接。</p>
-<h2 id="为了防止木马入侵，文件和目录什么权限，安全临界点？"><a href="#为了防止木马入侵，文件和目录什么权限，安全临界点？" class="headerlink" title="为了防止木马入侵，文件和目录什么权限，安全临界点？"></a>为了防止木马入侵，文件和目录什么权限，安全临界点？</h2><blockquote>
-<p>思路 ： 要将文件或者目录 设置为 不能写与删。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目录 755 root root</span><br><span class="line"></span><br><span class="line">文件 644 root root</span><br></pre></td></tr></table></figure>
-
-<h2 id="项目-：-服务器用户权限管理改造方案与实施项目"><a href="#项目-：-服务器用户权限管理改造方案与实施项目" class="headerlink" title="项目 ： 服务器用户权限管理改造方案与实施项目"></a>项目 ： 服务器用户权限管理改造方案与实施项目</h2><h2 id="授权oldboy目录以及其子目录755的权限，请给出命令。"><a href="#授权oldboy目录以及其子目录755的权限，请给出命令。" class="headerlink" title="授权oldboy目录以及其子目录755的权限，请给出命令。"></a>授权oldboy目录以及其子目录755的权限，请给出命令。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chmod -R 755 oldboy</span><br></pre></td></tr></table></figure>
-
-<h2 id="将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令"><a href="#将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令" class="headerlink" title="将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令"></a>将oldboy目录以及其子目录的属主改为oldboy，组为root，请给出命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># chown -R oldboy.root oldboy</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加一个用户oldboy-，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录"><a href="#添加一个用户oldboy-，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录" class="headerlink" title="添加一个用户oldboy ，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录"></a>添加一个用户oldboy ，并指定属于sa组，要求组ID为801，uuid为808，并且不建立家目录，禁止其登录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># groupadd -g 801 sa</span><br><span class="line"># useradd -u 808 -M -s /sbin/nologin -g sa oldboy</span><br></pre></td></tr></table></figure>
-
-<h2 id="vim-命令编辑器快捷键复习"><a href="#vim-命令编辑器快捷键复习" class="headerlink" title="vim 命令编辑器快捷键复习"></a>vim 命令编辑器快捷键复习</h2><p>vim分为两种模式： 命令模式 与 编辑模式</p>
-<blockquote>
-<p>命令模式</p>
-</blockquote>
-<ul>
-<li>保存 ， Esc + wq + enter</li>
-<li>退出 ， Esc + q + enter</li>
-<li>光标强制移到文件的最后一行，shift + g</li>
-<li>光标移到开头 ， g + g</li>
-<li>将光标移到本行的开头 ， ^ , 0</li>
-<li>将光标移到本行的结尾 ， $</li>
-<li>删除一行 ， d + d</li>
-<li>回撤操作 ， u</li>
-<li>向下搜索 ， &#x2F; + 搜索内容</li>
-<li>向上搜索 ， ？ + 搜索内容</li>
-<li>对搜索内容向下查找 ， n</li>
-<li>对搜索内容向上查找 ， N</li>
-<li>把A替换成B ， : + % + s + &#x2F; + A + &#x2F; + B + &#x2F; + g</li>
-</ul>
-<h2 id="Cache-与-Buffer-的区别"><a href="#Cache-与-Buffer-的区别" class="headerlink" title="Cache 与 Buffer 的区别"></a>Cache 与 Buffer 的区别</h2><ol>
-<li>Cache：缓存区，是高速缓存，是位于CPU和主内存之间的容量较小但速度很快的存储器，因为CPU的速度远远高于主内存的速度，CPU从内存中读取数据需等待很长的时间，而  Cache保存着CPU刚用过的数据或循环使用的部分数据，这时从Cache中读取数据会更快，减少了CPU等待的时间，提高了系统的性能。</li>
-</ol>
-<blockquote>
-<p>Cache并不是缓存文件的，而是缓存块的(块是I&#x2F;O读写最小的单元)；Cache一般会用在I&#x2F;O请求上，如果多个进程要访问某个文件，可以把此文件读入Cache中，这样下一个进程获取CPU控制权并访问此文件直接从Cache读取，提高系统性能。</p>
-</blockquote>
-<ol>
-<li>Buffer：缓冲区，用于存储速度不同步的设备或优先级不同的设备之间传输数据；通过buffer可以减少进程间通信需要等待的时间，当存储速度快的设备与存储速度慢的设备进行通信时，存储慢的数据先把数据存放到buffer，达到一定程度存储快的设备再读取buffer的数据，在此期间存储快的设备CPU可以干其他的事情。</li>
-</ol>
-<blockquote>
-<p>Buffer：一般是用在写入磁盘的，例如：某个进程要求多个字段被读入，当所有要求的字段被读入之前已经读入的字段会先放到buffer中。</p>
-</blockquote>
-<h2 id="如何恢复MBR记录"><a href="#如何恢复MBR记录" class="headerlink" title="如何恢复MBR记录"></a>如何恢复MBR记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#复制#1扇区的引导文件</span><br><span class="line"># dd if=/dev/sda of=mbr.bin bs=512 count=1</span><br><span class="line"></span><br><span class="line">恢复#1扇区的引导文件</span><br><span class="line"># dd if=mbr.bin of=/dev/sda bs=512 count=1</span><br></pre></td></tr></table></figure>
-
-<h2 id="磁盘分区的重点"><a href="#磁盘分区的重点" class="headerlink" title="磁盘分区的重点"></a>磁盘分区的重点</h2><ol>
-<li>磁盘分区的实质就是针对0磁头0磁道1扇区的前446字节后面接下来的64bytes的分区表进行设置，即主要是划分起始以及结束磁头号，及扇区号和柱面号。</li>
-<li>分区工具有fdisk（适合小于2T的磁盘分区），parted（适合大于2T的磁盘分区，可以对小于2T的磁盘分区），fdisk首选，只有大于2T时采取选parted。</li>
-</ol>
-<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="SAS-SATA-硬盘文件系统选择"><a href="#SAS-SATA-硬盘文件系统选择" class="headerlink" title="SAS&#x2F;SATA 硬盘文件系统选择"></a>SAS&#x2F;SATA 硬盘文件系统选择</h3><ol>
-<li>reiserfs 大量小文件业务首选（100K以内）</li>
-<li>xfs 门户的数据库MySQL业务。</li>
-<li>ext4 视频下载，流媒体，数据库，小文件业务，可以作为默认。</li>
-<li>ext2 没有日志，用于CDN网络加速服务的。</li>
-</ol>
-<blockquote>
-<p>xfs,reiserfs 需要单独安装。默认不支持，大量服务器使用多文件系统维护可能不方便。<br>大并发并不是过多的做磁盘系统的优化，而是在架构前端增加缓存，存储数据库的前段增加缓存。</p>
-</blockquote>
-<h2 id="SSH服务无法连接"><a href="#SSH服务无法连接" class="headerlink" title="SSH服务无法连接"></a>SSH服务无法连接</h2><p>故障原因：</p>
-<ul>
-<li>有可能是网卡ip地址与端口号设置错误</li>
-<li>sshd 服务没开启</li>
-<li>是否允许用户密码登陆</li>
-<li>是否被防火墙拦截</li>
-</ul>
-<h3 id="关于IP设置，有两种方法"><a href="#关于IP设置，有两种方法" class="headerlink" title="关于IP设置，有两种方法"></a>关于IP设置，有两种方法</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>直接修改 &#x2F;etc&#x2F;sysconfig&#x2F;network-script&#x2F;ifcfg-ethX 文件</p>
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>用命令 ifconfig 指令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig 网卡名字 IP地址</span><br><span class="line"># ifconfig eth1 x.x.x.x</span><br></pre></td></tr></table></figure>
-
-<h2 id="公司所采用的系统是什么版本的"><a href="#公司所采用的系统是什么版本的" class="headerlink" title="公司所采用的系统是什么版本的"></a>公司所采用的系统是什么版本的</h2><p>通过两个指令查询</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cat /etc/redhat-release</span><br><span class="line"># uname -r</span><br></pre></td></tr></table></figure>
-
-<p>答案是： 采用的是CentOS6.9，x86_64位系统。</p>
-<h2 id="处理以下文件内容-将域名取出并根据域名进行计数排序处理"><a href="#处理以下文件内容-将域名取出并根据域名进行计数排序处理" class="headerlink" title="处理以下文件内容,将域名取出并根据域名进行计数排序处理"></a>处理以下文件内容,将域名取出并根据域名进行计数排序处理</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># text.txt</span><br><span class="line">http://www.baidu.org/index.html</span><br><span class="line">http://www.baidu.org/1.html</span><br><span class="line">http://post.baidu.org/index.html</span><br><span class="line">http://mp3.baidu.org/index.hml</span><br><span class="line">http://www.baidu.org/3.html</span><br><span class="line">http://post.baidu.org/2.html</span><br></pre></td></tr></table></figure>
-
-<p>思路:除去重复+计数重复,运用sort指令,加上uniq -c指令来计数.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># awk -F / &#x27;&#123;print $3&#125;&#x27; |sort | uniq -c</span><br></pre></td></tr></table></figure>
-
-<p>方法二:</p>
-<p>用cut指令来切割</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cut -d / -f3 test.txt|sort|upiq -c</span><br></pre></td></tr></table></figure>
-
-<p>方法三:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># awk -F &quot;/&quot; &#x27;&#123;S[#3]=S[$3]+1&#125;END&#123; for(k in S)&#125; print k,S[K]&#125;&#x27; test.txt</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/43/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><span class="page-number current">44</span><a class="page-number" href="/page/45/">45</a><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/45/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/43/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><span class="page-number current">44</span><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/45/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
