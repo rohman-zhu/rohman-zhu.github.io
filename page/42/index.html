@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">461</span>
+          <span class="site-state-item-count">462</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">151</span>
+        <span class="site-state-item-count">152</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,138 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/14a7ca93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/14a7ca93/" class="post-title-link" itemprop="url">MySQL的引擎</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-10 20:37:23" itemprop="dateCreated datePublished" datetime="2017-11-10T20:37:23+00:00">2017-11-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="MySQL引擎"><a href="#MySQL引擎" class="headerlink" title="MySQL引擎"></a>MySQL引擎</h1><p>常用的为MyISAM 与 InnoDB.</p>
+<h2 id="MyISAM引擎"><a href="#MyISAM引擎" class="headerlink" title="MyISAM引擎"></a>MyISAM引擎</h2><p>MySQL关系数据库管理系统的默认储存引擎(MySQL5.5.5以前).</p>
+<p>特点:</p>
+<ol>
+<li>不支持事务</li>
+<li>表级锁定,数据库更新的时候,锁定整张表</li>
+<li>读写相互阻塞</li>
+<li>只会缓存索引</li>
+<li>读取速度较快,占用资源小</li>
+<li>不支持外键约束</li>
+</ol>
+<p>适用的生产场景:</p>
+<ol>
+<li>不需要事务支持的业务</li>
+<li>一般为读数据比较多的应用,读写都频繁的场景不适用.</li>
+<li>读取并发访问相对较低的业务.</li>
+<li>数据修改相对较小的业务.</li>
+</ol>
+<p>调优:</p>
+<ol>
+<li>设置合适的索引</li>
+<li>调整读写优先级,根据实际需求确保重要操作更优先执行.</li>
+<li>启用延迟插入改善大批量写入性能.(降低写入频率,尽可能多条数据一次性写入)</li>
+<li>尽量顺序操作让insert数据都写入尾部,减少阻塞</li>
+<li>分解时间长的SQL操作,降低单个操作的阻塞时间.</li>
+<li>降低并发数(减少对MySQL访问).</li>
+</ol>
+<p>重要参数:</p>
+<blockquote>
+<p>查看 heavy-4G.my</p>
+</blockquote>
+<h2 id="InnoDB引擎"><a href="#InnoDB引擎" class="headerlink" title="InnoDB引擎"></a>InnoDB引擎</h2><p>特点:</p>
+<ol>
+<li>支持事务</li>
+<li>行级锁定</li>
+<li>读写阻塞与事务隔离级别相关</li>
+<li>具有非常高效的缓存特性:能缓存索引,也能缓存数据.</li>
+<li>整个表和主键以Cluster方式存储.</li>
+<li>支持分区,表控件</li>
+<li>支持外键约束</li>
+<li>相比于MyISAM引擎,InnoDB对硬件资源要求比较高</li>
+<li>所有Secondary Index 都会保存主键信息.</li>
+</ol>
+<p>调优:</p>
+<ol>
+<li>建立有效索引避免全表扫描,因为会使用表锁</li>
+<li>尽可能缓存所有的索引和数据,提高响应速度,减少磁盘IO消耗</li>
+<li>合理设置innodb_flush_log_at_trx_commit参数值,不要过度追求安全性.(如果innodb_flush_at_trx_commit的值为0,log,buffer每秒会被刷写日志文件到磁盘,提交事务的时候不做任何操作.)</li>
+<li>在大批量小插入的时候,尽量自己控制事务而不要使用autocommit自动提交.</li>
+<li>主键尽可能小,避免给Secondary index带来过大的控件负担</li>
+<li>避免主键更新,因为会带来大量的数据更新</li>
+</ol>
+<h2 id="查看引擎"><a href="#查看引擎" class="headerlink" title="查看引擎"></a>查看引擎</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show engines;</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改引擎"><a href="#更改引擎" class="headerlink" title="更改引擎"></a>更改引擎</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; 永久生效</span><br><span class="line">mysql &gt; ALTER TABLE [tableName] ENGINE = EngineName;</span><br></pre></td></tr></table></figure>
+
+<p>多表批量更改,先查找所有表,然后再更改.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1516,245 +1648,6 @@
 <td align="center">记录客户端访问信息,例如:浏览器or手机客户端等</td>
 </tr>
 </tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/bafbc8ea/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/bafbc8ea/" class="post-title-link" itemprop="url">Linux的Web服务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-19 10:39:48" itemprop="dateCreated datePublished" datetime="2017-10-19T10:39:48+00:00">2017-10-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="网站访问俗语"><a href="#网站访问俗语" class="headerlink" title="网站访问俗语"></a>网站访问俗语</h2><h3 id="IP-Internet-Protocol"><a href="#IP-Internet-Protocol" class="headerlink" title="IP-Internet_Protocol"></a>IP-Internet_Protocol</h3><p>Internet-Protocol (独立IP),独立IP数是指不同IP地址的计算机访问网站的被计算的总次数. (以一天为计算)</p>
-<h4 id="一个客户机通过ADSL拨号上网-但上网偶尔掉线-一共重新拨号三次-然后去访问百度-此时百度的独立IP数有多少"><a href="#一个客户机通过ADSL拨号上网-但上网偶尔掉线-一共重新拨号三次-然后去访问百度-此时百度的独立IP数有多少" class="headerlink" title="一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少"></a>一个客户机通过ADSL拨号上网,但上网偶尔掉线,一共重新拨号三次,然后去访问百度,此时百度的独立IP数有多少</h4><p>答案: 3次.</p>
-<h3 id="PV-Page-View"><a href="#PV-Page-View" class="headerlink" title="PV-Page View"></a>PV-Page View</h3><p>页面浏览,即页面浏览量或点击量,不管客户端是不是相同,也不管IP是否相同,用户每次访问一个网站都会被计算一个PV.</p>
-<blockquote>
-<p>一个来访者访问网站,PVC数可能产生若干,但是独立IP数就为1个,因此如果对比一个网站的独立IP数和PV数,PV数一定会大于独立IP数,视网站的业务而定,例如这种分类门户可能要达到10:1,甚至更多.</p>
-</blockquote>
-<h3 id="UV-Unique-Visitor"><a href="#UV-Unique-Visitor" class="headerlink" title="UV-Unique Visitor"></a>UV-Unique Visitor</h3><p>同一台客户端(PC或者移动端)访问网站被计算为一个方可.</p>
-<blockquote>
-<p>考虑到一台客户端电脑可能会被多人使用,因此UV实际上并不一定是独立的自然人访问.</p>
-</blockquote>
-<h4 id="UV度量"><a href="#UV度量" class="headerlink" title="UV度量"></a>UV度量</h4><ol>
-<li>通过客户端HTTP请求报文分析 .(用IP地址+其他特征共同定义)</li>
-<li>通过Cookie.</li>
-</ol>
-<h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h3><ol>
-<li>分析 Web 服务器的访问日志信息,对IP地址段去重后统计.</li>
-<li>第三方统计,谷歌的统计(GA)</li>
-<li>在网站的每一个页尾嵌入js等统计程序代码,当用户加载网页后,发给统计IP的服务器.</li>
-</ol>
-<h2 id="Web服务"><a href="#Web服务" class="headerlink" title="Web服务"></a>Web服务</h2><h3 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h3><ol>
-<li>Apache (常用2.2)</li>
-<li>Nginx 大型网站web服务主流</li>
-<li>lighttpd</li>
-</ol>
-<p>常用动态服务的软件:</p>
-<ol>
-<li>php</li>
-<li>tomcat</li>
-<li>resin</li>
-<li>IIS(Internet information server)</li>
-</ol>
-<h3 id="用户访问网站原理"><a href="#用户访问网站原理" class="headerlink" title="用户访问网站原理"></a>用户访问网站原理</h3><ul>
-<li>DNS 解析原理</li>
-<li>http 请求原理</li>
-</ul>
-<h3 id="DNS解析基本流程"><a href="#DNS解析基本流程" class="headerlink" title="DNS解析基本流程"></a>DNS解析基本流程</h3><h4 id="Domain-Name-System"><a href="#Domain-Name-System" class="headerlink" title="Domain Name System"></a>Domain Name System</h4><p>常用:</p>
-<ul>
-<li>设置 CNAME 别名记录</li>
-<li>设置 MX 邮件记录</li>
-<li>设置 PTR 记录 , 方向解析, 即把IP地址解析为对应的域名.</li>
-</ul>
-<h4 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h4><ol>
-<li>用户查找本地 Hosts 文件(本地DNS缓存)</li>
-<li>继续请求客户机DNS服务器</li>
-<li>请求全球 DNS 服务器</li>
-</ol>
-<h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><p>HyperText Transfer Protocol,超文本传输协议.属于OSI模型中的第七层协议.<br></br><br>WWW(World Wid Web),默认的服务端口是80,另一个加密的www服务(HTTPS)默认服务端口是443,用于网银,支付等.</p>
-</br>
-有这么几个主要的版本:
-
-<ul>
-<li>HTTP 0.9</li>
-<li>HTTP 1.0</li>
-<li>HTTP 1.1</li>
-</ul>
-</br>
-推荐的书籍:
-HTTP权威指南(前4章)
-
-<p>1.1支持持久连接,在一个TCP连接上可以传送多个HTTP请求和响应.</p>
-<h4 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h4><p>每一个HTTP请求保温中都包含一个方法,例如:获取界面,提交内容到服务器.删除资源.</p>
-<table>
-<thead>
-<tr>
-<th align="center">HTTP方法</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">GET</td>
-<td align="center">客户端请求指定资源信息,服务器范返回指定资源</td>
-</tr>
-<tr>
-<td align="center">HEAD</td>
-<td align="center">只请求响应报文中的HTTP 首部</td>
-</tr>
-<tr>
-<td align="center">POST</td>
-<td align="center">将客户端的数据提交到服务器</td>
-</tr>
-<tr>
-<td align="center">PUT</td>
-<td align="center">从客户端向服务器传送的数据取代指定的文档内容</td>
-</tr>
-<tr>
-<td align="center">DELETE</td>
-<td align="center">请求服务器删除指定的资源</td>
-</tr>
-<tr>
-<td align="center">MOVE</td>
-<td align="center">请求服务器指定的页面移至另一个网络地址</td>
-</tr>
-</tbody></table>
-<h4 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h4><table>
-<thead>
-<tr>
-<th align="center">状态码</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">100-199</td>
-<td align="center">指定客户端应相对的某些动作</td>
-</tr>
-<tr>
-<td align="center">200-299</td>
-<td align="center">用于表示请求成功</td>
-</tr>
-<tr>
-<td align="center">300-399</td>
-<td align="center">用于已经移动的文件并且常被包含在定位头信息中指定新的地址信息</td>
-</tr>
-<tr>
-<td align="center">400-499</td>
-<td align="center">用于指定客户端的错误</td>
-</tr>
-<tr>
-<td align="center">500-599</td>
-<td align="center">用于指出服务器错误</td>
-</tr>
-</tbody></table>
-<ul>
-<li>200 表示成功</li>
-<li>301 表示永久跳转,所有请求的网页将永久跳转到被设定的新位置</li>
-<li>403 禁止访问</li>
-<li>404 服务器找不到客户端请求的指定页面</li>
-<li>500 内部服务器错误,例如SELinux开启,而又没有为http设置许可规则</li>
-<li>502 (Bad Gateway)网关故障,基本跟代理有关</li>
-<li>503服务当前不可用 服务当前不可用,可能因为服务器超载或者维护</li>
-<li>504 网关超时,一般是网关代理服务器请求后端服务时,后端服务没有在特定的时间内完成处理请求</li>
-</ul>
-<h4 id="URL-Uniform-Resource-Identifier"><a href="#URL-Uniform-Resource-Identifier" class="headerlink" title="URL (Uniform Resource Identifier )"></a>URL (Uniform Resource Identifier )</h4><p>协议:分隔符号:IP地址:分隔符号:资源目录地址</p>
-<h4 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h4><p>请求报文:<br>Web客户端发向Web服务端<br></br><br>响应报文:<br>Web服务端发向Web客户端</p>
-<p>*待补充!!*</p>
-<p>分为两种:</p>
-<ul>
-<li>请求报文</li>
-<li>响应报文</li>
-</ul>
-<blockquote>
-<p>如何获取HTTP请求报文 ?</p>
-</blockquote>
-<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><p>非正式的理解: 网站服务器在单位时间内能处理的最大连接数.</p>
-<ul>
-<li>Query Per Second - 查询</li>
-<li>IOPS(Input&#x2F;Output Oeperations Per Second) - 硬盘读写</li>
-</ul>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="什么是静态资源-作用以及优缺点是什么"><a href="#什么是静态资源-作用以及优缺点是什么" class="headerlink" title="什么是静态资源 ? 作用以及优缺点是什么"></a>什么是静态资源 ? 作用以及优缺点是什么</h3><p>URL固定,后缀是HTML,HTM,服务器存在的文件.</p>
-<p>特点: 无可交互的数据库</p>
-<ul>
-<li>优点: 性能高,体验好 ; 便于SEO(Search Engine Optimizatio , 网站推广)</li>
-<li>缺点: 交互差;维护麻烦</li>
-</ul>
-<h3 id="什么是动态资源-作用以及优缺点"><a href="#什么是动态资源-作用以及优缺点" class="headerlink" title="什么是动态资源?作用以及优缺点"></a>什么是动态资源?作用以及优缺点</h3><p>有数据库支持,内容丰富 ,后缀是.php , jsp ,asp , aspx</p>
-<p>特点:</p>
-<ul>
-<li>优点: 交互性好(登录,注册);维护简单;</li>
-<li>缺点: 性能差(服务器端解析) ; URL变化不利于搜索</li>
-</ul>
-<h3 id="什么是伪静态-作用以及缺点"><a href="#什么是伪静态-作用以及缺点" class="headerlink" title="什么是伪静态?作用以及缺点"></a>什么是伪静态?作用以及缺点</h3><p>动态URL伪装成静态,rewrite规则模块</p>
-<ul>
-<li>优点 : 方便收录 ; 提升用户浏览体验</li>
-<li>缺点 : 不会提升网站性能,微降</li>
-</ul>
 
       
     </div>

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">461</span>
+          <span class="site-state-item-count">462</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">151</span>
+        <span class="site-state-item-count">152</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,139 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7b993e05/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7b993e05/" class="post-title-link" itemprop="url">VMware Horizon View-常见问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-03-07 12:47:06" itemprop="dateCreated datePublished" datetime="2024-03-07T12:47:06+00:00">2024-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Server类故障"><a href="#Server类故障" class="headerlink" title="Server类故障"></a>Server类故障</h1><h2 id="目标VDI提示被禁用，无法通过客户端重置桌面"><a href="#目标VDI提示被禁用，无法通过客户端重置桌面" class="headerlink" title="目标VDI提示被禁用，无法通过客户端重置桌面"></a>目标VDI提示被禁用，无法通过客户端重置桌面</h2><h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><ol>
+<li>Connection Server 托管的vCenter服务异常；</li>
+<li>目标VDI对应的虚拟机不存在；</li>
+</ol>
+<h1 id="Agent类故障"><a href="#Agent类故障" class="headerlink" title="Agent类故障"></a>Agent类故障</h1><h2 id="目标VDI在Connection-Server中提示“无法访问代理”"><a href="#目标VDI在Connection-Server中提示“无法访问代理”" class="headerlink" title="目标VDI在Connection Server中提示“无法访问代理”"></a>目标VDI在Connection Server中提示“无法访问代理”</h2><h3 id="原因分析-1"><a href="#原因分析-1" class="headerlink" title="原因分析"></a>原因分析</h3><ol>
+<li>VDI内的网络异常，到Connection Server的必要端口没有放行；</li>
+<li>VDI内的Agent进程异常，客户端内的VMware Horizon View Agent没有正常运行，其中的关联服务没有启动；</li>
+<li>VDI内没有办法正常解析Connection Server的域名，导致无法与对端建立连接；【DNS解析异常】</li>
+<li>Connection Server与VDI的通讯密钥需要更新；</li>
+</ol>
+<p>原因1，必要端口：</p>
+<table>
+<thead>
+<tr>
+<th align="center">SRC</th>
+<th align="center">DST</th>
+<th align="center">TCP-Port</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Agent</td>
+<td align="center">CS</td>
+<td align="center">4001</td>
+<td align="left">Java Message Service communication , JMS</td>
+</tr>
+<tr>
+<td align="center">Agent</td>
+<td align="center">CS</td>
+<td align="center">4002</td>
+<td align="left">Java Message Service communication , Java Message Service (JMS) when using enhanced security (default).</td>
+</tr>
+<tr>
+<td align="center">Agent</td>
+<td align="center">CS</td>
+<td align="center">389</td>
+<td align="left">Only required when doing an unmanaged agent registration, for example, RDSH agent install without linked-clone or instant-clone component.</td>
+</tr>
+</tbody></table>
+<p>参考： <a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/home/Horizon">https://ports.esp.vmware.com/home/Horizon</a></p>
+<p>可以在操作系统中执行相关指令确认：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows , run powershell as administrator</span></span><br><span class="line">netstat -ano | findstr [Target TCP port]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux , run command as sudo permission</span></span><br><span class="line">netstat -ano | gre [Target TCP port]</span><br></pre></td></tr></table></figure>
+
+<p>原因2，关联服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows , run powerhsell as administrator</span></span><br><span class="line">netstat -ano | findstr vmware</span><br><span class="line"></span><br><span class="line"><span class="comment"># [TODO] Should have :</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux , run command as sudo permission</span></span><br><span class="line">ps -aux | grep vmware</span><br><span class="line"></span><br><span class="line"><span class="comment"># Should have : </span></span><br><span class="line"><span class="comment"># viewagent/jre/bin/java </span></span><br><span class="line"><span class="comment"># viewagent/bin/GetMachineId.sh </span></span><br><span class="line"><span class="comment"># viewagent/DekstopDaemon/desktopDaemon</span></span><br><span class="line"><span class="comment"># viewagent/VMwareBlastServer/BlastServer</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1067,104 +1200,6 @@
 <h1 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Horizon  2111.2, 2209.1, 2212.1 and 2306:</span><br><span class="line">Cross-Origin Resource Sharing (CORS) is enabled by default. See Cross-Origin Resource Sharing.</span><br><span class="line">Security configuration setting balancedHost can now accept a list for those with more than one load balancer. The syntax is exactly the same as portalHost. (Release Notes ) </span><br><span class="line">​​​​​​Security configuration setting allowUnexpectedHost has changed from true to false. </span><br><span class="line">This means that connections using the name or IP address of a proxy, gateway or load balancer that is not defined in locked.properties will fail, even if checkOrigin and enableCORS are both set to false.</span><br><span class="line">Please see Error 421 while connecting to Horizon via HTML Web Console after an upgrade to 2306,2111.1 or Later (93915) for additional details.</span><br><span class="line">For a step-by-step walkthrough of configuring Locked.properties, please see Horizon Server: Troubleshooting Configuration Issues with Locked.properties(94578)</span><br><span class="line">This Article&#x27;s purpose is to outline some common questions seen as a result of these changes.</span><br><span class="line"></span><br><span class="line">Potential Symptoms seen as a result of the change:</span><br><span class="line"> HTML access is stuck in the &quot;Waiting&quot; screen due to the lack of configuration in &quot;locked.properties&quot; </span><br><span class="line">An alert appears on an HTML5 access attempt &quot;Failed to connect to the Horizon Connection Server&quot;</span><br><span class="line">Solution</span><br><span class="line">Common Questions: </span><br><span class="line"></span><br><span class="line">1.What is the purpose of this change?</span><br><span class="line"></span><br><span class="line">Any URL the user clicks on needs to be known to the connection server the request reaches.</span><br><span class="line">If they click on badguy.com, and that redirects them to Horizon, we need to reject the request. That’s the purpose of this. This is a W3 standard we comply with, see the documentation on this. CORS allows additional granularity through policy.</span><br><span class="line"></span><br><span class="line">2. Is this not just Origin Checking?</span><br><span class="line">Origin Checking has been a default in Horizon since Horizon 7.6 and this impacted admin page access in the past, please see KB2144768. </span><br><span class="line">Default origins include the connection servers&#x27; localhost and external URL (the external URL defaults to the server FQDN but is typically changed to an FDQN of a VIP used for external access). These are not impacted by the change.</span><br><span class="line">Origin checking is enabled by default. When it is enabled, a request is accepted only without an Origin, or with an Origin equal to the address that the External URL specifies, to the balancedHost address, to any portalHost address, to any chromeExtension hash, to null, or to localhost. If Origin is not one of these possibilities, an &quot;Unexpected Origin&quot; error is logged and a status of 404 is returned. Reference Link </span><br><span class="line"></span><br><span class="line">3. I&#x27;m aware of origin checking, what do I need to consider?</span><br><span class="line"></span><br><span class="line">This enhancement can impact an environment in terms of HTML5 access when load balancers are in the equation.</span><br><span class="line"></span><br><span class="line">Origin Header:  The origin header is the value that will pass through for validation by the connection server and can be defined as the URL that the user clicks on.</span><br><span class="line"></span><br><span class="line">Example: </span><br><span class="line">User opens htttps:/loadbalancer/ and logs into Horizon, hitting enter to authenticate.</span><br><span class="line">This request will be rejected if this load balancer URL does not match the aforementioned defaults.</span><br><span class="line"></span><br><span class="line">4. I&#x27;m experiencing issues with html5 page access after an update to 2106 and worked fine with previous release , what are my options?</span><br><span class="line"></span><br><span class="line">Essentially a configuration or design change is potentially needed based on your individual circumstances.</span><br><span class="line">UAG has a feature to rewrite the origin header coming from the client to match the URL it is using to forward requests to the connection server. (documentation  - Re-Write Origin Header).  This feature is off by default but can help to reduce the list of entries or even obviate the need for locked.properties entirely.</span><br><span class="line">If the URL that your users connect with will need to be added to the known origins list for each connection server behind the load balancer which is contained within locked.properties</span><br><span class="line"> </span><br><span class="line">4. How do I edit locked.properties?</span><br><span class="line"></span><br><span class="line">   1. Create or edit the locked.properties file. This is located on each connection server in     c:\program files\vmware\VMware View\Server\sslgateway\conf.</span><br><span class="line">   2. This file can be edited with a standard text editor, like Notepad.</span><br><span class="line">   3. Please validate the extension of the file to ensure it is saved as .properties. If saved as a .txt extension, the edited values will not be read.</span><br><span class="line">   4. Restart each server to ensure the values take effect.</span><br><span class="line"></span><br><span class="line">5. What values  do I need to change in locked.properties?</span><br><span class="line">  </span><br><span class="line"> There are two keywords for extending the known origins list, balancedHost and portalHost.</span><br><span class="line">Note 1: You don’t set a URL on these, just the hostname.</span><br><span class="line">Note 2: Both are designed to extend the list of known origins.</span><br><span class="line"></span><br><span class="line">For a hypothetical load balancer, we need to add this entry to all connection servers behind it:</span><br><span class="line">balancedHost = loadbalandedviewurl.company.com</span><br><span class="line">There can only be one entry for balancedHost and only https is allowed.</span><br><span class="line">The purpose of balanced host is primarily for the load balancer between connection servers and internal clients.</span><br><span class="line">There is no limit on the amount of portal host entries</span><br><span class="line"></span><br><span class="line">The purpose of portalHost is primarily for alternative routes and names.</span><br><span class="line"></span><br><span class="line">For example, let’s say that there are more routes into the environment, through originalname.com  and newname.net and internally through originalname.int or hostname.</span><br><span class="line"></span><br><span class="line">You’ll need to add portalHost entries for these:</span><br><span class="line"></span><br><span class="line">portalHost.1 = originalname.com</span><br><span class="line">portalHost.2 = newname.net</span><br><span class="line">portalHost.3 = originalname.int</span><br><span class="line">portalHost.4 = originalname</span><br><span class="line">portalHost.5 = hostname</span><br><span class="line"></span><br><span class="line">If all of these are load balancers too, You can reduce complexity and stop using balancedHost and list all routes with portalHost entries.</span><br><span class="line"></span><br><span class="line">5.  Are these failures tracked in logs?</span><br><span class="line">Yes, If a request comes in with an origin header that is not in the list of known origins, you will get the error in the debug log of the connection server with a line: &quot;Unexpected origin”.</span><br><span class="line"></span><br><span class="line">Log file Location: C:\ProgramData\VMware\VDM\logs</span><br><span class="line">Log file name: debug-datetime.txt</span><br><span class="line"></span><br><span class="line">It you note the time of the failed attempt or check the debug log that most closely matches the time of the reported test.</span><br><span class="line"></span><br><span class="line">Sample Log Line :</span><br><span class="line">2021-09-24T22:05:34.737-07:00 ERROR (1B08-1A58) &lt;SimpleDeamonThread&gt; [h] (ajp:admin:Request190) Unexpected Origin: https://newname.net</span><br><span class="line">2021-09-24T22:05:34.738-07:00 DEBUG (1B08-1A58) &lt;SimpleDeamonThread&gt; [v] (ajp:admin:Request190) Response 404 Not Found [close]</span><br><span class="line"></span><br><span class="line">It then tells you what the origin header looks like, and if this should be accepted you can add yet another portalHost entry, for instance, with the above example - newname.net needs to be added as a portalhost entry.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/85801">https://kb.vmware.com/s/article/85801</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/345f1997/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/345f1997/" class="post-title-link" itemprop="url">VMware Horizon 提示没有可用的显示协议</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-11-05 16:38:08" itemprop="dateCreated datePublished" datetime="2023-11-05T16:38:08+00:00">2023-11-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-06-22 14:13:33" itemprop="dateModified" datetime="2025-06-22T14:13:33+00:00">2025-06-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>关键节点：UAG、连接服务器、RDSH服务器；</p>
-<p>显示协议：Blast；</p>
-<p>客户端节点提示，无可用显示协议或者 Internal Server Error；<br>UAG与RDSH服务器网络链路正常，TCP-22443端口是联通的；</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>RDSH服务器上面的22443端口不是VMware View Agent进程监听的，而是其他应用程序在监听，导致客户端无法使用 Blast 协议安装；</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>检测端口监听的进程：</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -a:--all，显示所有链接和监听端口</span></span><br><span class="line"><span class="comment"># -b:显示包含于创建每个连接或监听端口的可执行组件。在某些情况下已知可执行组件拥有多个独立组件，并且在这些情况下包含于创建连接或监听端口的组件序列被显示。这种情况下，可执行组件名在底部的 [] 中，顶部是其调用的组件，等等，直到 TCP/IP 部分。注意此选项可能需要很长时间，如果没有足够权限可能失败。</span></span><br><span class="line">netstat <span class="literal">-ab</span> | findstr <span class="number">22443</span>;</span><br></pre></td></tr></table></figure>
-
-<p>检测 WINRM 监听端口并修改：</p>
-<p>观察到 WINRM 的端口被改为 22443 ，导致BLAST协议的进程无法使用此端口；</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查端口</span></span><br><span class="line">winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改端口</span></span><br><span class="line"><span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="literal">-value</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
