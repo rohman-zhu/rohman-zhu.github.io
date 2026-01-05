@@ -1155,7 +1155,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-07 09:52:13" itemprop="dateModified" datetime="2025-04-07T09:52:13+00:00">2025-04-07</time>
+      <time title="Modified: 2026-01-05 15:59:56" itemprop="dateModified" datetime="2026-01-05T15:59:56+00:00">2026-01-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1212,10 +1212,12 @@
 <li>设置目标虚拟机的端口组</li>
 <li>启动虚拟机</li>
 </ol>
-<h1 id="设置标签"><a href="#设置标签" class="headerlink" title="设置标签"></a>设置标签</h1><p>指令： Get-Annotation , Set-Annotation</p>
+<h1 id="设置标签-Annotation"><a href="#设置标签-Annotation" class="headerlink" title="设置标签-Annotation"></a>设置标签-Annotation</h1><p>指令： Get-Annotation , Set-Annotation</p>
 <figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Annotation</span> <span class="literal">-Entity</span> <span class="variable">$vmhost</span> <span class="literal">-CustomAttribute</span> <span class="string">&quot;PhysicalLocation&quot;</span> <span class="literal">-Value</span> Office</span><br></pre></td></tr></table></figure>
 
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://developer.vmware.com/">https://developer.vmware.com</a></p>
+<h1 id="设置标签-Tag"><a href="#设置标签-Tag" class="headerlink" title="设置标签-Tag"></a>设置标签-Tag</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置标签</span></span><br><span class="line"><span class="variable">$entity</span>=<span class="built_in">Get-VMHost</span> <span class="literal">-Name</span> <span class="variable">$esxi_name</span>;</span><br><span class="line"><span class="variable">$Tag</span>=<span class="built_in">Get-Tag</span> <span class="literal">-Name</span> [标签名] <span class="literal">-Category</span> [目录名];</span><br><span class="line"><span class="built_in">New-TagAssignment</span> <span class="literal">-Tag</span> <span class="variable">$Tag</span> <span class="literal">-Entity</span> <span class="variable">$entity</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除标签</span></span><br><span class="line"><span class="variable">$entity</span> | <span class="built_in">Get-TagAssignment</span> | <span class="built_in">Remove-TagAssignment</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://developer.vmware.com/">https://developer.vmware.com</a><br><a target="_blank" rel="noopener" href="https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag">https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag</a></p>
 
       
     </div>
@@ -1478,7 +1480,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
