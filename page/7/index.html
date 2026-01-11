@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">462</span>
+          <span class="site-state-item-count">463</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,119 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6fe6417f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/6fe6417f/" class="post-title-link" itemprop="url">【待补充完善】记录一次虚拟机故障-高系统CPU负载引发的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-05-22 00:24:17" itemprop="dateCreated datePublished" datetime="2024-05-22T00:24:17+00:00">2024-05-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>虚拟机A：32C512GB；<br>虚拟机B：32CC512GB；</p>
+<p>虚拟机A与虚拟机B为集群，双A架构，每一个虚拟机配置两张网卡，一张为业务网络，第二张为存储网络；虚拟机A、虚拟机B此前通过NFS协议挂载一个存储设备C（存储设备C的NFS协议连接是通过第二张网卡访问的），后使用NFS协议挂载另外一个存储设备D（走的是业务网络）；从这个时间点开始，服务器可能就开始出现问题了：</p>
+<ul>
+<li>问题1 ： 经过更换挂载存储设备后，服务器会产生大量Log写进Messages，导致磁盘空间暴涨；</li>
+<li>问题2 ： 经过2周后，开始做第二张存储网络断开操作；从这个时间点开始，虚拟机A、虚拟机B的 CPU Load开始上升；</li>
+<li>问题3 ： 出现问题时，无法执行reboot指令，重启会终端；</li>
+<li>问题4 ： 会经常出现CPU load上升，业务开始出现异常；</li>
+<li>问题5 ： 高负载情况下，无法正常结束应用进程，使用kill -s 9 [PID] 均无法关闭；</li>
+<li>问题6 ： 使用重启指令，可以在虚拟机的控制台看到 BUG ： Bad page stae in process swapper pfn :bb4e2;</li>
+<li>问题7 ： 重启后，RAM负载接近100%，use态的内存使用量很高；</li>
+<li>问题8 ： 虚拟机内的主要应用结束后，内存使用率依旧无法降低；</li>
+</ul>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>当前原因还未分析出来，系统的message log已被清空；但从故障现象来看，至少可以肯定，OS的负载不正常，5分钟的平均负载超过100 ，已经超过32Core配置，为配置的3倍，则说明系统中有很多进程在等待CPU资源。<br>虚拟机有两张网卡，其中第一张网卡是用于业务访问，即业务网络；其中第二张网卡是用于访问NAS资源，即存储网络，虚拟机此前使用NFS挂载一个NAS资源，2周前做了变更，更改为另外一个NAS资源，而这个NAS使用的是业务网络；在故障时间点附近，将存储网络断开，预期内不应该有影响，但在操作的时间点附近又出现了业务异常。</p>
+<p>已排查或已确认的资源点：</p>
+<ol>
+<li>虚拟机底层使用的存储无异常，虚拟化蹭可以看到在某一个时间点，瞬时延时达到400ms，但是虚拟机业务没有影响，业务侧反馈是正常的；</li>
+<li>虚拟机挂载路径上面已经将旧NAS取消挂载2周，正常来说不应该有访问旧NAS路径；</li>
+<li>虚拟机在两周前做了NAS存储变更，取消旧NAS的挂载，换为新NAS的挂载点，旧NAS显示还有连接；虚拟机上面也能看到存储网络与旧NAS有数据交互；</li>
+</ol>
+<h2 id="经验教训"><a href="#经验教训" class="headerlink" title="经验教训"></a>经验教训</h2><ol>
+<li>对于业务方无法确认的业务，比如NAS取消挂载或者无法确定为什么中断NAS连接后，旧NAS还会有连接的问题，这种属于业务侧无法澄清的问题，应属于业务风险；因此在做变更的时候，不应该将所有节点做变更，应该逐个节点操作，等确认没有问题后，再做第二个节点；【时间间隔应该长一些】</li>
+<li>做完存储网络断链后，业务侧没有全面检查，应该做一下更细致的检查；</li>
+<li>没有日志分析的过程，系统的messages日志已无法做分析，应该保留最近2天的日志量，至少可以用作分析；</li>
+<li>出现故障，优先看看内存负载情况；重启服务器后，内存应该会释放；主要应用关闭后，内存应该会释放；</li>
+</ol>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>虚拟机需要执行关机；</li>
+<li>关机后，从虚拟化层启动虚拟机；</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1199,101 +1312,6 @@
 <figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Name: init-rdsh.ps1</span></span><br><span class="line"><span class="comment"># Version:v2</span></span><br><span class="line"><span class="comment"># Description:Init RDSH powershell script</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_WINRM_PORT</span>=<span class="number">5985</span>;</span><br><span class="line"><span class="variable">$GLOBAL_IP_MGMT_1</span>=&#123;&#125;;</span><br><span class="line"><span class="variable">$GLOBAL_IP_MGMT_2</span>=&#123;&#125;;</span><br><span class="line"><span class="comment"># Format:IP</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_Target_MGMT_Account</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="comment"># Format: domain\username;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_IP_DNS_1</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="variable">$GLOBAL_IP_DNS_2</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="comment"># Format:IP</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_TARGET_Domain</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="variable">$GLOBAL_MGMT_User</span>=<span class="built_in">Get-Credential</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-WINRM</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$WINRM_PORT</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开启WINRM</span></span><br><span class="line">    <span class="built_in">Enable-PSRemoting</span> <span class="literal">-Force</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 修改WINRM端口</span></span><br><span class="line">    <span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="variable">$WINRM_PORT</span> <span class="literal">-Force</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查监听端口</span></span><br><span class="line">    winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开启防火墙</span></span><br><span class="line">    <span class="built_in">Set-NetfirewallProfile</span> <span class="literal">-Enabled</span> True;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 防火墙</span></span><br><span class="line">    <span class="built_in">New-NetFirewallRule</span> <span class="literal">-Name</span> <span class="string">&quot;AllowWinRM&quot;</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_<span class="variable">$WINRM_PORT</span>&quot;</span> <span class="literal">-Enabled</span> True <span class="literal">-Direction</span> Inbound <span class="literal">-Action</span> ALLOW <span class="literal">-LocalPort</span> <span class="variable">$WINRM_PORT</span> <span class="literal">-Protocol</span> TCP;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置防火墙适用范围</span></span><br><span class="line">    <span class="built_in">Get-NetfirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_<span class="variable">$WINRM_PORT</span>&quot;</span> | <span class="built_in">Get-NetFirewallAddressFilter</span> | <span class="built_in">Set-NetFirewallAddressFilter</span> <span class="literal">-RemoteAddress</span> <span class="variable">$GLOBAL_IP_MGMT_1</span>,<span class="variable">$GLOBAL_IP_MGMT_2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InitDNS</span></span>&#123;</span><br><span class="line">    <span class="variable">$NICNAMESET</span>=<span class="built_in">Get-NetAdapter</span> <span class="literal">-Physical</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$NICNAMESET</span>.Name.GetType().BaseType.Name <span class="operator">-match</span> <span class="string">&quot;Object&quot;</span>)&#123;</span><br><span class="line">        <span class="comment"># 单网卡设置DNS；</span></span><br><span class="line">        <span class="variable">$NICNAME</span>=<span class="variable">$NICNAMESET</span>.Name;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">Set-DnsClientServerAddress</span> <span class="literal">-InterfaceAlias</span> <span class="variable">$NICNAME</span> <span class="literal">-ServerAddresses</span> <span class="variable">$GLOBAL_IP_DNS_1</span>,<span class="variable">$GLOBAL_IP_DNS_2</span>;</span><br><span class="line">    &#125;<span class="keyword">elseif</span> (<span class="variable">$NICNAMESET</span>.Name.GetType().BaseType.Name <span class="operator">-match</span> <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">        <span class="comment"># 多网卡设置DNS</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="variable">$i</span>=<span class="number">0</span>;<span class="variable">$i</span> <span class="operator">-lt</span> <span class="variable">$NICNAMESET</span>.Length;<span class="variable">$i</span>++)&#123;</span><br><span class="line">            <span class="variable">$NICNAME</span>=<span class="variable">$NICNAMESET</span>.Name[<span class="variable">$i</span>];</span><br><span class="line">            <span class="built_in">Set-DnsClientServerAddress</span> <span class="literal">-InterfaceAlias</span> <span class="variable">$NICNAME</span> <span class="literal">-ServerAddresses</span> <span class="variable">$GLOBAL_IP_DNS_1</span>,<span class="variable">$GLOBAL_IP_DNS_2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-JoinDomain</span></span>&#123;</span><br><span class="line">    <span class="variable">$baseHostname</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable">$IPInfo</span>=<span class="variable">$</span>(<span class="variable">$</span>(ipconfig | findstr <span class="string">&quot;IPv4&quot;</span>) <span class="operator">-Split</span> <span class="string">&quot;[:]&quot;</span>)[<span class="number">1</span>].Trim();</span><br><span class="line">    <span class="variable">$index</span>=<span class="variable">$</span>(<span class="variable">$IPInfo</span> <span class="operator">-Split</span> <span class="string">&quot;[.]&quot;</span>)[<span class="number">3</span>].Trim();</span><br><span class="line">    <span class="comment">#将字符型转为整型 </span></span><br><span class="line">    <span class="variable">$flag</span>=[<span class="type">convert</span>]::ToInt32(<span class="variable">$index</span>,<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-ge</span> <span class="number">1</span>) <span class="operator">-and</span> <span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-le</span> <span class="number">9</span>) )&#123;</span><br><span class="line">        <span class="comment"># 在 001 与 009 区间</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="string">&quot;00&quot;</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;<span class="keyword">elseif</span>(<span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-ge</span> <span class="number">10</span>) <span class="operator">-and</span> <span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-le</span> <span class="number">99</span>))&#123;</span><br><span class="line">        <span class="comment"># 在 100 与 99 区间</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="string">&quot;0&quot;</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment"># 大于100</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Add-Computer</span> <span class="literal">-DomainName</span> <span class="variable">$GLOBAL_TARGET_Domain</span> <span class="literal">-Credential</span> <span class="variable">$GLOBAL_MGMT_User</span> <span class="literal">-NewName</span> <span class="variable">$newHostname</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InstallRDS</span></span>&#123;</span><br><span class="line">    <span class="comment"># 自动重启需要加参数 -Restart</span></span><br><span class="line">    <span class="built_in">Install-WindowsFeature</span> <span class="literal">-Name</span> <span class="string">&quot;RDS-RD-Server&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-Main</span></span>&#123;</span><br><span class="line">    <span class="built_in">Start-WINRM</span> <span class="variable">$GLOBAL_WINRM_PORT</span>;</span><br><span class="line">    <span class="built_in">Start-InitDNS</span>;</span><br><span class="line">    <span class="built_in">Start-JoinDomain</span>;</span><br><span class="line">    <span class="built_in">Start-InstallRDS</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 添加管理员至administrators组</span></span><br><span class="line">    net localgroup administrators /add <span class="variable">$GLOBAL_Target_MGMT_Account</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 自动重启</span></span><br><span class="line">    shutdown /s /t <span class="number">180</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Start-Main</span>;</span><br></pre></td></tr></table></figure>
 
 <h2 id="服务器端下发指令"><a href="#服务器端下发指令" class="headerlink" title="服务器端下发指令"></a>服务器端下发指令</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$GLOBAL_WINRM_PORT</span>=<span class="number">5985</span>;</span><br><span class="line"><span class="variable">$GLOBAL_MGMT_User</span>=<span class="built_in">Get-Credential</span>;</span><br><span class="line"><span class="variable">$GLOBAL_USERLIST</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Horizon Agent</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InstallHorizonAgent</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$PS_Session</span>);</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-ScriptBlock</span> &#123;mkdir C:\<span class="number">1</span><span class="literal">-InstallPackage</span>;&#125;;</span><br><span class="line">    <span class="built_in">Copy-Item</span> Agent.exe <span class="literal">-Destination</span> C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\Agent.exe <span class="literal">-ToSession</span> <span class="variable">$PS_Session</span>;</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-Ar</span> <span class="literal">-ScriptBlock</span> &#123; C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\agent.exe /s /v <span class="string">&#x27;/qn RDP_CHOICE=0 VDM_VC_MANAGED_AGENT=0 VDM_SERVER_NAME=[Connect Server IP] VDM_SERVER_USERNAME=[domain\administratorUsername] VDM_SERVER_PASSWORD=&quot;[密码，需要用双引号]&quot; ADDLOCAL=Core REBOOT=Force&#x27;</span> /l C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\installAgent.log;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 授权</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-GrantUser</span></span> &#123;</span><br><span class="line">    <span class="keyword">param</span> (<span class="variable">$PS_Session</span>,<span class="variable">$UserList</span>);</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-ArgumentList</span> <span class="variable">$UserList</span> <span class="literal">-ScriptBlock</span> &#123; <span class="keyword">param</span>(<span class="variable">$UserList</span>);net localgroup <span class="string">&quot;Remote Desktop Users&quot;</span> /add <span class="variable">$UserList</span>&#125;;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-Main</span></span>&#123;</span><br><span class="line">  <span class="keyword">param</span>(<span class="variable">$ServerIP</span>);</span><br><span class="line">  <span class="variable">$Session</span>=<span class="built_in">New-PSSession</span> <span class="literal">-ComputerName</span> <span class="variable">$ServerIP</span> <span class="literal">-Port</span> <span class="variable">$GLOBAL_WINRM_PORT</span> <span class="literal">-Credential</span> <span class="variable">$GLOBAL_MGMT_User</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Start-InstallHorizonAgent</span> <span class="variable">$Session</span>;</span><br><span class="line">  <span class="built_in">Start-GrantUser</span> <span class="variable">$Session</span> <span class="variable">$GLOBAL_USERLIST</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Start-Main</span> </span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3fa89bd7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/3fa89bd7/" class="post-title-link" itemprop="url">Horizon-599故障</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-04-01 01:14:06" itemprop="dateCreated datePublished" datetime="2024-04-01T01:14:06+00:00">2024-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><ol>
-<li>连接服务器、安全服务器无法连接TCP-443；</li>
-<li>连接 https:&#x2F;&#x2F;安全服务器 ，显示599；</li>
-<li>连接服务器的日志（C:\ProgramData\VMware\VDM\log\xxx.log），显示 MEMORY-ALARM:physical memory use &#x3D; 97% ,[ws_perfmon]High memory use….</li>
-</ol>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>直接原因：服务器内存已经用满，出现内存泄漏的情况；<br>根本原因：出现补丁更新，未重启；</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>重启服务器。</p>
-
       
     </div>
 

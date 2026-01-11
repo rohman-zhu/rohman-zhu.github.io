@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">462</span>
+          <span class="site-state-item-count">463</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,102 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/2c09c9d9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/2c09c9d9/" class="post-title-link" itemprop="url">Linux下挂载nas</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-10-16 00:23:14" itemprop="dateCreated datePublished" datetime="2018-10-16T00:23:14+00:00">2018-10-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul>
+<li>NAS服务器 ： 10.10.1.1</li>
+<li>NAS文件路径： volume&#x2F;ftp</li>
+<li>Linux主机 ： 10.10.2.1</li>
+<li>Linux版本 ： Ubuntu 14.04 LTS</li>
+<li>Linux内核 ： 3.13.0-24-generic</li>
+<li>登录用户 user:user</li>
+</ul>
+<p>需要创建一个Linux服务器用于备份，因此挂载一个3T空间的NAS服务器文件目录,并开启 ftp 服务。</p>
+<h1 id="实现记录"><a href="#实现记录" class="headerlink" title="实现记录"></a>实现记录</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">apt-get install nfs-common -y</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">sudo</span> <span class="built_in">chown</span> user:root /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mount -t nfs 10.10.1.1:/volume/ftp /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">df</span> -h</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vim /etc/fstab</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">/etc/fstab:static file system information.</span></span><br><span class="line">10.10.1.1:/volume/ftp /mnt/nas nfs defaults 0 0</span><br><span class="line">:wq</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">apt-get install openssh-server openssh-client -y</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ps -e | grep ssh</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">netstat -ano | grep 22</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vim /etc/ssh/sshd_config</span></span><br><span class="line"></span><br><span class="line">Subsystem sftp internal-sftp</span><br><span class="line">Match Group sftp</span><br><span class="line">    ChrootDirectory /mnt/nas/</span><br><span class="line">    ForceCommand internal-sftp</span><br><span class="line">    AllowTcpForwarding no</span><br><span class="line">:wq</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">service ssh restart</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">/etc/init.d/ssd restart</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">ps -e | grep ssd</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">netstat -ano | grep ssh</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">groupadd sftp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">useradd -g sftp -s /bin/false mysftp</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">chown</span> root:sftp /mnt/nas</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">chmod</span> 755 /mnt/nas</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="命令笔记"><a href="#命令笔记" class="headerlink" title="命令笔记"></a>命令笔记</h1><ul>
+<li>df -h：查看磁盘占用情况</li>
+<li>df -T：查看所有磁盘的文件系统类型(type)</li>
+<li>fdisk -l：查看所有被系统识别的磁盘</li>
+<li>mount -t type device dir：挂载device到dir</li>
+<li>ChrootDirectory设置的目录&#x2F;sftp&#x2F;sftpuser1的所有者必须是root,并且该目录的上级目录&#x2F;sftp的所有者也必须是root.</li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>&#x2F;bin&#x2F;false 和 &#x2F;sbin&#x2F;nologin 的区别在哪里？</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1206,101 +1302,6 @@ sudo chown -R stack:stack /usr/local/lib/python2.7/dist-packages/
 <h2 id="Ubuntu中使用ExFat"><a href="#Ubuntu中使用ExFat" class="headerlink" title="Ubuntu中使用ExFat"></a>Ubuntu中使用ExFat</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install exfat-fuse exfat-utils</span><br></pre></td></tr></table></figure>
 
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过这种方法就可以让U盘做出更大的作用了,既能存储大文件,又能快速检测电脑.是不是很实在呢? 新年快乐啦~</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/214c3c32/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/214c3c32/" class="post-title-link" itemprop="url">UEFI与GUID下的双系统引导</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-02-14 23:10:20" itemprop="dateCreated datePublished" datetime="2018-02-14T23:10:20+00:00">2018-02-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="UEFI与GUID下的双系统引导"><a href="#UEFI与GUID下的双系统引导" class="headerlink" title="UEFI与GUID下的双系统引导"></a>UEFI与GUID下的双系统引导</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经好多个星期没有写博文了,今天借着在公司实习过程中学习到的新技能,在这里秀一波. 事情是这样的,现在很多人都会去装双系统(Linux+Windows居多),如果采用Legacy的启动方式,则不适用于本教材,对于这种启动方式,自然有相对应的引导方法,下次再记录.本文记录的是UEFI+GUID模式的引导.</p>
-<h2 id="设置BIOS与转换硬盘分区表为GUID"><a href="#设置BIOS与转换硬盘分区表为GUID" class="headerlink" title="设置BIOS与转换硬盘分区表为GUID"></a>设置BIOS与转换硬盘分区表为GUID</h2><p>首先是要对BIOS进行设置,在BIOS启动引导项内,选择”UEFI”模式.</p>
-<p>如果硬盘分区列表不是GUID(GPT),则需要将硬盘的分区列表整体转化为GUID,这个需要在PE内,使用Diskgenius这个软件来实现,转换前,需要把所有数据做好备份,因为需要删除整个分区列表,这个是没办法的事情.</p>
-<h2 id="硬盘空间安排"><a href="#硬盘空间安排" class="headerlink" title="硬盘空间安排"></a>硬盘空间安排</h2><ul>
-<li>100 G 作为windows10 的系统盘(包含ESP和MSR)</li>
-<li>100 G 作为Linux的系统盘</li>
-<li>300 G 作为数据盘</li>
-</ul>
-<h2 id="安装Windows10系统"><a href="#安装Windows10系统" class="headerlink" title="安装Windows10系统"></a>安装Windows10系统</h2><p>自行分配好硬盘空间,安装windows10的时候,会自动划分ESP分区(必要)和MSR(非必要),安装就没有什么好说的了.</p>
-<h2 id="安装Linux系统"><a href="#安装Linux系统" class="headerlink" title="安装Linux系统"></a>安装Linux系统</h2><p>在100G的空间内,做一下安排:</p>
-<ul>
-<li>200MB 的 &#x2F;boot 节点</li>
-<li>两倍于物理内存的 swap 分区</li>
-<li>剩余空间分配给 &#x2F; 节点</li>
-</ul>
-<h2 id="制作引导"><a href="#制作引导" class="headerlink" title="制作引导"></a>制作引导</h2><p>本文使用的是rEFInd 这个开源的软件(官网:<a target="_blank" rel="noopener" href="http://www.rodsbooks.com/refind/">http://www.rodsbooks.com/refind/</a>).</p>
-<p><img src="http://www.rodsbooks.com/refind/refind.png" alt="引导界面效果如下"></p>
-<p>下载地址:<a target="_blank" rel="noopener" href="http://www.rodsbooks.com/refind/getting.html">http://www.rodsbooks.com/refind/getting.html</a></p>
-<p>目前我只试验过在Linux下执行安装脚本后,直接运行即可.</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>写到文章最后个人感觉难点在于 UEFI+GPT 这种方式的理解上面 , 另一方面 , 如果之前使用的是MBR,并且存放着大量的资料(几百个G的资料 - - ),这时候就要迁移资料再转变分区列表格式 . 另外 rEFInd 这个开源的引导软件,真的可以做到傻瓜式操作…在Linux下直接运行安装脚本即可,其实后续还有很多可玩的地方,比如…自定义界面??(这个后面再试试)现在是大年三十的凌晨啦,那么先晚安啦~</p>
 
       
     </div>

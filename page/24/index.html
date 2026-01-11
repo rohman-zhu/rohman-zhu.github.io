@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">462</span>
+          <span class="site-state-item-count">463</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,109 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d92d3929/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d92d3929/" class="post-title-link" itemprop="url">记一次ESXI管理端故障</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-22 00:02:25" itemprop="dateCreated datePublished" datetime="2021-02-22T00:02:25+00:00">2021-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>vCenter已经无法管理ESXI，并且无法单独连接此ESXI。<br>ESXI上的业务还在正常运行，应该是管理进程异常。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>可能是ESXI的Management Agent 异常，可以通过ESXI的console去重启Management Agent。</p>
+<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><p>为了避免重启Management Agent时，ESXI 卡在 “Stopping ESXI Management Agent”界面，因此需要提前打开 ESXI Shell 和 SSH 。</p>
+<ol>
+<li>从物理服务器的带外KVM进入ESXI，开启ESXI Shell  与 SSH。</li>
+<li>重启 Management Agent 。</li>
+</ol>
+<p>如果出现异常，可以通过 ssh 或者 ESXI Shell 中断重启进程。</p>
+<p>如果以上方法无效，可以采用以下方法，先迁移业务：<br>（此时业务已经无法通过vCenter去管控，必须人为干预，重新注册虚拟机。）</p>
+<ol>
+<li>先记录故障ESXI上的虚拟机，包含 IP 、 虚拟机名 、 底层所用的Datastore 。</li>
+<li>从vCenter中移除未响应的ESXI（因为要重新注册虚拟机，如果当前ESXI上的虚拟机还在注册状态，则无法执行注册指令。移除ESXI并不会影响ESXI上的业务。）</li>
+<li>联系虚拟机对应的运维人员，约定时间关机后，找到虚拟机对应vmx文件，执行注册。</li>
+<li>虚拟机执行开机，联系业务管理员检测业务。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1073,111 +1176,6 @@
 </blockquote>
 <h2 id="显卡频率和主板基础频率"><a href="#显卡频率和主板基础频率" class="headerlink" title="显卡频率和主板基础频率"></a>显卡频率和主板基础频率</h2><p>结论：显卡频率和主板基础频率是没有直接关系的。</p>
 <p>显卡是通过PCIE通道与CPU直连 ，而PCIE是接在PCIE的控制器上（也就是北桥，现代北桥已集成到CPU内）。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1017dc94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/1017dc94/" class="post-title-link" itemprop="url">PC之总线</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-01-05 04:48:43" itemprop="dateCreated datePublished" datetime="2021-01-05T04:48:43+00:00">2021-01-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h1><p>总线（Bus）是计算机各种功能部件之间传送信息的公共通信干线，它是由导线组成的传输线束， 按照计算机所传输的信息种类，计算机的总线可以划分为数据总线、地址总线和控制总线，分别用来传输数据、数据地址和控制信号。</p>
-<h2 id="关于并行与串行"><a href="#关于并行与串行" class="headerlink" title="关于并行与串行"></a>关于并行与串行</h2><ul>
-<li>并行传输：字符编码的各位（比特）同时传输，也就是使用多根并行的数据线一次同时传输多个比特。</li>
-<li>串行传输：将组成字符的各位串行依次地传输，使用一根数据线传输数据，一次传输1个比特，多个比特需要一个接一个依次传输；在串行传输中又分为同步传输和异步传输。</li>
-</ul>
-<p>并行总线需要兼顾数据协同传输，因此频率不能做的很高。（例如霰弹枪一次性能射出很多子弹，但是射速不高）另外并行总线，链路越多，路与路之间需要做好抗干扰，否则传输过程中数据会发生异常。</p>
-<h3 id="常见并行接口："><a href="#常见并行接口：" class="headerlink" title="常见并行接口："></a>常见并行接口：</h3><ol>
-<li>PATA，Parallel Advanced Technology Attachment，并行高级技术附件接口，可用于连接硬盘、光驱、连接打印机、扫描仪等。</li>
-<li>并口，Parallel Port，</li>
-<li>PCI，Peripheral Component Interconnect，外设部件互连接口，用于插接外置网卡、声卡、显卡和调制解调器卡等。</li>
-</ol>
-<h3 id="常见的串行接口："><a href="#常见的串行接口：" class="headerlink" title="常见的串行接口："></a>常见的串行接口：</h3><ol>
-<li>SATA，Serial ATA接口</li>
-<li>USB接口</li>
-<li>PCI Express，PCI E接口 （可以做多链路传输）</li>
-<li>COM串行口</li>
-</ol>
 
       
     </div>

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">462</span>
+          <span class="site-state-item-count">463</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,259 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/92162876/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/92162876/" class="post-title-link" itemprop="url">lamp-Zabbix服务器监控部署</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-20 23:18:36" itemprop="dateCreated datePublished" datetime="2018-11-20T23:18:36+00:00">2018-11-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>Centos 7</li>
+<li>Zabbix-4.0</li>
+<li>PHP-7.2.12</li>
+<li>Apache-2.2.24</li>
+<li>MariaDB-10.3.11 Stable</li>
+</ul>
+<blockquote>
+<p>采用编译安装</p>
+</blockquote>
+<blockquote>
+<p>Centos 7 的防火墙坑，firewall-cmd –stat 看看防火墙的状态是否为运行状态。</p>
+</blockquote>
+<h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1><p>完成应用的安装<br>Deadline ：2018-12-2 0:00 [完成时间：20181202 22:30]</p>
+<p>完成监控部署<br>Deadline ：2018-12-8 0:00</p>
+<h1 id="Linux中的准备工作"><a href="#Linux中的准备工作" class="headerlink" title="Linux中的准备工作"></a>Linux中的准备工作</h1><ul>
+<li><p>httpd (提供 Apache 主程式)</p>
+</li>
+<li><p>mysql (MySQL 客戶端程式)</p>
+</li>
+<li><p>mysql-server (MySQL 伺服器程式)</p>
+</li>
+<li><p>php (PHP 主程式含給 apache 使用的模組)</p>
+</li>
+<li><p>php-devel (PHP 的發展工具，這個與 PHP 外掛的加速軟體有關)</p>
+</li>
+<li><p>php-mysql (提供給 PHP 程式讀取 MySQL 資料庫的模組)</p>
+</li>
+<li><p>关闭 Selinux</p>
+</li>
+<li><p>关闭 Iptables</p>
+</li>
+<li><p>添加 mysql 账号</p>
+</li>
+<li><p>添加 zabbix 账号</p>
+</li>
+<li><p>添加 apache 账号</p>
+</li>
+</ul>
+<h1 id="安装Apache"><a href="#安装Apache" class="headerlink" title="安装Apache"></a>安装Apache</h1><p>先安装apache必备运行库 ， 安装 apr 和 apr-util </p>
+<ul>
+<li>apr-1.6.5</li>
+<li>apr-util-1.6.1</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装依赖包</span></span><br><span class="line">yum install pcre-devel -y</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装运行库必备</span></span><br><span class="line">wget -O apr-1.6.5.tar.gz http://mirror.bit.edu.cn/apache//apr/apr-1.6.5.tar.gz</span><br><span class="line"></span><br><span class="line">wget -O apr-util-1.6.1.tar.gz http://mirror.bit.edu.cn/apache//apr/apr-util-1.6.1.tar.gz</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">到 apr 目录下</span></span><br><span class="line">./configure --prefix=/usr/local/apr-1.6.5</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查</span></span><br><span class="line">echo  $?</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如果没有错误则编译安装</span></span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">到 apr-util 目录下</span></span><br><span class="line">./configure --prefxi=/usr/local/apr-util-1.6.1 --with-apr=/usr/local/apr</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查</span></span><br><span class="line">echo $?</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">到httpd-2.2.4的目录下安装</span></span><br><span class="line">./configure --prefix=/usr/local/httpd-2.2.24/ --sysconfdir=/etc/httpd --enable-so --enable-rewrite --enable-ssl --enable-cgi --enable-cgid --enable-modules=most --enable-mods-shared=most --enable-mpms-shared=all --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">参数说明</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-so：支持动态共享模块，如果支持php将不能与apache一起工作。必须要有</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-ssl：启用ssl功能，如果不启用将无法使用https</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-mpms-shared=all：prefork、worker、event</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--with-mpm=event：event为默认</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-rewrite：支持URL重写</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-cgi :支持cgi</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-cgid:httpd使用event或者worker得启用被线程方式访问</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-modules=most :启用大多数模块</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">--enable-mods-shared=most:启用大多数共享模块</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制apachectl到/etc/init.d下</span></span><br><span class="line">cp /usr/local/httpd/bin/apachectl /etc/init.d/httpd</span><br></pre></td></tr></table></figure>
+
+<h2 id="Apache启动报错"><a href="#Apache启动报错" class="headerlink" title="Apache启动报错"></a>Apache启动报错</h2><ol>
+<li><p>Could not reliably determine the server’s fully qualified domain name, using localhost.localdomain for ServerName</p>
+</li>
+<li><p>configure: error: …No recognized SSL&#x2F;TLS toolkit detected</p>
+</li>
+</ol>
+<ul>
+<li>yum install openssl-devel -y</li>
+</ul>
+<ol start="3">
+<li>Syntax error on line 118 of &#x2F;usr&#x2F;local&#x2F;httpd-2.2.24&#x2F;conf&#x2F;httpd.conf:Invalid command ‘Order’, perhaps misspelled or defined by a module not included in the server configuration</li>
+</ol>
+<ul>
+<li>没有加载 mod_authz_host.so 模块</li>
+<li>LoadModule authz_host_module modules&#x2F;mod_authz_host.so</li>
+</ul>
+<h1 id="安装PHP-7-2-12"><a href="#安装PHP-7-2-12" class="headerlink" title="安装PHP-7.2.12"></a>安装PHP-7.2.12</h1><ul>
+<li>curl 要求 7.10.5+</li>
+<li>区别于 –with-mysql , 这个版本的php用的是 –with-pdo-mysql ,而不是用 –with-mysql</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php-7.2.12 --with-config-file-path=/usr/local/php-7.2.12/etc --with-bz2 --with-curl --enable-ftp --enable-sockets --disable-ipv6 --with-gd --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-freetype-dir=/usr/local --with-iconv-dir=/usr/local --enable-mbstring --enable-calendar --with-gettext --with-libxml-dir=/usr/local --with-zlib --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --enable-dom --enable-xml --enable-fpm --with-libdir=lib64 --enable-bcmath --enable-mbstring --with-gd  --with-libxml-dir=/usr/local --with-apxs2=/usr/local/httpd/bin/apxs</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为要编译apache的php模块，所以一定要带上 –with-apxs2 参数。</p>
+</blockquote>
+<p>需要对 apache 的配置文件进行设置 ， httpd.conf , 默认在 &#x2F;usr&#x2F;local&#x2F;httpd&#x2F;conf&#x2F;httpd.conf 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加解析问文件后缀</span></span><br><span class="line">AddType application/x-httpd-php .php .html .htm</span><br><span class="line"></span><br><span class="line">LoadModule php7_module modules/libphp7.so</span><br><span class="line"></span><br><span class="line">添加解析节点</span><br><span class="line">&lt;FileMatch \.php$&gt;</span><br><span class="line">    SetHandler application/x-httpd-php</span><br><span class="line">&lt;FileMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>设置几个必要参数 , 修改配置文件 &#x2F;etc&#x2F;php.ini</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看 php 的配置文件 php.ini 的路径</span></span><br><span class="line">./bin/php --ini</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑 php.ini 文件</span></span><br><span class="line">vi /etc/php.ini</span><br><span class="line">---</span><br><span class="line">max_execution_time = 300</span><br><span class="line">memory_limit = 128M</span><br><span class="line">post_max_size = 16M</span><br><span class="line">upload_max_filesize = 2M</span><br><span class="line">max_input_time = 300</span><br><span class="line">date.timezone PRC</span><br><span class="line">---</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改完后，需要重启 web服务器 才能生效。</span></span><br><span class="line">/etc/init.d/httpd restart</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>php-fpm.conf 是 PHP-FPM特有的配置文件。</li>
+<li>php.ini 是 PHP 解析器的配置文件。</li>
+</ul>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li>wrong mysql library version or lib not found.</li>
+</ol>
+<ul>
+<li>不指定对应的mysqli即可。</li>
+</ul>
+<ol start="2">
+<li>ERROR: No pool defined. at least one pool section must be specified in confi</li>
+</ol>
+<ul>
+<li>进入PHP安装目录&#x2F;etc&#x2F;php-fpm.d ，将<a target="_blank" rel="noopener" href="http://www.conf.default改名为www.conf/">www.conf.default改名为www.conf</a></li>
+<li>这个是池的定义，默认的为www池。</li>
+</ul>
+<h1 id="安装-Mysql"><a href="#安装-Mysql" class="headerlink" title="安装 Mysql"></a>安装 Mysql</h1><p>解压源码包，执行编译安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">tar xf mariaDB-10.3.11.tar.gz</span><br><span class="line"></span><br><span class="line">cd mariaDB-10.3.11</span><br><span class="line"></span><br><span class="line">cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mariaDB-10.3.11 -DMYSQL_DATADIR=/usr/local/mariadb/DB-DATA/ -DSYSCONFDIR=/etc -DWITHOUT_TOKUDB=1 -DWITH_INNOBASE_STORAGE_ENGINE=1  -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">参数说明：</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-DCMAKE_INSTALL_PREFIX是指定安装的位置</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-DMYSQL_DATADIR是指定MySQL的数据目录</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-DSYSCONFDIR是指定配置文件所在的目录，一般都是/etc ，具体的配置文件是/etc/my.cnf</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-DWITHOUT_TOKUDB=1这个参数一般都要设置上，表示不安装tokudb引擎。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">tokudb是MySQL中一款开源的存储引擎，可以管理大量数据并且有一些新的特性，这些是Innodb所不具备的，这里之所以不安装，是因为一般计算机默认是没有Percona Server的，并且加载tokudb还要依赖jemalloc内存优化，一般开发中也是不用tokudb的，所以暂时屏蔽掉。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将常用指令添加至环境变量中。</span></span><br><span class="line"></span><br><span class="line">vim /etc/profile</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---profile---</span></span><br><span class="line">export PATH=&quot;/usr/local/mariaDB/bin:$PATH&quot;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---profile---</span></span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">关于配置文件，默认安装中，mysql的配置文件放在 /etc/my.cnf 中，里面需要编辑，有关于服务端的配置。</span></span><br><span class="line"></span><br><span class="line">vim /etc/my.cnf</span><br><span class="line">---</span><br><span class="line">[mysqld]</span><br><span class="line">basedir=/usr/local/mariaDB-10.3.11</span><br><span class="line">port=3306</span><br><span class="line">socket=/tmp/mysqld.socket</span><br><span class="line">datadir=/db-data/</span><br><span class="line">log_error=/db-data/mariaDB-error.log</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">socket=/tmp/mysqld.socket</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入数据库</span></span><br><span class="line">/usr/local/mysqld/support-files/mysql.service start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="遇到的问题-1"><a href="#遇到的问题-1" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li>无法看到报错日志。</li>
+</ol>
+<ul>
+<li>需要自己手动创建报错日志文件 ，即 touch &#x2F;var&#x2F;log&#x2F;mariadb&#x2F;mariadb.log</li>
+<li>没有配置mysqld的错误日志输出 log_error 参数未设置</li>
+</ul>
+<ol start="2">
+<li>无法启动 mysql 服务 ，因为 mysql.user 表不存在。“Fatal error: Can’t open and lock privilege tables: Table ‘mysql.user’ doesn’t exist“</li>
+</ol>
+<ul>
+<li>这个是因为列表没有初始化，导致数据库无法识别到相应的用户信息以及数据库信息。</li>
+<li>检查方法：在 my.cnf 配置文件的 [mysqld] 节点中添加 skip-grant-tables , 就可以跳过检查 user 表进入数据库，可以看到里面并没有mysql这个库。</li>
+<li>真正的解决方法是在编译安装完后，需要运行脚本 mysql_install_db</li>
+</ul>
+<p>下面是mysql进程所调用的路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql    120667  0.1  3.9 1281688 73040 pts/0   Sl   12:58   0:00 /usr/local/mysql/bin/mysqld --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --plugin-dir=/usr/local/mysql/lib/plugin --user=mysql --log-error=/usr/local/mysql/data/localhost.localdomain.err --pid-file=/usr/local/mysql/data/localhost.localdomain.pid</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>如果还是无法启动，请检查以下 mysql 目录下的用户权限。“ Cannot open ‘&#x2F;data&#x2F;mysql&#x2F;ib_buffer_pool’ for reading: Permission denied<br>”</li>
+</ol>
+<ul>
+<li>因为使用mysql用户去启动这个进程，所有调用都是使用mysql去实现，因此必要的文件必须拥授权给mysql。</li>
+</ul>
+<ol start="4">
+<li>启动遇到socket问题，无法连接 mysql.socket.</li>
+</ol>
+<ul>
+<li>这是因为我已经修改了socket文件的命名，默认的是mysql.socket , 因此只需要在启动的时候指定 socket 即可 ， 加参数 -S 。</li>
+</ul>
+<h1 id="安装Zabbix-4-0-2"><a href="#安装Zabbix-4-0-2" class="headerlink" title="安装Zabbix-4.0.2"></a>安装Zabbix-4.0.2</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/zabbix-4.0.2/ --enable-server \</span><br><span class="line">--enable-agent --with-mysql --with-net-snmp --with-libcurl --with-libxml2</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install=</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建专门用于zabbix的账户</span></span><br><span class="line">useradd zabbix -s /sbin/nologin</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">初始化zabbix的数据库</span></span><br><span class="line">mysql -uroot -p -S /tmp/mysql.socket &lt; &#x27;create database zabbix default charset utf8&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">初始化数据库的表格</span></span><br><span class="line">mysql -uroot zabbix &lt; /data/zabbix-2.2.20/database/mysql/schema.sql</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">初始化sever</span></span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/images.sql</span><br><span class="line">mysql -uroot zabbix&lt; /data/zabbix-2.2.20/database/mysql/data.sql</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">导入sql语句的时候，可能会提示没有找到数据库</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">自己手动往 schema.sql 、 images.sql 、 data.sql 上添加 use zabbix</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置zabbix_server</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">TODO ： 前端文件复制到 Apache 目录下</span></span><br><span class="line">mkdir /etc/zabbix</span><br><span class="line">cp config/zabbix_server.conf /etc/zabbix/</span><br><span class="line">vim /etc/zabbix/zabbix_server.conf</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---zabbix_server.conf---#</span></span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=root</span><br><span class="line">DBPassword=ttlsapwd</span><br><span class="line">DBPort=3306</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---zabbix_server.conf---#</span></span><br></pre></td></tr></table></figure>
+
+<p>Zabbix 初始账号和密码：</p>
+<ul>
+<li>Usr ： Admin</li>
+<li>Pwd ： zabbix</li>
+</ul>
+<h2 id="遇到的问题-2"><a href="#遇到的问题-2" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li>configure: error: newly created file is older than distributed files!</li>
+</ol>
+<ul>
+<li>硬件时钟、系统时间不一致导致的问题。</li>
+</ul>
+<ol start="2">
+<li>进入web界面，初始化zabbix遇到以下问题。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Minimum required size of PHP post is 16M (configuration option &quot;post_max_size&quot;).</span><br><span class="line">Minimum required limit on execution time of PHP scripts is 300 (configuration option &quot;max_execution_time&quot;).</span><br><span class="line">Time zone for PHP is not set (configuration parameter &quot;date.timezone&quot;).</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个需要修改 php.ini 文件。</li>
+<li>timezone 是在 php-5.1 开始引入的东西，默认是关闭的，显示的时间是格林威治标准时间，和北京时间相差 8 个小时。</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>对于安装顺序的要求，是因为安装时会有关联，因此先执行以下的安装顺序较为妥当：</p>
+<ol>
+<li>安装 Apache</li>
+<li>安装 Mysql</li>
+<li>安装 PHP<ol>
+<li>加上 axps 参数，指定apache路径</li>
+</ol>
+</li>
+<li>安装 Zabbix</li>
+</ol>
+<p>Centos中对防火墙的使用并不是 iptables ， 而是 firewalld 因此在端口拦截方面要注意此应用。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>坑爹的网卡配置 ：<a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2017-04/143002.htm">https://www.linuxidc.com/Linux/2017-04/143002.htm</a></li>
+<li>坑爹的网卡操作指令：<a target="_blank" rel="noopener" href="https://linux.cn/article-3631-1.html">https://linux.cn/article-3631-1.html</a></li>
+<li>阿里源 <a target="_blank" rel="noopener" href="https://blog.csdn.net/jameshadoop/article/details/54881295">https://blog.csdn.net/jameshadoop/article/details/54881295</a></li>
+<li>APR :<a target="_blank" rel="noopener" href="http://apr.apache.org/download.cgi">http://apr.apache.org/download.cgi</a> </li>
+<li>Apache ： <a target="_blank" rel="noopener" href="https://archive.apache.org/dist/httpd/">https://archive.apache.org/dist/httpd/</a></li>
+<li>开发套件安装 ：<a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2016-04/130081.htm">https://www.linuxidc.com/Linux/2016-04/130081.htm</a></li>
+<li>Httpd 配置 ： <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2016-04/130079.htm">https://www.linuxidc.com/Linux/2016-04/130079.htm</a></li>
+<li>Apache-2.2 ：<a target="_blank" rel="noopener" href="http://httpd.apache.org/docs/2.2/">http://httpd.apache.org/docs/2.2/</a></li>
+<li>Zabbix官方安装指引 ： <a target="_blank" rel="noopener" href="https://www.zabbix.com/cn/download?zabbix=4.0&os_distribution=centos&os_version=7&db=MySQL">https://www.zabbix.com/cn/download?zabbix=4.0&amp;os_distribution=centos&amp;os_version=7&amp;db=MySQL</a></li>
+<li>MariaDB-10.3.11 : <a target="_blank" rel="noopener" href="https://downloads.mariadb.org/mariadb/10.3.11/">https://downloads.mariadb.org/mariadb/10.3.11/</a></li>
+<li>MariaDB : <a target="_blank" rel="noopener" href="https://mariadb.com/kb/zh-cn/mariadb/">https://mariadb.com/kb/zh-cn/mariadb/</a></li>
+<li>MariaDB-10.1.18源码安装：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/freeweb/p/5991374.html">https://www.cnblogs.com/freeweb/p/5991374.html</a></li>
+<li>php 时区设置：<a target="_blank" rel="noopener" href="https://www.jb51.net/article/27821.htm">https://www.jb51.net/article/27821.htm</a></li>
+<li>firewall-cmd : <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/411274f96492">https://www.jianshu.com/p/411274f96492</a></li>
+<li>PHP的配置文件 ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/u012129607/article/details/71191489">https://blog.csdn.net/u012129607/article/details/71191489</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1002,110 +1255,6 @@
 <li>expect实例讲解：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/lixigang/articles/4849527.html">http://www.cnblogs.com/lixigang/articles/4849527.html</a></li>
 </ul>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/fdcee059/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/fdcee059/" class="post-title-link" itemprop="url">[待补充]perl脚本学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-11-08 22:56:17" itemprop="dateCreated datePublished" datetime="2018-11-08T22:56:17+00:00">2018-11-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天看到一些大佬写的脚本竟然使用perl写的，故此需要简单记录一下学习笔记。</p>
-<h1 id="To-Do-list"><a href="#To-Do-list" class="headerlink" title="To-Do list"></a>To-Do list</h1><ul>
-<li>连接数据库，可以做到增删改查操作。</li>
-<li>从其他服务器中抓取需要的信息。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">服务器A</th>
-<th align="center">服务器B</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">192.168.1.1</td>
-<td align="center">192.168.1.2</td>
-</tr>
-<tr>
-<td align="center">Token服务器</td>
-<td align="center">Web后端服务器</td>
-</tr>
-<tr>
-<td align="center">生成OTP代码</td>
-<td align="center">呈现OTP代码</td>
-</tr>
-<tr>
-<td align="center">接收B发送的请求，并呈现结果</td>
-<td align="center">发送请求，并将获取的结果写入数据库</td>
-</tr>
-</tbody></table>
-<h1 id="脚本的知识点"><a href="#脚本的知识点" class="headerlink" title="脚本的知识点"></a>脚本的知识点</h1><h2 id="数据库-DBI"><a href="#数据库-DBI" class="headerlink" title="数据库 DBI"></a>数据库 DBI</h2><h2 id="调用expect库"><a href="#调用expect库" class="headerlink" title="调用expect库"></a>调用expect库</h2><h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1>
       
     </div>
 
