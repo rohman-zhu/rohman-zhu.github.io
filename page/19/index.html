@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">463</span>
+          <span class="site-state-item-count">464</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,98 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f25d0ed2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/f25d0ed2/" class="post-title-link" itemprop="url">记一次Linux因网络导致宕机的故障</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-12 00:25:57" itemprop="dateCreated datePublished" datetime="2022-01-12T00:25:57+00:00">2022-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
+<li>服务器的万兆网卡模块没有发射光；</li>
+<li>操作系统还在运行中；</li>
+<li>重启网卡依旧不能生效；</li>
+<li>需要将服务器关机停5分钟左右，再开机，网卡才能恢复正常；</li>
+</ol>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>可能是因为网卡流量过大，导致系统故障，网卡不可用。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>分析该服务器流量较大，从zabbix监控看到该网卡的流量已经跑满10Gb，因此增加多一个网口，将双网口组成LACP。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1069,108 +1161,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[username]:[init password]</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> chpasswd &lt; temp.file</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/15d6a4e2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/15d6a4e2/" class="post-title-link" itemprop="url">UAG磁盘空间使用率问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-11-30 00:37:56" itemprop="dateCreated datePublished" datetime="2021-11-30T00:37:56+00:00">2021-11-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>UAG近期被主流Horizon View架构中，用于替换安全服务器。这个是基于Photon Linux封装的操作系统，官方直接提供OVF包让我们导入虚拟化环境中。然而，这套东西貌似还没有开发完善，连基本的扩容操作都没有，ovf中可怜的20G空间很快就会被审计日志占满。当空间被占满后，就容易影响原有的业务，然而面对这种窘境，官方竟然没有任何一篇KB能够解决！</p>
-<p>除了空间问题，还有其他槽点：</p>
-<ol>
-<li>UAG还无法通过 WEB 控制台设置时区，甚至你都不知道你设置了哪一个时区!</li>
-<li>Web控制台每次刷新一下，就得重新输入账户密码！</li>
-<li>SNMP可监控的项实属过少。</li>
-<li>无法讲明的会话机制，也无法讲明的释放机制。（我曾经因为会话数达到最大值而被中断业务。 T T）</li>
-<li>最为致命的是ovf没有使用LVM来分区，无法做到在线扩容。</li>
-</ol>
-<h1 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h1><p>既然底层是基于Linux封装的，那也就意味着可以自定义定期运行的脚本。由此，我们可以基于shell脚本+crontab任务来解决，定期将已归档的审计日志（&#x2F;var&#x2F;log&#x2F;audit&#x2F;audit.log.gz)、系统日志(&#x2F;var&#x2F;log&#x2F;message.x)、认证日志(&#x2F;var&#x2F;log&#x2F;auth.log.gz)转移至其他地方。</p>
-<h2 id="底层添加磁盘"><a href="#底层添加磁盘" class="headerlink" title="底层添加磁盘"></a>底层添加磁盘</h2><p>略</p>
-<h2 id="初始化分区"><a href="#初始化分区" class="headerlink" title="初始化分区"></a>初始化分区</h2><p>略</p>
-<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># @Rohman</span></span><br><span class="line"><span class="comment"># 2021-11-30</span></span><br><span class="line"><span class="comment"># 将目标日志挪到/archive目录下</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置目录变量，如果要执行的指令，需要用$()</span></span><br><span class="line">Directory=<span class="string">&quot;/archive/<span class="subst">$(date &#x27;+%Y-%m-%d&#x27;)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> <span class="variable">$Directory</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 移动对应的文件</span></span><br><span class="line"><span class="built_in">mv</span> /var/log/audit/audit.*.gz <span class="variable">$Directory</span></span><br><span class="line"><span class="built_in">mv</span> /var/log/message.* <span class="variable">$Directory</span></span><br><span class="line"><span class="built_in">mv</span> /var/log/auth.*.gz <span class="variable">$Directory</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="创建定期任务"><a href="#创建定期任务" class="headerlink" title="创建定期任务"></a>创建定期任务</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑任务</span></span><br><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入任务配置</span></span><br><span class="line"><span class="comment"># 格式为 分、时、日、月、周</span></span><br><span class="line"><span class="comment"># 每个月的月初执行即可，例如 每一个月的1日00:00执行</span></span><br><span class="line">0 0 1 * * [脚本的绝对路径]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查是否有配置任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查日志</span></span><br><span class="line">less /var/log/cron</span><br></pre></td></tr></table></figure>
       
     </div>
 
