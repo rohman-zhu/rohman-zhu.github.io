@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-01-20 11:13:04 / Modified: 11:49:47" itemprop="dateCreated datePublished" datetime="2026-01-20T11:13:04+00:00">2026-01-20</time>
+      <time title="Created: 2026-01-20 11:13:04 / Modified: 13:33:41" itemprop="dateCreated datePublished" datetime="2026-01-20T11:13:04+00:00">2026-01-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -218,7 +218,23 @@
 <blockquote>
 <p>2026-01-20记录：注册成功后有效期1年，到期后180天内可以免费续订；</p>
 </blockquote>
-<h2 id="DNS-注册"><a href="#DNS-注册" class="headerlink" title="DNS 注册"></a>DNS 注册</h2><p>使用的是赛博菩萨，cloudflare</p>
+<h2 id="查询生效与否"><a href="#查询生效与否" class="headerlink" title="查询生效与否"></a>查询生效与否</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dpdns.org的查询服务器是 whois.digitalplat.org</span></span><br><span class="line">whois -h whois.digitalplat.org [需查询的域名]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一定要开启”Enable privacy”，会隐去手机号、住址信息，仅保留邮箱地址；</p>
+</blockquote>
+<h2 id="DNS-注册"><a href="#DNS-注册" class="headerlink" title="DNS 注册"></a>DNS 注册</h2><p>使用的是赛博菩萨，cloudflare ，选择CloudFlare原因：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Free plan is enough <span class="keyword">for</span> most <span class="built_in">users</span></span><br><span class="line">Clean and beginner-friendly interface</span><br><span class="line">Fast global DNS network</span><br><span class="line">No hidden limits <span class="keyword">for</span> basic DNS usage</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>注册CloudFlare账户；</li>
+<li>在CloudFlare添加域名，选择免费计划；</li>
+<li>CloudFlare会提供两个DNS服务器，比如daisy.ns.cloudflare.com,fred.ns.cloudflare.com;将这两个DNS服务器添加到DigitalPlat中创建的域名的Nameserver configuration里面；</li>
+<li>在CloudFlare创建解析记录；</li>
+</ol>
+<blockquote>
+<p>如果代理状态不激活，则返回的是真实源服务器IP；如果启动了代理状态，则返回的是CloudFlare内部的服务器IP，但这里有问题的是，启用CloudFlare的代理状态，则无法跟目标服务器通讯，还待查明问题；</p>
+</blockquote>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>官网：<a target="_blank" rel="noopener" href="https://dash.domain.digitalplat.org/">https://dash.domain.digitalplat.org/</a><br>项目文档： <a target="_blank" rel="noopener" href="https://hellogithub.com/repository/DigitalPlatDev/FreeDomain">https://hellogithub.com/repository/DigitalPlatDev/FreeDomain</a><br>项目地址： <a href="https://github.com/DigitalPlatDev/FreeDomain">https://github.com/DigitalPlatDev/FreeDomain</a><br>注册账户： <a href="https://github.com/DigitalPlatDev/FreeDomain/blob/main/documents/tutorial/getting-started/1.1-register-account.md">https://github.com/DigitalPlatDev/FreeDomain/blob/main/documents/tutorial/getting-started/1.1-register-account.md</a><br>DNS注册： <a href="https://github.com/DigitalPlatDev/FreeDomain/blob/main/documents/tutorial/getting-started/1.2-dns-hosting.md">https://github.com/DigitalPlatDev/FreeDomain/blob/main/documents/tutorial/getting-started/1.2-dns-hosting.md</a></p>
 
       
