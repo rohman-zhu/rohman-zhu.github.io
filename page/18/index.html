@@ -445,7 +445,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-01-05 16:03:53" itemprop="dateModified" datetime="2026-01-05T16:03:53+00:00">2026-01-05</time>
+      <time title="Modified: 2026-01-23 06:25:12" itemprop="dateModified" datetime="2026-01-23T06:25:12+00:00">2026-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -656,6 +656,9 @@
 <h2 id="更改WINRM监听端口"><a href="#更改WINRM监听端口" class="headerlink" title="更改WINRM监听端口"></a>更改WINRM监听端口</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="number">5895</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="逐行读取"><a href="#逐行读取" class="headerlink" title="逐行读取"></a>逐行读取</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Content</span> [<span class="type">FILEPATH</span>] | <span class="built_in">ForEach-Object</span> &#123;</span><br><span class="line">  <span class="comment">#line = $_</span></span><br><span class="line">  <span class="variable">$_</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="持续读取"><a href="#持续读取" class="headerlink" title="持续读取"></a>持续读取</h2><p>等价于tail -f [FILEPATH]</p>
+<figure class="highlight ps"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Content</span> [<span class="type">FILEPATH</span>] <span class="literal">-Wait</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">New-Timespan</span> [更早的时间]  [更晚的时间]</span><br><span class="line"></span><br><span class="line"><span class="built_in">New-Timespan</span> <span class="variable">$</span>(<span class="built_in">Get-Date</span>) <span class="variable">$</span>(<span class="built_in">Get-Date</span> <span class="string">&quot;target date&quot;</span>)</span><br></pre></td></tr></table></figure>
 
