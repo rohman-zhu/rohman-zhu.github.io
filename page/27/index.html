@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">465</span>
+          <span class="site-state-item-count">466</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,101 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/441b7247/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/441b7247/" class="post-title-link" itemprop="url">3PAR存储指令之showpd</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-05 21:15:03" itemprop="dateCreated datePublished" datetime="2020-12-05T21:15:03+00:00">2020-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">SAN存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">showpd</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">SYNTAX</span><br><span class="line"></span><br><span class="line">    showpd [options] [&lt;PD_ID&gt; ...]</span><br><span class="line"></span><br><span class="line">    showpd -listcols</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line"></span><br><span class="line">    -listcols               List columns available to be shown with -showcols.</span><br><span class="line"></span><br><span class="line">    -showcols &lt;column&gt;[,&lt;column&gt;...]</span><br><span class="line"></span><br><span class="line">                            Explicitly select columns to show.</span><br><span class="line"></span><br><span class="line">    -i                      Show inventory (inquiry) information.</span><br><span class="line"></span><br><span class="line">    -e                      Show disk environmental and error information.</span><br><span class="line"></span><br><span class="line">    -c                      Show chunklet usage information.</span><br><span class="line"></span><br><span class="line">    -state                  Show detailed state information.</span><br><span class="line"></span><br><span class="line">    -s                      Show detailed state information.</span><br><span class="line"></span><br><span class="line">    -path                   Show current and saved path information for disks.</span><br><span class="line"></span><br><span class="line">    -space                  Show disk capacity usage information (in MB).</span><br><span class="line"></span><br><span class="line">    -sortcol &lt;col&gt;[,&lt;dir&gt;][:&lt;col&gt;[,&lt;dir&gt;]...]</span><br><span class="line"></span><br><span class="line">        Sorts command output based on column number (&lt;col&gt;).</span><br><span class="line"></span><br><span class="line">    -failed                 Show only failed physical disks.</span><br><span class="line"></span><br><span class="line">    -degraded               Show only degraded disks</span><br><span class="line"></span><br><span class="line">    -p &lt;pattern&gt;            Show disks matching &lt;pattern&gt;</span><br><span class="line"></span><br><span class="line">    -nodes &lt;node_list&gt;      Specifies the node list.</span><br><span class="line"></span><br><span class="line">    -slots &lt;slot_list&gt;      Specifies the slot list.</span><br><span class="line"></span><br><span class="line">    -ports &lt;port_list&gt;      Specifies the port list.</span><br><span class="line"></span><br><span class="line">    -w &lt;world-wide_name&gt;    Specifies the WWN of the physical disk.</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>现实序号0至1行的记录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showpd -c - 1</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1082,104 +1177,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">layer2 Uses XOR of hardware MAC addresses to generate the hash. This algorithm will place all traffic to a particular network peer on the same slave.</span><br><span class="line"></span><br><span class="line">layer2+3 Uses XOR of hardware MAC addresses and IP addresses to generate the hash. This algorithm will place all traffic to a particular network peer on the same slave.</span><br><span class="line"></span><br><span class="line">layer3+4 This policy uses upper layer protocol information, when available, to generate the hash. This allows for traffic to a particular network peer to span multiple slaves, although a single connection will not span multiple slaves.</span><br><span class="line"></span><br><span class="line">encap2+3 This policy uses the same formula as layer2+3 but it relies on skb_flow_dissect to obtain the header fields which might result in the use of inner headers if an encapsulation protocol is used.</span><br><span class="line"></span><br><span class="line">encap3+4 This policy uses the same formula as layer3+4 but it relies on skb_flow_dissect to obtain the header fields which might result in the use of inner headers if an encapsulation protocol is used.</span><br><span class="line"></span><br><span class="line">The default value is layer2. This option was added in bonding version 2.6.3. In earlier versions of bonding, this parameter does not exist, and the layer2 policy is the only policy. The layer2+3 value was added for bonding version 3.2.2.</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/UbuntuBonding/">https://help.ubuntu.com/community/UbuntuBonding/</a><br><a target="_blank" rel="noopener" href="https://www.snel.com/support/how-to-set-up-lacp-bonding-on-ubuntu-18-04-with-netplan/">https://www.snel.com/support/how-to-set-up-lacp-bonding-on-ubuntu-18-04-with-netplan/</a><br><a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2013-10/91118.htm">https://www.linuxidc.com/Linux/2013-10/91118.htm</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4fa08dfd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/4fa08dfd/" class="post-title-link" itemprop="url">Linux下的dm设备</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-06-01 10:41:58" itemprop="dateCreated datePublished" datetime="2020-06-01T10:41:58+00:00">2020-06-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前在Linux中，看到一些名字为 dm-xx 的设备。<br>其实dm是Device Mapper的缩写，Device Mapper 是 Linux 2.6 内核中提供的一种从逻辑设备到物理设备的映射框架机制，在该机制下，用户可以很方便的根据自己的需要制定实现存储资源的管理策略，当前比较流行的 Linux 下的逻辑卷管理器如 LVM2（Linux Volume Manager 2 version)、EVMS(Enterprise Volume Management System)、dmraid(Device Mapper Raid Tool)等都是基于该机制实现的。</p>
-<blockquote>
-<p>Device Mapper是Linux操作系统中块设备一级提供的一种主要映射机制，现在已被多数Linux下的逻辑卷管理器所采用。在该机制下，实现用户自定义的存储资源管理策略变得极其方便。理解device mapper所提供的映射机制，也是进一步理解Linux下一些常见逻辑卷管理器实现的基础。</p>
-</blockquote>
-<h1 id="dm-xx-与-当前设备的对应关系"><a href="#dm-xx-与-当前设备的对应关系" class="headerlink" title="dm-xx 与 当前设备的对应关系"></a>dm-xx 与 当前设备的对应关系</h1><p>使用命令 dmsetup ls 查看，dm后面的数字对应(253,xx)后面的数字。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@mylnx01 ~]# dmsetup <span class="built_in">ls</span> </span><br><span class="line">VolGroup03-LogVol00--PS--user--snapshot (253, 8)</span><br><span class="line">VolGroup00-LogVol00--PS--user--snapshot (253, 2)</span><br><span class="line">VolGroup05-LogVol00     (253, 3)</span><br><span class="line">VolGroup04-LogVol00     (253, 5)</span><br><span class="line">VolGroup05-LogVol00--PS--user--snapshot (253, 4)</span><br><span class="line">VolGroup03-LogVol00     (253, 7)</span><br><span class="line">VolGroup02-LogVol00--PS--user--snapshot (253, 10)</span><br><span class="line">VolGroup02-LogVol00     (253, 9)</span><br><span class="line">VolGroup01-LogVol00     (253, 11)</span><br><span class="line">VolGroup00-LogVol01     (253, 1)</span><br><span class="line">VolGroup04-LogVol00--PS--user--snapshot (253, 6)</span><br><span class="line">VolGroup00-LogVol00     (253, 0)</span><br><span class="line">VolGroup01-LogVol00--PS--user--snapshot (253, 12)</span><br></pre></td></tr></table></figure>
-
-<p>使用 dmsetup info 查看详细信息。</p>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kerrycode/p/6187148.html">https://www.cnblogs.com/kerrycode/p/6187148.html</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-devmapper/index.html">https://www.ibm.com/developerworks/cn/linux/l-devmapper/index.html</a></p>
-</li>
-</ul>
 
       
     </div>

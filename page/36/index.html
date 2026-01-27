@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">465</span>
+          <span class="site-state-item-count">466</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,99 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9e06b9c8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/9e06b9c8/" class="post-title-link" itemprop="url">U盘装Ubuntu1604-Server的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-12-04 21:41:11" itemprop="dateCreated datePublished" datetime="2018-12-04T21:41:11+00:00">2018-12-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>用软碟通制作 Ubuntu1604-Server 的启动盘，安装到自检的时候，会发现镜像没有挂载上去，安装完系统后发现系统没有GCC、MAKE，以及其他未知的系统问题。</p>
+<p>目前遇到的是：</p>
+<ul>
+<li>安装过程中会中断，提示“Failed to copy file from CD-ROM” 。</li>
+<li>安装完后系统没有 gcc 和 make。</li>
+</ul>
+<h1 id="实际操作"><a href="#实际操作" class="headerlink" title="实际操作"></a>实际操作</h1><h2 id="问题一-：安装中断的问题，提示无法从CD-ROM中复制文件"><a href="#问题一-：安装中断的问题，提示无法从CD-ROM中复制文件" class="headerlink" title="问题一 ：安装中断的问题，提示无法从CD-ROM中复制文件"></a>问题一 ：安装中断的问题，提示无法从CD-ROM中复制文件</h2><p>使用软碟通 Ultraiso 制作的启动盘都会有这个问题。</p>
+<p>解决方法是强行挂载 iso 镜像到 cdrom 下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当出现错误提示的时候 ， “Failed to copy file from cd-rom , retry?<span class="string">&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 ctrl + alt + F2</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 Enter 键</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">卸载 usb 设备，重新挂载</span></span></span><br><span class="line">umount /dev/sdx4</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">挂载 usb 设备</span></span></span><br><span class="line">mount /dev/sdx4 /mnt</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">把 usb 设备中的 iso 镜像挂载到 cdrom 上面。</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">U 盘中需要放置 ubuntu 的系统镜像文件。</span></span></span><br><span class="line">mount -o loop /mnt/ubuntu-16.04.5-server.iso /cdrom</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">按 ctrl + alt + F1 回到安装界面</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="问题二-：安装完后没有-gcc-和-make"><a href="#问题二-：安装完后没有-gcc-和-make" class="headerlink" title="问题二 ：安装完后没有 gcc 和 make"></a>问题二 ：安装完后没有 gcc 和 make</h2><p>目前还不知道原因，默认安装完后，系统没有带 gcc 和 make ，同时又没有外网环境，只能挂载光盘源来安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">挂载系统的 iso 镜像到 /cdrom 下</span> </span><br><span class="line">mount -o loop /opt/ubuntu-16.04.5-server.iso /cdrom</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更改 apt 源文件</span></span><br><span class="line">vim /etc/apt/sources.list</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--- sources.list ---#</span></span><br><span class="line">deb file:///media/cdrom xenial main</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--- sources.list ---#</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新源后安装即可。</span></span><br><span class="line">apt-get update</span><br><span class="line">apt-get install gcc make</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20171110214349379?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaHpkMTIzNjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="Linux版本"></p>
+<h1 id="Linux知识补充"><a href="#Linux知识补充" class="headerlink" title="Linux知识补充"></a>Linux知识补充</h1><h2 id="loop-设备"><a href="#loop-设备" class="headerlink" title="loop 设备"></a>loop 设备</h2><p>在类 UNIX 系统里，loop 设备是一种伪设备(pseudo-device)，或者也可以说是仿真设备。它能使我们像块设备一样访问一个文件。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>光盘中安装 gcc、make ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/hzd12368/article/details/78503315">https://blog.csdn.net/hzd12368/article/details/78503315</a></li>
+<li>Linux中的loop设备 ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/ustc_dylan/article/details/6878252">https://blog.csdn.net/ustc_dylan/article/details/6878252</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1146,90 +1239,6 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>《鸟哥的Linux私房菜（第三版）》</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1be89a35/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/1be89a35/" class="post-title-link" itemprop="url">内核学习笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-11-15 22:43:10" itemprop="dateCreated datePublished" datetime="2018-11-15T22:43:10+00:00">2018-11-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>内核即Kernel ， 控制主机的所有硬件并提供系统所有的功能。一般Linux启动过程是利用开机管理程序加载这个内核文件来检测硬件 ， 在内核加载合适的驱动程序后，系统才能够正常启动。</p>
-<ul>
-<li>内核（Kernel）是一个文件 ，通常放置在 &#x2F;boot&#x2F;vmlinuz 中 ，一台Linux中可以有多个内核文件，只是开机的时候仅加载其中一个而已。</li>
-<li>内核模块（Kernel Module）通常是一些不常用的类似驱动程序的内容独立出内核，编译成模块，系统在运行过程中加载这个模块得到内核的支持。通常放在 &#x2F;lib&#x2F;modules&#x2F;$(uname -r)&#x2F;kernel&#x2F;当中。</li>
-<li>内核是通过源代码(Source Code)编译而成的，内核是直接被读入内存当中的。</li>
 </ul>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>《鸟哥的Linux私房菜（第三版）》</li>
