@@ -286,7 +286,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-01-23 06:19:22" itemprop="dateModified" datetime="2026-01-23T06:19:22+00:00">2026-01-23</time>
+      <time title="Modified: 2026-02-01 13:53:54" itemprop="dateModified" datetime="2026-02-01T13:53:54+00:00">2026-02-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -322,7 +322,7 @@
 <h1 id="热关闭虚拟机"><a href="#热关闭虚拟机" class="headerlink" title="热关闭虚拟机"></a>热关闭虚拟机</h1><blockquote>
 <p>VMware Tools要是可用情况下</p>
 </blockquote>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span> | <span class="built_in">Stop-GuestVM</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span> | <span class="built_in">Stop-VMGuest</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
 
 <h1 id="修改虚拟机名"><a href="#修改虚拟机名" class="headerlink" title="修改虚拟机名"></a>修改虚拟机名</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Name</span> <span class="string">&quot;新虚拟机名&quot;</span></span><br></pre></td></tr></table></figure>
 
