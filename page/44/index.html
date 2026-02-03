@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">466</span>
+          <span class="site-state-item-count">467</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,220 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7cbee8a3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/7cbee8a3/" class="post-title-link" itemprop="url">Linux 的NFS</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-14 10:08:01" itemprop="dateCreated datePublished" datetime="2017-10-14T10:08:01+00:00">2017-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Network-File-System"><a href="#Network-File-System" class="headerlink" title="Network File System"></a>Network File System</h1><h2 id="1-什么是NFS？"><a href="#1-什么是NFS？" class="headerlink" title="1.什么是NFS？"></a>1.什么是NFS？</h2><p>Network File System，即是网络文件系统。它允许网络中的计算机之间通过TCP&#x2F;IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。</p>
+<h2 id="2-NFS的组成"><a href="#2-NFS的组成" class="headerlink" title="2.NFS的组成"></a>2.NFS的组成</h2><p>NFS体系至少有两个主要部分：</p>
+<ul>
+<li>一台NFS服务器</li>
+<li>若干台客户机</li>
+</ul>
+<h2 id="3-组成NFS需要的条件"><a href="#3-组成NFS需要的条件" class="headerlink" title="3.组成NFS需要的条件"></a>3.组成NFS需要的条件</h2><ul>
+<li>IP地址 与 端口号</li>
+<li>RPC 服务</li>
+</ul>
+<h3 id="3-1什么是RPC-服务"><a href="#3-1什么是RPC-服务" class="headerlink" title="3.1什么是RPC 服务"></a>3.1什么是RPC 服务</h3><p>RPC（Remote Procedure Call Protocol）——远程过程调用协议，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP或UDP，为通信程序之间携带信息数据。在OSI网络通信模型中，RPC跨越了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。</p>
+<blockquote>
+<p>至于为什么用到RPC服务？ 简单的理解就是，客户机要访问NFS服务器，需要一个中介（RPC）来处理这些请求，减少NFS服务器的工作量。</p>
+</blockquote>
+<h2 id="4-安装步骤"><a href="#4-安装步骤" class="headerlink" title="4.安装步骤"></a>4.安装步骤</h2><p>分为两部分:客户端和服务端</p>
+<h3 id="4-1-服务端"><a href="#4-1-服务端" class="headerlink" title="4.1 服务端"></a>4.1 服务端</h3><p>需要安装两个软件rpcbind与nfs-utils</p>
+<ul>
+<li>rpcbind–centos 下面RPC主程序</li>
+<li>nfs-utils–NFS服务主程序，包括NFS的基本命令和监控程序</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 安装必要软件</span><br><span class="line"># yum install rpcbind nfs-utils</span><br><span class="line"></span><br><span class="line"># 开启RCP服务</span><br><span class="line"># /etc/init.d/rpcbind start</span><br><span class="line"></span><br><span class="line"># 检查服务端口号码</span><br><span class="line"># netstat -lntup | grep rpcbind</span><br><span class="line"></span><br><span class="line"># 检查rpc服务是否有端口注册</span><br><span class="line"># rpcinfo -p localhost</span><br><span class="line"></span><br><span class="line"># 创建存放数据的文件夹</span><br><span class="line"># mkdir /data</span><br><span class="line"># 更改该文件夹的权限</span><br><span class="line"># chown -R nfsnobody.nfsnobody /data</span><br><span class="line"></span><br><span class="line"># 修改配置文件</span><br><span class="line"># vi /etc/exports</span><br><span class="line">#-----------------</span><br><span class="line">/data 172.16.1.0/24(rw,sync)</span><br><span class="line">#-----------------</span><br><span class="line"></span><br><span class="line"># 开启NFS服务</span><br><span class="line"># /etc/ini.d/nfs start</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-客户端"><a href="#4-2-客户端" class="headerlink" title="4.2 客户端"></a>4.2 客户端</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 开启rpcbind服务程序</span><br><span class="line"># /etc/init.d/rpcbind status</span><br><span class="line"></span><br><span class="line"># 挂载共享目录</span><br><span class="line"># mount -t nfs 172.16.1.31:/data /mnt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-配置NFS共享的文件"><a href="#4-配置NFS共享的文件" class="headerlink" title="4.配置NFS共享的文件"></a>4.配置NFS共享的文件</h2><p>配置文件是&#x2F;etc&#x2F;exports。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">格式如下：</span><br><span class="line">共享的目录   客户端访问的地址（可配参数）</span><br><span class="line">/data   10.0.0.7(rw,sync)</span><br></pre></td></tr></table></figure>
+
+<h3 id="可配参数讲解"><a href="#可配参数讲解" class="headerlink" title="可配参数讲解"></a>可配参数讲解</h3><p>参数列表如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">rw</td>
+<td align="center">表示可读写权限</td>
+</tr>
+<tr>
+<td align="center">ro</td>
+<td align="center">表示只读权限</td>
+</tr>
+<tr>
+<td align="center">sync</td>
+<td align="center">请求或写入数据时，数据同步到写入到NFS Server的硬盘中（数据安全，不容易丢失，缺点就是会导致性能比不启动该参数时要差</td>
+</tr>
+<tr>
+<td align="center">async</td>
+<td align="center">异步写入，即是将数据写入内容，但是机器断电后，数据会丢失</td>
+</tr>
+<tr>
+<td align="center">no_root_squash</td>
+<td align="center">用户是root登录，则将该目录赋予 root权限</td>
+</tr>
+<tr>
+<td align="center">all_squash</td>
+<td align="center">客户端用户访问，则会被压缩成匿名用户–nfsnobody</td>
+</tr>
+<tr>
+<td align="center">anounuid</td>
+<td align="center">anon*开头，指的时anonymous匿名用户，设置匿名用户id</td>
+</tr>
+<tr>
+<td align="center">anongid</td>
+<td align="center">设置匿名用户组的id</td>
+</tr>
+</tbody></table>
+<h2 id="5-NFS故障排错"><a href="#5-NFS故障排错" class="headerlink" title="5.NFS故障排错"></a>5.NFS故障排错</h2><p>在运行NFS服务或者挂载NFS服务器下的文件目录时，可能会遇到以下错误。</p>
+<h3 id="No-route-to-host"><a href="#No-route-to-host" class="headerlink" title="No route to host"></a>No route to host</h3><p>这种情况要检测以下防火墙，甚至是把_iptables_服务关闭。</p>
+<h3 id="RPC-Programm-not-registered"><a href="#RPC-Programm-not-registered" class="headerlink" title="RPC:Programm not registered"></a>RPC:Programm not registered</h3><p>这个可能是启动顺序出了问题，NFS服务在RPC服务前启动，造成RPC的程序不能正常注册。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正常启动顺序</span><br><span class="line"># /etc/init.d/rpcbind start</span><br><span class="line"># rpcinfo -p localhost</span><br><span class="line"># /etc/init.d/nfs start</span><br><span class="line"># rpcinfo -p localhost</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端挂载nfs文件的时候出现”No-file-or-directory”"><a href="#客户端挂载nfs文件的时候出现”No-file-or-directory”" class="headerlink" title="客户端挂载nfs文件的时候出现”No file or directory”"></a>客户端挂载nfs文件的时候出现”No file or directory”</h3><p>这种情况一般是NFS服务器里面不存在这个文件夹或目录，只要创建了即可。</p>
+<h2 id="客户端挂载NFS服务器的文件夹"><a href="#客户端挂载NFS服务器的文件夹" class="headerlink" title="客户端挂载NFS服务器的文件夹"></a>客户端挂载NFS服务器的文件夹</h2><p>格式如下：</p>
+<blockquote>
+<p>mount NFS服务器的地址 挂载点</p>
+</blockquote>
+</br>
+
+<p>如 mount 10.0.0.7:&#x2F;data &#x2F;mnt</p>
+</br>
+
+<p>如果追求极致，也可以这么做：</p>
+<blockquote>
+<p>mount -t nfs bg,hard,intr,rsize&#x3D;131072,wsize&#x3D;131072 10.0.0.7:&#x2F;data &#x2F;mnt</p>
+</blockquote>
+<h3 id="关于mount的参数"><a href="#关于mount的参数" class="headerlink" title="关于mount的参数"></a>关于mount的参数</h3><ul>
+<li>-a：把&#x2F;etc&#x2F;fstab中列出的路径全部挂载。</li>
+<li>-t：需要mount的类型，如nfs等。</li>
+<li>-r：将mount的路径定为read only。</li>
+<li>-v mount：过程的每一个操作都有message传回到屏幕上。</li>
+<li>rsize&#x3D;n：在NFS服务器读取文件时NFS使用的字节数，默认值是1 024个字节。</li>
+<li>wsize&#x3D;n：向NFS服务器写文件时NFS使用的字节数，默认值是1 024个字节。</li>
+<li>timeo&#x3D;n：从超时后到第1次重新传送占用的1&#x2F;7秒的数目，默认值是7&#x2F;7秒。</li>
+<li>retry&#x3D;n：在放弃后台mount操作之前可以尝试的次数，默认值是7 000次。</li>
+<li>soft：使用软挂载的方式挂载系统，若Client的请求得不到回应，则重新请求并传回错误信息。</li>
+<li>hard：使用硬挂载的方式挂载系统，该值是默认值，重复请求直到NFS服务器回应。</li>
+<li>intr：允许NFS中断文件操作和向调用它的程序返回值，默认不允许文件操作被中断。</li>
+<li>fg：一直在提示符下执行重复挂载。</li>
+<li>bg：如果第1次挂载文件系统失败，继续在后台尝试执行挂载，默认值是失败后不在后台处理。</li>
+<li>tcp：对文件系统的挂载使用TCP，而不是默认的UDP。</li>
+</ul>
+<p>一般hard参数与intr参数一同使用，防止NFS锁死。</p>
+<p>来自网友的总结：</p>
+<blockquote>
+<p>采用hard mount，NFS客户机会不断地尝试与NFS服务器连接（在后台一般不会给出任何提示信息），直到挂载上为止。<br>采用soft mount，会在前台尝试与NFS服务器连接，当收到错误信息后终止mount尝试，并给出相关信息。</p>
+</blockquote>
+<h2 id="NFS挂载优化"><a href="#NFS挂载优化" class="headerlink" title="NFS挂载优化"></a>NFS挂载优化</h2><h3 id="实例一：一个NFS服务器共享的只是普通静态数据，不需要执行suid、exec等权限，挂载的这个文件系统只能作为数据存取之用，无法执行程序，对于客户端来讲增加了安全性。"><a href="#实例一：一个NFS服务器共享的只是普通静态数据，不需要执行suid、exec等权限，挂载的这个文件系统只能作为数据存取之用，无法执行程序，对于客户端来讲增加了安全性。" class="headerlink" title="实例一：一个NFS服务器共享的只是普通静态数据，不需要执行suid、exec等权限，挂载的这个文件系统只能作为数据存取之用，无法执行程序，对于客户端来讲增加了安全性。"></a>实例一：一个NFS服务器共享的只是普通静态数据，不需要执行suid、exec等权限，挂载的这个文件系统只能作为数据存取之用，无法执行程序，对于客户端来讲增加了安全性。</h3><p>安全挂载参数：</p>
+<blockquote>
+<p>mount -t nfs -o nosuid,noexec,nodev,rw 10.0.0.7:&#x2F;data &#x2F;mnt</p>
+</blockquote>
+<p>通过 mount -o 指定挂载参数和在&#x2F;etc&#x2F;fstab 里指定挂载参数效果时一样的。</p>
+</br>
+
+<p>禁止更新目录以及文件时间戳挂载：</p>
+<blockquote>
+<p>mount -t nfs -o noatime,nodiratime 10.0.0.7:&#x2F;data &#x2F;mnt</p>
+</blockquote>
+</br>
+
+<p>安全加优化的挂载方式：</p>
+<blockquote>
+<p>mount -t nfs -o nosuid,noexec,nodev,noatime,nodiratime,nodiratime,intr,rsize&#x3D;65536,wsize&#x3D;65536 10.0.0.7:&#x2F;data &#x2F;mnt</p>
+</blockquote>
+<h2 id="NFS-优缺点"><a href="#NFS-优缺点" class="headerlink" title="NFS 优缺点"></a>NFS 优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>简单</li>
+<li>所有数据都是在文件系统上，即都可以看得见。</li>
+<li>方便，因为可以快速部署，维护简单。</li>
+<li>可靠；从软件层面来讲要可靠一些。</li>
+<li>稳定。</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>存在单点故障，如果NFS服务器端宕机，所有C端的机器都不能连接NFS服务器。</li>
+<li>大数据高并发的场合，NFS效率与性能有限。</li>
+<li>客户端认证基于ip和主机名，权限是根据ID识别的，安全性一般。</li>
+<li>NFS数据都是明文。</li>
+<li>耦合度高，不易于维护.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1501,97 +1715,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># msoobe</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>根据引导完成程序安装。</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c012c659/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/c012c659/" class="post-title-link" itemprop="url">Linux语言设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-04 14:44:59" itemprop="dateCreated datePublished" datetime="2017-10-04T14:44:59+00:00">2017-10-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在查看内容的时候出现乱码，原因即是linux显示不出中文字体，所以这时候要调整字体。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><ol>
-<li><p>查看当前系统语言</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo $LANG</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看已经安装的语言包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locale</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果没有就自行安装下载</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall chinese-support</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将语言修改成中文</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">临时更换语言</span><br><span class="line">$ LANG = 语言名称</span><br><span class="line"></span><br><span class="line">修改默认语言</span><br><span class="line">$ vim /etc/sysconfig/il8n</span><br><span class="line">LANG = 语言名臣</span><br></pre></td></tr></table></figure>
-<p>修改完后重启</p>
 </li>
 </ol>
 

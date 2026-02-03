@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">466</span>
+          <span class="site-state-item-count">467</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,94 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ca72b0f2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ca72b0f2/" class="post-title-link" itemprop="url">Exchange Management Shell 指令</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-01 23:21:53" itemprop="dateCreated datePublished" datetime="2020-03-01T23:21:53+00:00">2020-03-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Move-ActiveMailboxDatabase"><a href="#Move-ActiveMailboxDatabase" class="headerlink" title="Move-ActiveMailboxDatabase"></a>Move-ActiveMailboxDatabase</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example 1:</span></span><br><span class="line"><span class="built_in">Move-ActiveMailboxDatabase</span> <span class="literal">-Server</span> MBX1</span><br><span class="line"></span><br><span class="line"><span class="comment"># This example performs a server switchover for the Mailbox server MBX1. All active mailbox database copies on MBX1 will be activated on one or more other Mailbox servers with healthy copies of the active databases on MBX1.</span></span><br></pre></td></tr></table></figure>
+
+<p>参考： <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/exchange/database-availability-groups/move-activemailboxdatabase?view=exchange-ps">https://docs.microsoft.com/en-us/powershell/module/exchange/database-availability-groups/move-activemailboxdatabase?view=exchange-ps</a></p>
+<h1 id="Get-MailboxDatabaseCopyStatus"><a href="#Get-MailboxDatabaseCopyStatus" class="headerlink" title="Get-MailboxDatabaseCopyStatus"></a>Get-MailboxDatabaseCopyStatus</h1><p>Use the Get-MailboxDatabaseCopyStatus cmdlet to view health and status information about one or more mailbox database copies.</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/exchange/database-availability-groups/get-mailboxdatabasecopystatus?view=exchange-ps">https://docs.microsoft.com/en-us/powershell/module/exchange/database-availability-groups/get-mailboxdatabasecopystatus?view=exchange-ps</a></p>
+<h1 id="Test-ServerHealth"><a href="#Test-ServerHealth" class="headerlink" title="Test-ServerHealth"></a>Test-ServerHealth</h1><p>Use the Test-ServiceHealth cmdlet to test whether all the Microsoft Windows services that Exchange requires on a server have started. The Test-ServiceHealth cmdlet returns an error for any service required by a configured role when the service is set to start automatically and isn’t currently running.</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/exchange/server-health-and-performance/test-servicehealth">https://docs.microsoft.com/en-us/powershell/module/exchange/server-health-and-performance/test-servicehealth</a></p>
+<h1 id="Test-MAPIConnectivity"><a href="#Test-MAPIConnectivity" class="headerlink" title="Test-MAPIConnectivity"></a>Test-MAPIConnectivity</h1><p>Use the Test-MapiConnectivity cmdlet to verify server functionality by logging on to the mailbox that you specify. If you don’t specify a mailbox, the cmdlet logs on to the SystemMailbox on the database that you specify.</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/exchange/mailboxes/test-mapiconnectivity?view=exchange-ps">https://docs.microsoft.com/en-us/powershell/module/exchange/mailboxes/test-mapiconnectivity?view=exchange-ps</a></p>
+<h1 id="Get-ExchangeServer"><a href="#Get-ExchangeServer" class="headerlink" title="Get-ExchangeServer"></a>Get-ExchangeServer</h1><p>Use the Get-ExchangeServer cmdlet to view the properties of Exchange servers.</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-ExchangeServer</span> | <span class="built_in">ft</span> Name,Edition,AdminDisplayVersion</span><br><span class="line"></span><br><span class="line"><span class="comment"># Exchange CU23 (Cumulative Updates 23),Version is 15.0.0.1497.002</span></span><br><span class="line"><span class="comment"># https://www.microsoft.com/en-us/download/details.aspx?id=58392</span></span><br><span class="line"><span class="comment"># Require： DotNet4.7.2</span></span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/exchange/organization/Get-ExchangeServer">https://docs.microsoft.com/en-us/powershell/module/exchange/organization/Get-ExchangeServer</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -833,91 +921,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="更换默认壁纸"><a href="#更换默认壁纸" class="headerlink" title="更换默认壁纸"></a>更换默认壁纸</h1><p>用户配置 – 》 管理模板 –》桌面 –》 Active Desktop</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/885ecd5d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/885ecd5d/" class="post-title-link" itemprop="url">TCPIP无法建立传出连接</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-02-03 22:23:16" itemprop="dateCreated datePublished" datetime="2020-02-03T22:23:16+00:00">2020-02-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>事件4227</p>
-<h2 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h2><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">rem 查看动态端口范围</span></span><br><span class="line">netsh int ipv4 show dynamicport tcp</span><br><span class="line">netsh int ipv4 show dynamicport udp</span><br><span class="line">netsh int ipv6 show dynamicport tcp</span><br><span class="line">netsh int ipv6 show dynamicport udp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">get-NetTcpConnection</span> | <span class="built_in">group-object</span> <span class="literal">-Property</span> state,owningprocess</span><br></pre></td></tr></table></figure>
-
-<h2 id="注册表调整TcpTimedWaitDelay值"><a href="#注册表调整TcpTimedWaitDelay值" class="headerlink" title="注册表调整TcpTimedWaitDelay值"></a>注册表调整TcpTimedWaitDelay值</h2><p>默认情况下，这个值为4分钟；</p>
-<p>REG_DWORD</p>
-<h2 id="调整扩展动态端口范围"><a href="#调整扩展动态端口范围" class="headerlink" title="调整扩展动态端口范围"></a>调整扩展动态端口范围</h2><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh int ipv4 <span class="built_in">set</span> dynamicport tcp <span class="built_in">start</span> = <span class="number">10000</span> num = <span class="number">20000</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010133338/article/details/80961256">https://blog.csdn.net/u010133338/article/details/80961256</a></p>
 
       
     </div>
