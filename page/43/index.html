@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">467</span>
+          <span class="site-state-item-count">468</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,149 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8dc4a755/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/8dc4a755/" class="post-title-link" itemprop="url">Web_Apache</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-27 14:48:28" itemprop="dateCreated datePublished" datetime="2017-10-27T14:48:28+00:00">2017-10-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h1><h2 id="0-下载地址"><a href="#0-下载地址" class="headerlink" title="0.下载地址"></a>0.下载地址</h2><p>httpd-2.4.28.tar.gz:</p>
+<p><code>http://mirror.bit.edu.cn/apache/httpd/httpd-2.4.28.tar.gz</code></p>
+<p>apr-util-1.6.1:</p>
+<p><code>http://mirror.bit.edu.cn/apache/apr/apr-util-1.6.1.tar.gz</code></p>
+<p>apr-1.6.3:</p>
+<p><code>http://mirror.bit.edu.cn/apache/apr/apr-1.6.3.tar.gz</code></p>
+<p>开始安装前,把必要的编译库安装上:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall Development tools Compatibility libraries Chinese Support [zh] -y</span><br></pre></td></tr></table></figure>
+
+<p>需要的依赖文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install pcre-devel openssl openssl-devel -y</span><br></pre></td></tr></table></figure>
+
+<p>编译安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/httpd-2.x.x \</span><br><span class="line">--sysconfdir=/etc/httpd \</span><br><span class="line">--with-apr=/usr/local/apr \</span><br><span class="line">--with-apr-util=/usr/local/apr-util \</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">允许压缩,提升效率</span></span><br><span class="line">--enable-deflate \</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">浏览器打开页面后有缓存</span></span><br><span class="line">--enable-expires \</span><br><span class="line">--enbale-headers \</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">激活大部分模块</span></span><br><span class="line">--enable-modules=most \</span><br><span class="line">--enable-so \</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">worker模式</span></span><br><span class="line">--with-mpm=worker \</span><br><span class="line">--enable-rewrite</span><br></pre></td></tr></table></figure>
+
+<p>编辑&#x2F;conf下的httpd.conf</p>
+<ul>
+<li>网页首页与目录权限设定（DocumentRoot 与 Directory）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#添加虚拟主机</span><br><span class="line">Include conf/extra/httpd-vhosts.conf</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> &quot;<span class="attr">路径</span>&quot;&gt;</span></span><br><span class="line">    Options -Indexes +FollowSymLinks</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br><span class="line"></span><br><span class="line">#添加两行</span><br><span class="line">AddType application/x-httpd-php .php .phtmls</span><br><span class="line">AddType application/x-httpd-php-source .php5</span><br></pre></td></tr></table></figure>
+<h2 id="httpd-conf-配置文件"><a href="#httpd-conf-配置文件" class="headerlink" title="httpd.conf 配置文件"></a>httpd.conf 配置文件</h2><p>一般在 &#x2F;etc&#x2F;httpd&#x2F;httpd.conf</p>
+<h3 id="Diretory-节点"><a href="#Diretory-节点" class="headerlink" title="Diretory 节点"></a>Diretory 节点</h3><p>Options 可选参数:</p>
+<ul>
+<li>Indexes：如果在此目录下找不到 index.html 时， 就顯示整個目錄下的檔案名稱，至於『首頁檔案檔名』則與 DirectoryIndex 設定值有關。</li>
+<li>FollowSymLinks：這是 Follow Symbolic Links 的縮寫， 字面意義是讓連結檔可以生效的意思。我們知道首頁目錄在 &#x2F;var&#x2F;www&#x2F;html，既然是 WWW 的根目錄，理論上就像被 chroot 一般！ 一般來說被 chroot 的程式將無法離開其目錄，也就是說預設的情況下，你在 &#x2F;var&#x2F;www&#x2F;html 底下的連結檔只要連結到非此目錄的其他地方，則該連結檔預設是失效的。 但使用此設定即可讓連結檔有效的離開本目錄。</li>
+<li>ExecCGI：讓此目錄具有執行 CGI 程式的權限，非常重要！舉例來說，之前熱門的OpenWebMail 使用了很多的 perl 的程式，你要讓 OpenWebMail 可以執行，就得要在該程式所在目錄擁有 ExecCGI 的權限才行喔！但請注意，不要讓所有目錄均可使用 ExecCGI ！</li>
+<li>Includes：讓一些 Server-Side Include 程式可以運作。建議可以加上去！</li>
+<li>MultiViews：這玩意兒有點像是多國語言的支援，與語系資料 (LanguagePriority) 有關。最常見在錯誤訊息的回報內容，在同一部主機中，可以依據用戶端的語系而給予不同的語言顯示呢！ 預設在錯誤回報訊息當中存在，你可以檢查一下&#x2F;var&#x2F;www&#x2F;error&#x2F; 目錄下的資料喔！</li>
+</ul>
+<p>AllowOverride:</p>
+<p>表示是否允許額外設定檔 .htaccess 的某些參數覆寫？我們可以在 httpd.conf 內設定好所有的權限，不過如此一來若使用者自己的個人網頁想要修改權限時將會對管理員造成困擾。因此 Apache 預設可以讓使用者以目錄底下的 .htaccess 檔案內覆寫 <Directory> 內的某些功能參數。</p>
+<ul>
+<li>ALL：全部的權限均可被覆寫；</li>
+<li>AuthConfig：僅有網頁認證 (帳號密碼) 可覆寫；</li>
+<li>Indexes：僅允許 Indexes 方面的覆寫；</li>
+<li>Limits：允許使用者利用 Allow, Deny 與 Order 管理可瀏覽的權限；</li>
+<li>None：不可覆寫，亦即讓 .htaccess 檔案失效！</li>
+</ul>
+<p>Order:</p>
+<p>決定此目錄是否可被 apache 的 PID 所瀏覽的權限設定啦！能否被瀏覽主要有兩種判定的方式：</p>
+<ul>
+<li>deny,allow：以 deny 優先處理，但沒有寫入規則的則預設為 allow 喔。</li>
+<li>allow,deny：以 allow 為優先處理，但沒有寫入規則的則預設為 deny 喔。 所以在預設的環境中，因為是 allow,deny 所以預設為 deny (不可瀏覽)，不過在下一行有個</li>
+<li>Allow from all，allow 優先處理，因此全部 (all) 用戶端皆可瀏覽啦！</li>
+</ul>
+<h2 id="1-重要目录以及文件"><a href="#1-重要目录以及文件" class="headerlink" title="1.重要目录以及文件"></a>1.重要目录以及文件</h2><h3 id="htdocs-目录下面"><a href="#htdocs-目录下面" class="headerlink" title="htdocs 目录下面"></a>htdocs 目录下面</h3><p>这是编译安装默认的站点目录.</p>
+<h3 id="logs-目录下面"><a href="#logs-目录下面" class="headerlink" title="logs 目录下面"></a>logs 目录下面</h3><ul>
+<li>access_log - 这是apache的默认访问日志,使用tail-faccess.og可以实时观看网站用户的访问情况.</li>
+<li>error_log - 这是apache的错误日志文件,如果apache出现启动故障等问题,一定要看这个错误日志.</li>
+<li>httpd.pid - http的pid文件,http进程启动后,会把所有进程的ID号写到此文件.</li>
+</ul>
+<h3 id="modules-目录"><a href="#modules-目录" class="headerlink" title="modules 目录"></a>modules 目录</h3><p>apache的模块目录,比如 php等.</p>
+<h3 id="bin-目录下面"><a href="#bin-目录下面" class="headerlink" title="bin 目录下面"></a>bin 目录下面</h3><ul>
+<li>ab - Apache HTTP服务器性能测试工具,简单&#x2F;易用.同类软件还有jmeter,loadrunner,webbench等.</li>
+<li>apachectl - 这是apache的启动命令,apachectl是一个脚本.</li>
+<li>apxs - Apache HTTP服务器编译和安装拓展模块的工具,在进行DSO方式编译模块时会用到,–with-apxs2&#x3D;&#x2F;application&#x2F;apache&#x2F;bin&#x2F;apxs</li>
+<li>htcaheclean - 这是清理磁盘缓冲区的命令,需要在编译时指定相关参数才可以使用.</li>
+<li>htpasswd - 建立和更新基本认证文件,如:配置nagios等监控服务时会用到.</li>
+<li>httpd - Apache的控制命令程序,apachectl执行时会调用httpd</li>
+<li>rotatelogs - apache自带的日志轮询命令.</li>
+</ul>
+<h3 id="conf-目录下面"><a href="#conf-目录下面" class="headerlink" title="conf 目录下面"></a>conf 目录下面</h3><ul>
+<li>extra - 这是额外的apache配置文件的陆慕,这个目录里面的文件会经常访问,如:httpd-vhosts.conf默认就在这个目录.</li>
+<li>httpd.conf - apache的主配置文件,这个文件也会经常访问修改,其中每一行的参数作用都应该弄清除明白</li>
+</ul>
+<h4 id="进入主配置文件http-conf"><a href="#进入主配置文件http-conf" class="headerlink" title="进入主配置文件http.conf"></a>进入主配置文件http.conf</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ServerRoot //根目录</span><br><span class="line">Listen //端口</span><br><span class="line">User</span><br><span class="line">Group</span><br><span class="line">ServerAdmin you@example.com</span><br><span class="line">DocumentRoot //站点根目录</span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> /&gt;</span> //禁止任何人访问根目录</span><br><span class="line">    Options FollowSymLinks</span><br><span class="line">    AllowOverride None</span><br><span class="line">    Order dely,allow</span><br><span class="line">    Deny from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br><span class="line"></span><br><span class="line">//创建了新的站点目录</span><br><span class="line"><span class="tag">&lt;<span class="name">Directory</span> &quot;/<span class="attr">application</span>/<span class="attr">apache</span>/<span class="attr">htdocs</span>&quot;&gt;</span></span><br><span class="line">    Options Indexes FollowSymLinks //Indexes这个参数非常危险,会展现目录结构;优化是删除或者添加-Indexes;</span><br><span class="line">    AllowOverride None</span><br><span class="line">    Order allow,deny</span><br><span class="line">    Allow from all</span><br><span class="line"><span class="tag">&lt;/<span class="name">Directory</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>检查语法 : &#x2F;bin&#x2F;apachectl -graceful</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1710,222 +1853,6 @@ HTTP权威指南(前4章)
 <li>第三方的HTTP接口</li>
 <li>默认多线程同步</li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f002f57a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f002f57a/" class="post-title-link" itemprop="url">Linux的RSYNC服务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-15 09:21:31" itemprop="dateCreated datePublished" datetime="2017-10-15T09:21:31+00:00">2017-10-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="RSYNC"><a href="#RSYNC" class="headerlink" title="RSYNC"></a>RSYNC</h1><p>Remote synchronization,可以通过网络将两台机器进行数据备份。开源、快速、可实现全量与增量数据备份数据。</p>
-<h2 id="1-什么是全量、增量备份"><a href="#1-什么是全量、增量备份" class="headerlink" title="1.什么是全量、增量备份"></a>1.什么是全量、增量备份</h2><p>全量就是指全部文件进行备份。增量就是指对相同的文件进行第二次备份，只对有改动的文件备份。</p>
-<blockquote>
-<p>备份时的命名规范：目录以IP地址命名，文件以时间命名</p>
-</blockquote>
-<h2 id="2-NFS的工作模式"><a href="#2-NFS的工作模式" class="headerlink" title="2.NFS的工作模式"></a>2.NFS的工作模式</h2><h3 id="2-1第一种工作模式：本地（Local）"><a href="#2-1第一种工作模式：本地（Local）" class="headerlink" title="2.1第一种工作模式：本地（Local）"></a>2.1第一种工作模式：本地（Local）</h3><p>相当于是本机操作：</p>
-<ol>
-<li>rsync -avz &#x2F;etc&#x2F;hosts &#x2F;tmp 等价于cp指令</li>
-<li>rsync -avz –delete &#x2F;null &#x2F;tmp&#x2F; 等价于rm指令</li>
-</ol>
-<h3 id="2-2第二种工作模式：远程（Remote）"><a href="#2-2第二种工作模式：远程（Remote）" class="headerlink" title="2.2第二种工作模式：远程（Remote）"></a>2.2第二种工作模式：远程（Remote）</h3><ol>
-<li>PUSH : rsync -avzP -e ‘ssh -p 22’ &#x2F;tmp&#x2F; <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#48;&#x2e;&#48;&#x2e;&#56;">&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#48;&#x2e;&#48;&#x2e;&#56;</a>:&#x2F;tmp</li>
-<li>PULL : rsync -avzP -e ‘ssh -p 22’ <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#48;&#46;&#x30;&#46;&#56;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#48;&#46;&#x30;&#46;&#56;</a>:&#x2F;tmp &#x2F;tmp&#x2F;</li>
-</ol>
-<blockquote>
-<p>-e表示指定隧道,即是指定了端口.</p>
-</blockquote>
-<h2 id="3-关乎rsync命令的参数"><a href="#3-关乎rsync命令的参数" class="headerlink" title="3.关乎rsync命令的参数"></a>3.关乎rsync命令的参数</h2><table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">意义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">-v</td>
-<td align="center">–verbose(详细的,冗长的),详细模式输出,传输时的进度等信息</td>
-</tr>
-<tr>
-<td align="center">-z</td>
-<td align="center">–compress,传输时进行压缩以提高传输效率</td>
-</tr>
-<tr>
-<td align="center">-a</td>
-<td align="center">–archive(归档),表示以递归形式传输文件,并保持所有文件的属性</td>
-</tr>
-<tr>
-<td align="center">-r</td>
-<td align="center">–recursive(递归的,循环的)</td>
-</tr>
-<tr>
-<td align="center">-t</td>
-<td align="center">–times保持文件时间信息</td>
-</tr>
-<tr>
-<td align="center">-o</td>
-<td align="center">–owner保持文件的数组信息</td>
-</tr>
-<tr>
-<td align="center">-p</td>
-<td align="center">–perms保持文件权限</td>
-</tr>
-<tr>
-<td align="center">-g</td>
-<td align="center">–group保持文件数组信息</td>
-</tr>
-<tr>
-<td align="center">-P</td>
-<td align="center">–progress 显示同步的过程以及传输时的进度等信息</td>
-</tr>
-<tr>
-<td align="center">-D</td>
-<td align="center">–devices保持沈北文件信息</td>
-</tr>
-<tr>
-<td align="center">-l</td>
-<td align="center">–link保留软连接</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>常用的是avz属性,相当于vzrtopg</p>
-</blockquote>
-<h2 id="4-RSYNC-Server配置步骤"><a href="#4-RSYNC-Server配置步骤" class="headerlink" title="4.RSYNC Server配置步骤"></a>4.RSYNC Server配置步骤</h2><h3 id="在-etc-rsyncd-conf加入配置"><a href="#在-etc-rsyncd-conf加入配置" class="headerlink" title="在&#x2F;etc&#x2F;rsyncd.conf加入配置"></a>在&#x2F;etc&#x2F;rsyncd.conf加入配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">######################################################################################################</span><br><span class="line">#                      ******进程相关全局配置******</span><br><span class="line">######################################################################################################</span><br><span class="line">#    后面的值可根据自己的实际情况更改</span><br><span class="line">#    pid file 守护进程pid文件</span><br><span class="line">#    port 守护进程监听端口，可更改，由xinetd允许rsyncd时忽略此参数</span><br><span class="line">#    address 守护进程监听ip，由xinetd允许rsyncd时忽略此参数</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">port = 873</span><br><span class="line">address = 192.168.1.2</span><br><span class="line">#rsyncd 守护进程运行系统用户全局配置，也可在具体的块中独立配置,</span><br><span class="line">uid = root</span><br><span class="line">gid = root</span><br><span class="line">#允许 chroot，提升安全性，客户端连接模块，首先chroot到模块path参数指定的目录下</span><br><span class="line">#chroot为yes时必须使用root权限，且不能备份path路径外的链接文件</span><br><span class="line">use chroot = yes</span><br><span class="line">#只读</span><br><span class="line">read only = no</span><br><span class="line">#只写</span><br><span class="line">write only = no</span><br><span class="line">#允许访问rsyncd服务的ip，ip端或者单独ip之间使用空格隔开</span><br><span class="line">hosts allow = 192.168.0.1/255.255.255.0 198.162.145.1 10.0.1.0/255.255.255.0</span><br><span class="line">#不允许访问rsyncd服务的ip，*是全部(不涵盖在hosts allow中声明的ip，注意和hosts allow的先后顺序)</span><br><span class="line">hosts deny = *</span><br><span class="line">#客户端最大连接数</span><br><span class="line">max connections = 5</span><br><span class="line">#欢迎文件路径，可选的</span><br><span class="line">#motd file = /etc/rsyncd/rsyncd.motd</span><br><span class="line">#日志相关</span><br><span class="line">#    log file 指定rsync发送消息日志文件，而不是发送给syslog，如果不填这个参数默认发送给syslog</span><br><span class="line">#    transfer logging 是否记录传输文件日志</span><br><span class="line">#    log format 日志文件格式，格式参数请google</span><br><span class="line">#    syslog facility rsync发送消息给syslog时的消息级别，</span><br><span class="line">#    timeout连接超时时间</span><br><span class="line">log file = /usr/local/logs/rsyncd.log</span><br><span class="line">transfer logging = yes</span><br><span class="line">log format = %t %a %m %f %b</span><br><span class="line">syslog facility = local3</span><br><span class="line">timeout = 300</span><br><span class="line"></span><br><span class="line">######################################################################################################</span><br><span class="line">#                      ******模块配置(多个)******</span><br><span class="line">######################################################################################################</span><br><span class="line">#模块 模块名称必须使用[]环绕，比如要访问data1,则地址应该是data1user@192.168.1.2::data1</span><br><span class="line">[data1]</span><br><span class="line">#模块根目录，必须指定</span><br><span class="line">path=/home/username</span><br><span class="line">#是否允许列出模块里的内容</span><br><span class="line">list=yes</span><br><span class="line">#忽略错误</span><br><span class="line">#ignore errors</span><br><span class="line">#模块验证用户名称，可使用空格或者逗号隔开多个用户名</span><br><span class="line">auth users = data1user</span><br><span class="line">#模块验证密码文件 可放在全局配置里</span><br><span class="line">secrets file=/etc/rsyncd/rsyncd.secrets</span><br><span class="line">#注释</span><br><span class="line">comment = some description about this moudle</span><br><span class="line">#排除目录，多个之间使用空格隔开</span><br><span class="line">exclude = test1/ test2/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#Rsync server</span><br><span class="line">#Created by Roman 2017-10-15 14:50</span><br><span class="line">##rsyncd.conf start##</span><br><span class="line">uid = rsync</span><br><span class="line">gid = rsync</span><br><span class="line">use chroot = no</span><br><span class="line">#最长连接时间</span><br><span class="line">max connection = 200</span><br><span class="line">#超时时间</span><br><span class="line">timout =600</span><br><span class="line">#进程号</span><br><span class="line">pid file =/var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">#忽略错误</span><br><span class="line">ignore errors</span><br><span class="line">read only = false</span><br><span class="line">#客户端是否可以查看服务器内的文件列表</span><br><span class="line">list = false</span><br><span class="line">hosts allow = 10.0.0.0/24</span><br><span class="line">#认证用户,为了安全,设置了一个虚拟用户</span><br><span class="line">auth users = rsync_backup</span><br><span class="line">#账号密码</span><br><span class="line">secrets file = /etc/rsync.password</span><br><span class="line">############################</span><br><span class="line">[backup]</span><br><span class="line">comment = backup by roman 14:50 2017-10-15</span><br><span class="line">path = /backup</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建rsync用户以及共享的目录"><a href="#创建rsync用户以及共享的目录" class="headerlink" title="创建rsync用户以及共享的目录"></a>创建rsync用户以及共享的目录</h3><h3 id="S端创建密码文件"><a href="#S端创建密码文件" class="headerlink" title="S端创建密码文件"></a>S端创建密码文件</h3><ol>
-<li>echo “rsync_backup:oldboy” &gt; &#x2F;etc&#x2F;rsync.password</li>
-<li>chmod 600 &#x2F;etc&#x2F;rsync.password</li>
-<li>rsync –daemon</li>
-<li>检查 netstat -lntup | grep rsync</li>
-</ol>
-<h2 id="RSYNC-Client-配置"><a href="#RSYNC-Client-配置" class="headerlink" title="RSYNC Client 配置"></a>RSYNC Client 配置</h2><h3 id="C端创建密码文件"><a href="#C端创建密码文件" class="headerlink" title="C端创建密码文件"></a>C端创建密码文件</h3><ol>
-<li>echo “oldboy” &#x2F;&gt;&#x2F;etc&#x2F;rsync.password</li>
-<li>chmod 600 &#x2F;etc&#x2F;rsync.password</li>
-</ol>
-<h3 id="RSYNC-操作"><a href="#RSYNC-操作" class="headerlink" title="RSYNC 操作"></a>RSYNC 操作</h3><p>PUSH:</p>
-<ul>
-<li>rsync [OPTION] SRC… [USER@]HOST::DEST</li>
-</ul>
-<p>例如:</p>
-<ul>
-<li>rsynv -avz &#x2F;tmp <a href="mailto:&#114;&#x73;&#121;&#110;&#x63;&#x5f;&#98;&#x61;&#x63;&#107;&#x75;&#112;&#x40;&#x31;&#x30;&#46;&#x30;&#46;&#x30;&#46;&#49;&#x30;">&#114;&#x73;&#121;&#110;&#x63;&#x5f;&#98;&#x61;&#x63;&#107;&#x75;&#112;&#x40;&#x31;&#x30;&#46;&#x30;&#46;&#x30;&#46;&#49;&#x30;</a>::backup –password-file&#x3D;&#x2F;etc&#x2F;rsync.password</li>
-</ul>
-<h2 id="4-RSYNC的故障排查"><a href="#4-RSYNC的故障排查" class="headerlink" title="4.RSYNC的故障排查"></a>4.RSYNC的故障排查</h2><h3 id="Connection-refused"><a href="#Connection-refused" class="headerlink" title="Connection refused"></a>Connection refused</h3><p>检查防火墙或者服务是否开启.</p>
-<h2 id="补充知识点-进程管理"><a href="#补充知识点-进程管理" class="headerlink" title="补充知识点 : 进程管理"></a>补充知识点 : 进程管理</h2><ul>
-<li>pkill指令 : pkill 进程名字</li>
-<li>kill指令 : kill 进程编号</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># cat /var/run/rsync.pid</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>关于echo: echo是可以穿件文件的,例如 echo “rsync_backup:oldboy” &gt; &#x2F;etc&#x2F;rsync.password</p>
-<ul>
-<li>echo 的内容代表的是 用户和密码 ; 用户名 : 密码 ;</li>
-</ul>
-<blockquote>
-<p>rsync.password 里面的用户 跟 &#x2F;etc&#x2F;rsyncd.conf 里面的 auth users是一样的.</p>
-</blockquote>
-<h2 id="设置RSYNC服务的步骤"><a href="#设置RSYNC服务的步骤" class="headerlink" title="设置RSYNC服务的步骤"></a>设置RSYNC服务的步骤</h2><p>Deamon工作模式</p>
-<ol>
-<li>创建配置文件 &#x2F;etc&#x2F;rsyncd.conf(默认不存在的)</li>
-<li>创建rsnc用户,用于rsync服务的</li>
-<li>创建密码文件,”用户名:密码”,&#x2F;etc&#x2F;rsync.password</li>
-<li>启动服务. rsync –daemon</li>
-<li>添加至开机启动项 . echo “rsync –daemon” &gt;&gt; &#x2F;etc&#x2F;rc.local</li>
-</ol>
-<blockquote>
-<p>密码文件要设置权限,非root用户不能修改,chomd 600 &#x2F;etc&#x2F;rsync.password</p>
-</blockquote>
-<h3 id="客户端配置步骤"><a href="#客户端配置步骤" class="headerlink" title="客户端配置步骤"></a>客户端配置步骤</h3><ol>
-<li>创建密码文件,文件里面只存放密码即可,因为登陆的时候默认带了用户名</li>
-<li>上传备份 , 即push</li>
-<li>下载备份 , 即pull</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rsync -avz /temp rsync_backup@10.0.0.7::backup --password-file=/etc/rsync.password</span><br></pre></td></tr></table></figure>
-
-<h2 id="Rsync-的优缺点"><a href="#Rsync-的优缺点" class="headerlink" title="Rsync 的优缺点"></a>Rsync 的优缺点</h2><ol>
-<li>优点:</li>
-</ol>
-<ul>
-<li>增量备份同步</li>
-<li>支持socket(daemon)</li>
-</ul>
-<ol>
-<li>缺点:</li>
-</ol>
-<ul>
-<li>大量小文件同步的时候,比对时间较长,有时候会出现rsync进程停止.(解决方案:打包成一个压缩文件 ; drbd(文件系统同步复制block))</li>
-<li>同步大文件,例如10G文件有时会中断.只要未完成同步前,文件都为隐藏文件.</li>
-</ul>
 
       
     </div>

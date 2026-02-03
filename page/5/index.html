@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">467</span>
+          <span class="site-state-item-count">468</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,100 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/1e8f9c78/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/1e8f9c78/" class="post-title-link" itemprop="url">Docker实例-Wallabag部署</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-12-30 09:55:08 / Modified: 11:03:54" itemprop="dateCreated datePublished" datetime="2024-12-30T09:55:08+00:00">2024-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>使用 Docker 部署 Wallabag 。</p>
+<h1 id="Docker-Compose-编写"><a href="#Docker-Compose-编写" class="headerlink" title="Docker-Compose 编写"></a>Docker-Compose 编写</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wallabag/wallabag:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">wallabag-1</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;[映射端口]:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/data:/var/www/wallabag/data</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">$PWD/images:/var/www/wallabag/web/assets/images</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">SYMFONY__ENV__DOMAIN_NAME=&quot;http://[IP]:[映射端口]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>编写完毕后，执行docker-compose up -d</p>
+<h2 id="细节说明"><a href="#细节说明" class="headerlink" title="细节说明"></a>细节说明</h2><h3 id="参数-SYMFONY-ENV-DOMAIN-NAME-说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；"><a href="#参数-SYMFONY-ENV-DOMAIN-NAME-说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；" class="headerlink" title="参数 SYMFONY__ENV__DOMAIN_NAME 说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；"></a>参数 SYMFONY__ENV__DOMAIN_NAME 说明，需要写明此URL，否则Wallabag无法显示对应信息，图片或者一些设置无法正常显示；</h3><p>可以通过浏览器的F12看到，如果没有写URL，则会出现很多404；</p>
+<h3 id="如何备份？"><a href="#如何备份？" class="headerlink" title="如何备份？"></a>如何备份？</h3><p>将data、images目录拷贝出来，并且设置权限为 65534 ， Docker才能正常读取；</p>
+<h3 id="如何保存缓存图片"><a href="#如何保存缓存图片" class="headerlink" title="如何保存缓存图片"></a>如何保存缓存图片</h3><ol>
+<li>选择内部设置</li>
+<li>进入杂项；</li>
+<li>本地缓存图片选择1</li>
+</ol>
+<p>参照：<a target="_blank" rel="noopener" href="https://www.bilibili.com/opus/1003990631705477145">https://www.bilibili.com/opus/1003990631705477145</a></p>
+<h3 id="部署反向代理"><a href="#部署反向代理" class="headerlink" title="部署反向代理"></a>部署反向代理</h3><ol>
+<li>Nginx里面指向 本地Docker的IP；并配置一个域名；</li>
+<li>在wallabag的域名写上反向代理域名；</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1304,441 +1398,6 @@
 <li><a target="_blank" rel="noopener" href="https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing">https://core.vmware.com/resource/vsan-proof-concept-vsan-performance-testing</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">https://www.ethanzhang.xyz/2023/09/01/%E4%BD%BF%E7%94%A8HCIBench%E5%B7%A5%E5%85%B7%E5%AF%B9vSAN%E8%B6%85%E8%9E%8D%E5%90%88%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</a></li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f171a4b2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f171a4b2/" class="post-title-link" itemprop="url">使用CrystalDiskMark测试的一些硬盘数据记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-09-22 17:01:53" itemprop="dateCreated datePublished" datetime="2024-09-22T17:01:53+00:00">2024-09-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-06-22 14:17:17" itemprop="dateModified" datetime="2025-06-22T14:17:17+00:00">2025-06-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>本次测试使用 CrystalDiskMark 简单测试，仅作数据参考。</p>
-<h1 id="实测数据记录"><a href="#实测数据记录" class="headerlink" title="实测数据记录"></a>实测数据记录</h1><h2 id="第一次测试"><a href="#第一次测试" class="headerlink" title="第一次测试"></a>第一次测试</h2><table>
-<thead>
-<tr>
-<th align="center">环境</th>
-<th align="center">顺序or随机</th>
-<th align="center">块大小</th>
-<th align="center">队列</th>
-<th align="center">线程</th>
-<th align="center">读吞吐(MBps)</th>
-<th align="center">写吞吐(MBps)</th>
-<th align="center">读 IOPS</th>
-<th align="center">写 IOPS</th>
-<th align="center">读时延(us)</th>
-<th align="center">写时延(us)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1294</td>
-<td align="center">1421</td>
-<td align="center">1234</td>
-<td align="center">1355</td>
-<td align="center">6471</td>
-<td align="center">5864</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">355</td>
-<td align="center">1385</td>
-<td align="center">339</td>
-<td align="center">1321</td>
-<td align="center">2907</td>
-<td align="center">756</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">10</td>
-<td align="center">64</td>
-<td align="center">2480</td>
-<td align="center">15829</td>
-<td align="center">12842</td>
-<td align="center">1863</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">18</td>
-<td align="center">352</td>
-<td align="center">4551</td>
-<td align="center">2827</td>
-<td align="center">195</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1176</td>
-<td align="center">1434</td>
-<td align="center">1121</td>
-<td align="center">1367</td>
-<td align="center">7095</td>
-<td align="center">5808</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">813</td>
-<td align="center">1433</td>
-<td align="center">775</td>
-<td align="center">1367</td>
-<td align="center">1288</td>
-<td align="center">730</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">7</td>
-<td align="center">72</td>
-<td align="center">1927</td>
-<td align="center">17687</td>
-<td align="center">16513</td>
-<td align="center">882</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">38</td>
-<td align="center">195</td>
-<td align="center">9356</td>
-<td align="center">5086</td>
-<td align="center">106</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1005</td>
-<td align="center">447</td>
-<td align="center">958</td>
-<td align="center">426</td>
-<td align="center">8333</td>
-<td align="center">18666</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">367</td>
-<td align="center">443</td>
-<td align="center">350</td>
-<td align="center">422</td>
-<td align="center">2850</td>
-<td align="center">2359</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">415</td>
-<td align="center">111</td>
-<td align="center">101559</td>
-<td align="center">27135</td>
-<td align="center">314</td>
-<td align="center">1177</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">29</td>
-<td align="center">52</td>
-<td align="center">7223</td>
-<td align="center">12925</td>
-<td align="center">138</td>
-<td align="center">77</td>
-</tr>
-</tbody></table>
-<h2 id="第二次测试"><a href="#第二次测试" class="headerlink" title="第二次测试"></a>第二次测试</h2><table>
-<thead>
-<tr>
-<th align="center">环境</th>
-<th align="center">顺序or随机</th>
-<th align="center">块大小</th>
-<th align="center">队列</th>
-<th align="center">线程</th>
-<th align="center">读吞吐(MBps)</th>
-<th align="center">写吞吐(MBps)</th>
-<th align="center">读 IOPS</th>
-<th align="center">写 IOPS</th>
-<th align="center">读时延(us)</th>
-<th align="center">写时延(us)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1139</td>
-<td align="center">1435</td>
-<td align="center">1086</td>
-<td align="center">1369</td>
-<td align="center">7349</td>
-<td align="center">5786</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">335</td>
-<td align="center">1292</td>
-<td align="center">319</td>
-<td align="center">1233</td>
-<td align="center">2963</td>
-<td align="center">810</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">11</td>
-<td align="center">42</td>
-<td align="center">2892</td>
-<td align="center">10427</td>
-<td align="center">11027</td>
-<td align="center">2998</td>
-</tr>
-<tr>
-<td align="center">18块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">41</td>
-<td align="center">499</td>
-<td align="center">10198</td>
-<td align="center">2002</td>
-<td align="center">96</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1177</td>
-<td align="center">1597</td>
-<td align="center">1122</td>
-<td align="center">1523</td>
-<td align="center">7118</td>
-<td align="center">5153</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">857</td>
-<td align="center">1509</td>
-<td align="center">817</td>
-<td align="center">1439</td>
-<td align="center">1221</td>
-<td align="center">693</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">12</td>
-<td align="center">63</td>
-<td align="center">2940</td>
-<td align="center">15563</td>
-<td align="center">10862</td>
-<td align="center">1731</td>
-</tr>
-<tr>
-<td align="center">8块 HDD盘组成 RAID6</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">41</td>
-<td align="center">211</td>
-<td align="center">10066</td>
-<td align="center">4711</td>
-<td align="center">98</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">8</td>
-<td align="center">1</td>
-<td align="center">1031</td>
-<td align="center">443</td>
-<td align="center">983</td>
-<td align="center">422</td>
-<td align="center">8121</td>
-<td align="center">18736</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">顺序</td>
-<td align="center">1M</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">386</td>
-<td align="center">441</td>
-<td align="center">368</td>
-<td align="center">421</td>
-<td align="center">2709</td>
-<td align="center">2366</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">32</td>
-<td align="center">1</td>
-<td align="center">407</td>
-<td align="center">110</td>
-<td align="center">99480</td>
-<td align="center">27075</td>
-<td align="center">321</td>
-<td align="center">1180</td>
-</tr>
-<tr>
-<td align="center">2块 SSD组成 RAID1</td>
-<td align="center">随机</td>
-<td align="center">4K</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">31</td>
-<td align="center">54</td>
-<td align="center">7621</td>
-<td align="center">13240</td>
-<td align="center">130</td>
-<td align="center">75</td>
-</tr>
-</tbody></table>
 
       
     </div>
