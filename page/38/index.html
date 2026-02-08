@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">468</span>
+          <span class="site-state-item-count">470</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,204 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/89031895/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/89031895/" class="post-title-link" itemprop="url">Ubuntu内核升级or降级实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-05 23:09:37" itemprop="dateCreated datePublished" datetime="2018-11-05T23:09:37+00:00">2018-11-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>记一次对ubuntu内核升降级的操作。</p>
+<h1 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>OS ： Ubuntu 16.04.5-LTS</li>
+<li>Kernel ： 4.4.0-131-generic</li>
+</ul>
+<h2 id="升级操作"><a href="#升级操作" class="headerlink" title="升级操作"></a>升级操作</h2><p>总共就两步： </p>
+<ol>
+<li>安装新版内核</li>
+<li>更新 grub</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。一般有些服务器的驱动需要额外安装，此包最好也安装一下</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装 4.4.0-137-generic 内核</span></span><br><span class="line">apt install linux-image-4.4.0-137-generic  linux-headers-4.4.0-137 linux-headers-4.15.0-29-generic linux-image-extra-4.4.0-137 -y</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新 grub</span></span><br><span class="line">update-grub</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启即可</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+
+<h1 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h1><h2 id="环境-1"><a href="#环境-1" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>OS ： Ubuntu 16.04.5-LTS</li>
+<li>Kernel : 4.4.0-138-generic</li>
+</ul>
+<h2 id="降级操作"><a href="#降级操作" class="headerlink" title="降级操作"></a>降级操作</h2><p>总共就三步： </p>
+<ol>
+<li>安装新版内核</li>
+<li>修改grub启动文件</li>
+<li>更新 grub</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装 4.4.0-137-generic 内核</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主要安装 linux-image-xxxxxx</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主要安装 linux-headers-xxxxxx</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-image-版本号：内核映像文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-headers-版本号：内核头文件</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">linux-image-extra-版本号：内核扩展文件记住，不能删除当前使用的内核版本。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安装 4.4.0-137-generic 内核</span></span><br><span class="line">apt install linux-image-4.4.0-137-generic  linux-headers-4.4.0-137 linux-headers-4.15.0-29-generic -y</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改 grub文件</span></span><br><span class="line">vim /etc/default/grub</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---/etc/default/grub</span></span><br><span class="line">GRUB_DEFAULT=&quot;Ubuntu, Linux 4.4.0-137-generic&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内核启动顺序参照Linux内核启动顺序修改.md，避免无法正确使用。</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">---/etc/default/grub</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更新 grub</span></span><br><span class="line">update-grub</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启即可</span></span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>暂不知内核变更是否会对运行的服务有什么影响。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/453c3e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/453c3e/" class="post-title-link" itemprop="url">Linux/Mac下alias永久生效</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-04 10:40:42" itemprop="dateCreated datePublished" datetime="2018-11-04T10:40:42+00:00">2018-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="alias-命令"><a href="#alias-命令" class="headerlink" title="alias 命令"></a>alias 命令</h1><p>alias命令用来设置指令的别名。我们可以使用该命令可以将一些较长的命令进行简化。使用alias时，用户必须使用单引号’’将原来的命令引起来，防止特殊字符导致错误</p>
+<p>alias命令的作用只局限于该次登入的操作。若要每次登入都能够使用这些命令别名，则可将相应的alias命令存放到bash的初始化文件&#x2F;etc&#x2F;bashrc中。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">alias</span>语法</span></span><br><span class="line">alias (选项) (参数)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">选项</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-p：打印已经设置的命令别名。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">参数</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">命令别名设置：定义命令别名，格式为“命令别名=‘实际命令’”。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除别名</span></span><br><span class="line">unalias(选项)(参数)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">source filename [arguments]</span><br><span class="line">           Read and execute commands from filename  in  the  current  shell</span><br><span class="line">           environment  and return the exit status of the last command exe-</span><br><span class="line">           cuted from filename.  If filename does not contain a slash, file</span><br><span class="line">           names  in  PATH  are used to find the directory containing file-</span><br><span class="line">           name.  The file searched for in PATH  need  not  be  executable.</span><br><span class="line">           When  bash  is  not  in  posix  mode,  the  current directory is</span><br><span class="line">           searched if no file is found in PATH.  If the sourcepath  option</span><br><span class="line">           to  the  shopt  builtin  command  is turned off, the PATH is not</span><br><span class="line">           searched.  If any arguments are supplied, they become the  posi-</span><br><span class="line">           tional  parameters  when  filename  is  executed.  Otherwise the</span><br><span class="line">           positional parameters are unchanged.  The return status  is  the</span><br><span class="line">           status  of  the  last  command exited within the script (0 if no</span><br><span class="line">           commands are executed), and false if filename is  not  found  or</span><br><span class="line">           cannot be read.</span><br></pre></td></tr></table></figure>
+
+<h1 id="To-Do-list"><a href="#To-Do-list" class="headerlink" title="To-Do list"></a>To-Do list</h1><ul>
+<li>将kvm常用的几个命令都设置别名。[完成时间：20181104]</li>
+</ul>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑bashrc文件</span></span><br><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">---添加以下内容---</span></span><br><span class="line">alias kvm-list-all=&#x27;virsh list --all&#x27;</span><br><span class="line">alias kvm-edit=&#x27;virsh edit&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">---保存退出---</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">配置生效</span></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>alias 命令： <a target="_blank" rel="noopener" href="http://man.linuxde.net/alias">http://man.linuxde.net/alias</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1112,300 +1310,6 @@
 <li>硬盘添加实例：<a target="_blank" rel="noopener" href="https://blog.csdn.net/chengxuyuanyonghu/article/details/42144079">https://blog.csdn.net/chengxuyuanyonghu/article/details/42144079</a></li>
 <li>Windows的diskpart使用实例-创建：<a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/363872ec22e1336e4ba16f85.html">https://jingyan.baidu.com/article/363872ec22e1336e4ba16f85.html</a></li>
 <li>diskpart实例，较为详细：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kkfloat/article/details/5959205">https://blog.csdn.net/kkfloat/article/details/5959205</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8ceb8cb6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/8ceb8cb6/" class="post-title-link" itemprop="url">KVM-使用篇</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-27 22:01:51" itemprop="dateCreated datePublished" datetime="2018-10-27T22:01:51+00:00">2018-10-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="实验环境信息"><a href="#实验环境信息" class="headerlink" title="实验环境信息"></a>实验环境信息</h1><ul>
-<li>OS:CentOS-6.9-Server-Minimal</li>
-<li>CPU:2u</li>
-<li>Memory:4GB</li>
-<li>运行在 Vmware Fusion 专业版 8.0.0</li>
-<li>开启虚拟化管理程序</li>
-</ul>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>tet</p>
-<ul>
-<li>创建一台 Centos6.9-Server-Minimal 的 VM[完成时间：20181031]</li>
-<li>创建一台 Windows10 的 VM [完成时间：20181104]</li>
-<li>创建一台 Ubuntu1404-5 Server 的VM [完成时间：20181030]</li>
-</ul>
-<h1 id="试验环境准备"><a href="#试验环境准备" class="headerlink" title="试验环境准备"></a>试验环境准备</h1><p>因为我实验的虚拟机是由模板克隆过来的，因此网卡信息需要重新配置。<br>因为之前太久没有用到该模板了，所以连开机密码也要重新破解，链接见参考资料。</p>
-<h2 id="网卡变更"><a href="#网卡变更" class="headerlink" title="网卡变更"></a>网卡变更</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看网卡信息</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">udev 是 Linux2.6 内核里的一个功能，它替代了原来的 devfs，成为当前 Linux 默认的设备管理工具。udev 以守护进程的形式运行，通过侦听内核发出来的 uevent 来管理 /dev目录下的设备文件。不像之前的设备管理工具，udev 在用户空间 (user space) 运行，而不在内核空间 (kernel space) 运行。</span></span><br><span class="line"></span><br><span class="line">cat /etc/udev/rules.d/70-persistent-net.rules</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">可以看到网卡名称为 eth1 , 与虚拟机配置中的网卡MAC地址一致，接下来就是配置eth1的网卡信息。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">CentOS编辑网卡跟Ubuntu编辑网卡配置的路径不一样。</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Ubuntu的是 /etc/networking/interface</span></span><br><span class="line">vi /etc/sysconfig/network-scripts/ifcfg-eth1</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加以下信息,注意区分大小写</span></span><br><span class="line">TYPE=Ethernet</span><br><span class="line">ONBOOT=yes</span><br><span class="line">DEVICE=eth1</span><br><span class="line">BOOTPROTO=dhcp</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启网卡 ， 这个跟UBUNTU是一样的</span></span><br><span class="line">/etc/init.d/network restart</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">关闭防火墙</span></span><br><span class="line">/etc/init.d/iptables stop</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>为什么 network-scripts&#x2F;ifcfg-eth1 这个文件必须是ifcfg开头？</p>
-</blockquote>
-<h2 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep ssh</span><br><span class="line">netstat -ntlp | grep 22</span><br><span class="line">/etc/init.d/sshd start</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置epal包"><a href="#配置epal包" class="headerlink" title="配置epal包"></a>配置epal包</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span><br></pre></td></tr></table></figure>
-<h2 id="安装必要的软件"><a href="#安装必要的软件" class="headerlink" title="安装必要的软件"></a>安装必要的软件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum install qemu-kvm virt-manager python-virtinst libvirt -y</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看是否包含kvm内核</span></span><br><span class="line">lsmod | grep kvm</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动 libvirt 服务</span></span><br><span class="line">/etc/init.d/libvirtd start</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">需要安装这个，否则无法用vnc</span></span><br><span class="line">yum install virt-viewer -y</span><br></pre></td></tr></table></figure>
-
-<h1 id="创建虚拟机"><a href="#创建虚拟机" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h1><h2 id="磁盘准备"><a href="#磁盘准备" class="headerlink" title="磁盘准备"></a>磁盘准备</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建5GB qcow2 格式的硬盘</span></span><br><span class="line">qemu-img create -f qcow2 /opt/kvm.demo.qcow2 5G</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查是否创建成功</span></span><br><span class="line">qemu-img info /opt/kvm.demo.qcow2</span><br><span class="line">ls -lh /opt/kvm.demo.qcow2</span><br></pre></td></tr></table></figure>
-
-<h2 id="准备镜像"><a href="#准备镜像" class="headerlink" title="准备镜像"></a>准备镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">虚拟机已经加载ISO镜像</span></span><br><span class="line">dd if=/dev/cdrom of=/opt/Centos6.9.iso</span><br></pre></td></tr></table></figure>
-
-<h2 id="创建虚拟机-1"><a href="#创建虚拟机-1" class="headerlink" title="创建虚拟机"></a>创建虚拟机</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建指令</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">监听端口默认从5900开始</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在指定硬盘位置的时候，一定要标明类型，否则kvm会按照默认的类型，即raw去加载硬盘，这会到导致硬盘空间为0</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">错误： --disk path=/opt/kvm.demo.qcow2</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">正确： --disk path=/opt/kvm.demo.qcow2,format=qcow2</span></span><br><span class="line">virt-install --virt-type kvm --name kvm-demo --ram 512 --cdrom=/opt/CentOS6.9.ios --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole --os-type=linux --os-variant=rhel6 --disk path=/opt/kvm.demo.qcow2</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看虚拟机状态</span></span><br><span class="line">virsh list all</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="创建虚拟机–Centos"><a href="#创建虚拟机–Centos" class="headerlink" title="创建虚拟机–Centos"></a>创建虚拟机–Centos</h2><p>由于一开始挂载错了镜像，需要重新挂载镜像。 操作流程是这样的： 编辑XML文件，定义XML文件，启动虚拟机。 （KVM关机情况下操作，开机状态会更改失效。）</p>
-<p>用 virsh edit kvm-demo 查看当前XML配置文件。 （默认路径： &#x2F;etc&#x2F;libvirt&#x2F;qemu&#x2F;kvm-demo.xml) 如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">&lt;domain type=&#x27;kvm&#x27;&gt;</span><br><span class="line">  &lt;name&gt;kvm-demo&lt;/name&gt;</span><br><span class="line">  &lt;uuid&gt;73a577e4-181a-bd8a-1fa8-d957cc207bce&lt;/uuid&gt;</span><br><span class="line">  &lt;memory unit=&#x27;KiB&#x27;&gt;524288&lt;/memory&gt;</span><br><span class="line">  &lt;currentMemory unit=&#x27;KiB&#x27;&gt;524288&lt;/currentMemory&gt;</span><br><span class="line">  &lt;vcpu placement=&#x27;static&#x27;&gt;1&lt;/vcpu&gt;</span><br><span class="line">  &lt;os&gt;</span><br><span class="line">    &lt;type arch=&#x27;x86_64&#x27; machine=&#x27;rhel6.6.0&#x27;&gt;hvm&lt;/type&gt;</span><br><span class="line">    &lt;boot dev=&#x27;cdrom&#x27;/&gt;</span><br><span class="line">  &lt;/os&gt;</span><br><span class="line">&lt;features&gt;</span><br><span class="line">    &lt;acpi/&gt;</span><br><span class="line">    &lt;apic/&gt;</span><br><span class="line">    &lt;pae/&gt;</span><br><span class="line">  &lt;/features&gt;</span><br><span class="line">  &lt;clock offset=&#x27;utc&#x27;/&gt;</span><br><span class="line">  &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;</span><br><span class="line">  &lt;on_reboot&gt;restart&lt;/on_reboot&gt;</span><br><span class="line">  &lt;on_crash&gt;restart&lt;/on_crash&gt;</span><br><span class="line">  &lt;devices&gt;</span><br><span class="line">    &lt;emulator&gt;/usr/libexec/qemu-kvm&lt;/emulator&gt;</span><br><span class="line">    &lt;disk type=&#x27;file&#x27; device=&#x27;disk&#x27;&gt;</span><br><span class="line">      &lt;driver name=&#x27;qemu&#x27; type=&#x27;qcow2&#x27; cache=&#x27;none&#x27;/&gt;</span><br><span class="line">      &lt;source file=&#x27;/opt/disk.qcow2&#x27;/&gt;</span><br><span class="line">      &lt;target dev=&#x27;hda&#x27; bus=&#x27;ide&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;drive&#x27; controller=&#x27;0&#x27; bus=&#x27;0&#x27; target=&#x27;0&#x27; unit=&#x27;0&#x27;/&gt;</span><br><span class="line">    &lt;/disk&gt;</span><br><span class="line">    &lt;disk type=&#x27;block&#x27; device=&#x27;cdrom&#x27;&gt;</span><br><span class="line">      &lt;driver name=&#x27;qemu&#x27; type=&#x27;raw&#x27;/&gt;</span><br><span class="line">      &lt;target dev=&#x27;hdc&#x27; bus=&#x27;ide&#x27;/&gt;</span><br><span class="line">      &lt;readonly/&gt;</span><br><span class="line">      &lt;address type=&#x27;drive&#x27; controller=&#x27;0&#x27; bus=&#x27;1&#x27; target=&#x27;0&#x27; unit=&#x27;0&#x27;/&gt;</span><br><span class="line">    &lt;/disk&gt;</span><br><span class="line">    &lt;controller type=&#x27;usb&#x27; index=&#x27;0&#x27; model=&#x27;ich9-ehci1&#x27;&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x04&#x27; function=&#x27;0x7&#x27;/&gt;</span><br><span class="line">    &lt;/controller&gt;</span><br><span class="line">    &lt;controller type=&#x27;usb&#x27; index=&#x27;0&#x27; model=&#x27;ich9-uhci1&#x27;&gt;</span><br><span class="line">      &lt;master startport=&#x27;0&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x04&#x27; function=&#x27;0x0&#x27; multifunction=&#x27;on&#x27;/&gt;</span><br><span class="line">    &lt;/controller&gt;</span><br><span class="line">    &lt;controller type=&#x27;usb&#x27; index=&#x27;0&#x27; model=&#x27;ich9-uhci2&#x27;&gt;</span><br><span class="line">      &lt;master startport=&#x27;2&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x04&#x27; function=&#x27;0x1&#x27;/&gt;</span><br><span class="line">    &lt;/controller&gt;</span><br><span class="line">    &lt;controller type=&#x27;usb&#x27; index=&#x27;0&#x27; model=&#x27;ich9-uhci3&#x27;&gt;</span><br><span class="line">      &lt;master startport=&#x27;4&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x04&#x27; function=&#x27;0x2&#x27;/&gt;</span><br><span class="line">    &lt;/controller&gt;</span><br><span class="line">    &lt;controller type=&#x27;ide&#x27; index=&#x27;0&#x27;&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x01&#x27; function=&#x27;0x1&#x27;/&gt;</span><br><span class="line">    &lt;/controller&gt;</span><br><span class="line">    &lt;interface type=&#x27;network&#x27;&gt;</span><br><span class="line">      &lt;mac address=&#x27;52:54:00:23:20:b8&#x27;/&gt;</span><br><span class="line">      &lt;source network=&#x27;default&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x03&#x27; function=&#x27;0x0&#x27;/&gt;</span><br><span class="line">    &lt;/interface&gt;</span><br><span class="line">    &lt;serial type=&#x27;pty&#x27;&gt;</span><br><span class="line">      &lt;target port=&#x27;0&#x27;/&gt;</span><br><span class="line">    &lt;/serial&gt;</span><br><span class="line">    &lt;console type=&#x27;pty&#x27;&gt;</span><br><span class="line">      &lt;target type=&#x27;serial&#x27; port=&#x27;0&#x27;/&gt;</span><br><span class="line">    &lt;/console&gt;</span><br><span class="line">    &lt;input type=&#x27;mouse&#x27; bus=&#x27;ps2&#x27;/&gt;</span><br><span class="line">    &lt;graphics type=&#x27;vnc&#x27; port=&#x27;-1&#x27; autoport=&#x27;yes&#x27; listen=&#x27;0.0.0.0&#x27;&gt;</span><br><span class="line">      &lt;listen type=&#x27;address&#x27; address=&#x27;0.0.0.0&#x27;/&gt;</span><br><span class="line">    &lt;/graphics&gt;</span><br><span class="line">    &lt;video&gt;</span><br><span class="line">      &lt;model type=&#x27;cirrus&#x27; vram=&#x27;9216&#x27; heads=&#x27;1&#x27;/&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x02&#x27; function=&#x27;0x0&#x27;/&gt;</span><br><span class="line">    &lt;/video&gt;</span><br><span class="line">    &lt;memballoon model=&#x27;virtio&#x27;&gt;</span><br><span class="line">      &lt;address type=&#x27;pci&#x27; domain=&#x27;0x0000&#x27; bus=&#x27;0x00&#x27; slot=&#x27;0x05&#x27; function=&#x27;0x0&#x27;/&gt;</span><br><span class="line">    &lt;/memballoon&gt;</span><br><span class="line">  &lt;/devices&gt;</span><br><span class="line">&lt;/domain&gt;</span><br></pre></td></tr></table></figure>
-
-<p>需要留意部分：</p>
-<ul>
-<li>引导 ： <boot dev='cdrom'></li>
-<li>iso 文件位置 ： <source file='/opt/centos.iso'/> 放置CDROM标签内</li>
-<li>CDROM标签内有一个类型，需要填写为 file</li>
-</ul>
-<blockquote>
-<p>type-file 与 type-block 的区别是？</p>
-</blockquote>
-<p>变更操作参考： <a target="_blank" rel="noopener" href="https://r0manj.github.io/2018/10/27/KVM-%E5%8F%98%E6%9B%B4%E7%AF%87/">https://r0manj.github.io/2018/10/27/KVM-变更篇/</a></p>
-<h3 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h3><ul>
-<li><p>ERROR    Failed to connect socket to ‘&#x2F;var&#x2F;run&#x2F;libvirt&#x2F;libvirt-sock’: 没有那个文件或目录</p>
-<ul>
-<li>需要启动libvirtd</li>
-</ul>
-</li>
-<li><p>VNC 服务没有启动，无法通过物理机的VNC远程查看虚拟机中的虚拟机</p>
-<ul>
-<li>宿主机不需要启动VNC服务，只要开启VNC桌面的，都可以直接通过监听端口远程。   </li>
-<li>如果VNC远程不了，需要将画面质量调至最低</li>
-</ul>
-</li>
-<li><p>使用的是qcow2格式的镜像，安装系统的时候，提示空间太小。</p>
-<ul>
-<li>在指定硬盘的时候，需要附上格式 ， 如 –disk&#x3D;&#x2F;opt&#x2F;test.qcow2,format&#x3D;qcow2</li>
-<li>查看xml文件可知，磁盘类型为raw，而我创建的为qcow2<ul>
-<li>可以到xml文件中，将type的值从 raw 更改为 qcow2 ，保存。 重新定义xml 。 开启虚拟机。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>被中断的系统安装，需要如何重新加载CDROM？</p>
-<ul>
-<li>引导 ： <boot dev='cdrom'></li>
-<li>iso 文件位置 ： <source file='/opt/centos.iso'/> 放置CDROM标签内</li>
-<li>CDROM标签内有一个类型，需要填写为 file</li>
-</ul>
-</li>
-<li><p>安装Windows Server 2012 R2 的时候进度条卡在92% ，但kvm没有报错。</p>
-<ul>
-<li>此时查看物理机的空间已经占满，需要分配空间以安装系统。</li>
-</ul>
-</li>
-</ul>
-<h2 id="创建Ubuntu-虚拟机"><a href="#创建Ubuntu-虚拟机" class="headerlink" title="创建Ubuntu 虚拟机"></a>创建Ubuntu 虚拟机</h2><p>如同 创建Centos虚拟机是一样的。略</p>
-<h2 id="创建-Windows-虚拟机"><a href="#创建-Windows-虚拟机" class="headerlink" title="创建 Windows 虚拟机"></a>创建 Windows 虚拟机</h2><p>Windows Server 2012 R2 安装密钥（只适用安装，不支持激活）</p>
-<p>标准版 &#x3D; NB4WH-BBBYV-3MPPC-9RCMV-46XCB</p>
-<p>数据中心版 &#x3D; BH9T4-4N7CW-67J3M-64J36-WW98Y</p>
-<p>M98WF-NY2PP-73243-PC8R6-V6B4Y Retail Key<br>MR88Y-BXNRY-VH3DR-349CB-3GK8M retail Key<br>M89WF-NY2PP-73243-PC8R6-V6B4Y retail key</p>
-<h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><ul>
-<li>udev信息详解： <a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoliu5396/article/details/46531893">https://blog.csdn.net/xiaoliu5396/article/details/46531893</a></li>
-<li>root密码破解： <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2018-01/150211.htm">https://www.linuxidc.com/Linux/2018-01/150211.htm</a></li>
-<li>配置网卡信息： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/smyhvae/p/3932903.html">https://www.cnblogs.com/smyhvae/p/3932903.html</a></li>
-<li>CM-wget：</li>
-<li>CM-netstat:</li>
-<li>CM-ps:</li>
-<li>CM-scp ： <a target="_blank" rel="noopener" href="http://man.linuxde.net/scp">http://man.linuxde.net/scp</a></li>
-<li>CM-dd :</li>
-<li>更换国内源： <a target="_blank" rel="noopener" href="https://blog.csdn.net/a491857321/article/details/53453165">https://blog.csdn.net/a491857321/article/details/53453165</a></li>
-<li>配置epel包： <a target="_blank" rel="noopener" href="http://www.cnblogs.com/gaoyuechen/p/7683471.html">http://www.cnblogs.com/gaoyuechen/p/7683471.html</a></li>
-<li>vir-install : <a target="_blank" rel="noopener" href="https://blog.csdn.net/reblue520/article/details/51456848">https://blog.csdn.net/reblue520/article/details/51456848</a></li>
-<li>关闭selinux ： <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2016-11/137723.htm">https://www.linuxidc.com/Linux/2016-11/137723.htm</a></li>
-<li>VNC设置【存疑】：<a target="_blank" rel="noopener" href="http://blog.51cto.com/liqingbiao/1741103">http://blog.51cto.com/liqingbiao/1741103</a></li>
-<li>挂载磁盘【存疑】： <a target="_blank" rel="noopener" href="https://blog.csdn.net/tpiperatgod/article/details/46459929">https://blog.csdn.net/tpiperatgod/article/details/46459929</a></li>
-<li>挂载磁盘 ： <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_25730711/article/details/72835565">https://blog.csdn.net/qq_25730711/article/details/72835565</a></li>
-<li>KVM变更篇 ： <a target="_blank" rel="noopener" href="https://r0manj.github.io/2018/10/27/KVM-%E5%8F%98%E6%9B%B4%E7%AF%87/">https://r0manj.github.io/2018/10/27/KVM-%E5%8F%98%E6%9B%B4%E7%AF%87/</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/13d27d83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/13d27d83/" class="post-title-link" itemprop="url">KVM-概念篇</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-10-27 22:01:31" itemprop="dateCreated datePublished" datetime="2018-10-27T22:01:31+00:00">2018-10-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于最近在接触虚拟化的内容，而自己使用的是Vmware Vsphere一套来实现虚拟化，接触到现在，梳理一下当前的架构（将硬件虚拟化的ESXI主机+ VSAN存储 + VLAN网络）去构建，而自己所有操作都是基于Vsphere Client来实现。虽然Vmware的Vsphere是时下最热门、也是稳定的虚拟化解决方案，但是在Openstack的冲击下，将来我也有可能要接触到Openstack。因此今天就学习一下，KVM（Kernel-Based Virtual Machine),笔记将会记录 VM的创建 、 VM变更 、 VM优化三个方面。</p>
-<h1 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h1><h2 id="Kernel-Based-Virtual-Machine-开源虚拟化模块"><a href="#Kernel-Based-Virtual-Machine-开源虚拟化模块" class="headerlink" title="Kernel-Based Virtual Machine 开源虚拟化模块"></a>Kernel-Based Virtual Machine 开源虚拟化模块</h2><p>KVM是一个开源的系统虚拟化模块，Linux 2.6.20之后集成在Linux的各个主要发行版本中。要实现KVM需要硬件支持：</p>
-<ul>
-<li>CPU方面 如 Intel-VT （Virtualization Technology）、 AMD-V等。</li>
-<li>内存方面 如 Intel-EPT \ AMD 的 RVT技术。</li>
-</ul>
-<p>KVM是基于硬件的完全虚拟化（Full-Virtualization）。</p>
-<h2 id="Full-Virtualization-、-Paravirtualization-、-Hardware-Assisted"><a href="#Full-Virtualization-、-Paravirtualization-、-Hardware-Assisted" class="headerlink" title="Full-Virtualization 、 Paravirtualization 、 Hardware Assisted"></a>Full-Virtualization 、 Paravirtualization 、 Hardware Assisted</h2><p>Full-Virtualization 即全虚拟化：</p>
-<p>最流行的虚拟化方法使用名为hypervisor的一种软件，在虚拟服务器和底层硬件之间建立一个抽象层。VMware和微软的Virtual PC是代表该方法的两个商用产品，而基于核心的虚拟机（KVM）是面向Linux系统的开源产品。</p>
-<p>hypervisor可以捕获CPU指令，为指令访问硬件控制器和外设充当中介。因而，完全虚拟化技术几乎能让任何一款操作系统不用改动就能安装到虚拟服务器上，而它们不知道自己运行在虚拟化环境下。主要缺点是，hypervisor给处理器带来开销。</p>
-<p>在完全虚拟化的环境下，hypervisor运行在裸硬件上，充当主机操作系统；而由hypervisor管理的虚拟服务器运行客户端操作系统（guest OS）。</p>
-<p>Paravirtualization 即准虚拟化：</p>
-<p>全虚拟化是处理器密集型技术，因为它要求hypervisor管理各个虚拟服务器，并让它们彼此独立。减轻这种负担的一种方法就是，改动客户操作系统，让它以为自己运行在虚拟环境下，能够与hypervisor协同工作。这种方法就叫准虚拟化（para-virtualization）。</p>
-<p>Xen是开源准虚拟化技术的一个例子。操作系统作为虚拟服务器在Xen hypervisor上运行之前，它必须在核心层面进行某些改变。因此，Xen适用于BSD、Linux、Solaris及其他开源操作系统，但不适合对像Windows这些专有的操作系统进行虚拟化处理，因为它们无法改动。</p>
-<p>准虚拟化技术的优点是性能高。经过准虚拟化处理的服务器可与hypervisor协同工作，其响应能力几乎不亚于未经过虚拟化处理的服务器。准虚拟化与完全虚拟化相比优点明显，以至于微软和VMware都在开发这项技术，以完善各自的产品。</p>
-<p><img src="http://ossi4.51cto.com/attachment/201210/164957216.jpg" alt="Architectural Comparison"></p>
-<h2 id="平台虚拟化"><a href="#平台虚拟化" class="headerlink" title="平台虚拟化"></a>平台虚拟化</h2><h2 id="软件虚拟化"><a href="#软件虚拟化" class="headerlink" title="软件虚拟化"></a>软件虚拟化</h2><h2 id="Intel-VT"><a href="#Intel-VT" class="headerlink" title="Intel VT"></a>Intel VT</h2><p>Intel VT即Intel公司的Virtualization Technology虚拟化技术。<br>Intel VT可以让一个CPU工作起来像多个CPU在并行运行，从而使得在一部电脑内同时运行多个操作系统成为可能。这种VT技术并不是一个新鲜事物，市面上已经有一些软件可以达到虚拟多系统的目的，比如VMware workstation、Virtual PC等，使用这种技术就可以单CPU模拟多CPU并行，可以实现单机同时运行多操作系统。</p>
-<h2 id="QEMU"><a href="#QEMU" class="headerlink" title="QEMU"></a>QEMU</h2><p>QEMU是一套由法布里斯·贝拉(Fabrice Bellard)所编写的以GPL许可证分发源码的模拟处理器，在GNU&#x2F;Linux平台上使用广泛。</p>
-<p>QEMU有两种主要运作模式：</p>
-<ul>
-<li>User mode模拟模式，亦即是用户模式。QEMU能启动那些为不同中央处理器编译的Linux程序。</li>
-<li>System mode模拟模式，亦即是系统模式。QEMU能模拟整个电脑系统，包括中央处理器及其他周边设备。它使得为跨平台编写的程序进行测试及除错工作变得容易。其亦能用来在一部主机上虚拟数部不同虚拟电脑。</li>
-</ul>
-<h2 id="EPEL"><a href="#EPEL" class="headerlink" title="EPEL"></a>EPEL</h2><p>EPEL (Extra Packages for Enterprise Linux)是基于Fedora的一个项目，为“红帽系”的操作系统提供额外的软件包，适用于RHEL、CentOS和Scientific Linux.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">配置EPEL包</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清华大学镜像 https://mirrors.tuna.tsinghua.edu.cn/epel/</span></span><br><span class="line">rpm -ivh https://mirrors.tuna.tsinghua.edu.cn/epel/6Server/x86_64/epel-release-6-8.noarch.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># man rpm</span><br><span class="line"></span><br><span class="line">rpm命令是RPM软件包的管理工具。</span><br><span class="line">rpm原本是Red Hat Linux发行版专门用来管理Linux各项套件的程序，由于它遵循GPL规则且功能强大方便，因而广受欢迎。</span><br><span class="line">逐渐受到其他发行版的采用。RPM套件管理方式的出现，让Linux易于安装，升级，间接提升了Linux的适用度。</span><br><span class="line"></span><br><span class="line">rpm(选项)(参数)</span><br><span class="line"></span><br><span class="line">-i&lt;套件档&gt;或--install&lt;套件档&gt;：安装指定的套件档；</span><br><span class="line">-v：显示指令执行过程；</span><br><span class="line">-h或--hash：套件安装时列出标记；</span><br><span class="line">-e&lt;套件档&gt;或--erase&lt;套件档&gt;：删除指定的套件；</span><br><span class="line">-a：查询所有套件；</span><br><span class="line">-b&lt;完成阶段&gt;&lt;套件档&gt;+或-t &lt;完成阶段&gt;&lt;套件档&gt;+：设置包装套件的完成阶段，并指定套件档的文件名称；</span><br><span class="line">-c：只列出组态配置文件，本参数需配合&quot;-l&quot;参数使用；</span><br><span class="line">-d：只列出文本文件，本参数需配合&quot;-l&quot;参数使用；</span><br><span class="line">-f&lt;文件&gt;+：查询拥有指定文件的套件；</span><br><span class="line">-i：显示套件的相关信息；</span><br><span class="line">-l：显示套件的文件列表；</span><br><span class="line">-p&lt;套件档&gt;+：查询指定的RPM套件档；</span><br><span class="line">-q：使用询问模式，当遇到任何问题时，rpm指令会先询问用户；</span><br><span class="line">-R：显示套件的关联性信息；</span><br><span class="line">-s：显示文件状态，本参数需配合&quot;-l&quot;参数使用；</span><br><span class="line">-U&lt;套件档&gt;或--upgrade&lt;套件档&gt;：升级指定的套件档；</span><br><span class="line">-vv：详细显示指令执行过程，便于排错。</span><br></pre></td></tr></table></figure>
-
-<h2 id="libvirt"><a href="#libvirt" class="headerlink" title="libvirt"></a>libvirt</h2><p>libvirt是提供了一个方便的方式来管理虚拟机和其他虚拟化功能的软件的集合，如存储和网络接口管理。这些软件包括一个API库，一个守护进程（Libvirtd），和一个命令行实用程序（virsh）。<br>libvirt的首要目标是能够管理多个不同的虚拟化供应商&#x2F;虚拟机管理程序提供一个单一的方式。</p>
-<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>教程中</p>
-<ul>
-<li>OS ： Centos 6.4 （Run in Vmware Workstation 8 )</li>
-<li>硬件支持： Intel-VT 或者 AMD-V（CPU） ； EPT 或者 RVT  （内存）</li>
-<li>配置epal包</li>
-<li>安装KVM模块 （qemu-kvm virt-manager python-virtinst)</li>
-</ul>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>KVM介绍（3）： I&#x2F;O 全虚拟化和准虚拟化[KVM I&#x2F;O QEMU Full-Virtualization Para-Virtualization] <a target="_blank" rel="noopener" href="https://www.cnblogs.com/sammyliu/p/4543657.html">https://www.cnblogs.com/sammyliu/p/4543657.html</a></li>
-<li>rpm指令查询 ： <a target="_blank" rel="noopener" href="http://man.linuxde.net/rpm">http://man.linuxde.net/rpm</a></li>
-<li>lsmod指令查询 ： <a target="_blank" rel="noopener" href="http://man.linuxde.net/lsmod">http://man.linuxde.net/lsmod</a></li>
-<li>百科-虚拟化技术 ： <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/276750?fr=aladdin">https://baike.baidu.com/item/%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/276750?fr=aladdin</a></li>
 </ul>
 
       

@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">468</span>
+          <span class="site-state-item-count">470</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,348 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/67fb4959/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/67fb4959/" class="post-title-link" itemprop="url">Linux_用户和用户组</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 14:46:31" itemprop="dateCreated datePublished" datetime="2017-10-05T14:46:31+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux用户和用户组"><a href="#Linux用户和用户组" class="headerlink" title="Linux用户和用户组"></a>Linux用户和用户组</h1><p>用户分为三种类型：</p>
+<ul>
+<li>普通用户（多个）</li>
+<li>超级用户（一个）</li>
+<li>虚拟用户</li>
+</ul>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
+<li>&#x2F;etc&#x2F;passwd</li>
+<li>&#x2F;etc&#x2F;shadow</li>
+<li>&#x2F;etc&#x2F;group</li>
+<li>&#x2F;etc&#x2F;gshadow</li>
+</ul>
+<h3 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h3><table>
+<thead>
+<tr>
+<th>第一列</th>
+<th>第二列</th>
+<th>第三列</th>
+<th>第四列</th>
+<th>第五列</th>
+<th>第六列</th>
+<th>第七列</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>账号名称</td>
+<td>账号密码</td>
+<td>账号UID</td>
+<td>账号组GID</td>
+<td>用户说明</td>
+<td>用户家目录</td>
+<td>shell解释器</td>
+</tr>
+</tbody></table>
+<h2 id="etc-skel-目录"><a href="#etc-skel-目录" class="headerlink" title="&#x2F;etc&#x2F;skel 目录"></a>&#x2F;etc&#x2F;skel 目录</h2><p>作用：存放新用户配置文件的目录</p>
+<h2 id="useradd-参数"><a href="#useradd-参数" class="headerlink" title="useradd 参数"></a>useradd 参数</h2><table>
+<thead>
+<tr>
+<th align="center">指令</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-c</td>
+<td align="center">新账号password档的说明栏</td>
+</tr>
+<tr>
+<td align="center">-d</td>
+<td align="center">新账号每次登陆时所使用的家目录</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td align="center">账号终止日期(MM&#x2F;dd&#x2F;yyyy)</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="center">账号过期几天后永久停权</td>
+</tr>
+<tr>
+<td align="center">-g</td>
+<td align="center">group名称或以数字作为用户登入起始用户组</td>
+</tr>
+<tr>
+<td align="center">-G</td>
+<td align="center">定义此用户为多个不同groups的成员</td>
+</tr>
+<tr>
+<td align="center">-m</td>
+<td align="center">用户目录如不存在则自动建立</td>
+</tr>
+<tr>
+<td align="center">-M</td>
+<td align="center">不建立用户家目录，优先于&#x2F;etc&#x2F;login.defs文件的设定</td>
+</tr>
+<tr>
+<td align="center">-n</td>
+<td align="center">默认情况用户的用户组与用户的名称会相同</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="center">此参数是用来建立系统账户</td>
+</tr>
+<tr>
+<td align="center">-s</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h3 id="实例-：-用-useradd-c-u-G-s-d多个参数组合例子"><a href="#实例-：-用-useradd-c-u-G-s-d多个参数组合例子" class="headerlink" title="实例 ： 用 useradd -c -u -G -s -d多个参数组合例子"></a>实例 ： 用 useradd -c -u -G -s -d多个参数组合例子</h3><ul>
+<li>自定义用户的家目录、shell类型、所归属的用户组 ；</li>
+<li>添加用户oldboy6，并设置其用户注释信息为HandsomeBoy，UUID指定为806；</li>
+<li>归属为用户组root ， oldboy ，sa 成员， 其shell类型为&#x2F;bin&#x2F;sh,设置家目录为&#x2F;oldboy6 ;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看是否有oldboy组</span><br><span class="line"># id -g oldboy</span><br><span class="line"># id -gn oldboy</span><br><span class="line"># grep oldboy /etc/group</span><br><span class="line"># grep -o &quot;\bsa\b&quot; /etc/group</span><br><span class="line"></span><br><span class="line">增加组</span><br><span class="line"># useradd -c &quot;HandsomeBoy&quot; -u 806 -G root,oldboy,sa -s /bin/sh -d /oldboy6 oldboy6</span><br><span class="line"></span><br><span class="line">检查</span><br><span class="line">#id oldboy6</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于密码"><a href="#关于密码" class="headerlink" title="关于密码"></a>关于密码</h2><p>超级用户可以更改普通用户的密码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># echo 123456 | passwd --stdin username</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例-：-要求用户-oldboy-七天内不能改密码，60天以后必须改密码，过期前10天通知oldboy，过期30天后禁止用户登陆-。"><a href="#实例-：-要求用户-oldboy-七天内不能改密码，60天以后必须改密码，过期前10天通知oldboy，过期30天后禁止用户登陆-。" class="headerlink" title="实例 ： 要求用户 oldboy 七天内不能改密码，60天以后必须改密码，过期前10天通知oldboy，过期30天后禁止用户登陆 。"></a>实例 ： 要求用户 oldboy 七天内不能改密码，60天以后必须改密码，过期前10天通知oldboy，过期30天后禁止用户登陆 。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># pass -n 7 -x 60 -w 10 -i 30 oldboy</span><br><span class="line">        min max inactive warning</span><br><span class="line"></span><br><span class="line">查看更改</span><br><span class="line"># chage -l oldboy</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="实例-：-批量创建10个用户-stu01-stu10，并且设置随机8位密码，要求不能使用shell循环（如-for-，while-等-），只能用命令以及管道实现。"><a href="#实例-：-批量创建10个用户-stu01-stu10，并且设置随机8位密码，要求不能使用shell循环（如-for-，while-等-），只能用命令以及管道实现。" class="headerlink" title="实例 ： 批量创建10个用户 stu01 - stu10，并且设置随机8位密码，要求不能使用shell循环（如 for ，while 等 ），只能用命令以及管道实现。"></a>实例 ： 批量创建10个用户 stu01 - stu10，并且设置随机8位密码，要求不能使用shell循环（如 for ，while 等 ），只能用命令以及管道实现。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo stu(01..10)|&#123;tr &quot; &quot; &quot;\n&quot;|sed -r &#x27;s#(.*)#useradd \1;pass=$((RANDOM+10000000));echo &quot;pass&quot;|passwd --stdin \1;echo -e &quot;\1\t&#x27;echo&quot;$pass&quot;&#x27;&quot;&gt;&gt;/tmp/oldboy.log#g&#x27;|bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="chage-命令"><a href="#chage-命令" class="headerlink" title="chage 命令"></a>chage 命令</h2><p>查看与更改用户信息。</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-d</td>
+<td align="center">最近一次密码设置时间</td>
+</tr>
+<tr>
+<td align="center">-E</td>
+<td align="center">账户过期时间</td>
+</tr>
+<tr>
+<td align="center">-l</td>
+<td align="center">显示账户年龄信息</td>
+</tr>
+<tr>
+<td align="center">-m</td>
+<td align="center">将两次改变密码之间时间间隔设置为‘最小天数’</td>
+</tr>
+<tr>
+<td align="center">-M</td>
+<td align="center">将两次改变密码之间时间间隔设置为‘最大天数’</td>
+</tr>
+<tr>
+<td align="center">-W</td>
+<td align="center">将过期警告天数 设置为xx天</td>
+</tr>
+</tbody></table>
+<h2 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h2><p>主要涉及到这几个文件：</p>
+<ul>
+<li>&#x2F;etc&#x2F;passwd - 用户账号资料文件</li>
+<li>&#x2F;etc&#x2F;shadow - 用户账号资讯加密文件</li>
+<li>&#x2F;etc&#x2F;group - 用户资讯文件</li>
+</ul>
+<h3 id="userdel-命令"><a href="#userdel-命令" class="headerlink" title="userdel 命令"></a>userdel 命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">连同家目录一起删除</span><br><span class="line"># userdel -r username</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>工作中少用这条指令，直接用vi &#x2F;etc&#x2F;passwd 给相应的用户添加注释即可。<br>也可以让一个账户过期。</p>
+</blockquote>
+<h3 id="groupdel-命令"><a href="#groupdel-命令" class="headerlink" title="groupdel 命令"></a>groupdel 命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># groupdel [groupName]</span><br></pre></td></tr></table></figure>
+
+<h3 id="usermod-命令"><a href="#usermod-命令" class="headerlink" title="usermod 命令"></a>usermod 命令</h3><p>用于修改用户</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-c</td>
+<td align="center">添加注释</td>
+</tr>
+<tr>
+<td align="center">-d</td>
+<td align="center">设置家目录</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>跟 useradd 类似。</p>
+</blockquote>
+<h2 id="查询用户信息"><a href="#查询用户信息" class="headerlink" title="查询用户信息"></a>查询用户信息</h2><ul>
+<li>id username 命令</li>
+<li>finger 命令 （centos5）</li>
+<li>whoami (show who is logged on currently)</li>
+<li>w 命令 （show who is logged on and what they are doing )</li>
+<li>who 命令 （show who is logged on）</li>
+<li>users (show who is logged on)</li>
+<li>last (show listing of who is logged on)</li>
+<li>lastlog(reports the most recent login of all users or of a given user)</li>
+</ul>
+<h2 id="为用户添加sudo操作权限"><a href="#为用户添加sudo操作权限" class="headerlink" title="为用户添加sudo操作权限"></a>为用户添加sudo操作权限</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># visudo</span><br><span class="line"></span><br><span class="line">按住 ‘A’ 进入最后一行插入</span><br><span class="line">格式如下：</span><br><span class="line">用户名     主机名称=(可切换的身份)   可用指令</span><br><span class="line">root    ALL=（ALL）       ALL</span><br><span class="line"></span><br><span class="line">如果是想添加整个组，格式如下：</span><br><span class="line">%组名     主机名称=(可切换的身份)   可用指令</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c07e00fa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c07e00fa/" class="post-title-link" itemprop="url">Linux 挂载与卸载文件系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-05 13:24:51" itemprop="dateCreated datePublished" datetime="2017-10-05T13:24:51+00:00">2017-10-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Linux挂载与卸载文件系统"><a href="#Linux挂载与卸载文件系统" class="headerlink" title="Linux挂载与卸载文件系统"></a>Linux挂载与卸载文件系统</h1><h2 id="练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上"><a href="#练习-：-将一个NTFS分区格式的硬盘挂载到-Linux-系统上" class="headerlink" title="练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上"></a>练习 ： 将一个NTFS分区格式的硬盘挂载到 Linux 系统上</h2><ol>
+<li>查询这个硬盘的信息。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ blkid</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/dev/sda1: UUID=&quot;2A98DE1F98DDE979&quot; TYPE=&quot;ntfs&quot; </span><br><span class="line">/dev/sda2: UUID=&quot;000A8A2B00090684&quot; TYPE=&quot;ntfs&quot; </span><br><span class="line">/dev/sda3: UUID=&quot;a19323f9-0867-4328-9ec5-6075bf75fe5e&quot; TYPE=&quot;xfs&quot; </span><br><span class="line">/dev/sda5: UUID=&quot;zDW5vb-IDea-s8rS-Wo5k-mWMf-eou2-MWtxXc&quot; TYPE=&quot;LVM2_member&quot; </span><br><span class="line">/dev/mapper/cl-root: UUID=&quot;a9d6aab6-0568-4b3b-b11e-278ec4f9795d&quot; TYPE=&quot;xfs&quot; </span><br><span class="line">/dev/mapper/cl-swap: UUID=&quot;344d22fa-7e77-4168-a1a7-0abb8614f637&quot; TYPE=&quot;swap&quot; </span><br><span class="line">/dev/mapper/cl-home: UUID=&quot;db643711-334f-47ab-b5e7-4729f5edb435&quot; TYPE=&quot;xfs&quot; </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>在Linux上创建一个文件夹，作为挂载点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir testDev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据 UUID 将文件系统挂载到 Linux 的 testDev 下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mount UUID=&quot;000A8A2B00090684&quot; testDev/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载在 Linux 上面的文件系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ umount testDev/</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1192,238 +1534,6 @@
 
 <p>方法三:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># awk -F &quot;/&quot; &#x27;&#123;S[#3]=S[$3]+1&#125;END&#123; for(k in S)&#125; print k,S[K]&#125;&#x27; test.txt</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/660babc0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/660babc0/" class="post-title-link" itemprop="url">磁盘挂载</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-02 21:09:59" itemprop="dateCreated datePublished" datetime="2017-10-02T21:09:59+00:00">2017-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="fstab"><a href="#fstab" class="headerlink" title="fstab"></a>fstab</h2><p>Static information about the filesystem.</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$df -h //以人类可读的信息查看磁盘挂载信息。</span><br></pre></td></tr></table></figure>
-
-<h4 id="mount-命令"><a href="#mount-命令" class="headerlink" title="mount 命令"></a>mount 命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$mount -t ext4 -o noatime,noexec /dev/sdb1 /mnt</span><br></pre></td></tr></table></figure>
-
-<h4 id="修改fstab文件"><a href="#修改fstab文件" class="headerlink" title="修改fstab文件"></a>修改fstab文件</h4><table>
-<thead>
-<tr>
-<th>第一列</th>
-<th align="center">第二列</th>
-<th align="center">第三列</th>
-<th align="center">第四列</th>
-<th align="center">第五列</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>设备路径</td>
-<td align="center">挂载点</td>
-<td align="center">文件系统类型</td>
-<td align="center">选项</td>
-<td align="center">备份</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>备份 与 检查，设置为0，因为自己的设备在开机检查的时候，如果结果是坏的，则系统启动不了。</p>
-</blockquote>
-<h2 id="如何测试手动挂载？"><a href="#如何测试手动挂载？" class="headerlink" title="如何测试手动挂载？"></a>如何测试手动挂载？</h2><ol>
-<li>创建一个虚拟的块设备<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dd if=/dev/zero of=/dev/sdb1 bs=4906 count=100</span><br></pre></td></tr></table></figure></li>
-<li>格式化<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkfs.ext4 /dev/sdb1</span><br></pre></td></tr></table></figure></li>
-<li>挂载<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mount -t ext4 -o loop,noatime,noexec /dev/sda1 /mnt</span><br></pre></td></tr></table></figure></li>
-<li>查看<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ df -h</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>检查故障磁盘，用 <em>fsck</em> 指令</p>
-</blockquote>
-<h2 id="如果fstab出问题"><a href="#如果fstab出问题" class="headerlink" title="如果fstab出问题"></a>如果fstab出问题</h2><ol>
-<li>开机提示，输入密码 修复。</li>
-<li>修复模式</li>
-</ol>
-<blockquote>
-<p>修改 &#x2F;etc&#x2F;fstab 只读状态，mount -0 rw,remount &#x2F;</p>
-</blockquote>
-<h1 id="让一个程序开机自启动"><a href="#让一个程序开机自启动" class="headerlink" title="让一个程序开机自启动"></a>让一个程序开机自启动</h1><ol>
-<li>chkconfig ,但要自启动的程序，需要符合这样的格式（&#x2F;etc&#x2F;init.d&#x2F;sshd)。</li>
-<li>放入 &#x2F;etc&#x2F;rc.local,建议将自启动程序放入这里面，相当于服务器的档案文件。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/460156fd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/460156fd/" class="post-title-link" itemprop="url">Linux 故障修复集</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2017-10-02 11:23:06" itemprop="dateCreated datePublished" datetime="2017-10-02T11:23:06+00:00">2017-10-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="修复CentOS-7启动引导"><a href="#修复CentOS-7启动引导" class="headerlink" title="修复CentOS-7启动引导"></a>修复CentOS-7启动引导</h1><h2 id="一、修复MBR："><a href="#一、修复MBR：" class="headerlink" title="一、修复MBR：##"></a>一、修复MBR：##</h2><p>MBR（Master Boot Record主引导记录）：</p>
-<p>硬盘的0柱面、0磁头、1扇区称为主引导扇区。其中446Byte是bootloader，64Byte为Partition table，剩下的2Byte为magic number。</p>
-<p>备份MBR：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/sda of=/root/mbr.bak count=1 bs=512</span><br></pre></td></tr></table></figure>
-
-<p>破坏bootloader：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#dd if=/dev/zero of=/dev/sda count=1 bs=200</span><br></pre></td></tr></table></figure>
-
-<p>这里边block size只要小于等于446即可。</p>
-<p>修复方式：</p>
-<ol>
-<li>借助其他系统挂载磁盘修复。</li>
-</ol>
-<p>修复方式同光盘修复类似，也是使用grub2-install命令。</p>
-<ol start="2">
-<li>借助安装光盘修复。</li>
-</ol>
-<h3 id="插入Linux安装盘"><a href="#插入Linux安装盘" class="headerlink" title="插入Linux安装盘"></a>插入Linux安装盘</h3><ol>
-<li>装入光盘，在光盘引导界面选择troubleshooting：</li>
-<li>选择进入救援模式（Recue a CentOS system )：</li>
-<li>按回车键继续：</li>
-<li>进入磁盘挂载选择模式：磁盘将会被挂载至&#x2F;mnt&#x2F;sysimage&#x2F;下</li>
-</ol>
-<ul>
-<li>continue 以rw方式挂载分区。</li>
-<li>read only 以ro方式挂载分区。</li>
-<li>skip 跳过，将来自己手工挂载磁盘。</li>
-</ul>
-<ol start="5">
-<li>选择continue，稍等片刻，提示已经挂载完成。</li>
-<li>此时进入救援模式的命令行：</li>
-<li>使用grub2-install命令重建bootloader,并且显示无错误后，重启系统。</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grub2-install root-directory=/mnt/sysimage /dev/sda</span><br><span class="line">#sync</span><br><span class="line">#reboot</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="http://www.linuxidc.com/Linux/2015-03/114678.htm">原文地址</a></p>
-<h1 id="硬件故障"><a href="#硬件故障" class="headerlink" title="硬件故障"></a>硬件故障</h1><p>先查看内核日志文件，检查问题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg</span><br></pre></td></tr></table></figure>
       
     </div>
 

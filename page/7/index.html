@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">468</span>
+          <span class="site-state-item-count">470</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -130,7 +130,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">152</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -147,6 +147,213 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/25c47bd6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/25c47bd6/" class="post-title-link" itemprop="url">VCSA中虚拟机迁移按钮是灰色的</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-21 22:31:59" itemprop="dateCreated datePublished" datetime="2024-07-21T22:31:59+00:00">2024-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>在VCSA中，选中目标虚拟机做迁移动作时，虚拟机的Migrate选项是灰色的，不可点击的。</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>虚拟机处于备份状态中，无法进行vMotion。或者备份已经结束了，但虚拟机的状态未自动恢复正常。<br>在虚拟机备份完成后，没有移除 vCenter Server 数据库 vpx_disabled_methods 表中的条目时，可能会出现此问题。</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>确定目标虚拟机的ID，vm-xxxxx;</li>
+<li>WEB 浏览器打开这个地址:<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;ExamplevCenterFQDNorIP&gt; 替换 为 VCSA 地址；</span></span><br><span class="line">https://&lt;ExamplevCenterFQDNorIP&gt;/mob/?moid=AuthorizationManager&amp;method=enableMethods</span><br></pre></td></tr></table></figure></li>
+<li>使用 SSO 账户登录；</li>
+<li>在 entity 的 VALUE 框中，将 MOID 替换为 虚拟机的ID；</li>
+<li>在 method 的 VALUE框中；<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">填入 &lt;method&gt; RelocateVM_Task &lt;/method&gt; ；</span><br></pre></td></tr></table></figure></li>
+<li>点击调用方法 Invoke Method;</li>
+<li>刷新浏览器，重新执行虚拟机vMotion；</li>
+</ol>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://knowledge.broadcom.com/external/article?legacyId=1029926">https://knowledge.broadcom.com/external/article?legacyId=1029926</a><br><a target="_blank" rel="noopener" href="https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html">https://www.cnuu.net/server/os/vmware/vmware-vsphere-%e8%99%9a%e6%8b%9f%e6%9c%ba%e8%bf%81%e7%a7%bb%e6%8c%89%e9%92%ae%e7%81%b0%e8%89%b2%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/avenjan/article/details/135113397">https://blog.csdn.net/avenjan/article/details/135113397</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/cce1e06/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/cce1e06/" class="post-title-link" itemprop="url">记录一次vMotion异常-多个故障叠加</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-07-21 21:59:16" itemprop="dateCreated datePublished" datetime="2024-07-21T21:59:16+00:00">2024-07-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>一台虚拟机要做存储迁移，该虚拟机规格是一台高负载、高配置的复杂虚拟机，虚拟机有40多个vmdk，OS内通过LVM做了条带卷。</p>
+<p>第一次迁移，选择一次性同时迁移6块盘，该任务耗时 3 个小时左右，最终提示”Operation timed out”；</p>
+<p>第二次迁移，选择单次仅迁移1块盘，任务均会提示失败，提示”The operation is not allowed in the cureent state.The operation cannot be performed because VM migration is in progress.”;</p>
+<p>第三次迁移，选择仅迁移计算资源，任务均会提示失败，提示”The operation is not allowed in the cureent state.The operation cannot be performed because VM migration is in progress.”;</p>
+<p>第四次迁移，选择仅迁移1块盘，这次任务正常了，任务耗时较久，为54分钟；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>第一次迁移失败，可能是因为该虚拟机负载过高，vMotion过程需要拷贝原始数据，但数据变化量远远超过vMotion所能承受的极限，在第一次vMotion任务至第四次vMotion任务期间，可以观测到虚拟机整体的IOPS在 10K-17K 之间。</p>
+<p>第二次迁移失败，因为在此时发现VCSA有异常，LOG目录的空间被写满，导致vpxd服务异常，因此对VCSA做了扩容修复，并重启了VCSA；这个过程导致VCSA的任务管理异常，迁移任务处于未释放的状态；且重启完VCSA后，选择VCSA的时候，会提示还在同步中；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在VCSA中，可以查到有很多 TASK ID</span></span><br><span class="line"><span class="comment"># 参考：https://blogs.vmware.com/vsphere/2019/09/troubleshooting-vmotion.html</span></span><br><span class="line">grep <span class="string">&quot;relocate&quot;</span> /var/log/vmware/vpxd/vpxd-*.<span class="built_in">log</span> | grep BEGIN</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分析ESXi的hostd日志</span></span><br><span class="line"><span class="comment"># 会有提示</span></span><br><span class="line">Hostlog_ExecuteCleanup:Failed to start disk /vmfs/xxxxxxx.vmdk - not cleaning up.xxxxx</span><br><span class="line"><span class="comment">#  磁盘任务失败；</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 任务状态也会异常</span></span><br><span class="line">Invlid transition requested (VM_STATE_EMIGRATING -&gt; VM_STATE_CREATE_SCREENSHOT):Invalid state;</span><br></pre></td></tr></table></figure>
+
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>VCSA要确保正常，各项服务需要是正常运行的；</li>
+<li>ESXi可以尝试重启管理程序，或者在VCSA中试试断开连接后重连；</li>
+<li>针对这种类型的虚拟机，迁移时尽可能选择较少的磁盘迁移，每次仅迁移一块磁盘；</li>
+</ol>
+<blockquote>
+<p>留一个方案： 假如我调整了ESXi的 Stream Helper是否会有帮助呢？</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1040,210 +1247,6 @@
 
 <p>With the above config, the source vmotion server will use five TCP sessions. Its packets are intercepted by the socat server, rewritten to have a target of the local interface IP, socat is listening and accepts them, five socat children are spawned and connected to the target vmotion interface. It then forwards them as part of a new proxied TCP session to the target vmotion interface. Because of the proxying, the TCP conversation between source and socat occur on the local fast and non-lossy network, and the TCP conversation between the socat server and the target vmotion uses the BBR algorithm and a tuned TCP stack to achieve massively improved throughput. Like I said, old server with a 12 year old CPU and many years old NIC, still saw 4+ Gbps on this lossy link.<br><a target="_blank" rel="noopener" href="https://www.ispcolohost.com/2023/10/02/speeding-up-long-distance-vmotion/">https://www.ispcolohost.com/2023/10/02/speeding-up-long-distance-vmotion/</a></p>
 <h3 id="ESXi-属性信息"><a href="#ESXi-属性信息" class="headerlink" title="ESXi 属性信息"></a>ESXi 属性信息</h3><p><a href="https://github.com/lamw/esxi-advanced-and-kernel-settings/blob/master/esxi-80a-advanced-settings.md">https://github.com/lamw/esxi-advanced-and-kernel-settings/blob/master/esxi-80a-advanced-settings.md</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/cf950940/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/cf950940/" class="post-title-link" itemprop="url">油猴JavaScript脚本-B站牧场物语弹幕需求</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-05-05 00:21:04" itemprop="dateCreated datePublished" datetime="2024-05-05T00:21:04+00:00">2024-05-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:49" itemprop="dateModified" datetime="2024-12-22T05:27:49+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>B站有一个弹幕游戏，叫牧场物语，可以通过弹幕来进行喂鸡、收货、寻宝等动作；于是就想做一个自动点击操作的脚本；现有的技术能力有两种：</p>
-<ol>
-<li>python+selenium；</li>
-<li>JavaScript+油猴插件；</li>
-</ol>
-<p>方案1已经挑战过了，现在来试试方案2；</p>
-<h1 id="代码记录"><a href="#代码记录" class="headerlink" title="代码记录"></a>代码记录</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ==UserScript==</span></span><br><span class="line"><span class="comment">// @name         牧场物语-喂食-收取-寻宝一条龙</span></span><br><span class="line"><span class="comment">// @namespace    http://tampermonkey.net/</span></span><br><span class="line"><span class="comment">// @version      2024-05-04</span></span><br><span class="line"><span class="comment">// @description  try to take over the world!</span></span><br><span class="line"><span class="comment">// @author       You</span></span><br><span class="line"><span class="comment">// @match        https://live.bilibili.com/21510733?live_from=84001&amp;spm_id_from=333.337.search-card.all.click</span></span><br><span class="line"><span class="comment">// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==</span></span><br><span class="line"><span class="comment">// @grant        none</span></span><br><span class="line"><span class="comment">// ==/UserScript==</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="string">&#x27;use strict&#x27;</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;【TESTING！！】Start to handle script.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> index=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> timer;</span><br><span class="line">    <span class="comment">//timer =setInterval(function()&#123; var lock = getlock(); if(lock == 0)&#123;setval();clearInterval(timer)&#125; &#125;,500)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Global VAR</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">delay</span>(<span class="params">x</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">111</span>);</span><br><span class="line">                <span class="title function_">resolve</span>(x);</span><br><span class="line">            &#125;,<span class="number">2000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">WS</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to WS&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;喂食&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;Aqua&quot;</span>;</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]WS completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">SQ</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to SQ&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;收取&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;Lime&quot;</span>;</span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]SQ completed.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">XB</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to XB&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var DM=document.querySelector(&quot;textarea&quot;);</span></span><br><span class="line">        <span class="comment">//DM.click();</span></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;寻宝&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var SENDB=document.querySelectorAll(&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;)[0];</span></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;yellow&quot;</span>;</span><br><span class="line">            <span class="comment">//DM.value=&quot;寻宝&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]XB completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">DY</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]Ready to XB&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">DM</span>=<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;textarea&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> <span class="variable constant_">SENDBUTTON</span>=<span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var DM=document.querySelector(&quot;textarea&quot;);</span></span><br><span class="line">        <span class="comment">//DM.click();</span></span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="property">value</span>=<span class="string">&quot;d1&quot;</span>;</span><br><span class="line">        <span class="variable constant_">DM</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;input&#x27;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">//var SENDB=document.querySelectorAll(&quot;button[class=&#x27;bl-button live-skin-highlight-button-bg live-skin-button-text bl-button--primary bl-button--small&#x27;]&quot;)[0];</span></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="property">style</span>.<span class="property">backgroundColor</span>=<span class="string">&quot;yellow&quot;</span>;</span><br><span class="line">            <span class="comment">//DM.value=&quot;寻宝&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="variable constant_">SENDBUTTON</span>.<span class="title function_">click</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[Script Work]XB completed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">WS</span>,<span class="number">2000</span>);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">SQ</span>,<span class="number">8000</span>);</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="variable constant_">XB</span>,<span class="number">18000</span>);</span><br><span class="line">    <span class="comment">//setTimeout(DY,18000);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//200s</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123; location.<span class="title function_">reload</span>();&#125;,<span class="number">202000</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
-<h2 id="注意点，注意坑！"><a href="#注意点，注意坑！" class="headerlink" title="注意点，注意坑！"></a>注意点，注意坑！</h2><ol>
-<li>查找元素的方法为 dom 对象以及其对应的方法，比如 document.querySelector(“标签或者元素”)；</li>
-<li>注意大小写！JavaScript是区分大小写的，这个与powershell脚本不同；</li>
-<li>DOM的querySelectorAll方法，返回的是数组，所以需要引用该数组对象的第一个；</li>
-<li>setTimeout延时函数有毒，是异步执行的，所以写延时函数需要注意网页加载时间；</li>
-<li>匿名函数表示方法 ()&#x3D;&gt;{} ;</li>
-<li>页面刷新 location.reload();</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/de3b0569/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/de3b0569/" class="post-title-link" itemprop="url">HPE-SAN存储热备盘比例</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2024-05-04 23:39:36" itemprop="dateCreated datePublished" datetime="2024-05-04T23:39:36+00:00">2024-05-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:47" itemprop="dateModified" datetime="2024-12-22T05:27:47+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/SAN%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">SAN存储</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>做SAN存储扩容时，需要供应商做扩容方案。对应的硬件所堆积出来的硬件可用容量到底怎么计算的？这里面有几个问题：</p>
-<ol>
-<li>裸容量是多少？</li>
-<li>可用容量是多少？</li>
-<li>热备盘比例是多少？</li>
-</ol>
-<h1 id="可查资料"><a href="#可查资料" class="headerlink" title="可查资料"></a>可查资料</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Spare rate</span><br><span class="line">A key parameter in the spare policy is the spare rate. The spare rate is a target amount of space to set aside for sparing expressed relative to the number of disks of a given type in the system. A spare rate of 24, for example, sets target spare space equal to the size of one drive for every 24 drives in the array.</span><br><span class="line">The spare rate is defined based on the hardware configuration in the array as follows:</span><br><span class="line">• Spare rate = 40 if there are any magazines present in the array (e.g., 10,000)</span><br><span class="line">• Spare rate = 24 for all others such as 7400/7400c, 7450/7450c, etc.</span><br><span class="line"></span><br><span class="line">Sparing algorithms defined</span><br><span class="line">The spare option is set for the entire array and applied to each disk type (SSD, FC, NL) in the following way.</span><br><span class="line">• Default: Roughly 2.5 percent with minimums</span><br><span class="line">Small configurations (e.g., 7000’s with less than 48 disks, 10000’s with less than 80 disks) have a spare space target equal to the size of two of the largest drives of the type being spared.</span><br><span class="line">• Minimal: Roughly 2.5 percent without minimums</span><br><span class="line">Minimal is the same as default except for small configurations. When the configuration is small, minimal will only set aside spare space equal to one of the largest drives (compared to two for default) of the type being sized.</span><br><span class="line">• Maximal: One disk’s worth in every cage</span><br><span class="line">Spare space is calculated as the space of the largest drive of the drive type being sized for each disk cage.</span><br><span class="line">• Custom: Implemented manually by the administrator using the createspare, showspare, and removespare commands.</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>默认比例为 2.5%；最大比例为 12%；</p>
-</blockquote>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333">https://community.hpe.com/t5/hpe-3par-storserv-storage/check-spare-capacity-on-disk-driver/td-p/7085333</a></p>
 
       
     </div>
