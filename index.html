@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-06 13:29:57" itemprop="dateModified" datetime="2026-03-06T13:29:57+00:00">2026-03-06</time>
+      <time title="Modified: 2026-03-06 13:41:54" itemprop="dateModified" datetime="2026-03-06T13:41:54+00:00">2026-03-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
 
 <h3 id="linux配置全局代理"><a href="#linux配置全局代理" class="headerlink" title="linux配置全局代理"></a>linux配置全局代理</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 短期临时配置,设置 http_proxy 与 https_proxy 参数</span></span><br><span class="line"><span class="built_in">export</span> http_proxy=http://localhost:65535</span><br><span class="line"><span class="built_in">export</span> https_proxy=http://localhost:65535</span><br><span class="line"></span><br><span class="line"><span class="comment"># 长期配置</span></span><br><span class="line"><span class="comment"># 写入到~/.bashrc</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export http_proxy=http://localhost:65535&#x27;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;export https_proxy=http://localhost:65535&#x27;</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="comment"># 执行</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全局生效</span></span><br><span class="line">则写入 /etc/profile</span><br></pre></td></tr></table></figure>
 
-
+<h1 id="进阶玩法-TODO"><a href="#进阶玩法-TODO" class="headerlink" title="进阶玩法[TODO]"></a>进阶玩法[TODO]</h1><p>DNS分流</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>V2Ray安装方式: <a target="_blank" rel="noopener" href="https://toutyrater.github.io/prep/install.html">https://toutyrater.github.io/prep/install.html</a><br>V2Ray的Github: <a href="https://github.com/v2fly/fhs-install-v2ray">https://github.com/v2fly/fhs-install-v2ray</a></p>
 
       
