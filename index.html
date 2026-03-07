@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-03-07 02:26:59 / Modified: 02:44:48" itemprop="dateCreated datePublished" datetime="2026-03-07T02:26:59+00:00">2026-03-07</time>
+      <time title="Created: 2026-03-07 02:26:59 / Modified: 02:48:05" itemprop="dateCreated datePublished" datetime="2026-03-07T02:26:59+00:00">2026-03-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -213,10 +213,22 @@
 <blockquote>
 <p>要实现分流的常规做法是改造现有网络架构，修改主路由配置；但“旁路由”模式可以不折腾现有的网络架构，只是在链路上挂载一个组件即可实现网络访问的分流；</p>
 </blockquote>
+<p>常规拓扑如下：</p>
 <pre>
 <code class="mermaid">
 graph LR
-Client--&gt;主路由--&gt;外网
+&quot;Client&quot;--&gt;&quot;主路由&quot;
+&quot;主路由&quot;--&gt;&quot;外网&quot;
+</code>
+</pre>
+
+<p>加装旁路由的拓扑如下：</p>
+<pre>
+<code class="mermaid">
+graph LR
+&quot;Client&quot;--&gt;&quot;主路由&quot;
+&quot;主路由&quot;--&gt;&quot;外网&quot;
+&quot;主路由&quot;--&gt;&quot;旁路由&quot;
 </code>
 </pre>
 
