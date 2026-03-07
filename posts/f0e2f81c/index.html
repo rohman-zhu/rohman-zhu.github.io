@@ -27,7 +27,7 @@
 <meta property="og:description" content="背景折腾一下软路由、旁路由，本篇会记录旁路由的实验部署过程； 旁路由旁路由其实并不是路由，路由是用来连接不同网络的，最常用的就是用来连接互联网和局域网。旁路由起到的主要是网关的作用，是用来分流数据和扩展插件的。因此，严谨一点的叫法应该是 旁路网关，只是大家好像约定俗成了都叫做旁路由，所以我们这里也跟着叫旁路由，但是要明白它的核心是网关而不是路由。  要实现分流的常规做法是改造现有网络架构，修改主路">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-07T02:26:59.000Z">
-<meta property="article:modified_time" content="2026-03-07T02:48:05.483Z">
+<meta property="article:modified_time" content="2026-03-07T09:05:19.251Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="default">
 <meta name="twitter:card" content="summary">
@@ -193,7 +193,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-03-07 02:26:59 / Modified: 02:48:05" itemprop="dateCreated datePublished" datetime="2026-03-07T02:26:59+00:00">2026-03-07</time>
+      <time title="Created: 2026-03-07 02:26:59 / Modified: 09:05:19" itemprop="dateCreated datePublished" datetime="2026-03-07T02:26:59+00:00">2026-03-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -223,8 +223,8 @@
 <pre>
 <code class="mermaid">
 graph LR
-&quot;Client&quot;--&gt;&quot;主路由&quot;
-&quot;主路由&quot;--&gt;&quot;外网&quot;
+Client--&gt;主路由
+主路由--&gt;外网
 </code>
 </pre>
 
