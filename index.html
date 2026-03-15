@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f0e2f81c/" class="post-title-link" itemprop="url">旁路由实验记录【TODO】</a>
+          <a href="/posts/f0e2f81c/" class="post-title-link" itemprop="url">旁路由实验记录</a>
         </h2>
 
         <div class="post-meta-container">
@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-08 15:37:40" itemprop="dateModified" datetime="2026-03-08T15:37:40+00:00">2026-03-08</time>
+      <time title="Modified: 2026-03-15 14:43:17" itemprop="dateModified" datetime="2026-03-15T14:43:17+00:00">2026-03-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,6 +238,7 @@ Client--&gt;主路由
 </code>
 </pre>
 
+<p>常规的做法是需要部署DHCP服务器，在DHCP服务器中对特定设备的默认网关做区分，常规设备就使用正常的网关，无法走代理流量；而特殊的设备，默认网关则调整为旁路由的IP；</p>
 <h3 id="V2RAY-的透明代理-iptables-实现"><a href="#V2RAY-的透明代理-iptables-实现" class="headerlink" title="V2RAY 的透明代理 + iptables 实现"></a>V2RAY 的透明代理 + iptables 实现</h3><p>客户端的网关指向代理服务器，由代理服务器发起请求；</p>
 <pre>
 <code class="mermaid">
@@ -281,6 +282,7 @@ Client--&gt;旁路由网关
 
 <p>路由表策略如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑路由表配置文件</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;101 transparent&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/iproute2/rt_tables</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代理服务器的IP是192.168.1.249</span></span><br><span class="line">ip rule add to 192.168.1.253 lookup main prio 100</span><br><span class="line"><span class="comment"># 其他流量（带标记的）走自定义表</span></span><br><span class="line"><span class="built_in">sudo</span> ip rule add fwmark 1 lookup transparent prio 200</span><br><span class="line"><span class="comment"># 在自定义路由表中添加默认路由指向代理服务器</span></span><br><span class="line"><span class="comment"># sudo ip route add default via &lt;网关IP&gt; dev &lt;网络接口&gt; table transparent</span></span><br><span class="line">ip route add default via 192.168.1.253 dev ens160 table transparent</span><br></pre></td></tr></table></figure>
+
 
 <h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><ol>
 <li>关于旁路由设置后，主路由WIFI无法上网的问题「建议收藏」 : <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2036952">https://cloud.tencent.com/developer/article/2036952</a></li>
