@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="如何使用 安装SDK，或者直接在DDC中打开powershell 加载SDK，使用指令 asnp citrix*  1asnp citrix*  获取用户信息1234Get-BrokerUser# 获取交付组的用户清单Get-BrokerAccessPolicyRule | Select-Object -Property IncludedUsers;  删除交付组的授权1Get-BrokerAcc">
+    <meta name="description" content="如何使用 安装SDK，或者直接在DDC中打开powershell 加载SDK，使用指令 asnp citrix*  1asnp citrix*  获取用户信息12345# 这些命令是在DDC中执行的Get-BrokerUser# 获取交付组的用户清单Get-BrokerAccessPolicyRule | Select-Object -Property IncludedUsers;  删除交付组的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Citrix Virtual Apps and Desktops 常用指令">
 <meta property="og:url" content="http://github.com/rohman-zhu/posts/9b8590f7/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="如何使用 安装SDK，或者直接在DDC中打开powershell 加载SDK，使用指令 asnp citrix*  1asnp citrix*  获取用户信息1234Get-BrokerUser# 获取交付组的用户清单Get-BrokerAccessPolicyRule | Select-Object -Property IncludedUsers;  删除交付组的授权1Get-BrokerAcc">
+<meta property="og:description" content="如何使用 安装SDK，或者直接在DDC中打开powershell 加载SDK，使用指令 asnp citrix*  1asnp citrix*  获取用户信息12345# 这些命令是在DDC中执行的Get-BrokerUser# 获取交付组的用户清单Get-BrokerAccessPolicyRule | Select-Object -Property IncludedUsers;  删除交付组的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-30T17:19:20.000Z">
-<meta property="article:modified_time" content="2025-11-06T07:43:10.469Z">
+<meta property="article:modified_time" content="2026-03-18T07:54:55.793Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta property="article:tag" content="脚本">
@@ -200,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-11-06 07:43:10" itemprop="dateModified" datetime="2025-11-06T07:43:10+00:00">2025-11-06</time>
+      <time title="Modified: 2026-03-18 07:54:55" itemprop="dateModified" datetime="2026-03-18T07:54:55+00:00">2026-03-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -227,7 +227,7 @@
 </ol>
 <figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">asnp</span> citrix*</span><br></pre></td></tr></table></figure>
 
-<h2 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-BrokerUser</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取交付组的用户清单</span></span><br><span class="line"><span class="built_in">Get-BrokerAccessPolicyRule</span> | <span class="built_in">Select-Object</span> <span class="literal">-Property</span> IncludedUsers;</span><br></pre></td></tr></table></figure>
+<h2 id="获取用户信息"><a href="#获取用户信息" class="headerlink" title="获取用户信息"></a>获取用户信息</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这些命令是在DDC中执行的</span></span><br><span class="line"><span class="built_in">Get-BrokerUser</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取交付组的用户清单</span></span><br><span class="line"><span class="built_in">Get-BrokerAccessPolicyRule</span> | <span class="built_in">Select-Object</span> <span class="literal">-Property</span> IncludedUsers;</span><br></pre></td></tr></table></figure>
 
 <h2 id="删除交付组的授权"><a href="#删除交付组的授权" class="headerlink" title="删除交付组的授权"></a>删除交付组的授权</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-BrokerAccessPolicyRule</span> | <span class="built_in">Set-BrokerAccessPolicyRule</span> <span class="literal">-RemoveInludedUsers</span> <span class="string">&quot;domain\user&quot;</span></span><br></pre></td></tr></table></figure>
 
