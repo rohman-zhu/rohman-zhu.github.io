@@ -987,7 +987,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2026-03-22 10:01:16" itemprop="dateModified" datetime="2026-03-22T10:01:16+00:00">2026-03-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1140,6 +1140,9 @@
 
 <p>开启内核IP包转发</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/sysctl.conf， </span></span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"><span class="comment"># 将 net.ipv4.ip_forward = 0 中的 0 改为 1。</span></span><br><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line"><span class="comment"># sysctl -p 使其生效。</span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h1 id="需求3–开机自启"><a href="#需求3–开机自启" class="headerlink" title="需求3–开机自启"></a>需求3–开机自启</h1><p>OS:Ubuntu 24.04</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> wg-quick@wg0</span><br></pre></td></tr></table></figure>
 
 <h1 id="WireGuard-的缺陷"><a href="#WireGuard-的缺陷" class="headerlink" title="WireGuard 的缺陷"></a>WireGuard 的缺陷</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ryanyangcs/p/14339053.html">https://www.cnblogs.com/ryanyangcs/p/14339053.html</a></p>
 <h2 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h2><p>作为终端用户，其实无需考虑协议的复杂度。</p>
