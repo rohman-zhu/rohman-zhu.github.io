@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-22 06:51:27" itemprop="dateModified" datetime="2026-03-22T06:51:27+00:00">2026-03-22</time>
+      <time title="Modified: 2026-03-22 06:58:02" itemprop="dateModified" datetime="2026-03-22T06:58:02+00:00">2026-03-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,7 +236,10 @@
 
 <h3 id="配置项-etc-fail2ban-jail-local"><a href="#配置项-etc-fail2ban-jail-local" class="headerlink" title="配置项&#x2F;etc&#x2F;fail2ban&#x2F;jail.local"></a>配置项&#x2F;etc&#x2F;fail2ban&#x2F;jail.local</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[DEFAULT]</span><br><span class="line">bantime = 10d  <span class="comment"># 封禁时间，单位m表示分钟，d表示天，不写则表示秒；默认是10m 或 600;</span></span><br><span class="line">maxretry = 2  <span class="comment"># 尝试登录最大失败次数，默认3；</span></span><br><span class="line">destemail = reciver@mail.com <span class="comment"># 接收通知的邮件地址；</span></span><br><span class="line">sendername = fail2ban@host.com <span class="comment"># 发件人地址；需要与MTA的邮箱配置是同一个发件人，否则会异常；</span></span><br><span class="line">mta = mail <span class="comment"># 定义发送邮件的指令，可以用 mail 或 sendmail;</span></span><br><span class="line">action = %(action_mwl)s <span class="comment"># 封禁动作均会触发邮件</span></span><br></pre></td></tr></table></figure>
 
-<p>配置完成后需要重启fail2ban服务</p>
+<p>配置完成后需要重启fail2ban服务;<br>配置完成后fail2ban 会调用 mail 指令发送邮件，实际上我们用的是 s-nail , 所以要做一下软链接配置，让mail指令链接到 s-nail ;</p>
+<blockquote>
+<p>ln -s &#x2F;usr&#x2F;bin&#x2F;s-nail &#x2F;usr&#x2F;bin&#x2F;mail</p>
+</blockquote>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart fail2ban</span><br></pre></td></tr></table></figure>
 
 <p>实测方式</p>
