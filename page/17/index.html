@@ -326,7 +326,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-05-17 02:42:19" itemprop="dateModified" datetime="2026-05-17T02:42:19+00:00">2026-05-17</time>
+      <time title="Modified: 2026-05-17 02:52:32" itemprop="dateModified" datetime="2026-05-17T02:52:32+00:00">2026-05-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -368,6 +368,10 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> NAMES utf8mb4;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> basic_stock_table;</span><br></pre></td></tr></table></figure>
 
 <h2 id="查询表头-1"><a href="#查询表头-1" class="headerlink" title="查询表头"></a>查询表头</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">FULL</span> COLUMNS <span class="keyword">FROM</span> 表名;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DESC</span> 表名;</span><br><span class="line"><span class="comment">-- 或</span></span><br><span class="line"><span class="keyword">DESCRIBE</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<h2 id="跳过已录入"><a href="#跳过已录入" class="headerlink" title="跳过已录入"></a>跳过已录入</h2><p>INSERT IGNORE 的语法很简单：在 INSERT INTO 中间加上 IGNORE 关键字即可。当插入的数据违反唯一约束或主键约束时，MySQL 会静默忽略该条插入，不会报错，也不会更新已有数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> ignore 表名 (表头) <span class="keyword">values</span> (值);</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
