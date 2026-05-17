@@ -326,7 +326,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
+      <time title="Modified: 2026-05-17 02:41:04" itemprop="dateModified" datetime="2026-05-17T02:41:04+00:00">2026-05-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -360,6 +360,12 @@
 <h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database zabbix <span class="keyword">default</span> charset utf8;</span><br></pre></td></tr></table></figure>
 
 <h2 id="创建数据库用户与授权"><a href="#创建数据库用户与授权" class="headerlink" title="创建数据库用户与授权"></a>创建数据库用户与授权</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> zabbix.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;zabbix&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询表头"><a href="#查询表头" class="headerlink" title="查询表头"></a>查询表头</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="中文显示乱码"><a href="#中文显示乱码" class="headerlink" title="中文显示乱码"></a>中文显示乱码</h2><p>一般是字符集不一致的结果；可能是存储的字符集不是utf8mb4 , 也可能是当前终端不是 utf8mb4</p>
+<p>当前客户端调整为 utf8mb4;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> NAMES utf8mb4;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> basic_stock_table;</span><br></pre></td></tr></table></figure>
       
     </div>
 
