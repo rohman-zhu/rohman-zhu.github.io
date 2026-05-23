@@ -394,7 +394,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-05-17 14:45:48" itemprop="dateModified" datetime="2026-05-17T14:45:48+00:00">2026-05-17</time>
+      <time title="Modified: 2026-05-23 13:14:15" itemprop="dateModified" datetime="2026-05-23T13:14:15+00:00">2026-05-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -498,6 +498,9 @@
 </tr>
 </tbody></table>
 <h1 id="函数体"><a href="#函数体" class="headerlink" title="函数体"></a>函数体</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">函数名</span>(<span class="params">形参</span>):</span><br><span class="line">    函数体</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数</span></span><br><span class="line">函数名(实参)</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取函数名"><a href="#获取函数名" class="headerlink" title="获取函数名"></a>获取函数名</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">函数名</span>(<span class="params">形参</span>):</span><br><span class="line">    func_name = inspect.currentframe().f_code.co_name</span><br><span class="line">    <span class="built_in">print</span>(func_name)</span><br><span class="line">    函数体</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用函数</span></span><br><span class="line">函数名(实参)</span><br></pre></td></tr></table></figure>
+
 
 <h1 id="逐行读取文本"><a href="#逐行读取文本" class="headerlink" title="逐行读取文本"></a>逐行读取文本</h1><blockquote>
 <p>节省内存,但会比较慢</p>
