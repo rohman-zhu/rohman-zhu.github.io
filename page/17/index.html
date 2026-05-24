@@ -326,7 +326,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-05-23 15:07:01" itemprop="dateModified" datetime="2026-05-23T15:07:01+00:00">2026-05-23</time>
+      <time title="Modified: 2026-05-23 16:06:40" itemprop="dateModified" datetime="2026-05-23T16:06:40+00:00">2026-05-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -357,6 +357,15 @@
 
 <h2 id="查询数据库的用户"><a href="#查询数据库的用户" class="headerlink" title="查询数据库的用户"></a>查询数据库的用户</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">user</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
 
+<h2 id="查询到的两条记录凭拼接到一起"><a href="#查询到的两条记录凭拼接到一起" class="headerlink" title="查询到的两条记录凭拼接到一起"></a>查询到的两条记录凭拼接到一起</h2><p>如：</p>
+<ol>
+<li>select * from {table_name} where stock_code&#x3D;’{stock_code}’ and is_buy_executed&#x3D;0 order by abs(buy_price - {current_price}) limit 1;</li>
+<li>select * from {table_name} where stock_code&#x3D;’{stock_code}’ and is_buy_executed&#x3D;0 order by abs(sell_price - {current_price}) limit 1;</li>
+</ol>
+<p>期望将查询结果合并输出，而不是单独输出：<br>可以使用 union all</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> &#123;table_name&#125; </span><br><span class="line"> <span class="keyword">WHERE</span> stock_code <span class="operator">=</span> <span class="operator">%</span>s <span class="keyword">AND</span> is_buy_executed <span class="operator">=</span> <span class="number">0</span> </span><br><span class="line"> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">ABS</span>(buy_price <span class="operator">-</span> <span class="operator">%</span>s) LIMIT <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> &#123;table_name&#125; </span><br><span class="line"> <span class="keyword">WHERE</span> stock_code <span class="operator">=</span> <span class="operator">%</span>s <span class="keyword">AND</span> is_buy_executed <span class="operator">=</span> <span class="number">0</span> </span><br><span class="line"> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">ABS</span>(sell_price <span class="operator">-</span> <span class="operator">%</span>s) LIMIT <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database zabbix <span class="keyword">default</span> charset utf8;</span><br></pre></td></tr></table></figure>
 
 <h2 id="创建表格"><a href="#创建表格" class="headerlink" title="创建表格"></a>创建表格</h2><h3 id="复制已有的表格"><a href="#复制已有的表格" class="headerlink" title="复制已有的表格"></a>复制已有的表格</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> 新表名 <span class="keyword">LIKE</span> 原表名;</span><br></pre></td></tr></table></figure>
@@ -379,6 +388,8 @@
 <h2 id="修改表名"><a href="#修改表名" class="headerlink" title="修改表名"></a>修改表名</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> old_table_name RENAME <span class="keyword">TO</span> new_table_name;</span><br></pre></td></tr></table></figure>
 
 <h2 id="修改表头的属性"><a href="#修改表头的属性" class="headerlink" title="修改表头的属性"></a>修改表头的属性</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> 表名 MODIFY <span class="keyword">COLUMN</span> 字段名 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">3</span>) <span class="keyword">NOT NULL</span> COMMENT <span class="string">&#x27;字段备注&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
