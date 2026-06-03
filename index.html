@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/36cd54bb/" class="post-title-link" itemprop="url">Windows_Server_Session_Message_Programe</a>
+          <a href="/posts/36cd54bb/" class="post-title-link" itemprop="url">Windows 会话消息弹窗-Citrix CVAD 告警消除</a>
         </h2>
 
         <div class="post-meta-container">
@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-06-03 13:07:59 / Modified: 13:11:02" itemprop="dateCreated datePublished" datetime="2026-06-03T13:07:59+00:00">2026-06-03</time>
+      <time title="Created: 2026-06-03 13:07:59 / Modified: 16:42:06" itemprop="dateCreated datePublished" datetime="2026-06-03T13:07:59+00:00">2026-06-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -208,8 +208,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="sessionmsg"><a href="#sessionmsg" class="headerlink" title="sessionmsg"></a>sessionmsg</h1><p>Path: C:\Windows\System32\sessionmsg.exe<br>Set ACL Security Properity</p>
-<h1 id="Citrix-Ariticle-ID"><a href="#Citrix-Ariticle-ID" class="headerlink" title="Citrix Ariticle ID"></a>Citrix Ariticle ID</h1><p>CTX587662</p>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Citrix 用户登录后会弹窗提示，“Citrix Virtual Apps and Desktops Warning: Your corporate Citrix environment is currently unsupported.  Please contact your IT department to resolve.” 。这个是Citrix的一个检测机制，让用户早点更换License，虽然不直接影响使用，但是挺搞心态的，hhhh</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>查询到是调用会话的消息推送程序，核心程序是sessionmsg.exe ， 查询到有一个老哥直接将 sessionmsg.exe 的程序设置权限，非管理员就无法调用，直接屏蔽这个消息了</p>
+<p>位置: C:\Windows\System32\sessionmsg.exe</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p>原文KB： <a target="_blank" rel="noopener" href="https://support.citrix.com/external/article/CTX587662/citrix-license-warning-your-corporate-c.html">https://support.citrix.com/external/article/CTX587662/citrix-license-warning-your-corporate-c.html</a></p>
 
       
     </div>
