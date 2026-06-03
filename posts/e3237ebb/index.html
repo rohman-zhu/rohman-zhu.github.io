@@ -27,7 +27,7 @@
 <meta property="og:description" content="条件判断12if (判断语句):    执行条件   没有{}，没有; ，注意缩进格式，注意: 。     含义 符号    大于 &gt;   小于 &lt;   大于等于 &gt;&#x3D;   小于等于 &lt;&#x3D;   赋值 &#x3D;   相等 &#x3D;&#x3D;   不等 !&#x3D;   相等(对象) is   不等(对象) is not   逻辑非 not">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-09T00:07:43.000Z">
-<meta property="article:modified_time" content="2026-05-24T15:04:47.535Z">
+<meta property="article:modified_time" content="2026-05-31T06:55:18.827Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta property="article:tag" content="脚本">
@@ -200,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-05-24 15:04:47" itemprop="dateModified" datetime="2026-05-24T15:04:47+00:00">2026-05-24</time>
+      <time title="Modified: 2026-05-31 06:55:18" itemprop="dateModified" datetime="2026-05-31T06:55:18+00:00">2026-05-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,6 +325,9 @@
 <h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> email.mime.application <span class="keyword">import</span> MIMEApplication</span><br><span class="line"></span><br><span class="line">mta_server=<span class="string">&#x27;&#x27;</span> <span class="comment"># MTA服务器地址</span></span><br><span class="line">mta_port=<span class="string">&#x27;&#x27;</span> <span class="comment"># 使用的端口，常用如25,465</span></span><br><span class="line">sender=<span class="string">&#x27;&#x27;</span> <span class="comment"># 发送人</span></span><br><span class="line">password=<span class="string">&#x27;&#x27;</span> <span class="comment"># 通行码</span></span><br><span class="line">server=smtplib.SMTP_SSL(mta_server, mta_port)</span><br><span class="line">server.login(sender, password)</span><br><span class="line">server.send_message(msg)</span><br></pre></td></tr></table></figure>
 
 <h1 id="数据库相关操作"><a href="#数据库相关操作" class="headerlink" title="数据库相关操作"></a>数据库相关操作</h1><p>表名不能使用参数化占位符，必须用字符串拼接。这有 SQL 注入风险，务必对表名做白名单校验。</p>
+<blockquote>
+<p>pymysql 的execute 一次仅能执行一个sql语句；如果有多个query语句，需要拆分执行；</p>
+</blockquote>
 <h2 id="增："><a href="#增：" class="headerlink" title="增："></a>增：</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line">db_host=<span class="string">&#x27;&#x27;</span></span><br><span class="line">db_port=</span><br><span class="line">db_user=<span class="string">&#x27;&#x27;</span></span><br><span class="line">db_pwd=<span class="string">&#x27;&#x27;</span></span><br><span class="line">db_name=<span class="string">&#x27;&#x27;</span></span><br><span class="line">global_conn = pymysql.connect(host=db_host,port=db_port,user=db_user,password=db_pwd,database=db_name,charset=<span class="string">&#x27;utf8mb4&#x27;</span>)</span><br><span class="line">cursor=global_conn.cursor()</span><br><span class="line">table_name=<span class="string">&quot;&quot;</span></span><br><span class="line">insert_sql=<span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">insert into <span class="subst">&#123;table_name&#125;</span> (log_level,source,message) VALUES (%s,%s,%s)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">data=(level_string,source_info,content_string)</span><br><span class="line">cursor.execute(insert_sql,data)</span><br><span class="line">global_conn.commit()</span><br><span class="line">cursor.close()</span><br><span class="line">global_conn.close()</span><br></pre></td></tr></table></figure>
 
 <h2 id="改："><a href="#改：" class="headerlink" title="改："></a>改：</h2><p>pymysql</p>
