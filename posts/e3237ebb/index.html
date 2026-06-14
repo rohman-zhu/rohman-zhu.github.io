@@ -27,7 +27,7 @@
 <meta property="og:description" content="条件判断12if (判断语句):    执行条件   没有{}，没有; ，注意缩进格式，注意: 。     含义 符号    大于 &gt;   小于 &lt;   大于等于 &gt;&#x3D;   小于等于 &lt;&#x3D;   赋值 &#x3D;   相等 &#x3D;&#x3D;   不等 !&#x3D;   相等(对象) is   不等(对象) is not   逻辑非 not">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-09T00:07:43.000Z">
-<meta property="article:modified_time" content="2026-06-14T14:02:14.239Z">
+<meta property="article:modified_time" content="2026-06-14T14:29:25.303Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta property="article:tag" content="脚本">
@@ -200,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-06-14 14:02:14" itemprop="dateModified" datetime="2026-06-14T14:02:14+00:00">2026-06-14</time>
+      <time title="Modified: 2026-06-14 14:29:25" itemprop="dateModified" datetime="2026-06-14T14:29:25+00:00">2026-06-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -354,8 +354,14 @@
 
 <h3 id="将行转为字典"><a href="#将行转为字典" class="headerlink" title="将行转为字典"></a>将行转为字典</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">row.to_dict()</span><br></pre></td></tr></table></figure>
 
-<h2 id="删除带有NA-NaN的值"><a href="#删除带有NA-NaN的值" class="headerlink" title="删除带有NA&#x2F;NaN的值"></a>删除带有NA&#x2F;NaN的值</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datafram.dropna()</span><br></pre></td></tr></table></figure>
+<h2 id="删除带有NA-NaN的值"><a href="#删除带有NA-NaN的值" class="headerlink" title="删除带有NA&#x2F;NaN的值"></a>删除带有NA&#x2F;NaN的值</h2><p>这个是检查所有列，只有该列中包含NA值，则执行整行删除；</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datafram.dropna()</span><br></pre></td></tr></table></figure>
 
+<p>删除指定列中的NA值，比如下面的数据集：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">     trade_date stock_code  open_price  close_price      ma51  ma120  ma250  ma850</span><br><span class="line">0    2026-01-05  sh.512000       0.581        0.590       NaN    NaN    NaN    NaN</span><br><span class="line">1    2026-01-06  sh.512000       0.590        0.614       NaN    NaN    NaN    NaN</span><br><span class="line">2    2026-01-07  sh.512000       0.615        0.605       NaN    NaN    NaN    NaN</span><br><span class="line">3    2026-01-08  sh.512000       0.601        0.590       NaN    NaN    NaN    NaN</span><br><span class="line">4    2026-01-09  sh.512000       0.589        0.591       NaN    NaN    NaN    NaN</span><br><span class="line">..          ...        ...         ...          ...       ...    ...    ...    ...</span><br><span class="line">100  2026-06-08  sh.512000       0.481        0.477  0.503863    NaN    NaN    NaN</span><br><span class="line">101  2026-06-09  sh.512000       0.478        0.480  0.503471    NaN    NaN    NaN</span><br><span class="line">102  2026-06-10  sh.512000       0.478        0.487  0.503098    NaN    NaN    NaN</span><br><span class="line">103  2026-06-11  sh.512000       0.485        0.482  0.502843    NaN    NaN    NaN</span><br><span class="line">104  2026-06-12  sh.512000       0.483        0.499  0.502843    NaN    NaN    NaN</span><br></pre></td></tr></table></figure>
+
+<p>期望只检索ma51列，删除ma51列中的NA值</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">datafram.dropna(subset=[<span class="string">&#x27;ma51&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果是多列的话 ，比如要检索ma51,ma120</span></span><br><span class="line">datafram.dropna(subset=[<span class="string">&#x27;ma51&#x27;</span>,<span class="string">&#x27;ma120&#x27;</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </div>
 
     
