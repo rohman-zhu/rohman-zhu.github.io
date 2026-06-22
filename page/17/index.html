@@ -797,7 +797,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-08 15:15:30" itemprop="dateModified" datetime="2026-03-08T15:15:30+00:00">2026-03-08</time>
+      <time title="Modified: 2026-06-22 16:12:03" itemprop="dateModified" datetime="2026-06-22T16:12:03+00:00">2026-06-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -870,6 +870,8 @@
 <h1 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h1><h2 id="查询当前登录的会话"><a href="#查询当前登录的会话" class="headerlink" title="查询当前登录的会话"></a>查询当前登录的会话</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">w</span><br><span class="line"><span class="built_in">who</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="结束会话"><a href="#结束会话" class="headerlink" title="结束会话"></a>结束会话</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 强制关闭会话</span></span><br><span class="line"><span class="comment"># pkill -kill -t pts/[终端号]</span></span><br><span class="line">pkill -<span class="built_in">kill</span> -t pts/1</span><br></pre></td></tr></table></figure>
+
+<h1 id="日志查询"><a href="#日志查询" class="headerlink" title="日志查询"></a>日志查询</h1><h2 id="journalctl"><a href="#journalctl" class="headerlink" title="journalctl"></a>journalctl</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询sshd相关日志</span></span><br><span class="line">journalctl -u sshd --since <span class="string">&quot;2026-06-19 00:00:00&quot;</span> --util <span class="string">&quot;2026-06-19 23:59:00&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实现自动换行</span></span><br><span class="line">journalctl -u sshd --since <span class="string">&quot;2026-06-19 00:00:00&quot;</span> --util <span class="string">&quot;2026-06-19 23:59:00&quot;</span> --no-pager</span><br></pre></td></tr></table></figure>
       
     </div>
 
