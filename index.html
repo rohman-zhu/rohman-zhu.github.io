@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">484</span>
+          <span class="site-state-item-count">485</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,97 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3a1a1eaf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/3a1a1eaf/" class="post-title-link" itemprop="url">ESXi提示其他主机硬件对象的状态告警：H3C R4900 G3</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-06-27 08:57:05 / Modified: 09:14:15" itemprop="dateCreated datePublished" datetime="2026-06-27T08:57:05+00:00">2026-06-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>在ESXI的监控，硬件运行状况，警示和警告显示两条：Connectivity Switch 36 LAN_4_Link 0和Connectivity Switch 36 LAN_3_Link 0，但是登陆H3C R4900 G3，进去HDM，却无任何告警。<br>ESXi主机的上行链路端口正常；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>可能是板载网卡没有接网线，导致ESXi层识别到异常；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li>进入HDM（H3C的带外）；</li>
+<li>进入 HDM设置，网络设置，共享网口，取消ipv4\ipv6的配置或取消勾选 LAN设置；</li>
+<li>重启HDM；</li>
+<li>进入ESXi，刷新健康日志；</li>
+</ol>
+<h1 id="参考信息"><a href="#参考信息" class="headerlink" title="参考信息"></a>参考信息</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dier-gaohe/p/17673588.html">https://www.cnblogs.com/dier-gaohe/p/17673588.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -965,164 +1056,6 @@
           <h1 id="关键指令"><a href="#关键指令" class="headerlink" title="关键指令"></a>关键指令</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有网卡</span></span><br><span class="line">esxcli network nic list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看网卡状态</span></span><br><span class="line">esxcli network nic stats get -n [vmnicX]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://knowledge.broadcom.com/external/article?legacyId=50121760">https://knowledge.broadcom.com/external/article?legacyId=50121760</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f0e2f81c/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/f0e2f81c/" class="post-title-link" itemprop="url">旁路由实验记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-03-07 02:26:59" itemprop="dateCreated datePublished" datetime="2026-03-07T02:26:59+00:00">2026-03-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-15 14:43:17" itemprop="dateModified" datetime="2026-03-15T14:43:17+00:00">2026-03-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>折腾一下软路由、旁路由，本篇会记录旁路由的实验部署过程；</p>
-<h2 id="旁路由"><a href="#旁路由" class="headerlink" title="旁路由"></a>旁路由</h2><p>旁路由其实并不是路由，路由是用来连接不同网络的，最常用的就是用来连接互联网和局域网。旁路由起到的主要是网关的作用，是用来分流数据和扩展插件的。因此，严谨一点的叫法应该是 旁路网关，只是大家好像约定俗成了都叫做旁路由，所以我们这里也跟着叫旁路由，但是要明白它的核心是网关而不是路由。</p>
-<blockquote>
-<p>要实现分流的常规做法是改造现有网络架构，修改主路由配置；但“旁路由”模式可以不折腾现有的网络架构，只是在链路上挂载一个组件即可实现网络访问的分流；</p>
-</blockquote>
-<p>常规拓扑如下：</p>
-<pre>
-<code class="mermaid">
-graph LR
-Client--&gt;主路由
-主路由--&gt;外网
-</code>
-</pre>
-
-<p>加装旁路由的拓扑如下：</p>
-<pre>
-<code class="mermaid">
-graph LR
-Client--&gt;主路由
-主路由--&gt;外网
-主路由--&gt;旁路由
-</code>
-</pre>
-
-<p>常规的做法是需要部署DHCP服务器，在DHCP服务器中对特定设备的默认网关做区分，常规设备就使用正常的网关，无法走代理流量；而特殊的设备，默认网关则调整为旁路由的IP；</p>
-<h3 id="V2RAY-的透明代理-iptables-实现"><a href="#V2RAY-的透明代理-iptables-实现" class="headerlink" title="V2RAY 的透明代理 + iptables 实现"></a>V2RAY 的透明代理 + iptables 实现</h3><p>客户端的网关指向代理服务器，由代理服务器发起请求；</p>
-<pre>
-<code class="mermaid">
-graph LR
-Client--&gt;旁路由网关
-旁路由网关--&gt;主路由网关
-主路由网关--&gt;外网
-</code>
-</pre>
-
-<p>我这里用192.168.1.254表示主路由的网关IP，192.168.1.253为旁路由的网关IP；</p>
-<h4 id="V2RAY透明代理配置，192-168-1-253-配置内容"><a href="#V2RAY透明代理配置，192-168-1-253-配置内容" class="headerlink" title="V2RAY透明代理配置，192.168.1.253 配置内容"></a>V2RAY透明代理配置，192.168.1.253 配置内容</h4><h5 id="v2ray内容"><a href="#v2ray内容" class="headerlink" title="v2ray内容"></a>v2ray内容</h5><p>v2ray 的配置 inbounds 属性需要如下配置，使v2ray变成透明代理：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&quot;inbounds&quot;: [</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;port&quot;: 12345, // 选择一个未被占用的端口，用于接收透明代理流量</span><br><span class="line">    &quot;listen&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;protocol&quot;: &quot;dokodemo-door&quot;,//这是一个特殊的入站协议，用于接收任意传入的连接，通常用于透明代理或端口转发。</span><br><span class="line">    &quot;tag&quot;: &quot;transparent-in&quot;, // 给这个入站打个标签</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;network&quot;: &quot;tcp,udp&quot;,   // 同时处理TCP和UDP</span><br><span class="line">      &quot;followRedirect&quot;: true  // 必须为true，才能接收来自iptables的流量[citation:9]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;sniffing&quot;: &#123; // 开启流量嗅探，从TLS/HTTP流量中提取真实域名，提高分流准确性[citation:1][citation:3]</span><br><span class="line">      &quot;enabled&quot;: true,</span><br><span class="line">      &quot;destOverride&quot;: [&quot;http&quot;, &quot;tls&quot;]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;streamSettings&quot;: &#123;</span><br><span class="line">      &quot;sockopt&quot;: &#123;</span><br><span class="line">        &quot;tproxy&quot;: &quot;tproxy&quot; // 关键设置：启用透明代理模式[citation:3]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>本章只讲重点内容；其他 routing、dns模块配置这里忽略，详情查阅《Linux下部署v2ray实例》</p>
-</blockquote>
-<h5 id="ip转发"><a href="#ip转发" class="headerlink" title="ip转发"></a>ip转发</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 临时生效</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br><span class="line"><span class="comment"># 永久生效</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;net.ipv4.ip_forward = 1&quot;</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
-
-<h5 id="iptables-规则转发"><a href="#iptables-规则转发" class="headerlink" title="iptables 规则转发"></a>iptables 规则转发</h5><p>来自DeepSeek推荐的防火墙策略，没有啥问题：</p>
-<blockquote>
-<p>发起源是 192.168.1.1<br>透明代理是 192.168.1.253</p>
-</blockquote>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 2. 在 mangle 表的 PREROUTING 链中处理流量</span></span><br><span class="line">iptables -t mangle -N V2RAY <span class="comment"># 创建一个自定义链</span></span><br><span class="line">iptables -t mangle -A PREROUTING -j V2RAY <span class="comment"># 将所有流量引入自定义链</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在自定义链中设置规则</span></span><br><span class="line">iptables -t mangle -A V2RAY -d 127.0.0.0/8 -j RETURN</span><br><span class="line"><span class="comment"># 放行局域网的客户端到旁路由服务器的通讯</span></span><br><span class="line">iptables -t mangle -A V2RAY -s 192.168.1.1 -d 192.168.1.253 -j RETURN</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 将客户端（192.168.1.1）发出的TCP/UDP流量透明代理给V2Ray</span></span><br><span class="line"><span class="comment"># 使用 TPROXY 目标，将流量转发到本地的12345端口，并打上标记1</span></span><br><span class="line">iptables -t mangle -A V2RAY -s 192.168.1.1 -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port 12345 --tproxy-mark 1</span><br><span class="line">iptables -t mangle -A V2RAY -s 192.168.1.1 -p udp -j TPROXY --on-ip 127.0.0.1 --on-port 12345 --tproxy-mark 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. （可选）如果需要持久化这些规则，可以使用 iptables-save 命令</span></span><br><span class="line"><span class="comment"># iptables-save &gt; /etc/iptables/rules.v4</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>特殊策略的流量被打上 “mark 1” 标签，为后续路由表结合使用；</p>
-</blockquote>
-<h5 id="路由策略表修改"><a href="#路由策略表修改" class="headerlink" title="路由策略表修改"></a>路由策略表修改</h5><p>创建路由策略表，处理mark 1的策略</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建编号为100的新路由表，并命名为v2ray_table</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;100 v2ray_table&quot;</span> &gt;&gt; /etc/iproute2/rt_tables</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加规则：所有打上 fwmark 1 标记的数据包，去查询 100 号路由表</span></span><br><span class="line">ip rule add fwmark 1 lookup 100</span><br><span class="line"><span class="comment"># 在 100 号路由表中添加一条特殊路由：将所有流量指向本地</span></span><br><span class="line">ip route add <span class="built_in">local</span> 0.0.0.0/0 dev lo table 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查</span></span><br><span class="line">ip rule show</span><br><span class="line">ip route show table v2ray_table</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里需要持久化</p>
-</blockquote>
-<h5 id="服务端的检查指令"><a href="#服务端的检查指令" class="headerlink" title="服务端的检查指令"></a>服务端的检查指令</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch <span class="string">&#x27;iptables -t mangle -nvL &amp;&amp; echo &quot;---&quot; &amp;&amp; tail /var/log/v2ray/error.log&amp;&amp; echo &quot;---&quot; &amp;&amp; tail /var/log/v2ray/access.log&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="客户端配置，192-168-1-1-配置内容"><a href="#客户端配置，192-168-1-1-配置内容" class="headerlink" title="客户端配置，192.168.1.1 配置内容"></a>客户端配置，192.168.1.1 配置内容</h3><p>网关配置为192.168.1.253</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 192.168.1.253</span><br></pre></td></tr></table></figure>
-
-<h3 id="本地服务器发起的流量转发至透明代理设置"><a href="#本地服务器发起的流量转发至透明代理设置" class="headerlink" title="本地服务器发起的流量转发至透明代理设置"></a>本地服务器发起的流量转发至透明代理设置</h3><p>不修改网关的方法；<br>思路是使用iptables + 路由表；<br>这种方法还是比较笨重；</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置iptables策略，将出站策略均打上mark 1</span></span><br><span class="line"><span class="comment"># 1. 先为所有已有连接恢复标记（这条必须在最前面）</span></span><br><span class="line"><span class="built_in">sudo</span> iptables -t mangle -I OUTPUT 1 -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark</span><br><span class="line"><span class="comment"># 2. 对新的连接设置标记（NEW状态的包才会进入）</span></span><br><span class="line"><span class="built_in">sudo</span> iptables -t mangle -A OUTPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j MARK --set-mark 1</span><br><span class="line"><span class="comment"># 3. 将标记保存到连接跟踪（这样后续包都能继承标记）</span></span><br><span class="line"><span class="built_in">sudo</span> iptables -t mangle -A OUTPUT -m mark --mark 1 -j CONNMARK --save-mark</span><br><span class="line"></span><br><span class="line"><span class="comment">## 测试</span></span><br><span class="line">curl 111.64.65.103</span><br><span class="line">conntrack -L | grep 111.63.65.103</span><br><span class="line"></span><br><span class="line"><span class="comment"># 期望结果是看到有mark=1的部分</span></span><br></pre></td></tr></table></figure>
-
-<p>路由表策略如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑路由表配置文件</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;101 transparent&#x27;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> -a /etc/iproute2/rt_tables</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代理服务器的IP是192.168.1.249</span></span><br><span class="line">ip rule add to 192.168.1.253 lookup main prio 100</span><br><span class="line"><span class="comment"># 其他流量（带标记的）走自定义表</span></span><br><span class="line"><span class="built_in">sudo</span> ip rule add fwmark 1 lookup transparent prio 200</span><br><span class="line"><span class="comment"># 在自定义路由表中添加默认路由指向代理服务器</span></span><br><span class="line"><span class="comment"># sudo ip route add default via &lt;网关IP&gt; dev &lt;网络接口&gt; table transparent</span></span><br><span class="line">ip route add default via 192.168.1.253 dev ens160 table transparent</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h1><ol>
-<li>关于旁路由设置后，主路由WIFI无法上网的问题「建议收藏」 : <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2036952">https://cloud.tencent.com/developer/article/2036952</a></li>
-<li>【家庭分流】最详细旁路由配置指南，什么是旁路由？旁路由解决了什么问题？又带来了什么问题？为什么旁路由存在争议？旁路网关、透明网关、透明代理、网关模式、网关代理和旁路由的关系，人人都能学会旁路由入门配置: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cFOob3djiOA&t=782s">https://www.youtube.com/watch?v=cFOob3djiOA&amp;t=782s</a></li>
-</ol>
 
       
     </div>

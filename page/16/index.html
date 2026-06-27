@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">484</span>
+          <span class="site-state-item-count">485</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,227 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/4d4f52b3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/4d4f52b3/" class="post-title-link" itemprop="url">VMware PowerCLI 常用指令</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-12-29 23:32:27" itemprop="dateCreated datePublished" datetime="2022-12-29T23:32:27+00:00">2022-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-06-07 08:06:22" itemprop="dateModified" datetime="2026-06-07T08:06:22+00:00">2026-06-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="忽略签名证书告警"><a href="#忽略签名证书告警" class="headerlink" title="忽略签名证书告警"></a>忽略签名证书告警</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-PowerCLIConfiguration</span> <span class="literal">-InvalidCertificateAction</span> Ignore <span class="literal">-Confirm</span>:<span class="variable">$false</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="获取虚拟机配置信息"><a href="#获取虚拟机配置信息" class="headerlink" title="获取虚拟机配置信息"></a>获取虚拟机配置信息</h1><p>CPU、Memory、制备空间、使用空间</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$VM</span>=<span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span></span><br><span class="line"><span class="comment"># CPU核数，单位Core</span></span><br><span class="line"><span class="variable">$cpu</span>=<span class="variable">$VM</span>.NumCPU;</span><br><span class="line"><span class="comment"># 内存数，单位GB</span></span><br><span class="line"><span class="variable">$ramGB</span>=<span class="variable">$VM</span>.MemoryGB;</span><br><span class="line"><span class="comment"># 制备空间，单位GB</span></span><br><span class="line"><span class="variable">$provisionedSpaceGB</span>=<span class="variable">$VM</span>.ProvisionedSpaceGB;</span><br><span class="line"><span class="comment"># 使用空间，单位GB</span></span><br><span class="line"><span class="variable">$usedSpaceGB</span>=<span class="variable">$VM</span>.UsedSpaceGB;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置虚拟机备注信息"><a href="#设置虚拟机备注信息" class="headerlink" title="设置虚拟机备注信息"></a>设置虚拟机备注信息</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保留之前的备注信息</span></span><br><span class="line"><span class="variable">$VM</span>=<span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span>;</span><br><span class="line"><span class="variable">$preNotes</span>=<span class="variable">$VM</span>.notes;</span><br><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Notes</span> <span class="string">&quot;<span class="variable">$preNotes</span>+[新的备注信息]&quot;</span> <span class="literal">-confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置虚拟机的CPU与内存"><a href="#设置虚拟机的CPU与内存" class="headerlink" title="设置虚拟机的CPU与内存"></a>设置虚拟机的CPU与内存</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-NumCPU</span> [<span class="type">CPU</span> <span class="type">Core</span>] <span class="literal">-MemoryGB</span> [<span class="type">RAM</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="热关闭虚拟机"><a href="#热关闭虚拟机" class="headerlink" title="热关闭虚拟机"></a>热关闭虚拟机</h1><blockquote>
+<p>VMware Tools要是可用情况下</p>
+</blockquote>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span> | <span class="built_in">Stop-VMGuest</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改虚拟机名"><a href="#修改虚拟机名" class="headerlink" title="修改虚拟机名"></a>修改虚拟机名</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Name</span> <span class="string">&quot;新虚拟机名&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="迁移虚拟机"><a href="#迁移虚拟机" class="headerlink" title="迁移虚拟机"></a>迁移虚拟机</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 仅迁移计算资源</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Move-VM</span> <span class="literal">-Destination</span> <span class="variable">$targetESXi</span> <span class="literal">-RunAsync</span>:<span class="variable">$fal</span></span><br><span class="line"><span class="comment"># 迁移计算资源与存储资源</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Move-VM</span> <span class="literal">-Destination</span> <span class="variable">$targetESXi</span> <span class="literal">-Datastore</span> <span class="variable">$targetDatastore</span> <span class="literal">-RunAsync</span>:<span class="variable">$fal</span></span><br></pre></td></tr></table></figure>
+<h1 id="设置目标虚拟机端口组"><a href="#设置目标虚拟机端口组" class="headerlink" title="设置目标虚拟机端口组"></a>设置目标虚拟机端口组</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$targetVDPort</span>=[目标端口组名称]</span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$VMName</span> | <span class="built_in">Get-NetworkAdapter</span> | <span class="built_in">Set-NetworkAdapter</span> <span class="literal">-NetworkName</span> <span class="variable">$targetVDPort</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="创建分布式端口组"><a href="#创建分布式端口组" class="headerlink" title="创建分布式端口组"></a>创建分布式端口组</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建分布式端口组</span></span><br><span class="line"><span class="built_in">New-VDPortgroup</span> <span class="literal">-Name</span> <span class="variable">$targetVDPort</span> <span class="literal">-VDSwitch</span> <span class="variable">$targetVD</span> <span class="literal">-VlanID</span> <span class="variable">$targetVLanID</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将目标分布式端口指定上行链路</span></span><br><span class="line"><span class="variable">$activeUplinkPortList</span>=<span class="string">&quot;Need-Used&quot;</span></span><br><span class="line"><span class="variable">$unusedUplikPortList</span>=<span class="string">&quot;上行链路1&quot;</span>,<span class="string">&quot;上行链路2&quot;</span></span><br><span class="line"><span class="built_in">Get-VDPortgroup</span> <span class="literal">-Name</span> <span class="variable">$targetVDPort</span> <span class="literal">-VDSwitch</span> <span class="variable">$targetVD</span> | <span class="built_in">Get-VDUplinkTeamingPolicy</span> | <span class="built_in">Set-VDUplinkTeamingPolicy</span> <span class="literal">-ActiveUplinkPort</span> <span class="variable">$activeUplinkPortList</span>  <span class="literal">-UnusedUplinkPort</span> <span class="variable">$unusedUplinkPortList</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="移除虚拟机快照"><a href="#移除虚拟机快照" class="headerlink" title="移除虚拟机快照"></a>移除虚拟机快照</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入项</span></span><br><span class="line"><span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="variable">$servername</span> | <span class="built_in">Get-Snapshot</span> | <span class="built_in">Remove-Snapshot</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置自定义规范"><a href="#设置自定义规范" class="headerlink" title="设置自定义规范"></a>设置自定义规范</h1><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OSCUSTOMIZATIONSPEC</span>=<span class="string">&quot;目标自定义规范的名称&quot;</span>;</span><br><span class="line"><span class="variable">$DEFAULTGATEWAY</span>=<span class="string">&quot;默认网关&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETIPADDRESS</span>=<span class="string">&quot;IP&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETSUBNETMASK</span>=<span class="string">&quot;子网掩码&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETDNS</span>=<span class="string">&quot;目标DNS&quot;</span>;</span><br><span class="line"><span class="comment"># 多个地址是$TARGETDNS=&quot;8.8.8.8&quot;,&quot;8.8.4.4&quot;;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$TARGETOSCUSTOMIZATION</span>=<span class="built_in">Get-OSCustomizationSpec</span> <span class="literal">-Name</span> <span class="variable">$OSCUSTOMIZATIONSPEC</span>;</span><br><span class="line"><span class="built_in">Get-OSCustomizationNicMapping</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> | <span class="built_in">Set-OSCustomizationNicMapping</span> <span class="literal">-DefaultGateway</span> <span class="variable">$DEFAULTGATEWAY</span> <span class="literal">-IPAddress</span> <span class="variable">$TARGETIPADDRESS</span><span class="literal">-SubnetMask</span> <span class="variable">$TARGETSUBNETMASK</span> <span class="literal">-IpMode</span> <span class="string">&quot;UseStaticIP&quot;</span>;</span><br><span class="line"><span class="comment"># 设置DNS</span></span><br><span class="line"><span class="built_in">Set-OSCustomizationSpec</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> <span class="literal">-DnsServer</span> <span class="variable">$TARGETDNS</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OSCUSTOMIZATIONSPEC</span>=<span class="string">&quot;目标自定义规范的名称&quot;</span>;</span><br><span class="line"><span class="variable">$DEFAULTGATEWAY</span>=<span class="string">&quot;默认网关&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETIPADDRESS</span>=<span class="string">&quot;IP&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETSUBNETMASK</span>=<span class="string">&quot;子网掩码&quot;</span>;</span><br><span class="line"><span class="variable">$TARGETDNS</span>=<span class="string">&quot;目标DNS&quot;</span>;</span><br><span class="line"><span class="comment"># 多个地址是$TARGETDNS=&quot;8.8.8.8&quot;,&quot;8.8.4.4&quot;;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$TARGETOSCUSTOMIZATION</span>=<span class="built_in">Get-OSCustomizationSpec</span> <span class="literal">-Name</span> <span class="variable">$OSCUSTOMIZATIONSPEC</span>;</span><br><span class="line"><span class="built_in">Get-OSCustomizationNicMapping</span> <span class="literal">-OSCustomizationSpec</span> <span class="variable">$TARGETOSCUSTOMIZATION</span> | <span class="built_in">Set-OSCustomizationNicMapping</span> <span class="literal">-DefaultGateway</span> <span class="variable">$DEFAULTGATEWAY</span> <span class="literal">-IPAddress</span> <span class="variable">$TARGETIPADDRESS</span><span class="literal">-SubnetMask</span> <span class="variable">$TARGETSUBNETMASK</span> <span class="literal">-IpMode</span> <span class="string">&quot;UseStaticIP&quot;</span> <span class="literal">-Dns</span> <span class="variable">$TARGETDNS</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="克隆虚拟机【待补充】"><a href="#克隆虚拟机【待补充】" class="headerlink" title="克隆虚拟机【待补充】"></a>克隆虚拟机【待补充】</h1><ol>
+<li>获取虚拟机对象；</li>
+<li>使用指令New-VM -Name 虚拟机名 -VM 被克隆的虚拟机对象 -VMHost ESXi主机 -Datastore 存储卷 -OSCustomizationSpec 自定义规范</li>
+<li>设置目标虚拟机的端口组</li>
+<li>启动虚拟机</li>
+</ol>
+<h1 id="设置标签-Annotation"><a href="#设置标签-Annotation" class="headerlink" title="设置标签-Annotation"></a>设置标签-Annotation</h1><p>指令： Get-Annotation , Set-Annotation</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Annotation</span> <span class="literal">-Entity</span> <span class="variable">$vmhost</span> <span class="literal">-CustomAttribute</span> <span class="string">&quot;PhysicalLocation&quot;</span> <span class="literal">-Value</span> Office</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置标签-Tag"><a href="#设置标签-Tag" class="headerlink" title="设置标签-Tag"></a>设置标签-Tag</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置标签</span></span><br><span class="line"><span class="variable">$entity</span>=<span class="built_in">Get-VMHost</span> <span class="literal">-Name</span> <span class="variable">$esxi_name</span>;</span><br><span class="line"><span class="variable">$Tag</span>=<span class="built_in">Get-Tag</span> <span class="literal">-Name</span> [标签名] <span class="literal">-Category</span> [目录名];</span><br><span class="line"><span class="built_in">New-TagAssignment</span> <span class="literal">-Tag</span> <span class="variable">$Tag</span> <span class="literal">-Entity</span> <span class="variable">$entity</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除标签</span></span><br><span class="line"><span class="variable">$entity</span> | <span class="built_in">Get-TagAssignment</span> | <span class="built_in">Remove-TagAssignment</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置热添加"><a href="#设置热添加" class="headerlink" title="设置热添加"></a>设置热添加</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建配置规范对象</span></span><br><span class="line"><span class="variable">$spec</span> = <span class="built_in">New-Object</span> VMware.Vim.VirtualMachineConfigSpec</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 设置需要修改的属性</span></span><br><span class="line"><span class="variable">$spec</span>.memoryHotAddEnabled = <span class="variable">$false</span></span><br><span class="line"><span class="variable">$spec</span>.cpuHotAddEnabled = <span class="variable">$false</span></span><br><span class="line"><span class="comment"># 可以同时设置多个属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 调用方法应用更改</span></span><br><span class="line"><span class="variable">$task</span> = <span class="variable">$VM</span>.ExtensionData.ReconfigVM_Task(<span class="variable">$spec</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 返回的是一个Task对象，可以监控任务状态</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="获取宿主机的网卡与LLDP信息"><a href="#获取宿主机的网卡与LLDP信息" class="headerlink" title="获取宿主机的网卡与LLDP信息"></a>获取宿主机的网卡与LLDP信息</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取ESXi对象</span></span><br><span class="line"><span class="variable">$VMHost</span>=<span class="built_in">Get-VMHost</span> <span class="literal">-Name</span> <span class="string">&quot;ESXI Name&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准交换机部分</span></span><br><span class="line"><span class="variable">$NetSystem</span> = <span class="built_in">Get-View</span> <span class="variable">$VMHost</span>.ExtensionData.ConfigManager.NetworkSystem;</span><br><span class="line"><span class="variable">$SwitchName</span> = <span class="variable">$NetSystem</span>.NetworkInfo.vSwitch.Name;</span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$item</span> <span class="keyword">in</span> <span class="variable">$NetSystem</span>.NetworkInfo.vSwitch.Pnic)&#123;</span><br><span class="line">  <span class="variable">$vmnic</span>=<span class="variable">$</span>(<span class="variable">$item</span> <span class="operator">-Split</span> <span class="string">&quot;-&quot;</span>)[<span class="number">2</span>];</span><br><span class="line">  <span class="variable">$Content</span>=<span class="string">&quot;<span class="variable">$</span>(<span class="variable">$VMHos</span>.Name);<span class="variable">$SwitchName</span>;<span class="variable">$vmnic</span>;&quot;</span></span><br><span class="line">  <span class="comment"># 展示标准交换机的物理网卡；</span></span><br><span class="line">  <span class="built_in">Write-Host</span> <span class="variable">$Content</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分布式交换机部分</span></span><br><span class="line"><span class="variable">$SwitchSet</span>=<span class="variable">$NetSystem</span>.NetworkInfo.ProxySwitch.DvsName;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$SwtichName</span> <span class="keyword">in</span> <span class="variable">$SwitchSet</span>)&#123;</span><br><span class="line">  <span class="variable">$vmnic_set</span>=<span class="selector-tag">@</span>();</span><br><span class="line">  <span class="variable">$PortSet</span>=<span class="variable">$</span>(<span class="variable">$NetSystem</span>.NetworkInfo.ProxySwitch | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.DvsName <span class="operator">-match</span> <span class="variable">$SwtichName</span>&#125;).Pnic;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">foreach</span>(<span class="variable">$item</span> <span class="keyword">in</span> <span class="variable">$PortSet</span>)&#123;</span><br><span class="line">    <span class="variable">$vmnic</span>=<span class="variable">$</span>(<span class="variable">$item</span> <span class="operator">-Split</span> <span class="string">&quot;-&quot;</span>)[<span class="number">2</span>];</span><br><span class="line">    <span class="variable">$Physical_NIC</span>=<span class="variable">$vmnic</span>;</span><br><span class="line">    <span class="variable">$PnicInfo</span>=<span class="variable">$NetSystem</span>.QueryNetworkHint(<span class="variable">$vmnic</span>);</span><br><span class="line">    <span class="variable">$LLDPINFO</span>=<span class="variable">$PnicInfo</span>.LldpInfo.Parameter;</span><br><span class="line">    <span class="variable">$Physcial_Switch_Name</span>=<span class="variable">$</span>(<span class="variable">$LLDPINFO</span>|<span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Key <span class="operator">-eq</span> <span class="string">&quot;System Name&quot;</span>&#125;).Value;</span><br><span class="line">    <span class="variable">$Physical_Switch_Port</span>=<span class="variable">$PnicInfo</span>.LldpInfo.PortId;</span><br><span class="line">    <span class="variable">$Content</span>=<span class="string">&quot;<span class="variable">$ESXi_IP</span>;<span class="variable">$SwtichName</span>;<span class="variable">$Physical_NIC</span>;<span class="variable">$Physical_Switch_Name</span>;<span class="variable">$Physical_Switch_Port</span>;&quot;</span></span><br><span class="line">    <span class="comment"># 展示分布式交换机信息；</span></span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="variable">$Content</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ESXi-的NTP服务设置"><a href="#ESXi-的NTP服务设置" class="headerlink" title="ESXi 的NTP服务设置"></a>ESXi 的NTP服务设置</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取NTP服务配置</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostNTPServer</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置NTP服务</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Add-VMHostNTPServer</span> <span class="string">&quot;NTPServer 1&quot;</span>,<span class="string">&quot;NTP Server 2&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置随主机启动</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostService</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Label <span class="operator">-eq</span> <span class="string">&#x27;NTP Daemon&#x27;</span>&#125; | <span class="built_in">Set-VMHostService</span> <span class="literal">-Policy</span> On</span><br><span class="line"></span><br><span class="line"><span class="comment"># 立即启动NTP服务</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostService</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Label <span class="operator">-eq</span> <span class="string">&#x27;NTP Daemon&#x27;</span>&#125; | <span class="built_in">Start-VMHostService</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除NTP服务器的配置</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Remove-VMHostNTPServer</span> <span class="literal">-NtpServer</span> <span class="string">&quot;NTPServer 1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="获取DNS配置"><a href="#获取DNS配置" class="headerlink" title="获取DNS配置"></a>获取DNS配置</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostNetwork</span> | <span class="built_in">Format-Table</span> VMHost, HostName, DomainName, DnsAddress <span class="literal">-AutoSize</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="同时查看NTP配置与DNS配置"><a href="#同时查看NTP配置与DNS配置" class="headerlink" title="同时查看NTP配置与DNS配置"></a>同时查看NTP配置与DNS配置</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @&#123;&#125; 为哈希表；</span></span><br><span class="line"><span class="comment"># N= 表示属性名；</span></span><br><span class="line"><span class="comment"># E= 表示表达式；</span></span><br><span class="line"><span class="comment"># 完整写法；@&#123;Name=&quot;&quot;;Expression=&#123;&#125;&#125;</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Select-Object</span> Name, <span class="selector-tag">@</span>&#123;N=<span class="string">&quot;DNS Servers&quot;</span>;E=&#123;(<span class="variable">$_</span> | <span class="built_in">Get-VMHostNetwork</span>).DnsAddress&#125;&#125;, <span class="selector-tag">@</span>&#123;N=<span class="string">&quot;NTP Servers&quot;</span>;E=&#123;(<span class="variable">$_</span> | <span class="built_in">Get-VMHostNtpServer</span>)&#125;&#125;,<span class="selector-tag">@</span>&#123;N=<span class="string">&quot;Service&quot;</span>;E=&#123;(<span class="variable">$_</span>|<span class="built_in">Get-VMHostService</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Label <span class="operator">-eq</span> <span class="string">&quot;NTP Daemon&quot;</span>&#125;).Policy&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="检查VMKernel"><a href="#检查VMKernel" class="headerlink" title="检查VMKernel"></a>检查VMKernel</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostNetworkAdapter</span> <span class="literal">-VMKernel</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建,带有vSAN功能的Kernel</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">New-VMHostNetworkAdapter</span> `</span><br><span class="line"><span class="literal">-VirtualSwitch</span> <span class="string">&quot;&quot;</span> `</span><br><span class="line"><span class="literal">-Portgorup</span> <span class="string">&quot;&quot;</span> `</span><br><span class="line"><span class="literal">-IP</span> <span class="string">&quot;&quot;</span> `</span><br><span class="line"><span class="literal">-SubnetMask</span> <span class="string">&quot;&quot;</span> `</span><br><span class="line"><span class="literal">-VsanTrafficEnabled</span> <span class="variable">$true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置vMotion 功能开启</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostNetworkAdapter</span> <span class="literal">-VMKernel</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Name <span class="operator">-eq</span> <span class="string">&quot;vmk0&quot;</span>&#125; | <span class="built_in">Set-VMHostNetworkAdapter</span> <span class="literal">-VMotionEnabled</span> <span class="variable">$TRUE</span> <span class="literal">-Confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h1><h2 id="NTP服务"><a href="#NTP服务" class="headerlink" title="NTP服务"></a>NTP服务</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 添加 NTP 服务器，此命令会覆盖已有设置</span></span><br><span class="line"><span class="variable">$ntpServers</span> = <span class="selector-tag">@</span>(<span class="string">&quot;ntp.example.com&quot;</span>,<span class="string">&quot;ntp2.example.com&quot;</span>) <span class="comment"># 数组的形式</span></span><br><span class="line"><span class="built_in">Add-VMHostNtpServer</span> <span class="literal">-VMHost</span> <span class="variable">$VMHost</span> <span class="literal">-NtpServer</span> <span class="variable">$ntpServers</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 获取 NTP 服务对象</span></span><br><span class="line"><span class="variable">$ntpService</span> = <span class="variable">$VMHost</span> | <span class="built_in">Get-VMHostService</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Key <span class="operator">-eq</span> <span class="string">&quot;ntpd&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 设置服务启动策略为“自动”（随主机启动）</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$ntpService</span>.Policy <span class="operator">-ne</span> <span class="string">&quot;Automatic&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">Set-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$ntpService</span> <span class="literal">-Policy</span> <span class="string">&quot;Automatic&quot;</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 如果服务未运行，则启动它；如果已运行，则重启它以应用新配置</span></span><br><span class="line"><span class="keyword">if</span> (<span class="operator">-not</span> <span class="variable">$ntpService</span>.Running) &#123;</span><br><span class="line">    <span class="built_in">Start-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$nttpService</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">Restart-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$ntpService</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为VMKernel配置vMotion功能"><a href="#为VMKernel配置vMotion功能" class="headerlink" title="为VMKernel配置vMotion功能"></a>为VMKernel配置vMotion功能</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询现状</span></span><br><span class="line"><span class="built_in">Get-VMHost</span> | <span class="built_in">Get-VMHostNetworkAdapter</span> <span class="literal">-VMKernel</span> | <span class="built_in">Select</span> VMHost, Name, PortGroupName, VMotionEnabled</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在已有的网卡启动vMotion公鞥</span></span><br><span class="line"><span class="built_in">Get-VMHostNetworkAdapter</span> <span class="literal">-VMHost</span> <span class="variable">$VMHost</span> <span class="literal">-Name</span> <span class="string">&quot;vmk0&quot;</span> | <span class="built_in">Set-VMHostNetworkAdapter</span> <span class="literal">-VMotionEnabled</span> <span class="variable">$true</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="新建VMKernel网卡"><a href="#新建VMKernel网卡" class="headerlink" title="新建VMKernel网卡"></a>新建VMKernel网卡</h3><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$myHost</span> = <span class="built_in">Get-VMHost</span> <span class="literal">-Name</span> <span class="string">&quot;esxi01.yourdomain.com&quot;</span></span><br><span class="line"><span class="built_in">New-VMHostNetworkAdapter</span> <span class="literal">-VMHost</span> <span class="variable">$myHost</span> <span class="literal">-PortGroup</span> <span class="string">&quot;vMotion Network&quot;</span> <span class="literal">-VirtualSwitch</span> <span class="string">&quot;vSwitch0&quot;</span> <span class="literal">-VMKernel</span> <span class="literal">-IP</span> <span class="string">&quot;10.1.1.1&quot;</span> <span class="literal">-SubnetMask</span> <span class="string">&quot;255.255.255.0&quot;</span> <span class="literal">-VMotionEnabled</span> <span class="variable">$true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="关闭ESXi-Shell-与-SSH"><a href="#关闭ESXi-Shell-与-SSH" class="headerlink" title="关闭ESXi Shell 与 SSH"></a>关闭ESXi Shell 与 SSH</h2><p>这两个是常用的运维通道，默认情况下需要关闭</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义目标主机（示例：选择名为“Production-Cluster”的集群下的所有主机）</span></span><br><span class="line"><span class="variable">$targetHosts</span> = <span class="built_in">Get-Cluster</span> <span class="literal">-Name</span> <span class="string">&quot;Production-Cluster&quot;</span> | <span class="built_in">Get-VMHost</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$vmhost</span> <span class="keyword">in</span> <span class="variable">$targetHosts</span>) &#123;</span><br><span class="line">    <span class="comment"># 禁用 ESXi Shell 服务</span></span><br><span class="line">    <span class="variable">$esxShellSvc</span> = <span class="built_in">Get-VMHostService</span> <span class="literal">-VMHost</span> <span class="variable">$vmhost</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Key <span class="operator">-eq</span> <span class="string">&quot;TSM&quot;</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$esxShellSvc</span>.Running) &#123;</span><br><span class="line">        <span class="built_in">Stop-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$esxShellSvc</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$esxShellSvc</span>.Policy <span class="operator">-ne</span> <span class="string">&quot;off&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">Set-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$esxShellSvc</span> <span class="literal">-Policy</span> <span class="string">&quot;off&quot;</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 禁用 SSH 服务</span></span><br><span class="line">    <span class="variable">$sshSvc</span> = <span class="built_in">Get-VMHostService</span> <span class="literal">-VMHost</span> <span class="variable">$vmhost</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Key <span class="operator">-eq</span> <span class="string">&quot;TSM-SSH&quot;</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$sshSvc</span>.Running) &#123;</span><br><span class="line">        <span class="built_in">Stop-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$sshSvc</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$sshSvc</span>.Policy <span class="operator">-ne</span> <span class="string">&quot;off&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">Set-VMHostService</span> <span class="literal">-HostService</span> <span class="variable">$sshSvc</span> <span class="literal">-Policy</span> <span class="string">&quot;off&quot;</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>来自DeepSeek ，不得不说现在AI 太方便了。</p>
+</blockquote>
+<h1 id="使用-esxcli"><a href="#使用-esxcli" class="headerlink" title="使用 esxcli"></a>使用 esxcli</h1><h2 id="使用VMKping指令"><a href="#使用VMKping指令" class="headerlink" title="使用VMKping指令"></a>使用VMKping指令</h2><p>通过 Get-EsxCli 可以执行 esxcli 指令 ，本次使用的是等效于 vmkping 结果</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$esxcli</span> = <span class="built_in">Get-EsxCli</span> <span class="literal">-VMHost</span> <span class="variable">$vmhost</span> <span class="literal">-V2</span></span><br><span class="line"><span class="variable">$pingArgs</span> = <span class="variable">$esxcli</span>.network.diag.ping.CreateArgs()</span><br><span class="line"><span class="variable">$pingArgs</span>.host = <span class="string">&quot;192.168.1.1&quot;</span>   <span class="comment"># 同网段网关</span></span><br><span class="line"><span class="variable">$pingArgs</span>.interface = <span class="string">&quot;vmk1&quot;</span></span><br><span class="line"><span class="variable">$pingArgs</span>.count = <span class="number">2</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$esxcli</span>.network.diag.ping.Invoke(<span class="variable">$pingArgs</span>)</span><br></pre></td></tr></table></figure>
+
+<p>result结果会有summary字段，可以做相关解析</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">实际含义</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">PacketLost</td>
+<td align="center">丢失的包数量</td>
+<td align="center">发送的包中未能收到响应的数量。</td>
+</tr>
+<tr>
+<td align="center">Received</td>
+<td align="center">接收到的包数量</td>
+<td align="center">成功收到响应的包数量。注意这里拼写正确。</td>
+</tr>
+<tr>
+<td align="center">Recieved</td>
+<td align="center">拼写错误，同 Received	可能是 VMware 内部字段拼写不一致，值与 Received 相同，忽略即可。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">RoundtripAvg</td>
+<td align="center">平均往返时间（毫秒）</td>
+<td align="center">所有成功响应的包从发送到收到回复的平均耗时，单位毫秒。208 毫秒是正常的跨机房延迟。</td>
+</tr>
+<tr>
+<td align="center">RoundtripAvgMS</td>
+<td align="center">平均往返时间（毫秒，备用字段）</td>
+<td align="center">大部分情况下为 0 或与 RoundtripAvg 相同。可以忽略，以 RoundtripAvg 为准。</td>
+</tr>
+<tr>
+<td align="center">RoundtripMax</td>
+<td align="center">最大往返时间（毫秒）</td>
+<td align="center">所有响应中耗时最长的一次，这里 245 毫秒。</td>
+</tr>
+<tr>
+<td align="center">RoundtripMaxMS</td>
+<td align="center">最大往返时间（毫秒，备用字段）</td>
+<td align="center">同 RoundtripAvgMS，通常为 0，忽略。</td>
+</tr>
+<tr>
+<td align="center">RoundtripMin</td>
+<td align="center">最小往返时间（毫秒）</td>
+<td align="center">所有响应中耗时最短的一次，这里 172 毫秒。</td>
+</tr>
+<tr>
+<td align="center">RoundtripMinMS</td>
+<td align="center">最小往返时间（毫秒，备用字段）</td>
+<td align="center">同 RoundtripAvgMS，忽略。</td>
+</tr>
+<tr>
+<td align="center">Tranmit+td</td>
+<td align="center">明显拼写错误，应为 Transmitted</td>
+<td align="center">发送的包总数。</td>
+</tr>
+</tbody></table>
+<h2 id="获取物理网卡信息"><a href="#获取物理网卡信息" class="headerlink" title="获取物理网卡信息"></a>获取物理网卡信息</h2><p>作用类似于 esxcli network nic list</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$esxcli</span> = <span class="built_in">Get-EsxCli</span> <span class="literal">-VMHost</span> <span class="variable">$VMHost</span> <span class="literal">-V2</span></span><br><span class="line"><span class="variable">$esxcli</span>.network.nic.list.Invoke() | <span class="built_in">Select-Object</span> Name, LinkStatus, Speed, Driver, Description</span><br></pre></td></tr></table></figure>
+<h2 id="获取驱动和固件信息"><a href="#获取驱动和固件信息" class="headerlink" title="获取驱动和固件信息"></a>获取驱动和固件信息</h2><p>使用 esxcli network nic get -n &lt;网卡名&gt;</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$nicInfo</span> = <span class="variable">$esxcli</span>.network.nic.get.Invoke(<span class="selector-tag">@</span>&#123;nicname=<span class="string">&quot;vmnic0&quot;</span>&#125;)</span><br><span class="line"><span class="variable">$nicInfo</span>.DriverInfo | <span class="built_in">Format-List</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看实时统计与错误"><a href="#查看实时统计与错误" class="headerlink" title="查看实时统计与错误"></a>查看实时统计与错误</h2><p>esxcli network nic stats get -n &lt;网卡名&gt;</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$esxcli</span> = <span class="built_in">Get-EsxCli</span> <span class="literal">-VMHost</span> <span class="variable">$vmhost</span> <span class="literal">-V2</span></span><br><span class="line"><span class="variable">$pnics</span> = <span class="variable">$vmhost</span>.ExtensionData.Config.Network.Pnic</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$pnic</span> <span class="keyword">in</span> <span class="variable">$pnics</span>) &#123;</span><br><span class="line">    <span class="variable">$nicName</span> = <span class="variable">$pnic</span>.Device</span><br><span class="line">    <span class="variable">$stats</span> = <span class="variable">$esxcli</span>.network.nic.stats.get.Invoke(<span class="selector-tag">@</span>&#123;nicname = <span class="variable">$nicName</span>&#125;)</span><br><span class="line">    <span class="comment"># 输出 $stats 中的各种错误计数器，如 ReceiveCRCErrors, TransmitErrors 等</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://developer.vmware.com/">https://developer.vmware.com</a><br><a target="_blank" rel="noopener" href="https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag">https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1218,93 +1439,6 @@
 <li>usedDiskSpacePercentage,指示磁盘使用情况（以百分比为单位）。</li>
 </ul>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>UAG SNMP ：<a target="_blank" rel="noopener" href="https://kb.vmware.com/s/article/83677">https://kb.vmware.com/s/article/83677</a><br>REST API：<a target="_blank" rel="noopener" href="https://docs.vmware.com/en/Unified-Access-Gateway/2209/uag-deploy-config/GUID-2E9974D9-2F38-494E-95D1-877AA487203D.html">https://docs.vmware.com/en/Unified-Access-Gateway/2209/uag-deploy-config/GUID-2E9974D9-2F38-494E-95D1-877AA487203D.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/8bd9108f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/8bd9108f/" class="post-title-link" itemprop="url">VMware相关业务所需端口查询地址</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-11-24 00:35:03" itemprop="dateCreated datePublished" datetime="2022-11-24T00:35:03+00:00">2022-11-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-12-22 05:27:48" itemprop="dateModified" datetime="2024-12-22T05:27:48+00:00">2024-12-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="常用VMware相关的业务系统防火墙端口查询"><a href="#常用VMware相关的业务系统防火墙端口查询" class="headerlink" title="常用VMware相关的业务系统防火墙端口查询"></a>常用VMware相关的业务系统防火墙端口查询</h1><p>在线地址 ： <a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/">https://ports.esp.vmware.com/</a></p>
-<p>可以下载端口地址表；</p>
-<p>Horizon ：<a target="_blank" rel="noopener" href="https://ports.esp.vmware.com/home/Horizon">https://ports.esp.vmware.com/home/Horizon</a></p>
 
       
     </div>
