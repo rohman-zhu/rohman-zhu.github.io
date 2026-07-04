@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">486</span>
+          <span class="site-state-item-count">487</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,140 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/fa77e914/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/fa77e914/" class="post-title-link" itemprop="url">Linux安全加固-fail2ban</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-03-20 12:36:21" itemprop="dateCreated datePublished" datetime="2026-03-20T12:36:21+00:00">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-03-22 13:47:43" itemprop="dateModified" datetime="2026-03-22T13:47:43+00:00">2026-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>fail2ban 是一个防系统入侵的工具，主要防止暴力破解系统密码，主要是通过监控日志文件，比如&#x2F;var&#x2F;log&#x2F;auth.log;</p>
+<h1 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h1><ul>
+<li>OS:Ubuntu 24.04LTS</li>
+<li>Kernel:Linux 6.8.0-71-generic</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">apt install fail2ban</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服务状态</span></span><br><span class="line">systemctl status fail2ban</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机自启服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> fail2ban</span><br></pre></td></tr></table></figure>
+
+<h2 id="fail2ban-client操作"><a href="#fail2ban-client操作" class="headerlink" title="fail2ban-client操作"></a>fail2ban-client操作</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有命令</span></span><br><span class="line">fail2ban-client</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看监控中的服务</span></span><br><span class="line">fail2ban-client status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看具体服务的状态</span></span><br><span class="line">fail2ban-client status sshd</span><br></pre></td></tr></table></figure>
+
+<h3 id="检查被封禁的IP"><a href="#检查被封禁的IP" class="headerlink" title="检查被封禁的IP"></a>检查被封禁的IP</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fail2ban-client banned</span><br></pre></td></tr></table></figure>
+
+<h3 id="解封某一个IP"><a href="#解封某一个IP" class="headerlink" title="解封某一个IP"></a>解封某一个IP</h3><p>比如下面这个案例，解封sshd被封禁的IP 192.168.1.1。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># fail2ban-client set [Server name] unbanip [IP]</span></span><br><span class="line">fail2ban-client <span class="built_in">set</span> sshd unbanip 192.168.1.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何配置文件"><a href="#如何配置文件" class="headerlink" title="如何配置文件"></a>如何配置文件</h2><p>官方文档中表明如果需要修改配置，正确做法是创建一个.local的文件，所有的配置操作应该修改的是 .local文件。</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">To make a modification to the default log file locations you should create a .local file of paths-common.conf or paths-debian.conf (whichever you are using in jail.local) and make changes only in your .local files which keeps it nicely structured for your jail(s) settings and avoids problems when Fail2Ban is updated</span><br></pre></td></tr></table></figure>
+
+<p>配置文件目录在 &#x2F;etc&#x2F;fail2ban&#x2F; 里，修改完成后需要重启一下服务，或者使用fail2ban-client reload</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># before 0.10</span></span><br><span class="line">fail2ban-client restart</span><br><span class="line"></span><br><span class="line"><span class="comment"># after 0.10</span></span><br><span class="line">fail2ban-client reload</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置项-etc-fail2ban-jail-local"><a href="#配置项-etc-fail2ban-jail-local" class="headerlink" title="配置项&#x2F;etc&#x2F;fail2ban&#x2F;jail.local"></a>配置项&#x2F;etc&#x2F;fail2ban&#x2F;jail.local</h3><p>需求为 当fail2ban 封禁时，触发邮件通知；我这里使用的是s-nail的方案；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[DEFAULT]</span><br><span class="line">bantime = 10d  <span class="comment"># 封禁时间，单位m表示分钟，d表示天，不写则表示秒；默认是10m 或 600;</span></span><br><span class="line">maxretry = 2  <span class="comment"># 尝试登录最大失败次数，默认3；</span></span><br><span class="line">destemail = reciver@mail.com <span class="comment"># 接收通知的邮件地址；多个收件邮箱需要空格间隔，比如A@mail.com B@mail.com</span></span><br><span class="line">sendername = fail2ban@host.com <span class="comment"># 发件人地址；需要与MTA的邮箱配置是同一个发件人，否则会异常；</span></span><br><span class="line">mta = mail <span class="comment"># 定义发送邮件的指令，可以用 mail 或 sendmail;</span></span><br><span class="line">action = %(action_mwl)s <span class="comment"># 封禁动作均会触发邮件</span></span><br></pre></td></tr></table></figure>
+
+<p>配置完成后需要重启fail2ban服务;<br>配置完成后fail2ban 会调用 mail 指令发送邮件，实际上我们用的是 s-nail , 所以要做一下软链接配置，让mail指令链接到 s-nail ;</p>
+<blockquote>
+<p>ln -s &#x2F;usr&#x2F;bin&#x2F;s-nail &#x2F;usr&#x2F;bin&#x2F;mail</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart fail2ban</span><br></pre></td></tr></table></figure>
+
+<p>实测方式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手动封禁测试</span></span><br><span class="line">fail2ban-client <span class="built_in">set</span> sshd banip 192.168.1.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line"><span class="built_in">tail</span> -f /var/log/fail2ban.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但实测出来的结果是 邮件收到了，但是邮件主题丢了…</p>
+</blockquote>
+<p>检查fail2ban的日志，有如下信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 来自 /var/log/fail2ban.log日志信息如下：</span></span><br><span class="line"></span><br><span class="line">2026-03-22 21:18:23,432 fail2ban.actions        [1907]: NOTICE  [sshd] Ban 192.168.1.7</span><br><span class="line">2026-03-22 21:18:24,249 fail2ban.utils          [1907]: ERROR   314a6c80 -- <span class="built_in">exec</span>: ( <span class="built_in">printf</span> %b <span class="string">&quot;Hi,\n</span></span><br><span class="line"><span class="string">The IP 192.168.1.7 has just been banned by Fail2Ban after</span></span><br><span class="line"><span class="string">0 attempts against sshd.\n\n</span></span><br><span class="line"><span class="string">Here is more information about 192.168.1.7 :\n&quot;</span></span><br><span class="line">whois 192.168.1.7 || <span class="built_in">echo</span> <span class="string">&quot;missing whois program&quot;</span>;</span><br><span class="line"><span class="built_in">printf</span> %b <span class="string">&quot;\nLines containing failures of 192.168.1.7 (max 1000)\n&quot;</span>;</span><br><span class="line">logpath=<span class="string">&quot;/var/log/auth.log&quot;</span>; grep -m 1000 -wF <span class="string">&quot;192.168.1.7&quot;</span> <span class="variable">$logpath</span> | <span class="built_in">tail</span> -n 1000;</span><br><span class="line"><span class="built_in">printf</span> %b <span class="string">&quot;\n</span></span><br><span class="line"><span class="string">Regards,\n</span></span><br><span class="line"><span class="string">Fail2Ban&quot;</span> ) | mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] sshd: banned 192.168.1.7 from [人为屏蔽,转为服务器名]&quot;</span> [人为屏蔽，转为收件邮箱] [人为屏蔽，转为收件邮箱]</span><br><span class="line">2026-03-22 21:18:24,249 fail2ban.utils          [1907]: ERROR   314a6c80 -- stdout: <span class="string">&#x27;/root/dead.letter 104/3356&#x27;</span></span><br><span class="line">2026-03-22 21:18:24,250 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&quot;s-nail: &#x27;set escape&#x27; contains invalid byte &#x27; &#x27;&quot;</span></span><br><span class="line">2026-03-22 21:18:24,250 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&#x27;s-nail: -s is an invalid alias name&#x27;</span></span><br><span class="line">2026-03-22 21:18:24,250 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&quot;s-nail: &#x27;[Fail2Ban] sshd: banned 192.168.1.7 from [人为屏蔽,转为服务器名]&#x27; contains invalid byte &#x27;[&#x27;&quot;</span></span><br><span class="line">2026-03-22 21:18:24,250 fail2ban.utils          [1907]: ERROR   314a6c80 -- returned 4</span><br><span class="line">2026-03-22 21:18:27,075 fail2ban.utils          [1907]: ERROR   314a6c80 -- <span class="built_in">exec</span>: ( <span class="built_in">printf</span> %b <span class="string">&quot;Hi,\n</span></span><br><span class="line"><span class="string">The IP 192.168.1.7 has just been banned by Fail2Ban after</span></span><br><span class="line"><span class="string">0 attempts against sshd.\n\n</span></span><br><span class="line"><span class="string">Here is more information about 192.168.1.7 :\n&quot;</span></span><br><span class="line">whois 192.168.1.7 || <span class="built_in">echo</span> <span class="string">&quot;missing whois program&quot;</span>;</span><br><span class="line"><span class="built_in">printf</span> %b <span class="string">&quot;\nLines containing failures of 192.168.1.7 (max 1000)\n&quot;</span>;</span><br><span class="line">logpath=<span class="string">&quot;/var/log/auth.log&quot;</span>; grep -m 1000 -wF <span class="string">&quot;192.168.1.7&quot;</span> <span class="variable">$logpath</span> | <span class="built_in">tail</span> -n 1000;</span><br><span class="line"><span class="built_in">printf</span> %b <span class="string">&quot;\n</span></span><br><span class="line"><span class="string">Regards,\n</span></span><br><span class="line"><span class="string">Fail2Ban&quot;</span> ) | mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] sshd: banned 192.168.1.7 from [人为屏蔽,转为服务器名]&quot;</span> [人为屏蔽，转为收件邮箱] [人为屏蔽，转为收件邮箱]</span><br><span class="line">2026-03-22 21:18:27,075 fail2ban.utils          [1907]: ERROR   314a6c80 -- stdout: <span class="string">&#x27;/root/dead.letter 104/3356&#x27;</span></span><br><span class="line">2026-03-22 21:18:27,075 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&quot;s-nail: &#x27;set escape&#x27; contains invalid byte &#x27; &#x27;&quot;</span></span><br><span class="line">2026-03-22 21:18:27,075 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&#x27;s-nail: -s is an invalid alias name&#x27;</span></span><br><span class="line">2026-03-22 21:18:27,075 fail2ban.utils          [1907]: ERROR   314a6c80 -- stderr: <span class="string">&quot;s-nail: &#x27;[Fail2Ban] sshd: banned 192.168.1.7 from [人为屏蔽,转为服务器名]&#x27; contains invalid byte &#x27;[&#x27;&quot;</span></span><br><span class="line">2026-03-22 21:18:27,076 fail2ban.utils          [1907]: ERROR   314a6c80 -- returned 4</span><br><span class="line">2026-03-22 21:18:27,076 fail2ban.actions        [1907]: ERROR   Failed to execute ban jail <span class="string">&#x27;sshd&#x27;</span> action <span class="string">&#x27;mail-whois-lines&#x27;</span> info <span class="string">&#x27;ActionInfo(&#123;&#x27;</span>ip<span class="string">&#x27;: &#x27;</span>192.168.1.7<span class="string">&#x27;, &#x27;</span>family<span class="string">&#x27;: &#x27;</span>inet4<span class="string">&#x27;, &#x27;</span>fid<span class="string">&#x27;: &lt;function Actions.ActionInfo.&lt;lambda&gt; at 0x71fc2ac7fb00&gt;, &#x27;</span>failures<span class="string">&#x27;: 0, &#x27;</span>raw-ticket<span class="string">&#x27;: &lt;function Actions.ActionInfo.&lt;lambda&gt; at 0x71fc2aca02c0&gt;&#125;)&#x27;</span>: Error banning 192.168.1.7</span><br></pre></td></tr></table></figure>
+
+<p>可以看到是发送邮件的指令多了 “set escapte”;于是去查一下fail2ban的配置情况：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 执行查询</span></span><br><span class="line">grep <span class="string">&quot;set escape&quot;</span> /etc/fail2ban/action.d/*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看到有包含&quot;set escape&quot;的文件有这些：</span></span><br><span class="line">/etc/fail2ban/action.d/complain.conf:mailcmd = mail -E <span class="string">&#x27;set escape&#x27;</span> -s</span><br><span class="line">/etc/fail2ban/action.d/dshield.conf:mailcmd = mail -E <span class="string">&#x27;set escape&#x27;</span> -s</span><br><span class="line">/etc/fail2ban/action.d/mail-buffered.conf:              Fail2Ban<span class="string">&quot;|mail -E &#x27;set escape&#x27; -s &quot;</span>[Fail2Ban] &lt;name&gt;: started on &lt;fq-hostname&gt;<span class="string">&quot; &lt;dest&gt;</span></span><br><span class="line"><span class="string">/etc/fail2ban/action.d/mail-buffered.conf:                 Fail2Ban&quot;</span>|mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] &lt;name&gt;: Summary from &lt;fq-hostname&gt;&quot;</span> &lt;dest&gt;</span><br><span class="line">/etc/fail2ban/action.d/mail-buffered.conf:             Fail2Ban<span class="string">&quot;|mail -E &#x27;set escape&#x27; -s &quot;</span>[Fail2Ban] &lt;name&gt;: stopped on &lt;fq-hostname&gt;<span class="string">&quot; &lt;dest&gt;</span></span><br><span class="line"><span class="string">/etc/fail2ban/action.d/mail-buffered.conf:                Fail2Ban&quot;</span>|mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] &lt;name&gt;: Summary&quot;</span> &lt;dest&gt;</span><br><span class="line">/etc/fail2ban/action.d/mail.conf:              Fail2Ban<span class="string">&quot;|mail -E &#x27;set escape&#x27; -s &quot;</span>[Fail2Ban] &lt;name&gt;: started  on &lt;fq-hostname&gt;<span class="string">&quot; &lt;dest&gt;</span></span><br><span class="line"><span class="string">/etc/fail2ban/action.d/mail.conf:             Fail2Ban&quot;</span>|mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] &lt;name&gt;: stopped on &lt;fq-hostname&gt;&quot;</span> &lt;dest&gt;</span><br><span class="line">/etc/fail2ban/action.d/mail.conf:            Fail2Ban<span class="string">&quot;|mail -E &#x27;set escape&#x27; -s &quot;</span>[Fail2Ban] &lt;name&gt;: banned &lt;ip&gt; from &lt;fq-hostname&gt;<span class="string">&quot; &lt;dest&gt;</span></span><br><span class="line"><span class="string">/etc/fail2ban/action.d/mail-whois.conf:              Fail2Ban&quot;</span>|mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] &lt;name&gt;: started on &lt;fq-hostname&gt;&quot;</span> &lt;dest&gt;</span><br><span class="line">/etc/fail2ban/action.d/mail-whois.conf:             Fail2Ban<span class="string">&quot;|mail -E &#x27;set escape&#x27; -s &quot;</span>[Fail2Ban] &lt;name&gt;: stopped on &lt;fq-hostname&gt;<span class="string">&quot; &lt;dest&gt;</span></span><br><span class="line"><span class="string">/etc/fail2ban/action.d/mail-whois.conf:            Fail2Ban&quot;</span>|mail -E <span class="string">&#x27;set escape&#x27;</span> -s <span class="string">&quot;[Fail2Ban] &lt;name&gt;: banned &lt;ip&gt; from &lt;fq-hostname&gt;&quot;</span> &lt;dest&gt;</span><br><span class="line">/etc/fail2ban/action.d/mail-whois-lines.conf:mailcmd = mail -E <span class="string">&#x27;set escape&#x27;</span> -s</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最贴近的mailcmd ，也就是使用mail来发邮件的默认指令是  mail-whois-lines.conf 里面的 mailcmd = mail -E &#x27;set escape&#x27; -s</span></span><br><span class="line"><span class="comment"># 进一步查询 mail-whois-lines.conf</span></span><br><span class="line"><span class="comment"># 看到如下信息</span></span><br><span class="line">[Init]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Option:  mailcmd</span></span><br><span class="line"><span class="comment"># Notes.:  Your system mail command. Is passed 2 args: subject and recipient</span></span><br><span class="line"><span class="comment"># Values:  CMD</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">mailcmd = mail -E <span class="string">&#x27;set escape&#x27;</span> -s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也就是默认使用mail来发送邮件时，默认指令是这个；知道原因就好修复了，由于我想继续用s-nail，那就修改配置就好；</span></span><br><span class="line"><span class="comment"># 但在fail2ban中，配置尽量是通过拷贝一份.local来修改，原有的配置就不动了，可以在local文件中，覆盖所需修改的属性；</span></span><br><span class="line">vim /etc/fail2ban/action.d/mail-whois-lines.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加以下信息</span></span><br><span class="line">[Init]</span><br><span class="line">mailcmd = mail -s</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>前面问题说到没有mail指令的问题，其实可以在这里把mail 改为 s-nail ， 也就是说属性最终是  mailcmd &#x3D; s-nail -s</p>
+</blockquote>
+<h4 id="附Linux邮箱代理配置"><a href="#附Linux邮箱代理配置" class="headerlink" title="附Linux邮箱代理配置"></a>附Linux邮箱代理配置</h4><p>这里一般需要配置smtp服务，本次使用的是s-nail</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">apt-get install s-nail</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置</span></span><br><span class="line"><span class="comment"># 一般账户验证信息都会放置在~/.mailrc</span></span><br><span class="line">vim ~/.mailrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件是重点</span></span><br><span class="line"><span class="comment"># 设置参数的=号，前后不要有空格！</span></span><br><span class="line"><span class="comment"># start:老版本格式配置 ，这种配置方式虽然可以通过，但是发送邮件时会有告警提醒</span></span><br><span class="line"><span class="built_in">set</span> from=<span class="string">&quot;发件人邮箱&quot;</span> <span class="comment"># 如果邮件服务器不允许匿名发送，这个发件人邮箱需要与认证账户一致</span></span><br><span class="line"><span class="built_in">set</span> smtp=<span class="string">&quot;smtps://发件地址&quot;</span> <span class="comment"># 类似smtp.163.com  , smtp.139.com 等</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth=login <span class="comment">#声明认证方式</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth-user=<span class="string">&quot;邮箱认证账户&quot;</span> <span class="comment"># 邮件认证邮箱地址</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth-password=<span class="string">&quot;认证授权码&quot;</span> <span class="comment"># 不是邮箱账户的密码，而是认证号码，这个可以在邮件服务器获取</span></span><br><span class="line"><span class="built_in">set</span> sendwait</span><br><span class="line"><span class="comment">#set ssl-verify=ignore #可选  # 等待发送结果</span></span><br><span class="line"><span class="comment">#set debug=smtp #可选 # 输出SMTP交互细节（排查时开启，稳定后可注释）</span></span><br><span class="line"><span class="comment"># end:老版本格式配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># start: 新版本格式配置，mta模式</span></span><br><span class="line"><span class="built_in">set</span> v15-compat=<span class="built_in">yes</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth=login <span class="comment"># 即使用了mta，也需要使用login声明，否则会认证不通过；</span></span><br><span class="line"><span class="built_in">set</span> from=<span class="string">&quot;发件人邮箱&quot;</span> <span class="comment"># 如果邮件服务器不允许匿名发送，这个发件人邮箱需要与认证账户一致</span></span><br><span class="line"><span class="comment"># set mta=&quot;smtps://邮箱@qq.com:授权码@smtp.qq.com&quot; # 邮箱@qq.com 要转成url编码，所以应该是 邮箱%40qq.com</span></span><br><span class="line"><span class="built_in">set</span> mta=<span class="string">&quot;smtps://邮箱%40qq.com:授权码@smtp.qq.com smtp-auth=login&quot;</span></span><br><span class="line"><span class="built_in">set</span> sendwait</span><br><span class="line"><span class="comment"># end: 新版本格式配置</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>配置文档说明： <a href="https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration">https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1144,86 +1278,6 @@ Client--&gt;旁路由网关
 
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/Citrix/comments/971hz8/citrix_receiver_error_virtual_driver_smartcard/?tl=zh-hans">https://www.reddit.com/r/Citrix/comments/971hz8/citrix_receiver_error_virtual_driver_smartcard/?tl=zh-hans</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9f7716a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/9f7716a/" class="post-title-link" itemprop="url">【待更新】Citrix-无法连接License服务器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-02-03 07:03:01 / Modified: 07:07:49" itemprop="dateCreated datePublished" datetime="2026-02-03T07:03:01+00:00">2026-02-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Citrix/" itemprop="url" rel="index"><span itemprop="name">Citrix</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自建AD服务器与 CVAD(Citrix Virtual Apps and Desktop) ,部署DDC时，需要连接License服务器，提示无法连接；</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://support.citrix.com/external/article/CTX692887/an-error-occurs-when-specifying-the-lice.html">https://support.citrix.com/external/article/CTX692887/an-error-occurs-when-specifying-the-lice.html</a></p>
 
       
     </div>
