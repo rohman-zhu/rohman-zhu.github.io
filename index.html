@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">487</span>
+          <span class="site-state-item-count">489</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,193 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f8d020c1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/f8d020c1/" class="post-title-link" itemprop="url">Linux用户登录后邮件提醒配置实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-05 11:50:40 / Modified: 12:14:19" itemprop="dateCreated datePublished" datetime="2026-07-05T11:50:40+00:00">2026-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>用户通过任意方式登录Linux服务器，如TTY、SSH，均会触发邮件告警；</p>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="功能一，获取当前主机的IP"><a href="#功能一，获取当前主机的IP" class="headerlink" title="功能一，获取当前主机的IP"></a>功能一，获取当前主机的IP</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取ens18的网卡</span></span><br><span class="line">ip ad | grep ens18|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;\&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 获取默认网关所在的网卡</span></span><br><span class="line"><span class="string">DEFAULT_NIC=`route -n | grep UG | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|tail -n 1 | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;`</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通知脚本"><a href="#通知脚本" class="headerlink" title="通知脚本"></a>通知脚本</h2><p>来自 AI</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在 auth 或 session 阶段执行（避免重复触发）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;auth&quot;</span> ] &amp;&amp; [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;session&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户和终端信息</span></span><br><span class="line">USER=<span class="string">&quot;<span class="variable">$&#123;PAM_USER:-unknown&#125;</span>&quot;</span></span><br><span class="line">TTY=<span class="string">&quot;<span class="variable">$&#123;PAM_TTY:-unknown&#125;</span>&quot;</span></span><br><span class="line"><span class="comment"># 远程主机：SSH 登录时会有 PAM_RHOST，本地登录为空</span></span><br><span class="line">RHOST=<span class="string">&quot;<span class="variable">$&#123;PAM_RHOST:-local&#125;</span>&quot;</span></span><br><span class="line">SERVICE=<span class="string">&quot;<span class="variable">$&#123;PAM_SERVICE:-unknown&#125;</span>&quot;</span></span><br><span class="line">DATE=<span class="string">&quot;<span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span>&quot;</span></span><br><span class="line">DEFAULT_NIC=`route -n | grep UG | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $8&#125;&#x27;</span>`</span><br><span class="line">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;/&quot;</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 主题和正文</span></span><br><span class="line">SUBJECT=<span class="string">&quot;[<span class="variable">$LOCAL_IP</span>]Login Alert: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> (via <span class="variable">$SERVICE</span>)&quot;</span></span><br><span class="line">MESSAGE=<span class="string">&quot;User: <span class="variable">$USER</span></span></span><br><span class="line"><span class="string">Remote Host: <span class="variable">$RHOST</span></span></span><br><span class="line"><span class="string">TTY: <span class="variable">$TTY</span></span></span><br><span class="line"><span class="string">Service: <span class="variable">$SERVICE</span></span></span><br><span class="line"><span class="string">Date: <span class="variable">$DATE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送邮件（使用 mail 命令，或 sendmail、curl 等）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$MESSAGE</span>&quot;</span> | /usr/bin/mail -s <span class="string">&quot;<span class="variable">$SUBJECT</span>&quot;</span> admin@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选：记录到 syslog</span></span><br><span class="line">logger -t login-notify <span class="string">&quot;Login: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> via <span class="variable">$SERVICE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+
+<p>脚本放置到 &#x2F;usr&#x2F;local&#x2F;bin&#x2F; 里面，命名为 login-notify.sh</p>
+<blockquote>
+<p>配置权限 chmod 755 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;login-notify.sh</p>
+</blockquote>
+<h1 id="集成到PAM模块"><a href="#集成到PAM模块" class="headerlink" title="集成到PAM模块"></a>集成到PAM模块</h1><table>
+<thead>
+<tr>
+<th align="center">Linux 发行版</th>
+<th align="center">主要配置文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Debian&#x2F;Ubuntu</td>
+<td align="center">&#x2F;etc&#x2F;pam.d&#x2F;common-auth（auth 阶段）;&#x2F;etc&#x2F;pam.d&#x2F;common-session（session 阶段）</td>
+</tr>
+<tr>
+<td align="center">RHEL&#x2F;CentOS&#x2F;Fedora</td>
+<td align="center">&#x2F;etc&#x2F;pam.d&#x2F;system-auth 或 &#x2F;etc&#x2F;pam.d&#x2F;password-auth</td>
+</tr>
+</tbody></table>
+<p>本次使用的是Ubuntu发行版，且我需要再用户登录的时候触发邮件通知，所以就编辑 common-auth</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/pam.d/common-auth</span></span><br><span class="line"><span class="comment"># 在末尾添加</span></span><br><span class="line"></span><br><span class="line">auth optional pam_exec.so /usr/local/bin/login-notify.sh</span><br></pre></td></tr></table></figure>
+
+<p>对于本地登录，一般无需重启服务，PAM 配置会在下次认证时生效。但为保险，可以重启 sshd（如果 SSH 也在使用）或图形登录管理器（如 gdm3、lightdm），不过本地 tty 登录是直接调用 &#x2F;bin&#x2F;login，无需重启。</p>
+<h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> v15-compat=<span class="built_in">yes</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth=login</span><br><span class="line"><span class="built_in">set</span> from=<span class="string">&quot;[邮箱账户]&quot;</span></span><br><span class="line"><span class="built_in">set</span> mta=<span class="string">&quot;smtps://[邮箱账户，@需要用%40替代]:[通行码]@[stmp服务器地址]&quot;</span></span><br><span class="line"><span class="built_in">set</span> sendwait</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ec55121e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/ec55121e/" class="post-title-link" itemprop="url">Windows_RDSH_安全加固思路</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-07-04 12:00:35" itemprop="dateCreated datePublished" datetime="2026-07-04T12:00:35+00:00">2026-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -807,200 +994,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>Article ID:305395,320776<br>About:firewall policy session timeout setting.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ef2802e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/ef2802e/" class="post-title-link" itemprop="url">ESXi-Investigating_Virutal_Machine_file_locks_on_ESXi_Host</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-05-25 04:56:09 / Modified: 04:57:58" itemprop="dateCreated datePublished" datetime="2026-05-25T04:56:09+00:00">2026-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Article ID:314365</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ecd30818/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/ecd30818/" class="post-title-link" itemprop="url">python实例-baostock实战系列</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-04-19 14:37:19" itemprop="dateCreated datePublished" datetime="2026-04-19T14:37:19+00:00">2026-04-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-04-26 14:53:54" itemprop="dateModified" datetime="2026-04-26T14:53:54+00:00">2026-04-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h1><p>本文档作为实战的记录，其中大量借助DeepSeek完成，感谢AI支持；</p>
-<h1 id="第一版"><a href="#第一版" class="headerlink" title="第一版"></a>第一版</h1><h2 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h2><ol>
-<li>需要获取一只股票的所有历史开盘价、收盘价；</li>
-<li>需要计算4个均线的值,分别是ma51，ma120,ma250,ma850;</li>
-<li>所有数据均需要存入数据库中;</li>
-</ol>
-<h2 id="实现记录"><a href="#实现记录" class="headerlink" title="实现记录"></a>实现记录</h2><h3 id="数据库部分"><a href="#数据库部分" class="headerlink" title="数据库部分"></a>数据库部分</h3><p>原本我打算每一只股票，单独一张表记录；但是D老师推荐一张表记录所有信息，避免管理问题，后续想了一下，确实应该一张表存所有股票信息，查询也方便；</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> my_stock_data (</span><br><span class="line">    id <span class="type">BIGINT</span> AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span>,</span><br><span class="line">    stock_code <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT NULL</span> COMMENT <span class="string">&#x27;股票代码&#x27;</span>,</span><br><span class="line">    ma51 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;51日均线&#x27;</span>,</span><br><span class="line">    ma120 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;120日均线&#x27;</span>,</span><br><span class="line">    ma250 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;250日均线&#x27;</span>,</span><br><span class="line">    ma850 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;850日均线&#x27;</span>,</span><br><span class="line">    open_price <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;开盘价&#x27;</span>,</span><br><span class="line">    close_price <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;收盘价&#x27;</span>,</span><br><span class="line">    trade_date <span class="type">DATE</span> <span class="keyword">NOT NULL</span> COMMENT <span class="string">&#x27;日期&#x27;</span>,</span><br><span class="line">    <span class="keyword">UNIQUE</span> KEY uk_stock_date (stock_code, trade_date) COMMENT <span class="string">&#x27;同一股票同一天唯一&#x27;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>本次用到的一些通用sql语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- # 查询数据库</span></span><br><span class="line"><span class="keyword">show</span> databases;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- # 切换数据库</span></span><br><span class="line">use [database name];</span><br><span class="line"></span><br><span class="line"><span class="comment">-- # 查询当前数据库下的表</span></span><br><span class="line"><span class="keyword">show</span> tables;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- # 查询数据库锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> information_schema.INNODB_TRX\G;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- # 结束锁定的进程</span></span><br><span class="line">kill [process id]</span><br></pre></td></tr></table></figure>
-
-<h3 id="python程序部分"><a href="#python程序部分" class="headerlink" title="python程序部分"></a>python程序部分</h3><p>本次用到的模块需要提前安装，否则无法调用：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 纯 Python 实现，兼容性好</span></span><br><span class="line">pip install pymysql </span><br><span class="line"></span><br><span class="line"><span class="comment">#  MySQL 8.0 为了增强安全性，引入了 caching_sha2_password 作为默认的身份验证插件。相比旧版本的 mysql_native_password，这种方式更安全。但 Python 的 PyMySQL 库默认不直接支持，需要依赖一个名为 cryptography 的第三方加密库来完成密码的加密处理</span></span><br><span class="line">pip install cryptography</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入模块部分</span></span><br><span class="line"><span class="keyword">import</span> pymysql <span class="comment"># 数据库驱动</span></span><br><span class="line"><span class="keyword">import</span> baostock <span class="keyword">as</span> bs <span class="comment"># 股票信息API</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd <span class="comment"># 数据处理相关的</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 股票代码输入</span></span><br><span class="line">stock_code=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库连接</span></span><br><span class="line">db_host=<span class="string">&#x27;&#x27;</span> </span><br><span class="line">db_port= <span class="comment"># 参数整型</span></span><br><span class="line">db_user=<span class="string">&#x27;&#x27;</span></span><br><span class="line">db_pwd=<span class="string">&#x27;&#x27;</span></span><br><span class="line">db_name=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">conn = pymysql.connect(host=,port=,user=,password=,database=,charset=<span class="string">&#x27;utf8mb4&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># BaoStock连接</span></span><br><span class="line">lg=bs.login()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 结束部分，释放所有连接</span></span><br><span class="line">conn.close()</span><br><span class="line">bs.logout()</span><br></pre></td></tr></table></figure>
-
-<p>20260426</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 20260426</span></span><br><span class="line"><span class="comment"># InputArgs: BDConnection,DBTableName,DictObject</span></span><br><span class="line"><span class="comment"># conn = pymysql.connect(host=db_host,port=db_port,user=db_user,password=db_pwd,database=db_name,charset=&#x27;utf8mb4&#x27;)</span></span><br><span class="line"><span class="comment"># TEST: update_database(conn,demo,myDict)</span></span><br><span class="line"><span class="comment"># Notice：Cannot include nan data;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">update_database</span>(<span class="params">database_connection,db_table_name,stock_dict</span>):</span><br><span class="line">    table_name=db_table_name</span><br><span class="line">    cursor=database_connection.cursor()</span><br><span class="line">    sql = <span class="string">f&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    insert into <span class="subst">&#123;table_name&#125;</span> (stock_code,ma51,ma120,ma250,ma850,open_price,close_price,trade_date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> index,row <span class="keyword">in</span> stock_dict[<span class="string">&#x27;history&#x27;</span>].iterrows():</span><br><span class="line">        data=(row[<span class="string">&#x27;code&#x27;</span>],row[<span class="string">&#x27;ma51&#x27;</span>],row[<span class="string">&#x27;ma120&#x27;</span>],row[<span class="string">&#x27;ma250&#x27;</span>],row[<span class="string">&#x27;ma850&#x27;</span>],row[<span class="string">&#x27;open&#x27;</span>],row[<span class="string">&#x27;close&#x27;</span>],row[<span class="string">&#x27;date&#x27;</span>])</span><br><span class="line">        cursor.execute(sql,data)</span><br><span class="line">        <span class="built_in">print</span>(index,data)</span><br><span class="line">    database_connection.commit()</span><br><span class="line">    cursor.close()</span><br><span class="line"></span><br><span class="line">update_database(conn,<span class="string">&#x27;demo&#x27;</span>,stock_dict)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 20260426</span></span><br><span class="line">global_after_adjust_flag=<span class="string">&#x27;1&#x27;</span> <span class="comment"># 前复权：保持当前股价不变，调整历史股价；</span></span><br><span class="line">global_pre_adjust_flag=<span class="string">&#x27;2&#x27;</span> <span class="comment"># 后复权，保持历史股价不变，调整当前股价；</span></span><br><span class="line">global_no_adjust_flag=<span class="string">&#x27;3&#x27;</span> <span class="comment"># 不复权：默认；</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_stock_info</span>(<span class="params">string_stock_code,adjust_flag,baostock</span>):</span><br><span class="line">    bs=baostock</span><br><span class="line">    rs=bs.query_stock_basic(string_stock_code)</span><br><span class="line">    data=rs.get_data()</span><br><span class="line">    <span class="comment">#创建字典</span></span><br><span class="line">    myDict=&#123;&#125;</span><br><span class="line">    myDict[<span class="string">&#x27;code&#x27;</span>]=data.code[<span class="number">0</span>]</span><br><span class="line">    myDict[<span class="string">&#x27;code_name&#x27;</span>]=data.code_name[<span class="number">0</span>]</span><br><span class="line">    myDict[<span class="string">&#x27;ipoDate&#x27;</span>]=data.ipoDate[<span class="number">0</span>]</span><br><span class="line">    rs=bs.query_history_k_data_plus(string_stock_code,<span class="string">&#x27;date,code,open,close&#x27;</span>,myDict[<span class="string">&#x27;ipoDate&#x27;</span>],adjustflag=adjust_flag)</span><br><span class="line">    data=rs.get_data()</span><br><span class="line">    <span class="comment"># 均线处理</span></span><br><span class="line">    data[<span class="string">&#x27;ma51&#x27;</span>]=data[<span class="string">&#x27;close&#x27;</span>].rolling(window=<span class="number">51</span>).mean()</span><br><span class="line">    data[<span class="string">&#x27;ma120&#x27;</span>]=data[<span class="string">&#x27;close&#x27;</span>].rolling(window=<span class="number">120</span>).mean()</span><br><span class="line">    data[<span class="string">&#x27;ma250&#x27;</span>]=data[<span class="string">&#x27;close&#x27;</span>].rolling(window=<span class="number">250</span>).mean()</span><br><span class="line">    data[<span class="string">&#x27;ma850&#x27;</span>]=data[<span class="string">&#x27;close&#x27;</span>].rolling(window=<span class="number">850</span>).mean()</span><br><span class="line">    <span class="comment"># Cannot include NaN data;</span></span><br><span class="line">    data=data.fillna(<span class="number">0</span>)</span><br><span class="line">    myDict[<span class="string">&#x27;history&#x27;</span>]=data</span><br><span class="line">    <span class="keyword">return</span> myDict</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">get_stock_info(<span class="string">&#x27;sz.000100&#x27;</span>,global_pre_adjust_flag,bs)</span><br><span class="line">get_stock_info(<span class="string">&#x27;sz.000100&#x27;</span>,global_after_adjust_flag,bs)</span><br><span class="line">get_stock_info(<span class="string">&#x27;sz.000100&#x27;</span>,global_no_adjust_flag,bs)</span><br></pre></td></tr></table></figure>
-
-<p>数据库初始化语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> `default_stock_table` (</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span> COMMENT <span class="string">&#x27;自增主键&#x27;</span>,</span><br><span class="line">    stock_code <span class="type">VARCHAR</span>(<span class="number">10</span>) <span class="keyword">NOT NULL</span> COMMENT <span class="string">&#x27;股票代码（冗余字段，方便查询）&#x27;</span>,</span><br><span class="line">    ma51 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;51日均线&#x27;</span>,</span><br><span class="line">    ma120 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;120日均线&#x27;</span>,</span><br><span class="line">    ma250 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;250日均线&#x27;</span>,</span><br><span class="line">    ma850 <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;850日均线&#x27;</span>,</span><br><span class="line">    open_price <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;开盘价&#x27;</span>,</span><br><span class="line">    close_price <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>) COMMENT <span class="string">&#x27;收盘价&#x27;</span>,</span><br><span class="line">    trade_date <span class="type">DATE</span> <span class="keyword">NOT NULL</span> COMMENT <span class="string">&#x27;日期&#x27;</span>,</span><br><span class="line">    <span class="keyword">UNIQUE</span> KEY uk_date (stock_code,trade_date) COMMENT <span class="string">&#x27;确保同一日期只有一条记录&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create table</span> my_stock_pre_adjust <span class="keyword">like</span> default_stock_table;</span><br><span class="line"><span class="keyword">create table</span> my_stock_after_adjust <span class="keyword">like</span> default_stock_table;</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
