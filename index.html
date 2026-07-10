@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">489</span>
+          <span class="site-state-item-count">490</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,100 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b716cfe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/b716cfe/" class="post-title-link" itemprop="url">RDSH文件目录设置方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-10 16:28:56 / Modified: 16:42:54" itemprop="dateCreated datePublished" datetime="2026-07-10T16:28:56+00:00">2026-07-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>期望用户在同一个Windows服务器中，仅能看到自己的文件夹，不允许看到其他人的目录；</p>
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><p>通过NTFS文件系统的安全配置；</p>
+<h1 id="设置方式"><a href="#设置方式" class="headerlink" title="设置方式"></a>设置方式</h1><p>目标路径： D:&#x2F;WorkSpace&#x2F;</p>
+<p>总的配置方案：每个用户首次登录时为其创建一个文件夹，并限制用户仅访问自己的文件夹。</p>
+<h2 id="NTFS-权限配置"><a href="#NTFS-权限配置" class="headerlink" title="NTFS 权限配置"></a>NTFS 权限配置</h2><ol>
+<li>Administrators组 , 范围是” 应用于此文件夹、子文件夹和文件 (This folder, subfolders and files)” ，权限是 “完全控制 (Full Control)” ；</li>
+<li>对于最终用户：</li>
+</ol>
+<ul>
+<li>Users组，范围”仅此文件夹 (This folder only)”，权限”创建文件夹&#x2F;附加数据 (Create folders &#x2F; append data)”; </li>
+<li>Remote Desktop Users组，范围”仅此文件夹 (This folder only)”，权限为”创建文件夹&#x2F;附加数据 (Create folders &#x2F; append data)”;</li>
+</ul>
+<ol start="3">
+<li>Creator Owner组(创建者所有者)，范围”仅文件夹和文件 (Subfolders and files only)”,权限是”完全控制 (Full Control)”。</li>
+</ol>
+<h2 id="自动创建用户文件夹"><a href="#自动创建用户文件夹" class="headerlink" title="自动创建用户文件夹"></a>自动创建用户文件夹</h2><p>[TODO]</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -186,7 +280,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-07-05 11:50:40 / Modified: 12:14:19" itemprop="dateCreated datePublished" datetime="2026-07-05T11:50:40+00:00">2026-07-05</time>
+      <time title="Created: 2026-07-05 11:50:40 / Modified: 12:21:06" itemprop="dateCreated datePublished" datetime="2026-07-05T11:50:40+00:00">2026-07-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -209,7 +303,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>用户通过任意方式登录Linux服务器，如TTY、SSH，均会触发邮件告警；</p>
-<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="功能一，获取当前主机的IP"><a href="#功能一，获取当前主机的IP" class="headerlink" title="功能一，获取当前主机的IP"></a>功能一，获取当前主机的IP</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取ens18的网卡</span></span><br><span class="line">ip ad | grep ens18|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;\&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 获取默认网关所在的网卡</span></span><br><span class="line"><span class="string">DEFAULT_NIC=`route -n | grep UG | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|tail -n 1 | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;`</span></span><br></pre></td></tr></table></figure>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="功能一，获取当前主机的IP"><a href="#功能一，获取当前主机的IP" class="headerlink" title="功能一，获取当前主机的IP"></a>功能一，获取当前主机的IP</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取ens18的网卡</span></span><br><span class="line">ip ad | grep ens18|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;\&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 获取默认网关所在的网卡</span></span><br><span class="line"><span class="string">#DEFAULT_NIC=`route -n | grep UG | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string">DEFAULT_NIC=`route -n | awk &#x27;<span class="variable">$4</span> == &quot;</span>UG<span class="string">&quot;&#x27; | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string"># LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|tail -n 1 | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;` # 有问题，会有无法截取到的情况</span></span><br><span class="line"><span class="string">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>| grep inet | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;`</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="通知脚本"><a href="#通知脚本" class="headerlink" title="通知脚本"></a>通知脚本</h2><p>来自 AI</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在 auth 或 session 阶段执行（避免重复触发）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;auth&quot;</span> ] &amp;&amp; [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;session&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户和终端信息</span></span><br><span class="line">USER=<span class="string">&quot;<span class="variable">$&#123;PAM_USER:-unknown&#125;</span>&quot;</span></span><br><span class="line">TTY=<span class="string">&quot;<span class="variable">$&#123;PAM_TTY:-unknown&#125;</span>&quot;</span></span><br><span class="line"><span class="comment"># 远程主机：SSH 登录时会有 PAM_RHOST，本地登录为空</span></span><br><span class="line">RHOST=<span class="string">&quot;<span class="variable">$&#123;PAM_RHOST:-local&#125;</span>&quot;</span></span><br><span class="line">SERVICE=<span class="string">&quot;<span class="variable">$&#123;PAM_SERVICE:-unknown&#125;</span>&quot;</span></span><br><span class="line">DATE=<span class="string">&quot;<span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span>&quot;</span></span><br><span class="line">DEFAULT_NIC=`route -n | grep UG | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $8&#125;&#x27;</span>`</span><br><span class="line">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;/&quot;</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 主题和正文</span></span><br><span class="line">SUBJECT=<span class="string">&quot;[<span class="variable">$LOCAL_IP</span>]Login Alert: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> (via <span class="variable">$SERVICE</span>)&quot;</span></span><br><span class="line">MESSAGE=<span class="string">&quot;User: <span class="variable">$USER</span></span></span><br><span class="line"><span class="string">Remote Host: <span class="variable">$RHOST</span></span></span><br><span class="line"><span class="string">TTY: <span class="variable">$TTY</span></span></span><br><span class="line"><span class="string">Service: <span class="variable">$SERVICE</span></span></span><br><span class="line"><span class="string">Date: <span class="variable">$DATE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送邮件（使用 mail 命令，或 sendmail、curl 等）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$MESSAGE</span>&quot;</span> | /usr/bin/mail -s <span class="string">&quot;<span class="variable">$SUBJECT</span>&quot;</span> admin@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选：记录到 syslog</span></span><br><span class="line">logger -t login-notify <span class="string">&quot;Login: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> via <span class="variable">$SERVICE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
@@ -911,89 +1005,6 @@
 <p>另外可以尝试的方法是关闭自动更新（万恶的windows自动更新）：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 vscode 中关闭编辑器的自动更新</span></span><br><span class="line">1. 按 ctrl + , 打开配置界面</span><br><span class="line">2. 在搜索框输入 update , 找到 update: mode</span><br><span class="line">3. 将值改为 none 或者manuel；</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在vscode 中关闭插件的自动更新</span></span><br><span class="line">1. 按 ctrl + , 打开配置界面</span><br><span class="line">2. 在搜索框输入 extensions auto update , 找到 extensions: Auto Update</span><br><span class="line">3. 将值改为 none 或者 manuel；</span><br><span class="line">4. 取消勾选Extensions: Auto Check Updates</span><br></pre></td></tr></table></figure>
 
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/5cb2ac04/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/5cb2ac04/" class="post-title-link" itemprop="url">ESXi-Alarms_about_the_host_connection_state_changeing_from_green_to_red_frequently_occur</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-05-25 04:58:49 / Modified: 05:00:51" itemprop="dateCreated datePublished" datetime="2026-05-25T04:58:49+00:00">2026-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Article ID:305395,320776<br>About:firewall policy session timeout setting.</p>
 
       
     </div>
