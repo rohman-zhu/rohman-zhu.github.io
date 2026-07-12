@@ -538,7 +538,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-05-30 10:30:56" itemprop="dateModified" datetime="2026-05-30T10:30:56+00:00">2026-05-30</time>
+      <time title="Modified: 2026-07-12 14:10:35" itemprop="dateModified" datetime="2026-07-12T14:10:35+00:00">2026-07-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -568,6 +568,9 @@
 <h2 id="更改数据库的-root-密码"><a href="#更改数据库的-root-密码" class="headerlink" title="更改数据库的 root 密码"></a>更改数据库的 root 密码</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">with</span> mysql_native_password <span class="keyword">by</span> <span class="string">&#x27;我是密码&#x27;</span>;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
 
 <h2 id="查询数据库的用户"><a href="#查询数据库的用户" class="headerlink" title="查询数据库的用户"></a>查询数据库的用户</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">user</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br><span class="line"></span><br><span class="line"># 一条指令</span><br><span class="line"><span class="keyword">select</span> host,<span class="keyword">user</span> <span class="keyword">from</span> mysql.user;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询数据库授权情况"><a href="#查询数据库授权情况" class="headerlink" title="查询数据库授权情况"></a>查询数据库授权情况</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 先查看 appuser 有哪些主机权限记录</span></span><br><span class="line"><span class="keyword">SELECT</span> Host, <span class="keyword">User</span> <span class="keyword">FROM</span> mysql.user <span class="keyword">WHERE</span> <span class="keyword">User</span> <span class="operator">=</span> <span class="string">&#x27;appuser&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 假设返回了 localhost 和 %，则分别查看</span></span><br><span class="line"><span class="keyword">SHOW</span> GRANTS <span class="keyword">FOR</span> <span class="string">&#x27;appuser&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> GRANTS <span class="keyword">FOR</span> <span class="string">&#x27;appuser&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
 
 <h2 id="查询到的两条记录凭拼接到一起"><a href="#查询到的两条记录凭拼接到一起" class="headerlink" title="查询到的两条记录凭拼接到一起"></a>查询到的两条记录凭拼接到一起</h2><p>如：</p>
 <ol>
