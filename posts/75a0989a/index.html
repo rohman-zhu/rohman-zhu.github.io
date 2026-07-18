@@ -27,7 +27,7 @@
 <meta property="og:description" content="常用脚本与指令合集Powershell.exe 的路径 C:\Windows\System32 存放的是64位组件的仓库； C:\Windows\SysWOW64 存放的是32位组件的仓库；   32位 C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe ， 如果自动化程序使用此路径的powershell作为启动程序，则可能会导致环境">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-10T00:15:36.000Z">
-<meta property="article:modified_time" content="2026-07-04T08:45:11.691Z">
+<meta property="article:modified_time" content="2026-07-18T10:46:51.454Z">
 <meta property="article:author" content="Rohman.Zhu">
 <meta property="article:tag" content="常用指令">
 <meta property="article:tag" content="脚本">
@@ -126,13 +126,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">490</span>
+          <span class="site-state-item-count">491</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -200,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-04 08:45:11" itemprop="dateModified" datetime="2026-07-04T08:45:11+00:00">2026-07-04</time>
+      <time title="Modified: 2026-07-18 10:46:51" itemprop="dateModified" datetime="2026-07-18T10:46:51+00:00">2026-07-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,8 +240,11 @@
 <blockquote>
 <p>组策略控制：计算机配置 – 策略 – 管理模板 – 网络 – DNS 客户端—动态更新 DNS 记录—注册刷新间隔;</p>
 </blockquote>
-<h2 id="导出csv"><a href="#导出csv" class="headerlink" title="导出csv"></a>导出csv</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Export-Csv</span> [目标文件名] </span><br><span class="line"><span class="built_in">Export-Csv</span> [目标文件名] <span class="literal">-Delimiter</span> <span class="string">&quot;分隔符&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="导出csv"><a href="#导出csv" class="headerlink" title="导出csv"></a>导出csv</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">PSCustomObject</span>] org_object | <span class="built_in">Export-Csv</span> [目标文件名] ;</span><br><span class="line"><span class="built_in">Export-Csv</span> [目标文件名] <span class="literal">-Delimiter</span> <span class="string">&quot;分隔符&quot;</span></span><br><span class="line"><span class="variable">$URL_Object</span> | <span class="built_in">Export-Csv</span> <span class="literal">-Path</span> <span class="variable">$fileName</span> <span class="literal">-Encoding</span> UTF8 <span class="literal">-Append</span> <span class="literal">-NoTypeInformation</span>;</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>这里Export-Csv 、 ConvertTo-Csv有一个问题，如果我们需要将传统的 键值对保存成csv文件，有一个坑爹的地方是CSV要能够顺利保存，一定是 PSCustomObject 类型，其他类型的对象则仅保存的是元数据；<br>Export-Csv 如果使用 -InputObject 仅能显示的是一个对象，所以涉及到多个对象，可以用 通道符传输而不是InputObject；</p>
+</blockquote>
 <h2 id="特殊字符转意"><a href="#特殊字符转意" class="headerlink" title="特殊字符转意"></a>特殊字符转意</h2><p>需要使用单引号转意 &#96;</p>
 <h2 id="获取系统启动时间"><a href="#获取系统启动时间" class="headerlink" title="获取系统启动时间"></a>获取系统启动时间</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Get-Process</span> wininit).StartTime</span><br></pre></td></tr></table></figure>
 

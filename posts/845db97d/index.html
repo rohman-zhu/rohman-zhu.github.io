@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="原始需求有一个网址上面的链接会定期发生变更，需要写一个程序去及时获取最新的网页链接，需求拆解：  能够访问到目标网页，获取到网页上的内容； 对上面提供的链接，能够递归读取； 将结果记录下来；  实现方案我比较习惯用 Powershell 写程序，本次使用 Powershell 来执行  假定要访问的地址是 https:&#x2F;&#x2F;www.test.com   如何模拟浏览器去访问打开Chrome浏览器，按">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Powershell脚本-网页爬虫实例">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/845db97d/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="原始需求有一个网址上面的链接会定期发生变更，需要写一个程序去及时获取最新的网页链接，需求拆解：  能够访问到目标网页，获取到网页上的内容； 对上面提供的链接，能够递归读取； 将结果记录下来；  实现方案我比较习惯用 Powershell 写程序，本次使用 Powershell 来执行  假定要访问的地址是 https:&#x2F;&#x2F;www.test.com   如何模拟浏览器去访问打开Chrome浏览器，按">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-18T10:03:43.000Z">
+<meta property="article:modified_time" content="2026-07-18T10:48:29.698Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/845db97d/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/845db97d/","path":"posts/845db97d/","title":"Powershell脚本-网页爬虫实例"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Powershell脚本-网页爬虫实例 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">原始需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">实现方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%A8%A1%E6%8B%9F%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%BB%E8%AE%BF%E9%97%AE"><span class="nav-number">2.1.</span> <span class="nav-text">如何模拟浏览器去访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E5%86%85%E5%AE%B9"><span class="nav-number">2.2.</span> <span class="nav-text">解析内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E2%80%98href-%E2%80%9D-%E2%80%9D-%E2%80%9D%E2%80%98-%E7%9A%84%E5%90%AB%E4%B9%89%E6%8B%86%E8%A7%A3"><span class="nav-number">2.2.1.</span> <span class="nav-text">正则表达式 ‘href&#x3D;”([^”]*)”‘ 的含义拆解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E5%86%85%E5%AE%B9"><span class="nav-number">2.3.</span> <span class="nav-text">记录内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E7%89%88%E6%9C%AC"><span class="nav-number">2.4.</span> <span class="nav-text">最终版本</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">491</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">153</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/845db97d/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Powershell脚本-网页爬虫实例 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Powershell脚本-网页爬虫实例
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-18 10:03:43 / Modified: 10:48:29" itemprop="dateCreated datePublished" datetime="2026-07-18T10:03:43+00:00">2026-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="原始需求"><a href="#原始需求" class="headerlink" title="原始需求"></a>原始需求</h1><p>有一个网址上面的链接会定期发生变更，需要写一个程序去及时获取最新的网页链接，需求拆解：</p>
+<ol>
+<li>能够访问到目标网页，获取到网页上的内容；</li>
+<li>对上面提供的链接，能够递归读取；</li>
+<li>将结果记录下来；</li>
+</ol>
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><p>我比较习惯用 Powershell 写程序，本次使用 Powershell 来执行</p>
+<blockquote>
+<p>假定要访问的地址是 <a target="_blank" rel="noopener" href="https://www.test.com/">https://www.test.com</a> </p>
+</blockquote>
+<h2 id="如何模拟浏览器去访问"><a href="#如何模拟浏览器去访问" class="headerlink" title="如何模拟浏览器去访问"></a>如何模拟浏览器去访问</h2><p>打开Chrome浏览器，按F12进入调试界面，看到Network页，找到对应所需请求的页面，比如 <a target="_blank" rel="noopener" href="http://www.test.com/">www.test.com</a> 项 看到有如下信息</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># General</span></span><br><span class="line">Request URL:   https://www.test.com /</span><br><span class="line">Request Method: GET</span><br><span class="line">Status Code:  <span class="number">200</span> OK</span><br><span class="line">Remote Address: <span class="number">192.168</span>.<span class="number">1.1</span>:<span class="number">443</span></span><br><span class="line">Referrer Policy:  strict<span class="literal">-origin-when-cross-origin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Request Headers</span></span><br><span class="line">:authority   www.test.com</span><br><span class="line">:method  GET</span><br><span class="line">:path /</span><br><span class="line">:scheme https</span><br><span class="line">accept text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/avif,image/webp,image/apng,*/*;q=<span class="number">0.8</span>,application/signed<span class="literal">-exchange</span>;v=b3;q=<span class="number">0.7</span></span><br><span class="line">accept<span class="literal">-encoding</span> gzip, deflate, br, zstd</span><br><span class="line">accept<span class="literal">-language</span> zh<span class="literal">-CN</span>,zh;q=<span class="number">0.9</span>,en;q=<span class="number">0.8</span></span><br><span class="line">cookie xxxxxxxxxx; existmag=mag</span><br><span class="line">priority u=<span class="number">0</span>, i</span><br><span class="line">sec<span class="literal">-ch-ua</span> <span class="string">&quot;Google Chrome&quot;</span>;v=<span class="string">&quot;149&quot;</span>, <span class="string">&quot;Chromium&quot;</span>;v=<span class="string">&quot;149&quot;</span>, <span class="string">&quot;Not)A;Brand&quot;</span>;v=<span class="string">&quot;24&quot;</span></span><br><span class="line">sec<span class="literal">-ch-ua-mobile</span> ?<span class="number">0</span></span><br><span class="line">sec<span class="literal">-ch-ua-platform</span>  <span class="string">&quot;Windows&quot;</span></span><br><span class="line">sec<span class="literal">-fetch-dest</span> document</span><br><span class="line">sec<span class="literal">-fetch-mode</span> navigate</span><br><span class="line">sec<span class="literal">-fetch-site</span> none</span><br><span class="line">sec<span class="literal">-fetch-user</span> ?<span class="number">1</span></span><br><span class="line">upgrade<span class="literal">-insecure-requests</span> <span class="number">1</span></span><br><span class="line">user<span class="literal">-agent</span> Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">149.0</span>.<span class="number">0.0</span> Safari/<span class="number">537.36</span></span><br></pre></td></tr></table></figure>
+
+<p>如果直接使用 Invoke-WebRequest -Method “GET” -UseBasicParsing -Uri $URI ，不包含请求头，返回的值不是所需内容，容易有屏蔽情况；因此需要额外增加请求头，模拟我们用网页正常访问。</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 来自AI，DeepSeek老师的回答：</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># accept-encoding 自动处理</span></span><br><span class="line"><span class="comment"># PowerShell 默认会添加 Accept-Encoding: gzip, deflate 并自动解压响应。您手动设置此头部可能被覆盖或导致冲突。若需完全控制，建议删除该行，或使用 -SkipCertificateCheck（如需要）等额外参数。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安全性相关头部</span></span><br><span class="line"><span class="comment"># sec-* 和 upgrade-insecure-requests 等头部完全是客户端提示，服务器通常不会强制校验，照常设置即可。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Get-TargetRespon</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(</span><br><span class="line">        <span class="variable">$URI</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="variable">$headers</span> = <span class="selector-tag">@</span>&#123;</span><br><span class="line">        <span class="string">&#x27;accept&#x27;</span> = <span class="string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7&#x27;</span></span><br><span class="line">        <span class="string">&#x27;accept-encoding&#x27;</span> = <span class="string">&#x27;gzip, deflate, br, zstd&#x27;</span></span><br><span class="line">        <span class="string">&#x27;accept-language&#x27;</span> = <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span></span><br><span class="line">        <span class="string">&#x27;priority&#x27;</span> = <span class="string">&#x27;u=0, i&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua&#x27;</span> = <span class="string">&#x27;&quot;Google Chrome&quot;;v=&quot;149&quot;, &quot;Chromium&quot;;v=&quot;149&quot;, &quot;Not)A;Brand&quot;;v=&quot;24&quot;&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-mobile&#x27;</span> = <span class="string">&#x27;?0&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-platform&#x27;</span> = <span class="string">&#x27;&quot;Windows&quot;&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-dest&#x27;</span> = <span class="string">&#x27;document&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-mode&#x27;</span> = <span class="string">&#x27;navigate&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-site&#x27;</span> = <span class="string">&#x27;none&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-user&#x27;</span> = <span class="string">&#x27;?1&#x27;</span></span><br><span class="line">        <span class="string">&#x27;upgrade-insecure-requests&#x27;</span> = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        <span class="string">&#x27;user-agent&#x27;</span> = <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$Respon</span>=<span class="built_in">Invoke-WebRequest</span> <span class="literal">-Method</span> <span class="string">&quot;GET&quot;</span> <span class="literal">-UseBasicParsing</span> <span class="literal">-Uri</span> <span class="variable">$URI</span> <span class="literal">-Headers</span> <span class="variable">$headers</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$Respon</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析内容"><a href="#解析内容" class="headerlink" title="解析内容"></a>解析内容</h2><p>获取到的HTML文本内容后，需要做解析;</p>
+<p>第一部分是关于截取文本内容，查询到有两种方案，第一种是解析一整串字符串，第二种是逐行显示的文本文件：<br>这里选用第一种方案，适配性比较高，而我们获取到的文本并不会保存文件，而是一个字符串参数；</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$response</span>=<span class="string">&quot;&lt;html&gt;xxxxx&lt;/html&gt;&quot;</span></span><br><span class="line"><span class="variable">$response_file</span>=<span class="string">&#x27;.\response.html&#x27;</span> <span class="comment"># 为文件类型，逐行保存的</span></span><br><span class="line"><span class="variable">$pattern</span>=<span class="string">&quot;防屏蔽&quot;</span> <span class="comment"># 截取内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方案一，如果是截取字符串内容，没有换行符（本质上就是一行字符串），则可以采用这种方案，会比较复杂，且进度比较差；实际执行是匹配关键截取词所在的文本段，获取前后100个字符；</span></span><br><span class="line"><span class="variable">$index</span> = <span class="variable">$response</span>.IndexOf(<span class="variable">$pattern</span>)</span><br><span class="line"><span class="variable">$index_offset</span>=<span class="number">5</span> <span class="comment"># 检索字符所在的索引偏离值</span></span><br><span class="line"><span class="variable">$string_length</span>=<span class="number">300</span> <span class="comment"># 截取字符串长度</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$index</span> <span class="operator">-ge</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$start</span> = [<span class="type">Math</span>]::Max(<span class="number">0</span>, <span class="variable">$index</span> - <span class="variable">$index_offset</span>) <span class="comment"># 起始索引：首次匹配到的索引，截取往前偏离的字符量</span></span><br><span class="line">    <span class="variable">$length</span> = [<span class="type">Math</span>]::Min(<span class="variable">$string_length</span>,<span class="variable">$response</span>.length-<span class="variable">$start</span>) <span class="comment"># 末尾索引：取其中最小值，避免超过文本范围；</span></span><br><span class="line">    <span class="variable">$result</span>=<span class="variable">$response</span>.Substring(<span class="variable">$start</span>, <span class="variable">$string_length</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Write-Host</span> <span class="string">&quot;搜索结果是: <span class="variable">$</span>(<span class="variable">$result</span>)&quot;</span></span><br><span class="line">    <span class="comment">#Write-Host &quot;`n...（共找到 $(([regex]::Matches($response, $pattern)).Count) 处匹配）&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方案二，如果被解析的是文件类型，则可以使用这种方案；</span></span><br><span class="line"><span class="variable">$result</span>=<span class="built_in">Select-String</span> <span class="literal">-Path</span> <span class="variable">$response_file</span> <span class="literal">-Pattern</span> <span class="variable">$pattern</span>;</span><br></pre></td></tr></table></figure>
+
+<p>第二部分是对截取的 HTML 文本做链接解析 ，截取出我们真正需要的，这里就用到powershell中的正则表达式了；</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 截取的文本内容是 xxxx&lt;a href=&quot;www.test.com&quot;&gt;.....&lt;a href=&quot;www.test2.com&quot;&gt;.....&lt;a href=&quot;www.test3.com&quot;&gt;</span></span><br><span class="line"><span class="variable">$url_set</span>=[<span class="type">regex</span>]::Matches(<span class="variable">$result</span>,<span class="string">&#x27;href=&quot;([^&quot;]*)&quot;&#x27;</span>) | <span class="built_in">Select-Object</span>  <span class="selector-tag">@</span>&#123;N=<span class="string">&#x27;Url&#x27;</span>;E=&#123;<span class="variable">$_</span>.Groups[<span class="number">1</span>].value&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># [regex]::Matches() 返回一个 Match 对象的集合（System.Text.RegularExpressions.Match）。</span></span><br><span class="line"><span class="comment"># 如要将截取的内容重新组成一个新的集合</span></span><br><span class="line"><span class="comment"># 使用Select-Object</span></span><br><span class="line"><span class="comment"># 新建名为 url</span></span><br><span class="line"><span class="comment"># 值就取每一个截取的内容的 Groups[1].Value # Groups[1].Value 是指是第一个捕获组，即括号 () 内的部分（([^&quot;]*)），也就是引号内的 URL。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="正则表达式-‘href-”-”-”‘-的含义拆解"><a href="#正则表达式-‘href-”-”-”‘-的含义拆解" class="headerlink" title="正则表达式 ‘href&#x3D;”([^”]*)”‘ 的含义拆解"></a>正则表达式 ‘href&#x3D;”([^”]*)”‘ 的含义拆解</h3><table>
+<thead>
+<tr>
+<th align="center">正则部分</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">href&#x3D;”</td>
+<td align="left">href&#x3D;”（普通文本）</td>
+</tr>
+<tr>
+<td align="center">(</td>
+<td align="left">开始捕获（我们要提取的内容）</td>
+</tr>
+<tr>
+<td align="center">[^”]*</td>
+<td align="left">匹配任意数量的非双引号字符（即链接内容，直到遇到双引号为止）</td>
+</tr>
+<tr>
+<td align="center">)</td>
+<td align="left">结束捕获</td>
+</tr>
+<tr>
+<td align="center">“</td>
+<td align="left">匹配闭合的双引号</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>找到 href&#x3D;”，然后把后面直到下一个 “ 之间的所有内容提取出来。</p>
+</blockquote>
+<h2 id="记录内容"><a href="#记录内容" class="headerlink" title="记录内容"></a>记录内容</h2><p>将获取到的URL保存到csv文件中</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Set-RecordURL</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$URL</span>,<span class="variable">$ResponCode</span>)</span><br><span class="line"></span><br><span class="line">    <span class="variable">$fileName</span>=<span class="string">&quot;url_record.csv&quot;</span>;</span><br><span class="line">    <span class="variable">$date</span>=<span class="built_in">Get-Date</span> <span class="literal">-Format</span> <span class="string">&quot;yyyy-MM-dd&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$ResponCode</span> <span class="operator">-eq</span> <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="variable">$status</span>=<span class="string">&quot;good&quot;</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$status</span>=<span class="string">&quot;bad&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$URL_Object</span>=[<span class="type">PSCustomObject</span>]<span class="selector-tag">@</span>&#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>=<span class="variable">$date</span></span><br><span class="line">        <span class="string">&#x27;url&#x27;</span>=<span class="variable">$URL</span></span><br><span class="line">        <span class="string">&#x27;respon_code&#x27;</span>=<span class="variable">$ResponCode</span></span><br><span class="line">        <span class="string">&#x27;status&#x27;</span>=<span class="variable">$status</span></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="variable">$URL_Object</span> | <span class="built_in">Export-Csv</span> <span class="literal">-Path</span> <span class="variable">$fileName</span> <span class="literal">-Encoding</span> UTF8 <span class="literal">-Append</span> <span class="literal">-NoTypeInformation</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里Export-Csv 、 ConvertTo-Csv有一个问题，如果我们需要将传统的 键值对保存成csv文件，有一个坑爹的地方是CSV要能够顺利保存，一定是 PSCustomObject 类型，其他类型的对象则仅保存的是元数据；<br>Export-Csv 如果使用 -InputObject 仅能显示的是一个对象，所以涉及到多个对象，可以用 通道符传输而不是InputObject；</p>
+<h2 id="最终版本"><a href="#最终版本" class="headerlink" title="最终版本"></a>最终版本</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Date:2026-07-18</span></span><br><span class="line"><span class="comment"># Version: v2</span></span><br><span class="line"><span class="comment"># Descirption:采集链接</span></span><br><span class="line"><span class="keyword">param</span>(<span class="variable">$TargetUrl</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取原始内容</span></span><br><span class="line"><span class="comment"># 请求方法</span></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Get-TargetRespon</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(</span><br><span class="line">        <span class="variable">$URI</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="variable">$headers</span> = <span class="selector-tag">@</span>&#123;</span><br><span class="line">        <span class="string">&#x27;accept&#x27;</span> = <span class="string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7&#x27;</span></span><br><span class="line">        <span class="string">&#x27;accept-encoding&#x27;</span> = <span class="string">&#x27;gzip, deflate, br, zstd&#x27;</span></span><br><span class="line">        <span class="string">&#x27;accept-language&#x27;</span> = <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span></span><br><span class="line">        <span class="string">&#x27;priority&#x27;</span> = <span class="string">&#x27;u=0, i&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua&#x27;</span> = <span class="string">&#x27;&quot;Google Chrome&quot;;v=&quot;149&quot;, &quot;Chromium&quot;;v=&quot;149&quot;, &quot;Not)A;Brand&quot;;v=&quot;24&quot;&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-mobile&#x27;</span> = <span class="string">&#x27;?0&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-platform&#x27;</span> = <span class="string">&#x27;&quot;Windows&quot;&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-dest&#x27;</span> = <span class="string">&#x27;document&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-mode&#x27;</span> = <span class="string">&#x27;navigate&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-site&#x27;</span> = <span class="string">&#x27;none&#x27;</span></span><br><span class="line">        <span class="string">&#x27;sec-fetch-user&#x27;</span> = <span class="string">&#x27;?1&#x27;</span></span><br><span class="line">        <span class="string">&#x27;upgrade-insecure-requests&#x27;</span> = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">        <span class="string">&#x27;user-agent&#x27;</span> = <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$Respon</span>=<span class="built_in">Invoke-WebRequest</span> <span class="literal">-Method</span> <span class="string">&quot;GET&quot;</span> <span class="literal">-UseBasicParsing</span> <span class="literal">-Uri</span> <span class="variable">$URI</span> <span class="literal">-Headers</span> <span class="variable">$headers</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$Respon</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解析内容</span></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Get-TargetURL</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$HTML_Content</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="variable">$index</span> = <span class="variable">$HTML_Content</span>.IndexOf(<span class="variable">$pattern</span>)</span><br><span class="line">    <span class="variable">$index_offset</span>=<span class="number">5</span> <span class="comment"># 检索字符所在的索引偏离值</span></span><br><span class="line">    <span class="variable">$string_length</span>=<span class="number">500</span> <span class="comment"># 截取字符串长度</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$index</span> <span class="operator">-ge</span> <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="variable">$start</span> = [<span class="type">Math</span>]::Max(<span class="number">0</span>, <span class="variable">$index</span> - <span class="variable">$index_offset</span>) <span class="comment"># 起始索引：首次匹配到的索引，截取往前偏离的字符量</span></span><br><span class="line">        <span class="variable">$length</span> = [<span class="type">Math</span>]::Min(<span class="variable">$string_length</span>,<span class="variable">$</span>(<span class="variable">$HTML_Content</span>.Length)-<span class="variable">$start</span>) <span class="comment"># 末尾索引：取其中最小值，避免超过文本范围；</span></span><br><span class="line">        <span class="variable">$result</span>=<span class="variable">$HTML_Content</span>.Substring(<span class="variable">$start</span>, <span class="variable">$length</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">&quot;Search result: <span class="variable">$</span>(<span class="variable">$result</span>)&quot;</span></span><br><span class="line">        <span class="comment">#Write-Host &quot;`n...（共找到 $(([regex]::Matches($HTML_Content, $pattern)).Count) 处匹配）&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$url_set</span>=[<span class="type">regex</span>]::Matches(<span class="variable">$result</span>,<span class="string">&#x27;href=&quot;([^&quot;]*)&quot;&#x27;</span>) | <span class="built_in">Select-Object</span>  <span class="selector-tag">@</span>&#123;N=<span class="string">&#x27;Url&#x27;</span>;E=&#123;<span class="variable">$_</span>.Groups[<span class="number">1</span>].value&#125;&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$url_set</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 记录内容</span></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Set-RecordURL</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$URL</span>,<span class="variable">$ResponCode</span>)</span><br><span class="line"></span><br><span class="line">    <span class="variable">$fileName</span>=<span class="string">&quot;url_record.csv&quot;</span>;</span><br><span class="line">    <span class="variable">$date</span>=<span class="built_in">Get-Date</span> <span class="literal">-Format</span> <span class="string">&quot;yyyy-MM-dd&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$ResponCode</span> <span class="operator">-eq</span> <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="variable">$status</span>=<span class="string">&quot;good&quot;</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$status</span>=<span class="string">&quot;bad&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$URL_Object</span>=[<span class="type">PSCustomObject</span>]<span class="selector-tag">@</span>&#123;</span><br><span class="line">        <span class="string">&#x27;date&#x27;</span>=<span class="variable">$date</span></span><br><span class="line">        <span class="string">&#x27;url&#x27;</span>=<span class="variable">$URL</span></span><br><span class="line">        <span class="string">&#x27;respon_code&#x27;</span>=<span class="variable">$ResponCode</span></span><br><span class="line">        <span class="string">&#x27;status&#x27;</span>=<span class="variable">$status</span></span><br><span class="line">    &#125; </span><br><span class="line"></span><br><span class="line">    <span class="variable">$URL_Object</span> | <span class="built_in">Export-Csv</span> <span class="literal">-Path</span> <span class="variable">$fileName</span> <span class="literal">-Encoding</span> UTF8 <span class="literal">-Append</span> <span class="literal">-NoTypeInformation</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查是否重复</span></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Get-TargetURLIfExist</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$URL</span>)</span><br><span class="line">    <span class="variable">$fileName</span>=<span class="string">&quot;url_record.csv&quot;</span>;</span><br><span class="line">    <span class="variable">$isExist</span>=<span class="variable">$FALSE</span>;</span><br><span class="line">    <span class="variable">$object</span>=<span class="built_in">Import-Csv</span> <span class="variable">$fileName</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Url <span class="operator">-eq</span> <span class="variable">$URL</span>&#125;;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$null</span> <span class="operator">-ne</span> <span class="variable">$object</span>)&#123;</span><br><span class="line">        <span class="variable">$isExist</span>=<span class="variable">$TRUE</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$isExist</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Function</span> <span class="title">Start-Main</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$TargetUrl</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 递归函数</span></span><br><span class="line">    <span class="variable">$Respon</span>=<span class="built_in">Get-TargetRespon</span> <span class="literal">-URI</span> <span class="variable">$TargetUrl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$Respon</span>.statusCode <span class="operator">-eq</span> <span class="number">200</span>)&#123;</span><br><span class="line">        <span class="variable">$URL_SET</span>=<span class="built_in">Get-TargetURL</span> <span class="literal">-HTML_Content</span> <span class="variable">$Respon</span>.Content;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$URLObject</span> <span class="keyword">in</span> <span class="variable">$URL_SET</span>)&#123;</span><br><span class="line">            <span class="variable">$URL</span>=<span class="variable">$URLObject</span>.Url;</span><br><span class="line">            <span class="built_in">Write-Host</span> <span class="string">&quot;Checking <span class="variable">$</span>(<span class="variable">$URL</span>)&quot;</span>;</span><br><span class="line">            <span class="variable">$isURLExist</span>=<span class="built_in">Get-TargetURLIfExist</span> <span class="literal">-URL</span> <span class="variable">$URL</span>;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="variable">$isURLExist</span>)&#123;</span><br><span class="line">                <span class="built_in">Write-Host</span> <span class="string">&quot;<span class="variable">$</span>(<span class="variable">$URL</span>) is a new link,start record...&quot;</span>;</span><br><span class="line">                <span class="built_in">Set-RecordURL</span> <span class="literal">-URL</span> <span class="variable">$URL</span> <span class="literal">-ResponCode</span> <span class="variable">$Respon</span>.statusCode;</span><br><span class="line">                <span class="comment"># 递归进入下一层；</span></span><br><span class="line">                <span class="built_in">Start-Main</span> <span class="literal">-TargetUrl</span> <span class="variable">$URL</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">Write-Host</span> <span class="string">&quot;<span class="variable">$</span>(<span class="variable">$URL</span>) has been record,skip...&quot;</span>;</span><br><span class="line">                <span class="comment"># 登出；</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment"># 无法访问</span></span><br><span class="line">        <span class="built_in">Set-RecordURL</span> <span class="literal">-URL</span> <span class="variable">$URL</span> <span class="literal">-ResponCode</span> <span class="variable">$Respon</span>.statusCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Start-Main</span> <span class="literal">-TargetUrl</span> <span class="variable">$TargetUrl</span>;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/b716cfe/" rel="prev" title="RDSH文件目录设置方案">
+                  <i class="fa fa-angle-left"></i> RDSH文件目录设置方案
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

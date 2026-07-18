@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">490</span>
+          <span class="site-state-item-count">491</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,93 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6ff5f4c0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/6ff5f4c0/" class="post-title-link" itemprop="url">记一次vscode更新后的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-05-30 09:32:50 / Modified: 09:44:35" itemprop="dateCreated datePublished" datetime="2026-05-30T09:32:50+00:00">2026-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>VSCode 在一次自动更新后，无法通过vscode连接到linux服务器做一些编辑工作，每次通过vscode连接服务器时，在输入密码后均会卡在 setting up sshd host xxx:downloading vs code server；</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>应该是组件更新后，需要在目标服务器中安装对应插件；由vscode远程连接linux服务器时，服务器会触发wget指令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-config --tries=1 --connect-timeout=7 --dns-timeout=7 -nv -O vscode-cli-xxxx.tar.gz https://update.code.visualstudio.com/commit:xxxx/cli-alpine-x64/stable</span><br></pre></td></tr></table></figure>
+
+<p>服务器解析update.code.visualstudio.com域名，得到的IP地址有异常，导致无法正常通讯；</p>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>在linux服务器中添加 update.code.visualstudio.com 的解析记录至本地 hosts文件；</p>
+<p>另外可以尝试的方法是关闭自动更新（万恶的windows自动更新）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 vscode 中关闭编辑器的自动更新</span></span><br><span class="line">1. 按 ctrl + , 打开配置界面</span><br><span class="line">2. 在搜索框输入 update , 找到 update: mode</span><br><span class="line">3. 将值改为 none 或者manuel；</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在vscode 中关闭插件的自动更新</span></span><br><span class="line">1. 按 ctrl + , 打开配置界面</span><br><span class="line">2. 在搜索框输入 extensions auto update , 找到 extensions: Auto Update</span><br><span class="line">3. 将值改为 none 或者 manuel；</span><br><span class="line">4. 取消勾选Extensions: Auto Check Updates</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1145,126 +1232,8 @@ Client--&gt;旁路由网关
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/407ef848/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/407ef848/" class="post-title-link" itemprop="url">MACOS的监控方案-node_exporter安装与部署</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-02-12 12:08:12 / Modified: 12:48:02" itemprop="dateCreated datePublished" datetime="2026-02-12T12:08:12+00:00">2026-02-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>需要监控MACOS的信息，如CPU、RAM、Storage的使用率信息；还需获取到MACOS 内的资产数据信息，比如CPU型号、RAM配置、序列号、OS版本；拟定采用的方案是Prometheus，需要在MAC OS中安装 node_exporter，通过Prometheus Server采集数据，并由Grafana做数据展示；</p>
-<h1 id="实施实例"><a href="#实施实例" class="headerlink" title="实施实例"></a>实施实例</h1><h2 id="node-exporter-安装"><a href="#node-exporter-安装" class="headerlink" title="node_exporter 安装"></a>node_exporter 安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法一，brew安装</span></span><br><span class="line"><span class="comment"># 此方法会默认安装最新版本</span></span><br><span class="line">brew install node_exporter</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二，直接去Github下载发布包</span></span><br><span class="line"><span class="comment"># 官网 https://github.com/prometheus/node_exporter/releases/</span></span><br><span class="line"><span class="comment"># 没有wget指令，则需要先安装wget，指令为 brew install wget</span></span><br><span class="line">wget https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.darwin-arm64.tar.gz</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>darwin是MACOS的操作系统内核与底层核心环境；下载包中的darwin表示为macos版本；</p>
-</blockquote>
-<h2 id="node-exporter启动与开机自启"><a href="#node-exporter启动与开机自启" class="headerlink" title="node_exporter启动与开机自启"></a>node_exporter启动与开机自启</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动则是直接执行</span></span><br><span class="line">node_exporter</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据采集接口将会开放，默认访问端口为 9100</span></span><br><span class="line"><span class="comment"># 可通过curl指令检查</span></span><br><span class="line">curl localhost:9100/metrics </span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>node_exporter直接执行是一个前台进程，访问时会打印出日志；一般是将此服务做成守护进程或者放置到docker中；</p>
-</blockquote>
-<p>设置开机自启，则需要注册成守护进程，在 &#x2F;Library&#x2F;LaunchDaemon中编写plist文件，并注册；</p>
-<h3 id="MAC-OS的守护进程"><a href="#MAC-OS的守护进程" class="headerlink" title="MAC OS的守护进程"></a>MAC OS的守护进程</h3><p>我们需要将进程放置到后台自动运行或者开机时程序能自动启动；<br>这里LaunchAgent与LaunchDaemon是有差异的，Agent是需要用户登录后才能启动，Daemon则是随机器启动；</p>
-<p>详情可以参考：<br><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html">https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html</a><br><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/technotes/tn2083/_index.html#//apple_ref/doc/uid/DTS10003794">https://developer.apple.com/library/archive/technotes/tn2083/_index.html#//apple_ref/doc/uid/DTS10003794</a></p>
-<p>主要路径：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随用户登录而启动的Agents启动，类似windows的用户策略</span></span><br><span class="line">/Library/LaunchAgents</span><br><span class="line">~/Library/LaunchAgents</span><br><span class="line">/System/Library/LaunchAgents</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随主机启动而启动的Daemon进程，类似于windows的计算机策略</span></span><br><span class="line">/System/Library/LaunchDaemons</span><br><span class="line">/Library/LaunchDaemons</span><br></pre></td></tr></table></figure>
-
-<h2 id="plist文件编写"><a href="#plist文件编写" class="headerlink" title=".plist文件编写"></a>.plist文件编写</h2><p>launchd是通过“.plist”后缀结尾的xml文件来自定义程序启动</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">string</span>&gt;</span>node_exporter<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/bin/node_exporter<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>--collector.textfile.directory=/usr/local/var/prometheus/<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>Label为需要启动的进程设置一个标签，后续使用launchctl load [服务名]中的服务名对应的是这个Label后面的string标签里面的node_exporter；</li>
-<li>ProgramArguments为程序运行时所带的参数；</li>
-<li>RunAtLoad表示在加载时启动，后面跟的参数如果是<true/>则表示launchd加载时就自动启动，如果是<false/>则需要手动启动；</li>
-<li>KeepAlive参数表示是否要一直存活，如果后面参数是<true/>则表示会持续启动，每个10s启动一次；</li>
-</ol>
-<h2 id="指标采集信息【TODO】"><a href="#指标采集信息【TODO】" class="headerlink" title="指标采集信息【TODO】"></a>指标采集信息【TODO】</h2><p>CPU型号、RAM大小、存储大小、序列号</p>
-<h2 id="Grafana面板编辑【TODO】"><a href="#Grafana面板编辑【TODO】" class="headerlink" title="Grafana面板编辑【TODO】"></a>Grafana面板编辑【TODO】</h2><h1 id="MAC-指令相关"><a href="#MAC-指令相关" class="headerlink" title="MAC 指令相关"></a>MAC 指令相关</h1><h2 id="launchtl-指令"><a href="#launchtl-指令" class="headerlink" title="launchtl 指令"></a>launchtl 指令</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.machunjie.com/macos/1411.html#:~:text=launch%20daemon%E5%92%8Claunch%20agents%E5%8C%BA%E5%88%AB%EF%BC%9A%20%E5%AE%83%E4%BB%AC%E6%9C%AC%E8%B4%A8%E4%B8%8A%E9%83%BD%E6%98%AF%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%EF%BC%8C%20launch%20daemons%20%E5%9C%A8%20%E7%B3%BB%E7%BB%9F%E8%A3%85%E8%BD%BD%E6%97%B6%E5%90%AF%E5%8A%A8%20%EF%BC%8C%E5%B1%9E%E4%BA%8E%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%EF%BC%9B%20launch%20agents%20%E6%98%AF%E6%9F%90%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8B%A5%E6%9C%89%E7%9A%84%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%9C%A8%E8%BF%99%E4%B8%AA%E7%94%A8%E6%88%B7%20%E7%99%BB%E5%BD%95%E5%90%8E%E5%90%AF%E5%8A%A8%20%E3%80%82">https://www.machunjie.com/macos/1411.html#:~:text=launch%20daemon%E5%92%8Claunch%20agents%E5%8C%BA%E5%88%AB%EF%BC%9A%20%E5%AE%83%E4%BB%AC%E6%9C%AC%E8%B4%A8%E4%B8%8A%E9%83%BD%E6%98%AF%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%EF%BC%8C%20launch%20daemons%20%E5%9C%A8%20%E7%B3%BB%E7%BB%9F%E8%A3%85%E8%BD%BD%E6%97%B6%E5%90%AF%E5%8A%A8%20%EF%BC%8C%E5%B1%9E%E4%BA%8E%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%EF%BC%9B%20launch%20agents%20%E6%98%AF%E6%9F%90%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8B%A5%E6%9C%89%E7%9A%84%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%9C%A8%E8%BF%99%E4%B8%AA%E7%94%A8%E6%88%B7%20%E7%99%BB%E5%BD%95%E5%90%8E%E5%90%AF%E5%8A%A8%20%E3%80%82</a></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询所有注册的任务</span></span><br><span class="line">launchctl list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注册或加载任务</span></span><br><span class="line">launchctl load [任务名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除任务</span></span><br><span class="line">launchctl unload [任务名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止任务</span></span><br><span class="line">launchctl stop [任务名]</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果注册文件plist有修改，需要先unload，再执行load；<br>如果需要持续执行，需要添加KeepAlive标签；</p>
-</blockquote>
-<h2 id="brew-指令"><a href="#brew-指令" class="headerlink" title="brew 指令"></a>brew 指令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有使用brew安装的服务列表</span></span><br><span class="line">brew serviceas list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">brew services start [服务名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭服务</span></span><br><span class="line">brew services stop [服务名]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用brew安装</span></span><br><span class="line">brew install [服务名]</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>

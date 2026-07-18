@@ -119,13 +119,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">490</span>
+          <span class="site-state-item-count">491</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -147,6 +147,133 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/52af3966/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/52af3966/" class="post-title-link" itemprop="url">PVE-虚拟机网络实验记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-11-30 04:39:25 / Modified: 14:33:41" itemprop="dateCreated datePublished" datetime="2025-11-30T04:39:25+00:00">2025-11-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/PVE/" itemprop="url" rel="index"><span itemprop="name">PVE</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="实验背景"><a href="#实验背景" class="headerlink" title="实验背景"></a>实验背景</h1><p>有一台虚拟机，带有两张网卡，分别为内网功能与外网功能；现做一下实验，以实现内网通讯或外网通讯；</p>
+<p>虚拟机网络配置如下</p>
+<table>
+<thead>
+<tr>
+<th align="center">IP</th>
+<th align="center">网卡名</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1.0.0.1</td>
+<td align="center">ens19</td>
+<td align="center">用于访问外网，跟宿主机同一个网段</td>
+</tr>
+<tr>
+<td align="center">2.0.0.1</td>
+<td align="center">ens18</td>
+<td align="center">用于访问内网，跟内部服务的服务器一个网段</td>
+</tr>
+</tbody></table>
+<p>参与实验的角色：</p>
+<ol>
+<li>带有双网卡的试验机（虚拟机）；</li>
+<li>虚拟机所在的宿主机；</li>
+</ol>
+<h2 id="访问外网实验"><a href="#访问外网实验" class="headerlink" title="访问外网实验"></a>访问外网实验</h2><p>期望用 1.0.0.1 跟外部通讯，可以实现apt下载或DNS解析之类的服务；</p>
+<p>在试验机中发起ping 8.8.8.8；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p>在宿主机中监听icmp流量；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump icmp -n</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如没有设置网关"><a href="#假如没有设置网关" class="headerlink" title="假如没有设置网关"></a>假如没有设置网关</h3><p>试验机 ping 8.8.8.8 ，不存在默认路由，则会出现</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping: connect: Network is unreachable</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：添加网关或者添加路由策略；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加网关</span></span><br><span class="line">ip route add 0.0.0.0/0 via [gateway]</span><br></pre></td></tr></table></figure>
+
+<h3 id="假如只有出包，没有回包"><a href="#假如只有出包，没有回包" class="headerlink" title="假如只有出包，没有回包"></a>假如只有出包，没有回包</h3><p>解决完网关问题后，试验机 ping 8.8.8.8 ， 依旧无法ping通，在宿主机中抓包，可以看到试验机的ip在ping 8.8.8.8，但没有回包；</p>
+<p>可能是路由器的问题，我将试验机改成DHCP后，即可与外网通讯；</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置成DHCP后，看到虚拟机的路由策略有如下几个：</span></span><br><span class="line">ip route show</span><br><span class="line"><span class="comment"># 有如下记录</span></span><br><span class="line">default via [默认网关] dev ens18 proto dhcp src [dhcp后获取的IP] metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line">[默认网关] devens18 proto dhcp scope <span class="built_in">link</span> src [dhcp后获取的IP] metric 100</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">default via 1.0.0.254 dev ens18 proto dhcp src 1.0.0.1 metric 100</span><br><span class="line">1.0.0.0/24 dev ens18 proto kernel scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br><span class="line">1.0.0.254 devens18 proto dhcp scope <span class="built_in">link</span> src 1.0.0.1  metric 100</span><br></pre></td></tr></table></figure>
+
+<p>结果发现是坑爹的路由器，不能配置1.0.0.1的IP，最低为10.0.0.2；</p>
+<p>解决方法：将试验机改为1.0.0.2即可解决问题；</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -457,9 +584,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-11-09 15:52:06 / Modified: 18:50:07" itemprop="dateCreated datePublished" datetime="2025-11-09T15:52:06+00:00">2025-11-09</time>
+      <time title="Created: 2025-11-09 15:52:06" itemprop="dateCreated datePublished" datetime="2025-11-09T15:52:06+00:00">2025-11-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-07-18 13:09:58" itemprop="dateModified" datetime="2026-07-18T13:09:58+00:00">2026-07-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -471,7 +604,7 @@
         </span>
           , 
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/Horizon/" itemprop="url" rel="index"><span itemprop="name">Horizon</span></a>
+          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
         </span>
     </span>
 
@@ -491,6 +624,7 @@
 <p>而Horizon相关的API接口，可以看 htttps:&#x2F;&#x2F;[Horizon Connection Server ip]&#x2F;rest&#x2F;swagger-ui&#x2F;index.html；</p>
 <h2 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h2><p>对100多个用户批量授权，含桌面池授权，用户与虚拟机之间的绑定关系授权；</p>
 <h2 id="脚本实现"><a href="#脚本实现" class="headerlink" title="脚本实现"></a>脚本实现</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ConnectionServerIP</span>=<span class="string">&quot;xxx&quot;</span>;</span><br><span class="line"><span class="variable">$Target_Desktop_Pool_Name</span>=<span class="string">&quot;xxx&quot;</span>;</span><br><span class="line"><span class="variable">$Domain</span>=<span class="string">&quot;xxx&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$POST</span>=<span class="string">&quot;POST&quot;</span>;</span><br><span class="line"><span class="variable">$GET</span>=<span class="string">&quot;GET&quot;</span>;</span><br><span class="line"><span class="variable">$ContentType_DEFAULT</span>=<span class="string">&quot;application/json&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基础URL</span></span><br><span class="line"><span class="variable">$base_uri</span>=<span class="string">&quot;https://<span class="variable">$ConnectionServerIP</span>/rest&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一步获取认证</span></span><br><span class="line"><span class="variable">$rest_login</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/login&quot;</span>;</span><br><span class="line"><span class="variable">$body_login</span>=<span class="selector-tag">@</span>&#123;</span><br><span class="line">    <span class="string">&quot;domain&quot;</span>=<span class="string">&quot;xxx&quot;</span></span><br><span class="line">    <span class="string">&quot;password&quot;</span>=<span class="string">&quot;xxx&quot;</span></span><br><span class="line">    <span class="string">&quot;username&quot;</span>=<span class="string">&quot;xx&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 存在SSL的问题</span></span><br><span class="line"><span class="comment"># Invoke-WebRequest 可以添加SkipCertificateCheck参数</span></span><br><span class="line"><span class="comment">&lt;#</span></span><br><span class="line"><span class="comment">add-type @&quot;</span></span><br><span class="line"><span class="comment">    using System.Net;</span></span><br><span class="line"><span class="comment">    using System.Security.Cryptography.X509Certificates;</span></span><br><span class="line"><span class="comment">    public class TrustAllCertsPolicy : ICertificatePolicy &#123;</span></span><br><span class="line"><span class="comment">        public bool CheckValidationResult(</span></span><br><span class="line"><span class="comment">            ServicePoint srvPoint, X509Certificate certificate,</span></span><br><span class="line"><span class="comment">            WebRequest request, int certificateProblem) &#123;</span></span><br><span class="line"><span class="comment">            return true;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&quot;@</span></span><br><span class="line"><span class="comment">[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy</span></span><br><span class="line"><span class="comment">参考：https://www.pstips.net/invoke-restmethod-access-https.html</span></span><br><span class="line"><span class="comment">#&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$token_set</span>=<span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_login</span> <span class="literal">-Method</span> <span class="variable">$POST</span> <span class="literal">-Body</span> <span class="variable">$</span>(<span class="variable">$body_login</span>|<span class="built_in">ConvertTo-Json</span>) <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line"><span class="variable">$access_token</span>=<span class="variable">$token_set</span>.access_token;</span><br><span class="line"></span><br><span class="line"><span class="variable">$headers</span>=<span class="selector-tag">@</span>&#123;</span><br><span class="line">    <span class="string">&quot;Authorization&quot;</span>=<span class="string">&quot;Bearer <span class="variable">$access_token</span>&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二步，获取到目标桌面池信息</span></span><br><span class="line"><span class="comment"># 获取桌面池列表</span></span><br><span class="line"><span class="variable">$rest_get_desktop_pools</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/inventory/v1/desktop-pools&quot;</span></span><br><span class="line"><span class="variable">$desktop_set</span>=<span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_get_desktop_pools</span> <span class="literal">-Method</span> <span class="variable">$GET</span> <span class="literal">-headers</span> <span class="variable">$headers</span> <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取特定的桌面池信息</span></span><br><span class="line"><span class="variable">$desktop</span>=<span class="variable">$desktop_set</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Name <span class="operator">-match</span> <span class="variable">$Target_Desktop_Pool_Name</span>&#125;;</span><br><span class="line"><span class="comment"># 桌面池ID</span></span><br><span class="line"><span class="variable">$desktop_id</span>=<span class="variable">$desktop</span>.id;</span><br><span class="line"></span><br><span class="line"><span class="variable">$rest_get_desktop_pools_target</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/inventory/v1/desktop-pools/<span class="variable">$desktop_id</span>&quot;</span>;</span><br><span class="line"><span class="variable">$desktop_set</span>=<span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_get_desktop_pools_target</span> <span class="literal">-Method</span> <span class="variable">$GET</span> <span class="literal">-headers</span> <span class="variable">$headers</span> <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取机器ID</span></span><br><span class="line"><span class="variable">$rest_machine_set</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/inventory/v1/machines/&quot;</span>;</span><br><span class="line"><span class="variable">$machine_set</span>=<span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_machine_set</span> <span class="literal">-Method</span> <span class="variable">$GET</span> <span class="literal">-headers</span> <span class="variable">$headers</span> <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户授权与机器绑定</span></span><br><span class="line"><span class="variable">$rest_desktop_pools</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/entitlements/v1/desktop-pools&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$UserObject_Set</span> | <span class="built_in">ForEach-Object</span>&#123;</span><br><span class="line">    <span class="variable">$UserObject</span>=<span class="variable">$_</span>;</span><br><span class="line">    <span class="variable">$machine_name</span>=<span class="variable">$UserObject</span>.DNS_Name;</span><br><span class="line">    <span class="variable">$username</span>=<span class="variable">$UserObject</span>.username;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="variable">$user_sid</span>=(<span class="built_in">New-Object</span> System.Security.Principal.NTAccount(<span class="variable">$Domain</span>,<span class="variable">$username</span>)).Translate([<span class="type">System.Security.Principal.SecurityIdentifier</span>]).Value;</span><br><span class="line">    <span class="variable">$body_entitlements</span>=<span class="selector-tag">@</span>();</span><br><span class="line">    <span class="variable">$entitlements_object</span>=<span class="selector-tag">@</span>&#123;</span><br><span class="line">        <span class="string">&quot;ad_user_or_group_ids&quot;</span>=<span class="selector-tag">@</span>()</span><br><span class="line">        <span class="string">&quot;id&quot;</span>=<span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$entitlements_object</span>.ad_user_or_group_ids+=<span class="variable">$user_sid</span>;</span><br><span class="line">    <span class="variable">$entitlements_object</span>.id=<span class="variable">$desktop_id</span>;</span><br><span class="line">    <span class="variable">$body_entitlements</span>+=<span class="variable">$entitlements_object</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_desktop_pools</span> <span class="literal">-Method</span> <span class="variable">$POST</span> <span class="literal">-Body</span> <span class="variable">$</span>(<span class="string">&quot;[&quot;</span>+<span class="variable">$</span>(<span class="variable">$body_entitlements</span>|<span class="built_in">ConvertTo-Json</span>)+<span class="string">&quot;]&quot;</span>) <span class="literal">-headers</span> <span class="variable">$headers</span> <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$machine_object</span>=<span class="variable">$machine_set</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.dns_name <span class="operator">-like</span> <span class="variable">$machine_name</span>&#125;;</span><br><span class="line">    <span class="variable">$machine_id</span>=<span class="variable">$machine_object</span>.id;</span><br><span class="line">    <span class="variable">$rest_assign_users</span>=<span class="variable">$base_uri</span>+<span class="string">&quot;/inventory/v1/machines/&quot;</span>+<span class="variable">$machine_id</span>+<span class="string">&quot;/action/assign-users&quot;</span>;</span><br><span class="line">    <span class="built_in">Invoke-RestMethod</span> <span class="literal">-Uri</span> <span class="variable">$rest_assign_users</span> <span class="literal">-Method</span> <span class="variable">$POST</span> <span class="literal">-Body</span> <span class="variable">$</span>(<span class="string">&quot;[&quot;</span><span class="string">&quot;&quot;</span>+<span class="variable">$user_sid</span>+<span class="string">&quot;&quot;</span><span class="string">&quot;]&quot;</span>) <span class="literal">-headers</span> <span class="variable">$headers</span> <span class="literal">-ContentType</span> <span class="variable">$ContentType_DEFAULT</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -1036,156 +1170,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/7146a6a0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/7146a6a0/" class="post-title-link" itemprop="url">IOS17不完美降级-iPad6降级记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-09-21 08:07:23" itemprop="dateCreated datePublished" datetime="2025-09-21T08:07:23+00:00">2025-09-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-06-03 16:50:21" itemprop="dateModified" datetime="2026-06-03T16:50:21+00:00">2026-06-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2018年买的iPad 6（型号：A1893），在25年不小心由IOS14更新至IOS17，使用起来非常卡，日常看B站视频都会卡顿，于是我一直在寻找方法降级，哪怕不完美降级也好；<br>终于在网上找到 turdus 降级方案，中文互联网有人说是 乌鸦 或者 乌鸫 本质上都是同一个东西，在这方面有一个UP主做的比较全面，把工具包集成到同一个脚本工具内，并免费发布；（小红书上很多人靠这个吃饭，不完美降级一次 95块，连工具包的名字都不改…）</p>
-<h2 id="前置条件："><a href="#前置条件：" class="headerlink" title="前置条件："></a>前置条件：</h2><ol>
-<li>待刷入的固件下载：来自爱思助手；</li>
-<li>工具包：玄烨苹果（<a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303%EF%BC%89%EF%BC%8CUP%E4%B8%BB%E5%B7%B2%E7%BB%8F%E5%B0%81%E8%A3%85%E4%BA%86%E5%B7%A5%E5%85%B7%E5%8C%85%E4%B8%BA1.0.4%E7%89%88%E6%9C%AC%EF%BC%9B">https://dkxuanye.cn/?p=11303），UP主已经封装了工具包为1.0.4版本；</a></li>
-<li>设备准备：一台Intel的MacBook（核心是要Intel+MACOS） 、 一根稳健的Light数据线、一台待刷机的 iPad；</li>
-<li>学习 iPad 怎么进入DFU模式；</li>
-<li>提前将 iPad 的数据做好备份；（数据无价，如果有重要数据一定要提前备份）</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入DFU模式</span></span><br><span class="line"><span class="comment"># 带Home键</span></span><br><span class="line">1. 配备主屏幕按钮的 iPad</span><br><span class="line">2. 将 iPad 关机，并用 USB 数据线连接电脑。</span><br><span class="line">3. 同时按住 顶部（或侧边）按钮 和 主屏幕按钮 约 4 秒。</span><br><span class="line">4. 松开 顶部按钮，继续按住 主屏幕按钮 约 10 秒。</span><br><span class="line">5. 屏幕保持黑屏，电脑会提示设备已进入 DFU 模式</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="刷机流程"><a href="#刷机流程" class="headerlink" title="刷机流程"></a>刷机流程</h2><ol>
-<li>确定设备是否在turdus merula的支持范围内，A9、A10芯片的设备才支持；</li>
-<li>下载对应设备的固件，将固件放置在工具包目录中；</li>
-<li>确定设备完成数据备份后，将设备进入 DFU模式 模式，准备刷机；</li>
-<li>将设备连接PC，执行工具包，执行刷机；</li>
-<li>刷机完成后，再次将设备进入DFU模式，并执行工具包，进行引导开机；</li>
-</ol>
-<h2 id="MAC-OS下的刷机实操"><a href="#MAC-OS下的刷机实操" class="headerlink" title="MAC OS下的刷机实操"></a>MAC OS下的刷机实操</h2><ol>
-<li>MAC电脑要关闭系统完整性保护，在Mac的Recovery模式下，打开终端，输入 csrutil disable ；【这个东西会影响软件运行，可能会导致工具的一些脚本无法运行，参照<a target="_blank" rel="noopener" href="https://sspai.com/post/55066%E3%80%91">https://sspai.com/post/55066】</a></li>
-<li>设备先从爱思助手进入恢复模式，再进入DFU模式，DFU模式需要自己手动操作；【核心还是需要进入DFU模式】</li>
-<li>下载固件包，放置到软件工具的目录下；【这个要将固件与工具一起存放才可以运行工具】</li>
-<li>运行软件Dk_turdus merula，是一；</li>
-<li>输入6;【“开始刷机降级”】</li>
-<li>提示SEP和Baseband的时候，输入1，回车；</li>
-<li>清空手机数据提示时，输入YES，回车；</li>
-<li>将设备进入DFU模式；</li>
-<li>接入MAC，打开软件，输入7，开始引导；</li>
-<li>正常引导；</li>
-</ol>
-<h2 id="附：各个IOS版本测试记录"><a href="#附：各个IOS版本测试记录" class="headerlink" title="附：各个IOS版本测试记录"></a>附：各个IOS版本测试记录</h2><p>设备：iPad6(2018) , 型号A1893<br>OS：ios 17</p>
-<table>
-<thead>
-<tr>
-<th align="center">IOS 版本</th>
-<th align="center">是否能成功刷入</th>
-<th align="center">是否能激活</th>
-<th align="center">镜像说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">12.4.1</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">iPad6出厂自带的OS，流畅度最高，但没有深色模式之类的；大部分软件已经不支持在此版本下运行了，比如微信最低就要求IOS14</td>
-</tr>
-<tr>
-<td align="center">13.7.17</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">iPad OS的第一个版本，流畅度高，已有深色模式；</td>
-</tr>
-<tr>
-<td align="center">14.8</td>
-<td align="center">√</td>
-<td align="center">√</td>
-<td align="center">增加了Apple Pay ，有深色模式；自带壁纸是图标会小一些；支持Apple pencil；总体会有点卡</td>
-</tr>
-</tbody></table>
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
-<li>系统完整性保护： <a target="_blank" rel="noopener" href="https://sspai.com/post/55066">https://sspai.com/post/55066</a></li>
-<li>实操教程： <a target="_blank" rel="noopener" href="https://dkxuanye.cn/?p=11303">https://dkxuanye.cn/?p=11303</a></li>
-<li>视频教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV1ASZsYfExX/?spm_id_from=333.337.search-card.all.click</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
