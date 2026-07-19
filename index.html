@@ -156,6 +156,98 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/da06df48/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/da06df48/" class="post-title-link" itemprop="url">Linux下文件夹监控脚本实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-19 14:12:26 / Modified: 14:17:34" itemprop="dateCreated datePublished" datetime="2026-07-19T14:12:26+00:00">2026-07-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>我有一个文件夹，里面会自动生成文件，我需要在有文件生成的时候，自动执行权限变动的动作；</p>
+<h1 id="实现路径"><a href="#实现路径" class="headerlink" title="实现路径"></a>实现路径</h1><p>inotify-tools + 自定义脚本（最灵活）</p>
+<h2 id="安装-inotify-tools（如未安装）"><a href="#安装-inotify-tools（如未安装）" class="headerlink" title="安装  inotify-tools（如未安装）"></a>安装  inotify-tools（如未安装）</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Debian/Ubuntu</span></span><br><span class="line"><span class="built_in">sudo</span> apt install inotify-tools</span><br><span class="line"><span class="comment"># CentOS/RHEL</span></span><br><span class="line"><span class="built_in">sudo</span> yum install inotify-tools</span><br></pre></td></tr></table></figure>
+
+<h2 id="边界监控脚本"><a href="#边界监控脚本" class="headerlink" title="边界监控脚本"></a>边界监控脚本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">WATCH_DIR=<span class="string">&quot;/path/to/your/folder&quot;</span>          <span class="comment"># 替换为您的目标目录</span></span><br><span class="line">LOG_FILE=<span class="string">&quot;/var/log/file_perm_change.log&quot;</span>  <span class="comment"># 可选日志</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 监控事件：create（新建）、moved_to（从外部移入）</span></span><br><span class="line">inotifywait -m -r -e create -e moved_to --format <span class="string">&#x27;%w%f&#x27;</span> <span class="string">&quot;<span class="variable">$WATCH_DIR</span>&quot;</span> | <span class="keyword">while</span> <span class="built_in">read</span> NEWFILE</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 仅处理普通文件（跳过目录）</span></span><br><span class="line">    <span class="keyword">if</span> [ -f <span class="string">&quot;<span class="variable">$NEWFILE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="comment"># 示例权限控制动作（根据需求修改）：</span></span><br><span class="line">        <span class="comment"># 1. 设置属主为 www-data，属组为 www-data</span></span><br><span class="line">        <span class="built_in">chown</span> www-data:www-data <span class="string">&quot;<span class="variable">$NEWFILE</span>&quot;</span></span><br><span class="line">        <span class="comment"># 2. 设置权限为 640 (rw-r-----)</span></span><br><span class="line">        <span class="built_in">chmod</span> 640 <span class="string">&quot;<span class="variable">$NEWFILE</span>&quot;</span></span><br><span class="line">        <span class="comment"># 3. 或者使用 ACL 设置更细粒度权限（如给特定用户读权限）</span></span><br><span class="line">        <span class="comment"># setfacl -m u:alice:r-- &quot;$NEWFILE&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 记录日志（可选）</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(date)</span> - 已设置权限: <span class="variable">$NEWFILE</span>&quot;</span> &gt;&gt; <span class="string">&quot;<span class="variable">$LOG_FILE</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>–format ‘%w%f’ 是 inotifywait 命令中用来控制输出内容的参数。拆开来看就非常清晰：</p>
+<ol>
+<li>–format（格式模板） :这是 inotifywait 的一个参数，允许你自定义当事件发生时，屏幕打印出什么信息。你可以把它理解为一个“输出模板”。</li>
+<li>%w 和 %f（占位符） : 这是两个特定的变量占位符，会被实际路径替换：%w：表示被监控的目录路径（注意：末尾自带一个 &#x2F; 斜杠）; %f：表示触发事件的文件或目录的名称;</li>
+</ol>
+<h2 id="赋予执行权限并运行："><a href="#赋予执行权限并运行：" class="headerlink" title="赋予执行权限并运行："></a>赋予执行权限并运行：</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x /usr/local/bin/set_permission_on_new_file.sh</span><br><span class="line"><span class="comment"># 前台运行（测试）</span></span><br><span class="line">/usr/local/bin/set_permission_on_new_file.sh</span><br><span class="line"><span class="comment"># 后台持续运行（建议配合 systemd 或 nohup）</span></span><br><span class="line"><span class="built_in">nohup</span> /usr/local/bin/set_permission_on_new_file.sh &amp;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>来自DeepSeek</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ce30b88b/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1010,96 +1102,6 @@
 <li>进入ESXi，刷新健康日志；</li>
 </ol>
 <h1 id="参考信息"><a href="#参考信息" class="headerlink" title="参考信息"></a>参考信息</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dier-gaohe/p/17673588.html">https://www.cnblogs.com/dier-gaohe/p/17673588.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/b045f217/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/b045f217/" class="post-title-link" itemprop="url">记录一个Linux故障-tty无法登录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-06-19 15:01:23 / Modified: 16:00:44" itemprop="dateCreated datePublished" datetime="2026-06-19T15:01:23+00:00">2026-06-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>SSH无法登录，且无法从控制台登录（tty） ， 现象是 输入密码回车后，界面会短暂卡住，然后复原回去，提示输入账户名与密码。</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>用户尝试登录 –&gt; PAM 认证通过(密码正确) –&gt;  PAM请求 DBus 激活 systemd-logind –&gt; DBUS提示“Refusing activation” –&gt; systemd-logind 无法创建 Session –&gt; 登录失败 </p>
-<h2 id="佐证材料"><a href="#佐证材料" class="headerlink" title="佐证材料"></a>佐证材料</h2><h3 id="dbus日志"><a href="#dbus日志" class="headerlink" title="dbus日志"></a>dbus日志</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u dbus --since <span class="string">&#x27;3 hours ago&#x27;</span> -no-pager</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看到目标时间段有出现</span></span><br><span class="line">...Activating via systemd:service name=<span class="string">&#x27;org.freedesktop.login1&#x27;</span> unit=<span class="string">&#x27;dbus-org.freedesktop.login1.service&#x27;</span> requested by <span class="string">&#x27;:1.47&#x27;</span>..<span class="built_in">comm</span>=<span class="string">&quot;sshd: xxx [priv]&quot;</span></span><br><span class="line">...Activation via systemd failed <span class="keyword">for</span> unit <span class="string">&#x27;dbus-org.freedesktop.login1.service&#x27;</span>:Refusing activation,D-Bus is shutting down.</span><br><span class="line">...Stopping D-Bus System Message Bus...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># org.freedesktop.login1 , systemd-logind 的 DBus 接口</span></span><br><span class="line"><span class="comment"># requested by: &#x27;1.47&#x27; , DBus 连接ID 1.47 发起请求</span></span><br><span class="line"><span class="comment"># uid=0 pid=11541 , root权限的ssh进程</span></span><br><span class="line"><span class="comment"># comm=&quot;sshd: [priv]&quot; ，SSH特权进程正在 请求创建登录 Session</span></span><br><span class="line"><span class="comment"># 总结：SSH登录时，sshd 请求 DBus 激活 systemd-logind 创建Session</span></span><br></pre></td></tr></table></figure>
-
-<p>DBus 为什么会 shutting down?</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">journalctl --since <span class="string">&#x27;2026-06-19 xx:xx:xx&#x27;</span> --<span class="keyword">until</span> <span class="string">&#x27;2026-06-19 xx:xx:xx&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 看到有很多Session的创建记录</span></span><br><span class="line"><span class="comment"># 其中有</span></span><br><span class="line"><span class="comment"># ...uwer@xxxx.service:Failed with result &#x27;timeout&#x27;...</span></span><br><span class="line"><span class="comment"># ...Failed to start User Manager for UID xxxx...</span></span><br><span class="line"><span class="comment"># ...Waiting for processes to exit...</span></span><br><span class="line"><span class="comment"># 总结：是登录用户数太多了？</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 例如有问题的UID是123</span></span><br><span class="line"><span class="comment"># 查询日志</span></span><br><span class="line">journalctl -u user@123.service --no-pager</span><br><span class="line"></span><br><span class="line"><span class="comment"># 看到 User Manger 开始启动到超时，再到第二次启动，间隔 90s</span></span><br><span class="line"><span class="comment"># 超时间隔查询</span></span><br><span class="line">systemctl show user@123.service |grep Timeout</span><br><span class="line"><span class="comment"># 看到 TimeoutStartUSec=1min 30s</span></span><br></pre></td></tr></table></figure>
-
-
-<p>检查最大登录数量：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/etc/systemd/logind.conf</span><br><span class="line"><span class="comment"># UserTasksMax=512</span></span><br><span class="line"></span><br><span class="line">/etc/systemd/limits.conf</span><br><span class="line"><span class="comment"># maxlogins</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><h2 id="临时方案：重启服务器大法"><a href="#临时方案：重启服务器大法" class="headerlink" title="临时方案：重启服务器大法"></a>临时方案：重启服务器大法</h2><p>重启服务器 –&gt; DBus&#x2F;systemd-logind 重新初始化 –&gt; 恢复</p>
 
       
     </div>
