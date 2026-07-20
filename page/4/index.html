@@ -455,9 +455,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-12-08 16:16:35 / Modified: 16:40:42" itemprop="dateCreated datePublished" datetime="2025-12-08T16:16:35+00:00">2025-12-08</time>
+      <time title="Created: 2025-12-08 16:16:35" itemprop="dateCreated datePublished" datetime="2025-12-08T16:16:35+00:00">2025-12-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-07-20 17:00:26" itemprop="dateModified" datetime="2026-07-20T17:00:26+00:00">2026-07-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -531,6 +537,80 @@
 <blockquote>
 <p>注意大小写；</p>
 </blockquote>
+<h2 id="其他快速配置PromQL指令"><a href="#其他快速配置PromQL指令" class="headerlink" title="其他快速配置PromQL指令"></a>其他快速配置PromQL指令</h2><h3 id="label-replace"><a href="#label-replace" class="headerlink" title="label_replace"></a>label_replace</h3><p>语法：label_replace(v instant-vector, dst_label, replacement, src_label, regex)<br>作用：用于操作时间序列标签的函数。它的核心作用是：基于已有标签的值，通过正则表达式提取或匹配部分内容，然后将其赋值给一个新的或已有的标签。</p>
+<p>参数说明：</p>
+<ol>
+<li>v (即时向量)：要处理的指标查询结果</li>
+<li>dst_label (目标标签)：要生成或修改的标签名称</li>
+<li>replacement (替换内容)：一个字符串，可以引用正则表达式中的捕获组（如 $1, $2）</li>
+<li>src_label (源标签)：提供原始值的标签名称</li>
+<li>regex (正则表达式)：用于匹配 src_label 值的正则表达式</li>
+</ol>
+<p>如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">label_replace(</span><br><span class="line">  (</span><br><span class="line">    max by(instance)(</span><br><span class="line">      quantile_over_time(</span><br><span class="line">        0.95,</span><br><span class="line">        (1 - node_filesystem_avail_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125; / node_filesystem_size_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125;)[30d:5m]</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">    * on(instance) group_left(app_id)</span><br><span class="line">    mac_app_id&#123;app_id=~&quot;$app_id&quot;&#125;</span><br><span class="line">  ), # 即时向量</span><br><span class="line">  &quot;instance&quot;,   # 目标标签</span><br><span class="line">  &quot;$1&quot;,         # 替换内容（正则捕获组）</span><br><span class="line">  &quot;instance&quot;,   # 源标签</span><br><span class="line">  &quot;(.*):.*&quot;     # 正则表达式</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询MAC相关指标"><a href="#查询MAC相关指标" class="headerlink" title="查询MAC相关指标"></a>查询MAC相关指标</h3><h4 id="CPU使用率"><a href="#CPU使用率" class="headerlink" title="CPU使用率"></a>CPU使用率</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1 - avg(rate(node_cpu_seconds_total&#123;mode=&quot;idle&quot;&#125;[5m])))</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存使用率"><a href="#内存使用率" class="headerlink" title="内存使用率"></a>内存使用率</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1-(node_memory_active_bytes / node_memory_total_bytes))</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储使用率"><a href="#存储使用率" class="headerlink" title="存储使用率"></a>存储使用率</h4><p>MAC 下面的文件系统，主要计算的是 &#x2F;System&#x2F;Volumes&#x2F;Data 目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(1 - node_filesystem_avail_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125; / node_filesystem_size_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="95分位取值-quantile-over-time-0-95-…-30d-5m"><a href="#95分位取值-quantile-over-time-0-95-…-30d-5m" class="headerlink" title="95分位取值 quantile_over_time(0.95, … [30d:5m])"></a>95分位取值 quantile_over_time(0.95, … [30d:5m])</h3><p>语法：quantile_over_time(0.95, … [30d:5m])<br>作用：计算过去30天内，以5分钟为采样步长，所有样本值的第95百分位数（P95）。</p>
+<ol>
+<li>quantile_over_time：聚合函数，用于计算一个时间序列在一段时间内所有样本值的分位数。0.95 表示取第95百分位，意味着有95%的数据点低于或等于这个值。</li>
+<li>[30d]（时间范围）：表示回溯过去 30天 的数据。</li>
+<li>5m（解析度&#x2F;步长）：这是子查询的核心参数。它表示在回溯这30天时，每隔 5分钟 取一个样本点，而不是使用原始采集（比如每15秒）的所有数据点。</li>
+</ol>
+<blockquote>
+<p> [30d:5m] 这个特殊的语法——这叫做 子查询（Subquery）</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算过程</span></span><br><span class="line">1. 生成采样点：从当前时间开始，往过去推30天，每间隔 5分钟 取一次值。30天 = 43,200分钟，除以5分钟，总共会取出 8,640 个数据点。</span><br><span class="line">2. 排序取分位：将这 8,640 个样本值从小到大排序，然后找出排在 95% 位置的那个数值，作为最终结果返回。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>子查询中的 5m 步长不建议小于原始抓取间隔（比如原始是15s，你写 [30d:15s] 不仅没意义，还会把数据点撑爆）。步长越大，查询越快，但统计精度会略微下降（因为丢失了秒级毛刺）。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># MAC 系统盘 95% 使用率；</span><br><span class="line">quantile_over_time(</span><br><span class="line">  0.95,</span><br><span class="line">  (1 - node_filesystem_avail_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125; / node_filesystem_size_bytes&#123;mountpoint=&quot;/System/Volumes/Data&quot;&#125;)[30d:5m]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="最大值-max-by-instance"><a href="#最大值-max-by-instance" class="headerlink" title="最大值 max by(instance)( )"></a>最大值 max by(instance)( )</h3><p>语法：max by(instance)( )<br>含义：按 instance 标签进行分组，然后取每个分组内所有时间序列的样本值的最大值。</p>
+<blockquote>
+<p>先分组，后取最大值</p>
+</blockquote>
+<h3 id="向量匹配（Vector-Matching）的修饰符-—-group-left"><a href="#向量匹配（Vector-Matching）的修饰符-—-group-left" class="headerlink" title="向量匹配（Vector Matching）的修饰符 — group_left"></a>向量匹配（Vector Matching）的修饰符 — group_left</h3><p>核心作用：允许一对多（或保留额外标签）的运算。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 如</span><br><span class="line"></span><br><span class="line">max by(instance)(...)</span><br><span class="line">* on(instance) group_left(app_id)</span><br><span class="line">mac_app_id&#123;app_id=~&quot;$app_id&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>左侧向量：max by(instance)(…) 计算出的磁盘&#x2F;内存分位数指标。它只有一个标签 instance（例如 server01:9100），没有 app_id 标签。</li>
+<li>右侧向量：mac_app_id{app_id&#x3D;~”$app_id”} 是一个映射表，包含 instance 和 app_id 两个标签。</li>
+</ol>
+<blockquote>
+<p>如果不加 group_left，PromQL 默认执行严格的一对一匹配。要求左右两侧的标签集合完全相同（都是 instance 也行，但右侧多了 app_id，默认情况下会因标签不一致而匹配失败，或者报错）</p>
+</blockquote>
+<p>其他参数说明:</p>
+<ol>
+<li>on(instance) 指定了以 instance 作为连接键(Join Key)</li>
+<li>group_left(app_id) 则做了两件事：</li>
+</ol>
+<ul>
+<li>允许“一对多”匹配：它告诉 Prometheus，左侧是“一”方，右侧是“多”方。</li>
+<li>括号里的 app_id 明确指定：请把右侧向量中的 app_id 标签值，附加到左侧向量的结果里。</li>
+</ul>
+<blockquote>
+<ul>
+<li>on(instance) group_left(pams_id) 就像是在做 VLOOKUP：“按姓名（instance）把两张表关联起来，然后把右侧的学号（app_id）填到左侧成绩单旁边，方便后续按学号筛选（$app_id）。”</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Deepseek老师给了一个顺口溜：左是数据，右是字典；group_left 保左边，右边标签贴过来。</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">所以，当你在 PromQL 里看到 group_left 时，心里要清楚：</span><br><span class="line">左边：是你真正想看的监控曲线（CPU、内存、磁盘）。</span><br><span class="line">右边：是你用来给它加备注、加分组、加业务属性的“标签源”。</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="仪表盘变量"><a href="#仪表盘变量" class="headerlink" title="仪表盘变量"></a>仪表盘变量</h3><ol>
+<li>这个变量通常来自仪表板顶部的下拉菜单（比如让用户选择“支付系统”、“推荐系统”或“全部”）。</li>
+<li>当你点击下拉框选择“支付系统”时，Grafana 会自动把 $select_id 替换成实际的值（比如 “支付系统”）。</li>
+<li>如果下拉框选了“全部”，Grafana 通常会把这个变量替换成 .*（正则匹配所有）。</li>
+</ol>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>Grafana清华软件仓库：<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/grafana/">https://mirrors.tuna.tsinghua.edu.cn/help/grafana/</a></p>
 
       
