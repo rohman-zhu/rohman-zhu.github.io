@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">493</span>
+          <span class="site-state-item-count">494</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,117 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c691b240/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/c691b240/" class="post-title-link" itemprop="url">Grafana-JSON数据源处理实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-25 16:20:31 / Modified: 16:39:31" itemprop="dateCreated datePublished" datetime="2026-07-25T16:20:31+00:00">2026-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>我写了一个JSON数据源，里面是全量的数据，相当于是一张静态表，需要通过Grafana做数据展示，数据源如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-01-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.182</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4153</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1728</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3617</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-02-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1815</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4148</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1724</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3613</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-03-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.181</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4143</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1719</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3608</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>其中有一个date字段，我想筛选出指定日期的数据，比如2026-01-01至2026-03-01，结果DeepSeek的答复死活都无法测试通过，他还使劲忽悠我。（这里该批评D老师，AI幻觉太严重了，还信誓旦旦地说可以）</p>
+<h1 id="错误方案演示-–-来自DeepSeek"><a href="#错误方案演示-–-来自DeepSeek" class="headerlink" title="错误方案演示 – 来自DeepSeek"></a>错误方案演示 – 来自DeepSeek</h1><h2 id="【错误方法】在面板的-Transform-选项卡中，点击-Add-transformation，选择-Filter-data-by-values"><a href="#【错误方法】在面板的-Transform-选项卡中，点击-Add-transformation，选择-Filter-data-by-values" class="headerlink" title="【错误方法】在面板的 Transform 选项卡中，点击 + Add transformation，选择 Filter data by values"></a>【错误方法】在面板的 Transform 选项卡中，点击 + Add transformation，选择 Filter data by values</h2><p>核心：</p>
+<ol>
+<li>Operator：选择 Is lower or equal（小于等于）。</li>
+<li>Value：填入 ${__now}。这是Grafana的全局变量，代表“当前时间”。Grafana从 v11 开始已支持在转换中使用变量。</li>
+</ol>
+<p>结论：<br>这个方式是错误的，我的Grafana版本没有 Is lower or equal ;</p>
+<h2 id="【错误方法】没有-Is-lower-or-equal-，只有Is-Between，设置了也不生效"><a href="#【错误方法】没有-Is-lower-or-equal-，只有Is-Between，设置了也不生效" class="headerlink" title="【错误方法】没有 Is lower or equal ，只有Is Between，设置了也不生效"></a>【错误方法】没有 Is lower or equal ，只有Is Between，设置了也不生效</h2><p>初始答复是正确的：<br>“你看到只有 is between，是因为 Grafana 会根据字段类型动态显示不同的运算符。你的 date 字段很可能没有被识别为时间类型（Time），而是被当成了字符串或数字。”</p>
+<p>我点击transform选项卡里面的 debug 按钮，看到Input date，有如下信息：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;Date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="string">&quot;2026-01-02&quot;</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="string">&quot;2026-02-02&quot;</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="string">&quot;2026-03-02&quot;</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="string">&quot;2026-04-02&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>输入的字段还是 字符串，而不是时间类型，无法做比较，最终也就无法筛选出指定数据；</p>
+<h1 id="正确方法演示-–-来自sonat"><a href="#正确方法演示-–-来自sonat" class="headerlink" title="正确方法演示 – 来自sonat"></a>正确方法演示 – 来自sonat</h1><p>核心：Transformations 里面做好数据转化</p>
+<h2 id="步骤一、增加Convert-field-type（用于数据转化）"><a href="#步骤一、增加Convert-field-type（用于数据转化）" class="headerlink" title="步骤一、增加Convert field type（用于数据转化）"></a>步骤一、增加Convert field type（用于数据转化）</h2><p>Filed选择 date ， 类型 as Time ， 输入格式 Input format 为 YYYY-MM-DD</p>
+<blockquote>
+<p>这一步就将数据转化成时间类，让date具备筛选的条件；</p>
+</blockquote>
+<h2 id="步骤二、增加Filter-data-by-values（用于筛选合适的数据）"><a href="#步骤二、增加Filter-data-by-values（用于筛选合适的数据）" class="headerlink" title="步骤二、增加Filter data by values（用于筛选合适的数据）"></a>步骤二、增加Filter data by values（用于筛选合适的数据）</h2><ol>
+<li>Filter type选择 Include</li>
+<li>Field 选择 date</li>
+<li>Match 选择 Is between</li>
+<li>Value 是 $__from and $__to</li>
+</ol>
+<p>点击Debug按钮，可以看到Input数据如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="number">1767283200000</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="number">1769961600000</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="number">1772380800000</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="number">1775059200000</span></span><br><span class="line"><span class="number">4</span><span class="punctuation">:</span><span class="number">1777651200000</span></span><br><span class="line"><span class="number">5</span><span class="punctuation">:</span><span class="number">1780329600000</span></span><br><span class="line"><span class="number">6</span><span class="punctuation">:</span><span class="number">1782921600000</span></span><br><span class="line"><span class="number">7</span><span class="punctuation">:</span><span class="number">1785600000000</span></span><br><span class="line"><span class="number">8</span><span class="punctuation">:</span><span class="number">1788278400000</span></span><br><span class="line"><span class="number">9</span><span class="punctuation">:</span><span class="number">1790870400000</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤三、增加Reduce（求和运算）"><a href="#步骤三、增加Reduce（求和运算）" class="headerlink" title="步骤三、增加Reduce（求和运算）"></a>步骤三、增加Reduce（求和运算）</h2><ol>
+<li>Module选择Reduce Fields</li>
+<li>Calculations选择Total</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1012,97 +1123,6 @@
     
     <div class="post-body" itemprop="articleBody">
           
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/3a1a1eaf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/3a1a1eaf/" class="post-title-link" itemprop="url">ESXi提示其他主机硬件对象的状态告警：H3C R4900 G3</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-06-27 08:57:05 / Modified: 09:14:15" itemprop="dateCreated datePublished" datetime="2026-06-27T08:57:05+00:00">2026-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>在ESXI的监控，硬件运行状况，警示和警告显示两条：Connectivity Switch 36 LAN_4_Link 0和Connectivity Switch 36 LAN_3_Link 0，但是登陆H3C R4900 G3，进去HDM，却无任何告警。<br>ESXi主机的上行链路端口正常；</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>可能是板载网卡没有接网线，导致ESXi层识别到异常；</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li>进入HDM（H3C的带外）；</li>
-<li>进入 HDM设置，网络设置，共享网口，取消ipv4\ipv6的配置或取消勾选 LAN设置；</li>
-<li>重启HDM；</li>
-<li>进入ESXi，刷新健康日志；</li>
-</ol>
-<h1 id="参考信息"><a href="#参考信息" class="headerlink" title="参考信息"></a>参考信息</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dier-gaohe/p/17673588.html">https://www.cnblogs.com/dier-gaohe/p/17673588.html</a></p>
-
       
     </div>
 
