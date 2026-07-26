@@ -184,9 +184,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2026-07-25 16:20:31 / Modified: 16:39:31" itemprop="dateCreated datePublished" datetime="2026-07-25T16:20:31+00:00">2026-07-25</time>
+      <time title="Created: 2026-07-25 16:20:31" itemprop="dateCreated datePublished" datetime="2026-07-25T16:20:31+00:00">2026-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-07-26 07:43:49" itemprop="dateModified" datetime="2026-07-26T07:43:49+00:00">2026-07-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -223,7 +229,7 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;Date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="string">&quot;2026-01-02&quot;</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="string">&quot;2026-02-02&quot;</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="string">&quot;2026-03-02&quot;</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="string">&quot;2026-04-02&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>输入的字段还是 字符串，而不是时间类型，无法做比较，最终也就无法筛选出指定数据；</p>
-<h1 id="正确方法演示-–-来自sonat"><a href="#正确方法演示-–-来自sonat" class="headerlink" title="正确方法演示 – 来自sonat"></a>正确方法演示 – 来自sonat</h1><p>核心：Transformations 里面做好数据转化</p>
+<h1 id="正确方法演示-–-来自sonnet"><a href="#正确方法演示-–-来自sonnet" class="headerlink" title="正确方法演示 – 来自sonnet"></a>正确方法演示 – 来自sonnet</h1><p>核心：Transformations 里面做好数据转化</p>
 <h2 id="步骤一、增加Convert-field-type（用于数据转化）"><a href="#步骤一、增加Convert-field-type（用于数据转化）" class="headerlink" title="步骤一、增加Convert field type（用于数据转化）"></a>步骤一、增加Convert field type（用于数据转化）</h2><p>Filed选择 date ， 类型 as Time ， 输入格式 Input format 为 YYYY-MM-DD</p>
 <blockquote>
 <p>这一步就将数据转化成时间类，让date具备筛选的条件；</p>
@@ -237,11 +243,16 @@
 <p>点击Debug按钮，可以看到Input数据如下：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="number">1767283200000</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="number">1769961600000</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="number">1772380800000</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="number">1775059200000</span></span><br><span class="line"><span class="number">4</span><span class="punctuation">:</span><span class="number">1777651200000</span></span><br><span class="line"><span class="number">5</span><span class="punctuation">:</span><span class="number">1780329600000</span></span><br><span class="line"><span class="number">6</span><span class="punctuation">:</span><span class="number">1782921600000</span></span><br><span class="line"><span class="number">7</span><span class="punctuation">:</span><span class="number">1785600000000</span></span><br><span class="line"><span class="number">8</span><span class="punctuation">:</span><span class="number">1788278400000</span></span><br><span class="line"><span class="number">9</span><span class="punctuation">:</span><span class="number">1790870400000</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="步骤三、增加Reduce（求和运算）"><a href="#步骤三、增加Reduce（求和运算）" class="headerlink" title="步骤三、增加Reduce（求和运算）"></a>步骤三、增加Reduce（求和运算）</h2><ol>
+<h2 id="步骤三、增加Reduce（求和运算-每一个查询项自求和）"><a href="#步骤三、增加Reduce（求和运算-每一个查询项自求和）" class="headerlink" title="步骤三、增加Reduce（求和运算,每一个查询项自求和）"></a>步骤三、增加Reduce（求和运算,每一个查询项自求和）</h2><ol>
 <li>Module选择Reduce Fields</li>
 <li>Calculations选择Total</li>
 </ol>
-
+<h2 id="步骤四、增加Add-field-from-calculation（求和运行，多个项累加一起）"><a href="#步骤四、增加Add-field-from-calculation（求和运行，多个项累加一起）" class="headerlink" title="步骤四、增加Add field from calculation（求和运行，多个项累加一起）"></a>步骤四、增加Add field from calculation（求和运行，多个项累加一起）</h2><ol>
+<li>Mode选择Reduce row；</li>
+<li>Operation 勾选需求和的列；</li>
+<li>Calculation选择 Total；</li>
+</ol>
+<h2 id="（可选）调整顺序-Organize-fields-by-name"><a href="#（可选）调整顺序-Organize-fields-by-name" class="headerlink" title="（可选）调整顺序 Organize fields by name"></a>（可选）调整顺序 Organize fields by name</h2>
       
     </div>
 
