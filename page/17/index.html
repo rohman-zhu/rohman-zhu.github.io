@@ -192,7 +192,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-06-07 08:06:22" itemprop="dateModified" datetime="2026-06-07T08:06:22+00:00">2026-06-07</time>
+      <time title="Modified: 2026-08-03 12:34:44" itemprop="dateModified" datetime="2026-08-03T12:34:44+00:00">2026-08-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -226,6 +226,8 @@
 <h1 id="设置虚拟机备注信息"><a href="#设置虚拟机备注信息" class="headerlink" title="设置虚拟机备注信息"></a>设置虚拟机备注信息</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保留之前的备注信息</span></span><br><span class="line"><span class="variable">$VM</span>=<span class="built_in">Get-VM</span> <span class="literal">-Name</span> <span class="string">&quot;虚拟机名&quot;</span>;</span><br><span class="line"><span class="variable">$preNotes</span>=<span class="variable">$VM</span>.notes;</span><br><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-Notes</span> <span class="string">&quot;<span class="variable">$preNotes</span>+[新的备注信息]&quot;</span> <span class="literal">-confirm</span>:<span class="variable">$FALSE</span>;</span><br></pre></td></tr></table></figure>
 
 <h1 id="设置虚拟机的CPU与内存"><a href="#设置虚拟机的CPU与内存" class="headerlink" title="设置虚拟机的CPU与内存"></a>设置虚拟机的CPU与内存</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-VM</span> <span class="literal">-VM</span> <span class="variable">$VM</span> <span class="literal">-NumCPU</span> [<span class="type">CPU</span> <span class="type">Core</span>] <span class="literal">-MemoryGB</span> [<span class="type">RAM</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="设置资源预留"><a href="#设置资源预留" class="headerlink" title="设置资源预留"></a>设置资源预留</h1><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-VMResourceConfiguration</span> <span class="literal">-VM</span> <span class="variable">$VM</span> | <span class="built_in">Set-VMResourceConfiguration</span> <span class="literal">-MemReservationGB</span> <span class="number">128</span>;</span><br></pre></td></tr></table></figure>
 
 <h1 id="热关闭虚拟机"><a href="#热关闭虚拟机" class="headerlink" title="热关闭虚拟机"></a>热关闭虚拟机</h1><blockquote>
 <p>VMware Tools要是可用情况下</p>
@@ -349,6 +351,7 @@
 
 <h2 id="查看实时统计与错误"><a href="#查看实时统计与错误" class="headerlink" title="查看实时统计与错误"></a>查看实时统计与错误</h2><p>esxcli network nic stats get -n &lt;网卡名&gt;</p>
 <figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$esxcli</span> = <span class="built_in">Get-EsxCli</span> <span class="literal">-VMHost</span> <span class="variable">$vmhost</span> <span class="literal">-V2</span></span><br><span class="line"><span class="variable">$pnics</span> = <span class="variable">$vmhost</span>.ExtensionData.Config.Network.Pnic</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$pnic</span> <span class="keyword">in</span> <span class="variable">$pnics</span>) &#123;</span><br><span class="line">    <span class="variable">$nicName</span> = <span class="variable">$pnic</span>.Device</span><br><span class="line">    <span class="variable">$stats</span> = <span class="variable">$esxcli</span>.network.nic.stats.get.Invoke(<span class="selector-tag">@</span>&#123;nicname = <span class="variable">$nicName</span>&#125;)</span><br><span class="line">    <span class="comment"># 输出 $stats 中的各种错误计数器，如 ReceiveCRCErrors, TransmitErrors 等</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://developer.vmware.com/">https://developer.vmware.com</a><br><a target="_blank" rel="noopener" href="https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag">https://developer.broadcom.com/powercli/latest/vmware.vimautomation.core/commands/new-tag</a></p>
 
