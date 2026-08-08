@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">495</span>
+          <span class="site-state-item-count">496</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,103 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d1001aea/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/d1001aea/" class="post-title-link" itemprop="url">因为中文编码导致powershell脚本执行异常</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-08-08 07:41:05 / Modified: 07:54:26" itemprop="dateCreated datePublished" datetime="2026-08-08T07:41:05+00:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Windows-Server/Powershell/" itemprop="url" rel="index"><span itemprop="name">Powershell</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>我在写一个Powershell脚本，里面有用正则表达式去截取字符串，正则表达式中包含中文；<br>我自己在Powershell终端中，复制粘贴执行，能截取到自己所需的字段；但是写到脚本里面，直接执行脚本反而获取到空值，非常诡异；<br>后面联合AI一起排查，AI给出几个错误排查方向后（这里Diss一下 DeepSeek），我逐行Debug，发现是正则表达式里面的中文字符没有被正确识别与执行！！</p>
+<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>终端默认读取的编码是 GBK ，经典’昆丁考’问题了;</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询方式</span></span><br><span class="line">[<span class="type">System.Text.Encoding</span>]::Default</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询结果</span></span><br><span class="line">BodyName          : gb2312</span><br><span class="line">EncodingName      : 简体中文(GB2312)</span><br><span class="line">HeaderName        : gb2312</span><br><span class="line">WebName           : gb2312</span><br><span class="line">WindowsCodePage   : <span class="number">936</span></span><br><span class="line">IsBrowserDisplay  : True</span><br><span class="line">IsBrowserSave     : True</span><br><span class="line">IsMailNewsDisplay : True</span><br><span class="line">IsMailNewsSave    : True</span><br><span class="line">IsSingleByte      : False</span><br><span class="line">EncoderFallback   : System.Text.InternalEncoderBestFitFallback</span><br><span class="line">DecoderFallback   : System.Text.InternalDecoderBestFitFallback</span><br><span class="line">IsReadOnly        : True</span><br><span class="line">CodePage          : <span class="number">936</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>将脚本保存为 UTF‑8 with BOM</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. VS Code：点击右下角状态栏的编码（如“UTF‑8”），选择 “Save with Encoding” → “UTF‑8 with BOM”。</span><br><span class="line"></span><br><span class="line">2. Notepad++：菜单“编码” → “转为 UTF‑8‑BOM”。</span><br><span class="line"></span><br><span class="line">3. Windows 记事本：另存为，编码下拉选择“UTF‑8”（记事本的 UTF‑8 默认带 BOM）。</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><p>问了AI: UTF‑8 与 UTF‑8 with BOM 的核心区别</p>
+<p>有如下信息：</p>
+<ol>
+<li>BOM 是文件开头的 3 个字节（EF BB BF）。</li>
+<li>对 PowerShell 解析的影响（核心）：Windows PowerShell（5.1 及更早）无 BOM -&gt; 使用系统 ANSI (GBK)；有 BOM -&gt; 使用 UTF-8。</li>
+<li>没有头标记，回退使用系统默认 ANSI 编码（简体中文 Windows 即 GBK）,将 UTF‑8 字节按 GBK 解码 → 变成“施板滑”等乱码</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1095,93 +1192,6 @@
     
     <div class="post-body" itemprop="articleBody">
           
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/d2894e98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/d2894e98/" class="post-title-link" itemprop="url">记录一次WindowsServer2012R2异常记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-07-04 10:08:30 / Modified: 10:15:01" itemprop="dateCreated datePublished" datetime="2026-07-04T10:08:30+00:00">2026-07-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Windows-Server/" itemprop="url" rel="index"><span itemprop="name">Windows Server</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="故障描述"><a href="#故障描述" class="headerlink" title="故障描述"></a>故障描述</h1><p>无法打开 inetcpl.cpl ，会提示异常：</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">启动 C:\Windows\system32\inetcpl.cpl时出现问题</span><br><span class="line">操作系统无法运行 %<span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>无法打开组策略 gpedit.msc,且在触发打开 组策略管理器时 会疯狂弹窗；</p>
-<h1 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h1><p>在出现错误前，执行过Windows 补丁，可能补丁存在异常；</p>
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>先修复核心的文件系统</p>
-<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DISM /Online /Cleanup<span class="literal">-Image</span> /RestoreHealth</span><br><span class="line">sfc /cannow</span><br></pre></td></tr></table></figure>
-
-<p>再重新扫描Windows补丁更新</p>
-
       
     </div>
 
