@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">496</span>
+          <span class="site-state-item-count">497</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,114 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/6e81dd8e/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/6e81dd8e/" class="post-title-link" itemprop="url">nginx-proxy-manager部署记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-08-08 12:05:01 / Modified: 13:16:05" itemprop="dateCreated datePublished" datetime="2026-08-08T12:05:01+00:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求说明"><a href="#需求说明" class="headerlink" title="需求说明"></a>需求说明</h1><p>期望用Nginx代理自己内网的业务；本次使用Docker部署；</p>
+<h1 id="Compose文件"><a href="#Compose文件" class="headerlink" title="Compose文件"></a>Compose文件</h1><h2 id="应用节点"><a href="#应用节点" class="headerlink" title="应用节点"></a>应用节点</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx proxy manager</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&#x27;jc21/nginx-proxy-manager:latest&#x27;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;80:80&#x27;</span>      <span class="comment"># HTTP端口</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;443:443&#x27;</span>    <span class="comment"># HTTPS端口</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;81:81&#x27;</span>      <span class="comment"># 管理面板端口</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">DB_MYSQL_HOST:</span> <span class="string">&quot;DB Host&quot;</span> <span class="comment"># Host 的IP</span></span><br><span class="line">      <span class="attr">DB_MYSQL_PORT:</span> <span class="string">DB端口</span> <span class="comment"># DB端口</span></span><br><span class="line">      <span class="attr">DB_MYSQL_USER:</span> <span class="string">&quot;npm&quot;</span> <span class="comment"># DB用户名</span></span><br><span class="line">      <span class="attr">DB_MYSQL_PASSWORD:</span> <span class="string">&quot;xxxxx&quot;</span> <span class="comment"># DB 密码</span></span><br><span class="line">      <span class="attr">DB_MYSQL_NAME:</span> <span class="string">&quot;npm&quot;</span> <span class="comment"># DB 名称</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./data:/data</span>               <span class="comment"># 持久化面板配置</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./letsencrypt:/etc/letsencrypt</span>  <span class="comment"># 持久化SSL证书</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库节点"><a href="#数据库节点" class="headerlink" title="数据库节点"></a>数据库节点</h2><p>数据库MySQL安装过程略过，本次仅记录创建数据库记录。</p>
+<p>让DeepSeek写了一个数据库创建语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 创建数据库（名称可自定义，如 npm）</span></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE npm <span class="keyword">CHARACTER SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 创建用户并设置密码</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;npm&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;your_strong_password&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 授予该数据库的所有权限</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> npm.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;npm&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 刷新权限</span></span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>登录应用：<a target="_blank" rel="noopener" href="https://localhost:81/">https://localhost:81</a> 进入后台页面</p>
+<p>初始密码：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Username:admin@example.com</span><br><span class="line">Password:changeme</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置第一个反向代理"><a href="#配置第一个反向代理" class="headerlink" title="配置第一个反向代理"></a>配置第一个反向代理</h1><ol>
+<li>点击“Host”，进入Proxy Host，进入Add Proxy Host</li>
+<li>填写以下几点信息：</li>
+</ol>
+<ul>
+<li>Domain Names: 你的域名 (例如：example.com)</li>
+<li>Scheme: 选择 http 或 https，取决于你的后端服务。</li>
+<li>Forward Hostname &#x2F; IP: 你的后端服务的 IP 地址或域名。</li>
+<li>Forward Port: 你的后端服务的端口号。</li>
+<li>Cache Assets: (可选) 启用缓存，提高网站性能。</li>
+<li>Block Common Exploits: (可选) 启用安全防护。</li>
+<li>SSL:<ul>
+<li>SSL Certificate: 选择 “Request a new SSL Certificate” (如果还没有证书)。</li>
+<li>Email Address: 你的邮箱地址，用于 Let’s Encrypt 证书申请。</li>
+<li>Force SSL: 强制使用 HTTPS。</li>
+<li>HTTP&#x2F;2 Support: 启用 HTTP&#x2F;2，提高网站性能。<br>3.点击save</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1115,83 +1223,6 @@
 <h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> v15-compat=<span class="built_in">yes</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth=login</span><br><span class="line"><span class="built_in">set</span> from=<span class="string">&quot;[邮箱账户]&quot;</span></span><br><span class="line"><span class="built_in">set</span> mta=<span class="string">&quot;smtps://[邮箱账户，@需要用%40替代]:[通行码]@[stmp服务器地址]&quot;</span></span><br><span class="line"><span class="built_in">set</span> sendwait</span><br></pre></td></tr></table></figure>
 
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ec55121e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/ec55121e/" class="post-title-link" itemprop="url">Windows_RDSH_安全加固思路</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-07-04 12:00:35" itemprop="dateCreated datePublished" datetime="2026-07-04T12:00:35+00:00">2026-07-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
       
     </div>
 
