@@ -536,7 +536,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-08-07 03:28:18" itemprop="dateModified" datetime="2026-08-07T03:28:18+00:00">2026-08-07</time>
+      <time title="Modified: 2026-08-08 07:58:14" itemprop="dateModified" datetime="2026-08-08T07:58:14+00:00">2026-08-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -562,7 +562,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="常用脚本与指令合集"><a href="#常用脚本与指令合集" class="headerlink" title="常用脚本与指令合集"></a>常用脚本与指令合集</h1><h2 id="获取脚本所在路径"><a href="#获取脚本所在路径" class="headerlink" title="获取脚本所在路径"></a>获取脚本所在路径</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前脚本的完整路径</span></span><br><span class="line"><span class="variable">$scriptPath</span> = <span class="variable">$MyInvocation</span>.MyCommand.Path</span><br><span class="line"><span class="comment"># 或者使用 $MyInvocation.ScriptName</span></span><br><span class="line"><span class="comment"># 然后提取目录</span></span><br><span class="line"><span class="variable">$scriptDirectory</span> = <span class="built_in">Split-Path</span> <span class="literal">-Parent</span> <span class="variable">$scriptPath</span></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;脚本所在目录: <span class="variable">$scriptDirectory</span>&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+          <h1 id="常用脚本与指令合集"><a href="#常用脚本与指令合集" class="headerlink" title="常用脚本与指令合集"></a>常用脚本与指令合集</h1><h1 id="查询当前编码"><a href="#查询当前编码" class="headerlink" title="查询当前编码"></a>查询当前编码</h1><p>脚本中包含中文的情况下，一定要将脚本保存为utf8-with-bom</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">System.Text.Encoding</span>]::Default</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取脚本所在路径"><a href="#获取脚本所在路径" class="headerlink" title="获取脚本所在路径"></a>获取脚本所在路径</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取当前脚本的完整路径</span></span><br><span class="line"><span class="variable">$scriptPath</span> = <span class="variable">$MyInvocation</span>.MyCommand.Path</span><br><span class="line"><span class="comment"># 或者使用 $MyInvocation.ScriptName</span></span><br><span class="line"><span class="comment"># 然后提取目录</span></span><br><span class="line"><span class="variable">$scriptDirectory</span> = <span class="built_in">Split-Path</span> <span class="literal">-Parent</span> <span class="variable">$scriptPath</span></span><br><span class="line"><span class="built_in">Write-Host</span> <span class="string">&quot;脚本所在目录: <span class="variable">$scriptDirectory</span>&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="Powershell-exe-的路径"><a href="#Powershell-exe-的路径" class="headerlink" title="Powershell.exe 的路径"></a>Powershell.exe 的路径</h2><ol>
 <li>C:\Windows\System32 存放的是64位组件的仓库；</li>
