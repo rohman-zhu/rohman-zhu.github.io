@@ -294,9 +294,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2026-08-08 12:05:01 / Modified: 13:16:05" itemprop="dateCreated datePublished" datetime="2026-08-08T12:05:01+00:00">2026-08-08</time>
+      <time title="Created: 2026-08-08 12:05:01" itemprop="dateCreated datePublished" datetime="2026-08-08T12:05:01+00:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-08-09 11:44:50" itemprop="dateModified" datetime="2026-08-09T11:44:50+00:00">2026-08-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -348,6 +354,10 @@
 </ul>
 </li>
 </ul>
+<h1 id="其他坑记录"><a href="#其他坑记录" class="headerlink" title="其他坑记录"></a>其他坑记录</h1><h2 id="access-list-不生效"><a href="#access-list-不生效" class="headerlink" title="access list 不生效"></a>access list 不生效</h2><p>现象：你在 Advanced 中写了 location 规则，认证全部失效。<br>原因：当你写自定义 location 时，主配置的 access_list 不会自动应用进去，因为 Nginx 的访问控制是逐层继承的，而 Advanced 块完全替换了默认配置。<br>解决方案：在 Advanced 中，为你需要的路径显式添加认证指令：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 为 /guacamole 路径单独添加认证</span></span><br><span class="line">location ^~ /guacamole &#123;</span><br><span class="line">    proxy_pass http://10.15.1.254:9001<span class="comment">;</span></span><br><span class="line">    proxy_set_header Host $host<span class="comment">;</span></span><br><span class="line">    <span class="comment"># ...其他代理头</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 手动添加认证（假设 Access List ID 为 1）</span></span><br><span class="line">    satisfy any<span class="comment">;</span></span><br><span class="line">    allow 127.0.0.1<span class="comment">;           # 可选：添加 IP 白名单</span></span><br><span class="line">    deny all<span class="comment">;                  # 拒绝其他</span></span><br><span class="line">    auth_basic &quot;Restricted&quot;<span class="comment">;</span></span><br><span class="line">    auth_basic_user_file /data/access/1<span class="comment">;   # NPM 存储认证文件的路径</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IP-规则与认证规则冲突（Satisfy-Any）"><a href="#IP-规则与认证规则冲突（Satisfy-Any）" class="headerlink" title="IP 规则与认证规则冲突（Satisfy Any）"></a>IP 规则与认证规则冲突（Satisfy Any）</h2><p>现象：设置了密码，但某些 IP 能直接绕过。<br>原因：如果在 Access List 中同时设置了 IP 规则和认证，且开启了 Satisfy Any（允许任一），则 IP 白名单内的用户无需密码即可访问。</p>
 
       
     </div>
