@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">497</span>
+          <span class="site-state-item-count">498</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,116 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/f8d020c1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/f8d020c1/" class="post-title-link" itemprop="url">Linux用户登录后邮件提醒配置实例</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-07-05 11:50:40 / Modified: 12:21:06" itemprop="dateCreated datePublished" datetime="2026-07-05T11:50:40+00:00">2026-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h1><p>用户通过任意方式登录Linux服务器，如TTY、SSH，均会触发邮件告警；</p>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="功能一，获取当前主机的IP"><a href="#功能一，获取当前主机的IP" class="headerlink" title="功能一，获取当前主机的IP"></a>功能一，获取当前主机的IP</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取ens18的网卡</span></span><br><span class="line">ip ad | grep ens18|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;\&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 获取默认网关所在的网卡</span></span><br><span class="line"><span class="string">#DEFAULT_NIC=`route -n | grep UG | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string">DEFAULT_NIC=`route -n | awk &#x27;<span class="variable">$4</span> == &quot;</span>UG<span class="string">&quot;&#x27; | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$8</span>&#125;&#x27;`</span></span><br><span class="line"><span class="string"># LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|tail -n 1 | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;` # 有问题，会有无法截取到的情况</span></span><br><span class="line"><span class="string">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>| grep inet | awk -F &quot;</span> <span class="string">&quot; &#x27;&#123;print <span class="variable">$2</span>&#125;&#x27; | awk -F &quot;</span>/<span class="string">&quot; &#x27;&#123;print <span class="variable">$1</span>&#125;&#x27;`</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通知脚本"><a href="#通知脚本" class="headerlink" title="通知脚本"></a>通知脚本</h2><p>来自 AI</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在 auth 或 session 阶段执行（避免重复触发）</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;auth&quot;</span> ] &amp;&amp; [ <span class="string">&quot;<span class="variable">$PAM_TYPE</span>&quot;</span> != <span class="string">&quot;session&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户和终端信息</span></span><br><span class="line">USER=<span class="string">&quot;<span class="variable">$&#123;PAM_USER:-unknown&#125;</span>&quot;</span></span><br><span class="line">TTY=<span class="string">&quot;<span class="variable">$&#123;PAM_TTY:-unknown&#125;</span>&quot;</span></span><br><span class="line"><span class="comment"># 远程主机：SSH 登录时会有 PAM_RHOST，本地登录为空</span></span><br><span class="line">RHOST=<span class="string">&quot;<span class="variable">$&#123;PAM_RHOST:-local&#125;</span>&quot;</span></span><br><span class="line">SERVICE=<span class="string">&quot;<span class="variable">$&#123;PAM_SERVICE:-unknown&#125;</span>&quot;</span></span><br><span class="line">DATE=<span class="string">&quot;<span class="subst">$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</span>&quot;</span></span><br><span class="line">DEFAULT_NIC=`route -n | grep UG | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $8&#125;&#x27;</span>`</span><br><span class="line">LOCAL_IP=`ip ad | grep <span class="variable">$DEFAULT_NIC</span>|<span class="built_in">tail</span> -n 1 | awk -F <span class="string">&quot; &quot;</span> <span class="string">&#x27;&#123;print $2&#125;&#x27;</span> | awk -F <span class="string">&quot;/&quot;</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 主题和正文</span></span><br><span class="line">SUBJECT=<span class="string">&quot;[<span class="variable">$LOCAL_IP</span>]Login Alert: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> (via <span class="variable">$SERVICE</span>)&quot;</span></span><br><span class="line">MESSAGE=<span class="string">&quot;User: <span class="variable">$USER</span></span></span><br><span class="line"><span class="string">Remote Host: <span class="variable">$RHOST</span></span></span><br><span class="line"><span class="string">TTY: <span class="variable">$TTY</span></span></span><br><span class="line"><span class="string">Service: <span class="variable">$SERVICE</span></span></span><br><span class="line"><span class="string">Date: <span class="variable">$DATE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送邮件（使用 mail 命令，或 sendmail、curl 等）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$MESSAGE</span>&quot;</span> | /usr/bin/mail -s <span class="string">&quot;<span class="variable">$SUBJECT</span>&quot;</span> admin@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选：记录到 syslog</span></span><br><span class="line">logger -t login-notify <span class="string">&quot;Login: <span class="variable">$USER</span> from <span class="variable">$RHOST</span> via <span class="variable">$SERVICE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+
+<p>脚本放置到 &#x2F;usr&#x2F;local&#x2F;bin&#x2F; 里面，命名为 login-notify.sh</p>
+<blockquote>
+<p>配置权限 chmod 755 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;login-notify.sh</p>
+</blockquote>
+<h1 id="集成到PAM模块"><a href="#集成到PAM模块" class="headerlink" title="集成到PAM模块"></a>集成到PAM模块</h1><table>
+<thead>
+<tr>
+<th align="center">Linux 发行版</th>
+<th align="center">主要配置文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Debian&#x2F;Ubuntu</td>
+<td align="center">&#x2F;etc&#x2F;pam.d&#x2F;common-auth（auth 阶段）;&#x2F;etc&#x2F;pam.d&#x2F;common-session（session 阶段）</td>
+</tr>
+<tr>
+<td align="center">RHEL&#x2F;CentOS&#x2F;Fedora</td>
+<td align="center">&#x2F;etc&#x2F;pam.d&#x2F;system-auth 或 &#x2F;etc&#x2F;pam.d&#x2F;password-auth</td>
+</tr>
+</tbody></table>
+<p>本次使用的是Ubuntu发行版，且我需要再用户登录的时候触发邮件通知，所以就编辑 common-auth</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑 /etc/pam.d/common-auth</span></span><br><span class="line"><span class="comment"># 在末尾添加</span></span><br><span class="line"></span><br><span class="line">auth optional pam_exec.so /usr/local/bin/login-notify.sh</span><br></pre></td></tr></table></figure>
+
+<p>对于本地登录，一般无需重启服务，PAM 配置会在下次认证时生效。但为保险，可以重启 sshd（如果 SSH 也在使用）或图形登录管理器（如 gdm3、lightdm），不过本地 tty 登录是直接调用 &#x2F;bin&#x2F;login，无需重启。</p>
+<h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> v15-compat=<span class="built_in">yes</span></span><br><span class="line"><span class="built_in">set</span> smtp-auth=login</span><br><span class="line"><span class="built_in">set</span> from=<span class="string">&quot;[邮箱账户]&quot;</span></span><br><span class="line"><span class="built_in">set</span> mta=<span class="string">&quot;smtps://[邮箱账户，@需要用%40替代]:[通行码]@[stmp服务器地址]&quot;</span></span><br><span class="line"><span class="built_in">set</span> sendwait</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -884,89 +994,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>Article ID:305395,320776<br>About:firewall policy session timeout setting.</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/ef2802e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/ef2802e/" class="post-title-link" itemprop="url">ESXi-Investigating_Virutal_Machine_file_locks_on_ESXi_Host</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2026-05-25 04:56:09 / Modified: 04:57:58" itemprop="dateCreated datePublished" datetime="2026-05-25T04:56:09+00:00">2026-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Article ID:314365</p>
 
       
     </div>
