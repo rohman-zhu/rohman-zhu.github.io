@@ -1097,7 +1097,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-03-22 10:13:21" itemprop="dateModified" datetime="2026-03-22T10:13:21+00:00">2026-03-22</time>
+      <time title="Modified: 2026-08-10 15:27:03" itemprop="dateModified" datetime="2026-08-10T15:27:03+00:00">2026-08-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1261,7 +1261,11 @@ VPN_IPSec--&gt;云服务器
 
 <h1 id="需求3–开机自启"><a href="#需求3–开机自启" class="headerlink" title="需求3–开机自启"></a>需求3–开机自启</h1><p>OS:Ubuntu 24.04</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> wg-quick@wg0</span><br></pre></td></tr></table></figure>
+<h1 id="需求4–自建DNS"><a href="#需求4–自建DNS" class="headerlink" title="需求4–自建DNS"></a>需求4–自建DNS</h1><p>需求描述：连上VPN后，默认为局域网，期望局域网内的域名可以劫持解析；</p>
+<p>操作方法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在WireGuard的配置文件中，引入DNS参数</span></span><br><span class="line"><span class="comment"># 配置文件/etc/wireguard/wg0.conf</span></span><br><span class="line"></span><br><span class="line">[Interface]</span><br><span class="line">PrivateKey = xxxxx</span><br><span class="line">Address = xxxx/32</span><br><span class="line">DNS = XXXXXX</span><br></pre></td></tr></table></figure>
 
+<p>当WireGuard连接时，即可使用指定的DNS服务器（前提是 DNS服务是正常的）；</p>
 <h1 id="WireGuard-的缺陷"><a href="#WireGuard-的缺陷" class="headerlink" title="WireGuard 的缺陷"></a>WireGuard 的缺陷</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ryanyangcs/p/14339053.html">https://www.cnblogs.com/ryanyangcs/p/14339053.html</a></p>
 <h2 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h2><p>作为终端用户，其实无需考虑协议的复杂度。</p>
 <p>如果复杂度真的影响很大，我们肯定早就摆脱 SIP、 H.323 和 FTP 等不能很好地应对NAT的协议了，然而并没有。讲道理，IPsec 比 WireGuard 更复杂是有原因的：它能做的事情太多了。<br>比如，使用用户名&#x2F;密码或带有 EAP 的 SIM 卡进行用户认证；也可以扩展新的加密方式。</p>
