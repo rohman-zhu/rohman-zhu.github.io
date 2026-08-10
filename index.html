@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-08-10 15:28:37 / Modified: 16:42:10" itemprop="dateCreated datePublished" datetime="2026-08-10T15:28:37+00:00">2026-08-10</time>
+      <time title="Created: 2026-08-10 15:28:37 / Modified: 16:46:14" itemprop="dateCreated datePublished" datetime="2026-08-10T15:28:37+00:00">2026-08-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,7 +250,11 @@
 <blockquote>
 <p>可以解决：000922,中证红利指数；000990，中证全指主要消费指数；信息获取不全的问题；</p>
 </blockquote>
-<h3 id="中证相关的指数"><a href="#中证相关的指数" class="headerlink" title="中证相关的指数"></a>中证相关的指数</h3><p>接口: stock_zh_index_hist_csindex<br>目标地址: <a target="_blank" rel="noopener" href="https://www.csindex.com.cn/zh-CN/indices/index-detail/H30374#/indices/family/detail?indexCode=H30374">https://www.csindex.com.cn/zh-CN/indices/index-detail/H30374#/indices/family/detail?indexCode=H30374</a><br>描述: 中证指数日频率的数据</p>
+<h3 id="中证相关的指数"><a href="#中证相关的指数" class="headerlink" title="中证相关的指数"></a>中证相关的指数</h3><p>中证指数是由中国证券指数有限公司（CSI,China Securities Index）编制的一系列反映中国资本市场表现的金融指标</p>
+<p>接口: stock_zh_index_hist_csindex<br>目标地址: <a target="_blank" rel="noopener" href="https://www.csindex.com.cn/zh-CN/indices/index-detail/H30374#/indices/family/detail?indexCode=H30374">https://www.csindex.com.cn/zh-CN/indices/index-detail/H30374#/indices/family/detail?indexCode=H30374</a><br>描述: 中证指数日频率的数据</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.csindex.com.cn/">https://www.csindex.com.cn/</a></p>
+</blockquote>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> akshare <span class="keyword">as</span> ak</span><br><span class="line">stock_zh_index_hist_csindex_df = ak.stock_zh_index_hist_csindex(symbol=<span class="string">&quot;000928&quot;</span>, start_date=<span class="string">&quot;20100101&quot;</span>, end_date=<span class="string">&quot;20240604&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(stock_zh_index_hist_csindex_df)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
