@@ -119,7 +119,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">503</span>
+          <span class="site-state-item-count">504</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,282 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/9e237066/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/posts/9e237066/" class="post-title-link" itemprop="url">小米路由器R4A刷OpenWRT折腾日记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-08-23 15:27:11 / Modified: 15:27:33" itemprop="dateCreated datePublished" datetime="2026-08-23T15:27:11+00:00">2026-08-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>小米4A千兆版想刷成OpenWRT试试；<br>路由器固件版本：2.30.28</p>
+<p>参照文章：<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-8402524-1-1.html">https://www.right.com.cn/forum/thread-8402524-1-1.html</a></p>
+<p>实测可以成功刷新；</p>
+<p>不过这个结论并不是说完全没有问题了，恰恰相反，刷机过程中以及刷机后里面的坑还多着呢；<br>如果你再问我还会不会再继续刷机，我不一定回答你“会”；而且我觉得有线比无线靠谱，至少在桥接上，还是得用有线！！无线桥接太容易出事了…</p>
+<h2 id="前置信息梳理"><a href="#前置信息梳理" class="headerlink" title="前置信息梳理"></a>前置信息梳理</h2><p>我有两个小米路由器 R4A , 平时的用法是主路由器放置在客厅，副路由器放置在卧室，两个路由器间通过无线桥接；</p>
+<ol>
+<li>一台配置的 GigaDevice GD25Q128 （16MB）闪存芯片</li>
+<li>一台配置的 EON EN25QX128(16MB) 闪存芯片</li>
+</ol>
+<blockquote>
+<p>为什么这里要强调配置？原因就是这个芯片不同，决定了后面OpenWRT是否能成功刷机！！第一台我轻松刷机，按照教程处理就好了；第二台是灾难，死活刷机不成功，浪费我1天的时间；</p>
+</blockquote>
+<h3 id="核心：接口页面"><a href="#核心：接口页面" class="headerlink" title="核心：接口页面"></a>核心：接口页面</h3><p>位置： 网络&#x2F;接口</p>
+<p>分为两个大区 LAN 口（局域网） 与 WAN口（广域网）</p>
+<h3 id="防火墙相关的策略"><a href="#防火墙相关的策略" class="headerlink" title="防火墙相关的策略"></a>防火墙相关的策略</h3><p>LAN口默认应用的是 LAN Zone的防火墙策略；<br>WAN口默认应用的是 WAN Zone的防火墙策略；</p>
+<h3 id="配置相关的"><a href="#配置相关的" class="headerlink" title="配置相关的"></a>配置相关的</h3><p>目前我识别到的核心配置是 基本设置、物理设置</p>
+<h4 id="物理设置"><a href="#物理设置" class="headerlink" title="物理设置"></a>物理设置</h4><p>点击 LAN 口的“修改”界面，进入到“物理设置”选项卡，可以看到 LAN口 其实是一个网桥：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 桥接接口；勾选</span><br><span class="line">2. 接口里的以太网适配器: &quot;lan1&quot; (lan)、以太网适配器: &quot;lan2&quot; (lan)；勾选</span><br></pre></td></tr></table></figure>
+
+<p>这里表示 LAN 口内的二层是相通的；</p>
+<h4 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h4><p>配置 IPv4 地址 与 子网掩码；</p>
+<p>这里的 IPv4 不仅是 OpenWRT的管理地址，也是局域网内的所有节点的网关，粗略画一下链路图：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">局域网客户端 --&gt; LAN桥 --&gt; OpenWRT 管理服务器地址 --&gt; WAN 口 --&gt; 上游设备</span><br></pre></td></tr></table></figure>
+
+<p>DHCP的地址也是在这个IP的子网内，因此这个IPv4地址仅用配置 IP与子网掩码地址；</p>
+<h2 id="安装-luci-proto-relay【失败了】"><a href="#安装-luci-proto-relay【失败了】" class="headerlink" title="安装 luci-proto-relay【失败了】"></a>安装 luci-proto-relay【失败了】</h2><p>配置可用源</p>
+<p>源地址可以看清华的源，<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/openwrt/">https://mirrors.tuna.tsinghua.edu.cn/openwrt/</a></p>
+<p>目前提供的是 25.12.5的版本，旧版本以归档至  <a target="_blank" rel="noopener" href="https://archive.openwrt.org/">https://archive.openwrt.org/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src/gz openwrt_core https://archive.openwrt.org/releases/22.03.2/targets/rockchip/armv8/packages</span><br><span class="line">src/gz openwrt_base https://archive.openwrt.org/releases/22.03.2/packages/aarch64_generic/base</span><br><span class="line">src/gz openwrt_luci https://archive.openwrt.org/releases/22.03.2/packages/aarch64_generic/luci</span><br><span class="line">src/gz openwrt_packages https://archive.openwrt.org/releases/22.03.2/packages/aarch64_generic/packages</span><br><span class="line">src/gz openwrt_routing https://archive.openwrt.org/releases/22.03.2/packages/aarch64_generic/routing</span><br><span class="line">src/gz openwrt_telephony https://archive.openwrt.org/releases/22.03.2/packages/aarch64_generic/telephony</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我的固件包应该是第三方封装的，签名验证不通过，这些通用的包也无法安装；</p>
+</blockquote>
+<h3 id="检查自己的芯片架构"><a href="#检查自己的芯片架构" class="headerlink" title="检查自己的芯片架构"></a>检查自己的芯片架构</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opkg info | grep Architecture | <span class="built_in">sort</span> | <span class="built_in">uniq</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到的是：</span></span><br><span class="line">chitecture: all</span><br><span class="line">Architecture: mipsel_24kc</span><br></pre></td></tr></table></figure>
+
+<h3 id="忽略签名检查"><a href="#忽略签名检查" class="headerlink" title="忽略签名检查"></a>忽略签名检查</h3><h1 id="小米路由器的无线中继对信道有要求"><a href="#小米路由器的无线中继对信道有要求" class="headerlink" title="小米路由器的无线中继对信道有要求"></a>小米路由器的无线中继对信道有要求</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2.4GHz 频段：建议在 1、6、11 中选择一个</span><br><span class="line">5GHz 频段：建议在 36、40、44、48 等低频信道中选择。同时，避免使用52-64的DFS信道，部分小米路由器在Mesh或中继模式下可能不支持</span><br></pre></td></tr></table></figure>
+
+<h2 id="开始刷机！"><a href="#开始刷机！" class="headerlink" title="开始刷机！"></a>开始刷机！</h2><h3 id="开启-SSH-、TELNET"><a href="#开启-SSH-、TELNET" class="headerlink" title="开启 SSH 、TELNET"></a>开启 SSH 、TELNET</h3><p>主要是用于登录路由器执行备份，刷入 breed；</p>
+<p>我的路由器版本貌似无法破解，无法打开SSH</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">系统版本: 2.28.505 稳定版  MAC地址: xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
+
+<p>找到一个方法是降级后再破解，所以找到一个 2.28.68 的固件，直接往路由器里面刷新，更新完成后，将路由器重启；</p>
+<h3 id="开始破解"><a href="#开始破解" class="headerlink" title="开始破解"></a>开始破解</h3><p>这里比较奇怪的是，我运行 ‘1.V2版开Telnet.bat’ 反而无法破解；<br>改用 ‘1.V1版开Telnet.bat’ 就可以顺利破解，运行脚本后根据提示：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 输入路由器ID</span><br><span class="line">2. 输入路由器密码</span><br><span class="line">3. 选择 <span class="string">&#x27;Download needed files from remote github repository. (choose this option only if github is accessable inside router device.)&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完成后，会有这些信息:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">...</span><br><span class="line">file provider: remote github repository</span><br><span class="line">****************</span><br><span class="line">start uploading config file...</span><br><span class="line">start <span class="built_in">exec</span> <span class="built_in">command</span>...</span><br><span class="line"><span class="keyword">done</span>! Now you can connect to the router using several options: (user: root, password: root)</span><br><span class="line">* telnet xxxxx</span><br><span class="line">* ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 -c 3des-cbc -o UserKnownHostsFile=/dev/null root@xxxxxxx</span><br><span class="line">* ftp: using a program like cyberduck</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>用终端工具连接，能顺利访问，使用root账户登录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">    ┌──────────────────────────────────────────────────────────────────────┐</span><br><span class="line">    │                 • MobaXterm Personal Edition v25.1 •                 │</span><br><span class="line">    │               (SSH client, X server and network tools)               │</span><br><span class="line">    │                                                                      │</span><br><span class="line">    │ ⮞ Telnet session to root@10.0.0.118                                  │</span><br><span class="line">    │ ⮞ Your DISPLAY is <span class="built_in">set</span> to 10.0.0.205:0.0                              │</span><br><span class="line">    │ ⮞ For more info, ctrl+click on <span class="built_in">help</span> or visit our website.            │</span><br><span class="line">    └──────────────────────────────────────────────────────────────────────┘</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">XiaoQiang login: root</span><br><span class="line">Password:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BusyBox v1.19.4 (2019-06-28 10:13:42 UTC) built-in shell (ash)</span><br><span class="line">Enter <span class="string">&#x27;help&#x27;</span> <span class="keyword">for</span> a list of built-in commands.</span><br><span class="line"></span><br><span class="line"> -----------------------------------------------------</span><br><span class="line">       Welcome to XiaoQiang!</span><br><span class="line"> -----------------------------------------------------</span><br><span class="line">  $$$$$$\  $$$$$$$\  $$$$$$$$\      $$\      $$\        $$$$$$\  $$\   $$\</span><br><span class="line"> $$  __$$\ $$  __$$\ $$  _____|     $$ |     $$ |      $$  __$$\ $$ | $$  |</span><br><span class="line"> $$ /  $$ |$$ |  $$ |$$ |           $$ |     $$ |      $$ /  $$ |$$ |$$  /</span><br><span class="line"> $$$$$$$$ |$$$$$$$  |$$$$$\         $$ |     $$ |      $$ |  $$ |$$$$$  /</span><br><span class="line"> $$  __$$ |$$  __$$&lt; $$  __|        $$ |     $$ |      $$ |  $$ |$$  $$&lt;</span><br><span class="line"> $$ |  $$ |$$ |  $$ |$$ |           $$ |     $$ |      $$ |  $$ |$$ |\$$\</span><br><span class="line"> $$ |  $$ |$$ |  $$ |$$$$$$$$\       $$$$$$$$$  |       $$$$$$  |$$ | \$$\</span><br><span class="line"> \__|  \__|\__|  \__|\________|      \_________/        \______/ \__|  \__|</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@XiaoQiang:~#</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ARE U OK 赫然在目，雷总好样的，不丢分；（对比，某哇哇哇哇啊这个这个啊这个，真的不知道强了多少倍！）</p>
+</blockquote>
+<h3 id="备份当前固件"><a href="#备份当前固件" class="headerlink" title="备份当前固件"></a>备份当前固件</h3><p>需要备份当前的固件信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看硬件信息</span></span><br><span class="line"><span class="built_in">cat</span> /proc/mtd</span><br><span class="line"><span class="comment"># 有如下信息</span></span><br><span class="line">dev:    size   erasesize  name</span><br><span class="line">mtd0: 01000000 00010000 <span class="string">&quot;ALL&quot;</span></span><br><span class="line">mtd1: 00030000 00010000 <span class="string">&quot;Bootloader&quot;</span></span><br><span class="line">mtd2: 00010000 00010000 <span class="string">&quot;Config&quot;</span></span><br><span class="line">mtd3: 00010000 00010000 <span class="string">&quot;Bdata&quot;</span></span><br><span class="line">mtd4: 00010000 00010000 <span class="string">&quot;Factory&quot;</span></span><br><span class="line">mtd5: 00010000 00010000 <span class="string">&quot;crash&quot;</span></span><br><span class="line">mtd6: 00010000 00010000 <span class="string">&quot;cfg_bak&quot;</span></span><br><span class="line">mtd7: 00100000 00010000 <span class="string">&quot;overlay&quot;</span></span><br><span class="line">mtd8: 00d00000 00010000 <span class="string">&quot;OS1&quot;</span></span><br><span class="line">mtd9: 00b30000 00010000 <span class="string">&quot;rootfs&quot;</span></span><br><span class="line">mtd10: 00180000 00010000 <span class="string">&quot;disk&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份固件</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/mtd0 of=/tmp/ALL_backup.bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在文件资源管理器地址栏输入: ftp://路由器ip/tmp</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到ALL_backup.bin右键复制到桌面，我重命名为 ALL_backup-R4A_02_20260822.bin</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="刷入-breed-bin"><a href="#刷入-breed-bin" class="headerlink" title="刷入 breed.bin"></a>刷入 breed.bin</h3><p>这里说一下breed的用途：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Breed“不死”的核心在于：在通过Breed刷入新固件时，它会自动剔除固件中自带的引导程序。</span><br><span class="line">这能防止新固件覆盖掉Breed本身，就算固件刷失败了，路由器重启后依然能进入Breed的恢复界面，让你有机会重刷，从而避免了变砖的风险。</span><br><span class="line"></span><br><span class="line">Breed提供了一个极为方便的网页版图形界面（Web恢复控制台），让你摆脱命令行，像操作普通软件一样管理路由器：</span><br><span class="line">1. 刷写固件：可以轻松刷入如 OpenWrt、Padavan、高恪 等第三方固件</span><br><span class="line">2. 备份与恢复：可以完整备份路由器当前的固件、EEPROM（无线校准数据）等重要信息</span><br><span class="line">3. 超频：在Breed界面中即可方便地对路由器进行超频</span><br><span class="line">4. 便捷进入：支持免按复位键进入刷机模式。即使固件启动失败，Breed也能自动进入恢复模式</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>后续刷入固件失败导致路由器无限重启也不用担心，有Breed就可以万事大吉~想刷会官方镜像，也就是把Bootload换成官方的就好了</p>
+</blockquote>
+<h3 id="传入-breed-bin"><a href="#传入-breed-bin" class="headerlink" title="传入 breed.bin"></a>传入 breed.bin</h3><ol>
+<li>在文件资源管理器地址栏输入: ftp:&#x2F;&#x2F;路由器ip&#x2F;tmp</li>
+<li>将安装包中的 breed.bin 文件 拷贝至 ftp:&#x2F;&#x2F;路由器ip&#x2F;tmp 的窗口内；</li>
+<li>在putty.exe输入 md5sum &#x2F;tmp&#x2F;breed.bin ；得到的结果应该是’24e62762809c15ba3872e610a37451a3  &#x2F;tmp&#x2F;breed.bin’</li>
+</ol>
+<blockquote>
+<p>结果若不是 24e62762809c15ba3872e610a37451a3 一定不能贸然进行下一步！</p>
+</blockquote>
+<h3 id="刷入-breed-bin-1"><a href="#刷入-breed-bin-1" class="headerlink" title="刷入 breed.bin"></a>刷入 breed.bin</h3><ol>
+<li>执行指令：mtd write &#x2F;tmp&#x2F;breed.bin Bootloader</li>
+<li>执行指令：reboot；</li>
+<li>等待重启；</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@XiaoQiang:~# mtd write /tmp/breed.bin Bootloader</span><br><span class="line">Unlocking Bootloader ...</span><br><span class="line"></span><br><span class="line">Writing from /tmp/breed.bin to Bootloader ...</span><br><span class="line">root@XiaoQiang:~# reboot</span><br><span class="line">root@XiaoQiang:~#</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里有一个关键变化：本次执行重启后，路由器的指示灯就失效了；后续设置需要在 OpenWRT 中配置；</p>
+</blockquote>
+<h3 id="备份编程器固件和eeprom"><a href="#备份编程器固件和eeprom" class="headerlink" title="备份编程器固件和eeprom"></a>备份编程器固件和eeprom</h3><ol>
+<li>本地执行ping 192.168.1.1 ， 如果能联通就开始下一步 ；</li>
+<li>浏览器访问 <a target="_blank" rel="noopener" href="http://192.168.1.1/">http://192.168.1.1</a> ；</li>
+<li>进入“固件备份”，分别点击编程器固件、eeprom；</li>
+</ol>
+<p>系统会自动下载两份文件，保存好即可；</p>
+<h3 id="刷入-OpenWRT-固件"><a href="#刷入-OpenWRT-固件" class="headerlink" title="刷入 OpenWRT 固件"></a>刷入 OpenWRT 固件</h3><blockquote>
+<p>开始进入最终环节了</p>
+</blockquote>
+<ol>
+<li>浏览器访问 <a target="_blank" rel="noopener" href="http://192.168.1.1;/">http://192.168.1.1；</a></li>
+<li>进入“固件更新”，点击固件；</li>
+<li>选择“openwrt-ramips-mt7621-xiaomi_mi-router-4a-gigabit-v2-squashfs-sysupgrade.bin”；</li>
+<li>点击“上传”；</li>
+<li>进入到“更新确认”页面，确认无误后就点击“更新”；</li>
+</ol>
+<h3 id="配置OpenWRT"><a href="#配置OpenWRT" class="headerlink" title="配置OpenWRT"></a>配置OpenWRT</h3><p>路由器刷新完成后，默认地址会变更为 192.168.31.1 ；<br>浏览器访问 <a target="_blank" rel="noopener" href="https://192.168.31.1/">https://192.168.31.1</a>  ， 进行配置操作；</p>
+<p>默认密码是 root&#x2F;password</p>
+<h2 id="其他异常处理"><a href="#其他异常处理" class="headerlink" title="其他异常处理"></a>其他异常处理</h2><h3 id="刷机失败，无法进入操作系统"><a href="#刷机失败，无法进入操作系统" class="headerlink" title="刷机失败，无法进入操作系统"></a>刷机失败，无法进入操作系统</h3><p>在刷入 OpenWRT 时，貌似失败了；路由器闪烁橙色灯；回滚到breed界面：</p>
+<ol>
+<li>在断电的情况下，按住reset键；</li>
+<li>5秒后，重新接通电源后，3秒后松开reset键；</li>
+</ol>
+<p>breed地址是 <a target="_blank" rel="noopener" href="http://192.168.1.1/">http://192.168.1.1</a></p>
+<h4 id="失败的原因分析"><a href="#失败的原因分析" class="headerlink" title="失败的原因分析"></a>失败的原因分析</h4><p>这个跟闪存版本有关：</p>
+<p>公版：0x50000 ,异常；<br>精简：0x40000 ,异常；<br>0x60000,异常</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">breed&gt; </span><span class="language-bash"><span class="built_in">help</span></span></span><br><span class="line">help</span><br><span class="line">Available commands:</span><br><span class="line">about    - About this bootloader</span><br><span class="line">abstatus - Interrupt status of autoboot</span><br><span class="line">arp      - Display ARP table</span><br><span class="line">autoboot - Detect firmware type and boot automatically</span><br><span class="line">boot     - Boot firmware</span><br><span class="line">btntst   - Test GPIO of buttons</span><br><span class="line">dhcp     - Display DHCP leases</span><br><span class="line">env      - Environment variables utility</span><br><span class="line">envconf  - Configure environment variable block</span><br><span class="line">exit     - Exit from telnet</span><br><span class="line">flash    - Flash utility</span><br><span class="line">gpio     - GPIO utilities</span><br><span class="line">help     - Show available commands</span><br><span class="line">jtagd    - JTAG dongle over GPIO</span><br><span class="line">mdio     - MDIO utility</span><br><span class="line">mem      - Memory operation utilities</span><br><span class="line">net      - Network control</span><br><span class="line">netstat  - Display network state</span><br><span class="line">reset    - Restart device</span><br><span class="line">setbrg   - Set baudrate</span><br><span class="line">spi      - SPI utility</span><br><span class="line">sysinfo  - Display system information</span><br><span class="line">thread   - Display all threads</span><br><span class="line">wget     - Retrieval file through HTTP</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">breed&gt; </span><span class="language-bash">boot</span></span><br><span class="line">boot</span><br><span class="line">Usage:</span><br><span class="line">  boot mem &lt;addr&gt;   - Boot from memory address or memory-mapped address</span><br><span class="line">  boot flash [bank &lt;n&gt;] &lt;addr&gt;   - Boot from flash</span><br><span class="line">  boot linux &lt;addr&gt; - Boot linux kernel at &lt;addr&gt;</span><br><span class="line">  boot raw &lt;addr&gt;   - Disable interrupts and jump to &lt;addr&gt;</span><br><span class="line">  boot breed &lt;addr&gt; - Boot given breed file at &lt;addr&gt;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">breed&gt; </span><span class="language-bash">flash</span></span><br><span class="line">flash</span><br><span class="line">Usage:</span><br><span class="line">  flash list</span><br><span class="line">  flash [bank &lt;n&gt;] info</span><br><span class="line">  flash [bank &lt;n&gt;] reprobe</span><br><span class="line">  flash [bank &lt;n&gt;] dump &lt;addr&gt; [&lt;size&gt;]</span><br><span class="line">  flash [bank &lt;n&gt;] read [&lt;partbase&gt;] &lt;addr&gt; &lt;dst&gt; &lt;size&gt;</span><br><span class="line">  flash [bank &lt;n&gt;] write [verify] [&lt;partbase&gt;] &lt;addr&gt; &lt;src&gt; &lt;size&gt;</span><br><span class="line">  flash [bank &lt;n&gt;] erase [&lt;partbase&gt;] &lt;addr&gt; &lt;size&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">breed&gt; autoboot</span><br><span class="line">autoboot</span><br><span class="line">Trying to boot firmware from 0x00050000 <span class="keyword">in</span> flash bank 0 ...</span><br><span class="line">Reading data into memory ...</span><br><span class="line">U-Boot firmware image header detected.</span><br><span class="line">    Image Name:   MIPS OpenWrt Linux-5.4.214</span><br><span class="line">    Data Size:    2559807 Bytes</span><br><span class="line">    Load Address: 80001000</span><br><span class="line">    Entry Point:  80001000</span><br><span class="line">breed&gt; sysinfo</span><br><span class="line">sysinfo</span><br><span class="line">Platform: MediaTek MT7621A ver 1, eco 3</span><br><span class="line">Board: PandoraBox PBR-M1 / Newifi Y2S</span><br><span class="line">Clocks: CPU: 880MHz, DDR: 1040MHz, Bus: 220MHz, Ref: 40MHz</span><br><span class="line">Relocate Offset: 07eb9000</span><br><span class="line"></span><br><span class="line">DRAM size: 128MB</span><br><span class="line">DRAM range: 80000000 - 87ffffff</span><br><span class="line"></span><br><span class="line">Kernel size: 278KB</span><br><span class="line">Kernel range: 87fb9000 - 87ffea27</span><br><span class="line"></span><br><span class="line">Kernel symbol table size: 1KB</span><br><span class="line">Kernel symbol table range: 87fb89e0 - 87fb8ff2</span><br><span class="line"></span><br><span class="line">Managed memory size: 2MB</span><br><span class="line">Managed memory range: 87db88e0 - 87fb88df</span><br><span class="line">Managed memory used: 470.69KB (22.98%)</span><br><span class="line"></span><br><span class="line">Boot parameter size: 256KB</span><br><span class="line">Boot parameter range: 87d787e0 - 87db87df</span><br><span class="line"></span><br><span class="line">Unused memory size: 125MB</span><br><span class="line">Unused memory range: 80001000 - 87d777df</span><br><span class="line"></span><br><span class="line">breed&gt; flash list</span><br><span class="line">flash list</span><br><span class="line">Bank    Type      Size    Model</span><br><span class="line">0       SPI-NOR   16MB    EON EN25QX128</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>后面看到文章：<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-8219908-1-1.html">https://www.right.com.cn/forum/thread-8219908-1-1.html</a><br>也有人遇到相同的问题，也是新的闪存固件异常…</p>
+<blockquote>
+<p>其实到这里就应该放弃了，不要再耗费时间折腾；奈何就是想弄一弄，结果倒好，一个周末的时间就耗费了！！</p>
+</blockquote>
+<h3 id="改用-WPA2-WPA3-PSK-SAE-交付，小米插座无法连接"><a href="#改用-WPA2-WPA3-PSK-SAE-交付，小米插座无法连接" class="headerlink" title="改用 WPA2&#x2F;WPA3 PSK&#x2F;SAE 交付，小米插座无法连接"></a>改用 WPA2&#x2F;WPA3 PSK&#x2F;SAE 交付，小米插座无法连接</h3><p>涉及设备：米家智能插座2 蓝牙网关版<br>现象：无法连接设备，进度条走到100%时，跳出设备连接网络超时；</p>
+<p>产品连接：<a target="_blank" rel="noopener" href="https://home.mi.com/webapp/content/baike/product/index.html?model=chuangmi.plug.212a01#/">https://home.mi.com/webapp/content/baike/product/index.html?model=chuangmi.plug.212a01#/</a><br>产品说明书：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">米家智能插座2 蓝牙网关版并不强制要求使用第一代WPA，但它确实对加密方式有特定要求：不能太“新”，也不能太“旧”。</span><br><span class="line"></span><br><span class="line">根据小米官方的支持文档和大量用户的实际排查经验，要让它成功连接Wi-Fi，你需要将路由器的加密方式设置为 WPA/WPA2-PSK 混合模式。</span><br><span class="line"></span><br><span class="line">这里有几点具体的设置要求和排查思路：</span><br><span class="line"></span><br><span class="line">推荐的加密模式：请在路由器后台将2.4G Wi-Fi的加密方式设为 WPA/WPA2-PSK 混合模式（有些路由器叫“WPA-PSK/WPA2-PSK”）。这是兼容性最好的设置。</span><br><span class="line"></span><br><span class="line">必须避开的坑：</span><br><span class="line"></span><br><span class="line">不要设为“仅WPA3”：这是目前最普遍的失败原因，因为智能插座的Wi-Fi模块不支持最新的WPA3加密。</span><br><span class="line"></span><br><span class="line">不要设为“仅WPA2”：部分较老的物联网模块对纯WPA2模式兼容性不佳，可能导致连接失败。</span><br><span class="line"></span><br><span class="line">其他基础要求：这些也是连接成功的必要条件。</span><br><span class="line"></span><br><span class="line">网络频段：仅支持 2.4GHz Wi-Fi。</span><br><span class="line"></span><br><span class="line">网络名称（SSID）：不能隐藏，且名称和密码最好只包含英文字母和数字。</span><br><span class="line"></span><br><span class="line">加密状态：必须有密码，不支持无密码的开放网络。</span><br><span class="line"></span><br><span class="line">所以，“需要WPA一代”这个说法不准确。正确的做法是采用向下兼容的“WPA/WPA2混合模式”，而不是回退到安全性较低且未必兼容的纯WPA一代。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>不过最终实测下来：</p>
+<p>测试结果一：</p>
+<ol>
+<li>WIFI信号的加密方式： mixed WPA&#x2F;WPA2 PSK (CCMP)</li>
+<li>结论：能联通；</li>
+</ol>
+<p>测试结果二：</p>
+<ol>
+<li>WIFI信号的加密方式：mixed WPA2&#x2F;WPA3 PSK&#x2F;SAE (CCMP)</li>
+<li>能联通：无法联通，读条到100%时异常；</li>
+</ol>
+<h3 id="5G-信号源不稳定，信号差"><a href="#5G-信号源不稳定，信号差" class="headerlink" title="5G 信号源不稳定，信号差"></a>5G 信号源不稳定，信号差</h3><p>原始配置是:</p>
+<ol>
+<li>工作频率：Legacy模式，信道 40（5200MHz）</li>
+<li>无线电功率：0dBm（1mW）</li>
+<li>许传统的 802.11b 速率</li>
+</ol>
+<p>这个配置存在的问题：</p>
+<ol>
+<li>传输功率为 0 dBm (1 mW)：这是最致命的问题。正常路由器功率通常在15-20dBm（约30-100mW）。0 dBm相当于把Wi-Fi信号“关闭”了，导致信号极弱，根本无法稳定桥接。</li>
+<li>模式为 Legacy：这会强制Wi-Fi运行在802.11a&#x2F;g标准，最大速率仅54Mbps。这完全浪费了5G频段的优势，且可能不支持中继所需的特性。</li>
+<li>频宽未充分利用：你勾选了“强制40MHz频宽”，但受Legacy模式限制，实际速率已被锁死在54Mbps。在5G频段，应使用更高频宽（如80MHz）以获得更好的桥接速度。</li>
+<li>802.11b是2.4G频段的老旧标准（最高11Mbps），在5G频段上完全没有用。勾选它会拖累整体网络效率，应明确禁用。</li>
+</ol>
+<p>改进建议：</p>
+<ol>
+<li>提高功率：在“无线电功率”处，将 0 dBm 改为 20 dBm（这是安全且推荐的最大值），然后点击“保存”。</li>
+<li>更改模式：在“模式”下拉菜单中，将 Legacy 改为 N（仅11n）或 AC（仅11ac）。如果你不确定，建议选择 N&#x2F;AC 混合模式。</li>
+<li>调整频宽：取消勾选“强制40MHz频宽”。然后在上方“工作频率”处，将频宽直接设置为 80MHz。</li>
+<li>允许传统的 802.11b 速率: 取消勾选;</li>
+<li>重启生效：全部修改并保存后，重启路由器使设置生效。</li>
+</ol>
+<h3 id="2-4G-隐藏后，有一些米家设备离线"><a href="#2-4G-隐藏后，有一些米家设备离线" class="headerlink" title="2.4G 隐藏后，有一些米家设备离线"></a>2.4G 隐藏后，有一些米家设备离线</h3><p>原始配置是：</p>
+<ol>
+<li>工作频率：Legacy模式，信道auto；</li>
+</ol>
+<p>问题：</p>
+<ol>
+<li>模式为 Legacy：这会强制Wi-Fi运行在802.11b&#x2F;g标准，最高速率被锁死在54Mbps。更关键的是，你下面勾选了“启用 256-QAM”，但256-QAM是802.11n（Wi-Fi 4）独有的技术，在Legacy模式下完全无效，这是一个明显的冲突设置。</li>
+</ol>
+<p>修改建议：</p>
+<ol>
+<li>更改模式：将“模式”从 Legacy 改为 N（或“N Only”）。这样能启用802.11n，解除54Mbps的速率限制。</li>
+<li>固定信道：将“信道”从 auto 改为一个固定值。建议在 1、6、11 中选一个（这三个是互不重叠的信道）。你可以用手机APP（如“WiFi分析仪”）看看周围哪个信道干扰最少。</li>
+<li>调整功率：将“无线电功率”从“自动”改为一个固定值（如 20 dBm），然后观察状态栏的“传输功率”是否正常显示。</li>
+</ol>
+<h3 id="2-4G-与-5G-信号相冲突"><a href="#2-4G-与-5G-信号相冲突" class="headerlink" title="2.4G 与 5G 信号相冲突"></a>2.4G 与 5G 信号相冲突</h3><p>2.4G 选择 N 模式后，5G 桥接信号变得不稳定，时延上升至 400 ms；</p>
+<p>核心原因：</p>
+<ol>
+<li>2.4G切换到“N”模式，挤占了路由器的CPU资源，导致5G桥接处理不过来，延迟瞬间飙升到400ms。</li>
+<li>之前（Legacy模式）：2.4G使用802.11g&#x2F;b老旧标准，数据包简单，CPU几乎不需要额外计算，5G桥接可以独占CPU资源，所以延迟极低（2ms）。</li>
+<li>现在（N模式）：启用802.11n后，如果开启了40MHz频宽或256-QAM，CPU需要做复杂的帧聚合（A-MPDU）和解调计算。CPU一忙，5G桥接的数据包就只能排队等待，延迟自然就暴涨到400ms。</li>
+</ol>
+<p>整改方案：</p>
+<ol>
+<li>既然IoT设备不需要高速，请把2.4G设置回“Legacy”模式（或“B&#x2F;G混合”模式）。这不会影响智能插座的使用（它们本就只需几Mbps的速率），但能立刻释放CPU压力，让5G桥接恢复2ms的低延迟。</li>
+</ol>
+<p>受限于小米路由器的性能，用于提供桥接能力的5G信号，如果调整成 N 模式，整体时延也会低一些；2.4G信号也会稳定一些；</p>
+<blockquote>
+<p>测试基准：百度网盘下载速率能达到 5MBps ，有会员的情况下；</p>
+</blockquote>
+<h3 id="劫持域名"><a href="#劫持域名" class="headerlink" title="劫持域名"></a>劫持域名</h3><p>极米投影仪相关域名，添加到OpenWRT确实是要私人了，逐条添加也太累了；这个时候如果有dnsmasq的配置直接写入就好了…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">cn.pool.ntp.org</span><br><span class="line">gmui-api.goss.xgimi.com</span><br><span class="line">input.shouji.sogou.com</span><br><span class="line">connectivitycheck.gstatic.com</span><br><span class="line">mtrace.play.aiseet.atianqi.com</span><br><span class="line">api.xgimi.com</span><br><span class="line">dualstack-a.apilocate.amap.com</span><br><span class="line">openapi.baidu.com</span><br><span class="line">xiaodu.baidu.com</span><br><span class="line">bdbus-turbonet.baidu.com</span><br><span class="line">dueros-voice.baidu.com</span><br><span class="line">qvse.baidu.com</span><br><span class="line">rp.hpplay.cn</span><br><span class="line">sdkauth.hpplay.cn</span><br><span class="line">crab.baidu.com</span><br><span class="line">adapi.xgimi.com</span><br><span class="line">api.goss.xgimi.com</span><br><span class="line">d-api.xgimi.com</span><br><span class="line">ntp1.aliyun.com</span><br><span class="line">www.google.com</span><br><span class="line">btrace.play.aiseet.atianqi.com</span><br><span class="line">apilocate.amap.com</span><br><span class="line">vipauth.hpplay.cn</span><br><span class="line">imdns.hpplay.cn</span><br><span class="line">gslb.hpplay.cn</span><br><span class="line">tvapp.hpplay.cn</span><br><span class="line">conf.hpplay.cn</span><br><span class="line">www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="镜像回滚"><a href="#镜像回滚" class="headerlink" title="镜像回滚"></a>镜像回滚</h3><p>还记得前面说的EON 128的闪存芯片吗，折腾了好久，实在没有办法，我配置回滚了；</p>
+<p>具体步骤：</p>
+<ol>
+<li>下载官方bootloader、官方镜像；</li>
+<li>先进入breed将 bootloader刷入；</li>
+<li>拔掉路由器上面的wan网线，仅接入lan网线</li>
+<li>将电脑配置 为192.168.31.0&#x2F;24网段内的IP；</li>
+<li>打开小米路由官方修复工具，根据上面提示操作即可；</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li>【[R4A] 小米路由器4A千兆版-2.30.28刷入Openwrt】 <a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-8402524-1-1.html">https://www.right.com.cn/forum/thread-8402524-1-1.html</a></li>
+<li>【安装包下载地址】<a target="_blank" rel="noopener" href="https://www.123pan.com/s/rlE7Vv-AMvjv?%E6%8F%90%E5%8F%96%E7%A0%81:qjjE">https://www.123pan.com/s/rlE7Vv-AMvjv?提取码:qjjE</a></li>
+<li>【[R4A] 论坛收集的几个小米路由器官方bootloade】<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-4102208-1-1.html">https://www.right.com.cn/forum/thread-4102208-1-1.html</a></li>
+<li>【小米路由4A千兆版如何刷回官方固件】<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Dh411Y7y4/?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV1Dh411Y7y4/?spm_id_from=333.337.search-card.all.click</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -295,7 +571,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-08-23 13:52:25" itemprop="dateModified" datetime="2026-08-23T13:52:25+00:00">2026-08-23</time>
+      <time title="Modified: 2026-08-23 15:25:29" itemprop="dateModified" datetime="2026-08-23T15:25:29+00:00">2026-08-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -327,7 +603,7 @@
 
 <h1 id="后续待办"><a href="#后续待办" class="headerlink" title="后续待办"></a>后续待办</h1><p>极米投影仪是不是也能这么弄呢？</p>
 <p>抓取到的域名信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">adapi.xgimi.com</span><br><span class="line">api.goss.xgimi.com</span><br><span class="line">api.xgimi.com</span><br><span class="line">apilocate.amap.com</span><br><span class="line">bdbus-turbonet.baidu.com</span><br><span class="line">btrace.play.aiseet.atianqi.com</span><br><span class="line">cn.pool.ntp.org</span><br><span class="line">conf.hpplay.cn</span><br><span class="line">connectivitycheck.gstatic.com</span><br><span class="line">crab.baidu.com</span><br><span class="line">d-api.xgimi.com</span><br><span class="line">dualstack-a.apilocate.amap.com</span><br><span class="line">dueros-voice.baidu.com</span><br><span class="line">gmui-api.goss.xgimi.com</span><br><span class="line">gslb.hpplay.cn</span><br><span class="line">imdns.hpplay.cn</span><br><span class="line">input.shouji.sogou.com</span><br><span class="line">mtrace.play.aiseet.atianqi.com</span><br><span class="line">ntp1.aliyun.com</span><br><span class="line">openapi.baidu.com</span><br><span class="line">qvse.baidu.com</span><br><span class="line">rp.hpplay.cn</span><br><span class="line">sdkauth.hpplay.cn</span><br><span class="line">tvapp.hpplay.cn</span><br><span class="line">vipauth.hpplay.cn</span><br><span class="line">www.baidu.com</span><br><span class="line">www.google.com</span><br><span class="line">xiaodu.baidu.com</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">adapi.xgimi.com</span><br><span class="line">api.goss.xgimi.com</span><br><span class="line">api.xgimi.com</span><br><span class="line">apilocate.amap.com</span><br><span class="line">bdbus-turbonet.baidu.com</span><br><span class="line">btrace.play.aiseet.atianqi.com</span><br><span class="line">conf.hpplay.cn</span><br><span class="line">connectivitycheck.gstatic.com</span><br><span class="line">crab.baidu.com</span><br><span class="line">d-api.xgimi.com</span><br><span class="line">dualstack-a.apilocate.amap.com</span><br><span class="line">dueros-voice.baidu.com</span><br><span class="line">gmui-api.goss.xgimi.com</span><br><span class="line">gslb.hpplay.cn</span><br><span class="line">imdns.hpplay.cn</span><br><span class="line">input.shouji.sogou.com</span><br><span class="line">mtrace.play.aiseet.atianqi.com</span><br><span class="line">openapi.baidu.com</span><br><span class="line">qvse.baidu.com</span><br><span class="line">rp.hpplay.cn</span><br><span class="line">sdkauth.hpplay.cn</span><br><span class="line">tvapp.hpplay.cn</span><br><span class="line">vipauth.hpplay.cn</span><br><span class="line">www.baidu.com</span><br><span class="line">www.google.com</span><br><span class="line">xiaodu.baidu.com</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1135,128 +1411,6 @@
 <h4 id="求和，公式：-sum-查询语句"><a href="#求和，公式：-sum-查询语句" class="headerlink" title="求和，公式： $sum([ 查询语句 ])"></a>求和，公式： $sum([ 查询语句 ])</h4><p>“$sum” 是固定的表达式；因为是一组数据求和，所以要带上 [] ；</p>
 <h4 id="小数点，公式：-round-xxxx-小数点位"><a href="#小数点，公式：-round-xxxx-小数点位" class="headerlink" title="小数点，公式： $round(xxxx,小数点位)"></a>小数点，公式： $round(xxxx,小数点位)</h4><p>“$round” 是固定的表达式；</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/c691b240/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Rohman.Zhu">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 诺曼实验室">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/posts/c691b240/" class="post-title-link" itemprop="url">Grafana-JSON数据源处理实例</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2026-07-25 16:20:31" itemprop="dateCreated datePublished" datetime="2026-07-25T16:20:31+00:00">2026-07-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-07-26 07:43:49" itemprop="dateModified" datetime="2026-07-26T07:43:49+00:00">2026-07-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/default/" itemprop="url" rel="index"><span itemprop="name">default</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>我写了一个JSON数据源，里面是全量的数据，相当于是一张静态表，需要通过Grafana做数据展示，数据源如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-01-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.182</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4153</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1728</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3617</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-02-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1815</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4148</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1724</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3613</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span>  <span class="string">&quot;2026-03-02&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;provident_fund_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                           <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.026</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.2333</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.181</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">                                           <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.4143</span></span><br><span class="line">                                       <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;commerical_loan_object&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span></span><br><span class="line">                                       <span class="attr">&quot;interest_rate&quot;</span><span class="punctuation">:</span>  <span class="number">0.0305</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;principal&quot;</span><span class="punctuation">:</span>  <span class="number">0.1889</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;interest&quot;</span><span class="punctuation">:</span>  <span class="number">0.1719</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span>  <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">                                       <span class="attr">&quot;total_repayment&quot;</span><span class="punctuation">:</span>  <span class="number">0.3608</span></span><br><span class="line">                                   <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
-
-<p>其中有一个date字段，我想筛选出指定日期的数据，比如2026-01-01至2026-03-01，结果DeepSeek的答复死活都无法测试通过，他还使劲忽悠我。（这里该批评D老师，AI幻觉太严重了，还信誓旦旦地说可以）</p>
-<h1 id="错误方案演示-–-来自DeepSeek"><a href="#错误方案演示-–-来自DeepSeek" class="headerlink" title="错误方案演示 – 来自DeepSeek"></a>错误方案演示 – 来自DeepSeek</h1><h2 id="【错误方法】在面板的-Transform-选项卡中，点击-Add-transformation，选择-Filter-data-by-values"><a href="#【错误方法】在面板的-Transform-选项卡中，点击-Add-transformation，选择-Filter-data-by-values" class="headerlink" title="【错误方法】在面板的 Transform 选项卡中，点击 + Add transformation，选择 Filter data by values"></a>【错误方法】在面板的 Transform 选项卡中，点击 + Add transformation，选择 Filter data by values</h2><p>核心：</p>
-<ol>
-<li>Operator：选择 Is lower or equal（小于等于）。</li>
-<li>Value：填入 ${__now}。这是Grafana的全局变量，代表“当前时间”。Grafana从 v11 开始已支持在转换中使用变量。</li>
-</ol>
-<p>结论：<br>这个方式是错误的，我的Grafana版本没有 Is lower or equal ;</p>
-<h2 id="【错误方法】没有-Is-lower-or-equal-，只有Is-Between，设置了也不生效"><a href="#【错误方法】没有-Is-lower-or-equal-，只有Is-Between，设置了也不生效" class="headerlink" title="【错误方法】没有 Is lower or equal ，只有Is Between，设置了也不生效"></a>【错误方法】没有 Is lower or equal ，只有Is Between，设置了也不生效</h2><p>初始答复是正确的：<br>“你看到只有 is between，是因为 Grafana 会根据字段类型动态显示不同的运算符。你的 date 字段很可能没有被识别为时间类型（Time），而是被当成了字符串或数字。”</p>
-<p>我点击transform选项卡里面的 debug 按钮，看到Input date，有如下信息：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;Date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="string">&quot;2026-01-02&quot;</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="string">&quot;2026-02-02&quot;</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="string">&quot;2026-03-02&quot;</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="string">&quot;2026-04-02&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>输入的字段还是 字符串，而不是时间类型，无法做比较，最终也就无法筛选出指定数据；</p>
-<h1 id="正确方法演示-–-来自sonnet"><a href="#正确方法演示-–-来自sonnet" class="headerlink" title="正确方法演示 – 来自sonnet"></a>正确方法演示 – 来自sonnet</h1><p>核心：Transformations 里面做好数据转化</p>
-<h2 id="步骤一、增加Convert-field-type（用于数据转化）"><a href="#步骤一、增加Convert-field-type（用于数据转化）" class="headerlink" title="步骤一、增加Convert field type（用于数据转化）"></a>步骤一、增加Convert field type（用于数据转化）</h2><p>Filed选择 date ， 类型 as Time ， 输入格式 Input format 为 YYYY-MM-DD</p>
-<blockquote>
-<p>这一步就将数据转化成时间类，让date具备筛选的条件；</p>
-</blockquote>
-<h2 id="步骤二、增加Filter-data-by-values（用于筛选合适的数据）"><a href="#步骤二、增加Filter-data-by-values（用于筛选合适的数据）" class="headerlink" title="步骤二、增加Filter data by values（用于筛选合适的数据）"></a>步骤二、增加Filter data by values（用于筛选合适的数据）</h2><ol>
-<li>Filter type选择 Include</li>
-<li>Field 选择 date</li>
-<li>Match 选择 Is between</li>
-<li>Value 是 $__from and $__to</li>
-</ol>
-<p>点击Debug按钮，可以看到Input数据如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Array<span class="punctuation">[</span><span class="number">1</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">refId<span class="punctuation">:</span><span class="string">&quot;A&quot;</span></span><br><span class="line">fields<span class="punctuation">:</span>Array<span class="punctuation">[</span><span class="number">3</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span>Object</span><br><span class="line">name<span class="punctuation">:</span><span class="string">&quot;date&quot;</span></span><br><span class="line">type<span class="punctuation">:</span><span class="string">&quot;time&quot;</span></span><br><span class="line">values<span class="punctuation">:</span><span class="punctuation">[</span><span class="number">360</span><span class="punctuation">]</span></span><br><span class="line"><span class="number">0</span><span class="punctuation">:</span><span class="number">1767283200000</span></span><br><span class="line"><span class="number">1</span><span class="punctuation">:</span><span class="number">1769961600000</span></span><br><span class="line"><span class="number">2</span><span class="punctuation">:</span><span class="number">1772380800000</span></span><br><span class="line"><span class="number">3</span><span class="punctuation">:</span><span class="number">1775059200000</span></span><br><span class="line"><span class="number">4</span><span class="punctuation">:</span><span class="number">1777651200000</span></span><br><span class="line"><span class="number">5</span><span class="punctuation">:</span><span class="number">1780329600000</span></span><br><span class="line"><span class="number">6</span><span class="punctuation">:</span><span class="number">1782921600000</span></span><br><span class="line"><span class="number">7</span><span class="punctuation">:</span><span class="number">1785600000000</span></span><br><span class="line"><span class="number">8</span><span class="punctuation">:</span><span class="number">1788278400000</span></span><br><span class="line"><span class="number">9</span><span class="punctuation">:</span><span class="number">1790870400000</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="步骤三、增加Reduce（求和运算-每一个查询项自求和）"><a href="#步骤三、增加Reduce（求和运算-每一个查询项自求和）" class="headerlink" title="步骤三、增加Reduce（求和运算,每一个查询项自求和）"></a>步骤三、增加Reduce（求和运算,每一个查询项自求和）</h2><ol>
-<li>Module选择Reduce Fields</li>
-<li>Calculations选择Total</li>
-</ol>
-<h2 id="步骤四、增加Add-field-from-calculation（求和运行，多个项累加一起）"><a href="#步骤四、增加Add-field-from-calculation（求和运行，多个项累加一起）" class="headerlink" title="步骤四、增加Add field from calculation（求和运行，多个项累加一起）"></a>步骤四、增加Add field from calculation（求和运行，多个项累加一起）</h2><ol>
-<li>Mode选择Reduce row；</li>
-<li>Operation 勾选需求和的列；</li>
-<li>Calculation选择 Total；</li>
-</ol>
-<h2 id="（可选）调整顺序-Organize-fields-by-name"><a href="#（可选）调整顺序-Organize-fields-by-name" class="headerlink" title="（可选）调整顺序 Organize fields by name"></a>（可选）调整顺序 Organize fields by name</h2>
       
     </div>
 
