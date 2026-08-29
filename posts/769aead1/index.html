@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景最近在调研AI模型成本，看到 Mac mini M6、M5Pro 发布，还有就是部分DIY厂商提供AMD AI一体机，所以就推测一下本地化部署与MaaS的比较。  生成日期：2026-08-29  一、结论先行2 万预算下，本地硬件跑不赢 MaaS，除非用途里有”数据不出门”这一条硬约束。 即使上到最高档 MaaS（火山 Pro 200 元&#x2F;月），能替代云端的能力型硬件 5 年成本仍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI模型消费选型-硬件本地部署VS各家MaaS">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/769aead1/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="背景最近在调研AI模型成本，看到 Mac mini M6、M5Pro 发布，还有就是部分DIY厂商提供AMD AI一体机，所以就推测一下本地化部署与MaaS的比较。  生成日期：2026-08-29  一、结论先行2 万预算下，本地硬件跑不赢 MaaS，除非用途里有”数据不出门”这一条硬约束。 即使上到最高档 MaaS（火山 Pro 200 元&#x2F;月），能替代云端的能力型硬件 5 年成本仍">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-29T07:19:08.000Z">
+<meta property="article:modified_time" content="2026-08-29T07:22:33.584Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="default">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/769aead1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/769aead1/","path":"posts/769aead1/","title":"AI模型消费选型-硬件本地部署VS各家MaaS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AI模型消费选型-硬件本地部署VS各家MaaS | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BB%93%E8%AE%BA%E5%85%88%E8%A1%8C"><span class="nav-number">1.1.</span> <span class="nav-text">一、结论先行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E7%AC%94%E8%B4%A6"><span class="nav-number">1.2.</span> <span class="nav-text">二、三笔账</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%88%90%E6%9C%AC%E8%B4%A6"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 成本账</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%83%BD%E5%8A%9B%E8%B4%A6"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 能力账</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%95%B0%E6%8D%AE%E8%B4%A6"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 数据账</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%88%86%E5%9C%BA%E6%99%AF%E8%90%BD%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">三、分场景落点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%84%E5%AE%B6-MaaS-%E8%AE%A1%E8%B4%B9%E6%A8%A1%E5%BC%8F%E8%AF%B4%E6%98%8E"><span class="nav-number">1.4.</span> <span class="nav-text">四、各家 MaaS 计费模式说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E4%B8%89%E6%9D%A1%E8%AE%A1%E8%B4%B9%E8%B7%AF%E7%BA%BF%E6%80%BB%E8%A7%88"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 三条计费路线总览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E8%AE%A2%E9%98%85%E5%88%B6-Coding-Plan%EF%BC%88%E6%8C%89%E8%AF%B7%E6%B1%82%E6%AC%A1%E6%95%B0%EF%BC%89"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 订阅制 Coding Plan（按请求次数）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%81%AB%E5%B1%B1%E6%96%B9%E8%88%9F-Lite-%E8%AE%A1%E8%B4%B9%E8%AF%A6%E8%A7%A3%EF%BC%88%E5%BD%93%E5%89%8D%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E7%9A%84%E5%A5%97%E9%A4%90%EF%BC%89"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">火山方舟 Lite 计费详解（当前实际使用的套餐）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Token-Plan%EF%BC%88%E6%8C%89-Credits-token-%E6%8A%98%E7%AE%97%EF%BC%89"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 Token Plan（按 Credits &#x2F; token 折算）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E7%BA%AF%E6%8C%89%E9%87%8F%E4%BB%98%E8%B4%B9%EF%BC%88DeepSeek-%E5%AE%98%E6%96%B9%EF%BC%89"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 纯按量付费（DeepSeek 官方）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E4%BC%81%E4%B8%9A%E7%A7%AF%E5%88%86%E5%88%B6%EF%BC%88%E4%B8%83%E7%89%9B%E4%BA%91%EF%BC%89"><span class="nav-number">1.4.5.</span> <span class="nav-text">4.5 企业积分制（七牛云）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-%E9%80%89%E5%9E%8B%E6%A0%B8%E5%BF%83%EF%BC%9A%E5%85%88%E5%88%86%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%BC%96%E7%A0%81%E8%BF%98%E6%98%AF%E7%A8%8B%E5%BA%8F%E5%8C%96%E8%B0%83%E7%94%A8"><span class="nav-number">1.4.6.</span> <span class="nav-text">4.6 选型核心：先分交互式编码还是程序化调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E4%BB%B7%E6%A0%BC%E6%AF%94%E8%BE%83%EF%BC%885-%E5%B9%B4%E6%8B%89%E9%BD%90%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">五、价格比较（5 年拉齐）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%8F%82%E6%95%B0"><span class="nav-number">1.5.1.</span> <span class="nav-text">计算参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E8%B4%B9%E8%AE%A1%E7%AE%97"><span class="nav-number">1.5.2.</span> <span class="nav-text">电费计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MaaS-5-%E5%B9%B4%E6%88%90%E6%9C%AC"><span class="nav-number">1.5.3.</span> <span class="nav-text">MaaS 5 年成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E7%BB%9F%E4%B8%80-300W-%E5%8F%A3%E5%BE%84"><span class="nav-number">1.5.4.</span> <span class="nav-text">方式一：统一 300W 口径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E8%A1%A8%E7%BB%93%E8%AE%BA%EF%BC%88300W-%E5%8F%A3%E5%BE%84%EF%BC%89"><span class="nav-number">1.5.5.</span> <span class="nav-text">读表结论（300W 口径）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E8%B4%A6%E6%9C%AA%E8%AE%A1%E5%85%A5%E7%9A%84%E5%88%A9%E5%A5%BD"><span class="nav-number">1.5.6.</span> <span class="nav-text">硬件账未计入的利好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E6%8C%89%E5%AE%9E%E9%99%85%E6%BB%A1%E8%BD%BD%E5%8A%9F%E7%8E%87"><span class="nav-number">1.5.7.</span> <span class="nav-text">方式二：按实际满载功率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BE%85%E7%A1%AE%E8%AE%A4"><span class="nav-number">1.6.</span> <span class="nav-text">六、待确认</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">1.7.</span> <span class="nav-text">七、实际使用记录</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">506</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">153</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/769aead1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AI模型消费选型-硬件本地部署VS各家MaaS | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AI模型消费选型-硬件本地部署VS各家MaaS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-08-29 07:19:08 / Modified: 07:22:33" itemprop="dateCreated datePublished" datetime="2026-08-29T07:19:08+00:00">2026-08-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在调研AI模型成本，看到 Mac mini M6、M5Pro 发布，还有就是部分DIY厂商提供AMD AI一体机，所以就推测一下本地化部署与MaaS的比较。</p>
+<blockquote>
+<p>生成日期：2026-08-29</p>
+</blockquote>
+<h2 id="一、结论先行"><a href="#一、结论先行" class="headerlink" title="一、结论先行"></a>一、结论先行</h2><p><strong>2 万预算下，本地硬件跑不赢 MaaS，除非用途里有”数据不出门”这一条硬约束。</strong> 即使上到最高档 MaaS（火山 Pro 200 元&#x2F;月），能替代云端的能力型硬件 5 年成本仍是它的 2 倍以上，且跑的是量化打折模型。默认主用途为 AI 编程辅助。</p>
+<hr>
+<h2 id="二、三笔账"><a href="#二、三笔账" class="headerlink" title="二、三笔账"></a>二、三笔账</h2><h3 id="2-1-成本账"><a href="#2-1-成本账" class="headerlink" title="2.1 成本账"></a>2.1 成本账</h3><table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>价格</th>
+<th>相当于 MaaS 多少个月</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>阿迈奇 128G</td>
+<td>19899</td>
+<td>千问 Lite 约 510 个月（42 年）</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 32G</td>
+<td>19999</td>
+<td>约 513 个月</td>
+</tr>
+<tr>
+<td>Mac mini M5 Pro 64G</td>
+<td>20499</td>
+<td>约 526 个月</td>
+</tr>
+<tr>
+<td>Mac mini M6 32G</td>
+<td>11499</td>
+<td>约 295 个月（24 年）</td>
+</tr>
+</tbody></table>
+<p>买任何一台硬件，等于一次性预付 24~42 年的云端订阅费。硬件跑量化打折模型，云端跑满血旗舰、持续换代，这笔账硬件必输。</p>
+<h3 id="2-2-能力账"><a href="#2-2-能力账" class="headerlink" title="2.2 能力账"></a>2.2 能力账</h3><p>“阿迈奇 96G 显存跑 235B”是营销话术：</p>
+<ul>
+<li>235B 指 MoE 模型全量参数（如 Qwen3-235B-A22B，实际激活 22B），非 235B 稠密模型。</li>
+<li>96G 显存放不下 Q4 量化的 235B 权重（约 130G+），只能靠 MXFP4 压到 120B 级别。实测能跑 120B 级模型，但”能部署”与”能日常用”是两回事。</li>
+<li>核心瓶颈是内存带宽：AI Max+395 仅约 273GB&#x2F;s，比专业卡差一个数量级，跑大模型约 8~15 tokens&#x2F;s，长 prompt、长上下文更慢。</li>
+<li>阿迈奇是杂牌迷你主机，AMD 本地推理生态（ROCm&#x2F;Vulkan）成熟度不如 Apple，品控售后亦有风险。</li>
+</ul>
+<p>Mac 侧：32G 的 M6 与 M5 Max 只能跑 14B~32B 量化，48G 的 M5 Max 封顶 70B。<strong>2 万内的 Mac 内存太小，不是”AI 部署机”，是”能顺便跑小模型的好电脑”。</strong></p>
+<h3 id="2-3-数据账"><a href="#2-3-数据账" class="headerlink" title="2.3 数据账"></a>2.3 数据账</h3><p>这是本地部署唯一能翻盘的地方，且已有实锤：</p>
+<ul>
+<li><strong>千问 Token Plan 个人版明文：模型输入与生成内容用于服务改进与模型优化</strong>（阿里云协议第 5.2 条）。用其跑代码，代码会进训练池。</li>
+<li>火山方舟个人 Coding Plan 数据条款未核实，需翻协议确认。</li>
+<li>本地部署数据绝对不出门，这是其独有价值。</li>
+</ul>
+<hr>
+<h2 id="三、分场景落点"><a href="#三、分场景落点" class="headerlink" title="三、分场景落点"></a>三、分场景落点</h2><p><strong>场景 A：AI 编程辅助、日常问答、跑 Agent 工具（大概率场景）</strong><br>选 MaaS，硬件不买，按使用强度选档：</p>
+<ul>
+<li>中高强度：火山方舟 Lite 40 元&#x2F;月，每 5 小时约 1200 次、每月约 18000 次请求，前两月有折扣。千问 Lite（39 元&#x2F;月）作备选，模型阵容更全（含 DeepSeek v4、GLM-5.2），但个人版数据授权条款需注意。</li>
+<li>重度：火山方舟 Pro 200 元&#x2F;月，额度 ×5（每月约 90000 次请求）。即使 Pro 档，5 年 12000 元仍低于所有硬件，且跑的是满血模型。</li>
+</ul>
+<p><strong>场景 B：数据敏感、代码不能外流、或离线环境</strong><br>千问个人版直接排除。先确认火山方舟数据条款；若也不干净，两条路：</p>
+<ul>
+<li>本地部署：2 万内只有阿迈奇能碰 120B 级别，接受 8~15 tok&#x2F;s 慢速与杂牌风险。</li>
+<li>更务实：上企业版&#x2F;团队版（千问企业版明确不用于训练）或用企业协议按量付费 API。</li>
+</ul>
+<p><strong>场景 C：本来就要买台电脑，顺带跑模型</strong></p>
+<ul>
+<li>要最大本地模型能力：阿迈奇 128G。</li>
+<li>要省心全能的好电脑：Mac，但认清其跑不了大模型。</li>
+<li>折中：Mac mini M5 Pro 64G（20499，略超预算），能跑 70B 量化，生态成熟安静。</li>
+</ul>
+<hr>
+<h2 id="四、各家-MaaS-计费模式说明"><a href="#四、各家-MaaS-计费模式说明" class="headerlink" title="四、各家 MaaS 计费模式说明"></a>四、各家 MaaS 计费模式说明</h2><p>国内平台截至 2026 年 7 月已分化出三条计费路线。计费模式决定”能不能用、会不会超支、会不会违规”，比价格更重要。</p>
+<h3 id="4-1-三条计费路线总览"><a href="#4-1-三条计费路线总览" class="headerlink" title="4.1 三条计费路线总览"></a>4.1 三条计费路线总览</h3><table>
+<thead>
+<tr>
+<th>路线</th>
+<th>计费单位</th>
+<th>代表平台</th>
+<th>适用场景</th>
+<th>能否程序化调 API</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>订阅制 Coding Plan</td>
+<td>请求次数（5h&#x2F;周&#x2F;月三级窗口）</td>
+<td>火山方舟、智谱 GLM、阿里云百炼</td>
+<td>编程工具内交互式编码</td>
+<td>多数禁止</td>
+</tr>
+<tr>
+<td>Token Plan</td>
+<td>Credits &#x2F; token 折算</td>
+<td>阿里云个人版、火山方舟、MiniMax、腾讯云</td>
+<td>编程工具 + 部分 Agent</td>
+<td>多数禁止 API</td>
+</tr>
+<tr>
+<td>纯按量付费</td>
+<td>token</td>
+<td>DeepSeek 官方</td>
+<td>Agent 后端、批处理、自动化</td>
+<td>允许</td>
+</tr>
+<tr>
+<td>企业积分制</td>
+<td>积分（按 token 折算）</td>
+<td>七牛云</td>
+<td>企业业务集成</td>
+<td>允许</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-订阅制-Coding-Plan（按请求次数）"><a href="#4-2-订阅制-Coding-Plan（按请求次数）" class="headerlink" title="4.2 订阅制 Coding Plan（按请求次数）"></a>4.2 订阅制 Coding Plan（按请求次数）</h3><p>固定月费换请求次数，设 5 小时&#x2F;周&#x2F;月三级窗口，用完等刷新，不超支。</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>Lite</th>
+<th>Pro&#x2F;Max</th>
+<th>月请求额度</th>
+<th>模型覆盖</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>火山方舟</td>
+<td>¥40（首月约 ¥9.4）</td>
+<td>¥200</td>
+<td>Lite 18000 &#x2F; Pro 90000</td>
+<td>5 家厂商（豆包&#x2F;GLM&#x2F;MiniMax&#x2F;Kimi&#x2F;DeepSeek）</td>
+</tr>
+<tr>
+<td>智谱 GLM</td>
+<td>¥49</td>
+<td>¥149（Max ¥469）</td>
+<td>Lite 24000 &#x2F; Pro 120000</td>
+<td>GLM 系列，附 4 个官方 MCP</td>
+</tr>
+<tr>
+<td>阿里云百炼</td>
+<td>已停售</td>
+<td>¥200</td>
+<td>90000</td>
+<td>千问&#x2F;GLM&#x2F;Kimi&#x2F;MiniMax，工具支持 14 款最全</td>
+</tr>
+</tbody></table>
+<p>共同机制：单次提问通常触发 5~30 次调用，额度按调用次数扣；多数明确禁止 API 调用，违规封禁。</p>
+<h4 id="火山方舟-Lite-计费详解（当前实际使用的套餐）"><a href="#火山方舟-Lite-计费详解（当前实际使用的套餐）" class="headerlink" title="火山方舟 Lite 计费详解（当前实际使用的套餐）"></a>火山方舟 Lite 计费详解（当前实际使用的套餐）</h4><p>固定月费 40 元（活动期折扣，当前为前 2 月 2.5 折即 10 元），按”请求次数”扣减额度，不按 token 计费，不会产生超额费用。</p>
+<table>
+<thead>
+<tr>
+<th>限额窗口</th>
+<th>Lite 额度</th>
+<th>刷新规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每 5 小时</td>
+<td>约 1200 次</td>
+<td>从首次请求起，每 5 小时自动刷新</td>
+</tr>
+<tr>
+<td>每周</td>
+<td>约 9000 次</td>
+<td>每周一 00:00 重置</td>
+</tr>
+<tr>
+<td>每月</td>
+<td>约 18000 次</td>
+<td>每个订阅月 1 日 00:00 重置</td>
+</tr>
+</tbody></table>
+<ul>
+<li>请求次数 ≠ 提问次数：简单代码生成约 5<del>15 次调用，复杂重构约 15</del>30 次甚至更多，全部计入额度。</li>
+<li>额度耗尽：等待对应周期刷新，不扣账户余额，无法临时扩容。</li>
+<li>使用边界：仅在支持的编程工具（Claude Code、Cursor、OpenCode、Cline 等）内、配置指定 Base URL 后生效；Base URL 配错会绕过限流、转为 API 计费并触发违规预警。禁止直接调 API。</li>
+<li>模型覆盖：五家厂商（Doubao-Seed、DeepSeek-V4、GLM-5.x、Kimi、MiniMax），可选 Auto 智能调度。</li>
+</ul>
+<h3 id="4-3-Token-Plan（按-Credits-token-折算）"><a href="#4-3-Token-Plan（按-Credits-token-折算）" class="headerlink" title="4.3 Token Plan（按 Credits &#x2F; token 折算）"></a>4.3 Token Plan（按 Credits &#x2F; token 折算）</h3><p>按 Credits 或 token 上限计量，消耗随模型、思考模式动态变化。</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>入门档</th>
+<th>主力档</th>
+<th>计量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>阿里云 Token Plan 个人版</td>
+<td>Lite ¥39（2500 Credits&#x2F;7 天）</td>
+<td>Standard ¥139 &#x2F; Pro ¥499</td>
+<td>Credits</td>
+</tr>
+<tr>
+<td>火山方舟 Token Plan</td>
+<td>Small ¥40（22M token）</td>
+<td>Medium ¥200（111M）&#x2F; Large ¥500 &#x2F; Max ¥1000</td>
+<td>token 上限</td>
+</tr>
+<tr>
+<td>MiniMax Token Plan</td>
+<td>Plus ¥49（周 15000 次）</td>
+<td>Max ¥119（周 45000 次）</td>
+<td>请求次数 + token 上限</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注：阿里云有两条线——Coding Plan（百炼，Pro ¥200，按请求次数）与 Token Plan（个人版，Lite ¥39，按 Credits）。本文 2.1 成本账与第五章对比所用的”千问 Lite 39 元”即 Token Plan 个人版。</p>
+</blockquote>
+<h3 id="4-4-纯按量付费（DeepSeek-官方）"><a href="#4-4-纯按量付费（DeepSeek-官方）" class="headerlink" title="4.4 纯按量付费（DeepSeek 官方）"></a>4.4 纯按量付费（DeepSeek 官方）</h3><p>DeepSeek 不做订阅，完全按 token 计费，无月费、无额度窗口、无抢购、无合规风险。V4-Flash 输入缓存命中低至 ¥0.02&#x2F;百万 tokens，上下文 1M。适合用量波动大、做 Agent 后端的开发者。DeepSeek 模型也可通过火山方舟等第三方套餐使用。</p>
+<h3 id="4-5-企业积分制（七牛云）"><a href="#4-5-企业积分制（七牛云）" class="headerlink" title="4.5 企业积分制（七牛云）"></a>4.5 企业积分制（七牛云）</h3><p>面向企业的积分套餐（Enterprise S&#x2F;M&#x2F;B，¥2999~9999&#x2F;月），积分按 token 折算，允许 API 调用，汇聚 DeepSeek&#x2F;Moonshot&#x2F;智谱&#x2F;MiniMax 四家 25 个模型，兼容 OpenAI 与 Anthropic 接口。与个人 Coding Plan 不是同类产品，不应直接比价。</p>
+<h3 id="4-6-选型核心：先分交互式编码还是程序化调用"><a href="#4-6-选型核心：先分交互式编码还是程序化调用" class="headerlink" title="4.6 选型核心：先分交互式编码还是程序化调用"></a>4.6 选型核心：先分交互式编码还是程序化调用</h3><ul>
+<li>在 Claude Code &#x2F; Cursor 等工具里交互式编码 → 订阅制 Coding Plan &#x2F; Token Plan（成本约为 API 的 1~2 折）。</li>
+<li>做 Agent 后端、批处理、自动化流水线 → DeepSeek 按量付费或七牛云，因为多数 Coding Plan 禁止 API 调用、违规封号。</li>
+</ul>
+<p>入门档横向：MiniMax Plus ¥49（周 15000 次 &#x2F; 月 600M token）同价位额度最高；火山方舟 Lite 首月 ¥9.4 试水成本最低、模型覆盖最广。主力档：MiniMax Max ¥119 周额度追平 ¥200 档；阿里云百炼 Pro 工具支持最全（14 款）。</p>
+<blockquote>
+<p>各家套餐价格与额度调整频繁（阿里 Coding Plan Lite 已停售、MiniMax 已转 Token Plan、智谱涨价），下单前以官网实时页面为准。</p>
+</blockquote>
+<hr>
+<h2 id="五、价格比较（5-年拉齐）"><a href="#五、价格比较（5-年拉齐）" class="headerlink" title="五、价格比较（5 年拉齐）"></a>五、价格比较（5 年拉齐）</h2><h3 id="计算参数"><a href="#计算参数" class="headerlink" title="计算参数"></a>计算参数</h3><ul>
+<li>硬件功率：300 瓦&#x2F;台（统一口径）</li>
+<li>电费：0.75 元&#x2F;度</li>
+<li>使用周期：统一拉齐到 5 年</li>
+</ul>
+<blockquote>
+<p>注：300W 对 Mac 明显偏高（Mac mini M6 满载约 65W，Mac Studio 约 150~200W），阿迈奇高负载也难到 300W，故按 300W 计算属于偏向硬件的保守口径。</p>
+</blockquote>
+<h3 id="电费计算"><a href="#电费计算" class="headerlink" title="电费计算"></a>电费计算</h3><p>0.3 kW × 24h &#x3D; 7.2 度&#x2F;天 &#x3D; 5.4 元&#x2F;天</p>
+<ul>
+<li>24 小时开机：约 1971 元&#x2F;年，<strong>5 年约 9855 元</strong></li>
+<li>每天 8 小时：约 657 元&#x2F;年，<strong>5 年约 3285 元</strong></li>
+</ul>
+<h3 id="MaaS-5-年成本"><a href="#MaaS-5-年成本" class="headerlink" title="MaaS 5 年成本"></a>MaaS 5 年成本</h3><ul>
+<li>千问 Lite：39 × 60 &#x3D; <strong>2340 元</strong>（按原价 60 元&#x2F;月则为 3600 元）</li>
+<li>火山方舟 Lite：前 2 月 2.5 折，10×2 + 40×58 &#x3D; <strong>2340 元</strong></li>
+<li>火山方舟 Pro：200 × 60 &#x3D; <strong>12000 元</strong></li>
+</ul>
+<p>Lite 档巧合同为 2340 元量级，Pro 档约为其 5 倍。</p>
+<h3 id="方式一：统一-300W-口径"><a href="#方式一：统一-300W-口径" class="headerlink" title="方式一：统一 300W 口径"></a>方式一：统一 300W 口径</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>购置价</th>
+<th>+电费(24h)</th>
+<th>+电费(8h)</th>
+<th>vs Lite(2340)</th>
+<th>vs Pro(12000)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mac mini M6 32G</td>
+<td>11499</td>
+<td><strong>21354</strong></td>
+<td>14784</td>
+<td>9.1 倍</td>
+<td>1.8 倍</td>
+</tr>
+<tr>
+<td>阿迈奇 128G</td>
+<td>19899</td>
+<td><strong>29754</strong></td>
+<td>23184</td>
+<td>12.7 倍</td>
+<td>2.5 倍</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 32G</td>
+<td>19999</td>
+<td><strong>29854</strong></td>
+<td>23284</td>
+<td>12.8 倍</td>
+<td>2.5 倍</td>
+</tr>
+<tr>
+<td>Mac mini M5 Pro 64G</td>
+<td>20499</td>
+<td><strong>30354</strong></td>
+<td>23784</td>
+<td>13.0 倍</td>
+<td>2.5 倍</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 48G</td>
+<td>24499</td>
+<td><strong>34354</strong></td>
+<td>27784</td>
+<td>14.7 倍</td>
+<td>2.9 倍</td>
+</tr>
+<tr>
+<td><strong>千问 Lite &#x2F; 火山 Lite</strong></td>
+<td>—</td>
+<td><strong>2340</strong></td>
+<td>2340</td>
+<td>基准</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>火山 Pro</strong></td>
+<td>—</td>
+<td><strong>12000</strong></td>
+<td>12000</td>
+<td>5.1 倍</td>
+<td>基准</td>
+</tr>
+</tbody></table>
+<h3 id="读表结论（300W-口径）"><a href="#读表结论（300W-口径）" class="headerlink" title="读表结论（300W 口径）"></a>读表结论（300W 口径）</h3><ol>
+<li><strong>电费是隐藏大头</strong>：24 小时开机 5 年，电费 9855 元，接近甚至超过低配机购置价（Mac mini M6 电费是购置价的 86%）。越便宜的机器，电费占比越扎眼。</li>
+<li><strong>加入 Pro 后仍无一回本</strong>：最便宜硬件 Mac mini M6 5 年总成本 21354 元，仍是火山 Pro（12000 元）的 1.8 倍，且它跑不了大模型。</li>
+<li><strong>盈亏平衡点</strong>：硬件 5 年回本要求 MaaS 涨到约 <strong>356 元&#x2F;月</strong>（对标 Mac mini M6）到 <strong>573 元&#x2F;月</strong>（对标 48G Studio）。火山 Pro 仅 200 元&#x2F;月，仍低于所有硬件的回本线。</li>
+<li><strong>换代贬值未入账</strong>：5 年后今天 2 万买的机器，面对 2031 年的模型大概率吃力；云端订阅的模型持续升级。</li>
+</ol>
+<h3 id="硬件账未计入的利好"><a href="#硬件账未计入的利好" class="headerlink" title="硬件账未计入的利好"></a>硬件账未计入的利好</h3><p>以上将硬件当纯成本。若需求本就包含”一台电脑”（开发、办公、游戏），硬件有残值，部分购置成本可摊掉。但这不改变结论顺序：<strong>只要用途是 AI 编程，MaaS 先上；硬件仅在隐私 &#x2F; 离线 &#x2F; 折腾三个条件下进入候选。</strong></p>
+<hr>
+<h3 id="方式二：按实际满载功率"><a href="#方式二：按实际满载功率" class="headerlink" title="方式二：按实际满载功率"></a>方式二：按实际满载功率</h3><p>300W 是统一上限，远高于这些机器的实际满载。按各机型真实满载功耗（墙测、含全部损耗）重算：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>满载功率</th>
+<th>依据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mac mini M6 32G</td>
+<td>65W</td>
+<td>M6 官方数据未出，按 M4 官方 65W 估</td>
+</tr>
+<tr>
+<td>Mac mini M5 Pro 64G</td>
+<td>140W</td>
+<td>按 M4 Pro 官方 140W 估</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 32G&#x2F;48G</td>
+<td>145W</td>
+<td>按 M4 Max 官方 145W 估</td>
+</tr>
+<tr>
+<td>阿迈奇 128G</td>
+<td>约 150W</td>
+<td>AMD cTDP 120W + 系统&#x2F;电源损耗，估算</td>
+</tr>
+</tbody></table>
+<p>电费换算：0.75 元&#x2F;度下，5 年电费 &#x3D; 功率(kW) × 32850 元（24h 开机）或 × 10950 元（8h&#x2F;天）。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>购置</th>
+<th>电费(24h)</th>
+<th>电费(8h)</th>
+<th>5年总(24h)</th>
+<th>vs Lite(2340)</th>
+<th>vs Pro(12000)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mac mini M6 32G</td>
+<td>11499</td>
+<td>2135</td>
+<td>712</td>
+<td><strong>13634</strong></td>
+<td>5.8 倍</td>
+<td>1.1 倍</td>
+</tr>
+<tr>
+<td>Mac mini M5 Pro 64G</td>
+<td>20499</td>
+<td>4599</td>
+<td>1533</td>
+<td><strong>25098</strong></td>
+<td>10.7 倍</td>
+<td>2.1 倍</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 32G</td>
+<td>19999</td>
+<td>4763</td>
+<td>1588</td>
+<td><strong>24762</strong></td>
+<td>10.6 倍</td>
+<td>2.1 倍</td>
+</tr>
+<tr>
+<td>Mac Studio M5 Max 48G</td>
+<td>24499</td>
+<td>4763</td>
+<td>1588</td>
+<td><strong>29262</strong></td>
+<td>12.5 倍</td>
+<td>2.4 倍</td>
+</tr>
+<tr>
+<td>阿迈奇 128G</td>
+<td>19899</td>
+<td>4928</td>
+<td>1643</td>
+<td><strong>24827</strong></td>
+<td>10.6 倍</td>
+<td>2.1 倍</td>
+</tr>
+<tr>
+<td><strong>千问 Lite &#x2F; 火山 Lite</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>2340</strong></td>
+<td>基准</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>火山 Pro</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>12000</strong></td>
+<td>5.1 倍</td>
+<td>基准</td>
+</tr>
+</tbody></table>
+<p>读表：</p>
+<ol>
+<li>电费比 300W 口径腰斩：Mac 满载仅 65<del>145W，5 年电费 2135</del>4763 元，不再是 9855 元。</li>
+<li><strong>对 Lite：差距 5.8~12.5 倍</strong>，结论不变。</li>
+<li><strong>对 Pro：最便宜 Mac mini M6 仅 1.1 倍，但其余能力型硬件仍 2.1~2.4 倍</strong>。注意 Mac mini M6 是 32G、跑不了大模型，价格接近 Pro 不等于能力接近。</li>
+<li>满载是最坏情况：Mac 闲置仅 4~9W，若每天仅数小时推理、其余闲置，实际电费远低于表值（Mac mini M6 闲置 24h×5 年 ≈ 160 元）。真实电费介于”闲置”与”满载”之间。</li>
+<li>阿迈奇 150W 为估算值（非官方墙测），不确定度最高。</li>
+<li><strong>盈亏平衡点</strong>：硬件 5 年回本要求 MaaS 涨到约 228 元&#x2F;月（Mac mini M6）到 488 元&#x2F;月（48G Studio）。火山 Pro 200 元&#x2F;月仍低于所有硬件的回本线，即使用最高档 MaaS，硬件也不回本。</li>
+</ol>
+<hr>
+<h2 id="六、待确认"><a href="#六、待确认" class="headerlink" title="六、待确认"></a>六、待确认</h2><ol>
+<li>实际用途：纯 AI 编程，还是含隐私 &#x2F; 离线硬需求？</li>
+<li>火山方舟个人 Coding Plan 的数据使用条款。</li>
+</ol>
+<hr>
+<h2 id="七、实际使用记录"><a href="#七、实际使用记录" class="headerlink" title="七、实际使用记录"></a>七、实际使用记录</h2><ul>
+<li>2026-08-29：实际使用火山方舟，单个会话任务消耗了 87.47% 的 <strong>5 小时窗口</strong>额度（1200 次），即单会话 ≈ 636 次调用。</li>
+<li>意义：印证 agentic 会话（多轮工具调用）的真实调用量远高于静态估算。</li>
+<li>Model:DeepSeek V4 Pro Ga</li>
+</ul>
+<p>换算与判断：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>Lite</th>
+<th>Pro</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单会话调用量</td>
+<td>≈ 636 次</td>
+<td>≈ 636 次</td>
+</tr>
+<tr>
+<td>5 小时窗口可容会话数</td>
+<td>1200&#x2F;636 ≈ 1.9 个</td>
+<td>6000&#x2F;636 ≈ 9.4 个</td>
+</tr>
+<tr>
+<td>月额度可容会话数</td>
+<td>18000&#x2F;636 ≈ 28 个</td>
+<td>90000&#x2F;636 ≈ 141 个</td>
+</tr>
+<tr>
+<td>折合每个工作日（22 天）</td>
+<td>≈ 1.3 个</td>
+<td>≈ 6.4 个</td>
+</tr>
+</tbody></table>
+<p>结论：</p>
+<ol>
+<li><strong>5 小时窗口是爆发瓶颈</strong>：连续跑两个重度会话就会在 5 小时内触顶，触发暂停。</li>
+<li><strong>月额度才是总量瓶颈</strong>：Lite 每天仅约 1 个重度会话的量，按当前 agentic 用法大概率不够。</li>
+<li><strong>升 Pro 后两者都充裕</strong>：5 小时窗口可容约 9 个会话，月额度约 6.4 个会话&#x2F;工作日。</li>
+<li>即便升 Pro（200 元&#x2F;月，5 年 12000 元），仍低于任何硬件成本，选型结论不变。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/default/" rel="tag"># default</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/5958995e/" rel="prev" title="OpenHanako + Ollama 折腾记录">
+                  <i class="fa fa-angle-left"></i> OpenHanako + Ollama 折腾记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
