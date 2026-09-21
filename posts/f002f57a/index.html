@@ -125,7 +125,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">508</span>
+          <span class="site-state-item-count">509</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -222,8 +222,8 @@
 <li>rsync -avz –delete &#x2F;null &#x2F;tmp&#x2F; 等价于rm指令</li>
 </ol>
 <h3 id="2-2第二种工作模式：远程（Remote）"><a href="#2-2第二种工作模式：远程（Remote）" class="headerlink" title="2.2第二种工作模式：远程（Remote）"></a>2.2第二种工作模式：远程（Remote）</h3><ol>
-<li>PUSH : rsync -avzP -e ‘ssh -p 22’ &#x2F;tmp&#x2F; <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#48;&#x2e;&#48;&#x2e;&#56;">&#x72;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#48;&#x2e;&#48;&#x2e;&#56;</a>:&#x2F;tmp</li>
-<li>PULL : rsync -avzP -e ‘ssh -p 22’ <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#48;&#46;&#x30;&#46;&#56;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#48;&#46;&#x30;&#46;&#56;</a>:&#x2F;tmp &#x2F;tmp&#x2F;</li>
+<li>PUSH : rsync -avzP -e ‘ssh -p 22’ &#x2F;tmp&#x2F; <a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#x31;&#x30;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#x38;">&#114;&#x6f;&#111;&#116;&#x40;&#x31;&#x30;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#x38;</a>:&#x2F;tmp</li>
+<li>PULL : rsync -avzP -e ‘ssh -p 22’ <a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x30;&#46;&#48;&#x2e;&#x30;&#x2e;&#56;">&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x30;&#46;&#48;&#x2e;&#x30;&#x2e;&#56;</a>:&#x2F;tmp &#x2F;tmp&#x2F;</li>
 </ol>
 <blockquote>
 <p>-e表示指定隧道,即是指定了端口.</p>
@@ -303,7 +303,7 @@
 </ul>
 <p>例如:</p>
 <ul>
-<li>rsynv -avz &#x2F;tmp <a href="mailto:&#114;&#x73;&#121;&#110;&#x63;&#x5f;&#98;&#x61;&#x63;&#107;&#x75;&#112;&#x40;&#x31;&#x30;&#46;&#x30;&#46;&#x30;&#46;&#49;&#x30;">&#114;&#x73;&#121;&#110;&#x63;&#x5f;&#98;&#x61;&#x63;&#107;&#x75;&#112;&#x40;&#x31;&#x30;&#46;&#x30;&#46;&#x30;&#46;&#49;&#x30;</a>::backup –password-file&#x3D;&#x2F;etc&#x2F;rsync.password</li>
+<li>rsynv -avz &#x2F;tmp <a href="mailto:&#x72;&#115;&#121;&#x6e;&#99;&#95;&#98;&#x61;&#99;&#x6b;&#117;&#x70;&#x40;&#x31;&#x30;&#x2e;&#48;&#46;&#x30;&#x2e;&#49;&#x30;">&#x72;&#115;&#121;&#x6e;&#99;&#95;&#98;&#x61;&#99;&#x6b;&#117;&#x70;&#x40;&#x31;&#x30;&#x2e;&#48;&#46;&#x30;&#x2e;&#49;&#x30;</a>::backup –password-file&#x3D;&#x2F;etc&#x2F;rsync.password</li>
 </ul>
 <h2 id="4-RSYNC的故障排查"><a href="#4-RSYNC的故障排查" class="headerlink" title="4.RSYNC的故障排查"></a>4.RSYNC的故障排查</h2><h3 id="Connection-refused"><a href="#Connection-refused" class="headerlink" title="Connection refused"></a>Connection refused</h3><p>检查防火墙或者服务是否开启.</p>
 <h2 id="补充知识点-进程管理"><a href="#补充知识点-进程管理" class="headerlink" title="补充知识点 : 进程管理"></a>补充知识点 : 进程管理</h2><ul>
