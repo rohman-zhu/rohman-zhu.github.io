@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述vCert.py 是 Broadcom 官方推荐的 vCenter 证书管理工具（菜单驱动式），提供大多数证书相关操作的管理能力，用于在 vCenter Server 证书过期时实现无缝替换。它是已弃用的 fixcerts 脚本的替代工具。 适用版本：VMware vCenter Server 7.0.x、8.0.x、9.x工具版本：vCert-6.1.2-20260713.zip 故障现象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VCSA证书替换工具-vCert">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/39d0319a/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="概述vCert.py 是 Broadcom 官方推荐的 vCenter 证书管理工具（菜单驱动式），提供大多数证书相关操作的管理能力，用于在 vCenter Server 证书过期时实现无缝替换。它是已弃用的 fixcerts 脚本的替代工具。 适用版本：VMware vCenter Server 7.0.x、8.0.x、9.x工具版本：vCert-6.1.2-20260713.zip 故障现象">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-01T14:03:49.000Z">
+<meta property="article:modified_time" content="2026-10-01T14:16:54.677Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="故障">
+<meta property="article:tag" content="VCSA">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/39d0319a/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/39d0319a/","path":"posts/39d0319a/","title":"VCSA证书替换工具-vCert"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VCSA证书替换工具-vCert | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E7%8E%B0%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">故障现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">运行脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E5%BC%8F%E8%8F%9C%E5%8D%95"><span class="nav-number">4.2.</span> <span class="nav-text">交互式菜单</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8F%9C%E5%8D%95%E9%80%89%E9%A1%B9%E8%AF%A6%E8%A7%A3"><span class="nav-number">5.</span> <span class="nav-text">菜单选项详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Check-current-certificates-status%EF%BC%88%E8%AF%81%E4%B9%A6%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">1. Check current certificates status（证书健康检查）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-View-Certificate-Info%EF%BC%88%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6%E4%BF%A1%E6%81%AF%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">2. View Certificate Info（查看证书信息）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Manage-Certificates%EF%BC%88%E7%AE%A1%E7%90%86%E8%AF%81%E4%B9%A6%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">3. Manage Certificates（管理证书）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Manage-SSL-Trust-Anchors%EF%BC%88%E7%AE%A1%E7%90%86-SSL-%E4%BF%A1%E4%BB%BB%E9%94%9A%E7%82%B9%EF%BC%89"><span class="nav-number">5.4.</span> <span class="nav-text">4. Manage SSL Trust Anchors（管理 SSL 信任锚点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Check-configurations%EF%BC%88%E6%A3%80%E6%9F%A5%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="nav-number">5.5.</span> <span class="nav-text">5. Check configurations（检查配置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Reset-all-certificates-with-VMCA-signed-certificates%EF%BC%88VMCA-%E9%87%8D%E7%BD%AE%E6%89%80%E6%9C%89%E8%AF%81%E4%B9%A6%EF%BC%89"><span class="nav-number">5.6.</span> <span class="nav-text">6. Reset all certificates with VMCA-signed certificates（VMCA 重置所有证书）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-ESXi-certificate-operations%EF%BC%88ESXi-%E8%AF%81%E4%B9%A6%E6%93%8D%E4%BD%9C%EF%BC%89"><span class="nav-number">5.7.</span> <span class="nav-text">7. ESXi certificate operations（ESXi 证书操作）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Restart-services%EF%BC%88%E9%87%8D%E5%90%AF%E6%9C%8D%E5%8A%A1%EF%BC%89"><span class="nav-number">5.8.</span> <span class="nav-text">8. Restart services（重启服务）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Generate-certificate-report%EF%BC%88%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6%E6%8A%A5%E5%91%8A%EF%BC%89"><span class="nav-number">5.9.</span> <span class="nav-text">9. Generate certificate report（生成证书报告）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E4%BB%B6%E4%B8%8E%E6%A0%A1%E9%AA%8C%E5%80%BC"><span class="nav-number">6.</span> <span class="nav-text">附件与校验值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">514</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">155</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/39d0319a/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VCSA证书替换工具-vCert | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VCSA证书替换工具-vCert
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-10-01 14:03:49 / Modified: 14:16:54" itemprop="dateCreated datePublished" datetime="2026-10-01T14:03:49+00:00">2026-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/vSphere/" itemprop="url" rel="index"><span itemprop="name">vSphere</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><code>vCert.py</code> 是 Broadcom 官方推荐的 <strong>vCenter 证书管理工具</strong>（菜单驱动式），提供大多数证书相关操作的管理能力，用于在 vCenter Server 证书过期时实现无缝替换。它是已弃用的 fixcerts 脚本的替代工具。</p>
+<p>适用版本：VMware vCenter Server 7.0.x、8.0.x、9.x<br>工具版本：vCert-6.1.2-20260713.zip</p>
+<h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
+<li><code>/var/log/vmware/vlcm/vlcm.log</code> 报证书相关错误：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error vlcm [vclib/client.go:147] Failed to create new client: Post &quot;https://###.###.###.##:443/sdk&quot;:</span><br><span class="line">tls: failed to verify certificate: x509: certificate has expired or is not yet valid: current time ####-##-##T##:#### is after ####-##-##T##:####</span><br></pre></td></tr></table></figure></li>
+<li>vCenter 中 <strong>VMware Tools 更新</strong>报错：<code>An unexpected error has occurred.</code></li>
+<li><strong>vLCM（vSphere Lifecycle Manager）</strong> 在 VMware Tools 更新时报错：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">An unexpected error has occurred</span><br><span class="line">tls: failed to verify certificate: x509: certificate has expired</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>注：vSphere Lifecycle Manager baselines（原 VUM）已弃用，建议改用 vLCM images 方式管理主机生命周期。</p>
+</blockquote>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>从 KB 385107 文章下载工具并上传到 vCenter Server，在脚本所在目录执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unzip -q vCert-6.1.2-20260713.zip</span><br><span class="line"><span class="built_in">cd</span> vCert-6.1.2-20260713</span><br><span class="line"><span class="built_in">chmod</span> +x vCert.py</span><br><span class="line">./vCert.py</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ <strong>注意</strong>：执行前请先对 vCenter Server 虚拟机做<strong>快照</strong>，作为证书替换过程中出问题时的恢复点。</p>
+</blockquote>
+<h1 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h1><h2 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./vCert.py --<span class="built_in">help</span></span><br><span class="line">usage: vCert.py [-h] [--version] [--<span class="built_in">env</span> ENVIRONMENT] [--run OPERATION] [--user USER] [--password PASSWORD]</span><br><span class="line">VCF/VVF Certificate Management Utility (version 6.1.2)</span><br><span class="line"></span><br><span class="line">optional arguments:</span><br><span class="line">  -h, --<span class="built_in">help</span>            显示帮助信息</span><br><span class="line">  --version             显示版本号</span><br><span class="line">  --<span class="built_in">env</span> ENVIRONMENT     环境变量配置文件</span><br><span class="line">  --run OPERATION       直接运行指定操作（跳过菜单）</span><br><span class="line">  --user USER           指定 SSO 管理员账号</span><br><span class="line">  --password PASSWORD   指定 SSO 管理员账号的密码</span><br></pre></td></tr></table></figure>
+
+<h2 id="交互式菜单"><a href="#交互式菜单" class="headerlink" title="交互式菜单"></a>交互式菜单</h2><p>直接运行 <code>./vCert.py</code>，先显示风险提示横幅，输入 <code>y</code> 确认继续：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. Check current certificate status        检查当前证书状态</span><br><span class="line">2. View certificate info                   查看证书信息</span><br><span class="line">3. Manage certificates                     管理证书</span><br><span class="line">4. Manage SSL trust anchors                管理 SSL 信任锚点</span><br><span class="line">5. Check configurations                    检查配置</span><br><span class="line">6. Reset all certificates with VMCA-signed certificates   用 VMCA 签名证书重置所有证书</span><br><span class="line">7. ESXi certificate operations             ESXi 证书操作</span><br><span class="line">8. Restart services                        重启服务</span><br><span class="line">9. Generate certificate report             生成证书报告</span><br><span class="line">E. Exit</span><br></pre></td></tr></table></figure>
+
+<p>日志生成在 <code>/var/log/vmware/vCert/vCert.log</code>（会包含在 support bundle 中）；并在 <code>/root/vCert-master/</code> 下按日期 <code>YYYYMMDD</code> 创建目录，存放 staging、备份等文件（除证书备份外，临时文件在退出时删除）。</p>
+<h1 id="菜单选项详解"><a href="#菜单选项详解" class="headerlink" title="菜单选项详解"></a>菜单选项详解</h1><h2 id="1-Check-current-certificates-status（证书健康检查）"><a href="#1-Check-current-certificates-status（证书健康检查）" class="headerlink" title="1. Check current certificates status（证书健康检查）"></a>1. Check current certificates status（证书健康检查）</h2><p>检查项包括：</p>
+<ul>
+<li>证书是否已过期</li>
+<li>证书是否将在 30 天内过期</li>
+<li>Machine SSL 的 PNID 是否在 Subject Alternative Name（SAN）字段中</li>
+<li>Key Usage 值是否受支持（Machine SSL 和 Solution Users）</li>
+<li>证书 SAN 字段是否为空（Machine SSL 和 Solution Users）</li>
+<li>是否使用推荐的 Key Usage 值（Machine SSL、Solution Users、STS 签名证书）</li>
+<li>CA 证书是否缺少 Subject Key Identifier 扩展</li>
+<li>多个 CA 证书是否存在相同 Subject（VMware Directory 与 VECS TRUSTED_ROOTS 中的 CA）</li>
+<li>是否存在非 CA 证书混入 CA 存储（VMware Directory 与 VECS TRUSTED_ROOTS）</li>
+<li>证书链是否缺少 CA 证书</li>
+<li>证书是否使用非法 Alias（VECS TRUSTED_ROOTS）</li>
+<li>是否使用不支持的签名算法（md2WithRSAEncryption、md5WithRSAEncryption、RSASSA-PSS、dsaWithSHA1、ecdsa_with_SHA1、sha1WithRSAEncryption）</li>
+<li>VECS 中 Solution User 的证书与 VMware Directory 中 Service Principal 条目是否匹配</li>
+<li>因父 CA 违反路径长度限制导致证书无效（Machine SSL、Solution Users、VMware Directory 与 VECS TRUSTED_ROOTS 中的 CA）</li>
+</ul>
+<h2 id="2-View-Certificate-Info（查看证书信息）"><a href="#2-View-Certificate-Info（查看证书信息）" class="headerlink" title="2. View Certificate Info（查看证书信息）"></a>2. View Certificate Info（查看证书信息）</h2><p>打印以下各类证书的人类可读信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 1. Machine SSL certificate</span><br><span class="line"> 2. Solution User certificates</span><br><span class="line"> 3. CA certificates in VMware Directory</span><br><span class="line"> 4. CA certificates in VECS</span><br><span class="line"> 5. SMS certificates</span><br><span class="line"> 6. Data Encipherment certificate</span><br><span class="line"> 7. vCenter Extension thumbprints</span><br><span class="line"> 8. STS signing certificates</span><br><span class="line"> 9. VMCA certificate</span><br><span class="line">10. Smart Card CA certificates</span><br><span class="line">11. LDAPS Identity Source certificates</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>选项 1、2、6、9 显示证书的可读信息和指纹（fingerprint）</li>
+<li>选项 3、4、5、10、11 显示基本信息列表（Subject、Issuer、有效期、thumbprint 等），可选中后查看可读信息与 SHA1 指纹</li>
+<li>选项 7 显示各 vCenter 扩展应引用的 thumbprint 配置值</li>
+<li>选项 8 显示基本信息列表</li>
+<li>选项 10（Smart Card）在 vCenter Server 9.0 及以上<strong>不支持</strong></li>
+</ul>
+<h2 id="3-Manage-Certificates（管理证书）"><a href="#3-Manage-Certificates（管理证书）" class="headerlink" title="3. Manage Certificates（管理证书）"></a>3. Manage Certificates（管理证书）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> 1. Machine SSL certificate</span><br><span class="line"> 2. Solution User certificates</span><br><span class="line"> 3. CA certificates in VMware Directory</span><br><span class="line"> 4. CA certificates in VECS Directory</span><br><span class="line"> 5. SMS certificates</span><br><span class="line"> 6. Data Encipherment certificate</span><br><span class="line"> 7. vCenter Extension thumbprints</span><br><span class="line"> 8. STS signing certificates</span><br><span class="line"> 9. VMCA certificate</span><br><span class="line">10. Smart Card CA certificates</span><br><span class="line">11. LDAPS Identity Source certificates</span><br><span class="line">12. Clear expired certificates in BACKUP_STORE in VECS</span><br><span class="line">13. Clear TRUSTED_ROOT_CRLS store in VECS</span><br><span class="line">14. Clear Machine SSL CSR in VECS</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>选项 1（Machine SSL）</strong>：替换 VECS 中的 Machine SSL 证书并更新当前节点的 SSL 信任锚点。可用 VMCA 签名证书或自定义 CA 签名证书。自定义 CA 时可选择生成私钥 + CSR，或导入已签名的证书和密钥；若提供的 CA 签名证书不含完整 CA 链，脚本会提示提供包含完整链的文件</p>
+<blockquote>
+<p>注：vCenter 8.0 U3h 起，VMCA 签发的 Machine SSL 证书到期前 <strong>5 天自动续期</strong>（前提：VMCA 证书模式为 <code>vmca</code>）</p>
+</blockquote>
+</li>
+<li><p><strong>选项 2（Solution User）</strong>：替换 VECS 中的 Solution User 证书，并更新 VMware Directory 中的 Service Principal 条目，同时更新 vCenter 数据库中的 vpxd-extension thumbprints。可用 VMCA 或自定义 CA 签名证书</p>
+</li>
+<li><p><strong>选项 3（VMware Directory 中的 CA）</strong>：打印 CA 信息，并提供子菜单发布或移除 VMware Directory 中的证书</p>
+</li>
+<li><p><strong>选项 4（VECS 中的 CA）</strong>：打印 VECS 中的 CA 信息，并提示删除一个或多个证书（CA 需先发布到 VMware Directory 才能加入 VECS TRUSTED_ROOTS）</p>
+</li>
+<li><p><strong>选项 5（SMS）</strong>：打印 VECS 中 SMS 存储的条目，包括 vmware-sps 服务使用的证书和需要信任的第三方 VASA provider 证书；子菜单可重新生成 SMS 自签名证书和 VMCA 签名证书</p>
+</li>
+<li><p><strong>选项 6（Data Encipherment）</strong>：替换 VECS 中的 Data Encipherment 证书和私钥</p>
+</li>
+<li><p><strong>选项 7（vCenter Extension thumbprints）</strong>：检查 vpx_ext 表中以下扩展的 thumbprint 是否不匹配：</p>
+<ul>
+<li><code>com.vmware.vim.eam</code>（vpxd-extension）</li>
+<li><code>com.vmware.rbd</code>（vpxd-extension，至 vCenter 8.0 U2）</li>
+<li><code>com.vmware.vcIntegrity</code>（vpxd-extension）</li>
+<li><code>com.vmware.vlcm.client</code>（vpxd-extension，vCenter 8.0 及以上）</li>
+<li><code>com.vmware.imagebuilder</code>（vpxd-extension，vCenter 7.0 和 8.0）</li>
+<li><code>com.vmware.vsan.health</code>（Machine SSL）</li>
+<li><code>com.vmware.vmcam</code>（Authentication Proxy）</li>
+</ul>
+<p>检测到不匹配时提示更新扩展 thumbprint。vCenter 9.0 中证书 PEM 会额外存储在扩展条目中</p>
+</li>
+<li><p><strong>选项 8（STS 签名证书）</strong>：备份当前 STS 签名证书和 CA 证书，删除 VMware Directory 中所有 TenantCredential 条目，然后创建带 VMCA 签名证书的新条目。若存在用户自定义 Scheduled Tasks，会告警：替换 STS 签名证书会使任务中存储的认证 token 失效，任务需删除后重建</p>
+</li>
+<li><p><strong>选项 9（VMCA）</strong>：替换 VMCA 证书并重新签发 Machine SSL、Solution User 和 STS 签名证书。可用 VMCA 或自定义 CA 签名证书；也可选择仅替换为自签名证书且不重新生成其他证书，灵活处理（详见 KB 438284）</p>
+</li>
+<li><p><strong>选项 10（Smart Card CA）</strong>：打印反向代理 Smart Card CA 过滤器文件和 VMware Directory 中 Smart Card 签发 CA 的列表，可添加&#x2F;移除；vCenter 9.0 及以上<strong>不支持</strong></p>
+</li>
+<li><p><strong>选项 11（LDAPS Identity Source）</strong>：打印为 AD over LDAPS Identity Sources（vCenter 7.0 为 ADFS）配置的证书列表，可添加或移除 LDAP 服务器证书</p>
+</li>
+<li><p><strong>选项 12</strong>：清理 VECS BACKUP_STORE（及 BACKUP_STORE_H5C，若存在）中的过期证书</p>
+</li>
+<li><p><strong>选项 13</strong>：清理 VECS 中 TRUSTED_ROOT_CRLS 存储的条目</p>
+</li>
+<li><p><strong>选项 14</strong>：清理 MACHINE_SSL_CERT 存储中的 <code>__MACHINE_CSR</code> 条目（通过 vSphere Client 生成 CSR 时创建，含对应私钥）</p>
+</li>
+</ul>
+<h2 id="4-Manage-SSL-Trust-Anchors（管理-SSL-信任锚点）"><a href="#4-Manage-SSL-Trust-Anchors（管理-SSL-信任锚点）" class="headerlink" title="4. Manage SSL Trust Anchors（管理 SSL 信任锚点）"></a>4. Manage SSL Trust Anchors（管理 SSL 信任锚点）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. Check SSL Trust Anchors</span><br><span class="line">2. Update SSL Trust Anchors</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Check</strong>：输出 SSO 域内所有 vCenter 节点作为 Lookup Service 注册和当前 Machine SSL 证书使用的所有唯一 SSL 信任锚点证书信息，可同时显示对应的 Service ID 和 endpoint URI，展示每个服务注册&#x2F;端点使用的是哪张证书</li>
+<li><strong>Update</strong>：更新 SSO 域内选定 vCenter Server 的 SSL 信任锚点。此方法直接修改条目，而非通过 Lookup Service 脚本或库实现</li>
+</ul>
+<h2 id="5-Check-configurations（检查配置）"><a href="#5-Check-configurations（检查配置）" class="headerlink" title="5. Check configurations（检查配置）"></a>5. Check configurations（检查配置）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Check for SSL Interception</span><br><span class="line">2. Check STS server certificate and configuration</span><br><span class="line">3. Check VECS store status and permissions</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>选项 1（SSL 拦截检查）</strong>：尝试连接 <code>hostupdate.vmware.com:443</code>，比对返回证书的签发者是否为 <code>DigiCert TLS RSA SHA256 2020 CA1</code>。若签发者是其他实体，提示下载返回的 CA 证书并发布到 VMware Directory；若 CA 链不完整，提示需手动安装缺失的 CA 证书（之后可通过本选项安装）</li>
+<li><strong>选项 2（STS 服务端证书和配置检查）</strong>：检查 STS 服务配置使用的是 MACHINE_SSL_CERT 存储（greenfield 6.x&#x2F;7.x 部署）还是旧版 STS_INTERNAL_SSL_CERT 存储（从 5.5 升级的系统存在）。若配置了其他存储，提示更新配置并重启服务。同时检查 VMware Directory 的 <code>vmwSTSConnectionStrings</code> 属性：独立 vCenter 该值应指向本机 VMware Directory 实例（通过 vCenter 主机名），而 ELM（Enhanced Linked Mode）环境下应指向 localhost。值不正确时会提示更新</li>
+<li><strong>选项 3（VECS 存储状态和权限检查）</strong>：检查 VECS 中默认存储的存在性和权限分配。缺失则提示重建，权限不符则提示重新分配；若当前 vCenter 版本找不到存储权限模板，提示创建（仅限 greenfield 全新部署）</li>
+</ul>
+<h2 id="6-Reset-all-certificates-with-VMCA-signed-certificates（VMCA-重置所有证书）"><a href="#6-Reset-all-certificates-with-VMCA-signed-certificates（VMCA-重置所有证书）" class="headerlink" title="6. Reset all certificates with VMCA-signed certificates（VMCA 重置所有证书）"></a>6. Reset all certificates with VMCA-signed certificates（VMCA 重置所有证书）</h2><p>用 VMCA 签名的证书重置以下证书：</p>
+<ul>
+<li>Machine SSL（含 SSL Trust Anchors 和 vCenter 扩展 thumbprints）</li>
+<li>Solution Users（含 vCenter 扩展 thumbprints）</li>
+<li>STS Signing</li>
+</ul>
+<h2 id="7-ESXi-certificate-operations（ESXi-证书操作）"><a href="#7-ESXi-certificate-operations（ESXi-证书操作）" class="headerlink" title="7. ESXi certificate operations（ESXi 证书操作）"></a>7. ESXi certificate operations（ESXi 证书操作）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Check ESXi/vCenter certificate trust      检查 ESXi/vCenter 证书信任</span><br><span class="line">2. Check ESXi certificate against vCenter database   比对 ESXi 证书与 vCenter 数据库</span><br><span class="line">3. Replace ESXi certificate                  替换 ESXi 证书</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>选项 1</strong>：检查 VECS 中 TRUSTED_ROOTS 存储里反向代理（443 端口）和 IOFilter VASA provider（9080 端口）使用的证书签发者；同时检查 vCenter 的 Machine SSL 证书签发者，以及 <code>/etc/vmware/ssl/castore.pem</code> 文件中的 SMS 证书（SMS 证书也可能在 <code>/etc/vmware/ssl/iofiltervp_castore.pem</code>）</li>
+<li><strong>选项 2</strong>：比对 ESXi 主机 443 端口提供的 SSL 证书与 vCenter 数据库中的信息。若不一致，可能导致 vSphere HA 或 vSAN 等服务出现问题</li>
+<li><strong>选项 3</strong>：替换 ESXi 主机上的 <code>/etc/vmware/ssl/rui.crt</code>、<code>/etc/vmware/ssl/rui.key</code> 和 <code>/etc/vmware/ssl/castore.pem</code> 文件<ul>
+<li>替换后需<strong>重启主机服务</strong>才能应用新证书和密钥</li>
+<li>需在 vCenter 中<strong>断开并重新连接主机</strong>，以更新 vCenter 数据库中的新证书信息</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：vCenter 8.0 U3h 起，VMCA 签发的 ESXi 证书到期前 5 天自动续期（前提：VMCA 证书模式为 <code>vmca</code>）。</p>
+</blockquote>
+<h2 id="8-Restart-services（重启服务）"><a href="#8-Restart-services（重启服务）" class="headerlink" title="8. Restart services（重启服务）"></a>8. Restart services（重启服务）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. Restart all VMware services    重启所有 VMware 服务</span><br><span class="line">2. Restart specific VMware service 重启指定 VMware 服务</span><br></pre></td></tr></table></figure>
+
+<p>选项 2 输入的服务名会与 <code>service-control --list</code> 的输出列表进行比对。</p>
+<h2 id="9-Generate-certificate-report（生成证书报告）"><a href="#9-Generate-certificate-report（生成证书报告）" class="headerlink" title="9. Generate certificate report（生成证书报告）"></a>9. Generate certificate report（生成证书报告）</h2><p>生成的报告包含以下内容：</p>
+<ul>
+<li>VECS 中的所有条目</li>
+<li>VMware Directory 中的所有 CA 证书</li>
+<li>VMware Directory 中的所有 Service Principals（Solution Users）</li>
+<li>VMware Directory 中的所有 STS 签名证书条目</li>
+<li>文件系统上的各种服务证书（Authentication Proxy、VMware Directory 等）</li>
+<li>Smart Card Authentication 的 CA 证书（vCenter Server 9.0 及以上不提供）</li>
+<li>AD over LDAP(s) Identity Sources 的 CA 证书</li>
+<li>Lookup Service 注册的 SSL 信任锚点</li>
+</ul>
+<p>报告会打印到屏幕，并保存到 <code>/var/log/vmware/vCert</code> 目录下的文件中。</p>
+<h1 id="附件与校验值"><a href="#附件与校验值" class="headerlink" title="附件与校验值"></a>附件与校验值</h1><blockquote>
+<p>校验值仅对当前版本文件有效；文件更新后需重新获取。</p>
+</blockquote>
+<p>当前版本：<strong>vCert-6.1.2-20260713.zip</strong></p>
+<ul>
+<li>MD5SUM：<code>ce8aea7d342e4ffa208769798aba56e3</code></li>
+<li>SHA256SUM：<code>e0f3abad77b6cbf74232087ccb7cffa17c67d8098b00ff254e60bdc6bcad9731</code></li>
+</ul>
+<p>附件：<code>CHANGELOG.md</code>、<code>vCert-6.1.2-20260713.zip</code></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>VMware KB 385107：vCert - Scripted vCenter expired certificate replacement</li>
+<li>vCert - スクリプトによる vCenter の期限切れ証明書の置き換え（日文版）</li>
+<li>Replacing Expiring Self-Signed VMware Certificate Authority (VMCA) Root Certificate on vCenter Server using the vCert script</li>
+<li>VMware KB 322249：<a href="/posts/10fbf2a4/">替换vCenter证书工具-fixcerts脚本</a>（vCert 为 fixcerts 的官方推荐替代工具，fixcerts 已弃用）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%85%E9%9A%9C/" rel="tag"># 故障</a>
+              <a href="/tags/VCSA/" rel="tag"># VCSA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/10fbf2a4/" rel="prev" title="替换vCenter证书工具-fixcerts脚本">
+                  <i class="fa fa-angle-left"></i> 替换vCenter证书工具-fixcerts脚本
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
