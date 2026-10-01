@@ -19,27 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="背景跨vCenter克隆一台40TB的虚拟机，耗时3天依旧失败； 报错提示12345678910111213141516171819Shared nothing vMotion (migration of both compute and storage) or cloning fails for very large VMs if the migration takes more than 24">
+    <meta name="description" content="背景跨 vCenter 克隆一台 40TB 的虚拟机，耗时 3 天依旧失败，提示 Invalid configuration for device &#39;XX&#39;。 本文内容基于 VMware KB 344928（Error “Invalid configuration for device ‘##’:” triggers failure of vMotion&#x2F;Cloning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【待更新】克隆失败-提示Invalid configuration for device &#39;XX&#39;">
+<meta property="og:title" content="克隆失败-提示Invalid configuration for device &#39;XX&#39;">
 <meta property="og:url" content="http://github.com/rohman-zhu/posts/f9c3163d/index.html">
 <meta property="og:site_name" content="诺曼实验室">
-<meta property="og:description" content="背景跨vCenter克隆一台40TB的虚拟机，耗时3天依旧失败； 报错提示12345678910111213141516171819Shared nothing vMotion (migration of both compute and storage) or cloning fails for very large VMs if the migration takes more than 24">
+<meta property="og:description" content="背景跨 vCenter 克隆一台 40TB 的虚拟机，耗时 3 天依旧失败，提示 Invalid configuration for device &#39;XX&#39;。 本文内容基于 VMware KB 344928（Error “Invalid configuration for device ‘##’:” triggers failure of vMotion&#x2F;Cloning">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-27T06:10:30.000Z">
-<meta property="article:modified_time" content="2026-02-08T13:58:30.227Z">
+<meta property="article:modified_time" content="2026-10-01T14:58:10.032Z">
 <meta property="article:author" content="Rohman.Zhu">
-<meta property="article:tag" content="TODO">
+<meta property="article:tag" content="故障">
+<meta property="article:tag" content="vSphere">
 <meta name="twitter:card" content="summary">
 
 
 <link rel="canonical" href="http://github.com/rohman-zhu/posts/f9c3163d/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/f9c3163d/","path":"posts/f9c3163d/","title":"【待更新】克隆失败-提示Invalid configuration for device 'XX'"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/f9c3163d/","path":"posts/f9c3163d/","title":"克隆失败-提示Invalid configuration for device 'XX'"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>【待更新】克隆失败-提示Invalid configuration for device 'XX' | 诺曼实验室</title>
+<title>克隆失败-提示Invalid configuration for device 'XX' | 诺曼实验室</title>
   
 
 
@@ -112,7 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%8F%90%E7%A4%BA"><span class="nav-number">1.1.</span> <span class="nav-text">报错提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">原因分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">解决方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E7%8E%B0%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">故障现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">适用环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E4%BF%A1%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">补充信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,12 +177,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="【待更新】克隆失败-提示Invalid configuration for device 'XX' | 诺曼实验室">
+      <meta itemprop="name" content="克隆失败-提示Invalid configuration for device 'XX' | 诺曼实验室">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【待更新】克隆失败-提示Invalid configuration for device 'XX'
+          克隆失败-提示Invalid configuration for device 'XX'
         </h1>
 
         <div class="post-meta-container">
@@ -199,7 +200,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-02-08 13:58:30" itemprop="dateModified" datetime="2026-02-08T13:58:30+00:00">2026-02-08</time>
+      <time title="Modified: 2026-10-01 14:58:10" itemprop="dateModified" datetime="2026-10-01T14:58:10+00:00">2026-10-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -224,15 +225,54 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>跨vCenter克隆一台40TB的虚拟机，耗时3天依旧失败；</p>
-<h2 id="报错提示"><a href="#报错提示" class="headerlink" title="报错提示"></a>报错提示</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Shared nothing vMotion (migration of both compute and storage) or cloning fails <span class="keyword">for</span> very large VMs <span class="keyword">if</span> the migration takes more than 24 hours to complete.</span><br><span class="line"></span><br><span class="line">Log entries similar to the following confirm the symptoms and the failure</span><br><span class="line"></span><br><span class="line"> - Destination vCenter Server logs (var/log/vmware/vpxd/vpxd.*<span class="built_in">log</span>)</span><br><span class="line">  YYYY-MM-DDTHH:MM:SS.MMMZ error vpxd[####] [Originator@6876 sub=VmProv opID=#######] Exception <span class="keyword">while</span> executing action vpx.vmprov.CreateDestinationVm: N3Vim5Fault17InvalidDeviceSpec9ExceptionE(Fault cause: vim.fault.InvalidDeviceSpec</span><br><span class="line">  </span><br><span class="line"> - Destination ESXi Server host management agent logs (var/run/log/hostd.log):</span><br><span class="line">  YYYY-MM-DDTHH:MM:SS.MMMZ Er(163) Hostd####]: [Originator@6876 sub=######.vmx opID=######## sid=####user=vpxuser:&lt;no user&gt;] Device spec doesn<span class="string">&#x27;t match up with dvport/dvpg configuration</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> - Source  vCenter Server logs (var/log/vmware/vpxd/vpxd.*log)</span></span><br><span class="line"><span class="string">  YYYY-MM-DDTHH:MM:SS.836Z error vpxd[####] [Originator@6876 sub=VmProv opID=#######] Get exception while executing action vpx.vmprov.CreateDestinationVm:</span></span><br><span class="line"><span class="string">              --&gt; (vim.fault.InvalidDeviceSpec) &#123;</span></span><br><span class="line"><span class="string">              --&gt;    property = &quot;virtualDeviceSpec.device.backing&quot;,</span></span><br><span class="line"><span class="string">              --&gt;    deviceIndex = 118,</span></span><br><span class="line"><span class="string">              --&gt;    msg = &quot;Invalid configuration for device &#x27;</span>XX<span class="string">&#x27;.&quot;,</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Cross vCenter vmotion may get following in error message</span></span><br><span class="line"><span class="string">    failed to get DVS state in the restore phase from the source host &lt;xx.xx.xx.xx&gt;</span></span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>跨 vCenter 克隆一台 <strong>40TB</strong> 的虚拟机，耗时 <strong>3 天</strong>依旧失败，提示 <code>Invalid configuration for device &#39;XX&#39;</code>。</p>
+<p>本文内容基于 VMware KB 344928（Error “Invalid configuration for device ‘##’:” triggers failure of vMotion&#x2F;Cloning for large Virtual Machines）。</p>
+<h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p><strong>Shared-nothing vMotion</strong>（同时迁移计算和存储）或<strong>克隆（Clone）</strong>超大型虚拟机时，若迁移耗时超过 <strong>24 小时</strong>，任务失败，相关日志如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Shared nothing vMotion (migration of both compute and storage) or cloning fails <span class="keyword">for</span> very large VMs <span class="keyword">if</span> the migration takes more than 24 hours to complete.</span><br><span class="line"></span><br><span class="line">Log entries similar to the following confirm the symptoms and the failure</span><br><span class="line"></span><br><span class="line"> - Destination vCenter Server logs (var/log/vmware/vpxd/vpxd.*<span class="built_in">log</span>)</span><br><span class="line">  YYYY-MM-DDTHH:MM:SS.MMMZ error vpxd[####] [Originator@6876 sub=VmProv opID=#######] Exception <span class="keyword">while</span> executing action vpx.vmprov.CreateDestinationVm: N3Vim5Fault17InvalidDeviceSpec9ExceptionE(Fault cause: vim.fault.InvalidDeviceSpec</span><br><span class="line">  </span><br><span class="line"> - Destination ESXi Server host management agent logs (var/run/log/hostd.log):</span><br><span class="line">  YYYY-MM-DDTHH:MM:SS.MMMZ Er(163) Hostd####]: [Originator@6876 sub=######.vmx opID=######## sid=####user=vpxuser:&lt;no user&gt;] Device spec doesn<span class="string">&#x27;t match up with dvport/dvpg configuration</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> - Source  vCenter Server logs (var/log/vmware/vpxd/vpxd.*log)</span></span><br><span class="line"><span class="string">  YYYY-MM-DDTHH:MM:SS.836Z error vpxd[####] [Originator@6876 sub=VmProv opID=#######] Get exception while executing action vpx.vmprov.CreateDestinationVm:</span></span><br><span class="line"><span class="string">              --&gt; (vim.fault.InvalidDeviceSpec) &#123;</span></span><br><span class="line"><span class="string">              --&gt;    property = &quot;virtualDeviceSpec.device.backing&quot;,</span></span><br><span class="line"><span class="string">              --&gt;    deviceIndex = 118,</span></span><br><span class="line"><span class="string">              --&gt;    msg = &quot;Invalid configuration for device &#x27;</span>XX<span class="string">&#x27;.&quot;,</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Cross vCenter vmotion may get following in error message</span></span><br><span class="line"><span class="string">    failed to get DVS state in the restore phase from the source host &lt;xx.xx.xx.xx&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h2><p>本次的主要原因是超时，导致分布式端口组的端口释放</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- Failure of such migrations is likely due to a missing port on the destination ESXi host.</span><br><span class="line"></span><br><span class="line">- For any migration, vCenter Server reserves a DVS port <span class="keyword">for</span> 24 hours.</span><br><span class="line"></span><br><span class="line">- After 24 hours, the port reservation expires and the port is deleted by the DvsMonitor, hence the VM migrated to the destination host has no port to connect to and the migration/clone fails.</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">This is default and expected behavior.</span><br><span class="line"></span><br><span class="line">To workaround this behavior, the port reservation <span class="built_in">timeout</span> needs to be extended to allow the migration to complete:</span><br><span class="line"></span><br><span class="line">     1. SSH to the vCenter Server appliance</span><br><span class="line">     2. Make a copy/backup of file /etc/vmware-vpx/vpxd.cfg:</span><br><span class="line">        <span class="built_in">cp</span> /etc/vmware-vpx/vpxd.cfg /etc/vmware-vpx/vpxd.cfg.bak</span><br><span class="line"></span><br><span class="line">     3. Add the following lines under the tab &lt;vpxd&gt;:</span><br><span class="line"></span><br><span class="line">      &lt;dvs&gt;</span><br><span class="line">        &lt;PortReserveTimeoutInMin&gt;7200&lt;/PortReserveTimeoutInMin&gt;</span><br><span class="line">      &lt;/dvs&gt;</span><br><span class="line"></span><br><span class="line">     4. Restart the vpxd service: service-control --restart vmware-vpxd</span><br><span class="line"></span><br><span class="line">     5. Re-try the vMotion/Clone operation on the affected VMs.</span><br><span class="line"></span><br><span class="line">     6. Once the VMs have been migrated, revert the vpxd.cfg file back to its original form:</span><br><span class="line"></span><br><span class="line">      <span class="built_in">cp</span> /etc/vmware-vpx/vpxd.cfg.bak /etc/vmware-vpx/vpxd.cfg</span><br><span class="line"></span><br><span class="line">     7. Restart the vpxd service: service-control --restart vmware-vpxd</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://knowledge.broadcom.com/external/article/344928/shared-nothing-vmotion-fails-for-large-v.html">https://knowledge.broadcom.com/external/article/344928/shared-nothing-vmotion-fails-for-large-v.html</a></p>
+<h1 id="适用环境"><a href="#适用环境" class="headerlink" title="适用环境"></a>适用环境</h1><ul>
+<li>VMware vCenter Server 8.x</li>
+<li>VMware vCenter Server 7.x</li>
+<li>VCF 9.x</li>
+</ul>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>本次的主要原因是<strong>超时</strong>，导致分布式端口组的端口被释放。官方解释如下：</p>
+<ul>
+<li>此类迁移失败很可能是由于<strong>目标 ESXi 主机上缺少端口（port）</strong></li>
+<li>对于任何迁移，vCenter Server 会为 DVS 端口<strong>保留 24 小时</strong></li>
+<li>超过 24 小时后，<strong>端口保留到期</strong>，被 <strong>DvsMonitor</strong> 删除</li>
+<li>因此迁移到目标主机的虚拟机<strong>没有可连接的端口</strong>，迁移&#x2F;克隆失败</li>
+</ul>
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>这是<strong>默认且符合预期的行为</strong>。要解决该问题，需要<strong>延长端口保留超时值</strong>，让迁移能够顺利完成（<strong>源和目标 vCenter Server</strong> 上都需要修改）：</p>
+<ol>
+<li><p><strong>SSH 登录</strong> vCenter Server Appliance</p>
+</li>
+<li><p><strong>备份</strong>配置文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/vmware-vpx/vpxd.cfg /etc/vmware-vpx/vpxd.cfg.bak</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 <code>&lt;vpxd&gt;</code> 标签内插入超时参数：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">vpxd</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dvs</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">PortReserveTimeoutInMin</span>&gt;</span>7200<span class="tag">&lt;/<span class="name">PortReserveTimeoutInMin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dvs</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">vpxd</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>重启 vpxd 服务</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service-control --restart vmware-vpxd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在受影响的虚拟机上<strong>重试 vMotion&#x2F;Clone 操作</strong></p>
+</li>
+<li><p>虚拟机迁移完成后，将 <code>vpxd.cfg</code> <strong>恢复原状</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/vmware-vpx/vpxd.cfg.bak /etc/vmware-vpx/vpxd.cfg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>重启 vpxd 服务</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service-control --restart vmware-vpxd</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p><strong>注意</strong>：值 <code>7200</code> 会将端口保留超时延长至 <strong>5 天</strong>（24×60×5&#x3D;7200），足以覆盖任何耗时较长（慢速&#x2F;超大 VM，如 50TB+）的 Shared-nothing vMotion&#x2F;Clone。</p>
+</blockquote>
+<h1 id="补充信息"><a href="#补充信息" class="headerlink" title="补充信息"></a>补充信息</h1><p><strong>Q1：能否在不修改配置的情况下，让端口动态保留到任务完成？</strong></p>
+<p><strong>A：不能。</strong> 平台架构对所有保留端口强制实施 <strong>TTL（Time-To-Live）计时器</strong>，以防止任务或系统在操作中途崩溃时造成永久性网络资源泄漏。vMotion 框架不能无限期锁定空闲端口，否则将违反”资源责任”这一基本设计原则；允许无限制的空闲锁定会带来<strong>资源饥饿（resource starvation）</strong>风险——孤立或停滞的任务可能永久占用虚拟交换机端口，耗尽集群容量。</p>
+<p><strong>Q2：该行为是否已在后续版本中修复或更改？</strong></p>
+<p><strong>A：没有。</strong> 这是<strong>有意设计的资源保护行为</strong>，而非软件缺陷。主线版本默认保留阈值仍为 24 小时，以确保非活动分配被自动回收。</p>
+<p><strong>Q3：是否有办法让为迁移任务创建的 DVS 一直保留到任务完成（无论耗时多久），而无需在 vpxd 配置文件中添加超时项和值？</strong></p>
+<p><strong>A：没有。</strong> 该流程的设计并不支持此需求。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>VMware KB 344928：Error “Invalid configuration for device ‘##’:” triggers failure of vMotion&#x2F;Cloning for large Virtual Machines - VMware vCenter Server<br><a target="_blank" rel="noopener" href="https://knowledge.broadcom.com/external/article/344928/shared-nothing-vmotion-fails-for-large-v.html">https://knowledge.broadcom.com/external/article/344928/shared-nothing-vmotion-fails-for-large-v.html</a></p>
 
     </div>
 
@@ -242,7 +282,8 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/TODO/" rel="tag"># TODO</a>
+              <a href="/tags/%E6%95%85%E9%9A%9C/" rel="tag"># 故障</a>
+              <a href="/tags/vSphere/" rel="tag"># vSphere</a>
           </div>
 
         
