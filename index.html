@@ -186,7 +186,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-11-22 14:43:52 / Modified: 14:44:19" itemprop="dateCreated datePublished" datetime="2026-11-22T14:43:52+00:00">2026-11-22</time>
+      <time title="Created: 2026-11-22 14:43:52 / Modified: 14:47:57" itemprop="dateCreated datePublished" datetime="2026-11-22T14:43:52+00:00">2026-11-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -228,6 +228,10 @@
 <li>Username：Github的账户名；</li>
 <li>Password：粘贴刚才的PAT；</li>
 </ol>
+<h2 id="git下面的凭据"><a href="#git下面的凭据" class="headerlink" title="git下面的凭据"></a>git下面的凭据</h2><blockquote>
+<p>主要应对的是 历史密码 或者 重复输入的问题</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启保存凭据</span></span><br><span class="line">git config --global credential.helper store</span><br><span class="line"></span><br><span class="line"><span class="comment"># 凭据保留路径</span></span><br><span class="line"><span class="built_in">cat</span> ~/.git-credentials</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
