@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言RDSH(Remote Desktop Session Host)，用于发布APP给到用户，需要做一些初始化的操作，以及安装一些必要的软件。 确认需求比如通过RDSH发布的浏览器或者SSH客户端，用于网页访问、SSH访问； 配置评估   配置 用户数 体验    32C128GB 100 服务器负载100%，用户反馈卡   32C128GB 50 服务器负载 50%波动，用户无异常反馈   3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows-Server-RDSH初始化清单">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/e83d3b1f/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="前言RDSH(Remote Desktop Session Host)，用于发布APP给到用户，需要做一些初始化的操作，以及安装一些必要的软件。 确认需求比如通过RDSH发布的浏览器或者SSH客户端，用于网页访问、SSH访问； 配置评估   配置 用户数 体验    32C128GB 100 服务器负载100%，用户反馈卡   32C128GB 50 服务器负载 50%波动，用户无异常反馈   3">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-18T19:54:05.000Z">
+<meta property="article:modified_time" content="2025-09-23T15:58:52.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="Windows">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/e83d3b1f/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/e83d3b1f/","path":"posts/e83d3b1f/","title":"Windows-Server-RDSH初始化清单"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows-Server-RDSH初始化清单 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">确认需求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AF%84%E4%BC%B0"><span class="nav-number">2.1.</span> <span class="nav-text">配置评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%B8%85%E5%8D%95"><span class="nav-number">2.2.</span> <span class="nav-text">应用清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E4%B8%8E%E7%BB%84%E7%AD%96%E7%95%A5%E8%B0%83%E6%95%B4"><span class="nav-number">2.3.</span> <span class="nav-text">权限与组策略调整</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome%E6%B2%A1%E6%9C%89%E5%A3%B0%E9%9F%B3"><span class="nav-number">2.3.1.</span> <span class="nav-text">Chrome没有声音</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chrome%E4%B8%8B%E8%BD%BD%E7%9B%AE%E5%BD%95"><span class="nav-number">2.3.2.</span> <span class="nav-text">Chrome下载目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-number">2.3.3.</span> <span class="nav-text">设置安全策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEC%E7%9B%98%E6%A0%B9%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90"><span class="nav-number">2.3.4.</span> <span class="nav-text">设置C盘根目录权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3"><span class="nav-number">2.4.</span> <span class="nav-text">运维相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-PS-Windows-Update-%E6%A8%A1%E5%9D%97"><span class="nav-number">2.4.1.</span> <span class="nav-text">安装 PS Windows Update 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-WinRM-%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3"><span class="nav-number">2.4.2.</span> <span class="nav-text">修改 WinRM 监听端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">实战脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDSH%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.1.</span> <span class="nav-text">RDSH初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E4%B8%8B%E5%8F%91%E6%8C%87%E4%BB%A4"><span class="nav-number">3.2.</span> <span class="nav-text">服务器端下发指令</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">516</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/e83d3b1f/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Windows-Server-RDSH初始化清单 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows-Server-RDSH初始化清单
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2024-04-18 19:54:05" itemprop="dateCreated datePublished" datetime="2024-04-18T19:54:05+00:00">2024-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-09-23 15:58:52" itemprop="dateModified" datetime="2025-09-23T15:58:52+00:00">2025-09-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/" itemprop="url" rel="index"><span itemprop="name">VMware</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VMware/Horizon-View/" itemprop="url" rel="index"><span itemprop="name">Horizon View</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>RDSH(Remote Desktop Session Host)，用于发布APP给到用户，需要做一些初始化的操作，以及安装一些必要的软件。</p>
+<h1 id="确认需求"><a href="#确认需求" class="headerlink" title="确认需求"></a>确认需求</h1><p>比如通过RDSH发布的浏览器或者SSH客户端，用于网页访问、SSH访问；</p>
+<h2 id="配置评估"><a href="#配置评估" class="headerlink" title="配置评估"></a>配置评估</h2><table>
+<thead>
+<tr>
+<th align="center">配置</th>
+<th align="center">用户数</th>
+<th align="center">体验</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">32C128GB</td>
+<td align="center">100</td>
+<td align="center">服务器负载100%，用户反馈卡</td>
+</tr>
+<tr>
+<td align="center">32C128GB</td>
+<td align="center">50</td>
+<td align="center">服务器负载 50%波动，用户无异常反馈</td>
+</tr>
+<tr>
+<td align="center">32C128GB</td>
+<td align="center">30</td>
+<td align="center">服务器负载 30%波动，用户无异常反馈</td>
+</tr>
+</tbody></table>
+<h2 id="应用清单"><a href="#应用清单" class="headerlink" title="应用清单"></a>应用清单</h2><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">版本</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Chrome</td>
+<td align="center">最新版本</td>
+<td align="center">可以用msi包，通过WINRM下发指令安装</td>
+</tr>
+<tr>
+<td align="center">Firefox</td>
+<td align="center">最新版本</td>
+<td align="center">作为Chrome的备用软件，也可以远程安装</td>
+</tr>
+<tr>
+<td align="center">杀毒软件</td>
+<td align="center"></td>
+<td align="center">避免用户自行上传恶意包，导致RDSH故障</td>
+</tr>
+<tr>
+<td align="center">XSHELL</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Putty</td>
+<td align="center"></td>
+<td align="center">作为xshell的备用软件</td>
+</tr>
+<tr>
+<td align="center">Xterm</td>
+<td align="center"></td>
+<td align="center">作为xshell的备用软件，可以打开X Desktop应用</td>
+</tr>
+<tr>
+<td align="center">VMware Horizon View Agent</td>
+<td align="center">有版本关联要求，一般安装稳定版本</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Remote desktop session hosts</td>
+<td align="center"></td>
+<td align="center">120天限制</td>
+</tr>
+</tbody></table>
+<h2 id="权限与组策略调整"><a href="#权限与组策略调整" class="headerlink" title="权限与组策略调整"></a>权限与组策略调整</h2><h3 id="Chrome没有声音"><a href="#Chrome没有声音" class="headerlink" title="Chrome没有声音"></a>Chrome没有声音</h3><p>可以参照：<a target="_blank" rel="noopener" href="https://rohman-zhu.github.io/2022/10/16/RDSH%E4%B8%AD%E7%9A%84Chrome%E6%B2%A1%E6%9C%89%E5%A3%B0%E9%9F%B3/">https://rohman-zhu.github.io/2022/10/16/RDSH%E4%B8%AD%E7%9A%84Chrome%E6%B2%A1%E6%9C%89%E5%A3%B0%E9%9F%B3/</a></p>
+<h3 id="Chrome下载目录"><a href="#Chrome下载目录" class="headerlink" title="Chrome下载目录"></a>Chrome下载目录</h3><ol>
+<li>导入Chrome 组策略包；</li>
+<li>设置下载路径： \[SAMBA 服务器地址]\路径${user_name}</li>
+</ol>
+<blockquote>
+<p>${user_name}是一个变量，固定写法；</p>
+</blockquote>
+<h3 id="设置安全策略"><a href="#设置安全策略" class="headerlink" title="设置安全策略"></a>设置安全策略</h3><ol>
+<li>隐藏驱动器；</li>
+</ol>
+<h3 id="设置C盘根目录权限"><a href="#设置C盘根目录权限" class="headerlink" title="设置C盘根目录权限"></a>设置C盘根目录权限</h3><p>一般可以访问RDSH的用户均是 Remote Desktop Users 组，因此对C盘根目录的NTFS权限可以设置 该组 为 <em>写入拒绝</em> 、 <em>读取内容拒绝</em> 权限；</p>
+<blockquote>
+<p>只有Windows 、 Program Files 、Program Files(x86) 目录无法设置；</p>
+</blockquote>
+<h2 id="运维相关"><a href="#运维相关" class="headerlink" title="运维相关"></a>运维相关</h2><h3 id="安装-PS-Windows-Update-模块"><a href="#安装-PS-Windows-Update-模块" class="headerlink" title="安装 PS Windows Update 模块"></a>安装 PS Windows Update 模块</h3><p>为了方便以后Windows 补丁安装；</p>
+<h3 id="修改-WinRM-监听端口"><a href="#修改-WinRM-监听端口" class="headerlink" title="修改 WinRM 监听端口"></a>修改 WinRM 监听端口</h3><p>默认端口为5985，需要修改为一个不常用的端口；<br>其次要设置防火墙策略，避免被拦截。</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启WINRM</span></span><br><span class="line"><span class="built_in">Enable-PSRemoting</span> <span class="literal">-Force</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改WINRM端口</span></span><br><span class="line"><span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="number">5895</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查监听端口</span></span><br><span class="line">winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line"><span class="comment"># 防火墙</span></span><br><span class="line"><span class="built_in">New-NetFirewallRule</span> <span class="literal">-Name</span> <span class="string">&quot;AllowWinRM&quot;</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_XXXX&quot;</span> <span class="literal">-Enabled</span> True <span class="literal">-Direction</span> Inbound <span class="literal">-Action</span> ALLOW <span class="literal">-LocalPort</span> <span class="number">5985</span> <span class="literal">-Protocol</span> TCP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置防火墙适用范围</span></span><br><span class="line"><span class="built_in">Get-NetfirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_XXXX&quot;</span> | <span class="built_in">Get-NetFirewallAddressFilter</span> | <span class="built_in">Set-NetFirewallAddressFilter</span> <span class="literal">-RemoteAddress</span> &#123;xx.xx.xx.xx<span class="literal">-xx</span>.xx.xx.xx&#125;,&#123;xx.xx.xx.xx<span class="literal">-xx</span>.xx.xx&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="实战脚本"><a href="#实战脚本" class="headerlink" title="实战脚本"></a>实战脚本</h1><h2 id="RDSH初始化"><a href="#RDSH初始化" class="headerlink" title="RDSH初始化"></a>RDSH初始化</h2><p>拿到RDSH机器后，先要完成基础初始化动作，确保可以由远端下发远程策略；</p>
+<figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Name: init-rdsh.ps1</span></span><br><span class="line"><span class="comment"># Version:v2</span></span><br><span class="line"><span class="comment"># Description:Init RDSH powershell script</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_WINRM_PORT</span>=<span class="number">5985</span>;</span><br><span class="line"><span class="variable">$GLOBAL_IP_MGMT_1</span>=&#123;&#125;;</span><br><span class="line"><span class="variable">$GLOBAL_IP_MGMT_2</span>=&#123;&#125;;</span><br><span class="line"><span class="comment"># Format:IP</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_Target_MGMT_Account</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="comment"># Format: domain\username;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_IP_DNS_1</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="variable">$GLOBAL_IP_DNS_2</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="comment"># Format:IP</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$GLOBAL_TARGET_Domain</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="variable">$GLOBAL_MGMT_User</span>=<span class="built_in">Get-Credential</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-WINRM</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$WINRM_PORT</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开启WINRM</span></span><br><span class="line">    <span class="built_in">Enable-PSRemoting</span> <span class="literal">-Force</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 修改WINRM端口</span></span><br><span class="line">    <span class="built_in">set-item</span> wsman:\localhost\listener\listener*\port <span class="variable">$WINRM_PORT</span> <span class="literal">-Force</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查监听端口</span></span><br><span class="line">    winrm enumerate winrm/config/listener</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 开启防火墙</span></span><br><span class="line">    <span class="built_in">Set-NetfirewallProfile</span> <span class="literal">-Enabled</span> True;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 防火墙</span></span><br><span class="line">    <span class="built_in">New-NetFirewallRule</span> <span class="literal">-Name</span> <span class="string">&quot;AllowWinRM&quot;</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_<span class="variable">$WINRM_PORT</span>&quot;</span> <span class="literal">-Enabled</span> True <span class="literal">-Direction</span> Inbound <span class="literal">-Action</span> ALLOW <span class="literal">-LocalPort</span> <span class="variable">$WINRM_PORT</span> <span class="literal">-Protocol</span> TCP;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置防火墙适用范围</span></span><br><span class="line">    <span class="built_in">Get-NetfirewallRule</span> <span class="literal">-DisplayName</span> <span class="string">&quot;Allow_WINRM_TCP_<span class="variable">$WINRM_PORT</span>&quot;</span> | <span class="built_in">Get-NetFirewallAddressFilter</span> | <span class="built_in">Set-NetFirewallAddressFilter</span> <span class="literal">-RemoteAddress</span> <span class="variable">$GLOBAL_IP_MGMT_1</span>,<span class="variable">$GLOBAL_IP_MGMT_2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InitDNS</span></span>&#123;</span><br><span class="line">    <span class="variable">$NICNAMESET</span>=<span class="built_in">Get-NetAdapter</span> <span class="literal">-Physical</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$NICNAMESET</span>.Name.GetType().BaseType.Name <span class="operator">-match</span> <span class="string">&quot;Object&quot;</span>)&#123;</span><br><span class="line">        <span class="comment"># 单网卡设置DNS；</span></span><br><span class="line">        <span class="variable">$NICNAME</span>=<span class="variable">$NICNAMESET</span>.Name;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">Set-DnsClientServerAddress</span> <span class="literal">-InterfaceAlias</span> <span class="variable">$NICNAME</span> <span class="literal">-ServerAddresses</span> <span class="variable">$GLOBAL_IP_DNS_1</span>,<span class="variable">$GLOBAL_IP_DNS_2</span>;</span><br><span class="line">    &#125;<span class="keyword">elseif</span> (<span class="variable">$NICNAMESET</span>.Name.GetType().BaseType.Name <span class="operator">-match</span> <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">        <span class="comment"># 多网卡设置DNS</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="variable">$i</span>=<span class="number">0</span>;<span class="variable">$i</span> <span class="operator">-lt</span> <span class="variable">$NICNAMESET</span>.Length;<span class="variable">$i</span>++)&#123;</span><br><span class="line">            <span class="variable">$NICNAME</span>=<span class="variable">$NICNAMESET</span>.Name[<span class="variable">$i</span>];</span><br><span class="line">            <span class="built_in">Set-DnsClientServerAddress</span> <span class="literal">-InterfaceAlias</span> <span class="variable">$NICNAME</span> <span class="literal">-ServerAddresses</span> <span class="variable">$GLOBAL_IP_DNS_1</span>,<span class="variable">$GLOBAL_IP_DNS_2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-JoinDomain</span></span>&#123;</span><br><span class="line">    <span class="variable">$baseHostname</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable">$IPInfo</span>=<span class="variable">$</span>(<span class="variable">$</span>(ipconfig | findstr <span class="string">&quot;IPv4&quot;</span>) <span class="operator">-Split</span> <span class="string">&quot;[:]&quot;</span>)[<span class="number">1</span>].Trim();</span><br><span class="line">    <span class="variable">$index</span>=<span class="variable">$</span>(<span class="variable">$IPInfo</span> <span class="operator">-Split</span> <span class="string">&quot;[.]&quot;</span>)[<span class="number">3</span>].Trim();</span><br><span class="line">    <span class="comment">#将字符型转为整型 </span></span><br><span class="line">    <span class="variable">$flag</span>=[<span class="type">convert</span>]::ToInt32(<span class="variable">$index</span>,<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-ge</span> <span class="number">1</span>) <span class="operator">-and</span> <span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-le</span> <span class="number">9</span>) )&#123;</span><br><span class="line">        <span class="comment"># 在 001 与 009 区间</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="string">&quot;00&quot;</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;<span class="keyword">elseif</span>(<span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-ge</span> <span class="number">10</span>) <span class="operator">-and</span> <span class="variable">$</span>(<span class="variable">$flag</span> <span class="operator">-le</span> <span class="number">99</span>))&#123;</span><br><span class="line">        <span class="comment"># 在 100 与 99 区间</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="string">&quot;0&quot;</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment"># 大于100</span></span><br><span class="line">        <span class="variable">$newHostname</span>=<span class="variable">$baseHostname</span> + <span class="variable">$index</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Add-Computer</span> <span class="literal">-DomainName</span> <span class="variable">$GLOBAL_TARGET_Domain</span> <span class="literal">-Credential</span> <span class="variable">$GLOBAL_MGMT_User</span> <span class="literal">-NewName</span> <span class="variable">$newHostname</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InstallRDS</span></span>&#123;</span><br><span class="line">    <span class="comment"># 自动重启需要加参数 -Restart</span></span><br><span class="line">    <span class="built_in">Install-WindowsFeature</span> <span class="literal">-Name</span> <span class="string">&quot;RDS-RD-Server&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-Main</span></span>&#123;</span><br><span class="line">    <span class="built_in">Start-WINRM</span> <span class="variable">$GLOBAL_WINRM_PORT</span>;</span><br><span class="line">    <span class="built_in">Start-InitDNS</span>;</span><br><span class="line">    <span class="built_in">Start-JoinDomain</span>;</span><br><span class="line">    <span class="built_in">Start-InstallRDS</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 添加管理员至administrators组</span></span><br><span class="line">    net localgroup administrators /add <span class="variable">$GLOBAL_Target_MGMT_Account</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 自动重启</span></span><br><span class="line">    shutdown /s /t <span class="number">180</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Start-Main</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务器端下发指令"><a href="#服务器端下发指令" class="headerlink" title="服务器端下发指令"></a>服务器端下发指令</h2><figure class="highlight ps1"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$GLOBAL_WINRM_PORT</span>=<span class="number">5985</span>;</span><br><span class="line"><span class="variable">$GLOBAL_MGMT_User</span>=<span class="built_in">Get-Credential</span>;</span><br><span class="line"><span class="variable">$GLOBAL_USERLIST</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Horizon Agent</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-InstallHorizonAgent</span></span>&#123;</span><br><span class="line">    <span class="keyword">param</span>(<span class="variable">$PS_Session</span>);</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-ScriptBlock</span> &#123;mkdir C:\<span class="number">1</span><span class="literal">-InstallPackage</span>;&#125;;</span><br><span class="line">    <span class="built_in">Copy-Item</span> Agent.exe <span class="literal">-Destination</span> C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\Agent.exe <span class="literal">-ToSession</span> <span class="variable">$PS_Session</span>;</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-Ar</span> <span class="literal">-ScriptBlock</span> &#123; C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\agent.exe /s /v <span class="string">&#x27;/qn RDP_CHOICE=0 VDM_VC_MANAGED_AGENT=0 VDM_SERVER_NAME=[Connect Server IP] VDM_SERVER_USERNAME=[domain\administratorUsername] VDM_SERVER_PASSWORD=&quot;[密码，需要用双引号]&quot; ADDLOCAL=Core REBOOT=Force&#x27;</span> /l C:\<span class="number">1</span><span class="literal">-InstallPackage</span>\installAgent.log;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 授权</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-GrantUser</span></span> &#123;</span><br><span class="line">    <span class="keyword">param</span> (<span class="variable">$PS_Session</span>,<span class="variable">$UserList</span>);</span><br><span class="line">    <span class="built_in">Invoke-Command</span> <span class="literal">-Session</span> <span class="variable">$PS_Session</span> <span class="literal">-ArgumentList</span> <span class="variable">$UserList</span> <span class="literal">-ScriptBlock</span> &#123; <span class="keyword">param</span>(<span class="variable">$UserList</span>);net localgroup <span class="string">&quot;Remote Desktop Users&quot;</span> /add <span class="variable">$UserList</span>&#125;;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start-Main</span></span>&#123;</span><br><span class="line">  <span class="keyword">param</span>(<span class="variable">$ServerIP</span>);</span><br><span class="line">  <span class="variable">$Session</span>=<span class="built_in">New-PSSession</span> <span class="literal">-ComputerName</span> <span class="variable">$ServerIP</span> <span class="literal">-Port</span> <span class="variable">$GLOBAL_WINRM_PORT</span> <span class="literal">-Credential</span> <span class="variable">$GLOBAL_MGMT_User</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Start-InstallHorizonAgent</span> <span class="variable">$Session</span>;</span><br><span class="line">  <span class="built_in">Start-GrantUser</span> <span class="variable">$Session</span> <span class="variable">$GLOBAL_USERLIST</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Start-Main</span> </span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/3fa89bd7/" rel="prev" title="Horizon-599故障">
+                  <i class="fa fa-angle-left"></i> Horizon-599故障
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/31ea1e9e/" rel="next" title="Windows Server  安装其他语言包">
+                  Windows Server  安装其他语言包 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

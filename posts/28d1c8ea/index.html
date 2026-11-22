@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="故障现象 在点击电源按钮后，设备没有听到开机自检的蜂鸣器声音就自动断电了； 手动移除电源线，重新接通电源线，设备的开机自检蜂鸣器会响一声后就断电了； 移除掉接通的USB设备、网线，重新接通电源线，设备可正常开机，再接通网线正常；  AI排查记录一、日志时间线基于 &#x2F;var&#x2F;log&#x2F;message 提供的信息，还原事件时间线：    时间 事件 说明    2026-10-02 20:43:27 ~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑群晖DSM意外断电排查记录">
+<meta property="og:url" content="http://github.com/rohman-zhu/posts/28d1c8ea/index.html">
+<meta property="og:site_name" content="诺曼实验室">
+<meta property="og:description" content="故障现象 在点击电源按钮后，设备没有听到开机自检的蜂鸣器声音就自动断电了； 手动移除电源线，重新接通电源线，设备的开机自检蜂鸣器会响一声后就断电了； 移除掉接通的USB设备、网线，重新接通电源线，设备可正常开机，再接通网线正常；  AI排查记录一、日志时间线基于 &#x2F;var&#x2F;log&#x2F;message 提供的信息，还原事件时间线：    时间 事件 说明    2026-10-02 20:43:27 ~">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-03T13:22:40.000Z">
+<meta property="article:modified_time" content="2026-10-04T14:47:16.000Z">
+<meta property="article:author" content="Rohman.Zhu">
+<meta property="article:tag" content="故障">
+<meta property="article:tag" content="黑群晖">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://github.com/rohman-zhu/posts/28d1c8ea/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh_cn","comments":true,"permalink":"http://github.com/rohman-zhu/posts/28d1c8ea/","path":"posts/28d1c8ea/","title":"黑群晖DSM意外断电排查记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>黑群晖DSM意外断电排查记录 | 诺曼实验室</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">诺曼实验室</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">故障现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AI%E6%8E%92%E6%9F%A5%E8%AE%B0%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">AI排查记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%97%A5%E5%BF%97%E6%97%B6%E9%97%B4%E7%BA%BF"><span class="nav-number">2.1.</span> <span class="nav-text">一、日志时间线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B3%E9%94%AE%E5%8F%91%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">二、关键发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%88%9D%E6%AD%A5%E7%BB%93%E8%AE%BA%EF%BC%88%E6%8C%89%E5%8F%AF%E8%83%BD%E6%80%A7%E6%8E%92%E5%BA%8F%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">三、初步结论（按可能性排序）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%BB%BA%E8%AE%AE%E9%AA%8C%E8%AF%81%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.4.</span> <span class="nav-text">四、建议验证步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%BE%85%E7%A1%AE%E8%AE%A4%E9%97%AE%E9%A2%98"><span class="nav-number">2.5.</span> <span class="nav-text">五、待确认问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%8E%92%E6%9F%A5%E7%BB%93%E8%AE%BA%EF%BC%882026-10-04-%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.6.</span> <span class="nav-text">六、排查结论（2026-10-04 更新）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E5%BE%85%E5%8A%9E"><span class="nav-number">3.</span> <span class="nav-text">后续待办</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Rohman.Zhu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">516</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">154</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh_cn">
+    <link itemprop="mainEntityOfPage" href="http://github.com/rohman-zhu/posts/28d1c8ea/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Rohman.Zhu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="黑群晖DSM意外断电排查记录 | 诺曼实验室">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          黑群晖DSM意外断电排查记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-10-03 13:22:40" itemprop="dateCreated datePublished" datetime="2026-10-03T13:22:40+00:00">2026-10-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-10-04 14:47:16" itemprop="dateModified" datetime="2026-10-04T14:47:16+00:00">2026-10-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">服务器与存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">存储</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8E%E5%AD%98%E5%82%A8/%E5%AD%98%E5%82%A8/NAS%E5%AD%98%E5%82%A8/" itemprop="url" rel="index"><span itemprop="name">NAS存储</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><ol>
+<li>在点击电源按钮后，设备没有听到开机自检的蜂鸣器声音就自动断电了；</li>
+<li>手动移除电源线，重新接通电源线，设备的开机自检蜂鸣器会响一声后就断电了；</li>
+<li>移除掉接通的USB设备、网线，重新接通电源线，设备可正常开机，再接通网线正常；</li>
+</ol>
+<h1 id="AI排查记录"><a href="#AI排查记录" class="headerlink" title="AI排查记录"></a>AI排查记录</h1><h2 id="一、日志时间线"><a href="#一、日志时间线" class="headerlink" title="一、日志时间线"></a>一、日志时间线</h2><p>基于 <code>/var/log/message</code> 提供的信息，还原事件时间线：</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2026-10-02 20:43:27 ~ 20:46:38</td>
+<td>内核反复输出 <code>NVRM: No NVIDIA graphics adapter found!</code>（约每 32 秒一组、每组两条，间隔约 0.37 秒）</td>
+<td>系统处于运行状态，NVIDIA 驱动（NVRM 内核模块）周期性探测 GPU 失败；本机无独显，属遗留驱动噪音</td>
+</tr>
+<tr>
+<td>2026-10-02 20:46:38 之后</td>
+<td>日志中断，约 24 小时内无任何记录</td>
+<td>最后一次日志活动为 GPU 探测失败，随后机器掉电，且无正常关机日志</td>
+</tr>
+<tr>
+<td>2026-10-03 21:09:11</td>
+<td>内核重新启动并完整引导成功：ACPI → RedPill 加载器 → SATA 盘（含 32G 引导 SSD）→ 网络 eth0（xx.xx.xx.xx）→ RAID&#x2F;LVM 装配 → DSM 服务就绪</td>
+<td>一次成功的开机；BIOS 为 AMI（ALASKA），黑群晖 RedPill 引导（机型 DVA3221）</td>
+</tr>
+<tr>
+<td>2026-10-03 21:09:11 之后</td>
+<td>系统正常进入 DSM（网络、存储均可用）</td>
+<td>本次成功开机后，<strong>在未接任何 USB 设备的情况下仍出现 DSM 异常关机（可正常运行约 40 分钟后断电，且间隔大致固定）</strong>，说明根因并非 USB，需转向电源&#x2F;散热&#x2F;主板供电排查</td>
+</tr>
+</tbody></table>
+<h2 id="二、关键发现"><a href="#二、关键发现" class="headerlink" title="二、关键发现"></a>二、关键发现</h2><ol>
+<li><p><strong>NVRM 反复报”未发现 NVIDIA 显卡”<strong>：系统装载了 NVIDIA 内核驱动模块，但探测不到 GPU。经确认</strong>本机未安装任何 NVIDIA 独立显卡</strong>，可判定该报错为遗留驱动（如曾为硬解转码安装的 NVIDIA 驱动包）在缺少对应硬件时周期性探测产生的噪音，<strong>与本次掉电故障无关</strong>；同时据此排除”显卡短路引发过流”这一假设，将排查聚焦到 USB 与电源方向。</p>
+<p>另外注意：10-02 晚间 20:46 之前系统一直保持运行（NVRM 噪音正是运行中的佐证），此后约 24 小时无任何日志，说明异常掉电&#x2F;断电发生在这个时间窗口内。</p>
+</li>
+<li><p><strong>10-03 的完整日志实际是一次成功的启动（重要更正）</strong>：此前仅截取了日志开头（ACPI 表解析）片段，误判为引导早期掉电；补充完整日志后确认，本次引导一路走到网络、存储就绪且 DSM 正常进入。因此 10-03 21:09 这次开机是<strong>恢复后的正常运行</strong>，也印证移除故障 USB 设备后机器本身是健康的。</p>
+</li>
+<li><p><strong>机型与引导环境确认</strong>：日志显示 <code>Synology Hardware Version: DVA3221</code>，且内核出现 <code>redpill: loading out-of-tree module taints kernel</code>——确认为黑群晖（RedPill 引导，DVA3221 镜像）。DVA3221 官方机型自带 NVIDIA GPU（用于深度学习&#x2F;人脸识别），镜像因此内置了 NVIDIA 驱动；本机未插独显，驱动每次开机都会探测失败并输出 <code>NVRM</code> 报错，属预期行为，与故障无关（10-02 晚间每约 32 秒一次的报错是 DVA 相关服务在持续探测 GPU 所致）。</p>
+</li>
+<li><p>**<code>ACPI BIOS Warning: 32/64X length mismatch in FADT/Gpe0Block</code>**：该警告在 AMI 主板上极为常见，属兼容性提示，与本次故障无关。</p>
+</li>
+<li><p><strong><code>synoboot</code> 挂在 <code>sd 6:0:0:0</code>（疑似 USB 引导介质）</strong>：日志中引导盘 <code>[synoboot]</code> 并不在 SATA 的 ata1 SSD（32G）上，而是出现在独立的 SCSI 主机 6，极可能是一枚 USB 引导盘。结合”无任何 USB 设备仍异常关机”的事实，可以基本排除 USB 供电轨&#x2F;外设短路，将怀疑重点转向电源与主板供电。</p>
+</li>
+<li><p><strong>本次成功启动的日志中未出现任何 <code>over-current</code> &#x2F; USB 报错</strong>：结合”无 USB 设备仍异常关机”的情况，进一步说明 USB 并非根因。</p>
+</li>
+<li><p>**<code>smpboot: this boot have memory training fail, last reason is 0x00</code>**：内存训练失败提示。冷启动后偶尔出现可视为良性，但内存条接触不良&#x2F;体质不佳同样可能导致开机或高负载时掉电，已列入初步结论第 3 条待排查。其余次要观察：<code>ata2: send port disabled event</code>（该 SATA 口未检测到盘，可能为空位或该口硬盘需检查）；<code>WARNING: inconsistent syno gpio info, hdd detect</code>（DVA3221 跑在非原厂硬件上的常见提示，可忽略）。</p>
+</li>
+<li><p><strong>与故障现象 3 的重新解读</strong>：最初怀疑”移除 USB 设备”是开机成功的关键，但<strong>在未接任何 USB 设备的情况下 DSM 依然异常关机</strong>，证明 USB 不是根因。现象 3 中真正可能起作用的变量是”重新接通电源线”——PSU 的保护状态在断电后复位，重上电碰巧成功；USB 移除更可能是伴随操作（巧合变量）。</p>
+</li>
+<li><p><strong>异常关机的时间特征（关键补充）</strong>：无 USB 设备时可<strong>正常开机并进入 DSM，运行约 40 分钟后异常关机，且间隔大致固定</strong>。”开机正常 + 固定间隔后断电”最典型的是<strong>温度积累型过热保护</strong>——负载恒定 + 散热不良时，每次冷启动到温度阈值所需时间相近，可表现为固定的 40 分钟间隔；其次是<strong>周期性软件机制</strong>（计划任务&#x2F;硬盘休眠&#x2F;UPS 误配置&#x2F;Watchdog）；PSU 热失效也可近似表现为固定热积累间隔。</p>
+</li>
+<li><p><strong>DSM 提示 <code>System booted up from an improper shutdown</code>（关键证据）</strong>：每次启动 DSM 均提示上次为”异常关机后启动”，证实<strong>每次掉电都是硬件级直接断电</strong>（电源被直接切断），而非 DSM 主动关机&#x2F;重启——由此<strong>基本排除计划任务定时关机、休眠设置等软件主动关机</strong>的可能，也排除”系统崩溃重启”类表现。</p>
+</li>
+<li><p><strong>OS 层面无 thermal 记录、读不到 CPU 温度（与平台特性吻合）</strong>：DSM 只能看到 HDD 温度，看不到 CPU 温度；掉电前日志也无 thermal 记录。结合主板为 J1900（Bay Trail-D）平台——该平台 CPU 温度不受 Linux <code>coretemp</code> 模块支持，属<strong>平台特性而非故障</strong>；同时也意味着过热保护若由 BIOS&#x2F;主板层面触发，<strong>断电时 OS 完全无感知、不会有日志</strong>，”无 thermal 记录”不能排除过热保护。</p>
+</li>
+<li><p><strong>主板为 J1900（Bay Trail-D，10W TDP 被动散热）</strong>：J1900 被动散热余量极小。但<strong>该 NAS 仅做数据存储相关业务、未启用任何 GPU&#x2F;深度学习相关功能</strong>（NVRM 报错仅为 DVA3221 镜像内置驱动的后台低频探测噪音，不构成实质负载），因此”深度学习服务让 CPU 满载”的假设<strong>不成立</strong>，<strong>CPU 长期负载应处于低位</strong>——低负载下仅靠被动散热即可维持，CPU 过热只在散热硬件严重失效（风扇全停、散热片积灰堵死、硅脂干涸）时才可能发生。而早期”按电源键即断电&#x2F;蜂鸣一声后断电”现象更偏向电源层（PSU 冷启动保护&#x2F;老化）。故<strong>PSU 热失效&#x2F;老化升为第一嫌疑，CPU 过热降级为需排查项</strong>。</p>
+</li>
+<li><p><strong>“网络&#x2F;管理端下发关机指令”的可能性（已基本排除）</strong>：无论通过 DSM 计划任务、SSH、Synology 管理 API，还是第三方监控&#x2F;运维平台（Zabbix、Prometheus、群晖 Central Management 等）发起关机，都属于<strong>操作系统层面正常关机流程</strong>，会写入 shutdown 日志，下次启动<strong>不会</strong>提示 improper shutdown。而本机每次均提示 improper shutdown，说明电源是被直接切断的，<strong>软件层面（含网络下发的关机指令）可基本排除</strong>。唯一需要确认的例外是”带外切断电源”类设备——如<strong>智能排插&#x2F;PDU 远程断电、UPS 联动掉电</strong>——这类不走系统关机流程，需确认 NAS 是否接在可远程控制的插座或 UPS 上。</p>
+</li>
+<li><p><strong>供电接口未完全插稳（重大发现，高度疑似直接根因）</strong>：拆机检查发现<strong>主板供电接口未完全插稳</strong>（接触不到位）。供电接口接触不良可统一解释此前几乎全部现象：① <strong>开机瞬间断电&#x2F;蜂鸣一声后断电</strong>——接触电阻大时，开机浪涌电流在接触点产生压降&#x2F;打火，主板供电时序异常触发保护；② <strong>重插电源线后正常</strong>——重新插拔使接触恢复；③ <strong>运行约 40 分钟后断电</strong>——运行升温后接口受热膨胀、接触状态劣化到临界点，导致电压跌落&#x2F;供电中断；④ <strong>无 thermal 记录、硬件级直接断电（improper shutdown）</strong>——供电中断属硬件级掉电，OS 无感知。该发现与”现象高度偏向电源层”的判断一致，但根因可能不在 PSU 内部，而是<strong>供电物理连接不良</strong>。需插稳接口（听到卡扣”咔哒”声）后重新观察验证，并检查接口&#x2F;插针有无氧化、烧焦痕迹（接触不良的接口会因接触电阻发热）。</p>
+</li>
+</ol>
+<h2 id="三、初步结论（按可能性排序）"><a href="#三、初步结论（按可能性排序）" class="headerlink" title="三、初步结论（按可能性排序）"></a>三、初步结论（按可能性排序）</h2><blockquote>
+<p>已确认本机未安装独立显卡，NVRM 报错为 DVA3221 镜像内置 NVIDIA 驱动在无卡时的预期噪音，显卡类硬件故障可排除。</p>
+<p>关键事实链：无 USB 设备仍异常关机（USB 排除）→ 运行约 40 分钟固定间隔断电（热积累特征）→ DSM 提示 improper shutdown（证实硬件级直接断电，软件定时关机排除）→ 主板为 J1900（OS 读不到 CPU 温度、无 thermal 记录属平台特性，过热保护在 BIOS 层触发时 OS 无感知）。</p>
+</blockquote>
+<ol>
+<li><strong>供电接口接触不良（第一优先排查，拆机已确认存在）</strong>：主板供电接口未完全插稳，接触电阻大时可统一解释”开机瞬间断电&#x2F;蜂鸣一声后断电””重插电源线后恢复””运行约 40 分钟后断电”等几乎全部现象（开机浪涌在接触点产生压降触发保护；运行升温后接口热胀、接触状态劣化导致供电中断）。处理：重新插紧全部供电接口（主板 24pin、CPU 供电、硬盘供电，卡扣到位”咔哒”声），检查接口&#x2F;插针有无氧化、烧焦痕迹；插稳后重新观察是否复现。</li>
+<li><strong>PSU 热失效&#x2F;老化（并列待验证）</strong>：若接口插稳后仍出现 40 分钟固定间隔断电，再聚焦电源本身——本机负载低且恒定，电源内部老化元件升温触发 OTP 仍可解释固定间隔；给 PSU 吹风或换 PSU 交叉测试有效即实锤。</li>
+<li><strong>CPU 过热保护（需排查）</strong>：J1900 被动散热余量小，且本机无 GPU&#x2F;深度学习业务、CPU 负载低，仅当散热硬件严重失效（风扇停转、散热片积灰堵死、硅脂干涸）时才可能在低负载下积累到 BIOS 保护阈值；开箱直吹 CPU 散热片测试有效即可实锤，并同步检查散热硬件状态。</li>
+<li><strong>主板供电&#x2F;VRM 老化（需排查）</strong>：AMI 老主板常见故障（VRM 异常、电容鼓包漏液、电源时序芯片老化），现象与 PSU 相似，交叉测试区分。</li>
+<li><strong>内存不稳定（需排查）</strong>：日志有 <code>memory training fail</code> 提示，建议重插、换槽、单条测试、memtest 排除。</li>
+<li><strong>周期性软件机制 &#x2F; 网络下发关机指令（已基本排除）</strong>：improper shutdown 证实为硬件级直接断电，非 DSM 主动关机&#x2F;定时关机，也非 SSH、管理平台等网络方式下发的关机指令（软件关机必然走正常关机流程）；仅需确认无”带外切断电源”设备（智能排插&#x2F;PDU&#x2F;UPS 联动）介入。</li>
+<li><strong>USB 外设&#x2F;接口短路（已基本排除）</strong>：无任何 USB 设备仍出现异常关机，USB 相关假设基本排除。</li>
+</ol>
+<h2 id="四、建议验证步骤"><a href="#四、建议验证步骤" class="headerlink" title="四、建议验证步骤"></a>四、建议验证步骤</h2><ol>
+<li><strong>重新插紧全部供电接口（拆机已发现接口未插稳，最高优先）</strong>：将主板 24pin、CPU 供电、硬盘供电等所有电源插头重新插紧到位（卡扣”咔哒”锁紧），检查插针&#x2F;接口有无氧化、烧焦痕迹；插稳后开机观察是否仍出现 40 分钟断电——若不再复现，则根因即为供电接口接触不良（可加扎带&#x2F;固定防松脱）。</li>
+<li><strong>区分 CPU 过热与 PSU 热失效（关键对照实验）</strong>：① 开箱用风扇直吹 CPU 散热片跑一轮——间隔显著延长&#x2F;不再断电 → CPU 过热实锤；② 单独给 PSU 吹风、清理电源进&#x2F;出风口积灰再跑一轮——有效则 PSU 过热；③ 换一个已知良好的 PSU 交叉测试——恢复正常则 PSU 老化&#x2F;故障实锤。</li>
+<li><strong>负载观察</strong>：通过 DSM「资源监视器」确认 CPU&#x2F;磁盘负载是否如预期般低；若发现异常高占用进程（如 DVA 后台服务），停用相应功能观察是否不再掉电，排除负载驱动的热积累&#x2F;供电触发因素。</li>
+<li><strong>摸温度定位热源</strong>：异常关机后<strong>立即</strong>分别触摸 CPU 散热片与电源外壳，烫手（难以持续按 3 秒）的一侧即主要热源。</li>
+<li><strong>检查散热硬件</strong>：J1900 散热片是否积灰&#x2F;硅脂干涸&#x2F;贴合松动、机箱风扇是否给散热片送风、电源风扇是否停转或异响、电源进风口是否积灰。</li>
+<li><strong>主板供电检查</strong>：主板电容鼓包&#x2F;漏液、供电 Mos 过热变色、前面板 PWRBTN 排线接触不良。</li>
+<li><strong>内存排查</strong>：重插&#x2F;擦拭金手指、单条轮流开机、跑 memtest；关注 <code>memory training fail</code>。</li>
+<li><strong>记录现场</strong>：每次异常关机后查看 <code>/var/log/message</code> 末尾与 DSM「日志中心」，记录掉电前最后一条日志与精确时间间隔（验证是否为固定热积累周期）。</li>
+<li><strong>最小化硬件排查</strong>：仅保留主板 + CPU + 内存 + 系统盘（若引导盘为 USB 则保留引导盘），逐级加回硬件观察是否复现。</li>
+</ol>
+<h2 id="五、待确认问题"><a href="#五、待确认问题" class="headerlink" title="五、待确认问题"></a>五、待确认问题</h2><ul>
+<li>供电接口重新插稳后，是否仍出现约 40 分钟断电？（验证供电接口接触不良是否为根因）</li>
+<li>异常关机后立即触摸，CPU 散热片与电源外壳哪个更烫？（定位热源的关键）</li>
+<li>每次掉电的精确间隔是多少？（是否每次都约 40 分钟，还是 35~50 分钟浮动？）</li>
+<li>掉电前 <code>/var/log/message</code> 最后一条日志是什么？</li>
+<li>DSM 中 CPU 占用情况如何？（确认平时负载是否如预期般低，是否有异常高占用的后台进程？）</li>
+<li>电源类型是什么（ATX &#x2F; DC-ATX + 外置适配器）？额定功率多少？机器上有几块硬盘？（评估负载与电源裕量）</li>
+<li>机箱内风扇（给 J1900 散热片送风的风扇、电源风扇）是否都正常转动？</li>
+<li>NAS 电源是否接在智能排插&#x2F;PDU&#x2F;UPS 上？是否有其他管理系统（监控&#x2F;运维平台）可远程控制断电或关机？</li>
+<li>10-02 20:46 至 10-03 21:09 之间，机器如何断电？是否有主动关机操作？</li>
+</ul>
+<h2 id="六、排查结论（2026-10-04-更新）"><a href="#六、排查结论（2026-10-04-更新）" class="headerlink" title="六、排查结论（2026-10-04 更新）"></a>六、排查结论（2026-10-04 更新）</h2><p><strong>根因已确认并修复：主板供电接口未完全插稳（供电接口接触不良）。</strong></p>
+<ul>
+<li>2026-10-04 00:32 将全部供电接口重新插紧到位（卡扣”咔哒”锁紧）后重新通电开机；</li>
+<li>截至 2026-10-04 22:45，NAS 持续正常运行约 <strong>22 小时未再异常断电</strong>（此前故障间隔约 40 分钟），远超观察判定标准（数小时至一天不掉电），判定<strong>根因为供电接口接触不良，问题已解决</strong>。</li>
+</ul>
+<p>机制回顾：供电接口接触不良 → 接触电阻大 → 开机瞬间浪涌在接触点产生压降&#x2F;打火触发保护（”开机即断电&#x2F;蜂鸣一声后断电”）；重插电源线使接触恢复（”重插后正常”）；运行升温后接口热胀、接触状态劣化到临界点 → 供电中断（”运行约 40 分钟后断电”）；供电中断属硬件级掉电，OS 无感知（无 thermal 记录、improper shutdown 提示）。</p>
+<p>排查过程中确认无关&#x2F;已排除的因素：NVIDIA 显卡（无独显）、USB 外设&#x2F;接口短路、DSM 软件定时关机、网络下发的关机指令。</p>
+<p>后续建议：</p>
+<ul>
+<li>用扎带&#x2F;理线固定供电接口，防止运输或震动导致再次松脱；</li>
+<li>若接口&#x2F;插针曾出现过氧化或烧焦痕迹，可观察一段时间，必要时更换电源线或接口；</li>
+<li>若未来复现，再按 PSU 交叉测试 &#x2F; 散热检查顺序排查。</li>
+</ul>
+<p>（上述排查过程与历史分析保留于上文，供日后参考。）</p>
+<h1 id="后续待办"><a href="#后续待办" class="headerlink" title="后续待办"></a>后续待办</h1><ol>
+<li>内网告警监控方案建设</li>
+<li>屏蔽DSM中的Nvidia graphics告警；</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%85%E9%9A%9C/" rel="tag"># 故障</a>
+              <a href="/tags/%E9%BB%91%E7%BE%A4%E6%99%96/" rel="tag"># 黑群晖</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/39d0319a/" rel="prev" title="VCSA证书替换工具-vCert">
+                  <i class="fa fa-angle-left"></i> VCSA证书替换工具-vCert
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/f5292867/" rel="next" title="Docker中的指令映射方案-hexo应用">
+                  Docker中的指令映射方案-hexo应用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Rohman.Zhu</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"light","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
